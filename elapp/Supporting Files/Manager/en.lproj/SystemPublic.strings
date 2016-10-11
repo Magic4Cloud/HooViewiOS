@@ -1,0 +1,61 @@
+/* 
+  SystemPublic.strings
+  oupai
+
+  Created by 杨尚彬 on 16/7/27.
+  Copyright © 2016年 yishiyun. All rights reserved.
+*/
+CFBundleDisplayName = "EasyVaas";
+
+//network prompt
+"noNetwork" = "Network unavailable,Check Network";
+"failNetWork" = "Network unavailable,Loding Fail";
+
+
+
+
+
+
+//alertView
+"cancel" = "Cancel";
+"ok"     = "OK";
+"tooltip" = "Tooltip";
+"againLogin" = "AgainLogin";
+"accountOtherLogin" = "Login your account on other devices, Again login please";
+
+
+//system
+"feedback" = "Feedback coming,check out please!";
+"lChatroom" = "Loading chatroom";
+"failChat"  = "Account unusual,Can not connect messages";
+"send"      = "Send";
+"findLocation"  = "Find Location";
+"skip"      = "Skip";
+"appUpdate" = "APP Update,Download the new version";
+"newVersion" = "New version";
+"reply"      = "回复";
+"copy"       = "复制";
+"delete"       = "删除";
+"forwarding"   = "转发";
+"living"       = "233";
+"watch"        = "在看";
+"listen"       = "在听";
+"videoLiving"    = "直播";
+"videoPlayback"  = "回放";
+"ePeople"        = "人";
+"eLike"          = "赞";
+"eChina"         = "中国";
+
+//navigation
+"navigationBarFollow" = "follow";
+"navigationBarHot" = "hot";
+"navigationBarRank" = "rank";
+
+
+
+
+
+
+
+"easyvaas_about" = "  易视云是一款专注于移动视频直播的互联网4.0最前沿社交APP。\r\n  实时的直播分享，时间没有上限，内容可共享至微信、微博、QQ等社交平台, 既可以公开给所有人，也可仅限你的好友们观看和互动。\r\n   云端保存，既不占你的本地空间，又不会丢失你任何一刻的精彩。还可以一键即焚，播后也可不留痕迹。\r\n   极限低码率的视频压缩，为流量环境下的直播和观看的最大限度的省钱。/\r\n   不论你是想炫耀、猎奇、交友，赚钱，需要生活消费还是资讯获取，都可以来这个多屏互动的社交直播平台。\r\n  在这里，所有人都公平的获得展现真实自我的机会，易视云，把你捧到世界面前。";
+

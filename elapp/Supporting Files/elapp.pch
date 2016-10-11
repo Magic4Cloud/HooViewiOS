@@ -1,0 +1,121 @@
+
+
+#ifndef elapp_pch
+#define elapp_pch
+
+#import "elapp_config.h"
+
+#define kAppIconImage [UIImage imageNamed:[[[[NSBundle mainBundle] infoDictionary] valueForKeyPath:@"CFBundleIcons.CFBundlePrimaryIcon.CFBundleIconFiles"] lastObject]]
+
+#define ScreenHeight [UIScreen mainScreen].bounds.size.height
+#define ScreenWidth [UIScreen mainScreen].bounds.size.width
+
+#define BannerWidthHeightRate (375.0f / 110.0f)
+
+// 根据6plus宽度等比例适应高度
+#define kFixSize6Plus(w,h) ((ScreenWidth) / (w)) * (h)
+
+#define kStatusBarHeight 20
+#define CCNotificationCenter [NSNotificationCenter defaultCenter]
+
+#define CCColor(r,g,b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1]
+#define CCARGBColor(r,g,b,a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
+
+#define RandomColor [UIColor colorWithRed:arc4random_uniform(255)/255.0 green:arc4random_uniform(255)/255.0 blue:arc4random_uniform(255)/255.0 alpha:arc4random_uniform(255)/255.0]
+
+#define IS_IOS_7 [UIDevice currentDevice].systemVersion.floatValue < 8.0
+
+
+#define SESSION_ID_STR  @"sessionid"
+#define CCUSER_NAME @"CCUSER_NAME"
+#define USER_DNAME_STR @"user_dname_str"
+#define CCUserDefault [NSUserDefaults standardUserDefaults]
+#define CCNotificationCenter [NSNotificationCenter defaultCenter]
+
+#define CCCachePath(fileName) [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:(fileName)]
+
+#define CCNeedToReLoginNotification @"CCNeedToReLoginNotification"
+#define CCSessionIdDidUpdateNotification @"CCSessionIdDidUpdateNotification"
+#define CCSessionIdDidExpireNotification @"CCSessionIdDidExpireNotification"
+
+
+#define CCUpdateLogolURLNotification    @"CCUpdateLogolURLNotification"
+#define CCIMUserHasChanged              @"CCIMUserHasChanged"
+
+#define CCNeedToReLoginControllerNotificationKey @"CCNeedToReLoginControllerNotificationKey"
+#define CCLoginPageDidDissmissNotification @"CCLoginPageDidDissmissNotification"
+#define CCLoginNeedToPauseWatchViewController @"CCLoginNeedToPauseWatchViewController"
+#define CCSessionDidCleanFromLocalNotification  @"CCSessionDidCleanFromLocalNotification"
+#define kEditedRemarkNotification @"EditedRemarkNotification" /**< 更改备注的消息通知,接收到一个字典{@"name":云播号, @"remarks":备注} */
+
+
+#define CCNetWorkChangeNotification @"CCNetWorkChangeNotification"
+#define CCNetWorkStateKey @"CCNetWorkStateKey"
+
+#define CCNeedToForceCloseLivePageOrWatchPage @"CCNeedToForceCloseLivePageOrWatchPage"
+// 环信账号已经登录的通知
+#define CCIMAccountHasLoginNotifcation  @"CCIMAccountHasLoginNotifcation"
+// 环信的某个会话已读的通知
+#define CCIMConversationHasReadNotification  @"CCIMAccountHasReadNotification"
+#define CCIMConversationModelKey             @"CCIMConversationModelKey"
+
+// 群消息已读通知
+#define CCGroupMessageHasReadNotification    @"CCGroupMessageHasReadNotification"
+
+// 私信的红点是否显示
+// userInfo = @{CCShowRedPoint : @YES}
+#define CCScretLetterRedPointShowNotification @"CCScretLetterRedPointShowNotification"
+#define CCShowRedPoint  @"CCShowRedPoint"
+#define CCShouldShowRedPoint(show) [CCNotificationCenter postNotificationName:CCScretLetterRedPointShowNotification object:nil userInfo:@{CCShowRedPoint : @(show)}]
+
+#define CCLoginViewControllerNeedToDismissNotification @"CCLoginViewControllerNeedToDismissNotification"
+
+
+// 文案
+#define kDefaultSignature_other @"Ta太忙了，忘了自我介绍了"
+
+// 观看直播过程中如果在个人中心点击启动视频先把之前的视频暂停掉
+#define CCWatchViewControllerWillLoad           @"CCWatchViewControllerWillLoad"
+#define CCWatchViewControllerWillDeLoad         @"CCWatchViewControllerWillDeLoad"
+
+// userinfo key -> BOOL -> 由于 iOS 7  播放可直播界面发出重登录通知时会crash ，因此需要此参数来区分
+#define FROM_WATCH_LIVING_CONTROLLER @"FROM_WATCH_LIVING_CONTROLLER"
+
+#define CCRelogin(controller) [CCNotificationCenter postNotificationName:CCNeedToReLoginNotification object:nil userInfo:@{CCNeedToReLoginControllerNotificationKey : (controller)}]
+
+#define CCRequestStartLiveFinishNotification    @"CCRequestStartLiveFinishNotification"
+#define CCShouldUpdateNotifyUnread                  @"CCShouldUpdateNotifyUnread"
+// 关注状态发生变化的同志
+#define CCFollowedStateChangedNotification      @"CCFollowedStateChangedNotification"
+// count数值：全局请求每页数据的条数
+#define kCountNum 20
+
+#pragma mark - 导航条title字号
+
+#define CCNavigationBarTitleFont            [[CCAppSetting shareInstance] systemBoldFontWithSize:17.0f]
+#define SYSTEMVERSION [[[UIDevice currentDevice] systemVersion] floatValue]
+
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+#define IOS8_OR_LATER   (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8"))
+
+
+
+#define DEVICEWIDTH [UIScreen mainScreen].bounds.size.width
+
+#define kCameraAuthed @"kCameraAuthed"
+#define kAudioAuthed @"kAudioAuthed"
+
+
+#import "UIImageView+Extension.h"
+#import "UIImage+Extension.h"
+#import "UIColor+UIColorExt.h"
+#import "UIColor+EVColor.h"
+#import "CCConstKeys.h"
+#import "CCProgressHUD.h"
+
+#import "UILabel+Extension.h"
+#import "CCEnums.h"
+#import "CCAppSetting.h"
+#import "elapp_util.h"
+
+#endif

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="notifyList" id="daM-9q-no1" customClass="EVTableNotifListViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="376" height="156"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="daM-9q-no1" id="5qn-66-Hi8">
+                <rect key="frame" x="0.0" y="0.0" width="376" height="155.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="2015年4月19号" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uBV-zq-Yj4">
+                        <rect key="frame" x="149" y="17" width="78" height="13.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="my8-lf-5DB" userLabel="头像">
+                        <rect key="frame" x="14" y="63.5" width="40" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="gWj-WG-aA9"/>
+                            <constraint firstAttribute="height" constant="40" id="nsZ-S3-qoy"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="文峰区分为非却无法品味非凡我为父亲为人感染为父亲为父亲问过去玩过" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yOY-17-Yo4">
+                        <rect key="frame" x="81" y="50" width="252" height="33.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.13333333333333333" green="0.13333333333333333" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
+                <constraints>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="yOY-17-Yo4" secondAttribute="trailing" constant="43" id="3gd-4k-58J"/>
+                    <constraint firstItem="yOY-17-Yo4" firstAttribute="top" secondItem="uBV-zq-Yj4" secondAttribute="bottom" constant="20" id="71R-AP-G8H"/>
+                    <constraint firstItem="my8-lf-5DB" firstAttribute="leading" secondItem="5qn-66-Hi8" secondAttribute="leading" constant="14" id="JNF-N3-fq4"/>
+                    <constraint firstItem="my8-lf-5DB" firstAttribute="bottom" secondItem="yOY-17-Yo4" secondAttribute="bottom" constant="20" id="ZM7-Wn-yvR"/>
+                    <constraint firstAttribute="centerX" secondItem="uBV-zq-Yj4" secondAttribute="centerX" id="Zkb-er-AmW"/>
+                    <constraint firstItem="uBV-zq-Yj4" firstAttribute="top" secondItem="5qn-66-Hi8" secondAttribute="top" constant="17" id="ipF-wY-GS1"/>
+                    <constraint firstItem="yOY-17-Yo4" firstAttribute="leading" secondItem="my8-lf-5DB" secondAttribute="trailing" constant="27" id="llS-ob-xcv"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="my8-lf-5DB" secondAttribute="bottom" id="xJY-Vq-q6H"/>
+                </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="xJY-Vq-q6H"/>
+                    </mask>
+                </variation>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="TimeLabelToLabel" destination="71R-AP-G8H" id="f3B-U1-xcL"/>
+                <outlet property="contentText" destination="yOY-17-Yo4" id="OJ2-rr-XSe"/>
+                <outlet property="iconImageView" destination="my8-lf-5DB" id="5A1-aS-Nx5"/>
+                <outlet property="iconLeadingToSuperView" destination="JNF-N3-fq4" id="qfB-yZ-CCT"/>
+                <outlet property="iconTrailingToLabelLeading" destination="llS-ob-xcv" id="w4E-u6-Iyk"/>
+                <outlet property="iconWidth" destination="gWj-WG-aA9" id="rOM-Cf-xmo"/>
+                <outlet property="labelBottomToIocnBottom" destination="ZM7-Wn-yvR" id="Fhi-wl-Zrt"/>
+                <outlet property="labelTrailingToSuperView" destination="3gd-4k-58J" id="y5w-eJ-2Ke"/>
+                <outlet property="timeLabelTopToSuperView" destination="ipF-wY-GS1" id="M1u-Af-MIb"/>
+                <outlet property="updateTime" destination="uBV-zq-Yj4" id="jN9-fp-5Kt"/>
+            </connections>
+            <point key="canvasLocation" x="503" y="237"/>
+        </tableViewCell>
+    </objects>
+</document>
