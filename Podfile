@@ -1,4 +1,4 @@
-source 'git@git.yizhibo.tv:pods/Specs.git'
+#source 'git@git.yizhibo.tv:pods/Specs.git'
 source 'https://github.com/CocoaPods/Specs.git'
 
 platform :ios, '7.0'
