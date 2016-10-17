@@ -615,7 +615,7 @@
 		18977E2C1B12DBB4004D9B48 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		18C769D51B0A210F001D33B4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		18C769D71B0A212A001D33B4 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		18D0534A1B09DDF1008861C6 /* yizhibo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = yizhibo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		18D0534A1B09DDF1008861C6 /* hooview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hooview.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18D054141B0A0A63008861C6 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		18D054161B0A0A6C008861C6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		18D054181B0A0A79008861C6 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -642,6 +642,7 @@
 		3116F62D1D07F81000DC122E /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		31D028511C1EA45300F080B0 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		4765F6D15BEC4925FA89C38D /* Pods-elapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-elapp.release.xcconfig"; path = "Pods/Target Support Files/Pods-elapp/Pods-elapp.release.xcconfig"; sourceTree = "<group>"; };
+		6E0941EB1DB0E32A002F1BFE /* hooview.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = hooview.entitlements; sourceTree = "<group>"; };
 		8367F5891D6D926B00BE2DB7 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8870469BA124F47A220386F3 /* libPods-elapp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-elapp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F1F900E3CB1564B1E75DE78 /* EVFace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVFace.m; sourceTree = "<group>"; };
@@ -1689,7 +1690,7 @@
 		18D0534B1B09DDF1008861C6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				18D0534A1B09DDF1008861C6 /* yizhibo.app */,
+				18D0534A1B09DDF1008861C6 /* hooview.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2499,6 +2500,7 @@
 		E862FA561D6BE8520081E72F /* elapp */ = {
 			isa = PBXGroup;
 			children = (
+				6E0941EB1DB0E32A002F1BFE /* hooview.entitlements */,
 				E862FA5B1D6BE8520081E72F /* Classes */,
 				E862FF531D6BE8540081E72F /* Supporting Files */,
 				8367F5891D6D926B00BE2DB7 /* Info.plist */,
@@ -4004,7 +4006,7 @@
 			);
 			name = elapp;
 			productName = elapp;
-			productReference = 18D0534A1B09DDF1008861C6 /* yizhibo.app */;
+			productReference = 18D0534A1B09DDF1008861C6 /* hooview.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -4020,13 +4022,19 @@
 				TargetAttributes = {
 					18D053491B09DDF1008861C6 = {
 						CreatedOnToolsVersion = 6.3;
-						DevelopmentTeam = PWD8THY2VS;
-						ProvisioningStyle = Manual;
+						DevelopmentTeam = 8YE8AXL3F3;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
+							com.apple.Keychain = {
+								enabled = 1;
+							};
 							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+							com.apple.Push = {
 								enabled = 1;
 							};
 						};
@@ -4772,11 +4780,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jianwen Chen (N7DCS5PGEW)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jianwen Chen (N7DCS5PGEW)";
+				CODE_SIGN_ENTITLEMENTS = elapp/hooview.entitlements;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = PWD8THY2VS;
+				DEVELOPMENT_TEAM = 8YE8AXL3F3;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4848,11 +4857,12 @@
 					"\"SystemConfiguration\"",
 				);
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS) -force_load elapp/Classes/Libs/libWeiboSDK/libWeiboSDK.a -fobjc-arc";
-				PRODUCT_BUNDLE_IDENTIFIER = com.easyvaas.elapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hooview.app;
 				PRODUCT_MODULE_NAME = elapp;
-				PRODUCT_NAME = yizhibo;
-				PROVISIONING_PROFILE = "edd9e837-1345-4830-a769-32d1b102705a";
-				PROVISIONING_PROFILE_SPECIFIER = easyvaas_dev_provision;
+				PRODUCT_NAME = hooview;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = YES;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/elapp/Classes/Libs/LibStreamer/Third-Party/FFmpeg/inc/**";
@@ -4866,11 +4876,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Shenzhen Cloud Focus Digital Co., Ltd (PWD8THY2VS)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shenzhen Cloud Focus Digital Co., Ltd (PWD8THY2VS)";
+				CODE_SIGN_ENTITLEMENTS = elapp/hooview.entitlements;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = PWD8THY2VS;
+				DEVELOPMENT_TEAM = 8YE8AXL3F3;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4942,11 +4953,11 @@
 					"\"SystemConfiguration\"",
 				);
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS) -force_load elapp/Classes/Libs/libWeiboSDK/libWeiboSDK.a -fobjc-arc";
-				PRODUCT_BUNDLE_IDENTIFIER = com.easyvaas.elapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hooview.app;
 				PRODUCT_MODULE_NAME = elapp;
-				PRODUCT_NAME = yizhibo;
-				PROVISIONING_PROFILE = "edd9e837-1345-4830-a769-32d1b102705a";
-				PROVISIONING_PROFILE_SPECIFIER = easyvaas_dev_provision;
+				PRODUCT_NAME = hooview;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = YES;

@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "18D053491B09DDF1008861C6"
-               BuildableName = "yizhibo.app"
+               BuildableName = "hooview.app"
                BlueprintName = "elapp"
                ReferencedContainer = "container:elapp.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "18D053491B09DDF1008861C6"
-            BuildableName = "yizhibo.app"
+            BuildableName = "hooview.app"
             BlueprintName = "elapp"
             ReferencedContainer = "container:elapp.xcodeproj">
          </BuildableReference>
@@ -56,11 +56,18 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "18D053491B09DDF1008861C6"
-            BuildableName = "yizhibo.app"
+            BuildableName = "hooview.app"
             BlueprintName = "elapp"
             ReferencedContainer = "container:elapp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "OS_ACTIVITY_MODE"
+            value = "disable"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -75,7 +82,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "18D053491B09DDF1008861C6"
-            BuildableName = "yizhibo.app"
+            BuildableName = "hooview.app"
             BlueprintName = "elapp"
             ReferencedContainer = "container:elapp.xcodeproj">
          </BuildableReference>
