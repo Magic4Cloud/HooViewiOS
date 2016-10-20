@@ -10,7 +10,7 @@
 #define ScreenHeight [UIScreen mainScreen].bounds.size.height
 #define ScreenWidth [UIScreen mainScreen].bounds.size.width
 
-#define BannerWidthHeightRate (375.0f / 110.0f)
+#define BannerWidthHeightRate (375.0f / 187.5f)
 
 // 根据6plus宽度等比例适应高度
 #define kFixSize6Plus(w,h) ((ScreenWidth) / (w)) * (h)

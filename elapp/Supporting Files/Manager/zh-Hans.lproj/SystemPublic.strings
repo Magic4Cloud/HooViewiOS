@@ -5,7 +5,7 @@
   Created by 杨尚彬 on 16/7/27.
   Copyright © 2016年 yishiyun. All rights reserved.
 */
-CFBundleDisplayName = "易视云";
+CFBundleDisplayName = "火眼财经";
 
 //network prompt
 "noNetwork" = "网络不给力,请稍后重试";

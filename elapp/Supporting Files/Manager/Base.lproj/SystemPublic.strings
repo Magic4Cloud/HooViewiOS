@@ -5,49 +5,863 @@
   Created by 杨尚彬 on 16/7/27.
   Copyright © 2016年 yishiyun. All rights reserved.
 */
-CFBundleDisplayName = "EasyVaas";
+//CFBundleDisplayName = "EasyVaas";
+//
+////network prompt
+//"noNetwork" = "Network unavailable,Check Network";
+//"failNetWork" = "Network unavailable,Loding Fail";
+//
+//
+//
+//
+//
+////alertView
+//"cancel" = "Cancel";
+//"ok"     = "OK";
+//"tooltip" = "Tooltip";
+//"againLogin" = "AgainLogin";
+//"accountOtherLogin" = "Login your account on other devices, Again login please";
+//
+//
+//
+////system
+//"feedback"    = "Feedback coming,check out please!";
+//"lChatroom"   = "Loading chatroom";
+//"failChat"    = "Account unusual,Can not connect messages";
+//"send"        = "Send";
+//"findLocation"  =  "Find Location";
+//"skip"      = "Skip";
+//"appUpdate" = "APP Update,Download the new version";
+//"newVersion" = "New version";
+//"reply"      = "回复";
+//"copy"       = "复制";
+//"delete"       = "删除";
+//"forwarding"   = "转发";
+//"living"       = "123";
+//"watch"        = "在看";
+//"listen"       = "在听";
+//"videoLiving"    = "直播";
+//"videoPlayback"  = "回放";
+//"ePeople"        = "人";
+//"eLike"          = "赞";
+//"eChina"         = "中国";
+//
+////navigation
+//"navigationBarFollow" = "follow";
+//"navigationBarHot" = "hot";
+//"navigationBarRank" = "rank";
+CFBundleDisplayName = "火眼财经";
 
 //network prompt
-"noNetwork" = "Network unavailable,Check Network";
-"failNetWork" = "Network unavailable,Loding Fail";
-
-
-
+"noNetwork" = "网络不给力,请稍后重试";
+"failNetWork" = "网络不给力,加载失败";
+"not_find_content"  = "抱歉，没有找到符合内容";
+"not_newwork_wrap" = "网络不给力\n请点击重新加载";
+"not_newwork_service" = "网络不给力,无法连接服务器";
+"check_networking" = "请检查网络";
+"not_server_product_data_again" = "不能从服务器获取产品信息，请稍后重试！";
+"not_network_init_error" = "网络初始化失败";
 
 
 //alertView
-"cancel" = "Cancel";
-"ok"     = "OK";
-"tooltip" = "Tooltip";
-"againLogin" = "AgainLogin";
-"accountOtherLogin" = "Login your account on other devices, Again login please";
+"cancel" = "取消";
+"ok"     = "确定";
+"tooltip" = "提示";
+"againLogin" = "重新登录";
+"accountOtherLogin" = "您的账号在其他设备上登录, 请重新登录";
+
+
+
 
 
 
 //system
-"feedback"    = "Feedback coming,check out please!";
-"lChatroom"   = "Loading chatroom";
-"failChat"    = "Account unusual,Can not connect messages";
-"send"        = "Send";
-"findLocation"  =  "Find Location";
-"skip"      = "Skip";
-"appUpdate" = "APP Update,Download the new version";
-"newVersion" = "New version";
-"reply"      = "回复";
-"copy"       = "复制";
-"delete"       = "删除";
-"forwarding"   = "转发";
-"living"       = "123";
-"watch"        = "在看";
-"listen"       = "在听";
+"feedback"       = "您提的意见有回馈了，快去看看吧!";
+"lChatroom"      = "正在加载聊天室";
+"failChat"       = "对方账户异常,无法建立私信连接";
+"self_failChat"  = "自己账号异常,无法建立私信连接";
+"send"           = "发送";
+"findLocation"   = "获取您的地理位置";
+"skip"           = "跳过";
+"appUpdate"      = "易视云升级啦，快去下个新版玩儿的更嗨～";
+"newVersion"     = "发现新版本";
+"reply"          = "回复";
+"copy"           = "复制";
+"delete"         = "删除";
+"forwarding"     = "转发";
+"living"         = "直播中";
+"watch"          = "在看";
+"listen"         = "在听";
 "videoLiving"    = "直播";
 "videoPlayback"  = "回放";
 "ePeople"        = "人";
 "eLike"          = "赞";
 "eChina"         = "中国";
+"eBack"          = "返回";
+"eClose"         = "关闭";
+"eShare"         = "分享";
+"e_loading"      = "正在加载中...";
+"e_More"         = "更多";
+"e_User"         = "用户";
+"e_Clear"        = "清除";
+"e_RedPack"      = "红包";
+"e_Coin"         = "云币";
+"e_image"        = "图片";
+"e_Later"        = "请稍后...";
+"e_title"        = "标题";
+"e_location"     = "位置";
+"e_cover"        = "封面";
+"e_gift"        = "礼物";
+"e_emoj"          = "表情";
+"e_yimi"        = "薏米";
+"e_ticket"      = "云票";
+"e_give"        = "送给";
+
 
 //navigation
-"navigationBarFollow" = "follow";
-"navigationBarHot" = "hot";
-"navigationBarRank" = "rank";
+"navigationBarFollow"   = "关注";
+"navigationBarHot"      = "热门";
+"navigationBarRank"     = "排行";
+
+
+//public
+"edit_user_info"    = "编辑个人信息";
+
+
+
+//ranklist
+"receiveTicket" = "收到云票";
+"weekRank" = "周榜";
+"monthRank" = "月榜";
+"allRank"  = "总榜";
+"coinRank" = "任性榜";
+"diamondRank" = "红人榜";
+
+//follow
+"noFollowFriend" = "你关注的好友没有动态";
+"goFollow"       = "快去关注吧~";
+"pickLive"       = "挑个直播看看";
+"sayWhat"        = "想说点什么~";
+
+
+
+//share
+"ready_share"     = "准备分享。。。";
+"living_share"    = "直播分享到";
+"share_QQ"       = "分享到QQ";
+"share_friend"   = "分享到朋友圈";
+"share_wechat"  =  "分享到微信";
+"share_weibo" =  "分享到微博";
+
+
+
+
+
+
+
+//search
+"search_living_playback_user" = "搜索用户/直播/录播";
+"search_notData_title"        = "世界很大,不要轻易错过";
+"to_hot_see"                  = "去热门看看";
+"search_history"              = " 历史搜索";
+"search"                      = "搜索";
+
+
+
+
+
+
+
+
+
+
+//redPack
+"red_user" = "的红包";
+"grab_slow" = "手慢了，没抢到";
+"red_pack_coin_receive" = "红包金额%ld云币，等待对方领取";
+
+"already_coin"   = "已领取 %ld/%ld个，共%ld云币被领取";
+"red_look_luck"  = "看大家手气";
+"already_red_pack" = "您已经抢过红包";
+"send_one_red_pack" = "发了一个红包，金额随机";
+"give_your_send_red_pack" = "给你发了一个红包";
+
+"best_Luck"      = "手气最佳";
+"easyvaas_red_pack" =  "易视云红包";
+"anchor_red_pack" = "主播红包";
+"gift_red_pack"   = "礼物红包";
+
+
+
+
+
+
+//login and reg
+
+"forget_password"   = "忘记密码";
+"setting_new_password" = "设置新密码,输入6-20位的密码";
+"setting_password"    =  "设置密码,输入6-20位的密码";
+"next"                = "下一步";
+"sending_verify_num"      = "正在发送验证码...";
+"fail_verify_num"      = "验证码发送失败";
+"not_pbone"       = "电话号码不能为空";
+"not_format_phone" = "电话号码格式不对";
+"not_length_phone" = "电话号码长度不对";
+"send_verify_num" = "获取验证码";
+"send_again"  =  "%ld秒后重试";
+"fail_verify" = "验证失败";
+"setting_again" = "正在重置中...";
+"fail_setting"  = "重置失败";
+"login_loading" = "正在登录中,请稍等";
+"fail_login" = "登录失败";
+"not_verify_num" = "验证码不能为空";
+"not_password" = "密码不能为空";
+"fail_length_password" = "密码长度不对";
+"fail_length_verify_num" = "验证码不能少于4位";
+"verify_success_phone" = "验证成功的手机号";
+"login_account"    = "注册账户";
+"international_area_code" = "国际区号列表";
+
+"service_provision" = "服务条款";
+
+"privacy_policy"    = "隐私政策";
+"login_phone" = "手机号码";
+"verify_num" = "验证码";
+"setting_password" = "设置密码";
+"regist_agree_user_protocol" = "注册即代表你同意用户协议";
+
+"e_login" = "登录";
+"send_verify_success" = "验证码发送成功，请查收！";
+"password_lessthan_six_num" = "密码不能少于六位";
+"password_lessthan_six_num_again_enter" = "密码6-20位，请重新输入";
+"enter_two_same"  = "两次输入密码不一致";
+"enter_new_password_two_same_again_enter" = "新密码两次不一致，请重新输入";
+
+
+
+
+
+
+//userSetting
+"signature_length" = "签名长度不能超过%d";
+"e_signation"  = "个性签名";
+"e_submit"    = "提交";
+
+"setting_user" = "个人设置";
+"carry_out" = "完成";
+"user_image" = "头像";
+"enter_name" = "请输入昵称";
+"user_setting" = "请选择";
+"write_signature" = "写点什么让大家认识你";
+"not_user_image" = "用户头像不为空";
+"not_user_name" = "用户名不能为空";
+
+"not_length_ten_num_user_name" = "用户名不能超过10个字";
+"not_birthday" = "生日不能为空";
+"logining_user_information" = "正在注册用户信息请稍等";
+"fail_user_information" = "用户信息上传失败";
+"save_user_data" = "正在保存用户数据请稍后";
+"fail_change_date" = "更改信息失败";
+"fail_account_again_login" = "账户过期请重新登录";
+"update_image" = "上传头像中请稍等";
+"fail_update_image" = "上传头像失败";
+"again_fail_update_image" = "上传头像失败请稍后重试";
+"update_iamge_success" = "上传成功";
+"photo_gallery_change" = "从相册选取";
+"camera_shooting" = "摄像头拍摄";
+"e_regist" = "注册";
+"login_agree_user_protocol"= "登录即代表你同意用户协议";
+"other_login_way" = "其他登录方式";
+"e_password" = "密码";
+
+"obtain_user_three_info" = "正在获取用户第三方信息";
+"sunch_user_three_info" = "正在同步用户第三方信息";
+
+"nickname_title" = "昵称";
+"sex_title" = "性别";
+"birthDayTitle" = "生日";
+"constellation" = "星座";
+"location_title" = "地区";
+"signature_title" = "个性签名";
+
+
+
+
+//watch
+"life_connect" = "正在玩命连接中…";
+"buffer_wait" = "正在缓冲中,请耐心等待";
+"living_ready_start" = "直播就要开始了，小板凳搬好了吗？";
+"network_warn" = "网络环境提醒";
+"switch_mobile_network" = "当前网络已经切换为移动网络";
+"i_konw" = "我知道了";
+"setting_manager" = "您已经被设置为管理员";
+"fail_send_gift" = "礼物发送失败";
+"report_user" = "举报用户问题";
+"process_report" = "我们会尽快处理该举报";
+"report_video" = "举报视频问题";
+"process_report_video" = "我们会尽快处理该视频";
+"e_gag" = "禁言";
+"not_limit" = "没有权限";
+"complete_gag" = "已禁";
+"success_gag" = "禁言成功";
+"e_report" = "举报";
+"already_live_room" = "您已经在本房间了";
+"living_end" = "直播已经结束啦~";
+"playback_not_send_comment" = "回放视频不能发评论拉";
+"gift_not_use" = "当前礼物不可用";
+"living_data_loading" = "直播数据还在加载中";
+"user_data_loading" = "用户信息还在加载中";
+"e_manager" = "管理";
+"not_give_me_send_comment" = "不能给自己发消息";
+"best_luck" = "手气最佳";
+"congratulation_fortune" = "恭喜发财";
+"red_rank_list" = "手气榜";
+"ticket_rank_list" = "云票贡献榜";
+"fail_gag" = "禁言失败";
+"device_fail_living" = "设备发生错误, 直播初始化失败";
+"connection_server" = "连接服务器中";
+"again_connection" = "重连中";
+"network_poor_optimization" = "当前网络环境不佳,正在为你优化";
+"network_weak_again_connection" = "当前网络弱爆了，正在尝试连接中~";
+"living_interrupt_again" = "直播中断,请稍后重试";
+"network_very_weak_change" = "当前网络太挫，请换个网络直播吧...";
+"network_not_living" = "当前网络也是给跪了，无法继续直播...";
+
+"mobile_network_money" = "正在使用蜂窝移动网络，继续使用可能产生流量费用。";
+"living_end_again" = "直播中断,请稍候重试";
+
+"zoom_fail" = "放大失败";
+"vid_nil" = "vid为空";
+"network_fail_live" = "网络环境不佳,直播启动失败";
+"is_self_living" = "这是您本人的直播";
+"self_living_not_push" = "您正在直播,不能跳转";
+"connection_time_out_live_end" = "连接超时,直播已结束";
+"living_end" = "直播结束";
+"playback_end"=  "录播结束";
+"topic_not_nil" = "标题不能为空";
+"living_not_end_wait" = "直播还没结束请稍等";
+"checking_image_save_photo" ="请检查该图片是否存在本机相册中";
+"living_enter_watch" = "正在直播,赶紧进来看";
+"send_red_fail" = "红包发送失败";
+"first_phone_attest" = "首次发布, 请提供手机认证";
+"first_phone_attest_title" = "为了保障用户的权益, 保障发布信息的合法性, 请提供手机验证, 您的资料会得到严密的保护";
+"start_attest" = "开始认证";
+"living_url_ready" = "别着急,播放地址还在准备中";
+
+"is_stop_living" = "是否要停止当前直播?";
+"system_red" = "  系统消息 易视云红包, 快抢! 　";
+"send_num_gift" = "送出";
+"share_to"    = "分享至";
+"default_background" = "默认背景";
+"loading_strive" = "正在努力加载中...";
+
+"optimization_network" = "正在为您优化网络";
+"see_title" =  "你想让大家看到的直播题目是？";
+"home_user" = "主页";
+"@_user" = "@TA";
+"private_letter" = "私信";
+"add_follow" = "+关注";
+"nil_signature" = "TA太忙了,忘了自我介绍了";
+"send_coin" = "送出的云币";
+"e_fans" = "粉丝";
+"loading" = "加载中...";
+"e_cancel_follow" = "取消关注";
+
+"video_living" = "视频直播";
+"voice_living" = "语音直播";
+
+
+"enter_topic_title" = "请输入标题";
+
+"topic_title_length" = "标题不能多于20个字";
+
+"delete_video" = "删除视频";
+"save_video" = "保存视频";
+"not_save_video" = "时长较短、质量较差的视频，不予保存";
+"back_home" = "返回首页";
+
+
+"optimization_link" = "正在为您优化连接中...";
+
+"e_devote" = "贡献";
+"congratulation_fortune_lucky" = "恭喜发财,大吉大利";
+"once_most_send_red_num" = "一次最多可发50个红包";
+"coin_num_most_red_num" = "云币数不能少于红包个数";
+"blessing_most_ten_num" = "祝福语不能超过10个字符";
+"most_not_self_coin" = "不能超过自己的云币数";
+"send_red_pack" = "发红包";
+"red_pack_num" = "红包个数";
+"e_one" = "个";
+"enter_red_pack_num" = "填写个数";
+"all_send_red" = "总共发";
+"luck_red_pack_every_people_coin_random" = "  拼手气红包，每人领取金额随机";
+"only_send_num" = "只能输入数字";
+
+"living_nickname" = "给你的直播起个名字吧...";
+
+"shoot_cover" = "拍摄封面";
+
+"start_living" = "开启直播";
+
+"reply_content_not_nil" = "回复内容不能为空";
+
+
+
+
+"not_follow_self" = "不能关注自己";
+"nil_coin"  = "云币不足";
+"nil_ecoin_recharge" = "云币余额不足,请先充值";
+"e_recharge" = "充值";
+"pull_loading_more_comment" = "下拉加载更多评论";
+"loading_more_comment" = "正在加载更多评论";
+"not_most_message" = "亲,只有这么多了~";
+"is_self" = "这是您自己哦";
+"send_danmu" = "发送弹幕";
+"say_what" = "说点什么";
+"setting_success_manager" = "设置成功";
+"setting_manager" = "设为管理员身份";
+"cancel_manager" = "取消管理员身份";
+"manager_list" = "管理员列表";
+"exceed_manager" = "超过最大管理员人数";
+"manager_most" = "管理员已达上限";
+"success_cancel" = "成功取消";
+"fail_cancel" = "取消失败";
+"not_reply_self_comment" = "不能回复自己评论";
+"is_one_tourist" = "这是个游客哦";
+"vulgar_pro" = "低俗色情";
+"rubbissh_ad" = "垃圾广告";
+"break_the_law" = "违法信息";
+"deveive" = "欺诈骗子";
+"people_attack" = "人身攻击";
+"e_else" = "其他";
+"not_danmu_content" = "弹幕不能为空";
+"not_length_danmu_content" = "弹幕不能超过30个字符";
+"comment_not_nil" = "评论不能为空";
+"comment_not_nil_length" = "评论不能超过60个字符";
+"rob_red_pack" = "抢红包了!!!";
+"fail_content_again" = "获取评论失败,请稍后重试";
+"self_gag" = "您已被禁言";
+
+"num_new_message"  = "条新消息";
+
+
+
+"come_in_room"  = "来了";
+
+"not_living" = "未开播";
+"playback" = "回放中";
+
+"living_video" = "视频";
+"living_audio" = "音频";
+
+"fail_user_data_again" = "获取用户信息失败,请稍后重试";
+
+
+"e_danmu" = "弹幕";
+
+"num_ticket" = "个云票";
+"num_zan" = "个赞";
+"num_watch" = "个看过";
+
+
+"thank_watch" = "谢谢观看";
+
+"add_friend" = "加好友";
+
+"already_follow" = "已关注";
+"point_exp" = "点经验值";
+"not_more_yimi" = "薏米不足";
+"send_gift_num" = "送出了";
+
+"again_watch_once" = "再看一次";
+
+"live_title_setting_fail" = "标题设置失败";
+
+
+
+
+
+
+
+//usercenter
+"motify_fail" = "修改失败";
+"motify_password" = "修改密码";
+"old_password" = "旧密码";
+"new_password" = "新密码";
+"enter_password_please" = "请输入密码";
+"num_and_char_six" = "6-20位数字和字符";
+"confirm_password" = "再次输入新密码";
+"verify_fail_please_enter_new" = "验证码有误，请重新输入";
+"verify_wrong" = "获取验证码不正确";
+"verify_fail" = "获取验证码失败";
+"verify_send_phone" = "已将验证码发送至您的手机";
+"phone_verify" = "手机验证";
+"next_phone_receive_verify_info" = "通过以下手机接收验证码信息";
+"fail_phone_not_use" = "该手机号码无法使用？";
+"appeal_about" = "申诉说明";
+"self_appeal" = "我要申诉 ";
+"your_device_not_send_mail" = "您的设备不能发送邮件";
+"motify_phone_num" = "修改手机号";
+"success_send" = "发送成功";
+"fail_send" = "发送失败";
+"get_verify" = "正在获取验证码...";
+"phone_num_binding_account" = "该手机号绑定其他账号";
+"change_new_phone_num" = "更换新手机号码";
+"enter_new_phone_num" = "输入新的手机号码";
+"change_phone_num" = "正在更换手机号...";
+"confirm_password" = "确认密码";
+
+"account_binding" = "账号绑定";
+"social_account_binding" = "社交账号绑定";
+"binding_name_account_wait" = "正在绑定%@账号,请稍等...";
+"fail_binding" = "绑定失败";
+"remove_binding" = "解绑中";
+"fail_remove_binding" = "解绑失败";
+"phone_num_binding" = "手机号绑定";
+"second_again_gain" = "%d秒重新获取";
+"fail_phone_num" = "手机号不正确";
+"fail_password" = "密码不正确";
+"now_verify" = "正在验证中";
+"verify_fail" = "校验失败";
+"phone_num_not_nil" = "电话不能为空";
+"phone_num_format_fail" = "手机号格式不正确";
+"now_binding_phone_num" = "正在绑定手机号";
+"binding_success" = "绑定成功";
+"unbinding_success" = "解绑成功";
+"weibo_account" = "新浪微博";
+"wechat_account" = "微信";
+"QQ_account" = "QQ";
+"user_setting_data_fail" = "获取个人设置信息失败";
+"living_message_remind" = "直播消息提醒";
+
+"have_people_follow_me_remind" = "有人关注我时提醒";
+"message_remind" = "新私信提醒";
+"night_free_disturb" = "夜间免打扰";
+"opinion_feedback" = "意见反馈";
+"account_manager" = "账号管理";
+"relation_me" = "联系我们";
+"clear_cache_space" = "清理缓存空间";
+"in_regard_to" = "关于";
+"push_out_login" = "退出登录";
+"e_setting" = "设置";
+"confirm_clear" = "确定清理吗?";
+"confirm_cancel_push_out" = "确定注销退出";
+"e_notification" = "通知";
+"night_to_morning_nit_remind" = "晚上11点至早上8点不会接受提醒";
+"calculate" = "正在计算...";
+"binding_wechat" = "绑定微信";
+"not_binding" = "未绑定";
+"binding_wechat_embody_red_pack_send_wechat_account" = "绑定微信后，提现将以红包形式发送到微信账户";
+"need_binding_wechat_extract_money" = "你需要先绑定微信，才能提取现金";
+"binding_wechat_account_please_wait" = "正在绑定微信账号，请稍等...";
+"alreddy_binding" = "已绑定";
+"remark_too_long_max_eight" = "备注太长啦，最大八个字，短点吧^_^";
+"motify_remark_fail" = "修改备注失败";
+"save_please_wait" = "正在保存，请稍候...";
+"save_fail" = "保存失败！";
+"remark_date" = "备注信息";
+"remark_name" = "备注名：";
+"write_remark_name" = "请填写备注名";
+"e_name" = "昵称：";
+"settinf_phone_address_name" = "设置手机通讯录名称";
+"is_remark" = "为备注名";
+
+
+
+"no_have_fans" = "你还没有粉丝";
+"no_have_follow" = "你还没有任何关注";
+"go_follow" = "快去关注吧";
+"send_go_living" = "马上发个直播";
+"select_living_see" = "挑个直播看看";
+"null_data" = "空空如也,啥都木有";
+"loading_data_please_trial" = "正在加载数据，请稍后再试!";
+"me_earnings" = "我的收益";
+"me_setting" = "我的设置";
+"ecoin_recharge" = "云币充值";
+"please_later" = "请稍后";
+"who_user_homepage" = "的易视云个人主页";
+"easyvaas_user_homepage" = "有温度的视频社交平台！这是%@个人主页，快来关注哦~";
+"this_is" = "这是";
+"prepare_share" = "准备分享...";
+"user_data_fail" = "获取用户信息失败";
+"delete_please_wait" = "正在删除，请稍侯！";
+"video_handle_fail" = "对此视频操作失败";
+"setting_fail" = "设置失败";
+"close_user_living_remind" = "关闭某个人的直播提醒，不再收到TA的直播提醒";
+"follow_list_data_fail" = "关注列表获取失败";
+"other_people" = "他人";
+"relieve_blacklist_success"= "解除黑名单成功";
+"relieve_blacklist_fail" = "解除黑名单失败";
+"to_blacklist_not_receive_message" = "拉黑后将收不到Ta的私信消息";
+"add_blacklist_success" = "加入黑名单成功";
+"add_blacklist_fail" = "加入黑名单失败";
+"follow_success" = "关注成功!";
+"cancel_follow" = "已取消关注!";
+"consume_detail" = "消费详情";
+"push_money_record" = "提现记录";
+"recharge_money_record" = "充值记录";
+"not_money_record" = "暂无提现记录";
+"not_recharge_money_record" = "暂无充值记录";
+"all_money" = "总提现金额:";
+"all_recharge_money" = "总充值金额:";
+"can_money" = "可提现金额（元）";
+"today_money" = "今日可提现金额（元）";
+"common_question" = "常见问题";
+"wechat_money" = "微信提现";
+"account_money_frost" = "该账户提现已冻结";
+"once_not_two_money" = "单笔提现金额不能少于2元";
+"money_list" = "提现金额";
+"one_day_arrive_money" = "预计24小时内到账";
+"e_money" = "元";
+"put_forward" = "提现";
+"put_forward_affirm" = "提现确认";
+"put_forward_please_wait" = "正在提现,请稍后";
+"put_forward_fail" = "提现失败";
+"today_put_forward_money" = "今日可提现金额";
+"enter_put_forward_money" = "请输入提现金额";
+"enter_put_forward_not_than" = "你输入的提现金额不能大于";
+"enter_put_forward_not_two_money" = "你输入的提现金额不能小于2.00元";
+"please_one_day_in_wechat_put_forward_red_pack" = "请于24小时内在微信领取提现红包，过期未领取将不予处理";
+"put_forwoard_success" = "提现成功";
+"reality_to_money" = "实际到账金额";
+"put_forward_money_deposit_wechat_account" = "提现金额将存入微信的零钱账户中,24小时到账";
+"e_give" = "赠送";
+"pay_success_ecoin_gain" = "支付成功，云币获取中...";
+"please_see_asset" = "请稍后重新查看资产变动";
+"bug_ecoin" = "您已经成功购买%zd云币";
+"account_difference" = "账户余额";
+"please_change_ecoin" = "请选择充值金额";
+"affirm_recharge" = "确认充值";
+"recharge_tip" = "温馨提示:请在网络良好的情况下进行充值,为保证充值顺利请耐心等待充值返回,不要进行其他无关操作";
+"seal_account" = "封号处理准则";
+"copy_about" = "版权说明";
+"feedback_tech_question" = " 为了更好的为您提供服务，请详细描述问题给我们~~谢谢~~";
+"feedback_not_nil" = "反馈内容不能为空";
+"mail_not_nil" = "邮箱不能为空";
+"mail_fail" = "邮箱有误，请核对";
+"feedback_length_please_correct" = "反馈内容过长，请更正";
+"e_commit" = "提交中";
+"feedback_fail" = "反馈失败";
+"feedback_success" = "反馈成功";
+"e_easyvaas" = "易视云";
+"invite_friend" = "邀请好友";
+"not_see_please_again" = "暂时不能查看，请稍后重试!";
+"e_phone_num" = "手机号";
+"change_phone_num" = "更换手机号";
+"binding_phone_num" = "绑定手机号";
+"e_binding" = "绑定";
+"relieve_binding" = "解绑";
+"e_QQ_num" = "QQ号";
+"e_wechat_num" = "微信号";
+"e_weibo_num" = "新浪微博号";
+"already_login" = "已登录";
+"video_check" = "视频审核中";
+
+"world_you_lazy" = "让世界知道你的懒";
+"send_ecoin" = "送出云币";
+"receive_gift" = "收到礼物";
+"edit_data" = "编辑资料";
+"motify_remark" = "修改备注";
+"today_gain" = "今日获得";
+"continuous_sign_in_day" = "已连续签到%ld天";
+"living_all_time" = "直播总时长%@分钟";
+"e_minute" = "分钟";
+"watch_all_people" = "观看总数";
+"check_more" = "查看更多";
+"add_remark" = "添加备注";
+
+//message
+"new_Friend" = "新朋友";
+"el_my_group" = "我的群组";
+"message"    = "消息";
+"many_friend_follow" = "有很多人关注了你,好开心哦~!";
+"message_followed_you" = "已经关注了你";
+"message_red_pack"     = "[红包]";
+"message_living"       = "[直播]";
+"message_image"        = "[图片]";
+"message_voice"        = "[一段语音]";
+"message_shared_position" = "[共享位置]";
+"message_new"            = "新消息";
+"message_follow_you"     = "关注了你,快来看看吧~!";
+"easyvaas_secretary"     = "易视云小秘书";
+"message_choose_user"   = "选择聊天对象";
+"search_recent_user"    = "搜索最近联系人";
+"new_chat"              = "发起新的聊天";
+"recent_chat"           = "最近聊天";
+"define_send_user"            =  "确定发送给";
+"search_follow_user"       = "搜索互相关注的人";
+"message_have_say"       = "有什么想说的";
+"hold_say"               = "按住说话";
+"message_photo"         = "拍照";
+"release_finger_not_send" = "松开手指, 取消发送";
+"slide_finger_not_send"  = "手指上滑, 取消发送";
+
+//common
+"illegal_living" = "禁止直播色情政治暴力赌博等内容，一经发现永久封号。主播可点击评论区昵称禁言，维护健康绿色的直播环境，人人有责！";
+"network_poor_living" = "网络不佳，请在良好的网络环境观看";
+"request_fail_again" = "请求失败,请稍后重试";
+
+"provoke_unhappy_cancel_follow" = "阿奥，他（她）惹你不高兴了吗，确定取消关注吗？";
+
+"request_start_local_notice" = "请求开启本地通知权限";
+"start_local_notice_step" = "开启本地通知可以及时接收到好友的直播消息 设置 -> 通知 -> 易视云 -> 允许通知";
+
+"not_remind" = "不再提醒";
+"quit_watch_again_click_url" = "请先退出当前观看后再重新点击链接";
+"quit_living_again_click_url" = "请先退出当前直播后再重新点击链接";
+
+"already_login_common" = "已经登录.";
+"verify_error" = "验证码有误";
+"phone_and_password_not_nil" = "手机号或者密码不能为空";
+
+"user_not_exist" = "用户不存在";
+"pull_refresh_loading" = "下拉刷新中...";
+"three_parameter_not_nil" = "这三个参数不能为空";
+"e_copy" = "已复制";
+"app_not_login" = "App未注册";
+"api_port_not_hold" = "API接口不支持";
+
+"easyvaas_start_warrant" = "易视云请求访问您的麦克风,请到设置->隐私-> 麦克风 -> 易视云 进行相应的授权";
+"access_camera" = "易视云请求访问您的摄像头";
+"not_permit" = "不允许";
+"e_permit" = "允许";
+"access_mike" = "易视云请求访问您的麦克风";
+
+"recommend_app" = "推荐应用“易视云”给你";
+"living_nice_watch" = "我直播的美好生活，你一定要看哦！";
+"bring_you_fly" = "带你身临其境，不要错过。";
+"living_miss_not_miss_playback" = "的直播已经错过啦，不要错过回放哦。";
+"living_dian_zan" = "正在直播，快来围观点赞。";
+"recommend_force_play" = "我推荐%@于%@在易视云上的播出预告";
+
+"who_share_living" = "%@预定直播，约吗";
+"share_force_living" = "正在分享%@的预告";
+"me_force_easyvaas_living" = "我将于%@在易视云上与你不见不散";
+
+
+"easyvaas_main_slogan" = "易视云，有温度的视频社交平台，";
+
+"activity_start_come_join" = "%@活动开始喽，惊喜不容错过，快来参加吧！";
+"have_living_watch" = "有直播看";
+
+"is_end_play" = "是否要结束当前观看?";
+"e_data" = "资料";
+"e_stick" = "粘贴";
+"download_voice" = "正在下载语音中...";
+"download_voice_fail" = "语音消息下载失败...";
+"play_voice_fail" = "播放录音失败";
+"send_content_not_nil" = "发送内容不能为空";
+"current_watch_status" = "当前处于观看状态";
+"mike_fail" = "麦克风授权失败";
+"mike_init_fail_again" = "话筒初始化失败,请稍候重试";
+"time_very_short" = "录制时间太短了";
+"you_device_camera" = "您的设备上没有摄像头";
+
+"e_ad" = "广告";
+"delete_fail" = "删除失败";
+"comment_fail" = "评论失败";
+"focus_fail" = "聚焦失败";
+"pei_ban" = "陪伴";
+"system_news" = "系统消息";
+"network_poor_change_milieu" = "网络状况不佳，换个环境试试";
+"no_manager" = "当前还没有管理员";
+"e_yi_delete" = "移除";
+"current_manager" = "当前管理员:";
+
+"e_no" = "无";
+"type_fail" = "类型错误";
+"me_living_watch" = "我在直播, 赶紧来看一下吧!";
+"send_voice" = "发来一段语音.";
+"e_photo" = "相册";
+"e_camera" = "相机";
+"warrant_fail" = "授权失败";
+"video_delete" = "该视频已经被删除";
+"not_watch_video" = "您没有权限观看该视频";
+"living_password_error" = "房间密码错误";
+"merge_conflict" = "合并冲突";
+"video_no_have" = "视频不存在";
+"video_no_operate_purview" = "对此视频没有操作权限";
+"SMS_serve_abnormal" = "短信服务异常";
+"user_exist" = "用户已存在";
+"send_time_short" = "发送间隔太短";
+"network_busy" = "网络繁忙";
+"recharge_selection_fail" = "充值选项错误";
+"fanpiao_num_no" = "云票数不够";
+"sign_in_tomorrow_come" = "今天已经签过到，明天再来";
+"account_again_login" = "当前账号已过期,请重新登录";
+
+//星期
+"e_monday" = "星期一";
+"e_tuesday" = "星期二";
+"e_wednesday" = "星期三";
+"e_thursday" = "星期四";
+"e_friday" = "星期五";
+"e_saturday" = "星期六";
+"e_sunday" = "星期日";
+
+"e_pm" = "下午";
+"e_am" = "上午";
+
+
+//ago
+"years_ago" = "年前";
+"month_ago" = "个月前";
+"week_ago" = "周前";
+"day_ago" = "天前";
+"hour_ago" = "小时前";
+"minute_ago" = "分钟前";
+"just_ago" = "刚刚";
+
+"e_male" = "男";
+"e_female" = "女";
+
+"regain_bug" = "恢复购买";
+"status_wei_determine" = "最终状态未确定";
+"wechat_pay_fail" = "微信支付失败";
+"pay_fail" = "支付失败";
+"please_time_again" = "请稍后重试";
+"pay_fail_pay_money_cell_phone_official" = "支付失败，如果已经扣钱，请联系客服！";
+"add_wechat_again" = "请安装微信后再试！";
+"cancel_wechat_pay" = "您取消了微信支付";
+
+
+"e_aquarius" = "水瓶座";
+"e_capricornus" = "摩羯座";
+"e_pisces" = "双鱼座";
+"e_aries" = "白羊座";
+"e_taurus" = "金牛座";
+"e_gemini" = "双子座";
+"e_cancer" = "巨蟹座";
+"e_leo" = "狮子座";
+"e_virgo" = "处女座";
+"e_libra" = "天秤座";
+"e_scorpio" = "天蝎座";
+"e_sagittarius" = "射手座";
+
+"easyvaas_about" = "  易视云是一款专注于移动视频直播的互联网4.0最前沿社交APP。\r\n  实时的直播分享，时间没有上限，内容可共享至微信、微博、QQ等社交平台, 既可以公开给所有人，也可仅限你的好友们观看和互动。\r\n   云端保存，既不占你的本地空间，又不会丢失你任何一刻的精彩。还可以一键即焚，播后也可不留痕迹。\r\n   极限低码率的视频压缩，为流量环境下的直播和观看的最大限度的省钱。\r\n   不论你是想炫耀、猎奇、交友，赚钱，需要生活消费还是资讯获取，都可以来这个多屏互动的社交直播平台。\r\n  在这里，所有人都公平的获得展现真实自我的机会，易视云，把你捧到世界面前。";
+
+
+"copy_about_detail" = "     易视云为易联视讯科技旗下的一款移动直播分享的软件平台，在平台上会员或其发布有关直播信息均由会员自行提供，会员依法对其提供的任何信息承担全部责任。\r\n  任何单位或个人认为易视云平台的内容可能涉嫌侵合法权益，应该及时书面通知本公司，并应对书面通知陈述之真实性负责。我们在收到相关信息后，将会依法尽快移除或限制相关涉嫌侵权的内容。\r\n  易视云平台尊重合法版权，反对侵权盗版。转发及分容并不意味易视云赞同其部分文字或作品等侵害了您的权益，请您立即与易视云联系，易视云将尽快予以解决。";
+
+
+"about_easyvaas_label" = "关于易视云";
+
+"e_correct" = "正确";
+
+
+
+
+//share
+"watch_temp_living_social" = "做真实的自己，看有温度的直播，易视云-有温度的视频社交平台。";
+
+"who_living_watch_temp_living" = "做真实的自己，看有温度的直播！%@正在直播，别错过哦~";
+
+"launch_group_chat" = "发起群聊";
+
+
+
+"el_permission" = "权限";
+
+"el_topic" = "#热门#";
+
 

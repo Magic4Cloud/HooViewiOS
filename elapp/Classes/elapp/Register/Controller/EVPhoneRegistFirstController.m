@@ -275,10 +275,18 @@
         [CCProgressHUD hideHUDForView:wself.view];
         // 持久化验证码id，防止用户切出去后，id为空，验证会失败
         NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-        if ( info[kSms_id] != nil )
+        
+        NSString *str = [NSString stringWithFormat:@"%@",info[kSms_id]];
+        if ( str != nil && ![str isEqualToString:@""] && ![str isEqualToString:@"<null>"])
         {
             [ud setObject:info[kSms_id] forKey:kSms_id];
+        }else {
+            [CCProgressHUD showError:@"获取失败"];
         }
+//        if ( info[kSms_id] != nil )
+//        {
+//            [ud setObject:info[kSms_id] forKey:kSms_id];
+//        }
     }];
 }
 
