@@ -12,7 +12,7 @@
 
 @class EVHomeScrollNavgationBar;
 
-#define CCHOMENAV_HEIGHT 64
+#define CCHOMENAV_HEIGHT 65
 
 typedef NS_ENUM(NSInteger, CCHomeScrollNavgationBarButton)
 {

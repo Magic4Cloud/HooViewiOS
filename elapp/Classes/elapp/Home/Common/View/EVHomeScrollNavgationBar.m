@@ -49,23 +49,33 @@
 
 - (void)setUP
 {
-    self.backgroundColor = [UIColor whiteColor];
-    
+    // change by 佳南
+
+    self.backgroundColor = CCColor(98, 45, 128);
+    self.layer.cornerRadius = 2.0f;
+    self.layer.shadowColor = CCColor(1, 1, 1).CGColor;
+    self.layer.shadowOffset = CGSizeMake(3, 3);
+    self.layer.shadowOpacity = 0.2;
+
     CGFloat margin = 10.f;
     EVHeaderButton *personalButton = [[EVHeaderButton alloc] init];
     personalButton.tag = CCHomeScrollNavgationBarIconButton;
     [self addSubview:personalButton];
-     
+    
+    [personalButton setImage:[UIImage imageNamed:@"home_nav_account"] forState:UIControlStateNormal];
+    [personalButton setImage:[UIImage imageNamed:@"home_nav_account_pre"] forState:UIControlStateHighlighted];
     [personalButton autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:margin];
     [personalButton autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:27];
     [personalButton autoSetDimensionsToSize:CGSizeMake(30.f, 30.f)];
     [personalButton addTarget:self action:@selector(buttonDidClicked:) forControlEvents:UIControlEventTouchDown];
-    self.personalButton = personalButton;
+//    self.personalButton = personalButton;
    
     UIButton *searchButton = [[UIButton alloc] init];
     searchButton.tag = CCHomeScrollNavgationBarSearchButton;
     [self addSubview:searchButton];
-    [searchButton setImage:[UIImage imageNamed:@"home_icon_navigation_search"] forState:UIControlStateNormal];
+//    [searchButton setImage:[UIImage imageNamed:@"home_icon_navigation_search"] forState:UIControlStateNormal];
+    [searchButton setImage:[UIImage imageNamed:@"home_nav_search"] forState:UIControlStateNormal];
+    [searchButton setImage:[UIImage imageNamed:@"home_nav_search_pre"] forState:UIControlStateHighlighted];
     [searchButton autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:margin];
     [searchButton autoAlignAxis:ALAxisHorizontal toSameAxisOfView:personalButton];
     
@@ -193,14 +203,19 @@
 
 - (void)setLogourl:(NSString *)logourl
 {
+    // change by 佳南
     _logourl = logourl;
+    
+    [self.personalButton setImage:[UIImage imageNamed:@"home_nav_account"] forState:UIControlStateNormal];
+    [self.personalButton setImage:[UIImage imageNamed:@"home_nav_account_pre"] forState:UIControlStateHighlighted];
+
     if ( ![logourl isKindOfClass:[NSString class]] || ![_logourl isEqualToString:logourl] )
     {
         return;
     }
     _logourl = logourl;
     
-    [self.personalButton cc_setBackgroundImageURL:logourl placeholderImageStr:@"avatar" isVip:0 vipSizeType:CCVipMini];
+//    [self.personalButton cc_setBackgroundImageURL:logourl placeholderImageStr:@"avatar" isVip:0 vipSizeType:CCVipMini];
 }
 
 - (void)updateLogo:(NSNotification *)notification
@@ -252,12 +267,13 @@
     }
     
     self.navigationBarShow = NO;
-    self.topConstraint.constant = -CCHOMENAV_HEIGHT;
-    [self setNeedsLayout];
-    
-    [UIView animateWithDuration:K_ANIMATION_TIME animations:^{
-        [self layoutIfNeeded];
-    }];
+    // change by 佳南
+//    self.topConstraint.constant = -CCHOMENAV_HEIGHT;
+//    [self setNeedsLayout];
+//    
+//    [UIView animateWithDuration:K_ANIMATION_TIME animations:^{
+//        [self layoutIfNeeded];
+//    }];
 }
 
 - (void)showHomeNavigationBar
@@ -268,13 +284,13 @@
     }
     
     self.navigationBarShow = YES;
-    
-    self.topConstraint.constant = 0;
-    [self setNeedsLayout];
-    
-    [UIView animateWithDuration:K_ANIMATION_TIME animations:^{
-        [self layoutIfNeeded];
-    }];
+    // change by 佳南
+//    self.topConstraint.constant = 0;
+//    [self setNeedsLayout];
+//    
+//    [UIView animateWithDuration:K_ANIMATION_TIME animations:^{
+//        [self layoutIfNeeded];
+//    }];
 }
 
 #pragma mark - CCMovingConvexViewDelegate

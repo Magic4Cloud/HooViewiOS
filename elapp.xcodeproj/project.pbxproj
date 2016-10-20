@@ -49,6 +49,8 @@
 		3116F62C1D07F80700DC122E /* libstdc++.6.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3116F62B1D07F80700DC122E /* libstdc++.6.tbd */; };
 		3116F62E1D07F81000DC122E /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3116F62D1D07F81000DC122E /* libstdc++.6.0.9.tbd */; };
 		31D028521C1EA45300F080B0 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31D028511C1EA45300F080B0 /* StoreKit.framework */; };
+		6E0941ED1DB89C35002F1BFE /* placeholder.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E0941EC1DB89C35002F1BFE /* placeholder.xcassets */; };
+		6E0941EF1DB89CF1002F1BFE /* home.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E0941EE1DB89CF1002F1BFE /* home.xcassets */; };
 		855BA25DB3AF1C2846A9D41F /* libPods-elapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8870469BA124F47A220386F3 /* libPods-elapp.a */; };
 		9F1F900D1311FACB6DD9C40B /* EVMagicEmojiView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F1F94298F25BCA3E45CBE68 /* EVMagicEmojiView.m */; };
 		9F1F900D7B397CBEB8F1EBBF /* EVBeautyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F1F93152AFB90DDCF8CD424 /* EVBeautyView.m */; };
@@ -643,6 +645,8 @@
 		31D028511C1EA45300F080B0 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		4765F6D15BEC4925FA89C38D /* Pods-elapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-elapp.release.xcconfig"; path = "Pods/Target Support Files/Pods-elapp/Pods-elapp.release.xcconfig"; sourceTree = "<group>"; };
 		6E0941EB1DB0E32A002F1BFE /* hooview.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = hooview.entitlements; sourceTree = "<group>"; };
+		6E0941EC1DB89C35002F1BFE /* placeholder.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = placeholder.xcassets; sourceTree = "<group>"; };
+		6E0941EE1DB89CF1002F1BFE /* home.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = home.xcassets; sourceTree = "<group>"; };
 		8367F5891D6D926B00BE2DB7 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8870469BA124F47A220386F3 /* libPods-elapp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-elapp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F1F900E3CB1564B1E75DE78 /* EVFace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVFace.m; sourceTree = "<group>"; };
@@ -2403,9 +2407,9 @@
 			isa = PBXGroup;
 			children = (
 				9F1F90830E0DA8C464E7F477 /* EVBeatyCollectionViewCell.h */,
+				9F1F99A98B7767C514725DD6 /* EVBeatyCollectionViewCell.m */,
 				9F1F9B42E53064E189BE3EEA /* EVBeautyView.h */,
 				9F1F93152AFB90DDCF8CD424 /* EVBeautyView.m */,
-				9F1F99A98B7767C514725DD6 /* EVBeatyCollectionViewCell.m */,
 			);
 			path = TimeLineNew;
 			sourceTree = "<group>";
@@ -3868,6 +3872,8 @@
 				E862FF561D6BE8540081E72F /* cities.plist */,
 				E862FF571D6BE8540081E72F /* elapp.pch */,
 				E862FF581D6BE8540081E72F /* Images.xcassets */,
+				6E0941EC1DB89C35002F1BFE /* placeholder.xcassets */,
+				6E0941EE1DB89CF1002F1BFE /* home.xcassets */,
 				E862FF5A1D6BE8540081E72F /* Manager */,
 				E862FF631D6BE8540081E72F /* 用户注册协议.rtf */,
 				E862FF641D6BE8540081E72F /* 申诉说明.rtf */,
@@ -4070,6 +4076,7 @@
 				E862018F1D6BE8550081E72F /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				E86200F81D6BE8540081E72F /* EVFansOrFocusTableViewCell.xib in Resources */,
 				E86200E01D6BE8540081E72F /* EVAbout.storyboard in Resources */,
+				6E0941EF1DB89CF1002F1BFE /* home.xcassets in Resources */,
 				E86201CA1D6BE8550081E72F /* Main.strings in Resources */,
 				E86201C11D6BE8550081E72F /* BTGotham-Book.otf in Resources */,
 				E86201C51D6BE8550081E72F /* SystemPublic.strings in Resources */,
@@ -4116,6 +4123,7 @@
 				9F1F978ECB6B728D4907CBEA /* Expression_17@2x.png in Resources */,
 				9F1F95BAEA100C7673E311E5 /* Expression_18@2x.png in Resources */,
 				9F1F99BE7A27FF65A27E0723 /* Expression_19@2x.png in Resources */,
+				6E0941ED1DB89C35002F1BFE /* placeholder.xcassets in Resources */,
 				9F1F99A1107B0105BB5280BE /* Expression_1@2x.png in Resources */,
 				9F1F9249B1269ACF0F0ED672 /* Expression_20@2x.png in Resources */,
 				9F1F929B228D45688A2F8FD8 /* Expression_21@2x.png in Resources */,

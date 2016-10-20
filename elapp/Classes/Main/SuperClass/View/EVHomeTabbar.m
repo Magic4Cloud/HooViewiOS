@@ -51,22 +51,33 @@ static CGFloat const liveBtnHeight = 76.f;      /**< 直播按钮高度 */
     imageView.image = image;
     [imageView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero excludingEdge:ALEdgeTop];
 
+    // add by 佳南
+    self.layer.cornerRadius = 2.0f;
+    self.layer.shadowColor = CCColor(1, 1, 1).CGColor;
+    self.layer.shadowOffset = CGSizeMake(3, 3);
+    self.layer.shadowOpacity = 0.6;
+    
     // 主页
-    UIButton *homeButton = [self buttonWithNorImage:@"appbar_icon_home_nor" selectedImage:@"appbar_icon_home" title:nil];
+    UIButton *homeButton = [self buttonWithNorImage:@"home_tab_home" selectedImage:@"home_tab_home_pre" title:nil];
     [self addSubview:homeButton];
     homeButton.tag = CCHomeTabbarButtonTimeLine;
     self.homeButton = homeButton;
     
+    // change by 佳南
     // 直播
-    UIButton *liveButton = [[UIButton alloc] init];
-    [liveButton setImage:[UIImage imageNamed:@"appbar_icon_liveopen"] forState:UIControlStateNormal];
-    [self addSubview:liveButton];
-    liveButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
-    liveButton.tag = CCHomeTabbarButtonLive;
-    [liveButton addTarget:self action:@selector(buttonDidClicked:withEvent:) forControlEvents:UIControlEventTouchDown];
+//    UIButton *liveButton = [[UIButton alloc] init];
+//    [liveButton setImage:[UIImage imageNamed:@"appbar_icon_liveopen"] forState:UIControlStateNormal];
+//    [self addSubview:liveButton];
+//    liveButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
+//    liveButton.tag = CCHomeTabbarButtonLive;
+//    [liveButton addTarget:self action:@selector(buttonDidClicked:withEvent:) forControlEvents:UIControlEventTouchDown];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 1, 14)];
+    label.backgroundColor = CCColor(98, 45, 128);
+    [self addSubview:label];
+    
     
     // 私信
-    UIButton *letterButton = [self buttonWithNorImage:@"appbar_icon_message_nor" selectedImage:@"appbar_icon_message" title:nil];
+    UIButton *letterButton = [self buttonWithNorImage:@"home_tab_message" selectedImage:@"home_tab_message_pre" title:nil];
     [self addSubview:letterButton];
     letterButton.tag = CCHomeTabbarButtonLetter;
     self.letterButton = letterButton;
@@ -92,9 +103,14 @@ static CGFloat const liveBtnHeight = 76.f;      /**< 直播按钮高度 */
     [homeButton autoSetDimension:ALDimensionWidth toSize:(ScreenWidth-liveBtnWidth)/2.f];
     [homeButton autoSetDimension:ALDimensionHeight toSize:tabBarBtnHeight];
     
-    [liveButton autoAlignAxisToSuperviewAxis:ALAxisVertical];
-    [liveButton autoPinEdgeToSuperviewEdge:ALEdgeBottom];
-    [liveButton autoSetDimensionsToSize:CGSizeMake(liveBtnWidth, liveBtnHeight)];
+    // change by 佳南
+//    [liveButton autoAlignAxisToSuperviewAxis:ALAxisVertical];
+//    [liveButton autoPinEdgeToSuperviewEdge:ALEdgeBottom];
+//    [liveButton autoSetDimensionsToSize:CGSizeMake(liveBtnWidth, liveBtnHeight)];
+    [label autoAlignAxisToSuperviewAxis:ALAxisVertical];
+    [label autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:17];
+    [label autoSetDimensionsToSize:CGSizeMake(1, 14)];
+
     
     [letterButton autoPinEdgeToSuperviewEdge:ALEdgeRight];
     [letterButton autoPinEdgeToSuperviewEdge:ALEdgeBottom];
@@ -203,12 +219,12 @@ static CGFloat const liveBtnHeight = 76.f;      /**< 直播按钮高度 */
     }
     self.tabbarShow = NO;
     
-    
-    CGRect frame = self.frame;
-    frame.origin.y = frame.size.height;
-    [UIView animateWithDuration:K_ANIMATION_TIME animations:^{
-        self.frame = frame;
-    }];
+    // change by 佳南
+//    CGRect frame = self.frame;
+//    frame.origin.y = frame.size.height;
+//    [UIView animateWithDuration:K_ANIMATION_TIME animations:^{
+//        self.frame = frame;
+//    }];
     
 }
 
@@ -220,11 +236,12 @@ static CGFloat const liveBtnHeight = 76.f;      /**< 直播按钮高度 */
     }
     self.tabbarShow = YES;
     
-    CGRect frame = self.frame;
-    frame.origin.y = 0;
-    [UIView animateWithDuration:K_ANIMATION_TIME animations:^{
-        self.frame = frame;
-    }];
+    // change by 佳南
+//    CGRect frame = self.frame;
+//    frame.origin.y = 0;
+//    [UIView animateWithDuration:K_ANIMATION_TIME animations:^{
+//        self.frame = frame;
+//    }];
     
 }
 
