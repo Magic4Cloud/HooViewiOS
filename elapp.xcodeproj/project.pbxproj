@@ -51,6 +51,8 @@
 		31D028521C1EA45300F080B0 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31D028511C1EA45300F080B0 /* StoreKit.framework */; };
 		6E0941ED1DB89C35002F1BFE /* placeholder.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E0941EC1DB89C35002F1BFE /* placeholder.xcassets */; };
 		6E0941EF1DB89CF1002F1BFE /* home.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E0941EE1DB89CF1002F1BFE /* home.xcassets */; };
+		6E0941F51DBA038F002F1BFE /* EVHomeLiveVideoListCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0941F31DBA038F002F1BFE /* EVHomeLiveVideoListCollectionViewCell.m */; };
+		6E0941F61DBA038F002F1BFE /* EVHomeLiveVideoListCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E0941F41DBA038F002F1BFE /* EVHomeLiveVideoListCollectionViewCell.xib */; };
 		855BA25DB3AF1C2846A9D41F /* libPods-elapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8870469BA124F47A220386F3 /* libPods-elapp.a */; };
 		9F1F900D1311FACB6DD9C40B /* EVMagicEmojiView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F1F94298F25BCA3E45CBE68 /* EVMagicEmojiView.m */; };
 		9F1F900D7B397CBEB8F1EBBF /* EVBeautyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F1F93152AFB90DDCF8CD424 /* EVBeautyView.m */; };
@@ -647,6 +649,9 @@
 		6E0941EB1DB0E32A002F1BFE /* hooview.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = hooview.entitlements; sourceTree = "<group>"; };
 		6E0941EC1DB89C35002F1BFE /* placeholder.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = placeholder.xcassets; sourceTree = "<group>"; };
 		6E0941EE1DB89CF1002F1BFE /* home.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = home.xcassets; sourceTree = "<group>"; };
+		6E0941F21DBA038F002F1BFE /* EVHomeLiveVideoListCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVHomeLiveVideoListCollectionViewCell.h; sourceTree = "<group>"; };
+		6E0941F31DBA038F002F1BFE /* EVHomeLiveVideoListCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVHomeLiveVideoListCollectionViewCell.m; sourceTree = "<group>"; };
+		6E0941F41DBA038F002F1BFE /* EVHomeLiveVideoListCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVHomeLiveVideoListCollectionViewCell.xib; sourceTree = "<group>"; };
 		8367F5891D6D926B00BE2DB7 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8870469BA124F47A220386F3 /* libPods-elapp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-elapp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F1F900E3CB1564B1E75DE78 /* EVFace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVFace.m; sourceTree = "<group>"; };
@@ -2410,6 +2415,9 @@
 				9F1F99A98B7767C514725DD6 /* EVBeatyCollectionViewCell.m */,
 				9F1F9B42E53064E189BE3EEA /* EVBeautyView.h */,
 				9F1F93152AFB90DDCF8CD424 /* EVBeautyView.m */,
+				6E0941F21DBA038F002F1BFE /* EVHomeLiveVideoListCollectionViewCell.h */,
+				6E0941F31DBA038F002F1BFE /* EVHomeLiveVideoListCollectionViewCell.m */,
+				6E0941F41DBA038F002F1BFE /* EVHomeLiveVideoListCollectionViewCell.xib */,
 			);
 			path = TimeLineNew;
 			sourceTree = "<group>";
@@ -4191,6 +4199,7 @@
 				9F1F90EAF2434403DD5D59E8 /* Expression_78@2x.png in Resources */,
 				9F1F9DDD381FBC8040303468 /* Expression_79@2x.png in Resources */,
 				9F1F9FA6DC421B50E968B0FF /* Expression_7@2x.png in Resources */,
+				6E0941F61DBA038F002F1BFE /* EVHomeLiveVideoListCollectionViewCell.xib in Resources */,
 				9F1F953FABA1A38BD576B404 /* Expression_80@2x.png in Resources */,
 				9F1F9C5A7AE7EAC17CBD2D98 /* Expression_81@2x.png in Resources */,
 				9F1F98EA618760AE170A9FE6 /* Expression_82@2x.png in Resources */,
@@ -4434,6 +4443,7 @@
 				E86200E51D6BE8540081E72F /* EVAuthSettingModel.m in Sources */,
 				E86200AD1D6BE8540081E72F /* EVNewFriendList.m in Sources */,
 				E86200901D6BE8540081E72F /* EVFriendCircleRanklistCtrl.m in Sources */,
+				6E0941F51DBA038F002F1BFE /* EVHomeLiveVideoListCollectionViewCell.m in Sources */,
 				E86200CD1D6BE8540081E72F /* EVAccountPhoneBindViewController.m in Sources */,
 				E86201B61D6BE8550081E72F /* main.m in Sources */,
 				E8EF9D121D829D5B001AF7B0 /* EVLimitMenuCell.m in Sources */,

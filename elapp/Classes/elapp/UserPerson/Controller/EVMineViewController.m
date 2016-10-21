@@ -8,7 +8,7 @@
  //
 //  EVMineViewController
 
-
+#import "EVStreamer+Extension.h"
 #import "EVMineViewController.h"
 #import "EVFansOrFocusesTableViewController.h"
 #import "EVMyVideoTableViewController.h"
@@ -29,6 +29,8 @@
 #import "EVLiveShareView.h"
 #import "UIViewController+Extension.h"
 #import "EVBaseToolManager+EVUserCenterAPI.h"
+#import "EVLoginViewController.h"
+#import "EVLiveViewController.h"
 
 
 #define ProfileCellID @"profileCell"
@@ -40,7 +42,7 @@
 static const NSString *const SettingCellID = @"settingCell";
 
 
-@interface EVMineViewController ()<EVProfileDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate,EVYiBiViewControllerDelegate, CCLiveShareViewDelegate, UIAlertViewDelegate>
+@interface EVMineViewController ()<EVProfileDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate,EVYiBiViewControllerDelegate, CCLiveShareViewDelegate, UIAlertViewDelegate, CCLiveViewControllerDelegate>
 
 @property (strong, nonatomic) EVBaseToolManager *engine;
 @property (strong, nonatomic) EVUserModel *userModel;
@@ -166,7 +168,7 @@ static const NSString *const SettingCellID = @"settingCell";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 4;
+    return [EVLoginInfo localObject].jurisdiction ? 4 : 3;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -218,11 +220,41 @@ static const NSString *const SettingCellID = @"settingCell";
 }
 
 #pragma mark -- UIAlertViewDelegate
+
+#pragma mark - 开始普通直播
+- (void)requestNormalLivingPageForceImage:(BOOL)forceImage
+                                allowList:(NSArray *)allowList
+{
+    
+    [self requestNormalLivingPageForceImage:forceImage allowList:allowList audioOnly:NO];
+    
+}
+
+- (void)requestNormalLivingPageForceImage:(BOOL)forceImage
+                                allowList:(NSArray *)allowList
+                                audioOnly:(BOOL)audioOnly
+{
+    
+    [self requestNormalLivingPageForceImage:forceImage allowList:allowList audioOnly:audioOnly delegate:self];
+}
+
 // add by 佳南 to add entrance of living
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex NS_DEPRECATED_IOS(2_0, 9_0)
 {
     if (buttonIndex == 0) {
         // to living
+        [EVStreamer    checkAndRequestMicPhoneAndCameraUserAuthed:^{
+            if ( ![EVBaseToolManager userHasLoginLogin] )
+            {
+                if ([CCAppSetting shareInstance].isLogining)  return;
+                
+                UINavigationController *navCon = [EVLoginViewController loginViewControllerWithNavigationController];
+                [self presentViewController:navCon animated:YES completion:nil];
+                return;
+            }
+            
+            [self requestNormalLivingPageForceImage:NO allowList:nil];
+        } userDeny:nil];
     } else {
         return;
     }
@@ -417,8 +449,9 @@ static const NSString *const SettingCellID = @"settingCell";
     if ( _dataArray == nil )
     {
         // change by 佳南 to add entrance of living
-        NSArray * iconArray = [NSArray arrayWithObjects:@"personal_icon_living",@"personal_icon_recharge",@"personal_icon_money",@"personal_icon_setting", nil];
-        NSArray * titleArray = [NSArray arrayWithObjects:@"我的直播",kE_GlobalZH(@"ecoin_recharge"),kE_GlobalZH(@"me_earnings"),kE_GlobalZH(@"me_setting"), nil];
+        
+        NSArray * iconArray = [EVLoginInfo localObject].jurisdiction ? [NSArray arrayWithObjects:@"personal_icon_living",@"personal_icon_recharge",@"personal_icon_money",@"personal_icon_setting", nil] : [NSArray arrayWithObjects:@"personal_icon_recharge",@"personal_icon_money",@"personal_icon_setting", nil];
+        NSArray * titleArray = [EVLoginInfo localObject].jurisdiction ? [NSArray arrayWithObjects:@"我的直播",kE_GlobalZH(@"ecoin_recharge"),kE_GlobalZH(@"me_earnings"),kE_GlobalZH(@"me_setting"), nil] : [NSArray arrayWithObjects:kE_GlobalZH(@"ecoin_recharge"),kE_GlobalZH(@"me_earnings"),kE_GlobalZH(@"me_setting"), nil];
         NSMutableArray * dataArray = [[NSMutableArray alloc] init];
         for ( int i = 0; i < iconArray.count; i++ )
         {

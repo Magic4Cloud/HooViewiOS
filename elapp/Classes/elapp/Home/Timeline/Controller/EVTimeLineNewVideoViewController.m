@@ -71,7 +71,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor evBackgroundColor];
-    [CCNotificationCenter addObserver:self selector:@selector(pushNextPage) name:kPushNextPage object:nil];
+//    [CCNotificationCenter addObserver:self selector:@selector(pushNextPage) name:kPushNextPage object:nil];
     [self setUpUI];
   
     // 添加kvo

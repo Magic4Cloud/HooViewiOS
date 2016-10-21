@@ -123,7 +123,7 @@
         [buttons addObject:btn];
         btn.tag = MENU_STAR_TAG + i;
         
-        [btn addTarget:self action:@selector(buttonDidClicked:) forControlEvents:UIControlEventTouchDown];
+//        [btn addTarget:self action:@selector(buttonDidClicked:) forControlEvents:UIControlEventTouchDown];
         
         if ( i == 0 )
         {   //  change by 佳南
