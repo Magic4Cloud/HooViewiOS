@@ -85,6 +85,7 @@
         [navBar autoSetDimension:ALDimensionHeight toSize:CCHOMENAV_HEIGHT];
         self.navBar = navBar;
         navBar.title = [self showTitle];
+        // change by 佳南
         navBar.selectedIndex = 1;
     }
     return _navBar;

@@ -40,7 +40,7 @@
 static const NSString *const SettingCellID = @"settingCell";
 
 
-@interface EVMineViewController ()<EVProfileDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate,EVYiBiViewControllerDelegate, CCLiveShareViewDelegate>
+@interface EVMineViewController ()<EVProfileDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate,EVYiBiViewControllerDelegate, CCLiveShareViewDelegate, UIAlertViewDelegate>
 
 @property (strong, nonatomic) EVBaseToolManager *engine;
 @property (strong, nonatomic) EVUserModel *userModel;
@@ -166,7 +166,7 @@ static const NSString *const SettingCellID = @"settingCell";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 3;
+    return 4;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -208,9 +208,25 @@ static const NSString *const SettingCellID = @"settingCell";
         authSettingVC.userModel = self.userModel;
         [self.navigationController pushViewController:authSettingVC animated:YES];
     }
+    // add by 佳南 to show alert
+    if ([item.title isEqualToString:@"我的直播"]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"现在开始直播么?" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消",nil];
+        alert.alertViewStyle = UIAlertViewStyleDefault;
+        [alert show];
+    }
 
 }
 
+#pragma mark -- UIAlertViewDelegate
+// add by 佳南 to add entrance of living
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex NS_DEPRECATED_IOS(2_0, 9_0)
+{
+    if (buttonIndex == 0) {
+        // to living
+    } else {
+        return;
+    }
+}
 
 - (void)editBtnClick
 {
@@ -268,7 +284,7 @@ static const NSString *const SettingCellID = @"settingCell";
 
 #pragma mark - profile cell delegate
 
-// 点击底部四个control
+// 点击底部三个control
 - (void)clickProfileControl:(EVProfileControl *)control
 {
     if ( [control.title isEqualToString:CCProfileControlTitleVideo] )
@@ -400,8 +416,9 @@ static const NSString *const SettingCellID = @"settingCell";
 {
     if ( _dataArray == nil )
     {
-        NSArray * iconArray = [NSArray arrayWithObjects:@"personal_icon_recharge",@"personal_icon_money",@"personal_icon_setting", nil];
-        NSArray * titleArray = [NSArray arrayWithObjects:kE_GlobalZH(@"ecoin_recharge"),kE_GlobalZH(@"me_earnings"),kE_GlobalZH(@"me_setting"), nil];
+        // change by 佳南 to add entrance of living
+        NSArray * iconArray = [NSArray arrayWithObjects:@"personal_icon_living",@"personal_icon_recharge",@"personal_icon_money",@"personal_icon_setting", nil];
+        NSArray * titleArray = [NSArray arrayWithObjects:@"我的直播",kE_GlobalZH(@"ecoin_recharge"),kE_GlobalZH(@"me_earnings"),kE_GlobalZH(@"me_setting"), nil];
         NSMutableArray * dataArray = [[NSMutableArray alloc] init];
         for ( int i = 0; i < iconArray.count; i++ )
         {

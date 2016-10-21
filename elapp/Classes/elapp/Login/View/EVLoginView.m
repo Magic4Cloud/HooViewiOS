@@ -133,7 +133,8 @@
     
     
     UIView *bottomLineView = [[UIView alloc]init];
-    bottomLineView.backgroundColor = [UIColor evLineColor];
+    // change color
+    bottomLineView.backgroundColor =  [UIColor colorWithHexString:@"#622d80"];
     [self addSubview:bottomLineView];
     [bottomLineView autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:self withOffset:50];
     [bottomLineView autoPinEdge:ALEdgeRight toEdge:ALEdgeRight ofView:self withOffset:-50];
@@ -146,7 +147,7 @@
     thirdLabel.text = kE_GlobalZH(@"other_login_way");
     thirdLabel.font = [UIFont systemFontOfSize:12];
     thirdLabel.backgroundColor = [UIColor whiteColor];
-    thirdLabel.textColor = [UIColor colorWithHexString:@"#ACACAC"];
+    thirdLabel.textColor = [UIColor colorWithHexString:@"#622d80"];
     [self addSubview:thirdLabel];
     [thirdLabel autoAlignAxis:ALAxisVertical toSameAxisOfView:registButton];
     [thirdLabel autoAlignAxis:ALAxisHorizontal toSameAxisOfView:bottomLineView];

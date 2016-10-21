@@ -296,6 +296,7 @@
     loginInfo.auth = [decoder decodeObjectForKey:@"auth"];
     loginInfo.sexStr = [decoder decodeObjectForKey:@"sexStr"];
     loginInfo.hasLogin = [decoder decodeBoolForKey:@"hasLogin"];
+    loginInfo.jurisdiction = [decoder decodeBoolForKey:@"jurisdiction"];
     loginInfo.name = [decoder decodeObjectForKey:@"name"];
     loginInfo.sessionid = [decoder decodeObjectForKey:@"sessionid"];
     loginInfo.gender = [decoder decodeObjectForKey:@"gender"];
@@ -348,6 +349,8 @@
     [encoder encodeObject:self.gender forKey:@"gender"];
     [encoder encodeObject:self.sessionid forKey:@"sessionid"];
     [encoder encodeObject:self.name forKey:@"name"];
+    [encoder encodeBool:self.jurisdiction forKey:@"jurisdiction"];
+
     
     [encoder encodeObject:self.sexStr forKey:@"sexStr"];
     [encoder encodeBool:self.hasLogin forKey:@"hasLogin"];

@@ -103,6 +103,12 @@
     [self hideLeftNavigationItem];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
+// add by 佳南 to fix home navbar to bottom
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+}
 
 - (void)dealloc
 {

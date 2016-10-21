@@ -126,8 +126,8 @@
         [btn addTarget:self action:@selector(buttonDidClicked:) forControlEvents:UIControlEventTouchDown];
         
         if ( i == 0 )
-        {
-            [btn autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:0];
+        {   //  change by 佳南
+            [btn autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:[UIScreen mainScreen].bounds.size.width / 4];
         }
         else if ( i == ( (NSInteger)self.subTitles.count - 1 )  )
         {
@@ -145,39 +145,39 @@
     }
     
     self.titleButtons = buttons;
-  
-    for ( NSInteger i = 0; i <= (NSInteger)buttons.count - 1; i++ )
-    {
-        UIButton *btn = buttons[i];
-        
-        if ( i == 0 )
-        {
-            [btn autoPinEdge:ALEdgeRight toEdge:ALEdgeLeft ofView:buttons[i + 1]];
-        }
-        else if ( i == (NSInteger)buttons.count - 1 )
-        {
-            [btn autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:buttons[i - 1]];
-        }
-        else
-        {
-            [btn autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:buttons[i - 1]];
-            [btn autoPinEdge:ALEdgeRight toEdge:ALEdgeLeft ofView:buttons[i + 1]];
-        }
-        
-        if ( i != (NSInteger)buttons.count - 1 )
-        {
-            [btn autoMatchDimension:ALDimensionWidth toDimension:ALDimensionWidth ofView:buttons[i + 1]];
-        }
-    }
-    
-    for ( NSInteger i = (NSInteger)buttons.count - 1; i >= 0; i-- )
-    {
-         UIButton *btn = buttons[i];
-        if ( i != 0 )
-        {
-            [btn autoMatchDimension:ALDimensionWidth toDimension:ALDimensionWidth ofView:buttons[i - 1]];
-        }
-    }
+  // delete by 佳南
+//    for ( NSInteger i = 0; i <= (NSInteger)buttons.count - 1; i++ )
+//    {
+//        UIButton *btn = buttons[i];
+//        
+//        if ( i == 0 )
+//        {
+//            [btn autoPinEdge:ALEdgeRight toEdge:ALEdgeLeft ofView:buttons[i + 1]];
+//        }
+//        else if ( i == (NSInteger)buttons.count - 1 )
+//        {
+//            [btn autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:buttons[i - 1]];
+//        }
+//        else
+//        {
+//            [btn autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:buttons[i - 1]];
+//            [btn autoPinEdge:ALEdgeRight toEdge:ALEdgeLeft ofView:buttons[i + 1]];
+//        }
+//        
+//        if ( i != (NSInteger)buttons.count - 1 )
+//        {
+//            [btn autoMatchDimension:ALDimensionWidth toDimension:ALDimensionWidth ofView:buttons[i + 1]];
+//        }
+//    }
+//    
+//    for ( NSInteger i = (NSInteger)buttons.count - 1; i >= 0; i-- )
+//    {
+//         UIButton *btn = buttons[i];
+//        if ( i != 0 )
+//        {
+//            [btn autoMatchDimension:ALDimensionWidth toDimension:ALDimensionWidth ofView:buttons[i - 1]];
+//        }
+//    }
     
     UIView *line = [[UIView alloc] init];
     line.backgroundColor = [UIColor colorWithHexString:@"#eaeaea"];
@@ -227,7 +227,9 @@
 {
     UIButton *button = [[UIButton alloc] init];
     [button setTitle:title forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor evSecondColor] forState:UIControlStateSelected];
+    // change by 佳南
+//    [button setTitleColor:[UIColor evSecondColor] forState:UIControlStateSelected];
+    [button setTitleColor:[UIColor colorWithHexString:@"#d4d4d4"] forState:UIControlStateSelected];
     [button setTitleColor:[UIColor colorWithHexString:@"#d4d4d4"] forState:UIControlStateNormal];
     button.titleLabel.font = [UIFont boldSystemFontOfSize:16];
     return button;
@@ -236,7 +238,7 @@
 - (void)setSelectedIndex:(NSInteger)selectedIndex
 {
     _selectedIndex = selectedIndex;
-    UIButton *btn = self.titleButtons[selectedIndex];
+    UIButton *btn = self.titleButtons[0];
     self.selectedButton.selected = NO;
     btn.selected = YES;
     self.selectedButton = btn;

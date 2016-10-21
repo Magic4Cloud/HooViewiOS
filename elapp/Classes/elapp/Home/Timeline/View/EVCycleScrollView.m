@@ -53,6 +53,7 @@
         _cycleScrollView.autoScrollTimeInterval = 5.0f;
         // change by 佳南
         self.backgroundColor = [UIColor whiteColor];
+        _cycleScrollView.pageControlStyle       = SDCycleScrollViewPageContolStyleAnimated;
         _cycleScrollView.pageControlAliment     = SDCycleScrollViewPageContolAlimentCenter;
         _cycleScrollView.currentPageDotColor    = CCColor(98, 45, 128);
 //        _cycleScrollView.pageDotColor           = [UIColor colorWithHexString:@"000000" alpha:0.3];

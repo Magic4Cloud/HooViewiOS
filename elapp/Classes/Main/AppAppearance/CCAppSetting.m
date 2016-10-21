@@ -113,14 +113,17 @@ NSString *const CCAppSettingChangeKey = @"CCAppSettingChangeKey";
     _version = version;
     switch ( _version )
     {
+        // change by 佳南 to change item color
         case CCAppSettingVersion_2_0_0:
-            _appMainColorString = @"#9AC9FF";
+            _appMainColorString = @"#622d80";
             self.appMainColor = [UIColor colorWithHexString:_appMainColorString];
             break;
         case CCAppSettingVersion_2_0_1:
 
-            self.appMainColor = [UIColor colorWithHexString:kGlobalGreenColor];
-            _appMainColorString = @"#00dab8";
+//            self.appMainColor = [UIColor colorWithHexString:kGlobalGreenColor];
+            self.appMainColor = [UIColor colorWithHexString:@"#622d80"];
+
+            _appMainColorString = @"#622d80";
 
             break;
         default:

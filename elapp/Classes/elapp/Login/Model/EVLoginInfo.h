@@ -47,6 +47,7 @@
 @property (nonatomic, copy) NSString *sessionid;        // 登陆标识
 @property (nonatomic, copy) NSString *gender;         // 性别
 
+@property (nonatomic, assign)   BOOL jurisdiction;      // 直播权限
 @property (nonatomic, copy) NSString *authtype;         // 授权类型
 @property (nonatomic, copy) NSString *birthday;         // 生日
 
