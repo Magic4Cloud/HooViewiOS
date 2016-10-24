@@ -52,7 +52,6 @@
     // change by 佳南
 
     self.backgroundColor = CCColor(98, 45, 128);
-    self.layer.cornerRadius = 2.0f;
     self.layer.shadowColor = CCColor(1, 1, 1).CGColor;
     self.layer.shadowOffset = CGSizeMake(3, 3);
     self.layer.shadowOpacity = 0.2;
@@ -127,7 +126,8 @@
         
         if ( i == 0 )
         {   //  change by 佳南
-            [btn autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:[UIScreen mainScreen].bounds.size.width / 4];
+//            [btn autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:[UIScreen mainScreen].bounds.size.width / 4];
+            [btn autoCenterInSuperview];
         }
         else if ( i == ( (NSInteger)self.subTitles.count - 1 )  )
         {
@@ -180,7 +180,7 @@
 //    }
     
     UIView *line = [[UIView alloc] init];
-    line.backgroundColor = [UIColor colorWithHexString:@"#eaeaea"];
+    line.backgroundColor = CCColor(98, 45, 128);
     [self addSubview:line];
     [line autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero excludingEdge:ALEdgeTop];
     [line autoSetDimension:ALDimensionHeight toSize:0.5];

@@ -9,12 +9,18 @@
 #import <UIKit/UIKit.h>
 @class EVCircleRecordedModel;
 
+@protocol EVHomeLiveVideoListCollectionViewCellDelegate <NSObject>
+
+@required
+- (void)toOtherPersonalUserCenter:(EVCircleRecordedModel *)model;
+- (void)playVideo:(EVCircleRecordedModel *)model;
+
+@end
+
 @interface EVHomeLiveVideoListCollectionViewCell : UICollectionViewCell
 
-@property (strong, nonatomic) EVCircleRecordedModel *model; /**< 视频数据 */
-
+@property (nonatomic, strong) EVCircleRecordedModel *model; /**< 视频数据 */
+@property (nonatomic, weak) id<EVHomeLiveVideoListCollectionViewCellDelegate> delegate;
 + (CGSize)cellSize;
-
-@property (copy, nonatomic) void(^avatarClick)(EVCircleRecordedModel *model);  /**< 头像点击 */
 
 @end

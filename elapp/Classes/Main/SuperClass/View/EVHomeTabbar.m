@@ -54,8 +54,8 @@ static CGFloat const liveBtnHeight = 76.f;      /**< 直播按钮高度 */
     // add by 佳南
     self.layer.cornerRadius = 2.0f;
     self.layer.shadowColor = CCColor(1, 1, 1).CGColor;
-    self.layer.shadowOffset = CGSizeMake(3, 3);
-    self.layer.shadowOpacity = 0.6;
+    self.layer.shadowOffset = CGSizeMake(3, -3);
+    self.layer.shadowOpacity = 0.2;
     
     // 主页
     UIButton *homeButton = [self buttonWithNorImage:@"home_tab_home" selectedImage:@"home_tab_home_pre" title:nil];

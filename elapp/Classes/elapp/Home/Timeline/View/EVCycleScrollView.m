@@ -49,7 +49,7 @@
         CGFloat banderH = banderW / whRate;
         _cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, banderW, banderH - 20)
                                                               delegate:self
-                                                      placeholderImage:[UIImage imageNamed:@"home_pic_banner_defaultpic"]];
+                                                      placeholderImage:[UIImage imageNamed:@"home_banner_placeholder"]];
         _cycleScrollView.autoScrollTimeInterval = 5.0f;
         // change by 佳南
         self.backgroundColor = [UIColor whiteColor];
@@ -57,7 +57,7 @@
         _cycleScrollView.currentPageDotColor    = CCColor(98, 45, 128);
 //        _cycleScrollView.pageDotColor           = [UIColor colorWithHexString:@"000000" alpha:0.3];
         _cycleScrollView.pageDotColor           = CCColor(175, 153, 188);
-        _cycleScrollView.pageOriginY            = banderH - 15;
+        _cycleScrollView.pageOriginY            = banderH - 10;
         
         __weak typeof(self) weakSelf = self;
         _cycleScrollView.clickItemOperationBlock = ^(NSInteger index) {

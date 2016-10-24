@@ -25,6 +25,7 @@
 #import "EVLoginInfo.h"
 #import "NSString+Extension.h"
 #import "EVCategoryViewController.h"
+#import "EVHomeLiveVideoListCollectionViewCell.h"
 
 
 #define TopicsViewHeight 65.0f
@@ -34,7 +35,7 @@
 #define kTopicId_all @"0"
 #define kPushNextPage  @"pushNextPageCenter"
 
-@interface EVTimeLineNewVideoViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, CCLiveVideoViewDelegate,EVCycleScrollViewDelegate,EVCategoryViewControllerDelegate>
+@interface EVTimeLineNewVideoViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, CCLiveVideoViewDelegate,EVCycleScrollViewDelegate,EVCategoryViewControllerDelegate, EVHomeLiveVideoListCollectionViewCellDelegate>
 
 @property (strong, nonatomic) EVTimeLineNewVideoLayout *layout; /**< collectionview布局 */
 @property (weak, nonatomic) UICollectionView *collectionView;  /**< 数据展示列表 */
@@ -174,6 +175,23 @@
     [self.navigationController pushViewController:detailVC animated:YES];
 }
 
+#pragma mark - EVHomeLiveVideoListCollectionViewCellDelegate
+
+- (void)toOtherPersonalUserCenter:(EVCircleRecordedModel *)model
+{
+                EVOtherPersonViewController *otherVC = [EVOtherPersonViewController instanceWithName:model.name];
+                otherVC.fromLivingRoom = NO;
+                [self.navigationController pushViewController:otherVC animated:YES];
+}
+- (void)playVideo:(EVCircleRecordedModel *)model
+{
+        EVWatchVideoInfo *videoInfo = [[EVWatchVideoInfo alloc] init];
+        videoInfo.vid = model.vid;
+        videoInfo.play_url = model.play_url;
+        videoInfo.thumb = model.thumb;
+        [self playVideoWithVideoInfo:videoInfo permission:model.permission];
+}
+
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -230,19 +248,24 @@
     if ( indexPath.row < self.livingArray.count ) {
             model = self.livingArray[indexPath.row];
     }
-
-    EVBeatyCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[EVBeatyCollectionViewCell cellIdentifier] forIndexPath:indexPath];
+    // change by 佳南
+//    EVBeatyCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[EVBeatyCollectionViewCell cellIdentifier] forIndexPath:indexPath];
+//    if ( indexPath.row >= self.livingArray.count ) {
+//                    return cell;
+//    }
+//    cell.model = model;
+//    __weak typeof(self) weakself = self;
+//    cell.avatarClick = ^(EVCircleRecordedModel *model){
+//            EVOtherPersonViewController *otherVC = [EVOtherPersonViewController instanceWithName:model.name];
+//            otherVC.fromLivingRoom = NO;
+//            [weakself.navigationController pushViewController:otherVC animated:YES];
+//    };
+    EVHomeLiveVideoListCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([EVHomeLiveVideoListCollectionViewCell class]) forIndexPath:indexPath];
     if ( indexPath.row >= self.livingArray.count ) {
-                    return cell;
+                            return cell;
     }
+    cell.delegate = self;
     cell.model = model;
-    __weak typeof(self) weakself = self;
-    cell.avatarClick = ^(EVCircleRecordedModel *model){
-            EVOtherPersonViewController *otherVC = [EVOtherPersonViewController instanceWithName:model.name];
-            otherVC.fromLivingRoom = NO;
-            [weakself.navigationController pushViewController:otherVC animated:YES];
-    };
-
     return cell;
 }
 
@@ -251,19 +274,20 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CCLog(@"--Video be clicked!--");
- 
-    if ( indexPath.row >= self.livingArray.count )
-    {
-        return;
-    }
-
-    EVBeatyCollectionViewCell *cell = (EVBeatyCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    EVWatchVideoInfo *videoInfo = [[EVWatchVideoInfo alloc] init];
-    videoInfo.vid = cell.model.vid;
-    videoInfo.play_url = cell.model.play_url;
-    videoInfo.thumb = cell.model.thumb;
-    [self playVideoWithVideoInfo:videoInfo permission:cell.model.permission];
+    // delete by 佳南
+//    CCLog(@"--Video be clicked!--");
+// 
+//    if ( indexPath.row >= self.livingArray.count )
+//    {
+//        return;
+//    }
+//
+//    EVBeatyCollectionViewCell *cell = (EVBeatyCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+//    EVWatchVideoInfo *videoInfo = [[EVWatchVideoInfo alloc] init];
+//    videoInfo.vid = cell.model.vid;
+//    videoInfo.play_url = cell.model.play_url;
+//    videoInfo.thumb = cell.model.thumb;
+//    [self playVideoWithVideoInfo:videoInfo permission:cell.model.permission];
 }
 
 #pragma mark - CCLiveVideoViewDelegate
@@ -310,13 +334,15 @@
     // 切换成collectionview的形式展示
     EVTimeLineNewVideoLayout *layout = [[EVTimeLineNewVideoLayout alloc] init];
     layout.headHeight = banderH;
-    layout.firstSectionItemHeight = [EVBeatyCollectionViewCell cellSize].height;
+    layout.firstSectionItemHeight = [EVHomeLiveVideoListCollectionViewCell cellSize].height;
     layout.secondSectionItemHeight = (ScreenWidth - 10 * 3) / 2 + 48;
     self.layout = layout;
-      layout.firstSectionItemHeight = [EVBeatyCollectionViewCell cellSize].height;
+      layout.firstSectionItemHeight = [EVHomeLiveVideoListCollectionViewCell cellSize].height;
     UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
-    collectionView.backgroundColor = [UIColor evBackgroundColor];
+    collectionView.backgroundColor = [UIColor whiteColor];
     [collectionView registerClass:[EVLiveVideoCollectionViewCell class] forCellWithReuseIdentifier:[EVLiveVideoCollectionViewCell cellIdentifier]];
+    UINib *nib = [UINib nibWithNibName:NSStringFromClass([EVHomeLiveVideoListCollectionViewCell class])  bundle:[NSBundle mainBundle]];
+    [collectionView registerNib:nib forCellWithReuseIdentifier:NSStringFromClass([EVHomeLiveVideoListCollectionViewCell class])];
     [collectionView registerClass:[EVBeatyCollectionViewCell class] forCellWithReuseIdentifier:[EVBeatyCollectionViewCell cellIdentifier]];
     [collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:TopicsViewId];
     [containerV addSubview:collectionView];
