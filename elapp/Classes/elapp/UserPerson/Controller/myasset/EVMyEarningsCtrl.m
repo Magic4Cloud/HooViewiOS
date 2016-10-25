@@ -86,7 +86,7 @@ typedef NS_ENUM(NSUInteger, EVMyEarningsCtrlBtnType)
 {
     self.title = kE_GlobalZH(@"me_earnings");
     UIBarButtonItem *rightBarBtnItem = [[UIBarButtonItem alloc] initWithTitle:kE_GlobalZH(@"push_money_record") style:UIBarButtonItemStylePlain target:self action:@selector(buttonAction:)];
-    [rightBarBtnItem setTitleTextAttributes:@{UITextAttributeFont:[UIFont systemFontOfSize:15.0],UITextAttributeTextColor:[UIColor evSecondColor]} forState:(UIControlStateNormal)];
+    [rightBarBtnItem setTitleTextAttributes:@{UITextAttributeFont:[UIFont systemFontOfSize:15.0],UITextAttributeTextColor:[UIColor whiteColor]} forState:(UIControlStateNormal)];
     rightBarBtnItem.tag = EVMyEarningsCtrlBtnType_right;
     self.navigationItem.rightBarButtonItem = rightBarBtnItem;
 }
@@ -160,7 +160,7 @@ typedef NS_ENUM(NSUInteger, EVMyEarningsCtrlBtnType)
     UIButton *shadowBtn = [[UIButton alloc] init];
     shadowBtn.layer.cornerRadius = 4.f;
     [shadowBtn setTitle:kE_GlobalZH(@"wechat_money") forState:UIControlStateNormal];
-    shadowBtn.backgroundColor = [UIColor colorWithHexString:@"#9ac9ff"];
+    shadowBtn.backgroundColor = CCColor(98, 45, 128);
     [shadowBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     shadowBtn.tag = EVMyEarningsCtrlBtnType_withdraw;
     [shadowBtn addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];

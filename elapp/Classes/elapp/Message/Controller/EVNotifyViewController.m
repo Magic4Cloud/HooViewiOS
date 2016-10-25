@@ -138,7 +138,7 @@ const NSString *const notifyCellID = @"notifylist";
     
     
     UIBarButtonItem *rightBarBtnItem = [[UIBarButtonItem alloc] initWithTitle:kE_GlobalZH(@"launch_group_chat") style:UIBarButtonItemStylePlain target:self action:@selector(rightBarBtnClick)];
-    [rightBarBtnItem setTitleTextAttributes:@{UITextAttributeFont:[UIFont systemFontOfSize:15.0],UITextAttributeTextColor:[UIColor evSecondColor]} forState:(UIControlStateNormal)];
+    [rightBarBtnItem setTitleTextAttributes:@{UITextAttributeFont:[UIFont systemFontOfSize:15.0],UITextAttributeTextColor:[UIColor whiteColor]} forState:(UIControlStateNormal)];
     self.navigationItem.rightBarButtonItem = rightBarBtnItem;
 }
 
@@ -163,7 +163,7 @@ const NSString *const notifyCellID = @"notifylist";
         self.leftBarButtonItem = leftBarButtonItem;
     }
     //修改  杨尚彬   以前的毛病换图片不会加载
-    [self.personalButton cc_setImageURL:[EVLoginInfo localObject].logourl forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"avatar"]];
+    [self.personalButton cc_setImageURL:[EVLoginInfo localObject].logourl forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"home_user_icon_placeholder"]];
     self.navigationItem.leftBarButtonItem = self.leftBarButtonItem;
 }
 

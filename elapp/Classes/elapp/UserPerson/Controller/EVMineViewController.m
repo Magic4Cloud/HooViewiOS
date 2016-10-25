@@ -219,8 +219,6 @@ static const NSString *const SettingCellID = @"settingCell";
 
 }
 
-#pragma mark -- UIAlertViewDelegate
-
 #pragma mark - 开始普通直播
 - (void)requestNormalLivingPageForceImage:(BOOL)forceImage
                                 allowList:(NSArray *)allowList
@@ -237,6 +235,8 @@ static const NSString *const SettingCellID = @"settingCell";
     
     [self requestNormalLivingPageForceImage:forceImage allowList:allowList audioOnly:audioOnly delegate:self];
 }
+
+#pragma mark -- UIAlertViewDelegate
 
 // add by 佳南 to add entrance of living
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex NS_DEPRECATED_IOS(2_0, 9_0)

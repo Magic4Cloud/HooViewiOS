@@ -12,6 +12,7 @@
 #import "EVHomeLiveVideoListCollectionViewCell.h"
 #import "EVCircleRecordedModel.h"
 #import "NSString+Extension.h"
+#import "NSDate+Category.h"
 
 @interface EVHomeLiveVideoListCollectionViewCell ()
 @property (nonatomic, weak) IBOutlet UIImageView *videoThumbImgV;
@@ -82,8 +83,34 @@
     [self.userIconView cc_setRoundImageWithURL:model.logourl placeholderImageName:@"home_user_icon_placeholder"];
     self.videoTitleNameLabel.text = model.title;
     self.userNickNameTitleLabel.text = model.nickname;
+    self.livingTimeLabel.text = [self timeLabelTextFromSpan:model.live_stop_time_span];
 }
 
+#pragma mark - private method 
+- (NSString *)timeLabelTextFromSpan:(NSInteger)span {
+    // 将秒数换为文本
+//    NSTimeInterval aTimeInterval = [[NSDate date] timeIntervalSinceReferenceDate] -  span;
+//    NSDate *liveStopDate = [NSDate dateWithTimeIntervalSinceReferenceDate:aTimeInterval];
+//    
+//    return [liveStopDate timeIntervalDescription];
+    if (span) {
+        if (span < 60) {
+            return @"刚刚";
+        } else if (span < 3600) {
+            return [NSString stringWithFormat:@"%d分钟前", (int)(span / 60.00 + 0.50)];
+        } else if (span < 86400) {
+            return [NSString stringWithFormat:@"%d小时前", (int)(span / 3600.00 + 0.50)];
+        } else if (span < 2592000) {//30天内
+            return [NSString stringWithFormat:@"%d天前", (int)(span / 86400.00 + 0.50)];
+        } else if (span < 31536000) {//30天至1年内
+            return [NSString stringWithFormat:@"%d月前", (int)(span / 2592000.00 + 0.50)];
+        } else {
+            return [NSString stringWithFormat:@"%d年前", (int)(span / 31536000.00 + 0.50)];
+        }
+    }else {
+        return @"刚刚";
+    }
 
+}
 
 @end

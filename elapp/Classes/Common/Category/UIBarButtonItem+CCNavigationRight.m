@@ -22,7 +22,10 @@
     UIColor *textColor = nil;
     if ( color == nil )
     {
-        textColor = CCTextBlackColor;
+        // change by 佳南
+        textColor = [UIColor whiteColor];
+    }else {
+        textColor = color;
     }
     [rightButton setTitleColor:textColor forState:UIControlStateNormal];
     UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
@@ -41,7 +44,10 @@
     UIColor *textColor = nil;
     if ( color == nil )
     {
-        textColor = CCTextBlackColor;
+        // change by 佳南
+        textColor = [UIColor whiteColor];
+    }else {
+        textColor = color;
     }
     [rightButton setTitleColor:textColor forState:UIControlStateNormal];
     UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
