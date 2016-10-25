@@ -120,7 +120,7 @@ NSString *const k_AccessToken_QQ_Key = @"k_AccessToken_QQ_Key";
 - (void)registForAppWeiXinKey:(NSString *)weiXinKey weiBoKey:(NSString *)weiBoKey QQkey:(NSString *)QQKey
 {
     if (weiXinKey != nil && ![weiXinKey isEqualToString:@""]) {
-        [WXApi registerApp:weiXinKey withDescription:@"com.easyvaas.elapp"];
+        [WXApi registerApp:weiXinKey withDescription:@"com.hooview.app"];
     }
     
     if (weiBoKey != nil && ![weiBoKey isEqualToString:@""]) {
@@ -189,7 +189,7 @@ NSString *const k_AccessToken_QQ_Key = @"k_AccessToken_QQ_Key";
     
     SendAuthReq* req = [[SendAuthReq alloc] init];
     req.scope = @"snsapi_userinfo"; // @"post_timeline,sns"
-    req.state = @"com.easyvaas.elapp";
+    req.state = @"com.hooview.app";
     req.openID = WEIXIN_APP_KEY;
     
     [WXApi sendAuthReq:req

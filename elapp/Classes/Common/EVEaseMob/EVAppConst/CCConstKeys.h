@@ -54,7 +54,7 @@
 #define kRequestOK                  @"ok"
 #define kId                         @"id"
 #define kRegistered                 @"registered"
-#define kBaseToolDomain             @"com.easyvaas.elapp"
+#define kBaseToolDomain             @"com.hooview.app"
 #define kBaseToolErrorCode          -1
 #define kFirstLoginKey              @"firstloginkey"
 #define kFirstLoginValue            @"firstloginvalue"
