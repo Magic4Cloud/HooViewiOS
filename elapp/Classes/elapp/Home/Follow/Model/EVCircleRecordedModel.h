@@ -42,7 +42,7 @@
 @property (assign, nonatomic) NSInteger duration;               /**< 视频时长 */
 @property (copy, nonatomic) NSString *living_device;            /**< 直播设备 */
 @property (copy, nonatomic) NSString *network_type;             /**< 网络类型 */
-@property (copy, nonatomic) NSString *live_start_time;          /**< 直播开始时间 */
+@property (copy, nonatomic) NSString *start_time;               /**< 直播开始时间(change by 佳南) */
 @property (copy, nonatomic) NSString *live_stop_time;           /**< 直播结束时间 */
 @property (assign, nonatomic) NSInteger live_start_time_span;   /**< 直播开始距离现在的描述 */
 @property (assign, nonatomic) NSInteger live_stop_time_span;    /**< 直播结束距离现在的秒数 */

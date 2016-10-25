@@ -13,6 +13,7 @@
 #import "EVCircleRecordedModel.h"
 #import "NSString+Extension.h"
 #import "NSDate+Category.h"
+#import "NSDate+Utils.h"
 
 @interface EVHomeLiveVideoListCollectionViewCell ()
 @property (nonatomic, weak) IBOutlet UIImageView *videoThumbImgV;
@@ -79,20 +80,20 @@
         _model.thumb = [_model.logo_thumb mutableCopy];
     }
     [self.videoThumbImgV cc_setImageWithURLString:model.thumb placeholderImage:[UIImage imageNamed:@"home_vedio_conver_placeholder"]];
-//    [self.userIconView cc_setImageWithURLString:model.logourl placeholderImage:[UIImage imageNamed:@"home_user_icon_placeholder"]];
     [self.userIconView cc_setRoundImageWithURL:model.logourl placeholderImageName:@"home_user_icon_placeholder"];
     self.videoTitleNameLabel.text = model.title;
     self.userNickNameTitleLabel.text = model.nickname;
-    self.livingTimeLabel.text = [self timeLabelTextFromSpan:model.live_stop_time_span];
+    self.livingTimeLabel.text = [self timeLabelTextFromSpan:model.start_time];
 }
 
 #pragma mark - private method 
-- (NSString *)timeLabelTextFromSpan:(NSInteger)span {
-    // 将秒数换为文本
-//    NSTimeInterval aTimeInterval = [[NSDate date] timeIntervalSinceReferenceDate] -  span;
-//    NSDate *liveStopDate = [NSDate dateWithTimeIntervalSinceReferenceDate:aTimeInterval];
-//    
-//    return [liveStopDate timeIntervalDescription];
+- (NSString *)timeLabelTextFromSpan:(NSString *)dateStr {
+    // 将日期换为文本
+    NSDate *liveDate = [NSDate dateFromString:dateStr];
+    NSTimeInterval timeIntervalOfLive = [liveDate timeIntervalSince1970];
+    NSDate *dateNow = [NSDate date];
+    NSTimeInterval timeIntervalNow = [dateNow timeIntervalSince1970];
+    NSTimeInterval span = timeIntervalNow - timeIntervalOfLive;
     if (span) {
         if (span < 60) {
             return @"刚刚";
@@ -110,7 +111,6 @@
     }else {
         return @"刚刚";
     }
-
 }
 
 @end
