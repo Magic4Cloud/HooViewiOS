@@ -260,6 +260,8 @@ static const NSString *const SettingCellID = @"settingCell";
     }
 }
 
+#pragma mark - target
+
 - (void)editBtnClick
 {
     EVLoginInfo *userInfo = [[EVLoginInfo alloc] init];

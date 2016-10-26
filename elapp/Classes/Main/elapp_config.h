@@ -10,12 +10,12 @@
 
 ///////////////////////////////////// 服务器地址 //////////////////////////////////////
 //#error FIXME: Need to change to yours
-#define CCURL_RELEASE                       @"http://hooview.evapp.easyvaas.com/easyvaas/appgw/"
-#define CCURL_HTTPS_RELEASE                 @"http://hooview.evapp.easyvaas.com/easyvaas/appgw/"
+#define CCURL_RELEASE                       @"http://appgw.hooview.com/easyvaas/appgw/"
+#define CCURL_HTTPS_RELEASE                 @"http://appgw.hooview.com/easyvaas/appgw/"
 #define CCURL_STATTE_RELEASE                @"release"
 
-#define CCURL_DEV                           @"http://hooview.evapp.easyvaas.com/easyvaas/appgw/"
-#define CCURL_HTTPS_DEV                     @"http://hooview.evapp.easyvaas.com/easyvaas/appgw/"
+#define CCURL_DEV                           @"http://appgw.hooview.com/easyvaas/appgw/"
+#define CCURL_HTTPS_DEV                     @"http://appgw.hooview.com/easyvaas/appgw/"
 #define CCURL_STATTE_DEV                    @"dev"
 /////////////////////////////////////////////////////////////////////////////////////
 
