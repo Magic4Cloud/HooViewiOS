@@ -38,7 +38,7 @@
 #define UMENG_APP_KEY                       @""
 //----------------------------------- 阿里百川反馈 -------------------------------//
 //#error FIXME: Need to change to yours
-#define ALI_FEEDBACK_APP_KEY                @"23471999"
+#define ALI_FEEDBACK_APP_KEY                @""
 //----------------------------------- 微博 -------------------------------------//
 //#error FIXME: Need to change to yours
 #define WEIBO_APP_KEY                       @"3385195966"
