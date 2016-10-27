@@ -15,7 +15,7 @@ typedef NS_ENUM(NSInteger, CCWatchBottomItem) {
     CCWatchBottomItemChat,      // 聊天
     CCWatchBottomItemTimeLine,  // 回放
     CCWatchBottomItemShare,     // 分享
-    CCWatchBottomItemGif,       // 礼物
+//    CCWatchBottomItemGif,       // 礼物
     CCWatchBottomItemLike       // 点赞
 };
 
@@ -144,15 +144,16 @@ typedef NS_ENUM(NSInteger, CCWatchBottomItem) {
     self.processingTimeLbl = processingTimeLbl;
     self.processingTimeLbl.hidden = YES;
     
+    // adapt delete by 佳南
     // 礼物
-    UIButton *giftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [giftBtn setImage:[UIImage imageNamed:@"living_icon_gif_more"] forState:UIControlStateNormal];
-    _giftButtton = giftBtn;
-    [giftBtn addTarget:self action:@selector(watchBottomBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    giftBtn.tag = CCWatchBottomItemGif;
-    [self addSubview:giftBtn];
-    [giftBtn autoPinEdgeToSuperviewEdge:ALEdgeRight];
-    [giftBtn autoAlignAxis:ALAxisHorizontal toSameAxisOfView:self.pauseOrPlayButton];
+//    UIButton *giftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [giftBtn setImage:[UIImage imageNamed:@"living_icon_gif_more"] forState:UIControlStateNormal];
+//    _giftButtton = giftBtn;
+//    [giftBtn addTarget:self action:@selector(watchBottomBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+//    giftBtn.tag = CCWatchBottomItemGif;
+//    [self addSubview:giftBtn];
+//    [giftBtn autoPinEdgeToSuperviewEdge:ALEdgeRight];
+//    [giftBtn autoAlignAxis:ALAxisHorizontal toSameAxisOfView:self.pauseOrPlayButton];
     
     // 分享按钮
     UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -161,8 +162,10 @@ typedef NS_ENUM(NSInteger, CCWatchBottomItem) {
     [shareBtn addTarget:self action:@selector(watchBottomBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     shareBtn.tag = CCWatchBottomItemShare;
     [self addSubview:shareBtn];
+//    [shareBtn autoAlignAxis:ALAxisHorizontal toSameAxisOfView:self.pauseOrPlayButton];
+//    [shareBtn autoPinEdge:ALEdgeRight toEdge:ALEdgeLeft ofView:giftBtn withOffset:-10];
+    [shareBtn autoPinEdgeToSuperviewEdge:ALEdgeRight];
     [shareBtn autoAlignAxis:ALAxisHorizontal toSameAxisOfView:self.pauseOrPlayButton];
-    [shareBtn autoPinEdge:ALEdgeRight toEdge:ALEdgeLeft ofView:giftBtn withOffset:-10];
     
 }
 

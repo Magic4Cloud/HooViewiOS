@@ -83,7 +83,7 @@
     [self.userIconView cc_setRoundImageWithURL:model.logourl placeholderImageName:@"home_user_icon_placeholder"];
     self.videoTitleNameLabel.text = model.title;
     self.userNickNameTitleLabel.text = model.nickname;
-    self.livingTimeLabel.text = [self timeLabelTextFromSpan:model.start_time];
+//    self.livingTimeLabel.text = [self timeLabelTextFromSpan:model.start_time];
 }
 
 #pragma mark - private method 

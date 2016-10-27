@@ -168,7 +168,7 @@ static const NSString *const SettingCellID = @"settingCell";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [EVLoginInfo localObject].jurisdiction ? 4 : 3;
+    return [EVLoginInfo localObject].jurisdiction ? 2 : 1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -452,8 +452,10 @@ static const NSString *const SettingCellID = @"settingCell";
     {
         // change by 佳南 to add entrance of living
         
-        NSArray * iconArray = [EVLoginInfo localObject].jurisdiction ? [NSArray arrayWithObjects:@"personal_icon_living",@"personal_icon_recharge",@"personal_icon_money",@"personal_icon_setting", nil] : [NSArray arrayWithObjects:@"personal_icon_recharge",@"personal_icon_money",@"personal_icon_setting", nil];
-        NSArray * titleArray = [EVLoginInfo localObject].jurisdiction ? [NSArray arrayWithObjects:@"我的直播",kE_GlobalZH(@"ecoin_recharge"),kE_GlobalZH(@"me_earnings"),kE_GlobalZH(@"me_setting"), nil] : [NSArray arrayWithObjects:kE_GlobalZH(@"ecoin_recharge"),kE_GlobalZH(@"me_earnings"),kE_GlobalZH(@"me_setting"), nil];
+//        NSArray * iconArray = [EVLoginInfo localObject].jurisdiction ? [NSArray arrayWithObjects:@"personal_icon_living",@"personal_icon_recharge",@"personal_icon_money",@"personal_icon_setting", nil] : [NSArray arrayWithObjects:@"personal_icon_recharge",@"personal_icon_money",@"personal_icon_setting", nil];
+//        NSArray * titleArray = [EVLoginInfo localObject].jurisdiction ? [NSArray arrayWithObjects:@"我的直播",kE_GlobalZH(@"ecoin_recharge"),kE_GlobalZH(@"me_earnings"),kE_GlobalZH(@"me_setting"), nil] : [NSArray arrayWithObjects:kE_GlobalZH(@"ecoin_recharge"),kE_GlobalZH(@"me_earnings"),kE_GlobalZH(@"me_setting"), nil];
+        NSArray * iconArray = [EVLoginInfo localObject].jurisdiction ? [NSArray arrayWithObjects:@"personal_icon_living",@"personal_icon_setting", nil] : [NSArray arrayWithObjects:@"personal_icon_setting", nil];
+        NSArray * titleArray = [EVLoginInfo localObject].jurisdiction ? [NSArray arrayWithObjects:@"我的直播",kE_GlobalZH(@"me_setting"), nil] : [NSArray arrayWithObjects:kE_GlobalZH(@"me_setting"), nil];
         NSMutableArray * dataArray = [[NSMutableArray alloc] init];
         for ( int i = 0; i < iconArray.count; i++ )
         {

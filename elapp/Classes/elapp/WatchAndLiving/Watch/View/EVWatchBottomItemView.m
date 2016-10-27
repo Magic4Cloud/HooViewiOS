@@ -67,14 +67,14 @@
     [timelineBtn autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:0];
    self.timeLineConstraint = [timelineBtn autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:chatBtn withOffset:10];
     
-    // 礼物
-    UIButton *giftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [giftBtn setImage:[UIImage imageNamed:@"living_icon_gif_more"] forState:UIControlStateNormal];
-    _giftButtton = giftBtn;
-    [giftBtn addTarget:self action:@selector(watchBottomBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    giftBtn.tag = CCWatchBottomItemGif;
-    [self addSubview:giftBtn];
-    [giftBtn autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero excludingEdge:ALEdgeLeft];
+    // 礼物 adpt delete  by 佳南
+//    UIButton *giftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [giftBtn setImage:[UIImage imageNamed:@"living_icon_gif_more"] forState:UIControlStateNormal];
+//    _giftButtton = giftBtn;
+//    [giftBtn addTarget:self action:@selector(watchBottomBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+//    giftBtn.tag = CCWatchBottomItemGif;
+//    [self addSubview:giftBtn];
+//    [giftBtn autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero excludingEdge:ALEdgeLeft];
     
     // 分享按钮
     UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -83,9 +83,11 @@
     [shareBtn addTarget:self action:@selector(watchBottomBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     shareBtn.tag = CCWatchBottomItemShare;
     [self addSubview:shareBtn];
-    [shareBtn autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:0];
-    [shareBtn autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:0];
-    [shareBtn autoPinEdge:ALEdgeRight toEdge:ALEdgeLeft ofView:giftBtn withOffset:-kCCWatchBottomItemViewButtonSpace];
+//    [shareBtn autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:0];
+//    [shareBtn autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:0];
+//    [shareBtn autoPinEdge:ALEdgeRight toEdge:ALEdgeLeft ofView:giftBtn withOffset:-kCCWatchBottomItemViewButtonSpace];
+    [shareBtn autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero excludingEdge:ALEdgeLeft];
+
     
 
 }

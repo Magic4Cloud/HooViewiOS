@@ -716,7 +716,8 @@
     }
     if ( [self.name isEqualToString:name] )
     {
-        [CCProgressHUD showError:kE_GlobalZH(@"is_self") toView:self.view];
+        // delete by 佳南
+//        [CCProgressHUD showError:kE_GlobalZH(@"is_self") toView:self.view];
         return;
     }
     

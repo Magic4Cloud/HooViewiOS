@@ -102,7 +102,7 @@
     backButton.layer.cornerRadius = 6.f;
     backButton.layer.masksToBounds = YES;
     backButton.titleLabel.font = [UIFont systemFontOfSize:15];
-    backButton.backgroundColor = [UIColor evMainColor];
+    backButton.backgroundColor = CCColor(175, 153, 188);
     
 
     

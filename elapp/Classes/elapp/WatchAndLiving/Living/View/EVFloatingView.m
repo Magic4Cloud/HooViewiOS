@@ -292,8 +292,9 @@
 - ( void )setBottomButtonsWithTitles:(NSArray *)titles tags:(NSArray *)tags superView:(UIView *)superView
 {
     // 按钮颜色
-    UIColor *buttonColor = [UIColor colorWithHexString:kGlobalGreenColor];
-    
+//    UIColor *buttonColor = [UIColor colorWithHexString:kGlobalGreenColor];
+    UIColor *buttonColor = CCColor(98, 45, 128);
+
     // 分割线颜色
     UIColor *lineColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
     
