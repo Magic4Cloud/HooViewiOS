@@ -155,6 +155,7 @@
     
     // 右上角下一步按钮
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:kE_GlobalZH(@"carry_out") style:UIBarButtonItemStylePlain target:self action:@selector(commit)];
+    [rightItem setTintColor:[UIColor whiteColor]];
     self.navigationItem.rightBarButtonItem = rightItem;
     
     // 国际区号

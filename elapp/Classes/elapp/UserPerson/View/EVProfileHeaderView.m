@@ -140,7 +140,7 @@ CGFloat const EVProfileHeaderViewRoomHeight = kPaddingHeight;     /**< 房间+�
     [editDatabtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
     editDatabtn.titleLabel.textAlignment = NSTextAlignmentCenter;
     editDatabtn.titleLabel.font = [UIFont systemFontOfSize:15.0];
-    [editDatabtn setBackgroundColor:[UIColor evSecondColor]];
+    [editDatabtn setBackgroundColor:CCColor(98, 45, 128)];
     [editDatabtn addTarget:self action:@selector(editDataClick:) forControlEvents:(UIControlEventTouchUpInside)];
     [editDatabtn autoAlignAxis:ALAxisVertical toSameAxisOfView:centerContanerView];
     [editDatabtn autoSetDimension:ALDimensionWidth toSize:100];

@@ -23,7 +23,7 @@
     self.title = kE_GlobalZH(@"appeal_about");
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:kE_GlobalZH(@"self_appeal") style:UIBarButtonItemStylePlain target:self action:@selector(clickAppealItem)];
-       [self.navigationItem.rightBarButtonItem setTitleTextAttributes:@{UITextAttributeFont:[UIFont systemFontOfSize:15],UITextAttributeTextColor:[UIColor evSecondColor]} forState:(UIControlStateNormal)];
+       [self.navigationItem.rightBarButtonItem setTitleTextAttributes:@{UITextAttributeFont:[UIFont systemFontOfSize:15],UITextAttributeTextColor:[UIColor whiteColor]} forState:(UIControlStateNormal)];
     
     NSString *path = [[NSBundle mainBundle] pathForResource:@"申诉说明.rtf" ofType:nil];
     UITextView *textView = [[UITextView alloc] init];

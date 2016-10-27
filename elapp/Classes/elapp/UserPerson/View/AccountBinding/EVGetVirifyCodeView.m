@@ -71,10 +71,10 @@
     [verifyCodeBtn setTitle:kE_GlobalZH(@"send_verify_num") forState:UIControlStateNormal];
     [verifyCodeBtn.titleLabel setFont:CCNormalFont(12.0f)];
     [verifyCodeBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    verifyCodeBtn.layer.borderColor = [UIColor evAssistColor].CGColor;
+    verifyCodeBtn.layer.borderColor = CCColor(98, 45, 128).CGColor;
     verifyCodeBtn.layer.borderWidth = .5f;
     verifyCodeBtn.layer.cornerRadius = 3.0f;
-    verifyCodeBtn.backgroundColor = [UIColor evAssistColor];
+    verifyCodeBtn.backgroundColor = CCColor(98, 45, 128);
     [verifyCodeBtn addTarget:self action:@selector(getVerifyCodeButtonClick) forControlEvents:UIControlEventTouchUpInside];
     self.verifyBtn = verifyCodeBtn;
     

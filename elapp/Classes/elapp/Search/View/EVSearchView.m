@@ -126,7 +126,7 @@
     UIButton *cancelBtn = [[UIButton alloc] initWithFrame:CGRectZero];
     [cancelBtn setTitle:kCancel forState:UIControlStateNormal];
     cancelBtn.titleLabel.font = [[CCAppSetting shareInstance] normalFontWithSize:fontSize];
-    [cancelBtn setTitleColor:[UIColor evSecondColor] forState:UIControlStateNormal];
+    [cancelBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [cancelBtn setContentMode:UIViewContentModeLeft];
     [cancelBtn setTitleEdgeInsets:UIEdgeInsetsMake(.0f, 13.0f, .0f, .0f)];
     cancelBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
@@ -143,7 +143,7 @@
     // 搜索容器，盛放搜索图标和搜索框
     UIView *searchView = [[UIView alloc] initWithFrame:CGRectZero];
     searchView.layer.cornerRadius = 6.0f;
-    searchView.layer.borderColor = [UIColor evSecondColor].CGColor;
+    searchView.layer.borderColor = [UIColor whiteColor].CGColor;
     searchView.layer.borderWidth = 0.9f;
     searchView.layer.masksToBounds = YES;
     [self addSubview:searchView];
@@ -165,10 +165,10 @@
     // 搜索框
     UITextField *searchTF = [[UITextField alloc] initWithFrame:CGRectZero];
     searchTF.placeholder = kSearch;
-    searchTF.textColor = [UIColor evSecondColor];
+    searchTF.textColor = [UIColor whiteColor];
     searchTF.clearButtonMode = UITextFieldViewModeWhileEditing;
     searchTF.returnKeyType = UIReturnKeySearch;
-    searchTF.tintColor = CCTextBlackColor;
+    searchTF.tintColor = [UIColor whiteColor];
     searchTF.font = [[CCAppSetting shareInstance] normalFontWithSize:15.0f];
     searchTF.delegate = self;
     [searchView addSubview:searchTF];

@@ -14,12 +14,14 @@
 //------------------------------------------------
 /**< 主色调-淡蓝色:#9ac9ff */
 + (UIColor *)evMainColor {
-    return [UIColor colorWithHexString:@"#9ac9ff"];
+//    return [UIColor colorWithHexString:@"#9ac9ff"];
+    return CCColor(98, 45, 128);
 }
 
 /**< 主色配色-深蓝色:#314075 */
 + (UIColor *)evSecondColor {
-    return [UIColor colorWithHexString:@"#314075"];
+//    return [UIColor colorWithHexString:@"#314075"];
+    return [UIColor whiteColor];
 }
 
 /**< 辅色-淡粉色:#ff8da8 */

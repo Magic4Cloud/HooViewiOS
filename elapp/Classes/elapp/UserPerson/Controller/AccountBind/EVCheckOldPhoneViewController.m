@@ -138,7 +138,7 @@
     
     // 右上角下一步按钮
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:kE_GlobalZH(@"next") style:UIBarButtonItemStylePlain target:self action:@selector(gotoNext)];
-    [rightItem setTitleTextAttributes:@{UITextAttributeFont:[UIFont systemFontOfSize:15],UITextAttributeTextColor:[UIColor evSecondColor]} forState:(UIControlStateNormal)];
+    [rightItem setTitleTextAttributes:@{UITextAttributeFont:[UIFont systemFontOfSize:15],UITextAttributeTextColor:[UIColor whiteColor]} forState:(UIControlStateNormal)];
     self.navigationItem.rightBarButtonItem = rightItem;
     
     // 手机号

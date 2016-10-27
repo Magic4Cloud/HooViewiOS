@@ -68,14 +68,32 @@ typedef enum : NSUInteger {
     [super viewWillAppear:animated];
     
     self.title = kE_GlobalZH(@"ecoin_recharge");
-    UIBarButtonItem *rightBarBtnItem = [[UIBarButtonItem alloc] initWithTitle:kE_GlobalZH(@"recharge_money_record") style:UIBarButtonItemStylePlain target:self action:@selector(rightBarBtnClick)];
-    [rightBarBtnItem setTitleTextAttributes:@{UITextAttributeFont:[UIFont systemFontOfSize:15.0],UITextAttributeTextColor:[UIColor evSecondColor]} forState:(UIControlStateNormal)];
-    self.navigationItem.rightBarButtonItem = rightBarBtnItem;
+    // change by 佳南
+//    UIBarButtonItem *rightBarBtnItem = [[UIBarButtonItem alloc] initWithTitle:kE_GlobalZH(@"recharge_money_record") style:UIBarButtonItemStylePlain target:self action:@selector(rightBarBtnClick)];
+//    [rightBarBtnItem setTitleTextAttributes:@{UITextAttributeFont:[UIFont systemFontOfSize:15.0],UITextAttributeTextColor:[UIColor whiteColor]} forState:(UIControlStateNormal)];
+//    self.navigationItem.rightBarButtonItem = rightBarBtnItem;
+    UIButton *recordBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [recordBtn addTarget:self action:@selector(rightBarBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [recordBtn.titleLabel setFont:[[CCAppSetting shareInstance] normalFontWithSize:15.0f]];
+    recordBtn.frame = CGRectMake(10, 0, 60, 44);
+    [recordBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    UIBarButtonItem *recordItem = [[UIBarButtonItem alloc] initWithCustomView:recordBtn];
+    [recordBtn setTitle:kE_GlobalZH(@"recharge_money_record") forState:UIControlStateNormal];
+    self.navigationItem.rightBarButtonItem = recordItem;
+
     
     if (self.isPresented) {
-        UIBarButtonItem *leftBarBtnItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(leftBarBtnClick)];
-        [leftBarBtnItem setTitleTextAttributes:@{UITextAttributeFont:[UIFont systemFontOfSize:15.0]} forState:(UIControlStateNormal)];
-        self.navigationItem.leftBarButtonItem = leftBarBtnItem;
+//        UIBarButtonItem *leftBarBtnItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(leftBarBtnClick)];
+//        [leftBarBtnItem setTitleTextAttributes:@{UITextAttributeFont:[UIFont systemFontOfSize:15.0]} forState:(UIControlStateNormal)];
+//        self.navigationItem.leftBarButtonItem = leftBarBtnItem;
+        UIButton *recordBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [recordBtn addTarget:self action:@selector(leftBarBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        [recordBtn.titleLabel setFont:[[CCAppSetting shareInstance] normalFontWithSize:15.0f]];
+        recordBtn.frame = CGRectMake(10, 0, 60, 44);
+        [recordBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        UIBarButtonItem *recordItem = [[UIBarButtonItem alloc] initWithCustomView:recordBtn];
+        [recordBtn setTitle:@"返回" forState:UIControlStateNormal];
+        self.navigationItem.leftBarButtonItem = recordItem;
     }
 }
 

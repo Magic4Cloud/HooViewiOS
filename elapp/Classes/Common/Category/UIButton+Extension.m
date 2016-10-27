@@ -36,7 +36,8 @@
         [self setTitle:title forState:UIControlStateNormal];
         
         [self.titleLabel setFont:[[CCAppSetting shareInstance] normalFontWithSize:15.0f]];
-        [self setTitleColor:CCTextBlackColor forState:UIControlStateNormal];
+        // change by 佳南 color
+        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [self setImage:[UIImage imageNamed:@"nav_icon_return"] forState:UIControlStateNormal];
         
         self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;

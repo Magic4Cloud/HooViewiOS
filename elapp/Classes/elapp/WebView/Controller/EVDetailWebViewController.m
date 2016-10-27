@@ -64,7 +64,7 @@
     [closeBtn addTarget:self action:@selector(closeVC) forControlEvents:UIControlEventTouchUpInside];
     closeBtn.titleLabel.font = backBtn.titleLabel.font;
     closeBtn.frame = CGRectMake(0, 0, 44, 44);
-    [closeBtn setTitleColor:CCTextBlackColor forState:UIControlStateNormal];
+    [closeBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     UIBarButtonItem *closeItem = [[UIBarButtonItem alloc] initWithCustomView:closeBtn];
     [closeBtn setTitle:kEClose forState:UIControlStateNormal];
     self.navigationItem.leftBarButtonItems = @[backItem, closeItem];
@@ -256,9 +256,18 @@
     [self.view addSubview:indicatorView];
     self.indicatorView = indicatorView;
     
+    // change by 佳南 to  set button
     if (self.activityTitle && !self.isEnd)
     {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:kEShare style:UIBarButtonItemStylePlain target:self action:@selector(shareActivity)];
+        UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [shareBtn addTarget:self action:@selector(closeVC) forControlEvents:UIControlEventTouchUpInside];
+        [shareBtn.titleLabel setFont:[[CCAppSetting shareInstance] normalFontWithSize:15.0f]];
+        shareBtn.frame = CGRectMake(0, 0, 44, 44);
+        [shareBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        UIBarButtonItem *shareItem = [[UIBarButtonItem alloc] initWithCustomView:shareBtn];
+        [shareBtn setTitle:kEShare forState:UIControlStateNormal];
+        self.navigationItem.rightBarButtonItem = shareItem;
     }
     
     self.loadedRequests = [NSMutableArray array];
