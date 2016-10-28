@@ -262,7 +262,8 @@ typedef enum : NSUInteger {
     }
     else if ([model.name isEqualToString:kE_GlobalZH(@"opinion_feedback")])
     {
-        [self gotoFeedbackPage];
+        // adapt 佳南
+//        [self gotoFeedbackPage];
     }
     else if ([model.name isEqualToString:kE_GlobalZH(@"clear_cache_space")])
     {
