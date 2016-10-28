@@ -48,10 +48,10 @@
     deleteButton.tag = EVLiveEndViewReadingDestroyButton;
     [self addSubview:deleteButton];
     [deleteButton setTitle:kE_GlobalZH(@"delete_video") forState:UIControlStateNormal];
-    [deleteButton setTitleColor:[UIColor evMainColor] forState:UIControlStateNormal];
+    [deleteButton setTitleColor:CCColor(175, 153, 188) forState:UIControlStateNormal];
     [deleteButton setBackgroundColor:[UIColor colorWithWhite:1 alpha:.05]];
     deleteButton.titleLabel.font = [UIFont systemFontOfSize:15];
-    deleteButton.layer.borderColor = [UIColor evMainColor].CGColor;
+    deleteButton.layer.borderColor = CCColor(175, 153, 188).CGColor;
     deleteButton.layer.borderWidth = 1.f;
     deleteButton.layer.cornerRadius = 6.;
     [deleteButton autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:105.f/2.f];
@@ -67,7 +67,7 @@
     [self addSubview:saveButton];
     [saveButton setTitle:kE_GlobalZH(@"save_video") forState:UIControlStateNormal];
     saveButton.titleLabel.font = [UIFont systemFontOfSize:15];
-    saveButton.backgroundColor = [UIColor evMainColor];
+    saveButton.backgroundColor = CCColor(175, 153, 188);
     saveButton.layer.cornerRadius = 6.;
     saveButton.layer.masksToBounds = YES;
     [saveButton autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:deleteButton];

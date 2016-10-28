@@ -176,10 +176,11 @@
     [verifyView autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:phone withOffset:20.0f];
     [verifyView autoSetDimension:ALDimensionHeight toSize:55.0f];
     
-    // FAQ
+    // FAQ apapt hide by 佳南
     UIButton *FAQBtn = [[UIButton alloc] init];
     FAQBtn.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:FAQBtn];
+    FAQBtn.hidden = YES;
     FAQBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     FAQBtn.contentEdgeInsets = UIEdgeInsetsMake(.0f, 16.0f, .0f, .0f);
     [FAQBtn setTitle:kE_GlobalZH(@"fail_phone_not_use") forState:UIControlStateNormal];

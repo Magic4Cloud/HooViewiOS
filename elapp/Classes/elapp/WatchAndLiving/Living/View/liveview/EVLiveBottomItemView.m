@@ -122,7 +122,7 @@
     [chatButton autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:toLeftButton withOffset:10];
     
    
-    
+    // adapt hidden by 佳南
     // 发红包
     UIButton *sendRedPacketBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [sendRedPacketBtn setImage:[UIImage imageNamed:@"living_icon_redpacket"] forState:UIControlStateNormal];
@@ -131,6 +131,7 @@
     [rightView addSubview:sendRedPacketBtn];
     [sendRedPacketBtn autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:0];
     _sendRedPacketBtn = sendRedPacketBtn;
+    _sendRedPacketBtn.hidden = sendRedPacketBtn.hidden = YES;
     self.ImageWid = sendRedPacketBtn.imageView.image.size.width;
     
     UIButton *shareButton = [UIButton buttonWithType:UIButtonTypeCustom];

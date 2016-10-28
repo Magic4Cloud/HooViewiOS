@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -27,26 +26,15 @@
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="personal_pic_aboutyishiyun" translatesAutoresizingMaskIntoConstraints="NO" id="2n4-br-s5l" userLabel="logo">
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="100" id="06n-NJ-AxA"/>
-                                                        <constraint firstAttribute="width" constant="100" id="qRK-t5-e76"/>
+                                                        <constraint firstAttribute="height" constant="125" id="06n-NJ-AxA"/>
+                                                        <constraint firstAttribute="width" constant="115" id="qRK-t5-e76"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="v2.0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eoo-g5-6BG">
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="16" id="Vkn-OD-E6a"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                                                    <color key="textColor" red="0.14505878090858459" green="0.18367157876491547" blue="0.38265472650527954" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                             </subviews>
                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
-                                                <constraint firstItem="Eoo-g5-6BG" firstAttribute="top" secondItem="2n4-br-s5l" secondAttribute="bottom" constant="18" id="1rJ-iS-lEA"/>
                                                 <constraint firstAttribute="centerX" secondItem="2n4-br-s5l" secondAttribute="centerX" id="PSb-Qb-DGt"/>
                                                 <constraint firstItem="2n4-br-s5l" firstAttribute="top" secondItem="tLB-o6-Igg" secondAttribute="top" constant="50" id="RkY-CD-jYI"/>
-                                                <constraint firstAttribute="trailing" secondItem="Eoo-g5-6BG" secondAttribute="trailing" id="tPU-gv-B8u"/>
-                                                <constraint firstItem="Eoo-g5-6BG" firstAttribute="leading" secondItem="tLB-o6-Igg" secondAttribute="leading" id="xE3-6z-mgb"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.99944001436233521" green="0.97560346126556396" blue="0.95086300373077393" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -120,28 +108,6 @@
                                             <segue destination="19Y-Z7-Z4h" kind="push" id="02S-Rz-Tdz"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="50" id="Ibz-IZ-NWe">
-                                        <rect key="frame" x="0.0" y="322" width="375" height="50"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ibz-IZ-NWe" id="eeg-uc-18V">
-                                            <frame key="frameInset" width="375" height="49"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="封号处理准则" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ckg-Lv-zaC">
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" red="0.10051588714122772" green="0.10051287710666656" blue="0.10051460564136505" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_icon_next" translatesAutoresizingMaskIntoConstraints="NO" id="oLn-K8-xqa" userLabel="indicator" customClass="home_icon_next"/>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="Ckg-Lv-zaC" firstAttribute="leading" secondItem="eeg-uc-18V" secondAttribute="leadingMargin" constant="12" id="1mH-h1-ugO"/>
-                                                <constraint firstItem="Ckg-Lv-zaC" firstAttribute="centerY" secondItem="eeg-uc-18V" secondAttribute="centerY" id="8jk-L2-8Rk"/>
-                                                <constraint firstItem="oLn-K8-xqa" firstAttribute="centerY" secondItem="eeg-uc-18V" secondAttribute="centerY" id="F0L-wK-M7M"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="oLn-K8-xqa" secondAttribute="trailing" constant="13" id="uOJ-gH-kj4"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -153,8 +119,6 @@
                     <connections>
                         <outlet property="abouteasyvaas" destination="tW4-zJ-nMY" id="Xov-yS-rg1"/>
                         <outlet property="copyrightAboutLabel" destination="mPP-xf-DCp" id="M7Z-mT-IG5"/>
-                        <outlet property="fenghaoLabel" destination="Ckg-Lv-zaC" id="aCZ-ew-zqI"/>
-                        <outlet property="versionLabel" destination="Eoo-g5-6BG" id="b0F-8a-SAK"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="90U-Wv-lYR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -371,6 +335,6 @@
     </scenes>
     <resources>
         <image name="home_icon_next" width="7" height="13"/>
-        <image name="personal_pic_aboutyishiyun" width="100" height="100"/>
+        <image name="personal_pic_aboutyishiyun" width="115" height="125"/>
     </resources>
 </document>

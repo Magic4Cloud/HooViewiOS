@@ -407,7 +407,7 @@ static NSInteger const shareLabBaseTag = 888;
     [startButton autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:marginLeft + ((ScreenWidth - 2 * marginLeft) / 6.0 - 37) * 0.5];
     [startButton autoAlignAxisToSuperviewAxis:ALAxisVertical];
     [startButton autoSetDimension:ALDimensionHeight toSize:startButtonHeight];
-    startButton.backgroundColor = [UIColor evMainColor];
+    startButton.backgroundColor = CCColor(175, 153, 188);
     self.startLiveButton = startButton;
     startButton.alpha = 1;
     

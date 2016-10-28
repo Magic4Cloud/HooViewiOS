@@ -154,8 +154,10 @@
      backBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
      [backBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [backBtn setTitleColor:CCAppMainColor forState:UIControlStateSelected];
-     [backBtn setImage:[self.returnImg imageWithTintColor:[UIColor colorWithRed:51.0/255 green:66.0/255 blue:116.0/255 alpha:1]] forState:UIControlStateNormal];
-    [backBtn setImage:[self.returnImg imageWithTintColor:CCAppMainColor] forState:UIControlStateSelected];
+//     [backBtn setImage:[self.returnImg imageWithTintColor:[UIColor colorWithRed:51.0/255 green:66.0/255 blue:116.0/255 alpha:1]] forState:UIControlStateNormal];
+//    [backBtn setImage:[self.returnImg imageWithTintColor:CCAppMainColor] forState:UIControlStateSelected];
+    [backBtn setImage:self.returnImg forState:UIControlStateNormal];
+    [backBtn setImage:[UIImage imageNamed:@"prsonal_nav_back_pre"] forState:UIControlStateHighlighted];
      [backBtn setTitle:kGlobalBackButtonTitle forState:UIControlStateNormal];
      backBtn.titleLabel.font = [UIFont systemFontOfSize:14];
      [backBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
@@ -167,7 +169,7 @@
 - (UIImage *)returnImg {
     if ( !_returnImg )
     {
-        _returnImg = [UIImage imageNamed:@"nav_icon_return"];
+        _returnImg = [UIImage imageNamed:@"prsonal_nav_back"];
     }
     return _returnImg;
 }
