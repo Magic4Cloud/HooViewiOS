@@ -49,7 +49,7 @@
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     self.title = kE_GlobalZH(@"in_regard_to");
     self.versionLabel.textColor = [UIColor evMainColor];
-    self.versionLabel.text = CCAppVersion;
+    self.versionLabel.text = [NSString stringWithFormat:@"v%@", CCAppVersion];
     
     [self addCellLabel];
     
@@ -86,19 +86,19 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return 4;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath                                                                                                                                            
 {
 
-    if ( indexPath.row == 3)
-    {
-        EVWebViewCtrl * webCtrl = [[EVWebViewCtrl alloc] init];
-        webCtrl.title = kE_GlobalZH(@"seal_account");
-        webCtrl.requestUrl = [[EVStartResourceTool shareInstance] freeuserinfoUrl];
-        [self.navigationController pushViewController:webCtrl animated:YES];
-    }
+//    if ( indexPath.row == 3)
+//    {
+//        EVWebViewCtrl * webCtrl = [[EVWebViewCtrl alloc] init];
+//        webCtrl.title = kE_GlobalZH(@"seal_account");
+//        webCtrl.requestUrl = [[EVStartResourceTool shareInstance] freeuserinfoUrl];
+//        [self.navigationController pushViewController:webCtrl animated:YES];
+//    }
 }
 
 #pragma mark - segue

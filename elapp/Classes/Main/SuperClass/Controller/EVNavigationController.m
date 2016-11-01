@@ -45,8 +45,13 @@
 
     naviBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor],
                                                NSFontAttributeName : kNavigationBarTitleFont};
-    UIView *shadow = [[UIView alloc] initWithFrame:CGRectMake(.0f, .0f, ScreenWidth, kGlobalSeparatorHeight)];
-    shadow.backgroundColor = [UIColor whiteColor];
+    UIView *shadow = [[UIView alloc] initWithFrame:CGRectMake(.0f, .0f, ScreenWidth, kGlobalSeparatorHeight + 0.2)];
+    shadow.backgroundColor = [UIColor blackColor];
+    shadow.layer.cornerRadius = 2.0f;
+    shadow.layer.shadowColor = CCColor(1, 1, 1).CGColor;
+    shadow.layer.shadowOffset = CGSizeMake(3, 3);
+    shadow.layer.shadowOpacity = 0.2;
+    naviBar.clipsToBounds = NO;
     [naviBar setShadowImage:[UIImage gp_imageWithView:shadow]];
     
     // 设置导航条的背景图片，高占 64 个像素点，被导航控制器包装的 controller 的 view 从 64 开始计算

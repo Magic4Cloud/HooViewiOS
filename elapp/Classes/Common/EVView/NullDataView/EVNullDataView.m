@@ -61,7 +61,7 @@
     [titleLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:topImageView withOffset:10.f];
     self.titleLabel = titleLabel;
     titleLabel.font = CCNormalFont(15);
-    titleLabel.textColor = [UIColor evTextColorH3];
+    titleLabel.textColor = CCColor(190, 169, 201);
     
     // 副标题
     UILabel *subtitleLabel = [[UILabel alloc] init];
