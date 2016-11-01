@@ -174,11 +174,13 @@ typedef enum : NSUInteger {
         // 第三组
         EVAuthSettingModel *accountItem = [EVAuthSettingModel modelWithName:kE_GlobalZH(@"account_manager") type:EVAuthSettingModelTypeAccount];
         EVAuthSettingModel *contactWeItem = [EVAuthSettingModel modelWithName:kE_GlobalZH(@"relation_me") type:EVAuthSettingModelTypeDefault];
-        EVAuthSettingModel *opinionItem = [EVAuthSettingModel modelWithName:kE_GlobalZH(@"opinion_feedback") type:EVAuthSettingModelTypeDefault];
+        // adapt delere by 佳南
+//        EVAuthSettingModel *opinionItem = [EVAuthSettingModel modelWithName:kE_GlobalZH(@"opinion_feedback") type:EVAuthSettingModelTypeDefault];
         EVAuthSettingModel *clearItem = [EVAuthSettingModel modelWithName:kE_GlobalZH(@"clear_cache_space") type:EVAuthSettingModelTypeClear];
         EVAuthSettingModel *aboutItem = [EVAuthSettingModel modelWithName:kE_GlobalZH(@"in_regard_to") type:EVAuthSettingModelTypeDefault];
-        NSArray *array2 = @[accountItem,contactWeItem,opinionItem,clearItem, aboutItem];
-        
+//        NSArray *array2 = @[accountItem,contactWeItem,opinionItem,clearItem, aboutItem];
+        NSArray *array2 = @[accountItem,contactWeItem,clearItem, aboutItem];
+
         // 第五组
         EVAuthSettingModel *logoOutItem = [EVAuthSettingModel modelWithName:@"" type:EVAuthSettingModelTypeLogOut];
         logoOutItem.midText = kE_GlobalZH(@"push_out_login");

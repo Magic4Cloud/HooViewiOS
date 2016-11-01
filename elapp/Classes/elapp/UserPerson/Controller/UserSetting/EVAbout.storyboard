@@ -62,7 +62,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_icon_next" translatesAutoresizingMaskIntoConstraints="NO" id="AVL-LH-Jju" userLabel="indicator" customClass="home_icon_next">
-                                                    <rect key="frame" x="348" y="18.5" width="7" height="13"/>
+                                                    <rect key="frame" x="348" y="19" width="7" height="13"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="13" id="52D-2f-bgx"/>
                                                         <constraint firstAttribute="width" constant="7" id="pPa-la-HwZ"/>
@@ -98,7 +98,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_icon_next" translatesAutoresizingMaskIntoConstraints="NO" id="O8k-As-da4" userLabel="indicator" customClass="home_icon_next">
-                                                    <rect key="frame" x="348" y="18.5" width="7" height="13"/>
+                                                    <rect key="frame" x="348" y="19" width="7" height="13"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="7" id="BRY-bm-HBf"/>
                                                         <constraint firstAttribute="height" constant="13" id="GTZ-wr-oPD"/>
@@ -125,7 +125,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ChY-sx-h4F">
-                                                    <rect key="frame" x="166" y="210.5" width="42" height="21"/>
+                                                    <rect key="frame" x="166" y="211" width="42" height="21"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="0Yg-fc-zTa"/>
@@ -135,11 +135,11 @@
                                                     <color key="textColor" red="0.38431372549019605" green="0.1764705882352941" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Copyright © 2016  四川火眼财讯科技有限公司" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rti-mr-2cf">
-                                                    <rect key="frame" x="-0.5" y="218.5" width="375" height="40"/>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" editable="NO" text="Copyright © 2016  四川火眼财讯科技有限公司" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rti-mr-2cf">
+                                                    <rect key="frame" x="-0.5" y="219" width="375" height="50"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="40" id="jP8-IK-Rgg"/>
+                                                        <constraint firstAttribute="height" constant="50" id="jP8-IK-Rgg"/>
                                                     </constraints>
                                                     <color key="textColor" red="0.38431372549999998" green="0.1764705882" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="11"/>
@@ -232,7 +232,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="意见反馈" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="isy-sr-vkQ">
-                                                    <rect key="frame" x="17" y="0.0" width="358" height="49.5"/>
+                                                    <rect key="frame" x="17" y="0.0" width="358" height="50"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                     <color key="textColor" red="0.19856953620910645" green="0.19856357574462891" blue="0.19856694340705872" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -255,7 +255,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AXa-Ab-sfo" customClass="EVTextViewWithPlaceHolderAndClearButton">
-                                                    <rect key="frame" x="13" y="8" width="349" height="158.5"/>
+                                                    <rect key="frame" x="13" y="8" width="349" height="159"/>
                                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <color key="textColor" red="0.10051588714122772" green="0.10051287710666656" blue="0.10051460564136505" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -278,7 +278,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="留下您的联系方式" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TzZ-xU-FN5">
-                                                    <rect key="frame" x="17" y="0.0" width="358" height="49.5"/>
+                                                    <rect key="frame" x="17" y="0.0" width="358" height="50"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                                     <color key="textColor" red="0.19856953620910645" green="0.19856357574462891" blue="0.19856694340705872" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -313,7 +313,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="邮箱" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="irL-nJ-oqF" userLabel="contact">
-                                                    <rect key="frame" x="17" y="0.0" width="341" height="55.5"/>
+                                                    <rect key="frame" x="17" y="0.0" width="341" height="56"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                                 </textField>
