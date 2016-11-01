@@ -431,9 +431,10 @@ static const NSString *const myVideoCellID = @"videoCell";
         [self.tableView addSubview:nulldataView];
         nulldataView.title = kE_GlobalZH(@"null_data");
         nulldataView.topImage = [UIImage imageNamed:@"home_pic_findempty"];
-        nulldataView.buttonTitle = kE_GlobalZH(@"send_go_living");
+        // delete by 佳南
+//        nulldataView.buttonTitle = kE_GlobalZH(@"send_go_living");
         self.noDataView = nulldataView;
-        [nulldataView addButtonTarget:self action:@selector(noDataViewButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
+//        [nulldataView addButtonTarget:self action:@selector(noDataViewButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
     }
     
     return _noDataView;

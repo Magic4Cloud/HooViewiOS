@@ -166,7 +166,7 @@
     // 导航栏右侧按钮
     UIButton *confirmButton = [UIButton buttonWithType:UIButtonTypeSystem];
     confirmButton.frame = CGRectMake(0, 0, 60, 40);
-    [confirmButton setTitleColor:CCAppMainColor forState:UIControlStateNormal];
+    [confirmButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [confirmButton setTitleColor:CCButtonDisableColor forState:UIControlStateDisabled];
     confirmButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     confirmButton.titleLabel.font = CCNormalFont(15);

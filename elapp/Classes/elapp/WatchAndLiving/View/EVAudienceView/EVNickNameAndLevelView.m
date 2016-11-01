@@ -92,7 +92,7 @@
     //星座
     UILabel * constellationLabel = [[UILabel alloc] init];
     constellationLabel.backgroundColor = [UIColor colorWithHexString:@"#eef2ff"];
-    constellationLabel.textColor = [UIColor evMainColor];
+    constellationLabel.textColor = [UIColor colorWithHexString:@"#9ac9ff"];
     constellationLabel.layer.borderColor = [UIColor colorWithHexString:@"#8DA8FF"].CGColor;
     constellationLabel.layer.borderWidth = 0.5f;
     constellationLabel.textAlignment = NSTextAlignmentCenter;
@@ -152,9 +152,9 @@
     else
     {
         self.sexView.backgroundColor = [gender isEqualToString:@"female"] ? [UIColor colorWithHexString:@"#FFEEF2"]:[UIColor colorWithHexString:@"#F0F7FF"];
-        self.sexView.layer.borderColor =  [gender isEqualToString:@"female"] ? [UIColor evAssistColor].CGColor : [UIColor evMainColor].CGColor;
+        self.sexView.layer.borderColor =  [gender isEqualToString:@"female"] ? [UIColor evAssistColor].CGColor : [UIColor colorWithHexString:@"#9ac9ff"].CGColor;
         UIImage * sexImage = [gender isEqualToString:@"female"]? [UIImage imageNamed:@"home_icon_woman"]:[UIImage imageNamed:@"home_icon_man"];
-        self.ageLabel.textColor = [gender isEqualToString:@"female"]? [UIColor evAssistColor]:[UIColor evMainColor];
+        self.ageLabel.textColor = [gender isEqualToString:@"female"]? [UIColor evAssistColor]:[UIColor colorWithHexString:@"#9ac9ff"];
         self.sexView.hidden = NO;
         self.sexImageView.image =  sexImage;
         self.genderWidthConstraint.constant = 15;

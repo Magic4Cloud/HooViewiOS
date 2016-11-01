@@ -53,7 +53,17 @@
     label.text = text;
     
     // 完成按钮
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStylePlain target:self action:@selector(didFinished:)];
+//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStylePlain target:self action:@selector(didFinished:)];
+    UIButton *confirmButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    confirmButton.frame = CGRectMake(0, 0, 60, 40);
+    [confirmButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [confirmButton setTitleColor:CCButtonDisableColor forState:UIControlStateDisabled];
+    confirmButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+    confirmButton.titleLabel.font = CCNormalFont(15);
+    [confirmButton setTitle:@"完成" forState:UIControlStateNormal];
+    [confirmButton addTarget:self action:@selector(didFinished:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:confirmButton];
+    [confirmButton setEnabled:NO];
     // 输入框
     if ( self.type == CCEditChatGroupNameViewControllerTypeName )
     {

@@ -106,9 +106,10 @@
     [self.tableView addSubview:nullDataView];
     nullDataView.topImage = [UIImage imageNamed:@"home_pic_findempty"];
     nullDataView.title = kE_GlobalZH(@"no_have_follow");
-    nullDataView.subtitle = kE_GlobalZH(@"goFollow");
-    nullDataView.buttonTitle = kE_GlobalZH(@"pickLive");
-    [nullDataView addButtonTarget:self action:@selector(nullDataViewButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
+    // delete by 佳南
+//    nullDataView.subtitle = kE_GlobalZH(@"goFollow");
+//    nullDataView.buttonTitle = kE_GlobalZH(@"pickLive");
+//    [nullDataView addButtonTarget:self action:@selector(nullDataViewButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
     self.nullDataView = nullDataView;
     
     // 加载动画

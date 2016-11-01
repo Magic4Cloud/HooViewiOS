@@ -48,7 +48,7 @@
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     self.title = kE_GlobalZH(@"in_regard_to");
-    self.versionLabel.textColor = [UIColor evSecondColor];
+    self.versionLabel.textColor = [UIColor evMainColor];
     self.versionLabel.text = CCAppVersion;
     
     [self addCellLabel];

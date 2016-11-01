@@ -497,7 +497,7 @@ const NSString *const notifyCellID = @"notifylist";
         
         //  群组
         EVNotifyItem *groupItem = [[EVNotifyItem alloc] init];
-        groupItem.icon = @"message_my_new";
+        groupItem.icon = @"message_my_group";
         groupItem.title = kE_GlobalZH(@"el_my_group");
 //        groupItem.content = kE_GlobalZH(@"many_friend_follow");
 //        groupItem.groupid = @"1";

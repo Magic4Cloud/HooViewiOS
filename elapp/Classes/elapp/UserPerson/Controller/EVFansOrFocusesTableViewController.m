@@ -384,8 +384,9 @@ static const NSString *const fansOrFocusCellID = @"fansOrFocus";
         {
             nodataView.topImage = [UIImage imageNamed:@"home_pic_findempty"];
             nodataView.title = self.type == FANS ? kE_GlobalZH(@"no_have_fans") :kE_GlobalZH(@"no_have_follow");
-            nodataView.subtitle = self.type == FANS ?  nil : kE_GlobalZH(@"go_follow");
-            nodataView.buttonTitle = self.type == FANS ? kE_GlobalZH(@"send_go_living") : kE_GlobalZH(@"select_living_see");
+//            nodataView.subtitle = self.type == FANS ?  nil : kE_GlobalZH(@"go_follow");
+            nodataView.subtitle = nil;
+//            nodataView.buttonTitle = self.type == FANS ? kE_GlobalZH(@"send_go_living") : kE_GlobalZH(@"select_living_see");
         }
         else
         {
@@ -394,7 +395,8 @@ static const NSString *const fansOrFocusCellID = @"fansOrFocus";
             nodataView.subtitle = nil;
             nodataView.buttonTitle = nil;
         }
-        [nodataView addButtonTarget:self action:@selector(noDataViewButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
+        // delete by 佳南
+//        [nodataView addButtonTarget:self action:@selector(noDataViewButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
         self.noDataView = nodataView;
     }
     return _noDataView;
