@@ -26,6 +26,7 @@
 #import "NSString+Extension.h"
 #import "EVCategoryViewController.h"
 #import "EVHomeLiveVideoListCollectionViewCell.h"
+#import "EVHomeNodataFooterView.h"
 
 
 #define TopicsViewHeight 65.0f
@@ -56,6 +57,7 @@
 @property (nonatomic, strong) EVVideoTopicItem *topicItem;
 
 @property (nonatomic, copy) NSString *starCount;
+@property (nonatomic, strong) EVHomeNodataFooterView *footer;
 
 @end
 
@@ -352,6 +354,8 @@
     self.collectionView = collectionView;
     collectionView.dataSource = self;
     collectionView.delegate = self;
+    self.footer = [[EVHomeNodataFooterView alloc] init];
+    
     
     
     // fix by 马帅伟 上下拉刷新保护

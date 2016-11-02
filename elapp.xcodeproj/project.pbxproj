@@ -49,6 +49,10 @@
 		3116F62C1D07F80700DC122E /* libstdc++.6.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3116F62B1D07F80700DC122E /* libstdc++.6.tbd */; };
 		3116F62E1D07F81000DC122E /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3116F62D1D07F81000DC122E /* libstdc++.6.0.9.tbd */; };
 		31D028521C1EA45300F080B0 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31D028511C1EA45300F080B0 /* StoreKit.framework */; };
+		6E03F1F91DC9C2B600251FF1 /* EVHomeNodataFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E03F1F81DC9C2B600251FF1 /* EVHomeNodataFooterView.m */; };
+		6E03F1FB1DC9C2D200251FF1 /* EVHomeNodataFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E03F1FA1DC9C2D200251FF1 /* EVHomeNodataFooterView.xib */; };
+		6E03F1FF1DC9EF3400251FF1 /* EVConnectToMeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E03F1FD1DC9EF3400251FF1 /* EVConnectToMeViewController.m */; };
+		6E03F2001DC9EF3400251FF1 /* EVConnectToMeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E03F1FE1DC9EF3400251FF1 /* EVConnectToMeViewController.xib */; };
 		6E0941ED1DB89C35002F1BFE /* placeholder.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E0941EC1DB89C35002F1BFE /* placeholder.xcassets */; };
 		6E0941EF1DB89CF1002F1BFE /* home.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E0941EE1DB89CF1002F1BFE /* home.xcassets */; };
 		6E0941F51DBA038F002F1BFE /* EVHomeLiveVideoListCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0941F31DBA038F002F1BFE /* EVHomeLiveVideoListCollectionViewCell.m */; };
@@ -646,6 +650,12 @@
 		3116F62D1D07F81000DC122E /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		31D028511C1EA45300F080B0 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		4765F6D15BEC4925FA89C38D /* Pods-elapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-elapp.release.xcconfig"; path = "Pods/Target Support Files/Pods-elapp/Pods-elapp.release.xcconfig"; sourceTree = "<group>"; };
+		6E03F1F71DC9C2B600251FF1 /* EVHomeNodataFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVHomeNodataFooterView.h; sourceTree = "<group>"; };
+		6E03F1F81DC9C2B600251FF1 /* EVHomeNodataFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVHomeNodataFooterView.m; sourceTree = "<group>"; };
+		6E03F1FA1DC9C2D200251FF1 /* EVHomeNodataFooterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVHomeNodataFooterView.xib; sourceTree = "<group>"; };
+		6E03F1FC1DC9EF3400251FF1 /* EVConnectToMeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVConnectToMeViewController.h; sourceTree = "<group>"; };
+		6E03F1FD1DC9EF3400251FF1 /* EVConnectToMeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVConnectToMeViewController.m; sourceTree = "<group>"; };
+		6E03F1FE1DC9EF3400251FF1 /* EVConnectToMeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVConnectToMeViewController.xib; sourceTree = "<group>"; };
 		6E0941EB1DB0E32A002F1BFE /* hooview.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = hooview.entitlements; sourceTree = "<group>"; };
 		6E0941EC1DB89C35002F1BFE /* placeholder.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = placeholder.xcassets; sourceTree = "<group>"; };
 		6E0941EE1DB89CF1002F1BFE /* home.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = home.xcassets; sourceTree = "<group>"; };
@@ -2418,6 +2428,9 @@
 				6E0941F21DBA038F002F1BFE /* EVHomeLiveVideoListCollectionViewCell.h */,
 				6E0941F31DBA038F002F1BFE /* EVHomeLiveVideoListCollectionViewCell.m */,
 				6E0941F41DBA038F002F1BFE /* EVHomeLiveVideoListCollectionViewCell.xib */,
+				6E03F1F71DC9C2B600251FF1 /* EVHomeNodataFooterView.h */,
+				6E03F1F81DC9C2B600251FF1 /* EVHomeNodataFooterView.m */,
+				6E03F1FA1DC9C2D200251FF1 /* EVHomeNodataFooterView.xib */,
 			);
 			path = TimeLineNew;
 			sourceTree = "<group>";
@@ -3121,6 +3134,9 @@
 				E862FD481D6BE8530081E72F /* EVPersonalCenterViewController.m */,
 				E862FD491D6BE8530081E72F /* EVWebViewCtrl.h */,
 				E862FD4A1D6BE8530081E72F /* EVWebViewCtrl.m */,
+				6E03F1FC1DC9EF3400251FF1 /* EVConnectToMeViewController.h */,
+				6E03F1FD1DC9EF3400251FF1 /* EVConnectToMeViewController.m */,
+				6E03F1FE1DC9EF3400251FF1 /* EVConnectToMeViewController.xib */,
 				E862FD4B1D6BE8530081E72F /* myasset */,
 				E862FD581D6BE8530081E72F /* UserSetting */,
 			);
@@ -4148,6 +4164,7 @@
 				9F1F998422959FAD273F7F7A /* Expression_31@2x.png in Resources */,
 				9F1F9019A8A5C540A535207B /* Expression_32@2x.png in Resources */,
 				9F1F902AEA9EA503C1E653DB /* Expression_33@2x.png in Resources */,
+				6E03F1FB1DC9C2D200251FF1 /* EVHomeNodataFooterView.xib in Resources */,
 				9F1F9FDF82E5598F4E44422C /* Expression_34@2x.png in Resources */,
 				9F1F90AC72F0FBB6BE94D873 /* Expression_35@2x.png in Resources */,
 				9F1F9CA4954E55C8892051A3 /* Expression_36@2x.png in Resources */,
@@ -4191,6 +4208,7 @@
 				9F1F9D441F078A1DC5C74A35 /* Expression_70@2x.png in Resources */,
 				9F1F9314A4FDADAC7CA057C4 /* Expression_71@2x.png in Resources */,
 				9F1F9AD7291F90A8F44D057D /* Expression_72@2x.png in Resources */,
+				6E03F2001DC9EF3400251FF1 /* EVConnectToMeViewController.xib in Resources */,
 				9F1F9DBA4FC6996CA2150A77 /* Expression_73@2x.png in Resources */,
 				9F1F96F731728DEDDFDA2939 /* Expression_74@2x.png in Resources */,
 				9F1F90D8C40BFA3BC9138B19 /* Expression_75@2x.png in Resources */,
@@ -4308,6 +4326,7 @@
 				E86201BC1D6BE8550081E72F /* EVHomeTabBarItem.m in Sources */,
 				E86201171D6BE8540081E72F /* EVComment.m in Sources */,
 				E862008F1D6BE8540081E72F /* EVNotFoundCityFooterView.m in Sources */,
+				6E03F1FF1DC9EF3400251FF1 /* EVConnectToMeViewController.m in Sources */,
 				E862FF861D6BE8540081E72F /* NSDateComponents+CurDateAndTime.m in Sources */,
 				E86200ED1D6BE8540081E72F /* EVUserModel.m in Sources */,
 				E86200941D6BE8540081E72F /* EVSegmentView.m in Sources */,
@@ -4583,6 +4602,7 @@
 				9F1F9D6F3701A66A2AF76D16 /* EVVerticalLayoutButton.m in Sources */,
 				9F1F93FE50065B73542D86DA /* EVGeocoder.m in Sources */,
 				9F1F9213EF28980110C22617 /* UzysImageCropper.m in Sources */,
+				6E03F1F91DC9C2B600251FF1 /* EVHomeNodataFooterView.m in Sources */,
 				9F1F905E5E62AD7446DB6613 /* UzysImageCropperViewController.m in Sources */,
 				9F1F90FD5B5EEF1DF192F983 /* EVPayManager.m in Sources */,
 				9F1F9A52336025A1FBCDBD66 /* EV3rdPartAPIManager.m in Sources */,

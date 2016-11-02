@@ -11,6 +11,7 @@
 #import "EVAuthSettingModel.h"
 #import "PureLayout.h"
 #import "EVNoDisturbTableViewController.h"
+#import "EVConnectToMeViewController.h"
 #import "EVBaseToolManager+EVAccountAPI.h"
 #import "EVCacheTableViewCell.h"
 #import "EVCacheManager.h"
@@ -257,11 +258,14 @@ typedef enum : NSUInteger {
     }
     else if ([model.name isEqualToString:kE_GlobalZH(@"relation_me")])
     {
-        EVWebViewCtrl * webCtrl = [[EVWebViewCtrl alloc] init];
-        webCtrl.title = kE_GlobalZH(@"relation_me");
-        webCtrl.requestUrl = [[EVStartResourceTool shareInstance] connectUsUrl];
-        [self.navigationController pushViewController:webCtrl animated:YES];
-    }
+//        EVWebViewCtrl * webCtrl = [[EVWebViewCtrl alloc] init];
+//        webCtrl.title = kE_GlobalZH(@"relation_me");
+//        webCtrl.requestUrl = [[EVStartResourceTool shareInstance] connectUsUrl];
+//        [self.navigationController pushViewController:webCtrl animated:YES];
+        EVConnectToMeViewController *VC = [[EVConnectToMeViewController alloc] init];
+        VC.title = kE_GlobalZH(@"relation_me");
+        [self.navigationController pushViewController:VC  animated:YES];
+        }
     else if ([model.name isEqualToString:kE_GlobalZH(@"opinion_feedback")])
     {
         // adapt 佳南
