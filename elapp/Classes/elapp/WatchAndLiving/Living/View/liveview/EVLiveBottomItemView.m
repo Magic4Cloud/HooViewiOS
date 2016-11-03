@@ -182,6 +182,7 @@
     playerButton.selected = NO;
     [rightView addSubview:playerButton];
     self.playerButton = playerButton;
+    _playerButton.hidden = playerButton.hidden = YES;
     [playerButton addTarget:self action:@selector(buttonClick:) forControlEvents:(UIControlEventTouchUpInside)];
   
 //    self.faceButton = faceButton;
