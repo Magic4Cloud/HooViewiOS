@@ -16,7 +16,7 @@
 
 @property (nonatomic,strong)UIImageView *failedImageView;
 @property (nonatomic,strong)UILabel *failedLabel;
-@property (nonatomic,strong)UIActivityIndicatorView *activityIndicator;
+
 @property (nonatomic,weak)UITapGestureRecognizer *tapGesture;
 
 // 点击感叹号的block。
@@ -82,7 +82,7 @@
         _failedLabel = [[UILabel alloc]init];
         _failedLabel.text = @"网络不给力\n请点击重新加载";
 //        _failedLabel.frame = CGRectMake(0,ScreenHeight/2-35,ScreenWidth,30);
-        _failedLabel.font = [[CCAppSetting shareInstance] normalFontWithSize:12];
+        _failedLabel.font = [[EVAppSetting shareInstance] normalFontWithSize:12];
         _failedLabel.numberOfLines = 0;
         _failedLabel.backgroundColor = [UIColor whiteColor];
         _failedLabel.textAlignment = NSTextAlignmentCenter;
@@ -138,7 +138,7 @@
 // 本视图被销毁时调用
 - (void)dealloc
 {
-    CCLog(@"%@ dealloc", NSStringFromClass([self class]));
+    EVLog(@"%@ dealloc", NSStringFromClass([self class]));
     _clickBlock = nil;
 }
 

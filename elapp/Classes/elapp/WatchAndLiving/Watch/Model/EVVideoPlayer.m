@@ -71,6 +71,13 @@
         }
     }];
 }
+
+- (void)setNeedRotate:(BOOL)needRotate
+{
+    _needRotate = needRotate;
+    self.evPlayer.needRotate = needRotate;
+}
+
 - (void)pause {
     [self.evPlayer pause];
 }

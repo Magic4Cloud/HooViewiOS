@@ -14,11 +14,17 @@
 
 @interface EVMyVideoTableViewCell ()
 
-@property (weak, nonatomic) IBOutlet UILabel *title;                // 标题
-@property (weak, nonatomic) IBOutlet UILabel *stampAndWatchCount;   // 时间戳     // 权限
-@property (weak, nonatomic) IBOutlet UILabel *likeCount;            // 点赞数、观看数、评论数
+@property (weak, nonatomic) IBOutlet UILabel *dateLabel;                // 标题
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;   // 时间戳     // 权限
+@property (weak, nonatomic) IBOutlet UILabel *watchCount;            // 点赞数、观看数、评论数
+@property (weak, nonatomic) IBOutlet UIImageView *playbackImage;
+
+@property (weak, nonatomic) IBOutlet UIImageView *liveImage;
+
 @property (weak, nonatomic) IBOutlet UILabel *videoDuration;
 @property (weak, nonatomic) UILabel * verifyLabel;
+@property (weak, nonatomic) IBOutlet UIButton *permissionButton;
+
 
 @end
 
@@ -40,71 +46,48 @@
 
 - (void)configUI
 {
-    self.videoDuration.font = [[CCAppSetting shareInstance] normalFontWithSize:10.0f];
-    self.stampAndWatchCount.font = [[CCAppSetting shareInstance] normalFontWithSize:13.0f];
-    self.stampAndWatchCount.textColor = [UIColor evTextColorH1];
-    self.title.font = [[CCAppSetting shareInstance] normalFontWithSize:13.0f];
-    self.title.textColor = [UIColor evTextColorH1];
-    self.videoShot.contentMode = UIViewContentModeScaleAspectFill;
-    [self addTopSeparatorLine];
-    
-    UILabel * verify = [[UILabel alloc] init];
-    verify.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5f];
-    verify.textAlignment = NSTextAlignmentCenter;
-    verify.textColor = [UIColor whiteColor];
-    verify.font = [UIFont systemFontOfSize:12];
-    verify.text = kE_GlobalZH(@"video_check");
-    [self.videoShot addSubview:verify];
-    [verify autoPinEdgesToSuperviewEdges];
-    self.verifyLabel = verify;
-    self.verifyLabel.hidden = YES;
+//    self.videoDuration.font = [[EVAppSetting shareInstance] normalFontWithSize:10.0f];
+//    self.stampAndWatchCount.font = [[EVAppSetting shareInstance] normalFontWithSize:13.0f];
+//    self.stampAndWatchCount.textColor = [UIColor evTextColorH1];
+//    self.title.font = [[EVAppSetting shareInstance] normalFontWithSize:13.0f];
+//    self.title.textColor = [UIColor evTextColorH1];
+//    self.videoShot.backgroundColor = [UIColor greenColor];
+//    self.videoShot.contentMode = UIViewContentModeScaleAspectFill;
+    self.playbackImage.layer.cornerRadius = 4;
+    self.playbackImage.clipsToBounds = YES;
 }
 
-/**
- *  添加cell顶部的分割线
- */
-- (void)addTopSeparatorLine
+
+- (void)buttonAction:(UIButton *)btn 
 {
-    UIView *topSeparatorLine = [[UIView alloc] initWithFrame:CGRectZero];
-    topSeparatorLine.backgroundColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
-    [self.contentView addSubview:topSeparatorLine];
-    [topSeparatorLine autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:10.0f];
-    [topSeparatorLine autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:.0f];
-    [topSeparatorLine autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:.0f];
-    [topSeparatorLine autoSetDimension:ALDimensionHeight toSize:kGlobalSeparatorHeight];
-    [self.contentView layoutIfNeeded];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(videoTableViewButton:videoCell:)]) {
+        [self.delegate videoTableViewButton:btn videoCell:self];
+    }
 }
-
-
 #pragma mark - getters and setters
 // 重写setter方法，根据model数据来展示cell
-- (void)setVideoModel:(EVUserVideoModel *)videoModel{
+- (void)setVideoModel:(EVWatchVideoInfo *)videoModel{
     _videoModel = videoModel;
     
     // 视频截图
     [self.videoShot cc_setImageWithURLString:self.videoModel.thumb placeholderImage:[UIImage imageWithALogoWithSize:self.videoShot.bounds.size isLiving:NO] complete:nil];
-    
+    self.playbackImage.hidden = videoModel.living == 1 ? YES : NO;
+    self.liveImage.hidden = videoModel.living == 1 ? NO : YES;
     // 视频标题
-    NSString *liveTitle = [CCAppSetting liveTitleWithNickName:self.videoModel.nickname CurrentTitle:self.videoModel.title isLive:[self.videoModel.living boolValue]];
-    [self.title cc_setEmotionWithText:liveTitle];
+    NSString *liveTitle = [EVAppSetting liveTitleWithNickName:self.videoModel.nickname CurrentTitle:self.videoModel.title isLive:self.videoModel.living ];
+//    [self.title cc_setEmotionWithText:liveTitle];
     CCCellType type = CCCellTypeVideo;
   
     type = CCCellTypeVideo;
     
-    if ( ScreenWidth >= 375.0f )
-    {
-        [self.likeCount setAttributeTextWithWatch:self.videoModel.watch_count like:self.videoModel.like_count comment:self.videoModel.comment_count fontSize:10.0f titleToTitleWhitespaceNumbers:3 type:type];
-    }
-    else
-    {
-        [self.likeCount setAttributeTextWithWatch:self.videoModel.watch_count like:self.videoModel.like_count comment:self.videoModel.comment_count fontSize:10.0f titleToTitleWhitespaceNumbers:1 type:type];
-    }
+    self.nameLabel.text = [NSString stringWithFormat:@"%@",videoModel.title];
+  
+    NSString *WatchS = [NSString numFormatNumber:videoModel.duration];
+    self.watchCount.text = [NSString stringWithFormat:@"%@人观看",WatchS];
     
-    // 时间戳
-    self.stampAndWatchCount.text = [NSString dateTimeStampWithStoptime:self.videoModel.live_start_time];
+    self.dateLabel.text = [NSString stringWithFormat:@"%@",videoModel.live_start_time];
+
     
-    // 视频时长
-    self.videoDuration.text = [NSString clockTimeDurationWithSpan:self.videoModel.duration];
     
     
     BOOL isVerify = self.videoModel.status == 2;

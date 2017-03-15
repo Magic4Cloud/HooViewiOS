@@ -8,7 +8,6 @@
 
 
 #import "EVHomeTabBarItem.h"
-#import "EVNotifyViewController.h"
 #import "EVMineViewController.h"
 #import "EVNavigationController.h"
 
@@ -38,11 +37,6 @@
             controller = nav.topViewController;
         }
         
-        if ( [controller isKindOfClass:[EVNotifyViewController class]] )
-        {
-//            norImageName = [NSString stringWithFormat:@"%@_nor",kHomeTabEmail];
-            selectImageName = [NSString stringWithFormat:@"%@_select",kHomeTabEmail];
-        }
         else if ( [controller isKindOfClass:[EVMineViewController class]] )
         {
             norImageName = [NSString stringWithFormat:@"%@_nor",kHomeTabMine];

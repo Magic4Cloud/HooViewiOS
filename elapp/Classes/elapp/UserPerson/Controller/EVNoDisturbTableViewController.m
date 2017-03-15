@@ -71,7 +71,7 @@ static const NSString *const NoDisturbOneCellID = @"oneNoCell";
     self.tableView.delegate = nil;
     
     [_engine cancelAllOperation];
-    [CCNotificationCenter removeObserver:self];
+    [EVNotificationCenter removeObserver:self];
     
     _engine = nil;
     _followers = nil;
@@ -123,12 +123,12 @@ static const NSString *const NoDisturbOneCellID = @"oneNoCell";
                     
                 } fail:^(NSError *error) {
                     NSString *errorStr = [error errorInfoWithPlacehold:kE_GlobalZH(@"setting_fail")];
-                    [CCProgressHUD showError:errorStr toView:weakself.view];
+                    [EVProgressHUD showError:errorStr toView:weakself.view];
                 } success:^{
                     weakself.authModel.live = on;
                     [weakself.tableView reloadData];
                 } sessionExpire:^{
-                    CCRelogin(weakself);
+                    EVRelogin(weakself);
                 }];
             };
             return cell;
@@ -151,8 +151,8 @@ static const NSString *const NoDisturbOneCellID = @"oneNoCell";
 //                    
 //                } fail:^(NSError *error) {
 //                    NSString *errorStr = [error errorInfoWithPlacehold:kE_GlobalZH(@"setting_fail")];
-//                    [CCProgressHUD showError:errorStr toView:weakself.view];
-//                    [CCProgressHUD hideHUDForView:weakself.view];
+//                    [EVProgressHUD showError:errorStr toView:weakself.view];
+//                    [EVProgressHUD hideHUDForView:weakself.view];
 //                } success:^{
 //                    operationCell.model.subscribed = on;
 //                } sessionExpire:^{
@@ -244,7 +244,7 @@ static const NSString *const NoDisturbOneCellID = @"oneNoCell";
 - (void)tableviewSetting{
     self.tableView.backgroundColor = [UIColor evBackgroundColor];
     self.tableView.rowHeight = 67.0f;
-    self.tableView.separatorColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+    self.tableView.separatorColor = [UIColor evGlobalSeparatorColor];
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.tableView registerNib:[UINib nibWithNibName:@"EVNoDisturbAllTableViewCell" bundle:nil] forCellReuseIdentifier:(NSString *)NoDisturbAllCellID];
     [self.tableView registerNib:[UINib nibWithNibName:@"EVNoDisturbOneTableViewCell" bundle:nil] forCellReuseIdentifier:(NSString *)NoDisturbOneCellID];
@@ -262,7 +262,7 @@ static const NSString *const NoDisturbOneCellID = @"oneNoCell";
     } fail:^(NSError *error) {
         // TO DO :
         NSString *errorStr = [error errorInfoWithPlacehold:kE_GlobalZH(@"follow_list_data_fail")];
-        [CCProgressHUD showError:errorStr toView:weakself.view];
+        [EVProgressHUD showError:errorStr toView:weakself.view];
         [weakself.tableView endFooterRefreshing];
     } success:^(NSArray *fans) {
         if (start == 0) {

@@ -78,7 +78,7 @@
 
 - (void)dealloc
 {
-    [CCNotificationCenter removeObserver:self];
+    [EVNotificationCenter removeObserver:self];
 }
 
 - (NSMutableArray *)friends

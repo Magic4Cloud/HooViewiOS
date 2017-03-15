@@ -18,6 +18,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *updateTime;
 /**消息内容*/
 @property (weak, nonatomic) IBOutlet UILabel *contentText;
+@property (weak, nonatomic) IBOutlet UIView *contentBackView;
+
+@property (weak, nonatomic) IBOutlet UIButton *msgTypeBtn;
+
 /**消息的背景图片*/
 @property (weak, nonatomic)  UIImageView *contentImagebg;//text的背景图片
 /**消息的头像*/
@@ -37,21 +41,31 @@
 @implementation EVTableNotifListViewCell
 //约束
 - (void)awakeFromNib{
-    CGFloat margin = 13;
-    UIImageView *contentImagebg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"news_dialog"]];
     
-    [self.contentView insertSubview:contentImagebg belowSubview:self.contentText];
-    self.contentImagebg = contentImagebg;
-    [contentImagebg autoPinEdge:ALEdgeLeading toEdge:ALEdgeLeading ofView:self.contentText withOffset:-margin * 2];
-
+    self.contentBackView.layer.cornerRadius = 4.f;
+    self.contentBackView.clipsToBounds = YES;
+    self.contentBackView.layer.borderColor = [UIColor colorWithHexString:@"#d9d9d9"].CGColor;
+    self.contentBackView.layer.borderWidth = 1.f;
     
-    [contentImagebg autoPinEdge:ALEdgeTrailing toEdge:ALEdgeTrailing ofView:self.contentText withOffset:margin];
-    [contentImagebg autoPinEdge:ALEdgeTop toEdge:ALEdgeTop ofView:self.contentText withOffset:-margin - 4];
     
-    [contentImagebg autoPinEdge:ALEdgeBottom toEdge:ALEdgeBottom ofView:self.contentText withOffset:margin * 2];
-    self.contentText.textColor = [UIColor colorWithHexString:@"#222222" alpha:1.0];
+    [self.msgTypeBtn setImage:[UIImage imageNamed:@"ic_m_concerned"] forState:(UIControlStateNormal)];
+    [self.msgTypeBtn setTitle:@" 小秘书消息提醒" forState:(UIControlStateNormal)];
+    self.msgTypeBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    
+//    CGFloat margin = 13;
+//    UIImageView *contentImagebg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"news_dialog"]];
+//    
+//    [self.contentView insertSubview:contentImagebg belowSubview:self.contentText];
+//    self.contentImagebg = contentImagebg;
+//    [contentImagebg autoPinEdge:ALEdgeLeading toEdge:ALEdgeLeading ofView:self.contentText withOffset:-margin * 2];
+//
+//    
+//    [contentImagebg autoPinEdge:ALEdgeTrailing toEdge:ALEdgeTrailing ofView:self.contentText withOffset:margin];
+//    [contentImagebg autoPinEdge:ALEdgeTop toEdge:ALEdgeTop ofView:self.contentText withOffset:-margin - 4];
+//    
+//    [contentImagebg autoPinEdge:ALEdgeBottom toEdge:ALEdgeBottom ofView:self.contentText withOffset:margin * 2];
     [self.iconImageView setRoundCorner];
-    self.contentView.backgroundColor = CCBackgroundColor;
+    self.contentView.backgroundColor = [UIColor evBackgroundColor];
     
     self.contentText.userInteractionEnabled = YES;
 }
@@ -89,15 +103,15 @@
     CGFloat iconWidth = 40.;
     CGFloat iconToLabel = 27.;
     CGFloat LabelRight = 43;
-    CGFloat labelWith = ScreenWidth - (iconLeft + iconWidth + iconToLabel + LabelRight);
+    CGFloat labelWith = ScreenWidth - (36  + 32);
 
-    CGRect rect = [text boundingRectWithSize:CGSizeMake(labelWith, 10000) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14]} context:NULL];
+    CGRect rect = [text boundingRectWithSize:CGSizeMake(labelWith, 10000) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:16]} context:NULL];
     CGFloat labelHeight = rect.size.height;
     
     //  计算cell高度
-    CGFloat timeLabelTop = 17.;
-    CGFloat timeLabelHeight = 11.;
-    CGFloat timeLabelToLabel = 20.;
+    CGFloat timeLabelTop = 22.;
+    CGFloat timeLabelHeight = 28.;
+    CGFloat timeLabelToLabel = 38.;
     CGFloat cellHeight = timeLabelTop + timeLabelHeight + timeLabelToLabel + labelHeight + 28.;
     return cellHeight;
 }

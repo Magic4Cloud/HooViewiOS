@@ -84,6 +84,7 @@
 #define kSearch_living_playback_user NSLocalizedStringFromTable(@"search_living_playback_user", @"SystemPublic", nil)
 
 #define kSearch_notData_title NSLocalizedStringFromTable(@"search_notData_title", @"SystemPublic", nil)
+#define Search_all_noData_title NSLocalizedStringFromTable(@"search_all_noData_title", @"SystemPublic", nil)
 
 #define kTo_hot_see NSLocalizedStringFromTable(@"to_hot_see", @"SystemPublic", nil)
 

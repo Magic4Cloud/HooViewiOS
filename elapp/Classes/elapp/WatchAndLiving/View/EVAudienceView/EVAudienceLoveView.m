@@ -20,7 +20,7 @@
 #define LIKE_ANIMATION_KEYPATH          @"LIKE_ANIMATION_KEYPATH"
 #define PRESENT_ANIMATION_KEYPATH       @"PRESENT_ANIMATION_KEYPATH"
 
-@interface CCAudiencePrecentItem : NSObject<CAAnimationDelegate>
+@interface CCAudiencePrecentItem : NSObject
 
 @property (nonatomic,strong) NSNumber *presentid;
 
@@ -63,7 +63,7 @@
 
 - (void)setUpAnimation
 {
-#ifdef CCDEBUG
+#ifdef EVDEBUG
     assert(self.path);
 #endif
     if ( self.animationGroup )
@@ -97,7 +97,7 @@
 
 @end
 
-@interface CCAudienceLoveItem : NSObject<CAAnimationDelegate>
+@interface CCAudienceLoveItem : NSObject
 
 @property (nonatomic,strong) UIImage *image;
 
@@ -134,7 +134,7 @@
 
 - (void)setUpAnimation
 {
-#ifdef CCDEBUG
+#ifdef EVDEBUG
     assert(self.path);
 #endif
     if ( self.animationGroup )

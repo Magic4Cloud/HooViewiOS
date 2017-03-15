@@ -7,9 +7,9 @@
 //
 
 
-#import "CCBaseObject.h"
+#import "EVBaseObject.h"
 
-@interface EVVideoTopicItem : CCBaseObject
+@interface EVVideoTopicItem : EVBaseObject
 
 /** 是否选中 */
 @property (nonatomic,assign) BOOL isSeclected;

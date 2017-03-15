@@ -204,7 +204,6 @@ typedef enum {
 - (void)setHeaderTitleTextColor:(UIColor *)textColor font:(UIFont *)font;
 
 /**
- *  @author shizhiang, 16-03-12 19:03:39
  *
  *  上拉刷新的尾部视图
  *
@@ -213,7 +212,6 @@ typedef enum {
 - (EVRefreshGifFooter *)footer;
 
 /**
- *  @author shizhiang, 16-03-12 19:03:39
  *
  *  上拉刷新的头部视图
  *

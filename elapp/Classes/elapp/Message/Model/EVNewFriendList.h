@@ -6,9 +6,9 @@
 //  Copyright (c) 2016 EasyVass. All rights reserved.
 //
 
-#import "CCBaseObject.h"
+#import "EVBaseObject.h"
 
-@interface EVNewFriendList : CCBaseObject
+@interface EVNewFriendList : EVBaseObject
 /*消息开始项**/
 @property (nonatomic,copy)  NSString *start;
 /*消息数目**/

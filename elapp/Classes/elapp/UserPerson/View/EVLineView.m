@@ -17,7 +17,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         // set backgroundColor
-        self.backgroundColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+        self.backgroundColor = [UIColor evGlobalSeparatorColor];
     }
     return self;
 }
@@ -43,6 +43,31 @@
         [lineView autoPinEdgeToSuperviewEdge:ALEdgeTop];
         [lineView autoSetDimension:ALDimensionHeight toSize:kGlobalSeparatorHeight];
     }
+}
+
++ (void)addCellBottomDefaultLineToView:(UIView *)view
+{
+    if (view) {
+        EVLineView *lineView = [EVLineView new];
+        [view addSubview:lineView];
+        [lineView autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:15.f];
+        [lineView autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:10.f];
+        [lineView autoPinEdgeToSuperviewEdge:ALEdgeTop];
+        [lineView autoSetDimension:ALDimensionHeight toSize:kGlobalSeparatorHeight];
+    }
+}
+
++ (void)addCellTopDefaultLineToView:(UIView *)view
+{
+    if (view) {
+        EVLineView *lineView = [EVLineView new];
+        [view addSubview:lineView];
+        [lineView autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:15.f];
+        [lineView autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:10.f];
+        [lineView autoPinEdgeToSuperviewEdge:ALEdgeBottom];
+        [lineView autoSetDimension:ALDimensionHeight toSize:kGlobalSeparatorHeight];
+    }
+    
 }
 
 @end

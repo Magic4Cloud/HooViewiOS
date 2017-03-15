@@ -26,7 +26,7 @@
 // 付费直播 金额Key
 #define kPayLivePriceKey        @"price"
 
-@interface CCFriendListResponse : CCBaseObject
+@interface CCFriendListResponse : EVBaseObject
 
 @property (nonatomic,assign) NSInteger count;
 @property (nonatomic,assign) NSInteger next;
@@ -71,7 +71,7 @@
     _tableView.dataSource = nil;
     _tableView.delegate = nil;
     
-    CCLog(@"CCLimitViewController dealloc");
+    EVLog(@"CCLimitViewController dealloc");
     [_engine cancelAllOperation];
     _engine = nil;
 }

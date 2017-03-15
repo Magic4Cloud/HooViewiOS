@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <FMDB.h>
-@class CCBaseObject, CCQueryObject, CCUpdateSQLObject;
+@class EVBaseObject, CCQueryObject, CCUpdateSQLObject;
 
-// 使用该类时候，模型必须继承于 CCBaseObject
+// 使用该类时候，模型必须继承于 EVBaseObject
 @interface EVDB : NSObject
 
 + (instancetype)shareInstance;
@@ -20,7 +20,7 @@
  *
  *  @param obj
  */
-- (void)updateCachWithObject:(CCBaseObject *)obj complete:(void(^)())complete;
+- (void)updateCachWithObject:(EVBaseObject *)obj complete:(void(^)())complete;
 
 /**
  *  条件更新 － 同步
@@ -43,7 +43,7 @@
  *  @param obj
  *  @param array 
  */
-- (void)updateCachWithObject:(CCBaseObject *)obj withProperties:(NSArray *)properties complete:(void(^)())complete;
+- (void)updateCachWithObject:(EVBaseObject *)obj withProperties:(NSArray *)properties complete:(void(^)())complete;
 
 /**
  *  根据给定的条件进行数据插入 － 异步
@@ -53,7 +53,7 @@
  *  @param condition
  *  @param complete
  */
-- (void)updateCachWithObject:(CCBaseObject *)obj condition:(CCQueryObject *)condition complete:(void(^)())complete;
+- (void)updateCachWithObject:(EVBaseObject *)obj condition:(CCQueryObject *)condition complete:(void(^)())complete;
 
 /**
  *  根据给定的条件进行数据插入 － 同步
@@ -63,7 +63,7 @@
  *  @param condition
  */
 
-- (void)updateCachWithObject:(CCBaseObject *)obj condition:(CCQueryObject *)condition;
+- (void)updateCachWithObject:(EVBaseObject *)obj condition:(CCQueryObject *)condition;
 
 /**
  *  同步更新某些列会根据 properties 来进行更新相应的列值
@@ -71,21 +71,21 @@
  *  @param obj
  *  @param array
  */
-- (void)updateCachOnCurrThreadWithObject:(CCBaseObject *)obj withProperties:(NSArray *)properties;
+- (void)updateCachOnCurrThreadWithObject:(EVBaseObject *)obj withProperties:(NSArray *)properties;
 
 /**
  *  在当前线程中进行插入操作
  *
  *  @param obj 
  */
-- (void)updateCachOnCurrThreadWithObject:(CCBaseObject *)obj;
+- (void)updateCachOnCurrThreadWithObject:(EVBaseObject *)obj;
 
 /**
  *  删除缓存中的纪录
  *
  *  @param obj 
  */
-- (void)deleteCacheWithObject:(CCBaseObject *)obj complete:(void(^)(CCBaseObject *obj))complete;
+- (void)deleteCacheWithObject:(EVBaseObject *)obj complete:(void(^)(EVBaseObject *obj))complete;
 
 /**
  *  清空改对象对应的表的所有数据
@@ -137,7 +137,7 @@
 /**
  *  根据类获取缓存中的表名
  *
- *  @param clazz 必须为 CCBaseObject 子类
+ *  @param clazz 必须为 EVBaseObject 子类
  *
  *  @return 表名
  */

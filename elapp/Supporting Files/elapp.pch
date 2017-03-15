@@ -9,14 +9,27 @@
 
 #define ScreenHeight [UIScreen mainScreen].bounds.size.height
 #define ScreenWidth [UIScreen mainScreen].bounds.size.width
+#define EVNavigationBarHeight    64
+#define EVBottomBar              44
 
-#define BannerWidthHeightRate (375.0f / 207.5f)
+#define EVAllBarHeight           152
+
+#define EVContentHeight          ScreenHeight - EVAllBarHeight
+
+#define EVBaseCellHeight         64
+
+
+
+
+#define BannerWidthHeightRate (375.0f / 110.0f)
 
 // 根据6plus宽度等比例适应高度
 #define kFixSize6Plus(w,h) ((ScreenWidth) / (w)) * (h)
 
 #define kStatusBarHeight 20
-#define CCNotificationCenter [NSNotificationCenter defaultCenter]
+#define kGlobalSeparatorHeight      0.3f
+
+#define EVNotificationCenter [NSNotificationCenter defaultCenter]
 
 #define CCColor(r,g,b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1]
 #define CCARGBColor(r,g,b,a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
@@ -30,7 +43,7 @@
 #define CCUSER_NAME @"CCUSER_NAME"
 #define USER_DNAME_STR @"user_dname_str"
 #define CCUserDefault [NSUserDefaults standardUserDefaults]
-#define CCNotificationCenter [NSNotificationCenter defaultCenter]
+
 
 #define CCCachePath(fileName) [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:(fileName)]
 
@@ -66,13 +79,13 @@
 // userInfo = @{CCShowRedPoint : @YES}
 #define CCScretLetterRedPointShowNotification @"CCScretLetterRedPointShowNotification"
 #define CCShowRedPoint  @"CCShowRedPoint"
-#define CCShouldShowRedPoint(show) [CCNotificationCenter postNotificationName:CCScretLetterRedPointShowNotification object:nil userInfo:@{CCShowRedPoint : @(show)}]
+#define CCShouldShowRedPoint(show) [EVNotificationCenter postNotificationName:CCScretLetterRedPointShowNotification object:nil userInfo:@{CCShowRedPoint : @(show)}]
 
 #define CCLoginViewControllerNeedToDismissNotification @"CCLoginViewControllerNeedToDismissNotification"
 
 
 // 文案
-#define kDefaultSignature_other @"Ta太忙了，忘了自我介绍了"
+#define kDefaultSignature_other @"火眼助你成为财经大师"
 
 // 观看直播过程中如果在个人中心点击启动视频先把之前的视频暂停掉
 #define CCWatchViewControllerWillLoad           @"CCWatchViewControllerWillLoad"
@@ -81,26 +94,29 @@
 // userinfo key -> BOOL -> 由于 iOS 7  播放可直播界面发出重登录通知时会crash ，因此需要此参数来区分
 #define FROM_WATCH_LIVING_CONTROLLER @"FROM_WATCH_LIVING_CONTROLLER"
 
-#define CCRelogin(controller) [CCNotificationCenter postNotificationName:CCNeedToReLoginNotification object:nil userInfo:@{CCNeedToReLoginControllerNotificationKey : (controller)}]
+#define EVRelogin(controller) [EVNotificationCenter postNotificationName:CCNeedToReLoginNotification object:nil userInfo:@{CCNeedToReLoginControllerNotificationKey : (controller)}]
 
-#define CCRequestStartLiveFinishNotification    @"CCRequestStartLiveFinishNotification"
-#define CCShouldUpdateNotifyUnread                  @"CCShouldUpdateNotifyUnread"
+#define EVShouldUpdateNotifyUnread                  @"EVShouldUpdateNotifyUnread"
 // 关注状态发生变化的同志
-#define CCFollowedStateChangedNotification      @"CCFollowedStateChangedNotification"
+#define EVFollowedStateChangedNotification      @"EVFollowedStateChangedNotification"
+// 更新授权信息状态
+#define EVUpdateAuthStatusNotification          @"EVUpdateAuthStatusNotification"
 // count数值：全局请求每页数据的条数
 #define kCountNum 20
 
-#pragma mark - 导航条title字号
 
-#define CCNavigationBarTitleFont            [[CCAppSetting shareInstance] systemBoldFontWithSize:17.0f]
 #define SYSTEMVERSION [[[UIDevice currentDevice] systemVersion] floatValue]
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define IOS8_OR_LATER   (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8"))
 
+#define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
+#define IOS8_OR_FOR (SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(@"8"))
 
+#define CCAppScheme @"elapp"
 
-#define DEVICEWIDTH [UIScreen mainScreen].bounds.size.width
+// weakSelf
+#define WEAK(object) __weak typeof(object) weak##object = object;
 
 #define kCameraAuthed @"kCameraAuthed"
 #define kAudioAuthed @"kAudioAuthed"
@@ -111,11 +127,15 @@
 #import "UIColor+UIColorExt.h"
 #import "UIColor+EVColor.h"
 #import "CCConstKeys.h"
-#import "CCProgressHUD.h"
+#import "EVProgressHUD.h"
 
 #import "UILabel+Extension.h"
-#import "CCEnums.h"
-#import "CCAppSetting.h"
+#import "EVEnums.h"
+#import "EVAppSetting.h"
 #import "elapp_util.h"
+#import "constants.h"
+#import <PureLayout.h>
+#import "UIFont+EVExtension.h"
+#import "UIScrollView+GifRefresh.h"
 
 #endif

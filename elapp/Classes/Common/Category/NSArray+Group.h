@@ -11,7 +11,7 @@
 @interface NSArray (Group)
 
 /**
- *  @author 杨尚彬
+
  *
  *  获取分好组的二维数组
  *
@@ -22,7 +22,7 @@
 -(NSArray *)subArraysWithString:(NSString *(^)(id obj))string;
 
 /**
- *  @author 杨尚彬
+
  *
  *  获取所欲分组的名字数组(ABCD...)
  *

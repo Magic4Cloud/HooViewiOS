@@ -127,7 +127,6 @@
 + (NSString *)stringFormattedTimeWithNoHHFromSeconds:(double *)seconds;
 
 /**
- *  @author shizhiang, 15-11-09 15:11:21
  *
  *  把NSNumber类型的时长转成字符串
  *
@@ -203,7 +202,6 @@
 + (BOOL)isBlankString:(NSString *)string;
 
 /**
- *  @author shizhiang, 16-03-04 19:03:13
  *
  *  删除所有的空格
  *
@@ -213,15 +211,11 @@
 /**
  *  根据日期选取星座
  *
- *  @param month <#month description#>
- *  @param day   <#day description#>
- *
  *  @return <#return value description#>
  */
 + (NSString *)judConstellationDateStr:(NSString *)dateStr;
 
 /**
- *  @author 杨尚彬
  *
  *  根据日期获取年龄
  *
@@ -232,7 +226,6 @@
 + (NSString *)ageFromDateStr:(NSString *)dateStr;
 
 /**
- *  @author 杨尚彬
  *
  *  根据字符串数组获取中间有口号分割的字符串
  *
@@ -269,4 +262,11 @@
 - (BOOL)cc_rangeString:(NSString *)string;
 
 - (NSString *)cc_deleteSessionID;
+
+// 正则判断手机号码地址格式
++ (BOOL)isMobileNumber:(NSString *)mobileNum;
+
+
++ (NSString *)compareCurrentTime:(NSString *)str;
++ (NSString *)numFormatNumber:(NSInteger)count;
 @end

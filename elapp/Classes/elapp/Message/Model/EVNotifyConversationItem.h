@@ -7,12 +7,11 @@
 //
 
 #import "EVNotifyItem.h"
-#import "EVEaseMob.h"
+
 @class EVUserModel;
 
 @interface EVNotifyConversationItem : EVNotifyItem
 
-@property (strong, nonatomic) EMConversation *conversation;
 
 @property (nonatomic,strong) EVUserModel *userModel;
 
@@ -36,11 +35,5 @@
  */
 + (void)getConversationArrayFromDBStart:(NSInteger)start count:(NSInteger) count complete:(void (^)(NSArray *))complete;
 
-/**
- *   设置最后一条消息
- *
- *  @param 会话的最后一条消息
- */
-- (void)setLastMessage:(EMMessage *)latestMsg;
 
 @end

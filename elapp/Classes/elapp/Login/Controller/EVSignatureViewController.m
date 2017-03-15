@@ -29,7 +29,7 @@
     [super viewDidLoad];
     [self configUI];
     self.title = kE_signation;
-    self.view.backgroundColor = CCBackgroundColor;
+    self.view.backgroundColor = [UIColor evBackgroundColor];
     
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:kE_submit style:UIBarButtonItemStylePlain target:self action:@selector(commit)];
     self.navigationItem.rightBarButtonItem = rightItem;
@@ -42,7 +42,7 @@
     [self.view endEditing:YES];
     if ([self.signatureTV.text numOfWordWithLimit:kLimitLen] > kLimitLen)
     {
-        [CCProgressHUD showError:[NSString stringWithFormat:kLimitTipText, kLimitLen]
+        [EVProgressHUD showError:[NSString stringWithFormat:kLimitTipText, kLimitLen]
                           toView:self.view];
         return;
     }

@@ -22,7 +22,6 @@
 + (instancetype)activityDetailWebViewControllerWithURL:(NSString *)url;
 
 /**
- *  @author shizhiang, 16-01-08 16:01:29
  *
  *  h5的活动详情页开始直播
  */

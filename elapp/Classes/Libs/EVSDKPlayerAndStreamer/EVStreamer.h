@@ -3,7 +3,7 @@
 //  EVStreamer
 //
 //  Created by mashuaiwei on 16/7/27.
-//  Copyright © 2016年 easyvaas. All rights reserved.
+//  Copyright © 2016年 cloudfocous. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -37,20 +37,21 @@ typedef void(^EVStreamerCompleteBlock)(EVStreamerResponseCode responseCode, NSDi
 @interface EVStreamer : NSObject
 
 @property (nonatomic,weak) id<EVStreamerDelegate> delegate; /**< 代理 */
+@property (nonatomic, assign) BOOL mute;                /**< 是否静音, 默认为 NO, 在此也可设置静音 */
+@property (nonatomic, assign) BOOL frontCamera;         /**< 是否使用前置摄像头, 默认为 NO，闪光灯状态下切换前置摄像头不起作用 */
+@property (nonatomic, assign) BOOL flashOn;             /**< 是否使用闪光灯, 默认为 NO，前置摄像头状态下设置闪关灯不起作用 */
 
 #pragma mark - 直播
 
-////////////////////// 以下参数要在 livePrepareComplete: 之前完成 ///////////////////
+////////////////////// 以下参数要在调用 livePrepareComplete: 之前设置 ///////////////////
 
 @property (nonatomic,weak) UIView *presentView;         /**< 画面渲染的 view，必填 */
 @property (nonatomic, assign, readonly) NSUInteger fps; /**< 视频采集帧率:25 */
 @property (nonatomic, assign) NSUInteger videoBitrate;  /**< 视频初始化码率, 默认为 500 kbps, 然后会根据网络情况动态调整，最大码率为 700 kbps, 最小码率为200 kbps */
-@property (nonatomic, assign) NSUInteger audioBitrate;  /**< 音频编码码率(单位：kbps, 值必须 >= 32, 否则不生效), 默认为48 kpbs */
+@property (nonatomic, assign) EVStreamerAudioBitrate audioBitrate;  /**< 音频编码码率(单位：kbps), 默认为48 kpbs */
 @property (nonatomic, assign) BOOL useHEAAC;            /**< 使用高质量 aac 编码 */
 @property (nonatomic, assign) EVStreamFrameSize streamFrameSize;    /**< 上传到服务器的视频流，每帧的大小（宽高），默认为 CCRecorderStreamFrameSize_360x640 */
-@property (nonatomic, assign) BOOL mute;                /**< 是否静音, 默认为 NO, 在此也可设置静音 */
-@property (nonatomic, assign) BOOL frontCamera;         /**< 是否使用前置摄像头, 默认为 NO */
-@property (nonatomic, assign) BOOL flashOn;             /**< 是否使用闪光灯, 默认为 NO，前置摄像头状态下不要使用闪关灯 */
+@property (nonatomic, assign) BOOL usePortrait; /**< 使用竖屏直播，默认为YES，如果设置为NO的话，则横屏显示 */
 
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -62,7 +63,7 @@ typedef void(^EVStreamerCompleteBlock)(EVStreamerResponseCode responseCode, NSDi
 - (void)livePrepareComplete:(EVStreamerCompleteBlock)complete;
 
 
-//////////////////////// 以下参数要在 liveStartComplete: 之前完成 ////////////////////
+//////////////////////// 以下参数要在 liveStartComplete: 之前设置 ////////////////////
 
 @property (nonatomic, copy) NSString *URI;                  /**< 进行推流请求拼接的字符串（必填） */
 @property (strong, nonatomic) UIImage *watermakLogoImage;   /**< 水印logo */
@@ -169,6 +170,7 @@ typedef void(^EVStreamerCompleteBlock)(EVStreamerResponseCode responseCode, NSDi
 
 /**
  *  开启/关闭美颜
+ *  注：美颜功能仅限 iPhone5s 以后的机型，并且 iOS8 以后系统使用
  *
  *  @param enabled YES:开启 / NO:关闭
  */

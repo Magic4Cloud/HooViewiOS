@@ -62,7 +62,7 @@ typedef NS_ENUM(NSInteger, CCElementType)
 //    _container = nil;
     [_packetsTF removeObserver:self forKeyPath:@"text"];
     [_ecoinsTF removeObserver:self forKeyPath:@"text"];
-    [CCNotificationCenter removeObserver:self];
+    [EVNotificationCenter removeObserver:self];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -71,8 +71,8 @@ typedef NS_ENUM(NSInteger, CCElementType)
     if (self)
     {
         [self setUpView];
-        [CCNotificationCenter addObserver:self selector:@selector(keyBoardShow) name:UIKeyboardWillShowNotification object:nil];
-        [CCNotificationCenter addObserver:self selector:@selector(keyBoardHide) name:UIKeyboardWillHideNotification object:nil];
+        [EVNotificationCenter addObserver:self selector:@selector(keyBoardShow) name:UIKeyboardWillShowNotification object:nil];
+        [EVNotificationCenter addObserver:self selector:@selector(keyBoardHide) name:UIKeyboardWillHideNotification object:nil];
     }
     return self;
 }
@@ -127,17 +127,17 @@ typedef NS_ENUM(NSInteger, CCElementType)
     
     if ( numOfPackets > 50 )
     {
-        [CCProgressHUD showError:defaultPacketsErrorStr];
+        [EVProgressHUD showError:defaultPacketsErrorStr];
         return;
     }
     if ( ecoins < numOfPackets )
     {
-        [CCProgressHUD showError:defaultEcoinErrorStr];
+        [EVProgressHUD showError:defaultEcoinErrorStr];
         return;
     }
     if ( [self.greetingTextView.text numOfWordWithLimit:10] > 10 )
     {
-        [CCProgressHUD showError:defaultGreetingErrorStr];
+        [EVProgressHUD showError:defaultGreetingErrorStr];
         return;
     }
     NSString *greeting = self.greetingTextView.text;
@@ -183,7 +183,7 @@ typedef NS_ENUM(NSInteger, CCElementType)
     [headBtn setTitle:kE_GlobalZH(@"send_red_pack") forState:UIControlStateNormal];
     [headBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     headBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-    headBtn.titleLabel.font = CCNormalFont(18);
+    headBtn.titleLabel.font = EVNormalFont(18);
     headBtn.userInteractionEnabled = NO;
     [headBtn setBackgroundImage:[UIImage imageNamed:@"living_icon_sendRedPacket"] forState:UIControlStateNormal];
     [packetView addSubview:headBtn];
@@ -196,7 +196,7 @@ typedef NS_ENUM(NSInteger, CCElementType)
     [packetsNumContainer autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:13];
     [packetsNumContainer autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:headBtn withOffset:10];
     
-    // 发送的云币数
+    // 发送的火眼豆数
     UIView *ecoinsNumContainer = [self containerViewWithType:CCElementEcoins];
     [packetView addSubview:ecoinsNumContainer];
     [ecoinsNumContainer autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:13];
@@ -211,7 +211,7 @@ typedef NS_ENUM(NSInteger, CCElementType)
     meetingTextView.placeHoder = defaultGreeting;
     meetingTextView.layer.cornerRadius = 4.5f;
     meetingTextView.placeHoderTextColor = [UIColor colorWithHexString:@"#403B37" alpha:.6];
-    meetingTextView.font = CCNormalFont(14);
+    meetingTextView.font = EVNormalFont(14);
     [packetView addSubview:meetingTextView];
     [meetingTextView autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:13];
     [meetingTextView autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:13];
@@ -228,7 +228,7 @@ typedef NS_ENUM(NSInteger, CCElementType)
     sendBtn.alpha = 0.6;
     sendBtn.layer.cornerRadius = 6;
     [sendBtn addTarget:self action:@selector(send) forControlEvents:UIControlEventTouchUpInside];
-    sendBtn.titleLabel.font = CCNormalFont(16);
+    sendBtn.titleLabel.font = EVNormalFont(16);
     [packetView addSubview:sendBtn];
     [sendBtn autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:30];
     [sendBtn autoAlignAxisToSuperviewAxis:ALAxisVertical];
@@ -260,16 +260,16 @@ typedef NS_ENUM(NSInteger, CCElementType)
     [contentView autoSetDimension:ALDimensionHeight toSize:kElementHeight];
     
     UILabel *elementTitleLabel = [[UILabel alloc] init];
-    elementTitleLabel.font = CCBoldFont(14);
+    elementTitleLabel.font = EVBoldFont(14);
     elementTitleLabel.textColor = defaultTextColor;
     [contentView addSubview:elementTitleLabel];
     [elementTitleLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:13];
     [elementTitleLabel autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
     
-    // 单位  个/云币
+    // 单位  个/火眼豆
     UILabel *classifier = [[UILabel alloc] init];
     classifier.textColor = defaultTextColor;
-    classifier.font = CCBoldFont(14);
+    classifier.font = EVBoldFont(14);
     [contentView addSubview:classifier];
     [classifier autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
     
@@ -277,7 +277,7 @@ typedef NS_ENUM(NSInteger, CCElementType)
     UITextField *tf = [[UITextField alloc] init];
     tf.keyboardType = UIKeyboardTypeNumberPad;
     tf.tintColor = [UIColor blackColor];
-    tf.font = CCNormalFont(14);
+    tf.font = EVNormalFont(14);
     tf.textAlignment = NSTextAlignmentRight;
     tf.delegate = self;
     [tf addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:nil];
@@ -291,7 +291,7 @@ typedef NS_ENUM(NSInteger, CCElementType)
     // 提示语
     UILabel *alertLabel = [[UILabel alloc] init];
     alertLabel.textColor = [UIColor colorWithHexString:@"#403B37" alpha:0.6];
-    alertLabel.font = CCNormalFont(11);
+    alertLabel.font = EVNormalFont(11);
     [containerView addSubview:alertLabel];
     [alertLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:contentView withOffset:7];
     [alertLabel autoPinEdgeToSuperviewEdge:ALEdgeBottom];
@@ -343,12 +343,12 @@ typedef NS_ENUM(NSInteger, CCElementType)
 //    {
 //        self.sendBtn.enabled = NO;
 //        self.sendBtn.alpha = 0.6;
-//        [CCProgressHUD showError:defaultPacketsErrorStr];
+//        [EVProgressHUD showError:defaultPacketsErrorStr];
 //        return NO;
 //    }
 //    
 //    if ( textField == self.ecoinsTF && [textField.text integerValue] > self.anchorEcoinCount) {
-//        [CCProgressHUD showError:kEcoinCount];
+//        [EVProgressHUD showError:kEcoinCount];
 //        return NO;
 //    }
     
@@ -372,7 +372,7 @@ typedef NS_ENUM(NSInteger, CCElementType)
     
     if ( !res )
     {
-        [CCProgressHUD showError:kE_GlobalZH(@"only_send_num")];
+        [EVProgressHUD showError:kE_GlobalZH(@"only_send_num")];
     }
     return res;
 }

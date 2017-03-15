@@ -14,6 +14,7 @@
 #import "EVHttpURLManager.h"
 
 
+
 #define kEUNAME @"E_USER_NOT_EXISTS"
 
 #define kAccountExistNeedMerge @"E_AUTH_NEED_MERGE"
@@ -45,7 +46,6 @@
                           fail:(void(^)(NSError *error))failBlock
                        success:(void(^)(NSDictionary  *info))successBlock
 {
-    //杨尚彬 修改  内容:修改汉字加手机号的判断加了提示框
     if (!phone || [phone isEqualToString:@""] || phone.length == 0 )
     {
         if (phoneNumError) {
@@ -63,31 +63,10 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[kPhone] = phoneStr;
     params[kType] = @(type);
-    NSString *urlString = [EVHttpURLManager fullURLStringWithURI:EVSmsSendAPI  params:params];
-    [self requestWithURLString:urlString
-                         start:startBlock
-                          fail:failBlock
-                       success:^(NSData *data)
-     {
-         if ( data )
-         {
-             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:0
-                                                                    error:NULL];
-             if ( [info[kRetvalKye] isEqualToString:kRequestOK] )
-             {
-                 if ( successBlock ) {
-                     successBlock(info[kRetinfoKey]);
-                 }
-             }
-             else if (failBlock)
-             {
-                 failBlock([NSError cc_errorWithDictionary:info]);
-             }
-         }
-     }];
-}
+    NSString *urlString = [EVHttpURLManager fullURLStringWithURI:EVSmsSendAPI  params:nil];
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:nil fail:failBlock];
 
+}
 
 
 - (void)GETNewUserRegistMessageWithParams:(NSMutableDictionary *)params
@@ -95,8 +74,6 @@
                                      fail:(void(^)(NSError *error))failBlock
                                   success:(void(^)(EVLoginInfo *loginInfo))successBlock
 {
-    [self getGPSInfo:params];
-    [self getPushInfo:params];
     if ([(NSString *)params[kAuthType] isEqualToString:kPhone])
     {
         [params setValue:params[kToken]
@@ -105,50 +82,37 @@
     
     NSString *passwordmd5 = params[kPassword];
     [params removeObjectForKey:kPassword];
+    [params removeObjectForKey:kPhone];
+    [params setValue:passwordmd5 forKey:kPassword];
     
     NSString *urlString = [EVHttpURLManager httpsFullURLStringWithURI:EVVideoMobileRegisterAPI
                                                    params:params];
     
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *postParams = nil;
-    if ( passwordmd5 )
-    {
-        postParams = @{ kPassword : passwordmd5 };
-    }
+//    NSDictionary *postParams = nil;
+//    if ( passwordmd5 )
+//    {
+//        postParams = @{ kPassword : passwordmd5 };
+//    }
+//    [EVBaseToolManager POSTNotSessionWithUrl:urlString params:postParams fileData:nil fileMineType:nil fileName:nil success:^(NSDictionary *successDict) {
+//                                 EVLoginInfo *loginInfo = [EVLoginInfo objectWithDictionary:successDict];
+//                                 if ( successBlock )
+//                                 {
+//                                     successBlock(loginInfo);
+//                                 }
+//                                 [app_delegate_engine checkIMInfoWithLoginInfo:loginInfo];
+//    } failError:failBlock];
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:nil success:^(NSDictionary *successDict) {
+                         EVLoginInfo *loginInfo = [EVLoginInfo objectWithDictionary:successDict];
+                         if ( successBlock )
+                         {
+                             successBlock(loginInfo);
+                         }
+                         [app_delegate_engine checkIMInfoWithLoginInfo:loginInfo];
+       
+    } sessionExpireBlock:nil fail:failBlock];
     
-    [self jsonPostWithURLString:urlString
-                         params:postParams
-                          start:startBlock
-                           fail:failBlock
-                        success:^(NSData *data)
-     {
-         if ( data )
-         {
-             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:0
-                                                                    error:NULL];
-             if ( [info[kRetvalKye] isEqualToString:kRequestOK] )
-             {
-                 EVLoginInfo *loginInfo = [EVLoginInfo objectWithDictionary:info[kRetinfoKey]];
-                 if ( successBlock )
-                 {
-                     successBlock(loginInfo);
-                 }
-                 [app_delegate_engine checkIMInfoWithLoginInfo:loginInfo];
-             }
-             else if ( ![info[kRetvalKye] isEqualToString:kRequestOK] )
-             {
-                 if (  failBlock )
-                 {
-                     failBlock([NSError cc_errorWithDictionary:info]);
-                 }
-             }
-         }
-         else if( failBlock )
-         {
-             failBlock(nil);
-         }
-     }];
+
 }
 
 
@@ -175,59 +139,40 @@
     [self getPushParamsWithParams:params];
     params[kAuthType] = @"phone";
     
-//    params[kToken] = pnoneNum;
-    
     password = [password md5String];
     
     NSString *urlString = [EVHttpURLManager httpsFullURLStringWithURI:EVRegisterUserAPI
-                                                   params:params];
+                                                   params:nil];
+    if (password || pnoneNum) {
+        
+        [params setValue:password forKey:kPassword];
+        [params setValue:pnoneNum forKey:kToken];
+    }
     
-    
-    [self jsonPostWithURLString:urlString
-                         params:@{kPassword : password,
-                                  kToken : pnoneNum}
-                          start:startBlock
-                           fail:failBlock
-                        success:^(NSData *data)
-     {
-         if ( data )
-         {
-             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:0
-                                                                    error:NULL];
-             if ( [info[kRetvalKye] isEqualToString:kRequestOK] )
-             {
-                 EVLoginInfo *loginInfo = [EVLoginInfo objectWithDictionary:info[kRetinfoKey]];
-                 loginInfo.loginTag = kCCPhoneLoginTag;
-                 for ( NSUInteger i = 0; i < ((NSArray *)info[kAuth]).count; i++ )
-                 {
-                     if ( [info[kAuth][kToken] isEqualToString:@"phone"] )
-                     {
-                         loginInfo.phone = info[kAuth][kPhone];
-                     }
-                 }
-                 
-                 // 注册IM账号检查是否需要登录
-                 // 使用全局接口对象访问,  如果改对象被销毁了
-                 // fix by 高沛荣
-                 [app_delegate_engine checkIMInfoWithLoginInfo:loginInfo];
-              
-                 
-                 if ( successBlock )
-                 {
-                     successBlock(loginInfo);
-                 }
-             }
-             else if (failBlock)
-             {
-                 failBlock([NSError cc_errorWithDictionary:info]);
-             }
-         }
-         else if (failBlock)
-         {
-             failBlock(nil);
-         }
-     }];
+
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:^(NSDictionary *successDict) {
+        EVLoginInfo *loginInfo = [EVLoginInfo objectWithDictionary:successDict];
+                         loginInfo.loginTag = kCCPhoneLoginTag;
+                         for ( NSUInteger i = 0; i < ((NSArray *)successDict[kAuth]).count; i++ )
+                         {
+                             if ( [successDict[kToken] isEqualToString:@"phone"] )
+                             {
+                                 loginInfo.phone = successDict[kPhone];
+                             }
+                         }
+        
+                         // 注册IM账号检查是否需要登录
+                         // 使用全局接口对象访问,  如果改对象被销毁了
+                         // fix by 高沛荣
+                         [app_delegate_engine checkIMInfoWithLoginInfo:loginInfo];
+        
+        
+                         if ( successBlock )
+                         {
+                             successBlock(loginInfo);
+                         }
+    } sessionExpireBlock:nil fail:failBlock];
+
 }
 
 - (void)checkIMInfoWithLoginInfo:(EVLoginInfo *)login
@@ -255,7 +200,7 @@
 //         }
 //                         success:^(NSDictionary *imInfo)
 //         {
-//             CCLog(@"####-----%d,----%s-----login = %@ iminfo = %@---####",__LINE__,__FUNCTION__,login, imInfo);
+//             EVLog(@"####-----%d,----%s-----login = %@ iminfo = %@---####",__LINE__,__FUNCTION__,login, imInfo);
 //             
 //             login.imuser = imInfo[kImuser];
 //             login.impwd = imInfo[kImpwd];
@@ -304,7 +249,7 @@
  http://115.29.109.121/mediawiki/index.php?title=Userlogin
  */
 
-- (void)GETThirdPartLoginWithType:(CCUseLoginAuthtype)type
+- (void)GETThirdPartLoginWithType:(EVUseLoginAuthtype)type
                            params:(NSDictionary *)param
                             start:(void(^)())startBlock
                              fail:(void(^)(NSError *error))failBlock
@@ -317,15 +262,15 @@
     NSString *loginTag = nil;
     switch (type)
     {
-        case CCUseLoginSina:
+        case EVUseLoginSina:
             authtype = kAuthTypeSina;
             loginTag = kCCWeiBoLoginTag;
             break;
-        case CCUseLoginQQ:
+        case EVUseLoginQQ:
             authtype = kAuthTypeQQ;
             loginTag = kCCQQLoginTag;
             break;
-        case CCUseLoginWeixin:
+        case EVUseLoginWeixin:
             authtype = kAuthTypeWeixin;
             loginTag = kCCWeiXinLoginTag;
             break;
@@ -334,83 +279,66 @@
     }
     params[kAuthType] = authtype;
     NSString *urlString = [EVHttpURLManager httpsFullURLStringWithURI:EVRegisterUserAPI
-                                                   params:params];
+                                                   params:nil];
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    [self requestWithURLString:urlString
-                         start:startBlock
-                          fail:failBlock
-                       success:^(NSData *data)
-     {
-         if ( data )
-         {
-             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:0
-                                                                    error:NULL];
-             if ( [info[kRetvalKye] isEqualToString:kRequestOK] )
-             {
-                 EVLoginInfo *loginInfo = [EVLoginInfo objectWithDictionary:info[kRetinfoKey]];
-                 loginInfo.loginTag = loginTag;
-                 loginInfo.hasLogin = YES;
-                 if ( successBlock )
-                 {
-                     successBlock(loginInfo);
-                 }
-                 
-                 // 注册IM账号检查是否需要登录
-                 [app_delegate_engine checkIMInfoWithLoginInfo:loginInfo];
-                 
+    
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:^(NSDictionary *successDict) {
+                EVLoginInfo *loginInfo = [EVLoginInfo objectWithDictionary:successDict];
+                loginInfo.loginTag = loginTag;
+                loginInfo.hasLogin = YES;
+                if ( successBlock )
+                {
+                    successBlock(loginInfo);
+                }
         
-             }
-             else if ( [info[kRetvalKye] isEqualToString:kUserLoginUserNotExist] )
-             {
-                 EVLoginInfo *loginInfo = [[EVLoginInfo alloc] init];
-                 loginInfo.authtype = authtype;
-                 loginInfo.loginTag = loginTag;
-                 CCLog(@"%@",params);
-                 loginInfo.hasLogin = NO;
-                 
-                 loginInfo.nickname = params[kNickName];
-                 loginInfo.logourl = params[kLogourl];
-                 loginInfo.gender = params[kGender];
-                 loginInfo.birthday = params[kBirthday];
-                 loginInfo.location = params[kLocation];
-                 loginInfo.invite_url = params[kInvite_url];
-                 NSString *access_token = params[kAccess_token];
-                 NSString *refresh_token = params[kRefresh_token];
-                 NSString *expires_in = params[kExpires_in];
-                 if ( access_token )
-                 {
-                     loginInfo.access_token = access_token;
-                 }
-                 if ( refresh_token )
-                 {
-                     loginInfo.refresh_token = refresh_token;
-                 }
-                 if ( expires_in )
-                 {
-                     loginInfo.expires_in = expires_in;
-                 }
-                 if (params[kUnionid])
-                 {
-                     loginInfo.unionid = params[kUnionid];
-                 }
-                 loginInfo.token = params[kToken];
-                 loginInfo.signature = params[kSignature];
-                 if ( successBlock )
-                 {
-                     successBlock(loginInfo);
-                 }
-             }
-             else if ( failBlock )
-             {
-                 failBlock([NSError cc_errorWithDictionary:info]);
-             }
-         }
-         else if (failBlock)
-         {
-             failBlock(nil);
-         }
-     }];
+                         // 注册IM账号检查是否需要登录
+                [app_delegate_engine checkIMInfoWithLoginInfo:loginInfo];
+    } sessionExpireBlock:^{
+        
+    } fail:^(NSError *error) {
+        NSDictionary *dict = error.userInfo;
+        if (dict) {
+            if ([dict[kRetvalKye] isEqualToString:@"E_USER_NOT_EXISTS"]) {
+                        EVLoginInfo *loginInfo = [[EVLoginInfo alloc] init];
+                        loginInfo.authtype = authtype;
+                        loginInfo.loginTag = loginTag;
+                        EVLog(@"%@",params);
+                        loginInfo.hasLogin = NO;
+                
+                        loginInfo.nickname = params[kNickName];
+                        loginInfo.logourl = params[kLogourl];
+                        loginInfo.gender = params[kGender];
+                        loginInfo.birthday = params[kBirthday];
+                        loginInfo.location = params[kLocation];
+                        NSString *access_token = params[kAccess_token];
+                        NSString *refresh_token = params[kRefresh_token];
+                        NSString *expires_in = params[kExpires_in];
+                        if ( access_token )
+                        {
+                            loginInfo.access_token = access_token;
+                        }
+                        if ( refresh_token )
+                        {
+                            loginInfo.refresh_token = refresh_token;
+                        }
+                        if ( expires_in )
+                        {
+                            loginInfo.expires_in = expires_in;
+                        }
+                        if (params[kUnionid])
+                        {
+                            loginInfo.unionid = params[kUnionid];
+                        }
+                        loginInfo.token = params[kToken];
+                        loginInfo.signature = params[kSignature];
+                        if ( successBlock )
+                        {
+                            successBlock(loginInfo);
+                        }
+            }
+        }
+    }];
+
 }
 
 // http://115.29.109.121/mediawiki/index.php?title=Userresetpassword
@@ -430,38 +358,16 @@
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[kPhone] = phone;
+    [params setValue:[password md5String] forKey:kPassword];
     NSString *urlString = [EVHttpURLManager httpsFullURLStringWithURI:EVVideoResetPwdAPI
                                                    params:params];
-    
-    [self jsonPostWithURLString:urlString
-                         params:@{kPassword : [password md5String]}
-                          start:startBlock
-                           fail:failBlock
-                        success:^(NSData *data)
-     {
-         if ( data )
-         {
-             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:0
-                                                                    error:NULL];
-             if ( [info[kRetvalKye] isEqualToString:kRequestOK] )
-             {
-                 if ( successBlock )
-                 {
-                     successBlock(YES);
-                 }
-             }
-             else if (failBlock)
-             {
-                 failBlock([NSError cc_errorWithDictionary:info]);
-             }
-         }
-         else if (failBlock)
-         {
-             failBlock(nil);
-         }
-     }];
-}
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:^(NSDictionary *successDict) {
+        if ( successBlock )
+        {
+            successBlock(YES);
+        }
+    } sessionExpireBlock:nil fail:failBlock];
+ }
 
 
 

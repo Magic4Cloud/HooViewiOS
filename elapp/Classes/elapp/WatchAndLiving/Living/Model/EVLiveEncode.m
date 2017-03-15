@@ -17,7 +17,7 @@
 
 #define CCMuteButton             @"MuteButton"
 
-@interface EVLiveEncode ()<EVStreamerDelegate,CCControllerContacterProtocol>
+@interface EVLiveEncode ()<EVStreamerDelegate,EVControllerContacterProtocol>
 @property (nonatomic, strong) EVStreamer  *recorder;
 
 
@@ -177,6 +177,13 @@
     }
     
 }
+
+- (void)EVInteractiveLiveUpdateStatus:(EVInteractiveLiveStatus)status
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(LinkStatus:)]) {
+        [self.delegate LinkStatus:status];
+    }
+}
 - (void)getCapture:(void(^)(UIImage *image))imageBlock
 {
     [self.recorder getCapture:imageBlock];
@@ -230,7 +237,7 @@
     [_recorder setMute:_isMute];
 }
 
-#pragma CCControllerContacterProtocol
+#pragma EVControllerContacterProtocol
 - (void)receiveEvents:(NSString *)event withParams:(NSDictionary *)params
 {
     if ( [event isEqualToString:CCEnterBackGround] )
@@ -261,12 +268,9 @@
     if (self.delegate && [self.delegate respondsToSelector:@selector(enterForeground)]) {
         [self.delegate enterForeground];
     }
-//    if (self.startLiving == NO) {
-//        return;
-//    }else{
-         self.startLiving = YES;
+
+        self.startLiving = YES;
          [self.recorder resume];
-//    }
 }
 
 
@@ -275,12 +279,23 @@
     self.recorder = [[EVStreamer alloc] init];
     _recorder.delegate = self;
     self.recorder.presentView = view;
+    self.recorder.usePortrait = NO;
     self.videoView = view;
+    self.videoView.frame = CGRectMake(0, 0,ScreenWidth,ScreenHeight);
     [self.recorder livePrepareComplete:^(EVStreamerResponseCode responseCode, NSDictionary *result, NSError *err) {
         NSLog(@"prepare--- %ld -------- %@ -------  %@",responseCode,result,err);
     }];
 }
 
+- (void)startLinkChannelid:(NSString *)channel
+{
+//    [self.recorder startInteractiveLiveAsAnchor:YES channel:channel];
+}
+
+- (void)endLink
+{
+//    [self.recorder endInteractiveLive];
+}
 
 - (void)upDateLiveUrl:(NSString *)url
 {

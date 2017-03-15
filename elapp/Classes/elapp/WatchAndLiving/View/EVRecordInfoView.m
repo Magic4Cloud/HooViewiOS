@@ -20,7 +20,7 @@
 {
     if ( self = [super initWithFrame:frame] )
     {
-        _bufferProgressColor = [UIColor colorWithHexString:[CCAppSetting shareInstance].appMainColorString alpha:0.5];
+        _bufferProgressColor = [UIColor colorWithHexString:[EVAppSetting shareInstance].appMainColorString alpha:0.5];
     }
     return self;
 }
@@ -38,7 +38,6 @@
 
 - (void)drawRect:(CGRect)rect
 {
-// fix by 施志昂 配合服务器测试 让服务器给一个超大的数
     if( isnan(_bufferProgress) || isinf(_bufferProgress) )
     {
         return;
@@ -68,7 +67,7 @@
 
 - (void)dealloc
 {
-    CCLog(@"CCRecordInfoView dealloc");
+    EVLog(@"CCRecordInfoView dealloc");
 }
 
 + (instancetype)recordInfoViewToSuperView:(UIView *)view height:(CGFloat)height
@@ -79,7 +78,6 @@
     [view addSubview:cover];
     [cover autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
     
-    //杨尚彬修改   内容:修改[view addSubview:recordView]; 原本是加在cover上面  会出现点击消失的状况
     EVRecordInfoView *recordView = [[EVRecordInfoView alloc] init];
     recordView.backgroundColor = [UIColor colorWithHexString:@"#000000" alpha:.5f];
     [view addSubview:recordView];
@@ -151,7 +149,7 @@
     [slider addTarget:self action:@selector(sliderTouchOut) forControlEvents:UIControlEventTouchUpOutside];
     [slider addTarget:self action:@selector(valueChage) forControlEvents:UIControlEventValueChanged];
     slider.maximumTrackTintColor = CCARGBColor(0, 0, 0, 0.5);
-    slider.minimumTrackTintColor = CCAppMainColor;
+    slider.minimumTrackTintColor = [UIColor evMainColor];
     [slider setThumbImage:[UIImage imageNamed:@"slider_thumb"] forState:UIControlStateNormal];
     [self addSubview:slider];
     [slider autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:buttonWH / 2.0f];
@@ -175,7 +173,7 @@
     UILabel *remainingTimeLbl = [[UILabel alloc] init];
     remainingTimeLbl.textColor = [UIColor whiteColor];
     remainingTimeLbl.textAlignment = NSTextAlignmentRight;
-    remainingTimeLbl.font = [[CCAppSetting shareInstance] normalFontWithSize:LblFontSize];
+    remainingTimeLbl.font = [[EVAppSetting shareInstance] normalFontWithSize:LblFontSize];
     [self addSubview:remainingTimeLbl];
     [remainingTimeLbl autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:LblBottomEdge];
     [remainingTimeLbl autoPinEdge:ALEdgeRight toEdge:ALEdgeRight ofView:self.slider];
@@ -187,7 +185,7 @@
     UILabel *processingTimeLbl = [[UILabel alloc] init];
     processingTimeLbl.textColor = [UIColor whiteColor];
     processingTimeLbl.textAlignment = NSTextAlignmentLeft;
-    processingTimeLbl.font = [[CCAppSetting shareInstance] normalFontWithSize:LblFontSize];
+    processingTimeLbl.font = [[EVAppSetting shareInstance] normalFontWithSize:LblFontSize];
     [self addSubview:processingTimeLbl];
     [processingTimeLbl autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:LblBottomEdge];
     [processingTimeLbl autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:self.slider];
@@ -198,7 +196,7 @@
 
 - (void)valueChage
 {
-    CCLog(@"valueChage -- %f",self.slider.value);
+    EVLog(@"valueChage -- %f",self.slider.value);
     if ( [self.delegate respondsToSelector:@selector(recordInfoView:valueChaged:)] )
     {
         [self.delegate recordInfoView:self valueChaged:self.slider.value];
@@ -209,7 +207,7 @@
 
 - (void)sliderTouchIn
 {
-    CCLog(@"sliderTouchIn");
+    EVLog(@"sliderTouchIn");
     self.sliderDrap = YES;
     if ( [self.delegate respondsToSelector:@selector(recordInfoViewDidBeginDrag:)] )
     {
@@ -262,7 +260,7 @@
     double maxValue = self.slider.maximumValue;
     if ( processingTime <= 0 )
     {
-        self.processingTimeLbl.text = @"00:00:00";
+        self.processingTimeLbl.text = @"--:--";
     }
     else if ( processingTime < self.slider.maximumValue )
     {
@@ -274,12 +272,29 @@
     }
 }
 
+- (NSString *)convertToMinuteString:(NSInteger)sec {
+    if (sec <= 0) {
+        return @"00:00";
+    } else {
+        NSInteger seconds;
+        NSInteger minutes;
+        if (sec < 3600) {
+            seconds = sec % 60;
+            minutes = (sec / 60) % 60;
+        } else {
+            seconds = sec % 60;
+            minutes = sec / 60;
+        }
+        return [NSString stringWithFormat:@"%02ld:%02ld", minutes, seconds];
+    }
+}
+
 - (void)setPause:(BOOL)pause
 {
     _pause = pause;
     self.pauseOrPlayButton.userInteractionEnabled = YES;
     self.pauseOrPlayButton.selected = pause;
-    CCLog(@"play button did change state - %@", (pause ? @"pause": @"playing"));
+    EVLog(@"play button did change state - %@", (pause ? @"pause": @"playing"));
 }
 
 - (void)setBufferProgress:(CGFloat)bufferProgress

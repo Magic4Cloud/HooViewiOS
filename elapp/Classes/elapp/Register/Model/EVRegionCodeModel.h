@@ -6,9 +6,9 @@
 //  Copyright (c) 2016 EasyVass. All rights reserved.
 //
 
-#import "CCBaseObject.h"
+#import "EVBaseObject.h"
 
-@interface EVRegionCodeModel : CCBaseObject
+@interface EVRegionCodeModel : EVBaseObject
 
 @property (nonatomic, copy) NSString *area_code;
 @property (nonatomic, copy) NSString *contry_name;
@@ -17,7 +17,7 @@
 @end
 
 
-@interface CCRegionCodeGroup : CCBaseObject
+@interface CCRegionCodeGroup : EVBaseObject
 
 @property (nonatomic,copy) NSString *group_name;
 @property (nonatomic,strong) NSArray *items;

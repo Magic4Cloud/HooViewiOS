@@ -46,6 +46,4 @@
  */
 - (void)stopRepeatAnimation;
 
-
-
 @end

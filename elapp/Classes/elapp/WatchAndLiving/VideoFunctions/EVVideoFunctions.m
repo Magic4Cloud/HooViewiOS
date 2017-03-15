@@ -10,6 +10,7 @@
 #import "EVVideoFunctions.h"
 #import "SDImageCache.h"
 #import "UIImageView+LBBlurredImage.h"
+#import "UIWindow+Extension.h"
 
 @implementation EVVideoFunctions
 
@@ -59,6 +60,22 @@
     maskLayer.frame = view.bounds;
     maskLayer.path  = maskPath.CGPath;
     view.layer.mask = maskLayer;
+}
+
++ (void)handleReportAction {
+    UIAlertController *alertController = [[UIAlertController alloc] init];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"举报" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        [EVProgressHUD showSuccess:@"举报成功"];
+    }];
+    [alertController addAction:cancelAction];
+    [alertController addAction:confirmAction];
+    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+    UIViewController *rootVC = [keyWindow visibleViewController];
+    if (!rootVC) {
+        rootVC = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+    }
+    [rootVC presentViewController:alertController animated:YES completion:nil];
 }
 
 @end

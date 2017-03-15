@@ -6,14 +6,14 @@
 //  Copyright (c) 2016 EasyVass. All rights reserved.
 //
 
-#import "CCBaseObject.h"
+#import "EVBaseObject.h"
 
 #define kCCPhoneLoginTag @"kCCPhoneLoginTag"
 #define kCCQQLoginTag @"kCCQQLoginTag"
 #define kCCWeiXinLoginTag @"kCCWeiXinLoginTag"
 #define kCCWeiBoLoginTag @"kCCWeiBoLoginTag"
 
-@interface CCLoginIMInfo : CCBaseObject <NSCoding>
+@interface EVLoginIMInfo : EVBaseObject <NSCoding>
 
 @property (nonatomic, assign) long LastLoginTime;
 @property (nonatomic,copy) NSString *jid;
@@ -24,7 +24,7 @@
 
 @end
 
-@interface EVLoginInfo : CCBaseObject <NSCoding>
+@interface EVLoginInfo : EVBaseObject <NSCoding>
 
 @property (nonatomic, assign) BOOL registeredSuccess;   // 注册成功
 
@@ -35,7 +35,7 @@
 // 环信 账号、密码
 @property (nonatomic,copy) NSString *imuser;
 @property (nonatomic,copy) NSString *impwd;
-@property (nonatomic,strong) CCLoginIMInfo *imLoginInfo;
+@property (nonatomic,strong) EVLoginIMInfo *imLoginInfo;
 
 @property (nonatomic, copy) NSString *loginTag;         // 三方登陆类型
 @property (nonatomic, assign) BOOL hasLogin;            // 是否已经登陆
@@ -47,7 +47,6 @@
 @property (nonatomic, copy) NSString *sessionid;        // 登陆标识
 @property (nonatomic, copy) NSString *gender;         // 性别
 
-@property (nonatomic, assign)   BOOL jurisdiction;      // 直播权限
 @property (nonatomic, copy) NSString *authtype;         // 授权类型
 @property (nonatomic, copy) NSString *birthday;         // 生日
 
@@ -57,7 +56,6 @@
 @property (nonatomic, copy) NSString *signature;      // 个性签名
 
 @property (nonatomic, copy) NSString *logourl;          // 头像地址
-@property (nonatomic, copy) NSString *invite_url;       // 邀请链接
 
 @property (nonatomic, copy) NSString *access_token;     //
 @property (nonatomic, copy) NSString *refresh_token;    //
@@ -74,21 +72,13 @@
 @property (nonatomic, copy) NSString *unionid;          /**< 微信的unionid */
 
 @property (nonatomic, assign) NSInteger barley;              /**< 薏米数 */
-@property (nonatomic, assign) NSInteger ecoin;               /**< 云币数 */
+@property (nonatomic, assign) NSInteger ecoin;               /**< 火眼豆数 */
 
-/** 等级 */
-@property ( nonatomic ) NSInteger level;
+@property (nonatomic, assign) NSInteger vip;
 
-/** vip等级 */
-@property ( nonatomic ) NSInteger vip_level;
+@property (nonatomic, copy) NSString *practiceNum;
+@property (nonatomic, copy) NSString *credentials;          /**< 执业证号 */
 
-@property (assign, nonatomic) NSInteger anchor_level;
-
-
-/**
- *  更新邀请地址
- */
-+ (void)updateInviteURLString:(NSString *)invite_url;
 
 /**
  *  同步登陆模型信息
@@ -127,5 +117,9 @@
  *  清除本地缓存
  */
 + (void)cleanLoginInfo;
+
+/** 是否处于登录状态 */
++ (BOOL)hasLogged;
+
 
 @end

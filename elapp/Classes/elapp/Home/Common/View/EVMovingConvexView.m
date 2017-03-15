@@ -41,7 +41,7 @@
     if ( self = [super init] )
     {
         self.pontCount = pointCount;
-        self.styleColor = CCAppMainColor;
+        self.styleColor = [UIColor evMainColor];
         _scrollPercent = 0.0;
     }
     return self;

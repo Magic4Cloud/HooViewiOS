@@ -49,7 +49,6 @@
                  WithCancelBlock:(void(^)(UIAlertView *alertView))Cancelblock;
 
 
-//- (UIAlertView *)performComfirmTitle:(NSString *)title message:(NSString *)message cancelTitle:(NSString *)cancelTitle WithComfirm:(void(^)())comfirmBlock;
 
 - (UIAlertView *)performEditComfirmTitle:(NSString *)title
                                  message:(NSString *)message

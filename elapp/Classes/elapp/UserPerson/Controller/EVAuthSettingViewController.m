@@ -11,7 +11,6 @@
 #import "EVAuthSettingModel.h"
 #import "PureLayout.h"
 #import "EVNoDisturbTableViewController.h"
-#import "EVConnectToMeViewController.h"
 #import "EVBaseToolManager+EVAccountAPI.h"
 #import "EVCacheTableViewCell.h"
 #import "EVCacheManager.h"
@@ -21,12 +20,12 @@
 #import "EVAccountBindViewController.h"
 #import "EVUserModel.h"
 #import "EVLoginInfo.h"
-#import "EVEaseMob.h"
 #import "EVWebViewCtrl.h"
 #import "EVStartResourceTool.h"
 #import "EVBaseToolManager+EVUserCenterAPI.h"
 #import <YWFeedbackFMWK/YWFeedbackKit.h>
 #import "NSString+Extension.h"
+#import "EVEaseMob.h"
 
 
 NSString *const cellID = @"authCell";
@@ -104,7 +103,7 @@ typedef enum : NSUInteger {
     for ( UIButton *button in self.menuButtons )
     {
         button.selected = NO;
-        if ( button.tag == [CCAppSetting shareInstance].serverState )
+        if ( button.tag == [EVAppSetting shareInstance].serverState )
         {
             button.selected = YES;
             self.currentSelectButton = button;
@@ -121,7 +120,7 @@ typedef enum : NSUInteger {
     [self.engine GETUserSettingInfoStart:^{
         
     } success:^(NSDictionary *info) {
-        CCLog(@"####-----%d,----%s-----%@---####",__LINE__,__FUNCTION__,info);
+        EVLog(@"####-----%d,----%s-----%@---####",__LINE__,__FUNCTION__,info);
 
         for (EVAuthSettingModel *item in weakSelf.dataArray[1])
         {
@@ -133,9 +132,9 @@ typedef enum : NSUInteger {
         }
         [weakSelf.tableView reloadData];
     } fail:^(NSError *error) {
-        [CCProgressHUD showError:[error errorInfoWithPlacehold:kE_GlobalZH(@"user_setting_data_fail")] toView:weakSelf.view];
+        [EVProgressHUD showError:[error errorInfoWithPlacehold:kE_GlobalZH(@"user_setting_data_fail")] toView:weakSelf.view];
     } sessionExpire:^{
-        CCRelogin(weakSelf);
+        EVRelogin(weakSelf);
     }];
     
     // 获取所占内存
@@ -163,10 +162,10 @@ typedef enum : NSUInteger {
         self.focusModel = focusPomptItem;
         EVAuthSettingModel *personalMessageItem = [EVAuthSettingModel modelWithName:kE_GlobalZH(@"message_remind") type:EVAuthSettingModelTypeSwitch];
         // 设置全天免打扰，设置后，您将收不到任何推送
-        EMPushNotificationOptions *options = [[EaseMob sharedInstance].chatManager pushNotificationOptions];
-        personalMessageItem.personalMsgOpen = options.noDisturbStatus != ePushNotificationNoDisturbStatusDay;
+//        EMPushNotificationOptions *options = [[EaseMob sharedInstance].chatManager pushNotificationOptions];
+//        personalMessageItem.personalMsgOpen = options.noDisturbStatus != ePushNotificationNoDisturbStatusDay;
         self.personalMsgModel = personalMessageItem;
-        CCLog(@"####-----%d,----%s-----nodisturb status == %zd---####",__LINE__,__FUNCTION__,options.noDisturbStatus);
+//        EVLog(@"####-----%d,----%s-----nodisturb status == %zd---####",__LINE__,__FUNCTION__,options.noDisturbStatus);
 
         EVAuthSettingModel *nightItem = [EVAuthSettingModel modelWithName:kE_GlobalZH(@"night_free_disturb") type:EVAuthSettingModelTypeSwitch];
         self.disturbModel = nightItem;
@@ -175,13 +174,11 @@ typedef enum : NSUInteger {
         // 第三组
         EVAuthSettingModel *accountItem = [EVAuthSettingModel modelWithName:kE_GlobalZH(@"account_manager") type:EVAuthSettingModelTypeAccount];
         EVAuthSettingModel *contactWeItem = [EVAuthSettingModel modelWithName:kE_GlobalZH(@"relation_me") type:EVAuthSettingModelTypeDefault];
-        // adapt delere by 佳南
-//        EVAuthSettingModel *opinionItem = [EVAuthSettingModel modelWithName:kE_GlobalZH(@"opinion_feedback") type:EVAuthSettingModelTypeDefault];
+        EVAuthSettingModel *opinionItem = [EVAuthSettingModel modelWithName:kE_GlobalZH(@"opinion_feedback") type:EVAuthSettingModelTypeDefault];
         EVAuthSettingModel *clearItem = [EVAuthSettingModel modelWithName:kE_GlobalZH(@"clear_cache_space") type:EVAuthSettingModelTypeClear];
         EVAuthSettingModel *aboutItem = [EVAuthSettingModel modelWithName:kE_GlobalZH(@"in_regard_to") type:EVAuthSettingModelTypeDefault];
-//        NSArray *array2 = @[accountItem,contactWeItem,opinionItem,clearItem, aboutItem];
-        NSArray *array2 = @[accountItem,contactWeItem,clearItem, aboutItem];
-
+        NSArray *array2 = @[accountItem,contactWeItem,opinionItem,clearItem, aboutItem];
+        
         // 第五组
         EVAuthSettingModel *logoOutItem = [EVAuthSettingModel modelWithName:@"" type:EVAuthSettingModelTypeLogOut];
         logoOutItem.midText = kE_GlobalZH(@"push_out_login");
@@ -217,15 +214,18 @@ typedef enum : NSUInteger {
                 [_engine cancelAllOperation];
                 [_engine GETLogoutWithFail:^(NSError *error) {
                 } success:^{
-                    CCLog(@"logout success");
+                    EVLog(@"logout success");
                 } essionExpire:^{
                     
                 }];
                 [EVLoginInfo cleanLoginInfo];
+                [EVEaseMob logoutIMLoginFail:^(EMError *error) {
+                    EVLog(@"EMlogouterror-----  %@",error);
+                }];
                 [EVBaseToolManager resetSession];
                 if ( self.navigationController )
                 {
-                    CCRelogin(self.navigationController);
+                    EVRelogin(self.navigationController);
                 }
                 [weakself.navigationController popToRootViewControllerAnimated:NO];
             }
@@ -258,18 +258,14 @@ typedef enum : NSUInteger {
     }
     else if ([model.name isEqualToString:kE_GlobalZH(@"relation_me")])
     {
-//        EVWebViewCtrl * webCtrl = [[EVWebViewCtrl alloc] init];
-//        webCtrl.title = kE_GlobalZH(@"relation_me");
-//        webCtrl.requestUrl = [[EVStartResourceTool shareInstance] connectUsUrl];
-//        [self.navigationController pushViewController:webCtrl animated:YES];
-        EVConnectToMeViewController *VC = [[EVConnectToMeViewController alloc] init];
-        VC.title = kE_GlobalZH(@"relation_me");
-        [self.navigationController pushViewController:VC  animated:YES];
-        }
+        EVWebViewCtrl * webCtrl = [[EVWebViewCtrl alloc] init];
+        webCtrl.title = kE_GlobalZH(@"relation_me");
+        webCtrl.requestUrl = [[EVStartResourceTool shareInstance] connectUsUrl];
+        [self.navigationController pushViewController:webCtrl animated:YES];
+    }
     else if ([model.name isEqualToString:kE_GlobalZH(@"opinion_feedback")])
     {
-        // adapt 佳南
-//        [self gotoFeedbackPage];
+        [self gotoFeedbackPage];
     }
     else if ([model.name isEqualToString:kE_GlobalZH(@"clear_cache_space")])
     {
@@ -286,7 +282,7 @@ typedef enum : NSUInteger {
     }
     else if ([model.name isEqualToString:@""] && [model.midText isEqualToString:kE_GlobalZH(@"push_out_login")])
     {
-        CCLog(@"logout");
+        EVLog(@"logout");
         dispatch_async(dispatch_get_main_queue(), ^{
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:kE_GlobalZH(@"confirm_cancel_push_out") message:nil delegate:self cancelButtonTitle:kOK otherButtonTitles:kCancel, nil];
             alert.tag = EVLogoutType;
@@ -311,16 +307,22 @@ typedef enum : NSUInteger {
     {
         self.feedbackKit.contactInfo = loginInfo.phone;
         [user_new setValue:loginInfo.phone forKey:@"phone"];
-    }else if (loginInfo.birthday && ![loginInfo.birthday isEqualToString:@""]) {
+    }
+    if (loginInfo.birthday && ![loginInfo.birthday isEqualToString:@""]) {
         NSString *age = [NSString ageFromDateStr:loginInfo.birthday];
         [user_new setValue:age forKey:@"age"];
-    }else if (loginInfo.name) {
+    }
+    
+    if (loginInfo.name) {
         [user_new setValue:loginInfo.name forKey:@"name"];
-    }else if (loginInfo.nickname) {
+    }
+    if (loginInfo.nickname) {
         [user_new setValue:loginInfo.nickname forKey:@"nickname"];
-    }else if (loginInfo.gender) {
+    }
+    if (loginInfo.gender) {
         [user_new setValue:loginInfo.gender forKey:@"gender"];
     }
+    self.feedbackKit.extInfo = user_new;
     WEAK(self)
     [self.feedbackKit makeFeedbackViewControllerWithCompletionBlock:^(YWLightFeedbackViewController *viewController, NSError *error) {
          viewController.title = kE_GlobalZH(@"opinion_feedback");
@@ -368,17 +370,17 @@ typedef enum : NSUInteger {
     {
         case 0:
             headerLabel.frame = CGRectMake(20, 10, tableView.bounds.size.width, 14);
-            headerLabel.font = [[CCAppSetting shareInstance] normalFontWithSize:14];
+            headerLabel.font = [[EVAppSetting shareInstance] normalFontWithSize:14];
             headerLabel.text = kE_GlobalZH(@"e_notification");
             break;
             
         case 2:
             headerLabel.frame = CGRectMake(20, 8, tableView.bounds.size.width, 11);
-            headerLabel.font = [[CCAppSetting shareInstance] normalFontWithSize:12];
+            headerLabel.font = [[EVAppSetting shareInstance] normalFontWithSize:12];
             headerLabel.text = kE_GlobalZH(@"night_to_morning_nit_remind");
             break;
     }
-    headerLabel.textColor = [UIColor colorWithHexString:kLightGrayTextColor];
+    headerLabel.textColor = [UIColor evlightGrayTextColor];
     headerLabel.textAlignment = NSTextAlignmentLeft;
     [headerView addSubview:headerLabel];
     return headerView;
@@ -484,11 +486,11 @@ typedef enum : NSUInteger {
     else if ([currentModel.name isEqualToString:kE_GlobalZH(@"message_remind")])
     {
         // 设置全天免打扰，设置后，您将收不到任何推送
-        currentModel.personalMsgOpen = !currentModel.personalMsgOpen;
-        EMPushNotificationOptions *options = [[EaseMob sharedInstance].chatManager pushNotificationOptions];
-        options.noDisturbStatus = currentModel.personalMsgOpen ? ePushNotificationNoDisturbStatusClose : ePushNotificationNoDisturbStatusDay;
-        [[EaseMob sharedInstance].chatManager asyncUpdatePushOptions:options];
-        CCLog(@"####-----%d,----%s-----%zd---####",__LINE__,__FUNCTION__,options.noDisturbStatus);
+//        currentModel.personalMsgOpen = !currentModel.personalMsgOpen;
+//        EMPushNotificationOptions *options = [[EaseMob sharedInstance].chatManager pushNotificationOptions];
+//        options.noDisturbStatus = currentModel.personalMsgOpen ? ePushNotificationNoDisturbStatusClose : ePushNotificationNoDisturbStatusDay;
+//        [[EaseMob sharedInstance].chatManager asyncUpdatePushOptions:options];
+//        EVLog(@"####-----%d,----%s-----%zd---####",__LINE__,__FUNCTION__,options.noDisturbStatus);
 
         [self.tableView reloadData];
         return;
@@ -502,13 +504,13 @@ typedef enum : NSUInteger {
     [self.engine GETUserEditSettingWithFollow:self.focusModel.follow disturb:self.disturbModel.disturb live:self.liveModel.live start:^{
         
     } fail:^(NSError *error) {
-        [CCProgressHUD showSuccess:kE_GlobalZH(@"motify_fail")];
+        [EVProgressHUD showSuccess:kE_GlobalZH(@"motify_fail")];
         [model setWrong:YES];
         [weakSelf.tableView reloadData];
     } success:^{
         [weakSelf.tableView reloadData];
     } sessionExpire:^{
-        CCRelogin(weakSelf);
+        EVRelogin(weakSelf);
     }];
     
 }
@@ -523,7 +525,7 @@ typedef enum : NSUInteger {
         tableView.delegate = self;
         tableView.dataSource = self;
         tableView.backgroundColor = [UIColor evBackgroundColor];
-        tableView.separatorColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+        tableView.separatorColor = [UIColor evGlobalSeparatorColor];
         [self.view addSubview:tableView];
         [tableView autoPinEdgesToSuperviewEdges];
         _tableView = tableView;
@@ -546,18 +548,18 @@ typedef enum : NSUInteger {
 #ifdef STARTE_SWITCH_SERVER_MANUAL
 - (void)setUpServerMenu
 {
-    UIButton *devButton = [self menuButtonWithTitle:@"dev" tag:CCAPPServerStateDEV];
+    UIButton *devButton = [self menuButtonWithTitle:@"dev" tag:EVAPPServerStateDEV];
     devButton.selected = YES;
     [self.view addSubview:devButton];
     self.currentSelectButton = devButton;
 
-    UIButton *innertestButton = [self menuButtonWithTitle:@"innertest" tag:CCAPPServerStateINNERTEST];
+    UIButton *innertestButton = [self menuButtonWithTitle:@"innertest" tag:EVAPPServerStateINNERTEST];
     [self.view addSubview:innertestButton];
     
-    UIButton *rcButton = [self menuButtonWithTitle:@"rc" tag:CCAPPServerStateRC];
+    UIButton *rcButton = [self menuButtonWithTitle:@"rc" tag:EVAPPServerStateRC];
     [self.view addSubview:rcButton];
     
-    UIButton *releaseButton = [self menuButtonWithTitle:@"release" tag:CCAPPServerStateRELEASE];
+    UIButton *releaseButton = [self menuButtonWithTitle:@"release" tag:EVAPPServerStateRELEASE];
     [self.view addSubview:releaseButton];
     
     self.menuButtons = @[devButton, innertestButton, rcButton, releaseButton];
@@ -608,7 +610,7 @@ typedef enum : NSUInteger {
 {
     self.currentSelectButton.selected = NO;
     btn.selected = YES;
-    [CCAppSetting shareInstance].serverState = btn.tag;
+    [EVAppSetting shareInstance].serverState = btn.tag;
     self.currentSelectButton = btn;
 }
 

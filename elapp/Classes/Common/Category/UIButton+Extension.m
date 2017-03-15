@@ -35,9 +35,8 @@
         
         [self setTitle:title forState:UIControlStateNormal];
         
-        [self.titleLabel setFont:[[CCAppSetting shareInstance] normalFontWithSize:15.0f]];
-        // change by 佳南 color
-        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [self.titleLabel setFont:[[EVAppSetting shareInstance] normalFontWithSize:15.0f]];
+        [self setTitleColor:[UIColor textBlackColor] forState:UIControlStateNormal];
         [self setImage:[UIImage imageNamed:@"nav_icon_return"] forState:UIControlStateNormal];
         
         self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
@@ -53,14 +52,14 @@
 
 - (void)greenBackAndWhiteTitle
 {
-    self.backgroundColor = [UIColor colorWithHexString:kGlobalGreenColor];
+    self.backgroundColor = [UIColor evMainColor];
     self.titleLabel.tintColor = [UIColor whiteColor];
 }
 
 - (void)whiteBackAndGreenTitle
 {
     self.backgroundColor = [UIColor whiteColor];
-    self.titleLabel.tintColor = [UIColor colorWithHexString:kGlobalGreenColor];
+    self.titleLabel.tintColor = [UIColor evMainColor];
 }
 
 @end

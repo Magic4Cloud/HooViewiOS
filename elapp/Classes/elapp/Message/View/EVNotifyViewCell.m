@@ -13,9 +13,7 @@
 #import "NSString+Extension.h"
 #import "UIView+Extension.h"
 
-#import "EVEaseMob.h"
 #import "NSDateFormatter+Category.h"
-#import "EVChatMessageManager.h"
 
 @interface EVNotifyViewCell ()
 /**消息头像*/
@@ -48,7 +46,7 @@
     [super awakeFromNib];
 //    self.selectionStyle = UITableViewCellSelectionStyleNone;
     UIView *line = [[UIView alloc] init];
-    line.backgroundColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+    line.backgroundColor = [UIColor evGlobalSeparatorColor];
     [self.contentView addSubview:line];
     [line autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero excludingEdge:ALEdgeTop];
     [line autoSetDimension:ALDimensionHeight toSize:kGlobalSeparatorHeight];
@@ -139,54 +137,6 @@
 
 }
 
-
-- (void)setGroupItem:(EVGroupItem *)groupItem
-{
-    _groupItem = groupItem;
-    [self.iconImage cc_setImageWithURLString:@"" placeholderImage:[UIImage imageNamed:@"message_my_group"]];
-    [self requestForIconWithGroupItem:groupItem];
-    [self.iconImage setRoundCorner];
-    self.nicknameLabel.text = groupItem.subject;
-    NSMutableAttributedString *attrText = nil;
-    if ( _groupItem.lastMessage == nil )
-    {
-        _groupItem.lastMessage = @"";
-    }
-    attrText = [[NSMutableAttributedString alloc] initWithString:_groupItem.lastMessage];
-    
-    if ( groupItem.isAtMessage )
-    {
-        NSAttributedString *atString = [[NSAttributedString alloc] initWithString:@"[有人@我] " attributes:@{NSForegroundColorAttributeName : CCAppMainColor}];
-        if ( _groupItem.firstAtMessage )
-        {
-            attrText = [[NSMutableAttributedString alloc] initWithString:_groupItem.firstAtMessage];
-            [attrText insertAttributedString:atString atIndex:0];
-        }
-    }
-    else if ( groupItem.isRedEnvelope )
-    {
-        [attrText replaceCharactersInRange:NSMakeRange(0, attrText.length) withString:@"[红包]"];
-    }
-    self.titleLable.attributedText = attrText;
-    self.timeLable.text = groupItem.time;
-    if ( groupItem.unread >= 0 )
-    {
-        [self.hub setCount:groupItem.unread];
-    }
-}
-
-
-- (void)requestForIconWithGroupItem:(EVGroupItem *)groupItem
-{
-    __weak typeof(self) weakSelf = self;
-    [[EVChatMessageManager shareInstance] iconForGroupId:groupItem.ID completion:^(NSString *logourl) {
-        [weakSelf.iconImage cc_setImageWithURLString:logourl placeholderImage:[UIImage imageNamed:@"message_my_group"]];
-        BOOL isOwner = [[EVEaseMob cc_shareInstance].currentUserName isEqualToString:groupItem.owner];
-        self.timeLable.hidden = isOwner;
-        self.ownerMarkView.hidden = !isOwner;
-        self.iconSuccess = YES;
-    }];
-}
 
 /**返回cell的高度*/
 - (CGFloat)cellHeight{

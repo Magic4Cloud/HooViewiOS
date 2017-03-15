@@ -8,7 +8,6 @@
 
 
 #import <UIKit/UIKit.h>
-#import "EVChatTextView.h"
 #import "EVWatchBottomItemView.h"
 @class EVAudienceChatTextView;
 
@@ -26,7 +25,6 @@
 
 @interface EVAudienceChatTextView : UIView
 
-@property (nonatomic, weak) EVChatTextView *textView;
 
 @property (nonatomic,weak) NSLayoutConstraint *heightContraint;
 
@@ -41,7 +39,6 @@
 - (void)beginEdit;
 
 /**
- *  @author shizhiang, 15-11-27 11:11:55
  *
  *  清空内容
  */

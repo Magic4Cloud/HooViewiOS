@@ -14,6 +14,7 @@
 #import "EVLiveViewController.h"
 #import "EVAccountPhoneBindViewController.h"
 #import "NSString+Extension.h"
+#import "EVNullDataView.h"
 
 @interface EVDetailWebViewController () <CCLiveShareViewDelegate, UIWebViewDelegate, CCLiveViewControllerDelegate>
 
@@ -23,6 +24,8 @@
 @property (nonatomic, strong) NSMutableArray<NSURLRequest *> *loadedRequests;    /**< 加载过的URL */
 @property (nonatomic, assign) BOOL isBacking;   /**< 正在向前翻页 */
 @property (assign, nonatomic) UIWebViewNavigationType lastRequestType; /**< 上次请求类型 */
+
+@property (nonatomic, weak) EVNullDataView *nullDataView;
 
 @end
 
@@ -64,16 +67,19 @@
     [closeBtn addTarget:self action:@selector(closeVC) forControlEvents:UIControlEventTouchUpInside];
     closeBtn.titleLabel.font = backBtn.titleLabel.font;
     closeBtn.frame = CGRectMake(0, 0, 44, 44);
-    [closeBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [closeBtn setTitleColor:[UIColor textBlackColor] forState:UIControlStateNormal];
     UIBarButtonItem *closeItem = [[UIBarButtonItem alloc] initWithCustomView:closeBtn];
     [closeBtn setTitle:kEClose forState:UIControlStateNormal];
     self.navigationItem.leftBarButtonItems = @[backItem, closeItem];
+    
+    
+   
 }
 
 - (void)startLiveWithActivityId:(NSString *)activityId
 {
     NSMutableDictionary *startLiveInfo = [NSMutableDictionary dictionary];
-    [startLiveInfo setValue:activityId forKey:kId];
+    [startLiveInfo setValue:activityId forKey:@"id"];
     [startLiveInfo setValue:self.activityTitle forKey:kVideo_title];
     [self requestActivityLivingWithActivityInfo:startLiveInfo delegate:self];
 }
@@ -173,11 +179,12 @@
 {
     self.isBacking = NO;
     [self.indicatorView stopAnimating];
+    self.nullDataView.hidden = NO;
 }
 
 #pragma mark - live share view delegate
 // 分享
-- (void)liveShareViewDidClickButton:(CCLiveShareButtonType)type
+- (void)liveShareViewDidClickButton:(EVLiveShareButtonType)type
 {
     NSString *title = self.activityTitle;
     NSString *shareUrlString = self.url;
@@ -189,12 +196,12 @@
     UIImage *shareImage = self.image;
    
     shareUrlString = [shareUrlString cc_deleteSessionID];
-    [CCProgressHUD showMessage:kReady_share toView:self.view];
+    [EVProgressHUD showMessage:kReady_share toView:self.view];
     [UIImage gp_imageWithURlString:self.imageStr comolete:^(UIImage *image) {
-        [CCProgressHUD hideHUDForView:self.view];
+        [EVProgressHUD hideHUDForView:self.view];
         
         UIImage *img = shareImage ? : image;
-        [[EVShareManager shareInstance] shareContentWithPlatform:type shareType:ShareTypeActivity titleReplace:title descriptionReplaceName:title descriptionReplaceId:nil URLString:shareUrlString image:img];
+        [[EVShareManager shareInstance] shareContentWithPlatform:type shareType:ShareTypeNews titleReplace:title descriptionReplaceName:title descriptionReplaceId:nil URLString:shareUrlString image:img outImage:nil];
     }];
          
 }
@@ -236,7 +243,6 @@
     [webView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
     if (![self.url hasPrefix:@"http"])
     {
-        
         self.url = [NSString stringWithFormat:@"http://%@", self.url];
         
     }else{
@@ -247,35 +253,42 @@
     [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.url]]];
     self.webView = webView;
     
-    EVLiveShareView *shareView = [EVLiveShareView liveShareViewToTargetView:self.view menuHeight:202 delegate:self];
-    shareView.hidden = YES;
-    self.shareView = shareView;
+   
 
     UIActivityIndicatorView *indicatorView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width / 2 - 10, self.view.bounds.size.height/2-10, 20, 20)];
     indicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
     [self.view addSubview:indicatorView];
     self.indicatorView = indicatorView;
     
-    // change by 佳南 to  set button
-    if (self.activityTitle && !self.isEnd)
-    {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:kEShare style:UIBarButtonItemStylePlain target:self action:@selector(shareActivity)];
-        UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [shareBtn addTarget:self action:@selector(closeVC) forControlEvents:UIControlEventTouchUpInside];
-        [shareBtn.titleLabel setFont:[[CCAppSetting shareInstance] normalFontWithSize:15.0f]];
-        shareBtn.frame = CGRectMake(0, 0, 44, 44);
-        [shareBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        UIBarButtonItem *shareItem = [[UIBarButtonItem alloc] initWithCustomView:shareBtn];
-        [shareBtn setTitle:kEShare forState:UIControlStateNormal];
-        self.navigationItem.rightBarButtonItem = shareItem;
-    }
+//    if (self.activityTitle && !self.isEnd)
+//    {
+//        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:kEShare style:UIBarButtonItemStylePlain target:self action:@selector(shareActivity)];
+//    }
     
     self.loadedRequests = [NSMutableArray array];
+    
+    
+    EVNullDataView *nullDataView = [[EVNullDataView alloc] init];
+    nullDataView.frame = CGRectMake(0, 1, ScreenWidth, ScreenHeight);
+    [self.view addSubview:nullDataView];
+    nullDataView.topImage = [UIImage imageNamed:@"ic_cry"];
+    nullDataView.title = @"很抱歉，访问出错了";
+    self.nullDataView = nullDataView;
+    nullDataView.hidden = YES;
 }
 
-- (void)shareActivity
-{
-    self.shareView.hidden = NO;
-}
+//- (void)shareActivity
+//{
+//    if (!self.shareView) {
+//        EVLiveShareView *shareView = [[EVLiveShareView alloc] initWithParentView:self.view];
+//        shareView.delegate = self;
+//        [self.view addSubview:shareView];
+//        [self.view bringSubviewToFront:shareView];
+//        self.shareView = shareView;
+//        
+//    }
+// 
+//    [self.shareView show];
+//}
 
 @end

@@ -16,6 +16,8 @@
 
 @end
 @interface EVMngUserListController : EVViewController
+
+@property (nonatomic,strong) NSMutableArray *managerArray;
 @property (nonatomic,strong)NSString *vid;//主播云播号
 @property (nonatomic,assign) id<MngUserListDelegate> delegate;
 @end

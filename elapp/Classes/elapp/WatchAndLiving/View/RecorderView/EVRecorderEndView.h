@@ -19,7 +19,7 @@ typedef NS_ENUM(NSInteger, CCRecorderEndViewButtonType)
 
 @class EVRecorderEndView;
 
-@protocol CCRecorderEndViewDelegate <NSObject>
+@protocol EVRecorderEndViewDelegate <NSObject>
 
 @optional
 
@@ -32,6 +32,6 @@ typedef NS_ENUM(NSInteger, CCRecorderEndViewButtonType)
 @property (nonatomic, assign) BOOL hiddenFocusBtn;
 @property (nonatomic, assign) BOOL hiddenSendmessagesBtn; /**< 是否隐藏私信按钮 如果是自己隐藏 */
 
-@property (nonatomic, weak) id<CCRecorderEndViewDelegate> delegate;
+@property (nonatomic, weak) id<EVRecorderEndViewDelegate> delegate;
 
 @end

@@ -54,7 +54,7 @@ CGFloat const bottomViewHeight = 45.0f;
  *  帮助设置 bottomView 上的三个按钮
  */
 - (void)settingButton:(UIButton *)btn {
-    btn.titleLabel.font = CCNormalFont(14);
+    btn.titleLabel.font = EVNormalFont(14);
     [btn setTitleColor:[UIColor colorWithHexString:@"#FFFFFF"] forState:UIControlStateNormal];
     [btn setImageEdgeInsets:UIEdgeInsetsMake(.0f, -5.0f, .0f, 5.0f)];
     [btn setTitleEdgeInsets:UIEdgeInsetsMake(.0f, 5.0f, .0f, -5.0f)];
@@ -86,8 +86,8 @@ CGFloat const bottomViewHeight = 45.0f;
         _pullBlackButton.tag = EVBottomButtpnTypePullBack;
         [_pullBlackButton setTitle:@"拉黑" forState:UIControlStateNormal];
         [_pullBlackButton setTitle:@"解除拉黑" forState:UIControlStateSelected];
-        [_pullBlackButton setImage:[UIImage imageNamed:@"personal_icon_defriend"] forState:UIControlStateNormal];
-        [_pullBlackButton setImage:[UIImage imageNamed:@"personal_icon_defriend"] forState:UIControlStateSelected];
+        [_pullBlackButton setImage:[UIImage imageNamed:@"otherpersonal_icon_defriend"] forState:UIControlStateNormal];
+        [_pullBlackButton setImage:[UIImage imageNamed:@"otherpersonal_icon_removedefriend"] forState:UIControlStateSelected];
           [_pullBlackButton addTarget:self action:@selector(buttonClick:) forControlEvents:(UIControlEventTouchUpInside)];
         [self settingButton:_pullBlackButton];
     }

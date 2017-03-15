@@ -7,9 +7,9 @@
 //
 
 
-#import "CCBaseObject.h"
+#import "EVBaseObject.h"
 
-@interface EVFriend : CCBaseObject
+@interface EVFriend : EVBaseObject
 
 /** 好友 id */
 @property (nonatomic,copy) NSString *friendId;

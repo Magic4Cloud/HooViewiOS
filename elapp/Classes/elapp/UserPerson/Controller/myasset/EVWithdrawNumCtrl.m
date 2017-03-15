@@ -31,7 +31,7 @@ typedef NS_ENUM(NSUInteger, EVWithdrawNumCtrlBtnType)
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = CCBackgroundColor;
+    self.view.backgroundColor = [UIColor evBackgroundColor];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     
     [self navBar];
@@ -86,7 +86,7 @@ typedef NS_ENUM(NSUInteger, EVWithdrawNumCtrlBtnType)
     [label1 autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:bgView withOffset:10.f];
 
     UIButton *shadowBtn = [[UIButton alloc] init];
-    shadowBtn.layer.borderColor = [UIColor colorWithHexString:kGlobalGreenColor].CGColor;
+    shadowBtn.layer.borderColor = [UIColor evMainColor].CGColor;
     shadowBtn.layer.borderWidth = 1.f;
     shadowBtn.layer.cornerRadius = 6.f;
     [shadowBtn setTitle:kE_GlobalZH(@"next") forState:UIControlStateNormal];

@@ -1,4 +1,4 @@
-//
+ //
 //  EVBaseToolManager+EVUserCenterAPI.h
 //  elapp
 //
@@ -17,11 +17,11 @@ typedef enum : NSUInteger
 } FollowType;
 
 // 定义解除绑定的类型
-typedef NS_ENUM(NSUInteger, CCUnbundlingAuthtype)
+typedef NS_ENUM(NSUInteger, EVUnbundlingAuthtype)
 {
-    CCAccountSina,
-    CCAccountQQ,
-    CCAccountWeixin
+    EVAccountSina,
+    EVAccountQQ,
+    EVAccountWeixin
 };
 
 
@@ -29,10 +29,10 @@ typedef NS_ENUM(NSUInteger, CCUnbundlingAuthtype)
  支付平台
  */
 typedef enum : NSUInteger {
-    CCPayPlatformAll = 0,
-    CCPayPlatformWeixin = 1,
-    CCPayPlatformAppPay = 2,
-} CCPayPlatform;
+    EVPayPlatformAll = 0,
+    EVPayPlatformWeixin = 1,
+    EVPayPlatformAppPay = 2,
+} EVPayPlatform;
 
 
 @class CCAccountImportResponse;
@@ -172,7 +172,6 @@ typedef enum : NSUInteger {
                  essionExpire:(void(^)())sessionExpireBlock;
 
 /**
- *  @author shizhiang, 16-01-07 10:01:33
  *
  *  直播过程中观众关注了主播
  *
@@ -211,28 +210,9 @@ typedef enum : NSUInteger {
              essionExpire:(void(^)())sessionExpireBlock;
 
 
-/** 根据已经获取到的图片要上传的URL来上传图片 */
-- (void)GETUpLoadImage:(UIImage *)image
-          WithFileName:(NSString *)name
-                   Url:(NSString *)urlString
-            startBlock:(void(^)())startBlock
-                  fail:(void(^)(NSError *error))failBlock
-               success:(void(^)(NSString *newVideoShotURL))successBlock
-          essionExpire:(void(^)())sessionExpireBlock;
-
-
-
-
-
-
-
-
-
-
-
 
 /** 账号解绑 */
--(void)GETUnbundlingtype:(CCUnbundlingAuthtype)unbundling
+-(void)GETUnbundlingtype:(EVUnbundlingAuthtype)unbundling
                    start:(void (^)())startBlock
                     fail:(void (^)(NSError *error))failBlock
                  success:(void (^)(id success))successBlock
@@ -286,8 +266,8 @@ typedef enum : NSUInteger {
  * consumptionDetailslistWithStart
  * @param  optionlist，可充值列表对象
  * @param  rmb，充值金额，单位为元，int
- * @param   ecoin，获取的云币数，int
- * @param  free，赠送的云币数，int
+ * @param   ecoin，获取的火眼豆数，int
+ * @param  free，赠送的火眼豆数，int
  */
 - (void)GETPrepaidRecordslistWithStart:(NSInteger)start
                                  count:(NSInteger)count
@@ -296,6 +276,23 @@ typedef enum : NSUInteger {
                                success:(void(^)(NSDictionary *info))successBlock
                         sessionExpired:(void(^)())sessionExpiredBlock;
 
+
+/**
+ 消费记录
+
+ @param start <#start description#>
+ @param count <#count description#>
+ @param startBlock <#startBlock description#>
+ @param failBlock <#failBlock description#>
+ @param successBlock <#successBlock description#>
+ @param sessionExpiredBlock <#sessionExpiredBlock description#>
+ */
+- (void)GETConsumeListWithStart:(NSInteger)start
+                          count:(NSInteger)count
+                          start:(void(^)())startBlock
+                           fail:(void(^)(NSError *error))failBlock
+                        success:(void(^)(NSDictionary *info))successBlock
+                 sessionExpired:(void(^)())sessionExpiredBlock;
 /**
  *  充值选项
  *
@@ -303,7 +300,7 @@ typedef enum : NSUInteger {
  *
  *  @return 请求的URL
  */
-- (void)GETCashinOptionWith:(CCPayPlatform)plateform
+- (void)GETCashinOptionWith:(EVPayPlatform)plateform
                       start:(void(^)())startBlock
                        fail:(void(^)(NSError *error))failBlock
                     success:(void(^)(NSDictionary *info))successBlock
@@ -320,7 +317,7 @@ typedef enum : NSUInteger {
  *
  *  @return <#return value description#>
  */
-- (void)POSTApplevalidWith:(NSString *)receipt
+- (void)POSTApplevalidWith:(NSString *)receipt platfrom:(NSString *)platfrom amound:(NSString *)amound
                      start:(void(^)())startBlock
                       fail:(void(^)(NSError *error))failBlock
                    success:(void(^)(NSDictionary *info))successBlock
@@ -329,4 +326,48 @@ typedef enum : NSUInteger {
 
 
 
+/**
+ 获取多个视频接口
+
+ @param list <#list description#>
+ @param failBlock <#failBlock description#>
+ @param successBlock <#successBlock description#>
+ */
+- (void)GETVideoInfosList:(NSString *)list fail:(void(^)(NSError *error))failBlock
+                  success:(void(^)(NSDictionary *info))successBlock;
+
+
+
+/**
+ 用户标签
+
+ @param failBlock <#failBlock description#>
+ @param successBlock <#successBlock description#>
+ */
+- (void)GETUserTagsListfail:(void(^)(NSError *error))failBlock
+                    success:(void(^)(NSDictionary *info))successBlock;
+
+
+
+
+
+/**
+ 用户所有标签
+
+ @param failBlock <#failBlock description#>
+ @param successBlock <#successBlock description#>
+ */
+- (void)GETAllUserTagsListfail:(void(^)(NSError *error))failBlock
+                       success:(void(^)(NSDictionary *info))successBlock;
+
+
+/**
+ 设置标签
+
+ @param list <#list description#>
+ @param failBlock <#failBlock description#>
+ @param successBlock <#successBlock description#>
+ */
+- (void)GETSetUserTagsList:(NSString *)list fail:(void(^)(NSError *error))failBlock
+                   success:(void(^)(NSDictionary *info))successBlock;
 @end

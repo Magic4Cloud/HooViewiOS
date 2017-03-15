@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CCEnums.h"
+#import "EVEnums.h"
 @class EVWatchVideoInfo, CCForeShowItem;
 
 @interface UIViewController (Extension)<UIScrollViewDelegate>

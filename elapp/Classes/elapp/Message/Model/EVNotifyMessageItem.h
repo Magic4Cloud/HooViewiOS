@@ -7,9 +7,9 @@
 //
 
 
-#import "CCBaseObject.h"
+#import "EVBaseObject.h"
 
-@interface EVNotifyMessageItem : CCBaseObject
+@interface EVNotifyMessageItem : EVBaseObject
 
 @property (assign, nonatomic) int type;
 

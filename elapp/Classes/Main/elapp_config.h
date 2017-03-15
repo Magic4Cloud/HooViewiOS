@@ -9,47 +9,38 @@
 #define elapp_config_h
 
 ///////////////////////////////////// 服务器地址 //////////////////////////////////////
-//#error FIXME: Need to change to yours
-#define CCURL_RELEASE                       @"http://appgw.hooview.com/easyvaas/appgw/"
-#define CCURL_HTTPS_RELEASE                 @"http://appgw.hooview.com/easyvaas/appgw/"
-#define CCURL_STATTE_RELEASE                @"release"
+#define EVURL_RELEASE                       @"http://appgw.hooview.com/easyvaas/appgw"
+#define EVURL_HTTPS_RELEASE                 @"https://appgw.hooview.com/easyvaas/appgw"
+#define EVURL_STATTE_RELEASE                @"release"
 
-#define CCURL_DEV                           @"http://appgw.hooview.com/easyvaas/appgw/"
-#define CCURL_HTTPS_DEV                     @"http://appgw.hooview.com/easyvaas/appgw/"
-#define CCURL_STATTE_DEV                    @"dev"
+#define EVURL_DEV                           @"http://dev.yizhibo.tv/hooview/appgw"
+#define EVURL_HTTPS_DEV                     @"http://dev.yizhibo.tv/hooview/appgw"
+#define EVURL_STATTE_DEV                    @"dev"
 /////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////// 第三方key //////////////////////////////////////
 //----------------------------------- 极光推送 ----------------------------------//
-//#error FIXME: Need to change to yours
-#define J_PUSH_APP_KEY                      @"5058b51ad39a89832f8a65dd"
+#define J_PUSH_APP_KEY                      @"4c4d83df3f8d7af82900182c"
 #define J_PUSH_APP_CHANNEL                  @"App Store"
 //----------------------------------- 环信推送 ----------------------------------//
-//#error FIXME: Need to change to yours
 #define EASEMOBAPP_KEY_RELEASE              @"1150160929178497#hooview"
-#define EASEMOBAPP_KEY_DEV                  @"1150160929178497#hooview"
-#define EASEMOBAPP_CER_RELEASE              @"1150160929178497#hooview"
-#define EASEMOBAPP_CER_DEV                  @"1150160929178497#hooview"
+#define EASEMOBAPP_KEY_DEV                  @"cloudfocus#elapp"
+#define EASEMOBAPP_CER_RELEASE              @"online_push_service_private"
+#define EASEMOBAPP_CER_DEV                  @"dev_push_service_private"
 //----------------------------------- BUGLY崩溃上报 -----------------------------//
-//#error FIXME: Need to change to yours
-#define BUGLY_APP_ID                        @"1105755574"
+#define BUGLY_APP_ID                        @"07e49351e9"
 //----------------------------------- 友盟数据统计 -------------------------------//
-//#error FIXME: Need to change to yours
-#define UMENG_APP_KEY                       @""
+#define UMENG_APP_KEY                       @"5881698d07fe656834000505"
 //----------------------------------- 阿里百川反馈 -------------------------------//
-//#error FIXME: Need to change to yours
-#define ALI_FEEDBACK_APP_KEY                @""
+#define ALI_FEEDBACK_APP_KEY                @"23468184"
 //----------------------------------- 微博 -------------------------------------//
-//#error FIXME: Need to change to yours
 #define WEIBO_APP_KEY                       @"3385195966"
 //----------------------------------- QQ --------------------------------------//
-//#error FIXME: Need to change to yours
-#define QQ_APP_ID                           @"1105755574"
+#define QQ_APP_ID                           @"1105885323"
 //----------------------------------- 微信 -------------------------------------//
-//#error FIXME: Need to change to yours
 #define WEIXIN_APP_KEY                      @"wx89d62b0eec9c1d9c"
 #define WEIXIN_SECRET_KEY                   @"ffb4c8f18145bbf1d19ddd99bef72749"
-//----------------------------------- 易视云服务 --------------------------------//
+//----------------------------------- 火眼财经服务 --------------------------------//
 
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -60,35 +51,44 @@
 // 发布状态
 //#define STATE_RELEASE
 
-
 // 手动切换服务器
 // #define STARTE_SWITCH_SERVER_MANUAL
 /////////////////////////////////////////////////////////////////////////////////////
 
 
-// 易视云服务 开发线上区分
+// 火眼财经服务 开发线上区分
 #ifdef STATE_RELEASE
-#error FIXME: Need to change to yours
 #define EV_APP_KEY                          @"r7Mun6JpcwHiSdIh"
 #define EV_ACCESS_KEY                       @"hdxLQK1jMMRRQlST"
 #endif
 
 #ifdef STATE_DEV
-//#error FIXME: Need to change to yours
-#define EV_APP_KEY                          @"r7Mun6JpcwHiSdIh"
-#define EV_ACCESS_KEY                       @"hdxLQK1jMMRRQlST"
+#define EV_APP_KEY                          @"yizhibo"
+#define EV_ACCESS_KEY                       @"yizhibo"
 #endif
 
-//#error FIXME: Need to change to yours
+
+#ifdef STATE_RELEASE
 #define EV_SECRET_KEY                       @"S6HQDY9M4LKnaosPrR7CZWQnsEvFgHWy"
+#endif
+
+#ifdef STATE_DEV
+#define EV_SECRET_KEY                       @"helloworld"
+#endif
 
 // 开启日志全局开关e
 #ifdef STATE_DEV
- #define CCDEBUG
+ #define EVDEBUG
+ #define webNewsUrl @"http://dev.yizhibo.tv/hooview/stock/"
+ #define webMarketUrl @"http://dev.yizhibo.tv/hooview/stock/"
 #endif
+
+
 
 // 友盟事件开关
 #ifdef STATE_RELEASE
+#define webNewsUrl   @"https://appgw.hooview.com/easyvaas/webapp2/"
+#define webMarketUrl @"https://appgw.hooview.com/easyvaas/webapp2/"
 #define CCMOBCLICK
 #define CCBugly_tag
 #endif
@@ -124,28 +124,28 @@
 
 // 服务器地址
 #ifdef STATE_RELEASE
-#define CCVideoBaseURL                          CCURL_RELEASE
-#define CCVideoBaseHTTPSURL                     CCURL_HTTPS_RELEASE
-#define CCAppState                              CCURL_STATTE_RELEASE
+#define EVVideoBaseURL                          EVURL_RELEASE
+#define EVVideoBaseHTTPSURL                     EVURL_HTTPS_RELEASE
+#define EVAppState                              EVURL_STATTE_RELEASE
 #endif
 
 #ifdef STATE_DEV
-#define CCAppState                              CCURL_STATTE_DEV
-#define CCVideoBaseHTTPSURL                     CCURL_HTTPS_DEV
-#define CCVideoBaseURL                          CCURL_DEV
+#define EVAppState                              EVURL_STATTE_DEV
+#define EVVideoBaseHTTPSURL                     EVURL_HTTPS_DEV
+#define EVVideoBaseURL                          EVURL_DEV
 #endif
 
 #ifdef STARTE_SWITCH_SERVER_MANUAL
-#define CCVideoBaseURL                          [[CCAppSetting shareInstance] serverURLString]
-#define CCAppState                              [[CCAppSetting shareInstance] serverAGENT]
-#define CCVideoBaseHTTPSURL                     [[CCAppSetting shareInstance] httpsServerUrlString]
+#define EVVideoBaseURL                          [[EVAppSetting shareInstance] serverURLString]
+#define EVAppState                              [[EVAppSetting shareInstance] serverAGENT]
+#define EVVideoBaseHTTPSURL                     [[EVAppSetting shareInstance] httpsServerUrlString]
 #endif
 
 // 全局log
-#ifdef CCDEBUG
-#define CCLog(...) NSLog(__VA_ARGS__)
+#ifdef EVDEBUG
+#define EVLog( s, ... ) NSLog( @"<%@:%d> %@", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__,  [NSString stringWithFormat:(s), ##__VA_ARGS__] )
 #else
-#define CCLog(...)
+#define EVLog(...)
 #endif
 
 

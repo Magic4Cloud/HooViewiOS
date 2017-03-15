@@ -13,22 +13,11 @@
 #define RECORD_BTN_FORWARD          101
 #define RECORD_BTN_PALY_OR_PAUSE    102
 
-@protocol CCRecordControlViewDelegate <NSObject>
+@protocol EVRecordControlViewDelegate <NSObject>
 
-/**
- *  @author zhaoyunlong, 16-04-14 18:02:43
- *
- *  点击按钮的回调
- *
- *  @param button 被点击的按钮
- */
-- (void)watchBottomViewBtnClick:(UIButton *)button;
 
-- (void)recordInfoViewDidAutoHidden:(id)recordInfoView;
-- (void)recordInfoView:(id)recordInfoView didClickButton:(UIButton *)btn;
 - (void)recordInfoViewDidDragToNewProgress:(double)progress;
 - (void)recordInfoViewDidBeginDrag:(id)recordInfoView;
-//- (void)recordInfoView:(id)recordInfoView valueChaged:(float)value;
 
 @end
 
@@ -46,7 +35,7 @@
 @interface EVRecordControlView : UIView
 
 /** 代理 */
-@property ( nonatomic, weak ) id<CCRecordControlViewDelegate> delegate;
+@property ( nonatomic, weak ) id<EVRecordControlViewDelegate> delegate;
 
 /** 礼物 */
 @property ( nonatomic, weak, readonly ) UIButton *giftButtton;

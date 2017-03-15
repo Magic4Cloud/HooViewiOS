@@ -28,19 +28,17 @@ extern NSString * const kStatusBarTappedNotification;
 
 @property (strong, nonatomic) UIWindow *window;
 
-
+@property(nonatomic,assign)BOOL allowRotation;//是否允许转向
 
 - (void)setUpHomeController;
 
 /**
- *  @author shizhiang, 16-03-08 16:03:08
  *
  *  重新登录
  */
 - (void)relogin;
 
 /**
- *  @author shizhiang, 16-03-09 10:03:13
  *
  *  发私信
  *  @param name 对方的云播号

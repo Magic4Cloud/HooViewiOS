@@ -12,19 +12,18 @@
 
 
 //分类接口
-- (NSString *)GETNewtopicWithStart:(void(^)())startBlock
+- (void)GETNewtopicWithStart:(void(^)())startBlock
                               fail:(void(^)(NSError *error))failBlock
                            success:(void(^)(NSDictionary *info))successBlock
                     sessionExpired:(void(^)())sessionExpiredBlock;
 
 
 //礼物列表
-- (NSString *)GETGoodsListWithStart:(void(^)())startBlock
+- (void)GETGoodsListWithStart:(void(^)())startBlock
                                fail:(void(^)(NSError *error))failBlock
                             success:(void(^)(NSDictionary *info))successBlock
                      sessionExpired:(void(^)())sessionExpiredBlock;
 /**
- *  @author shizhiang, 15-10-21 14:10:13
  *
  *  获取开机启动时需要的资源
  *

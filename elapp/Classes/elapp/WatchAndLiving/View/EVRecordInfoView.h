@@ -13,7 +13,7 @@
 #define RECORD_BTN_FORWARD          101
 #define RECORD_BTN_PALY_OR_PAUSE    102
 
-@protocol CCRecordInfoViewDelegate <NSObject>
+@protocol EVRecordInfoViewDelegate <NSObject>
 
 @optional
 - (void)recordInfoViewDidAutoHidden:(EVRecordInfoView *)recordInfoView;
@@ -34,7 +34,7 @@
 
 @interface EVRecordInfoView : UIView
 
-@property (nonatomic,weak) id<CCRecordInfoViewDelegate> delegate;
+@property (nonatomic,weak) id<EVRecordInfoViewDelegate> delegate;
 
 /** 是否隐藏 */
 @property (nonatomic, assign, readonly) BOOL hasHidden;

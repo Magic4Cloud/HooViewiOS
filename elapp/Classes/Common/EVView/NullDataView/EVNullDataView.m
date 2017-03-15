@@ -35,7 +35,7 @@
 
 - (void)creatSubviews
 {
-    self.backgroundColor = [UIColor whiteColor];
+    self.backgroundColor = [UIColor evBackgroundColor];
     // 容器
     UIView *contentView = [[UIView alloc] init];
     [self addSubview:contentView];
@@ -44,10 +44,9 @@
     [contentView autoMatchDimension:ALDimensionWidth toDimension:ALDimensionWidth ofView:self];
     
     
-    // 头像
     UIImageView *topImageView = [[UIImageView alloc] init];
     [contentView addSubview:topImageView];
-    topImageView.image = [UIImage imageNamed:@"personal_empty"];
+    topImageView.image = [UIImage imageNamed:@"ic_cry"];
     [topImageView autoPinEdge:ALEdgeTop toEdge:ALEdgeTop ofView:contentView];
     [topImageView autoAlignAxisToSuperviewAxis:ALAxisVertical];
     [topImageView autoSetDimensionsToSize:topImageView.image.size];
@@ -60,8 +59,8 @@
     [titleLabel autoAlignAxisToSuperviewAxis:ALAxisVertical];
     [titleLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:topImageView withOffset:10.f];
     self.titleLabel = titleLabel;
-    titleLabel.font = CCNormalFont(15);
-    titleLabel.textColor = CCColor(190, 169, 201);
+    titleLabel.font = EVNormalFont(16);
+    titleLabel.textColor = [UIColor evTextColorH2];
     
     // 副标题
     UILabel *subtitleLabel = [[UILabel alloc] init];
@@ -69,8 +68,8 @@
     [subtitleLabel autoAlignAxisToSuperviewAxis:ALAxisVertical];
     [subtitleLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:titleLabel withOffset:10.f];
     self.subtitleLabel = subtitleLabel;
-    subtitleLabel.font = CCNormalFont(12);
-    subtitleLabel.textColor = CCTextBlackColor;
+    subtitleLabel.font = EVNormalFont(12);
+    subtitleLabel.textColor = [UIColor textBlackColor];
     subtitleLabel.hidden = YES;
     
     // 按钮
@@ -82,11 +81,11 @@
     self.buttonHeightConstraint = [button autoSetDimension:ALDimensionHeight toSize:0.f];
     [button autoSetDimension:ALDimensionWidth toSize:width];
     [button autoPinEdgeToSuperviewEdge:ALEdgeBottom];
-    button.layer.cornerRadius = 3;
-    button.backgroundColor = [UIColor evAssistColor];
+    button.layer.cornerRadius = 15.;
+    button.backgroundColor = [UIColor evMainColor];
     self.button = button;
     [button setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
-    button.titleLabel.font = CCNormalFont(15);
+    button.titleLabel.font = EVNormalFont(16);
     button.hidden = YES;
 }
 

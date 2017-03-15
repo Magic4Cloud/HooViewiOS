@@ -32,9 +32,9 @@
 
 - (void)setSuperUpViews
 {
-    UIFont *labelFont = CCNormalFont(18);
+    UIFont *labelFont = EVNormalFont(18);
 
-    UIImageView *bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"setting_icon_screen"]];
+    UIImageView *bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"IOS_bg"]];
     [self addSubview:bgImageView];
     [bgImageView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
     
@@ -45,87 +45,125 @@
     
     //tip
     UILabel *tipLabel = [[UILabel alloc] init];
-    tipLabel.text = kE_GlobalZH(@"living_end");
-    tipLabel.textColor = [UIColor whiteColor];
-    tipLabel.font = [UIFont systemFontOfSize:26.f];
+    tipLabel.text = @"时长小于5分钟将不会被保存";
+    tipLabel.textColor = [UIColor evTextColorH2];
+    tipLabel.font = [UIFont systemFontOfSize:14.f];
     [bgImageView addSubview:tipLabel];
+    tipLabel.textAlignment = NSTextAlignmentCenter;
     [tipLabel autoAlignAxisToSuperviewAxis:ALAxisVertical];
     [tipLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeTop ofView:self withOffset:cc_absolute_y(120.0)];
+    [tipLabel autoSetDimensionsToSize:CGSizeMake(ScreenWidth, 20)];
     self.tipLabel = tipLabel;
     
+    UILabel *liveTimeLabel = [[UILabel alloc] init];
+    [bgImageView addSubview:liveTimeLabel];
+    self.timeLabel = liveTimeLabel;
+    liveTimeLabel.hidden = YES;
+    [liveTimeLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeTop ofView:tipLabel withOffset:0];
+    [liveTimeLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft];
+    [liveTimeLabel autoSetDimensionsToSize:CGSizeMake(ScreenWidth, 50)];
+    liveTimeLabel.font = [UIFont systemFontOfSize:36.f];
+    liveTimeLabel.textColor = [UIColor evMainColor];
+    
+    UILabel *tLabel = [[UILabel alloc] init];
+    [bgImageView addSubview:tLabel];
+    [tLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft];
+    [tLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:liveTimeLabel withOffset:16];
+    [tLabel autoSetDimensionsToSize:CGSizeMake(ScreenWidth, 22)];
+    tLabel.textColor = [UIColor evTextColorH2];
+    tLabel.text  = @"直播时长";
+    tLabel.hidden = YES;
+    tLabel.textAlignment = NSTextAlignmentCenter;
+    
+    
     // line
-    UIView *riceCountLine = [self initialLine];
-    [bgImageView addSubview:riceCountLine];
-    [riceCountLine autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:marginSide];
-    [riceCountLine autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:marginSide];
-    [riceCountLine autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:tipLabel withOffset:margin];
+//    UIView *riceCountLine = [self initialLine];
+//    [bgImageView addSubview:riceCountLine];
+//    [riceCountLine autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:marginSide];
+//    [riceCountLine autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:marginSide];
+//    [riceCountLine autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:tipLabel withOffset:margin];
+//
+//    UIView *audienceCountLine = [self initialLine];
+//    [bgImageView addSubview:audienceCountLine];
+//    [audienceCountLine autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:marginSide];
+//    [audienceCountLine autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:marginSide];
+//    [audienceCountLine autoPinEdge:ALEdgeBottom toEdge:ALEdgeBottom ofView:tipLabel withOffset:margin + height];
+//    
+//    UIView *likeCountLine = [self initialLine];
+//    [bgImageView addSubview:likeCountLine];
+//    [likeCountLine autoSetDimension:ALDimensionHeight toSize:1];
+//    [likeCountLine autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:marginSide];
+//    [likeCountLine autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:marginSide];
+//    [likeCountLine autoPinEdge:ALEdgeBottom toEdge:ALEdgeBottom ofView:tipLabel withOffset:margin + height * 2];
+//    self.likeCountLine = likeCountLine;
+//    
+//    UIView *commentCountLine = [[UIView alloc] init];
+//    [bgImageView addSubview:commentCountLine];
+//    [commentCountLine autoSetDimension:ALDimensionHeight toSize:0.3];
+//    [commentCountLine autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:marginSide];
+//    [commentCountLine autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:marginSide];
+//    [commentCountLine autoPinEdge:ALEdgeBottom toEdge:ALEdgeBottom ofView:tipLabel withOffset:margin + height * 3];
+//    self.commentCountLine = commentCountLine;
     
-    UIView *audienceCountLine = [self initialLine];
-    [bgImageView addSubview:audienceCountLine];
-    [audienceCountLine autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:marginSide];
-    [audienceCountLine autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:marginSide];
-    [audienceCountLine autoPinEdge:ALEdgeBottom toEdge:ALEdgeBottom ofView:tipLabel withOffset:margin + height];
     
-    UIView *likeCountLine = [self initialLine];
-    [bgImageView addSubview:likeCountLine];
-    [likeCountLine autoSetDimension:ALDimensionHeight toSize:1];
-    [likeCountLine autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:marginSide];
-    [likeCountLine autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:marginSide];
-    [likeCountLine autoPinEdge:ALEdgeBottom toEdge:ALEdgeBottom ofView:tipLabel withOffset:margin + height * 2];
-    self.likeCountLine = likeCountLine;
-    
-    UIView *commentCountLine = [[UIView alloc] init];
-    [bgImageView addSubview:commentCountLine];
-    [commentCountLine autoSetDimension:ALDimensionHeight toSize:0.3];
-    [commentCountLine autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:marginSide];
-    [commentCountLine autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:marginSide];
-    [commentCountLine autoPinEdge:ALEdgeBottom toEdge:ALEdgeBottom ofView:tipLabel withOffset:margin + height * 3];
-    self.commentCountLine = commentCountLine;
-    
+    CGFloat labelWid  = 70;
     // 云票数
     UILabel *riceCountLabel = [self initialLabel];
     [bgImageView addSubview:riceCountLabel];
-    riceCountLabel.font = CCNormalFont(30);
-    [riceCountLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:bgImageView withOffset:marginSide];
-    [riceCountLabel autoPinEdge:ALEdgeBottom toEdge:ALEdgeBottom ofView:riceCountLine withOffset:5 -marginLine];
+    riceCountLabel.font = EVNormalFont(18);
+//    riceCountLabel.textAlignment = NSTextAlignmentLeft;
+    [riceCountLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:bgImageView withOffset:50];
+    [riceCountLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:tLabel withOffset:55];
+    [riceCountLabel autoSetDimensionsToSize:CGSizeMake(labelWid, 25)];
     self.riceCountLabel = riceCountLabel;
     
     UILabel *riceUnitLabel = [self initialLabel];
-    riceUnitLabel.text = kE_GlobalZH(@"num_ticket");
-    riceUnitLabel.font = labelFont;
+    riceUnitLabel.text = @"观看人数";
+    riceUnitLabel.font = EVNormalFont(16);
+//    riceUnitLabel.textAlignment = NSTextAlignmentLeft;
     [bgImageView addSubview:riceUnitLabel];
-    [riceUnitLabel autoPinEdge:ALEdgeRight toEdge:ALEdgeRight ofView:riceCountLine];
-    [riceUnitLabel autoPinEdge:ALEdgeBottom toEdge:ALEdgeBottom ofView:riceCountLine withOffset: - marginLine];
+    riceUnitLabel.textColor = [UIColor evTextColorH2];
+    [riceUnitLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:bgImageView withOffset:50];
+    [riceUnitLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:riceCountLabel withOffset:0];
+    [riceUnitLabel autoSetDimensionsToSize:CGSizeMake(labelWid, 22)];
     
     // 观众数量
     UILabel *audienceCountLabel = [self initialLabel];
     [bgImageView addSubview:audienceCountLabel];
-    [audienceCountLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:bgImageView withOffset:marginSide];
-    [audienceCountLabel autoPinEdge:ALEdgeBottom toEdge:ALEdgeBottom ofView:audienceCountLine withOffset:- marginLine];
+    [audienceCountLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:tLabel withOffset:55];
+    [audienceCountLabel autoAlignAxisToSuperviewAxis:ALAxisVertical];
+    [audienceCountLabel autoSetDimensionsToSize:CGSizeMake(labelWid, 25)];
     self.audienceCountLabel = audienceCountLabel;
     self.audienceUnitLabel.text = kE_GlobalZH(@"num_watch");
     
     UILabel *audienceUnitLabel = [self initialLabel];
-    audienceUnitLabel.text = kE_GlobalZH(@"num_watch");
+    audienceUnitLabel.text = @"关注人数";
     [bgImageView addSubview:audienceUnitLabel];
-    audienceUnitLabel.font = labelFont;
-    [audienceUnitLabel autoPinEdge:ALEdgeRight toEdge:ALEdgeRight ofView:audienceCountLine];
-    [audienceUnitLabel autoPinEdge:ALEdgeBottom toEdge:ALEdgeBottom ofView:audienceCountLabel];
+    audienceUnitLabel.font = EVNormalFont(16);
+    audienceUnitLabel.textColor = [UIColor evTextColorH2];
+    [audienceUnitLabel autoAlignAxisToSuperviewAxis:ALAxisVertical];
+    [audienceUnitLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:audienceCountLabel];
+    [audienceUnitLabel autoSetDimensionsToSize:CGSizeMake(labelWid, 25)];
     self.audienceUnitLabel = audienceUnitLabel;
     
     // 赞
     UILabel *likeCountLabel = [self initialLabel];
     [bgImageView addSubview:likeCountLabel];
-    [likeCountLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:bgImageView withOffset:marginSide];
-    [likeCountLabel autoPinEdge:ALEdgeBottom toEdge:ALEdgeBottom ofView:likeCountLine withOffset:-marginLine];
+//    likeCountLabel.textAlignment = NSTextAlignmentRight;
+    [likeCountLabel autoPinEdge:ALEdgeRight toEdge:ALEdgeRight ofView:bgImageView withOffset:-50];
+    [likeCountLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:tLabel withOffset:55];
+    [likeCountLabel autoSetDimensionsToSize:CGSizeMake(labelWid, 25)];
     self.likeCountLabel = likeCountLabel;
     
     UILabel *likeCountUnitLabel = [self initialLabel];
-    likeCountUnitLabel.text = kE_GlobalZH(@"num_zan");
-    likeCountUnitLabel.font = labelFont;
+    likeCountUnitLabel.text = @"火眼币";
+    likeCountUnitLabel.font = EVNormalFont(16);
+    likeCountUnitLabel.textColor = [UIColor evTextColorH2];
     [bgImageView addSubview:likeCountUnitLabel];
-    [likeCountUnitLabel autoPinEdge:ALEdgeRight toEdge:ALEdgeRight ofView:audienceCountLine];
-    [likeCountUnitLabel autoPinEdge:ALEdgeBottom toEdge:ALEdgeBottom ofView:likeCountLabel];
+//    likeCountUnitLabel.textAlignment = NSTextAlignmentRight;
+    [likeCountUnitLabel autoPinEdge:ALEdgeRight toEdge:ALEdgeRight ofView:bgImageView withOffset:-50];
+    [likeCountUnitLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:likeCountLabel];
+     [likeCountUnitLabel autoSetDimensionsToSize:CGSizeMake(labelWid, 25)];
     
     // 评论
 //    UILabel *commentCountLabel = [self initialLabel];
@@ -153,8 +191,9 @@
 {
     UILabel *label = [[UILabel alloc] init];
     label.text = @"0";
-    label.textColor = [UIColor whiteColor];
+    label.textColor = [UIColor evMainColor];
     label.font = [UIFont systemFontOfSize:CCLiveEndBaseViewBUTTONFont];
+    label.textAlignment = NSTextAlignmentCenter;
     return label;
 }
 

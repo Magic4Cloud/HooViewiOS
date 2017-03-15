@@ -6,9 +6,8 @@
 //  Copyright (c) 2016 EasyVass. All rights reserved.
 //
 
-//#import "CCViewController.h"
-#import "EVPersonalCenterViewController.h"
+#import "EVViewController.h"
 
-@interface EVMineViewController : EVPersonalCenterViewController
+@interface EVMineViewController : EVViewController
 
 @end

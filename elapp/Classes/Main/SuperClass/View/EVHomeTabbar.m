@@ -9,279 +9,253 @@
 
 #import "EVHomeTabbar.h"
 #import <PureLayout.h>
+#import "EVTabbarItem.h"  ,   
 
 #define K_ANIMATION_TIME 0.3
 
-CGFloat const tabBarRealHeight = 75.f;          /**< tabBar实际高度 */
-static CGFloat const tabBarBtnHeight = 50.f;    /**< tabBar上按钮的高度 */
-static CGFloat const liveBtnWidth  = 69.f;      /**< 直播按钮宽度 */
-static CGFloat const liveBtnHeight = 76.f;      /**< 直播按钮高度 */
+static CGFloat const kAnimationDuration = 0.3f;
+static CGFloat const kBackgroundViewHeight = 49.f;
+static CGFloat const kItemLeft = 5.f;
+CGFloat const HOMETABBAR_HEIGHT = 71.f;
 
-@interface EVHomeTabbar ()
-
-@property (nonatomic,weak) UIButton *selectButton;
-
-@property (nonatomic,weak) UIButton *activityButton;
-@property (nonatomic,weak) UIButton *homeButton;
-@property (nonatomic,weak) UIButton *friendCircleButton;
-@property (nonatomic,weak) UIButton *letterButton;
+@interface EVHomeTabbar () <EVTabbarItemDelegate>
 
 @property (nonatomic, assign) BOOL tabbarShow;
-
-@property (nonatomic,weak) UIView *redPoint;
+@property (nonatomic, strong) UIView *bgView;
+@property (nonatomic, strong) EVTabbarItem *firstItem;
+@property (nonatomic, strong) EVTabbarItem *secondItem;
+@property (nonatomic, strong) EVTabbarItem *thirdItem;
+@property (nonatomic, strong) EVTabbarItem *fourthItem;
+@property (nonatomic, strong) EVTabbarItem *selectedItem;   /**< 用作标识 */
+//@property (nonatomic, strong) EVTabLiveItem *liveItem;
 
 @end
 
+
 @implementation EVHomeTabbar
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    if ( self = [super initWithFrame:frame] )
-    {
-        [self setUp];
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
+        [self setupTabViews];
     }
     return self;
 }
 
-- (void)setUp
-{
-    UIImageView *imageView = [[UIImageView alloc] init];
-    [self addSubview:imageView];
-    UIImage *image = [UIImage imageNamed:@"appbar_pic"];
-    imageView.image = image;
-    [imageView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero excludingEdge:ALEdgeTop];
-
-    // add by 佳南
-    self.layer.cornerRadius = 2.0f;
-    self.layer.shadowColor = CCColor(1, 1, 1).CGColor;
-    self.layer.shadowOffset = CGSizeMake(3, -3);
-    self.layer.shadowOpacity = 0.2;
+- (void)setupTabViews {
+    CGFloat itemWidth = ScreenWidth/4;
     
-    // 主页
-    UIButton *homeButton = [self buttonWithNorImage:@"home_tab_home" selectedImage:@"home_tab_home_pre" title:nil];
-    [self addSubview:homeButton];
-    homeButton.tag = CCHomeTabbarButtonTimeLine;
-    self.homeButton = homeButton;
+    self.bgView = [UIView new];
+    self.bgView.backgroundColor = [UIColor whiteColor];
+    [self addSubview:self.bgView];
+    [self.bgView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero excludingEdge:ALEdgeTop];
+    [self.bgView autoSetDimension:ALDimensionHeight toSize:kBackgroundViewHeight];
     
-    // change by 佳南
-    // 直播
-//    UIButton *liveButton = [[UIButton alloc] init];
-//    [liveButton setImage:[UIImage imageNamed:@"appbar_icon_liveopen"] forState:UIControlStateNormal];
-//    [self addSubview:liveButton];
-//    liveButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
-//    liveButton.tag = CCHomeTabbarButtonLive;
-//    [liveButton addTarget:self action:@selector(buttonDidClicked:withEvent:) forControlEvents:UIControlEventTouchDown];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 1, 14)];
-    label.backgroundColor = CCColor(98, 45, 128);
-    [self addSubview:label];
+    // 顶部线
+//    EVLineView *topLine = [EVLineView addTopLineToView:self.bgView];
+//    topLine.backgroundColor = [UIColor evLineColor];
     
     
-    // 私信
-    UIButton *letterButton = [self buttonWithNorImage:@"home_tab_message" selectedImage:@"home_tab_message_pre" title:nil];
-    [self addSubview:letterButton];
-    letterButton.tag = CCHomeTabbarButtonLetter;
-    self.letterButton = letterButton;
+    self.firstItem = [[EVTabbarItem alloc] initWithSelectImg:[UIImage imageNamed:@"appbar_icon_first"]
+                                                   normalImg:[UIImage imageNamed:@"appbar_icon_first_nor"]
+                                                       title:@"资讯"];
+    [self.bgView addSubview:self.firstItem];
+    [self.firstItem autoPinEdgeToSuperviewEdge:ALEdgeTop];
+    [self.firstItem autoPinEdgeToSuperviewEdge:ALEdgeBottom];
+    [self.firstItem autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:kItemLeft];
+    [self.firstItem autoSetDimension:ALDimensionWidth toSize:itemWidth];
     
-    UIView *redPoint = [[UIView alloc] init];
-    redPoint.hidden = YES;
-    redPoint.userInteractionEnabled = NO;
-    redPoint.backgroundColor = [UIColor redColor];
-    [letterButton addSubview:redPoint];
-    self.redPoint = redPoint;
+    self.secondItem = [[EVTabbarItem alloc] initWithSelectImg:[UIImage imageNamed:@"appbar_icon_two"]
+                                                    normalImg:[UIImage imageNamed:@"appbar_icon_two_nor"]
+                                                        title:@"直播"];
+    [self.bgView addSubview:self.secondItem];
+    [self.secondItem autoPinEdgeToSuperviewEdge:ALEdgeTop];
+    [self.secondItem autoPinEdgeToSuperviewEdge:ALEdgeBottom];
+    [self.secondItem autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:self.firstItem];
+    [self.secondItem autoSetDimension:ALDimensionWidth toSize:itemWidth];
     
-    for ( UIView *subView in self.subviews )
-    {
-        if ( [subView isKindOfClass:[UIButton class]] && subView.tag != CCHomeTabbarButtonLive )
-        {
-            UIButton *btn = (UIButton *)subView;
-            [btn addTarget:self action:@selector(buttonDidClicked:withEvent:) forControlEvents:UIControlEventTouchDown];
-        }
-    }
+    self.fourthItem = [[EVTabbarItem alloc] initWithSelectImg:[UIImage imageNamed:@"appbar_icon_four"]
+                                                    normalImg:[UIImage imageNamed:@"appbar_icon_four_nor"]
+                                                        title:@"个人"];
+    [self.bgView addSubview:self.fourthItem];
+    [self.fourthItem autoPinEdgeToSuperviewEdge:ALEdgeTop];
+    [self.fourthItem autoPinEdgeToSuperviewEdge:ALEdgeBottom];
+    [self.fourthItem autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:kItemLeft];
+    [self.fourthItem autoSetDimension:ALDimensionWidth toSize:itemWidth];
     
-    [homeButton autoPinEdgeToSuperviewEdge:ALEdgeLeft];
-    [homeButton autoPinEdgeToSuperviewEdge:ALEdgeBottom];
-    [homeButton autoSetDimension:ALDimensionWidth toSize:(ScreenWidth-liveBtnWidth)/2.f];
-    [homeButton autoSetDimension:ALDimensionHeight toSize:tabBarBtnHeight];
+    self.thirdItem = [[EVTabbarItem alloc] initWithSelectImg:[UIImage imageNamed:@"appbar_icon_three"]
+                                                   normalImg:[UIImage imageNamed:@"appbar_icon_three_nor"]
+                                                       title:@"行情"];
+    [self.bgView addSubview:self.thirdItem];
+    [self.thirdItem autoPinEdgeToSuperviewEdge:ALEdgeTop];
+    [self.thirdItem autoPinEdgeToSuperviewEdge:ALEdgeBottom];
+    [self.thirdItem autoPinEdge:ALEdgeRight toEdge:ALEdgeLeft ofView:self.fourthItem];
+    [self.thirdItem autoSetDimension:ALDimensionWidth toSize:itemWidth];
     
-    // change by 佳南
-//    [liveButton autoAlignAxisToSuperviewAxis:ALAxisVertical];
-//    [liveButton autoPinEdgeToSuperviewEdge:ALEdgeBottom];
-//    [liveButton autoSetDimensionsToSize:CGSizeMake(liveBtnWidth, liveBtnHeight)];
-    [label autoAlignAxisToSuperviewAxis:ALAxisVertical];
-    [label autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:17];
-    [label autoSetDimensionsToSize:CGSizeMake(1, 14)];
-
     
-    [letterButton autoPinEdgeToSuperviewEdge:ALEdgeRight];
-    [letterButton autoPinEdgeToSuperviewEdge:ALEdgeBottom];
-    [letterButton autoSetDimension:ALDimensionWidth toSize:(ScreenWidth-liveBtnWidth)/2.f];
-    [letterButton autoSetDimension:ALDimensionHeight toSize:tabBarBtnHeight];
+//    self.liveItem = [CCTabLiveItem new];
+//    [self addSubview:self.liveItem];
+//    [self.liveItem autoPinEdgeToSuperviewEdge:ALEdgeTop];
+//    [self.liveItem autoPinEdgeToSuperviewEdge:ALEdgeBottom];
+//    [self.liveItem autoAlignAxisToSuperviewAxis:ALAxisVertical];
+//    [self.liveItem autoSetDimensionsToSize:CGSizeMake(kLiveItemWidth, kLiveItemHeight)];
     
-    self.selectButton = homeButton;
-    homeButton.selected = YES;
+    
+    self.firstItem.delegate = self;
+    self.secondItem.delegate = self;
+    self.fourthItem.delegate = self;
+    self.thirdItem.delegate = self;
+//    self.liveItem.delegate = self;
+    self.firstItem.tag = EVHomeTabbarButtonActivity;
+    self.secondItem.tag = EVHomeTabbarButtonTimeLine;
+    self.thirdItem.tag = EVHomeTabbarButtonFriendCircle;
+    self.fourthItem.tag = EVHomeTabbarButtonLetter;
+//    self.liveItem.tag = EVHomeTabbarButtonLive;
+    
+    self.selectedItem = self.firstItem;
+    [self.firstItem selectItem:YES];
     self.selectedIndex = 0;
     
     self.tabbarShow = YES;
 }
 
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-    
-    CGFloat redPointWH = 6;
-    self.redPoint.layer.cornerRadius = 0.5 * redPointWH;
-    self.redPoint.frame = CGRectMake(0, 0, redPointWH, redPointWH);
-    CGRect messageButtonImageViewFrame = self.letterButton.imageView.frame;
-    CGFloat messageButtonImageViewMarginR = 7;
-    CGFloat messageButtonImageViewMarginT = 4;
-    CGFloat redPointCenterX = CGRectGetMaxX(messageButtonImageViewFrame) - messageButtonImageViewMarginR ;
-    CGFloat redPointCenterY = messageButtonImageViewFrame.origin.y + messageButtonImageViewMarginT ;
-    self.redPoint.center = CGPointMake(redPointCenterX, redPointCenterY);
-}
 
-- (UIButton *)buttonWithNorImage:(NSString *)norImage
-                   selectedImage:(NSString *)selectedImage
-                           title:(NSString *)title
-{
-    UIButton *activityButton = [[UIButton alloc] init];
-    activityButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
-    [activityButton setImage:[UIImage imageNamed:norImage] forState:UIControlStateNormal];
-    [activityButton setImage:[UIImage imageNamed:selectedImage] forState:UIControlStateSelected];
-
-    return activityButton;
-}
-
-- (void)buttonDidClicked:(UIButton *)button withEvent:(UIEvent *)event
-{
-    if ( button == self.selectButton )
-    {
-        return;
-    }
-    
-    if ( button.tag == CCHomeTabbarButtonLive )
-    {
-        if ( [self.delegate respondsToSelector:@selector(homeTabbarDidClickedLiveButton)] )
-        {
-            [self.delegate homeTabbarDidClickedLiveButton];
+#pragma mark - CCTabbarItemDelegate
+- (void)didClickedTabbarItem:(EVTabbarItem *)item {
+    if (item == self.selectedItem) {
+        if (item.tag == EVHomeTabbarButtonActivity) {
+            if ([self.delegate respondsToSelector:@selector(homeTabbarDicDoubleClick:)]) {
+                [self.delegate homeTabbarDicDoubleClick:EVHomeTabbarButtonActivity];
+            }
         }
         return;
     }
-
-    if ( [self.delegate respondsToSelector:@selector(homeTabbarDidClicked:)] )
-    {
-        [self.delegate homeTabbarDidClicked:button.tag];
+    
+    if ([self.delegate respondsToSelector:@selector(homeTabbarDidClicked:)]) {
+        [self.delegate homeTabbarDidClicked:item.tag];
     }
     
-    if ( button.tag != CCHomeTabbarButtonLive )
-    {
-        self.selectButton.selected = NO;
-        button.selected = YES;
-        self.selectButton = button;
+    if (item.tag != EVHomeTabbarButtonLive) {
+        [self.selectedItem selectItem:NO];
+        [item selectItem:YES];
+        self.selectedItem = item;
     }
 }
 
-- (void)setSelectedIndex:(NSInteger)selectedIndex
-{
-    self.selectButton.selected = NO;
+#pragma mark - CCTabLiveItemDelegate
+//- (void)didClickedLiveItem:(EVTabLiveItem *)item {
+//    if (item.tag != CCHomeTabbarButtonLive) {
+//        return;
+//    }
+//    
+//    if ([self.delegate respondsToSelector:@selector(homeTabbarDidClickedLiveButton)]) {
+//        [self.delegate homeTabbarDidClickedLiveButton];
+//    }
+//}
+
+
+#pragma mark - animation
+- (void)hideTabbarWithAnimation:(void(^)())complete {
+    if (!self.tabbarShow) {
+        return;
+    }
+    self.tabbarShow = NO;
+    
+    CGRect frame = self.frame;
+    frame.origin.y = frame.size.height;
+    [UIView animateWithDuration:kAnimationDuration animations:^{
+        self.frame = frame;
+    } completion:^(BOOL finished) {
+        !complete ?: complete();
+    }];
+    
+}
+
+- (void)showTabbarWithAnimation:(void(^)())complete {
+    if (self.tabbarShow) {
+        return;
+    }
+    self.tabbarShow = YES;
+    
+    CGRect frame = self.frame;
+    frame.origin.y = 0;
+    [UIView animateWithDuration:kAnimationDuration animations:^{
+        self.frame = frame;
+    } completion:^(BOOL finished) {
+        !complete ?: complete();
+    }];
+    
+}
+
+#pragma mark - setter
+- (void)setSelectedIndex:(NSInteger)selectedIndex {
     _selectedIndex = selectedIndex;
-    UIButton *btn = self.selectButton;
+    
+    [self.selectedItem selectItem:NO];
+    EVTabbarItem *item = self.selectedItem;
     switch ( selectedIndex )
     {
         case 0:
-            btn = self.homeButton;
+            item = self.firstItem;
             break;
             
         case 1:
-            btn = self.activityButton;
+            item = self.secondItem;
             break;
             
         case 2:
-            btn = self.friendCircleButton;
+            item = self.thirdItem;
             break;
             
         case 3:
-            btn = self.letterButton;
+            item = self.fourthItem;
             break;
             
         default:
             break;
     }
-    
-    btn.selected = YES;
-    self.selectButton = btn;
+    [item selectItem:YES];
+    self.selectedItem = item;
 }
 
-- (void)hideTabbarWithAnimation
-{
-    if ( !self.tabbarShow )
-    {
-        return;
-    }
-    self.tabbarShow = NO;
-    
-    // change by 佳南
-//    CGRect frame = self.frame;
-//    frame.origin.y = frame.size.height;
-//    [UIView animateWithDuration:K_ANIMATION_TIME animations:^{
-//        self.frame = frame;
-//    }];
-    
-}
-
-- (void)showTabbarWithAnimation
-{
-    if ( self.tabbarShow )
-    {
-        return;
-    }
-    self.tabbarShow = YES;
-    
-    // change by 佳南
-//    CGRect frame = self.frame;
-//    frame.origin.y = 0;
-//    [UIView animateWithDuration:K_ANIMATION_TIME animations:^{
-//        self.frame = frame;
-//    }];
-    
-}
 
 @end
 
+///---------------------------
+/// @name CCHomeTabbarContainer
+///---------------------------
+@implementation EVHomeTabbarContainer
 
-@interface CCHomeTabbarContainer ()
-@end
-
-@implementation CCHomeTabbarContainer
-
+#pragma mark - init views 💧
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if ( self = [super initWithFrame:frame] )
     {
         EVHomeTabbar *tabbar = [[EVHomeTabbar alloc] init];
         [self addSubview:tabbar];
-        [tabbar autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
-        self.backgroundColor = [UIColor clearColor];
+        [tabbar autoPinEdgesToSuperviewEdges];
+        self.layer.borderColor = [UIColor colorWithHexString:@"f8f8f8"].CGColor;
+        self.layer.borderWidth = 1;
         
         self.tabbar = tabbar;
-        
     }
     return self;
 }
 
-- (void)setShowRedPoint:(BOOL)showRedPoint
-{
-    _showRedPoint = showRedPoint;
-    self.tabbar.redPoint.hidden = !showRedPoint;
+#pragma mark - actions
+- (void)hideTabbarWithAnimation {
+    [self.tabbar hideTabbarWithAnimation:nil];
 }
 
-- (void)layoutSubviews
-{
+- (void)showTabbarWithAnimation {
+    [self.tabbar showTabbarWithAnimation:nil];
+}
+
+#pragma mark UIView
+- (void)layoutSubviews {
     [super layoutSubviews];
     
-    for ( UIView *item in self.subviews )
-    {
-        if ( ![item isKindOfClass:[EVHomeTabbar class]] )
-        {
+    for (UIView *item in self.subviews) {
+        if (![item isKindOfClass:[EVHomeTabbar class]]) {
             item.hidden = YES;
         }
     }
@@ -289,24 +263,32 @@ static CGFloat const liveBtnHeight = 76.f;      /**< 直播按钮高度 */
     self.tabbar.frame = self.bounds;
 }
 
-- (void)hideTabbarWithAnimation
-{
-    [self.tabbar hideTabbarWithAnimation];
+// 防止响应链断开
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    UIView *hitView = [super hitTest:point withEvent:event];
+    
+    NSInteger tabY = self.tabbar.frame.origin.y;
+    NSInteger tabH = self.tabbar.frame.size.height;
+    if (tabY == tabH) {
+        CGRect touchRect = self.bounds;
+        if (CGRectContainsPoint(touchRect, point)) {
+            return nil;
+        }
+    }
+    return hitView;
 }
 
-- (void)showTabbarWithAnimation
-{
-    [self.tabbar showTabbarWithAnimation];
+#pragma mark - getters / setters
+- (void)setShowRedPoint:(BOOL)showRedPoint {
+    _showRedPoint = showRedPoint;
+    [self.tabbar.fourthItem showRedPoint:showRedPoint];
 }
 
-- (void)setSelectedIndex:(NSInteger)selectedIndex
-{
+- (void)setSelectedIndex:(NSInteger)selectedIndex {
     self.tabbar.selectedIndex = selectedIndex;
 }
 
-- (NSInteger)selectedIndex
-{
+- (NSInteger)selectedIndex {
     return self.tabbar.selectedIndex;
 }
-
 @end

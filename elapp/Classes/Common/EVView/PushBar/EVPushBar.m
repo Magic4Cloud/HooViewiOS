@@ -24,7 +24,7 @@
 - (instancetype)initWithTitle:(NSString *)title {
     if ( self = [super init] ) {
         [self setTitle:title forState:UIControlStateNormal];
-        [self setImage:CCAppIcon forState:UIControlStateNormal];
+        [self setImage:EVAppIcon forState:UIControlStateNormal];
         self.titleLabel.font = [UIFont systemFontOfSize:12];
         self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
         [self setUpPan];

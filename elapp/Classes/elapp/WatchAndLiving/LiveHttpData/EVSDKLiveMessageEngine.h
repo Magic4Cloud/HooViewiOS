@@ -17,6 +17,9 @@ typedef NS_ENUM(NSInteger, EVSDKNewMessageType)
     EVSDKNewMessageTypeLevelUser,
     EVSDKNewMessageTypeAllUser,
     EVSDKNewMessageTypeNewComment,
+    EVSDKNewMessageTypeShutUser,
+    EVSDKNewMessageTypeMngUser,
+    EVSDKNewMessageTypeKickUser,
 };
 
 typedef NS_ENUM(NSInteger, EVSDKSpecialMessageType)
@@ -25,6 +28,7 @@ typedef NS_ENUM(NSInteger, EVSDKSpecialMessageType)
     EVSDKSpecialMessageTypeDanmu,
     EVSDKSpecialMessageTypeGift,
     EVSDKSpecialMessageTypeRedPacket,
+    EVSDKSpecialMessageTypeLink,
     
 };
 
@@ -36,23 +40,44 @@ typedef NS_ENUM(NSInteger, EVSDKLiveDataType)
     EVSDKLiveDataTypeWatchedCount,
 };
 
-
-
 @protocol EVSDKMessageDelegate <NSObject>
+
+- (void)updateMessageLoveCount:(long long)loveCount;
+
+- (void)updateMessageWatchingCount:(long long)watchingCount;
+
+- (void)updateMessageWatchedCount:(long long)watchedCount;
+
+- (void)updateMessageRiceRoll:(long long)riceRoll;
+
+- (void)updateMessageLinkDict:(NSDictionary *)dict comment:(NSString *)comment;
+
+- (void)updateMessageRedPacketDict:(NSDictionary *)dict;
+
+- (void)updateMessageGiftDict:(NSDictionary *)dict;
+
+- (void)updateMessasgeDanmuDict:(NSDictionary *)dict comment:(NSString *)comment;
+
+- (void)updateMessageLevelUserData:(NSMutableArray *)data;
+
+- (void)updateMessageJoinUserData:(NSMutableArray *)data;
+
+- (void)updateMessageAllUserData:(NSMutableArray *)data;
+
+- (void)updateMessageNewCommentData:(NSMutableArray *)data isHistory:(BOOL)isHistory;
+
+- (void)updateMessageShutUserData:(NSMutableArray *)data;
+
+- (void)updateMessageKickUserData:(NSMutableArray *)data;
+
+- (void)updateMessageMngUserData:(NSMutableArray *)data;
 
 - (void)successJoinTopic;
 
 - (void)joinTopicIDNil;
 
-- (void)updateLiveMessageType:(EVSDKNewMessageType)type data:(NSMutableArray *)data;
-
-- (void)updateLiveSpecialMessageType:(EVSDKSpecialMessageType)type dict:(NSDictionary *)dict comment:(NSString *)comment;
-
 - (void)updateLiveStatus:(BOOL)status;
-
-- (void)updateLiveDataType:(EVSDKLiveDataType)type count:(long long)count;
 @end
-
 
 
 @interface EVSDKLiveMessageEngine : NSObject
@@ -60,18 +85,20 @@ typedef NS_ENUM(NSInteger, EVSDKLiveDataType)
 @property (nonatomic, weak) id <EVSDKMessageDelegate> delegate;
 
 @property (nonatomic, copy) NSString *topicVid;
-
 //initsdk的
 @property (nonatomic, copy) NSString *userData;
 
 @property (nonatomic, copy) NSString *anchorName;
 
-//- (void)oneSelfUserData:(EVAudience *)audience;
+@property (nonatomic, assign) BOOL levelTopic;
 
+- (void)loginConnect;
+
+- (void)loadHistoryData;
+
+- (void)loadMoreHistoryDataSuccess:(void(^)())success;
 //连接聊天服务器
 - (void)connectMessage;
-
-
 /**
  *  获取头像的完整url
  *
@@ -80,5 +107,4 @@ typedef NS_ENUM(NSInteger, EVSDKLiveDataType)
  *  @return
  */
 + (NSString *)logourlWithLogoSufix:(NSString *)sufix;
-
 @end

@@ -21,10 +21,10 @@ const CGFloat headerBtnWidth = 45;
 NSString * const magicCellID = @"magiccellID";
 #define BtnSelectedColor [UIColor colorWithHexString:@"#FFFFFF" alpha:0.3]
 
-static CGFloat const selfHeight = 260.f;
+static CGFloat const selfHeight = 346.f;
 static CGFloat const pageHeight = 8.f;
-static CGFloat const footerViewHeight = 45.f;
-static CGFloat const collectionViewHeight = 196.f;
+static CGFloat const footerViewHeight = 49.f;
+static CGFloat const collectionViewHeight = 292.f;
 
 @interface EVMagicEmojiView () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate>
 
@@ -49,7 +49,7 @@ static CGFloat const collectionViewHeight = 196.f;
 /** 分页 */
 @property (nonatomic, weak) UIPageControl *pageControl;
 
-/** 显示云币数量的按钮 */
+/** 显示火眼豆数量的按钮 */
 @property (nonatomic, weak) UIButton *yibiBtn;
 
 /** 表情菜单的底部容器view */
@@ -58,7 +58,7 @@ static CGFloat const collectionViewHeight = 196.f;
 /** 选择的礼物需要消耗的薏米 */
 @property (nonatomic, assign) NSInteger tempMinusBarley;
 
-/** 选择的礼物需要消耗的云币 */
+/** 选择的礼物需要消耗的火眼豆 */
 @property (nonatomic, assign) NSInteger tempMinusEcoin;
 
 /** 充值按钮 */
@@ -91,7 +91,7 @@ static CGFloat const collectionViewHeight = 196.f;
 
 - (void)dealloc
 {
-    [CCNotificationCenter removeObserver:self];
+    [EVNotificationCenter removeObserver:self];
 }
 
 // 初始化
@@ -102,7 +102,7 @@ static CGFloat const collectionViewHeight = 196.f;
     {
         [self initialData];
         [self setUpSubViews];
-        [CCNotificationCenter addObserver:self selector:@selector(calTimer) name:CCUpdateForecastTime object:nil];
+        [EVNotificationCenter addObserver:self selector:@selector(calTimer) name:EVUpdateTime object:nil];
     }
     return self;
 }
@@ -140,7 +140,7 @@ static CGFloat const collectionViewHeight = 196.f;
     // 2s内没有点击连发按钮，默认发送，并且把所有状态置为初始
     if ( self.time >= 2 )
     {
-        CCLog(@"send present +++++++++++++");
+        EVLog(@"send present +++++++++++++");
         [self sendPresent];
         [self origin];
         self.sendBtn.selected = YES;
@@ -150,12 +150,18 @@ static CGFloat const collectionViewHeight = 196.f;
 + (instancetype)magicEmojiViewToTargetView:(UIView *)targetView
 {
     UIView *emojiContainView = [[UIView alloc] init];
-    emojiContainView.backgroundColor = [UIColor clearColor];
+    emojiContainView.backgroundColor = [UIColor evTextColorH1];
+    emojiContainView.alpha = 0.8;
     [targetView addSubview:emojiContainView];
     [emojiContainView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
+//    [emojiContainView autoSetDimensionsToSize:CGSizeMake(ScreenWidth, ScreenHeight - selfHeight)];
+//    [emojiContainView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
+//    [emojiContainView]
     
     EVMagicEmojiView *emoji = [[EVMagicEmojiView alloc] init];
-    [emojiContainView addSubview:emoji];
+    [targetView addSubview:emoji];
+    emoji.backgroundColor = [UIColor whiteColor];
+    emoji.alpha = 1.0;
     emoji.emojiContainView = emojiContainView;
     
     //之前是280 现在不要上面的条就改为240
@@ -221,6 +227,8 @@ static CGFloat const collectionViewHeight = 196.f;
     
     self.hasHidden = NO;
     self.emojiContainView.hidden = NO;
+    self.hidden = NO;
+    self.userInteractionEnabled = YES;
     self.emojiContainView.userInteractionEnabled = YES;
 }
 
@@ -235,8 +243,7 @@ static CGFloat const collectionViewHeight = 196.f;
     self.hasHidden = YES;
     [self origin];
     self.emojiContainView.hidden = YES;
-//    self.sendBtn.selected = YES;
-//    self.emojiContainView.userInteractionEnabled = NO;
+    self.hidden = YES;
 }
 
 // 所有内容恢复原始状态
@@ -244,16 +251,9 @@ static CGFloat const collectionViewHeight = 196.f;
 {
     // 发送按钮
     self.sendBtn.hidden = NO;
-//    self.sendBtn.userInteractionEnabled = NO;
-//    self.sendBtn.selected = NO;
-    
     // 重复按钮
     self.repeatBtn.hidden = YES;
     
-    // 云币按钮
-    [self.yibiBtn setTitle:[NSString stringWithFormat:@"%@ %ld",kE_Coin, (long)self.ecoin] forState:UIControlStateNormal];
-    
-//    self.selectedMagicEmoji.selected = NO;
     [self.contentCollectionView reloadData];
 }
 
@@ -301,7 +301,7 @@ static CGFloat const collectionViewHeight = 196.f;
         
         for ( EVStartGoodModel *good in self.presentsGifts )
         {
-            if ( good.anitype == CCPresentAniTypeRedPacket )
+            if ( good.anitype == EVPresentAniTypeRedPacket )
             {
                 [mArr removeObject:good];
             }
@@ -354,12 +354,12 @@ static CGFloat const collectionViewHeight = 196.f;
             return NO;
         }
     }
-    // 要发送云币礼物的时候，云币不足
+    // 要发送火眼豆礼物的时候，火眼豆不足
     if ( self.selectedMagicEmoji.costtype == 1 )
     {
         if ( self.ecoin == 0 || self.selectedMagicEmoji.cost > self.ecoin )
         {
-            [[EVAlertManager shareInstance] performComfirmTitle:nil message:kE_GlobalZH(@"nil_coin") cancelButtonTitle:kE_GlobalZH(@"e_recharge") comfirmTitle:kOK WithComfirm:^{
+            [[EVAlertManager shareInstance] performComfirmTitle:nil message:kE_GlobalZH(@"nil_coin") cancelButtonTitle:@"取消" comfirmTitle:kOK WithComfirm:^{
      
             } cancel:^{
                 if ( self.delegate && [self.delegate respondsToSelector:@selector(yibiNotEnough)] )
@@ -386,19 +386,19 @@ static CGFloat const collectionViewHeight = 196.f;
         self.time = 0;
         button.hidden = YES;
         // 红包礼物不支持连刷
-        if ( self.selectedMagicEmoji.anitype == CCPresentAniTypeRedPacket )
-        {
+//        if ( self.selectedMagicEmoji.anitype == EVPresentAniTypeRedPacket )
+//        {
             [self sendPresent];
-        }
-        else
-        {
-            if ( self.delegate && [self.delegate respondsToSelector:@selector(magicEmojiSend)] )
-            {
-                [self.delegate magicEmojiSend];
-            };
-            self.repeatBtn.hidden = NO;
-            [self hideSelfAndShowRepeatAnimation];
-        }
+//        }
+//        else
+//        {
+//            if ( self.delegate && [self.delegate respondsToSelector:@selector(magicEmojiSend)] )
+//            {
+//                [self.delegate magicEmojiSend];
+//            };
+//            self.repeatBtn.hidden = NO;
+//            [self hideSelfAndShowRepeatAnimation];
+//        }
     }
 }
 
@@ -451,7 +451,7 @@ static CGFloat const collectionViewHeight = 196.f;
 - (void)changeAsset
 {
 
-    // 改变薏米数和云币数
+    // 改变薏米数和火眼豆数
     if ( self.selectedMagicEmoji.costtype == 0 && self.barley >= self.selectedMagicEmoji.cost )
     {
         self.barley -= self.selectedMagicEmoji.cost;
@@ -468,14 +468,15 @@ static CGFloat const collectionViewHeight = 196.f;
     _barley = barley;
 }
 
-// 云币数
+// 火眼豆数
 - (void)setEcoin:(NSInteger)ecoin
 {
     _ecoin = ecoin;
-    [self.yibiBtn setTitle:[NSString stringWithFormat:@"%@ %ld",kE_Coin, (long)ecoin] forState:UIControlStateNormal];
-}
+    [self.yibiBtn setTitle:[NSString stringWithFormat:@"火眼豆: "] forState:UIControlStateNormal];
+    NSString *rechargeTitle = [NSString stringWithFormat:@" %ld > ",self.ecoin];
+    [self.rechargeBtn setTitle:rechargeTitle forState:UIControlStateNormal];}
 
-// 点击云币数量btn
+// 点击火眼豆数量btn
 - (void)rechargeBtnClick
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(rechargeYibi)])
@@ -484,18 +485,18 @@ static CGFloat const collectionViewHeight = 196.f;
     }
 }
 
-- (UIButton *)headerButtonWithType:(CCPresentType)type
+- (UIButton *)headerButtonWithType:(EVPresentType)type
 {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setTitleColor:[UIColor colorWithHexString:@"#FFFFFF" alpha:0.4] forState:UIControlStateNormal];
     [button setTitleColor:[UIColor colorWithHexString:@"#FFFFFF" alpha:1.0] forState:UIControlStateSelected];
-    button.titleLabel.font = [[CCAppSetting shareInstance] normalFontWithSize:14];
+    button.titleLabel.font = [[EVAppSetting shareInstance] normalFontWithSize:14];
     
-    if ( type == CCPresentTypeEmoji )
+    if ( type == EVPresentTypeEmoji )
     {
         [button setTitle:kE_GlobalZH(@"e_emoj") forState:UIControlStateNormal];
     }
-    else if ( type == CCPresentTypePresent )
+    else if ( type == EVPresentTypePresent )
     {
         [button setTitle:kE_GlobalZH(@"e_gift") forState:UIControlStateNormal];
     }
@@ -510,7 +511,7 @@ static CGFloat const collectionViewHeight = 196.f;
 {
     // 半透明的背景
     UIView *alphaView = [[UIView alloc] init];
-    alphaView.backgroundColor = [UIColor colorWithHexString:@"#000000" alpha:0.8];
+    alphaView.backgroundColor = [UIColor whiteColor];
     [self addSubview:alphaView];
     [alphaView autoPinEdgesToSuperviewEdges];
     
@@ -524,15 +525,15 @@ static CGFloat const collectionViewHeight = 196.f;
     _headerView = headerView;
     
     // 表情礼物
-    _expressionGifts = [[EVStartResourceTool shareInstance] presentsWithType:CCPresentTypeEmoji];
+    _expressionGifts = [[EVStartResourceTool shareInstance] presentsWithType:EVPresentTypeEmoji];
     
     // 普通礼物
-    _presentsGifts = [[EVStartResourceTool shareInstance] presentsWithType:CCPresentTypePresent];
+    _presentsGifts = [[EVStartResourceTool shareInstance] presentsWithType:EVPresentTypePresent];
     
     if ( _expressionGifts.count != 0  && _presentsGifts.count != 0 )
     {
-        UIButton *emojiButton = [self headerButtonWithType:CCPresentTypeEmoji];
-        UIButton *giftButton = [self headerButtonWithType:CCPresentTypePresent];
+        UIButton *emojiButton = [self headerButtonWithType:EVPresentTypeEmoji];
+        UIButton *giftButton = [self headerButtonWithType:EVPresentTypePresent];
         [headerView addSubview:emojiButton];
         [headerView addSubview:giftButton];
         
@@ -559,12 +560,12 @@ static CGFloat const collectionViewHeight = 196.f;
         UIButton *button = nil;
         if ( _expressionGifts.count )
         {
-            button = [self headerButtonWithType:CCPresentTypeEmoji];
+            button = [self headerButtonWithType:EVPresentTypeEmoji];
             _emojiButton = button;
         }
         else if ( _presentsGifts.count != 0 )
         {
-            button = [self headerButtonWithType:CCPresentTypePresent];
+            button = [self headerButtonWithType:EVPresentTypePresent];
             _giftButton = button;
         }
         
@@ -606,56 +607,66 @@ static CGFloat const collectionViewHeight = 196.f;
     
     // 尾部视图
     UIView *footerView = [[UIView alloc] init];
-    footerView.backgroundColor = [UIColor clearColor];
+    footerView.backgroundColor = [UIColor evBackgroundColor];
     [self addSubview:footerView];
     [footerView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero excludingEdge:ALEdgeTop];
     [footerView autoSetDimension:ALDimensionHeight toSize:footerViewHeight];
 
-    // 发送按钮
-    CGFloat sendBtnHeight = 25.f;
+    UIView *footContentView = [[UIView alloc] init];
+    footContentView.backgroundColor = [UIColor whiteColor];
+    [footerView addSubview:footContentView];
+    [footContentView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
+    [footContentView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:5];
+    [footContentView autoSetDimension:ALDimensionHeight toSize:44];
+    [footContentView autoSetDimension:ALDimensionWidth toSize:ScreenWidth];
+//    // 发送按钮
+    CGFloat sendBtnHeight = 30.f;
     UIButton *sendBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [sendBtn setTitle:kSend forState:UIControlStateNormal];
+    [sendBtn setTitle:@"赠送" forState:UIControlStateNormal];
     [sendBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [sendBtn setBackgroundColor:[UIColor evMainColor]];
-    sendBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-    sendBtn.layer.cornerRadius = 3;
+    sendBtn.titleLabel.font = [UIFont systemFontOfSize:16];
+    sendBtn.layer.cornerRadius = 15;
     [sendBtn addTarget:self action:@selector(sendBtnClick:) forControlEvents:UIControlEventTouchDown];
-    [footerView addSubview:sendBtn];
-    [sendBtn autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:10];
+    [footContentView addSubview:sendBtn];
+    [sendBtn autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:30];
     [sendBtn autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
-    [sendBtn autoSetDimensionsToSize:CGSizeMake(60, sendBtnHeight)];
+    [sendBtn autoSetDimensionsToSize:CGSizeMake(70, sendBtnHeight)];
     _sendBtn = sendBtn;
     sendBtn.userInteractionEnabled = NO;
     
-    // 充值
-    UIButton *rechargeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    NSString *rechargeTitle = [NSString stringWithFormat:@" %@   ",kE_GlobalZH(@"e_recharge")];
-    [rechargeBtn setTitle:rechargeTitle forState:UIControlStateNormal];
-    [rechargeBtn setTitleColor:CCAppMainColor forState:UIControlStateNormal];
-    UIImage *rechargeImage = [[UIImage imageNamed:@"living_icon_yimoney_more"] imageWithTintColor:CCAppMainColor];
-    rechargeBtn.contentMode = UIViewContentModeLeft;
-    [rechargeBtn setImage:rechargeImage forState:UIControlStateNormal];
-    rechargeBtn.imageEdgeInsets = UIEdgeInsetsMake(-5, 30, 5, -30);
-    rechargeBtn.titleEdgeInsets = UIEdgeInsetsMake(-5, -17, 5, 17);
-    rechargeBtn.titleLabel.font = [[CCAppSetting shareInstance] normalFontWithSize:12];
-    [rechargeBtn addTarget:self action:@selector(rechargeBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [footerView addSubview:rechargeBtn];
-    [rechargeBtn autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:self withOffset:15];
-    [rechargeBtn autoPinEdge:ALEdgeTop toEdge:ALEdgeTop ofView:footerView withOffset:7];
-    [rechargeBtn autoPinEdgeToSuperviewEdge:ALEdgeBottom];
-    
-    // 云币数量
+
+
+
+    // 火眼豆数量
     UIButton *yibiBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    yibiBtn.titleLabel.font = [[CCAppSetting shareInstance] normalFontWithSize:12];
-    [footerView addSubview:yibiBtn];
-    [yibiBtn setTitle:[NSString stringWithFormat:@"%@ %ld",kE_Coin, (long)self.ecoin] forState:UIControlStateNormal];
+    yibiBtn.titleLabel.font = [[EVAppSetting shareInstance] normalFontWithSize:12];
+    [footContentView addSubview:yibiBtn];
+    [yibiBtn setTitle:[NSString stringWithFormat:@"火眼豆: "] forState:UIControlStateNormal];
     _yibiBtn = yibiBtn;
-    [yibiBtn autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:rechargeBtn withOffset:15];
+    [yibiBtn autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:self withOffset:16.];
     [yibiBtn autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
-    [yibiBtn autoSetDimension:ALDimensionWidth toSize:150 relation:NSLayoutRelationLessThanOrEqual];
-    [yibiBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [yibiBtn autoSetDimension:ALDimensionWidth toSize:64 relation:NSLayoutRelationLessThanOrEqual];
+    [yibiBtn setTitleColor:[UIColor evTextColorH2] forState:UIControlStateNormal];
 
-
+    // 充值
+        UIButton *rechargeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        NSString *rechargeTitle = [NSString stringWithFormat:@" %ld > ",self.ecoin];
+        [rechargeBtn setTitle:rechargeTitle forState:UIControlStateNormal];
+//#f87a2b 248 122 43
+        [rechargeBtn setTitleColor:[UIColor colorWithHexString:@"#f87a3b"] forState:UIControlStateNormal];
+//        UIImage *rechargeImage = [[UIImage imageNamed:@"living_icon_yimoney_more"] imageWithTintColor:[UIColor evMainColor]];
+        rechargeBtn.contentMode = UIViewContentModeLeft;
+//        [rechargeBtn setImage:rechargeImage forState:UIControlStateNormal];
+//        rechargeBtn.imageEdgeInsets = UIEdgeInsetsMake(-5, 30, 5, -30);
+//        rechargeBtn.titleEdgeInsets = UIEdgeInsetsMake(-5, -17, 5, 17);
+        rechargeBtn.titleLabel.font = [[EVAppSetting shareInstance] normalFontWithSize:16.];
+        [rechargeBtn addTarget:self action:@selector(rechargeBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        [footContentView addSubview:rechargeBtn];
+        [rechargeBtn autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:yibiBtn withOffset:0];
+        [rechargeBtn autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
+        [rechargeBtn autoSetDimensionsToSize:CGSizeMake(100, 33)];
+    self.rechargeBtn = rechargeBtn;
 }
 
 - (UIImageView *)addBottomLineWithBtn:(UIButton *)btn
@@ -716,7 +727,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 // 必须重写这个方法，这样做点击尾部视图就不会响应控制器的touchbegan了
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    CCLog(@"magic emoji view touch begin -------------------");
+    EVLog(@"magic emoji view touch begin -------------------");
 }
 
 @end

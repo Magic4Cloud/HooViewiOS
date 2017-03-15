@@ -11,7 +11,7 @@
 #import <PureLayout/PureLayout.h>
 #import "NSString+Extension.h"
 
-@interface EVCenterPresentView ()
+@interface EVCenterPresentView ()<CAAnimationDelegate>
 
 @property (nonatomic,weak) UIImageView *imageView;
 
@@ -49,7 +49,7 @@
 
 - (void)dealloc
 {
-    CCLog(@"CCCenterPresentView dealloc");
+    EVLog(@"CCCenterPresentView dealloc");
     [_imageView.layer removeAllAnimations];
     [_imageView removeFromSuperview];
     _imageView = nil;
@@ -57,7 +57,7 @@
 
 - (void)startAnimationWithPresent:(EVStartGoodModel *)present
 {
-    if ( present.anitype == CCPresentAniTypeStaticImage )
+    if ( present.anitype == EVPresentAniTypeStaticImage )
     {
         NSString *imageStr = [NSString stringWithFormat:@"%@", [present.ani md5String]];
         UIImage *image = [UIImage imageWithContentsOfFile:PRESENTFILEPATH(imageStr)];

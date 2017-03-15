@@ -18,12 +18,12 @@
 #import "EV3rdPartAPIManager.h"
 
 #define kWeiXinSuccess @"SUCCESS"
-#define CCDocumentsPath [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]
-#define CCReceiptDataFolder [CCDocumentsPath stringByAppendingPathComponent:@"ReceiptData"]
-#define CCReceiptPlistName @"receipt.plist"
-#define CCReceiptPlistFile [CCReceiptDataFolder stringByAppendingPathComponent:CCReceiptPlistName]
-#define kCCPayFileName @"kCCPayFileName"
-#define kCCPayFilleSendOk @"kCCPayFilleSendOk"
+#define EVDocumentsPath [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]
+#define EVReceiptDataFolder [EVDocumentsPath stringByAppendingPathComponent:@"ReceiptData"]
+#define EVReceiptPlistName @"receipt.plist"
+#define EVReceiptPlistFile [EVReceiptDataFolder stringByAppendingPathComponent:EVReceiptPlistName]
+#define kEVPayFileName @"kEVPayFileName"
+#define kEVPayFilleSendOk @"kEVPayFilleSendOk"
 
 #define kReturnCodeKey  @"return_code"
 #define kTimeStampKey   @"timestamp"
@@ -38,6 +38,8 @@
 @property (strong, nonatomic) EVBaseToolManager *engine; /**< 网络请求引擎 */
 @property (copy, nonatomic) NSString *transactionReceiptString; /**< 验证信息字符串 */
 @property (copy, nonatomic) NSString *cacheName; /**< 验证信息存储后的名字 */
+
+@property (strong, nonatomic) EVProductInfoModel *productInfoModel;
 
 @end
 
@@ -62,7 +64,7 @@
 {
     [_engine cancelAllOperation];
     _engine = nil;
-    [CCNotificationCenter removeObserver:self];
+    [EVNotificationCenter removeObserver:self];
 }
 
 
@@ -71,11 +73,11 @@
 - (void)payByWeiXinWithOder:(EVProductInfoModel *)product
 {
     // 添加监听微信对于订单的处理结果
-    [CCNotificationCenter addObserver:self
+    [EVNotificationCenter addObserver:self
                              selector:@selector(weixinPaySuccess:)
                                  name:WeixinPaySuccessNotification
                                object:nil];
-    [CCNotificationCenter addObserver:self
+    [EVNotificationCenter addObserver:self
                              selector:@selector(weixinPayFailed:)
                                  name:WeixinPayFailedNotification
                                object:nil];
@@ -95,6 +97,7 @@
 
 - (void)payByInAppPurchase:(EVProductInfoModel *)product
 {
+    self.productInfoModel = product;
     if ( ![SKPaymentQueue canMakePayments] )
     {
         if ( self.delgate &&
@@ -130,17 +133,17 @@
     NSMutableArray *arrMTemp = [NSMutableArray arrayWithArray:receiptsArrM];
     for (NSDictionary *dict in arrMTemp)
     {
-        NSString *fileName = dict[kCCPayFileName];
+        NSString *fileName = dict[kEVPayFileName];
         if ( [fileName isKindOfClass:[NSString class]] && fileName.length > 0 )
         {
-            NSString *recieptStr = [NSString stringWithContentsOfFile:[CCReceiptDataFolder stringByAppendingPathComponent:fileName]
+            NSString *recieptStr = [NSString stringWithContentsOfFile:[EVReceiptDataFolder stringByAppendingPathComponent:fileName]
                                                              encoding:NSUTF8StringEncoding
                                                                 error:NULL];
             if ( recieptStr.length > 0 )
             {
-                [self verifyReceipt:recieptStr
-                      withCacheName:fileName
-                         isReupload:YES];
+//                [self verifyReceipt:recieptStr
+//                      withCacheName:fileName
+//                         isReupload:YES];
             }
         }
     }
@@ -168,10 +171,7 @@
     
     if ( products.count > 0 )
     {
-        // 上传日志
-        [self.engine POSTPayLogWithType:CCTypeGetProductValue
-                              state:CCStateSuccessValue
-                           moreInfo:nil];
+
         
         SKProduct *product = [products firstObject];
         [self appPayBuyProduct:product];
@@ -182,10 +182,7 @@
     {
         [self.delgate appPayDidFailWithFailType:EVPayFailedTypeError
                                     failMessage:kE_GlobalZH(@"not_server_product_data_again")];
-        // 上传日志
-        [self.engine POSTPayLogWithType:CCTypeGetProductValue
-                              state:CCStateFailValue
-                           moreInfo:@{@"type" : @"response"}];
+
     }
 }
 
@@ -198,10 +195,7 @@
         [self.delgate appPayDidFailWithFailType:EVPayFailedTypeError
                                     failMessage:kE_GlobalZH(@"noNetwork")];
     }
-    // 上传日志
-    [self.engine POSTPayLogWithType:CCTypeGetProductValue
-                          state:CCStateSuccessValue
-                       moreInfo:@{@"type" : [NSString stringWithFormat:@"err:%@", error.description]}];
+
 }
 
 
@@ -228,7 +222,7 @@
         {
             case SKPaymentTransactionStatePurchasing:
             {
-                CCLog(@"用户正在购买");
+                EVLog(@"用户正在购买");
                 if ( self.delgate
                     && [self.delgate respondsToSelector:@selector(appPayInProcessing)] )
                 {
@@ -240,35 +234,34 @@
                 
             case SKPaymentTransactionStatePurchased:
             {
-                CCLog(@"购买成功");
+                EVLog(@"购买成功");
                 // 上传日志
                 NSMutableDictionary *moreInfoDict = [NSMutableDictionary dictionary];
                 [moreInfoDict setValue:transaction.payment.productIdentifier
                                 forKey:CCProductID];
-                [self.engine POSTPayLogWithType:CCTypePayWithItuneStoreValue
-                                      state:CCStateSuccessValue
-                                   moreInfo:moreInfoDict];
+             
                 
                 [queue finishTransaction:transaction];
-                
+                NSString *PAY;
+                if (transaction.payment.productIdentifier.length > 4) {
+                  PAY = [transaction.payment.productIdentifier substringFromIndex:4];
+                }
                 // 验证苹果支付
-                [self veryfyAppPay];
+                [self veryfyAppPay:[NSString stringWithFormat:@"%ld",self.productInfoModel.rmb]];
             }
                 
                 break;
                 
             case SKPaymentTransactionStateFailed:
             {
-                CCLog(@"购买失败");
+                EVLog(@"购买失败");
                 // 上传日志
                 NSString *moreInfoStr = [NSString stringWithFormat:@"%@%zd", transaction.error.userInfo[@"NSLocalizedDescription"], transaction.error.code];
                 NSMutableDictionary *moreInfoDict = [NSMutableDictionary dictionary];
                 [moreInfoDict setValue:transaction.payment.productIdentifier
                                 forKey:CCProductID];
                 [moreInfoDict setValue:moreInfoStr forKey:CCMoreInfoKey];
-                [self.engine POSTPayLogWithType:CCTypePayWithItuneStoreValue
-                                      state:CCStateFailValue
-                                   moreInfo:moreInfoDict];
+             
                 
                 [queue finishTransaction:transaction];
                 if ( self.delgate &&
@@ -288,11 +281,8 @@
                 
             case SKPaymentTransactionStateRestored:
             {
-                CCLog(@"恢复购买");
-                // 上传日志
-                [self.engine POSTPayLogWithType:CCTypePayWithItuneStoreValue
-                                      state:CCStateFailValue
-                                   moreInfo:@{@"type" : kE_GlobalZH(@"regain_bug")}];
+                EVLog(@"恢复购买");
+            
                 
                 [queue finishTransaction:transaction];
 
@@ -302,11 +292,8 @@
                 
             case SKPaymentTransactionStateDeferred:
             {
-                CCLog(@"最终状态未确定");
-                // 上传日志
-                [self.engine POSTPayLogWithType:CCTypePayWithItuneStoreValue
-                                      state:CCStateFailValue
-                                   moreInfo:@{@"type" : kE_GlobalZH(@"status_wei_determine")}];
+                EVLog(@"最终状态未确定");
+            
                 
 
             }
@@ -351,12 +338,12 @@
 
 - (void)sessiondidUpdate
 {
-    [CCNotificationCenter removeObserver:self
+    [EVNotificationCenter removeObserver:self
                                     name:CCSessionIdDidUpdateNotification
                                   object:nil];
-    [self verifyReceipt:_transactionReceiptString
-          withCacheName:self.cacheName
-             isReupload:YES];
+//    [self verifyReceipt:_transactionReceiptString
+//          withCacheName:self.cacheName
+//             isReupload:YES];
 }
 
 
@@ -364,9 +351,9 @@
 
 - (void)removeWeixinPayObserver
 {
-    [CCNotificationCenter removeObserver:self
+    [EVNotificationCenter removeObserver:self
                                     name:WeixinPaySuccessNotification object:nil];
-    [CCNotificationCenter removeObserver:self
+    [EVNotificationCenter removeObserver:self
                                     name:WeixinPayFailedNotification object:nil];
 }
 
@@ -414,11 +401,6 @@
     SKProductsRequest *request = [[SKProductsRequest alloc] initWithProductIdentifiers:set];
     request.delegate = self;
     [request start];
-    
-    // 上传日志
-    [self.engine POSTPayLogWithType:CCTypeGetProductValue
-                          state:CCStateStartValue
-                       moreInfo:@{CCProductID : productId}];
 }
 
 /**
@@ -434,17 +416,13 @@
     // 2.将票据加入到交易队列中
     [[SKPaymentQueue defaultQueue] addPayment:payment];
     
-    // 上传日志
-    [self.engine POSTPayLogWithType:CCTypePayWithItuneStoreValue
-                          state:CCStateStartValue
-                       moreInfo:@{CCProductID : product.productIdentifier}];
 }
 
 /**
  *  向后台发送苹果支付成功的验证信息，并存储验证信息，等待验证成功后再删除本地存储的验证信息，
     如果验证上传失败，则在app下次启动时重传
  */
-- (void)veryfyAppPay
+- (void)veryfyAppPay:(NSString *)pay
 {
     NSURLRequest *appstoreRequest = [NSURLRequest requestWithURL:[[NSBundle mainBundle] appStoreReceiptURL]];
     
@@ -453,6 +431,7 @@
     NSData *receiptData = [NSURLConnection sendSynchronousRequest:appstoreRequest
                                                  returningResponse:nil
                                                              error:&error];
+    
     if ( error && self.delgate &&
         [self.delgate respondsToSelector:@selector(appPayDidFailWithFailType:failMessage:)] )
     {
@@ -467,7 +446,7 @@
     NSString *fileName = [self cacheReceiptDataWithDataString:transactionReceiptString];
     
     // 向后台发送数据，后台拿到数据之后向苹果验证服务器验证
-    [self verifyReceipt:transactionReceiptString
+    [self verifyReceipt:transactionReceiptString platfrom:@"apple" amound:pay
           withCacheName:fileName
              isReupload:NO];
 }
@@ -498,23 +477,21 @@
     formater.dateFormat = @"yyyMMddHHmmss";
     NSString *cacheName = [formater stringFromDate:date];
     self.cacheName = [cacheName mutableCopy];
-    [dict setValue:cacheName forKey:kCCPayFileName];
-    [dict setValue:@(NO) forKey:kCCPayFilleSendOk];
+    [dict setValue:cacheName forKey:kEVPayFileName];
+    [dict setValue:@(NO) forKey:kEVPayFilleSendOk];
     [arrM addObject:dict];
-    if ( ![[NSFileManager defaultManager] fileExistsAtPath:CCReceiptDataFolder] )
+    if ( ![[NSFileManager defaultManager] fileExistsAtPath:EVReceiptDataFolder] )
     {
-        [[NSFileManager defaultManager] createDirectoryAtPath:CCReceiptDataFolder
+        [[NSFileManager defaultManager] createDirectoryAtPath:EVReceiptDataFolder
                                   withIntermediateDirectories:YES
                                                    attributes:nil
                                                         error:NULL];
     }
-    [arrM writeToFile:CCReceiptPlistFile
+    [arrM writeToFile:EVReceiptPlistFile
            atomically:YES];
-    [data writeToFile:[CCReceiptDataFolder stringByAppendingPathComponent:cacheName]
+    [data writeToFile:[EVReceiptDataFolder stringByAppendingPathComponent:cacheName]
            atomically:YES];
     
-//    NSString *path = CCReceiptPlistFile;
-//    NSLog(@"path:%@", path);
     return cacheName;
 }
 
@@ -526,7 +503,7 @@
 - (NSMutableArray *)readReceiptArr
 {
     // 获取沙盒路径下存放验证信息名字的plist并转化为数组，然后把新的添加到数组中
-    NSMutableArray *arrM = [NSMutableArray arrayWithContentsOfFile:CCReceiptPlistFile];
+    NSMutableArray *arrM = [NSMutableArray arrayWithContentsOfFile:EVReceiptPlistFile];
     if ( !arrM )
     {
         arrM = [NSMutableArray array];
@@ -551,14 +528,14 @@
     NSString *fileName = nil;
     for (NSDictionary *dict in arrMTemp)
     {
-        fileName = [dict valueForKey:kCCPayFileName];
+        fileName = [dict valueForKey:kEVPayFileName];
         if ( [fileName isEqualToString:name] )
         {
             [arrM removeObject:dict];
-            [[NSFileManager defaultManager] removeItemAtPath:[CCReceiptDataFolder
+            [[NSFileManager defaultManager] removeItemAtPath:[EVReceiptDataFolder
                                                               stringByAppendingPathComponent:name]
                                                        error:nil];
-            [arrM writeToFile:CCReceiptPlistFile
+            [arrM writeToFile:EVReceiptPlistFile
                    atomically:YES];
             break;
         }
@@ -572,15 +549,16 @@
  *  @param receipt  验证信息
  *  @param name     本地存储验证信息文件的名字
  */
-- (void)verifyReceipt:(NSString *)receipt
+- (void)verifyReceipt:(NSString *)receipt platfrom:(NSString *)platfrom amound:(NSString *)amound
         withCacheName:(NSString *)cacheName
            isReupload:(BOOL)isReupload
 {
     __weak typeof(self) weakself = self;
-    [self.engine POSTApplevalidWith:receipt
+    [self.engine POSTApplevalidWith:receipt platfrom:platfrom amound:amound
                           start:nil
                            fail:^(NSError *error)
      {
+         NSLog(@"----------------error  %@",error);
          NSDictionary *errDict = error.userInfo;
          NSString *errStr = errDict[kRetvalKye];
          if ( [errStr isEqualToString:kApplePayVerifyErrorUsed] )
@@ -591,9 +569,9 @@
          else
          {
              dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                 [weakself verifyReceipt:receipt
-                           withCacheName:cacheName
-                              isReupload:YES];
+//                 [weakself verifyReceipt:receipt
+//                           withCacheName:cacheName
+//                              isReupload:YES];
              });
          }
          if ( weakself.delgate &&
@@ -606,12 +584,13 @@
      }
                         success:^(NSDictionary *info)
      {
-         NSInteger ecoin = [info[@"ecoin"] integerValue];
+         NSLog(@"info------------  %@",info);
+         NSInteger ecoin = [info[@"retinfo"][@"productid"] integerValue];
          if ( weakself.delgate &&
              [weakself.delgate respondsToSelector:@selector(appPayDidSucceedWithEcoin:)] &&
              !isReupload)
          {
-             [weakself.delgate appPayDidSucceedWithEcoin:ecoin];
+             [weakself.delgate appPayDidSucceedWithEcoin:self.productInfoModel.ecoin];
          }
          if ( cacheName.length > 0 )
          {
@@ -628,7 +607,7 @@
              [weakself.delgate appPayDidFailWithFailType:EVPayFailedTypeError
                                              failMessage:kE_GlobalZH(@"fail_account_again_login")];
          }
-         [CCNotificationCenter addObserver:weakself
+         [EVNotificationCenter addObserver:weakself
                                   selector:@selector(sessiondidUpdate)
                                       name:CCSessionIdDidUpdateNotification
                                     object:nil];
@@ -658,16 +637,5 @@
     return installed;
 }
 
-
-#pragma mark - getters and setters
-// fix by 马帅伟 线程安全问题(使用直接初始化的方式)
-//- (CCBaseTool *)engine
-//{
-//    if ( _engine == nil )
-//    {
-//        
-//    }
-//    return _engine;
-//}
 
 @end

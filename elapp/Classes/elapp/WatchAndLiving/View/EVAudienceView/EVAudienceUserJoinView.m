@@ -47,8 +47,8 @@
     _nickName = [nickName copy];
     NSString *content = [NSString stringWithFormat:@"%@ %@", nickName,kE_GlobalZH(@"come_in_room")];
     NSMutableAttributedString *mAttStr = [[NSMutableAttributedString alloc] initWithString:content];
-    [mAttStr addAttributes:@{NSForegroundColorAttributeName: [UIColor evAssistColor], NSFontAttributeName: CCBoldFont(16)} range:NSMakeRange(0, nickName.length)];
-    [mAttStr addAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithHexString:@"#FFFFFF"], NSFontAttributeName: CCNormalFont(16)} range:NSMakeRange(nickName.length, 3)];
+    [mAttStr addAttributes:@{NSForegroundColorAttributeName: [UIColor evAssistColor], NSFontAttributeName: EVBoldFont(16)} range:NSMakeRange(0, nickName.length)];
+    [mAttStr addAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithHexString:@"#FFFFFF"], NSFontAttributeName: EVNormalFont(16)} range:NSMakeRange(nickName.length, 3)];
     NSShadow *textShadow = [[NSShadow alloc] init];
     textShadow.shadowColor = [UIColor colorWithHexString:@"#000000" alpha:0.6];
     textShadow.shadowOffset = CGSizeMake(.5, .5);
@@ -60,7 +60,7 @@
 - (void)setUI
 {
     UILabel *textLabel = [[UILabel alloc] init];
-    textLabel.font = [[CCAppSetting shareInstance] normalFontWithSize:14];
+    textLabel.font = [[EVAppSetting shareInstance] normalFontWithSize:14];
     textLabel.textColor = [UIColor whiteColor];
     textLabel.layer.shadowOffset = CGSizeMake(3, 3);
     textLabel.layer.shadowColor = [UIColor colorWithHexString:@"#000000" alpha:0.4].CGColor;

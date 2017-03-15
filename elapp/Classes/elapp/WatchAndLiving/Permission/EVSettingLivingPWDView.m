@@ -82,7 +82,7 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    CCLog(@"textfield:%@， string:%@", textField.text, string);
+    EVLog(@"textfield:%@， string:%@", textField.text, string);
     
     if ( self.lastPwd.length > 0 )
     {
@@ -137,7 +137,7 @@
     if ( self.pwdStrM.length != self.pwdLblArr.count )
     {
         // 提示完善密码位数
-        [CCProgressHUD showError:@"密码不符合规则，请完善或修改！"];
+        [EVProgressHUD showError:@"密码不符合规则，请完善或修改！"];
         
         return;
     }
@@ -156,7 +156,7 @@
     // 01. 添加控件
     // 顶部类似导航条
     UIView *navBarV = [[UIView alloc] initWithFrame:CGRectZero];
-    navBarV.backgroundColor = [UIColor colorWithHexString:kGlobalNaviBarBgColorStr];
+    navBarV.backgroundColor = [UIColor evNaviBarBgColor];
     [self addSubview:navBarV];
     
     // 去除状态栏的view
@@ -167,23 +167,23 @@
     // 取消按钮
     UIButton *cancelBtn = [[UIButton alloc] initWithFrame:CGRectZero];
     [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
-    [cancelBtn setTitleColor:CCTextBlackColor forState:UIControlStateNormal];
-    cancelBtn.titleLabel.font = [[CCAppSetting shareInstance] normalFontWithSize:17.0f];
+    [cancelBtn setTitleColor:[UIColor textBlackColor] forState:UIControlStateNormal];
+    cancelBtn.titleLabel.font = [[EVAppSetting shareInstance] normalFontWithSize:17.0f];
     [cancelBtn addTarget:self action:@selector(cancel) forControlEvents:UIControlEventTouchUpInside];
     [navBottomV addSubview:cancelBtn];
     
     // 确定按钮
     UIButton *confirmBtn = [[UIButton alloc] initWithFrame:CGRectZero];
     [confirmBtn setTitle:@"确定" forState:UIControlStateNormal];
-    [confirmBtn setTitleColor:CCTextBlackColor forState:UIControlStateNormal];
-    confirmBtn.titleLabel.font = [[CCAppSetting shareInstance] normalFontWithSize:17.0f];
+    [confirmBtn setTitleColor:[UIColor textBlackColor] forState:UIControlStateNormal];
+    confirmBtn.titleLabel.font = [[EVAppSetting shareInstance] normalFontWithSize:17.0f];
     [confirmBtn addTarget:self action:@selector(confirm) forControlEvents:UIControlEventTouchUpInside];
     [navBottomV addSubview:confirmBtn];
     
     // 标题
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectZero];
     title.textColor = [UIColor colorWithHexString:@"#222222"];
-    title.font = [[CCAppSetting shareInstance] normalFontWithSize:17.0f];
+    title.font = [[EVAppSetting shareInstance] normalFontWithSize:17.0f];
     title.text = @"请输入密码";
     [self addSubview:title];
     

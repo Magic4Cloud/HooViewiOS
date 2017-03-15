@@ -38,6 +38,8 @@
 @property (nonatomic          ) MPMovieScalingMode scalingMode;         /**< 播放器的MPMovieScalingMode */
 @property (nonatomic, copy) NSString *vid;
 
+@property (nonatomic, assign) BOOL needRotate;
+
 /**
  *  初始化播放器
  *

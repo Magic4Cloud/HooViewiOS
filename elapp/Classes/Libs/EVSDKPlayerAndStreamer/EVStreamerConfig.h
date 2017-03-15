@@ -3,7 +3,7 @@
 //  EVCoreStreamer
 //
 //  Created by mashuaiwei on 16/7/28.
-//  Copyright © 2016年 easyvaas. All rights reserved.
+//  Copyright © 2016年 cloudfocous. All rights reserved.
 //
 
 #ifndef EVStreamerConfig_h
@@ -53,6 +53,22 @@ typedef NS_ENUM(NSUInteger, EVStreamFrameSize) {
     EVStreamFrameSize_360x640 = EVStreamFrameSize_default,
     EVStreamFrameSize_540x960,
     EVStreamFrameSize_720x1280,
+};
+
+// 音频上传码率(单位：kbps)
+typedef NS_ENUM(NSUInteger, EVStreamerAudioBitrate) {
+    EVStreamerAudioBitrate_32,
+    EVStreamerAudioBitrate_48,
+    EVStreamerAudioBitrate_64,
+    EVStreamerAudioBitrate_128,
+};
+
+typedef NS_ENUM(NSUInteger, EVInteractiveLiveStatus) {
+    EVInteractiveLiveStatusNone,            /**< 未知状态 */
+    EVInteractiveLiveStatusSuccess,         /**< 连麦成功 */
+    EVInteractiveLiveStatusUserOffline,     /**< 用户掉线 */
+    EVInteractiveLiveStatusLinkFailed,      /**< 连麦失败 */
+    EVInteractiveLiveStatusEnd,             /**< 连麦结束 */
 };
 
 #endif /* EVStreamerConfig_h */

@@ -6,7 +6,7 @@
 //  Copyright (c) 2016 EasyVass. All rights reserved.
 //
 
-#import "CCBaseObject.h"
+#import "EVBaseObject.h"
 
 #define CCCommentCellTopMargin 3
 
@@ -22,7 +22,7 @@ typedef NS_ENUM(NSInteger, CCCommentType) {
     CCCommentRedEnvelop // 红包提醒
 };
 
-@interface EVComment : CCBaseObject
+@interface EVComment : EVBaseObject
 
 
 /** 文字起始位置 */
@@ -110,12 +110,11 @@ typedef NS_ENUM(NSInteger, CCCommentType) {
  */
 + (instancetype)commentWithJSONString:(NSString *)jsonString;
 
-- (void)updateWithCommentInfo:(NSDictionary *)info contextInfo:(NSString *)contextInfo commentType:(CCCommentType)commentType;
+- (void)updateWithCommentInfo:(NSDictionary *)info contextInfo:(NSString *)contextInfo userid:(NSString *)userid commentType:(CCCommentType)commentType;
 
 + (UIColor *)replyNameColor;
 
 /**
- *  @author shizhiang, 16-01-22 15:01:49
  *
  *  获取评论内容的富文本
  *

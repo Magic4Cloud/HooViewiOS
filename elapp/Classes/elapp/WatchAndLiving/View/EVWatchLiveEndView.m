@@ -41,7 +41,7 @@
 
 - (void)setUpSubviews
 {
-    UIFont *labelFont = CCNormalFont(18);
+    UIFont *labelFont = EVNormalFont(18);
 
     CGFloat marginSide = cc_absolute_x(120);
     CGFloat backButtonHeight = 40.f;
@@ -56,7 +56,7 @@
     
     // 关注
     UIButton *focusButton = [[UIButton alloc] init];
-    focusButton.tag = CCWatchEndViewFocusButton;
+    focusButton.tag = EVWatchEndViewFocusButton;
     [focusButton setImage:[UIImage imageNamed:@"home_liveover_icon_add"] forState:UIControlStateNormal];
     [self addSubview:focusButton];
     [focusButton autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:self.likeCountLine withOffset:75];
@@ -73,7 +73,7 @@
     
     // 私信
     UIButton *letterButton = [[UIButton alloc] init];
-    letterButton.tag = CCWatchEndViewSendPrivateLetter;
+    letterButton.tag = EVWatchEndViewSendPrivateLetter;
     [letterButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [letterButton setImage:[UIImage imageNamed:@"home_liveset_icon_letter"] forState:UIControlStateNormal];
     [self addSubview:letterButton];
@@ -93,7 +93,7 @@
     // 返回按钮
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self addSubview:backButton];
-    backButton.tag = CCWatchEndViewCancelButton;
+    backButton.tag = EVWatchEndViewCancelButton;
     [backButton autoAlignAxisToSuperviewAxis:ALAxisVertical];
     [backButton autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:39.f];
     [backButton autoSetDimension:ALDimensionHeight toSize:backButtonHeight];
@@ -102,7 +102,7 @@
     backButton.layer.cornerRadius = 6.f;
     backButton.layer.masksToBounds = YES;
     backButton.titleLabel.font = [UIFont systemFontOfSize:15];
-    backButton.backgroundColor = CCColor(175, 153, 188);
+    backButton.backgroundColor = [UIColor evMainColor];
     
 
     

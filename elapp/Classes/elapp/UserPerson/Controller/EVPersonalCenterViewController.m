@@ -18,12 +18,10 @@
 
 
 @implementation EVCollectionFlowLayout
-
 - (void)prepareLayout
 {
     [super prepareLayout];
 }
-
 @end
 
 
@@ -62,7 +60,7 @@
     self.frontView = frontView;
     
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-    tableView.separatorColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+    tableView.separatorColor = [UIColor evGlobalSeparatorColor];
     tableView.backgroundColor = [UIColor clearColor];
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.view addSubview:tableView];
@@ -80,7 +78,6 @@
     
     CGFloat tableHeaderHeight = ScreenWidth > 320.f ? kTableHeaderViewHeightBig : kTableHeaderViewHeightSmall;
     /**
-     *  by 刘传瑞
      *  >> tableHeaderHeight 需要加上‘房间’视图的高度(CCProfileHeaderViewRoomHeight)
      */
     tableHeaderHeight = tableHeaderHeight + EVProfileHeaderViewRoomHeight;
@@ -94,7 +91,7 @@
     self.tableView.backgroundColor = [UIColor evBackgroundColor];
     self.view.backgroundColor  = [UIColor evBackgroundColor];
     
-// fix by 杨尚彬 测试
+
     [self.tableView addObserver:self forKeyPath:NSStringFromSelector(@selector(contentOffset)) options:NSKeyValueObservingOptionNew context:NULL];
     [self.collectionView addObserver:self forKeyPath:NSStringFromSelector(@selector(contentOffset)) options:NSKeyValueObservingOptionNew context:NULL];
 }
@@ -138,7 +135,7 @@
      self.topView = topView;
      
      UIView *navBottomLine = [[UIView alloc] init];
-     navBottomLine.backgroundColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+     navBottomLine.backgroundColor = [UIColor evGlobalSeparatorColor];
      [self.topView addSubview:navBottomLine];
     [navBottomLine autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero excludingEdge:ALEdgeTop];
     [navBottomLine autoSetDimension:ALDimensionHeight toSize:kGlobalSeparatorHeight];
@@ -153,12 +150,10 @@
     [backBtn autoSetDimensionsToSize:CGSizeMake(100, 44)];
      backBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
      [backBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [backBtn setTitleColor:CCAppMainColor forState:UIControlStateSelected];
-//     [backBtn setImage:[self.returnImg imageWithTintColor:[UIColor colorWithRed:51.0/255 green:66.0/255 blue:116.0/255 alpha:1]] forState:UIControlStateNormal];
-//    [backBtn setImage:[self.returnImg imageWithTintColor:CCAppMainColor] forState:UIControlStateSelected];
-    [backBtn setImage:self.returnImg forState:UIControlStateNormal];
-    [backBtn setImage:[UIImage imageNamed:@"prsonal_nav_back_pre"] forState:UIControlStateHighlighted];
-     [backBtn setTitle:kGlobalBackButtonTitle forState:UIControlStateNormal];
+    [backBtn setTitleColor:[UIColor evMainColor] forState:UIControlStateSelected];
+     [backBtn setImage:[self.returnImg imageWithTintColor:[UIColor colorWithRed:51.0/255 green:66.0/255 blue:116.0/255 alpha:1]] forState:UIControlStateNormal];
+    [backBtn setImage:[self.returnImg imageWithTintColor:[UIColor evMainColor]] forState:UIControlStateSelected];
+     [backBtn setTitle:@"" forState:UIControlStateNormal];
      backBtn.titleLabel.font = [UIFont systemFontOfSize:14];
      [backBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     self.backBtn = backBtn;
@@ -169,7 +164,7 @@
 - (UIImage *)returnImg {
     if ( !_returnImg )
     {
-        _returnImg = [UIImage imageNamed:@"prsonal_nav_back"];
+        _returnImg = [UIImage imageNamed:@"nav_icon_return"];
     }
     return _returnImg;
 }

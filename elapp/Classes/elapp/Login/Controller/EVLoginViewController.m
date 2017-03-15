@@ -17,15 +17,25 @@
 #import "EVLoginView.h"
 #import "EVPhoneLoginViewController.h"
 #import "EVBugly.h"
-#import "EVEaseMob.h"
 #import "EV3rdPartAPIManager.h"
 #import "EVTextViewController.h"
 #import "EVSDKInitManager.h"
+#import "EVHVLoginView.h"
+#import "EVProgressHUD.h"
+#import "EVRegionCodeModel.h"
+#import "EVBaseToolManager+EVUserCenterAPI.h"
+#import "NSString+Extension.h"
+#import "EVShareManager.h"
+#import "EVEaseMob.h"
+
+
 
 #define kGettingThirdPartUserInfo   kE_GlobalZH(@"obtain_user_three_info")
 #define kSynThirdPartUserInfo       kE_GlobalZH(@"sunch_user_three_info")
 
 #define kNotificationDefaultName @"default"
+#define kFirstLoginKey              @"firstloginkey"
+#define kFirstLoginValue            @"firstloginvalue"
 
 typedef NS_ENUM(NSInteger, CCLoginViewButtonType) {
     CCLoginViewRegistButton = 300,
@@ -35,11 +45,15 @@ typedef NS_ENUM(NSInteger, CCLoginViewButtonType) {
     CCLoginViewSinaButton
 };
 
-@interface EVLoginViewController () <UIScrollViewDelegate,CCLogWindowDelegate>
+@interface EVLoginViewController () <UIScrollViewDelegate,CCLogWindowDelegate,EVHVLoginViewDelegate,UITextFieldDelegate>
 
 @property (nonatomic, strong) EVBaseToolManager   *engine;
 @property (nonatomic, strong) UIScrollView *navSV;
 @property (nonatomic, strong) UIButton     *removeNavSVBtn;
+
+
+@property (nonatomic, weak) EVHVLoginView *loginView;
+@property (nonatomic, strong) EVRegionCodeModel *currRegion;
 
 @end
 
@@ -50,29 +64,37 @@ typedef NS_ENUM(NSInteger, CCLoginViewButtonType) {
 + (UINavigationController *)loginViewControllerWithNavigationController
 {
     EVLoginViewController *con = [[EVLoginViewController alloc] init];
-    return [EVNavigationController navigationWithWrapController:con];;
+    con.definesPresentationContext = YES; //self is presenting view controller
+    con.modalPresentationStyle = UIModalPresentationFullScreen;
+    con.view.backgroundColor = [UIColor whiteColor];
+    return [[EVNavigationController alloc]initWithRootViewController:con];;
 }
 
 - (instancetype)init
 {
     if ( self = [super init] )
     {
-        [CCAppSetting shareInstance].isLogining = YES;
+        [EVAppSetting shareInstance].isLogining = YES;
+        
     }
     return self;
 }
 
 - (void)dealloc
 {
-    CCLog(@"%@ dealloc", [self class]);
-    [CCAppSetting shareInstance].isLogining = NO;
+    EVLog(@"%@ dealloc", [self class]);
+    [EVAppSetting shareInstance].isLogining = NO;
     [_engine cancelAllOperation];
     _engine = nil;
-    [CCNotificationCenter removeObserver:self];
+    [EVNotificationCenter removeObserver:self];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.hidesBottomBarWhenPushed = YES;
+    
+    
+    [self addUpView];
     [self logoutIm];
     [self conFigView];
     [self setUpNotification];
@@ -94,6 +116,172 @@ typedef NS_ENUM(NSInteger, CCLoginViewButtonType) {
     [super viewWillDisappear:animated];
 }
 
+- (void)addUpView
+{
+    
+    NSArray *loginXib = [[NSBundle mainBundle] loadNibNamed:@"EVHVLoginView" owner:nil options:nil];
+    EVHVLoginView *baseLoginView = [loginXib firstObject];
+    [self.view addSubview:baseLoginView];
+    baseLoginView.frame = [UIScreen mainScreen].bounds;
+    self.loginView = baseLoginView;
+    baseLoginView.delegate = self;
+    baseLoginView.PhoneTextFiled.delegate = self;
+    baseLoginView.passwordTextFiled.delegate = self;
+    if (![EVShareManager qqInstall] ) {
+        self.loginView.qqLogin.hidden = YES;
+    }
+    if (![EVShareManager weiBoInstall]) {
+        self.loginView.weiBoLogin.hidden = YES;
+    }
+    
+    if (![EVShareManager weixinInstall]) {
+        self.loginView.weChatLogin.hidden = YES;
+    }
+}
+
+- (void)loginViewButtonType:(EVLoginClickType)type button:(UIButton *)button
+{
+    switch (type) {
+        case EVLoginClickTypeClose:
+            [self dismissViewControllerAnimated:YES completion:nil];
+            break;
+        case EVLoginClickTypeNext:
+            [self phoneLogin];
+            break;
+        case EVLoginClickTypeProtocol:
+        {
+            EVPhoneRegistFirstController *phoneRegisrVC = [[EVPhoneRegistFirstController alloc] init];
+            phoneRegisrVC.resetPWD = YES;
+            [self.navigationController pushViewController:phoneRegisrVC animated:YES];
+            
+        }
+            break;
+        case EVLoginClickTypeQQ:
+            [[EV3rdPartAPIManager sharedManager] qqLogin];
+            button.selected = !button.selected;
+            
+            break;
+        case EVLoginClickTypeWeiBo:
+            [[EV3rdPartAPIManager sharedManager] weiboLogin];
+            button.selected = !button.selected;
+            
+            break;
+        case EVLoginClickTypeWeChat:
+            [[EV3rdPartAPIManager sharedManager] weixinLoginWithViewController:self];
+            button.selected = !button.selected;
+            break;
+        case EVLoginClickTypeHidePwd:
+           
+            break;
+        default:
+            break;
+    }
+}
+
+#pragma -- delegate
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    
+    return [self autoSpace:textField andRang:range andString:string];
+}
+
+- (BOOL)autoSpace:(UITextField *)textField andRang:(NSRange)range andString:(NSString *)string {
+    
+    if (textField == self.loginView.PhoneTextFiled) {
+        NSInteger row = textField.text.length - 1;
+        // 退格（删除）
+        if (range.length == 1 && range.location == textField.text.length - 1) {
+            if ((row % 7 == 1 && row > 1) || (row % 7 == 3 && row/8 == 0)) {
+                
+                textField.text = [textField.text substringToIndex:row];
+            }
+        }else {
+            // 只能输入数字、字母
+            NSString *regex = @"[a-z0-9A-Z]+";
+            NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+            if (![pred evaluateWithObject:string] || textField.text.length >= 13) {
+                
+                return NO;
+            }
+            if ((row % 6 == 1 && row != 0) || (row % 6 == 0 && row != 0)) {
+                
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    
+                    textField.text = [NSString stringWithFormat:@"%@ ", textField.text];
+                });
+            }
+            
+        }
+        
+        return YES;
+    }
+    return YES;
+}
+
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+
+    [self phoneLogin];
+    return YES;
+    
+}
+
+#pragma mark - 手机登录
+- (void)phoneLogin
+{
+    [self.loginView.PhoneTextFiled resignFirstResponder];
+    NSString *phone = self.loginView.PhoneTextFiled.text;
+    NSString *pwd =  self.loginView.passwordTextFiled.text;
+    phone = [phone stringByReplacingOccurrencesOfString:@" " withString:@""];
+    if (phone.length < 11) {
+        [EVProgressHUD showError:@"请输入11位手机号"];
+        return;
+    }else if (pwd.length < 6 || pwd.length > 20) {
+        [EVProgressHUD showDetailsMessage:@"请填写6-20位字母、数字，不能包含空格和符号" forView:self.view];
+        return;
+    }
+    [self.view endEditing:YES];
+    __weak typeof(self) wself = self;
+    [self.engine GETPhoneUserPhoneLoginWithAreaCode:@"86" Phone:phone password:pwd phoneNumError:^(NSString *numError) {
+        [EVProgressHUD showError:numError toView:self.view];
+    }  start:^{
+        [EVProgressHUD showMessage:kLogin_loading toView:wself.view];
+    } fail:^(NSError *error) {
+        [EVProgressHUD hideHUDForView:wself.view];
+        if (error.code == -1003 || error.code == -1009) {
+            [EVProgressHUD showMessage:@"您的网络异常请稍后再试"];
+            return;
+        }
+        NSString *errorStr = [error errorInfoWithPlacehold:kFail_login];
+        [EVProgressHUD showMessage:errorStr];
+//        [[EVAlertManager shareInstance] performComfirmTitle:errorStr message:nil comfirmTitle:kOK WithComfirm:nil];
+    } success:^(EVLoginInfo *loginInfo) {
+        [EVProgressHUD hideHUDForView:wself.view];
+        [wself dismissViewControllerAnimated:YES completion:nil];
+        [EVBugly setUserId:loginInfo.name];
+        EVLog(@"denglu---------------   %@",loginInfo.name);
+        [EVSDKInitManager initMessageSDKUserData:loginInfo.name];
+        loginInfo.phone = wself.loginView.PhoneTextFiled.text;
+        [loginInfo synchronized];
+        [wself gotoHomePage];
+        [wself loginEMIMInfo:loginInfo];
+        [EVNotificationCenter postNotificationName:@"newUserRefusterSuccess" object:nil];
+    }];
+}
+
+- (void)loginEMIMInfo:(EVLoginInfo *)info
+{
+    [EVEaseMob  checkAndAutoReloginWithLoginInfo:info loginFail:^(EMError *error) {
+        EVLog(@"error----------  %@",error);
+    }];
+}
+
+
+- (void)buttonPush
+{
+//    EVTestViewController *phoneVC = [[EVTestViewController alloc] init];
+//    [self.navigationController pushViewController:phoneVC animated:YES]; 
+}
 /**
  * ---注销环信
  */
@@ -102,7 +290,7 @@ typedef NS_ENUM(NSInteger, CCLoginViewButtonType) {
     [EVBaseToolManager imLogoutUnbind:NO success:^(NSDictionary *info) {
         [EVBaseToolManager setIMAccountHasLogin:NO];
      
-        [[EVEaseMob cc_shareInstance] clear];
+//        [[EVEaseMob cc_shareInstance] clear];
 
     } fail:^(EMError *error) {
         
@@ -111,10 +299,10 @@ typedef NS_ENUM(NSInteger, CCLoginViewButtonType) {
 
 - (void)conFigView
 {
-    EVLoginView *loginView = [[EVLoginView alloc] init];
-    loginView.delegate = self;
-    [self.view addSubview:loginView];
-    [loginView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
+//    EVLoginView *loginView = [[EVLoginView alloc] init];
+//    loginView.delegate = self;
+//    [self.view addSubview:loginView];
+//    [loginView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
 
     // 首次使用app，启动引导页
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
@@ -140,9 +328,9 @@ typedef NS_ENUM(NSInteger, CCLoginViewButtonType) {
 
 - (void)setUpNotification
 {
-    [CCNotificationCenter addObserver:self selector:@selector(enterForeGround) name:UIApplicationWillEnterForegroundNotification object:nil];
+    [EVNotificationCenter addObserver:self selector:@selector(enterForeGround) name:UIApplicationWillEnterForegroundNotification object:nil];
 
-    [CCNotificationCenter addObserver:self selector:@selector(phoneLoginSuccess) name:CCLoginViewControllerNeedToDismissNotification object:nil];
+    [EVNotificationCenter addObserver:self selector:@selector(phoneLoginSuccess) name:CCLoginViewControllerNeedToDismissNotification object:nil];
 }
 
 
@@ -196,7 +384,7 @@ typedef NS_ENUM(NSInteger, CCLoginViewButtonType) {
 
 - (void)enterForeGround
 {
-    [CCProgressHUD hideHUDForView:self.view];
+    [EVProgressHUD hideHUDForView:self.view];
 }
 
 -(void)loginView:(EVLoginView *)loginView clickButtonWithTag:(EVLoginViewButtonTag)tag
@@ -252,13 +440,13 @@ typedef NS_ENUM(NSInteger, CCLoginViewButtonType) {
     userModel.openID = openId;
     __weak typeof(self) wself = self;
     [[EV3rdPartAPIManager sharedManager] getTirdPartUserInfo:userModel start:^{
-        [CCProgressHUD showMessage:kGettingThirdPartUserInfo toView:wself.view];
+        [EVProgressHUD showMessage:kGettingThirdPartUserInfo toView:wself.view];
     }success:^(EVThirdPartUserInfo *userInfo) {
         [wself thirdPartUserLoginWith:userInfo];
-        [CCProgressHUD hideHUDForView:wself.view];
+        [EVProgressHUD hideHUDForView:wself.view];
     } fail:^(NSError *error) {
         //QQ登录失败要上传的错误
-        [CCProgressHUD hideHUDForView:wself.view];
+        [EVProgressHUD hideHUDForView:wself.view];
         [self loginFailed:@{kErrorInfo : kQQAuthFail}];;
         return;
     }];
@@ -286,12 +474,12 @@ typedef NS_ENUM(NSInteger, CCLoginViewButtonType) {
     
     __weak typeof(self) wself = self;
     [[EV3rdPartAPIManager sharedManager] getTirdPartUserInfo:userModel start:^{
-        [CCProgressHUD showMessage:kGettingThirdPartUserInfo toView:wself.view];
+        [EVProgressHUD showMessage:kGettingThirdPartUserInfo toView:wself.view];
     } success:^(EVThirdPartUserInfo *userInfo) {
-        [CCProgressHUD hideHUDForView:wself.view];
+        [EVProgressHUD hideHUDForView:wself.view];
         [wself thirdPartUserLoginWith:userInfo];
     } fail:^(NSError *error) {
-        [CCProgressHUD hideHUDForView:wself.view];
+        [EVProgressHUD hideHUDForView:wself.view];
         [self loginFailed:@{kErrorInfo : kQQAuthFail}];;
     }];
 }
@@ -318,65 +506,204 @@ typedef NS_ENUM(NSInteger, CCLoginViewButtonType) {
     
     __weak typeof(self) wself = self;
     [[EV3rdPartAPIManager sharedManager] getTirdPartUserInfo:userModel start:^ {
-        [CCProgressHUD showMessage:kGettingThirdPartUserInfo toView:wself.view];
+        [EVProgressHUD showMessage:kGettingThirdPartUserInfo toView:wself.view];
     } success:^(EVThirdPartUserInfo *userInfo) {
         [wself thirdPartUserLoginWith:userInfo];
-        [CCProgressHUD hideHUDForView:wself.view];
+        [EVProgressHUD hideHUDForView:wself.view];
     } fail:^(NSError *error) {
-        [CCProgressHUD hideHUDForView:wself.view];
+        [EVProgressHUD hideHUDForView:wself.view];
         [self loginFailed:@{kErrorInfo : kQQAuthFail}];
-        [CCProgressHUD showError:kFail_login toView:wself.view];
+        [EVProgressHUD showError:kFail_login toView:wself.view];
     }];
 }
 
 //第三方登录
 - (void)thirdPartUserLoginWith:(EVThirdPartUserInfo *)userInfo
 {
-    CCUseLoginAuthtype type = (CCUseLoginAuthtype)userInfo.type;
+    EVUseLoginAuthtype type = (EVUseLoginAuthtype)userInfo.type;
     __weak typeof(self) wself = self;
     __weak typeof(wself.navigationController) wnav = wself.navigationController;
     NSDictionary *loginDic = [userInfo userLoginParams];
     [self.engine GETThirdPartLoginWithType:type params:loginDic  start:^{
-        [CCProgressHUD showMessage:kGettingThirdPartUserInfo toView:wself.view];
+        [EVProgressHUD showMessage:kGettingThirdPartUserInfo toView:wself.view];
     } fail:^(NSError *error) {
         NSString *errorStr = [error errorInfoWithPlacehold:kFail_login];
         [[EVAlertManager shareInstance] performComfirmTitle:errorStr message:nil comfirmTitle:kOK WithComfirm:nil];
-        [CCProgressHUD hideHUDForView:wself.view];
+        [EVProgressHUD hideHUDForView:wself.view];
     } success:^(EVLoginInfo *loginInfo) {
-        [CCProgressHUD hideHUDForView:wself.view];
+//        [EVProgressHUD hideHUDForView:wself.view];
+        EVLog(@"denglu---------------   %@",loginInfo.name);
         [EVSDKInitManager initMessageSDKUserData:loginInfo.name];
-        [EVBugly setUserId:loginInfo.name];
-        if ( loginInfo.hasLogin )
-        {
+//        [EVBugly setUserId:loginInfo.name];
+//        [EVNotificationCenter postNotificationName:NotifyOfLogin object:nil];
+//        [loginInfo synchronized];
+//        if ( loginInfo.hasLogin )
+//        {
+//            [loginInfo synchronized];
+//            if ( wself.autoDismiss )
+//            {
+//                if ( wnav )
+//                {
+//                    [wnav dismissViewControllerAnimated:YES completion:nil];
+//                }
+//                else
+//                {
+//                    [wself dismissViewControllerAnimated:YES completion:nil];
+//                }
+//                [EVBaseToolManager notifyLoginViewDismiss];
+//                return ;
+//            }
+//            [wself gotoHomePage];
+//            return ;
+//        }
+//        [EVNotificationCenter postNotificationName:@"newUserRefusterSuccess" object:nil];
+//        [self dismissViewControllerAnimated:YES completion:nil];
+//        [wself gotoUserSettingWithLoginInfo:loginInfo];
+          [EVProgressHUD hideHUDForView:wself.view];
+        if (loginInfo.hasLogin) {
+            
+            [wself dismissViewControllerAnimated:YES completion:nil];
+            [EVBugly setUserId:loginInfo.name];
+            [EVSDKInitManager initMessageSDKUserData:loginInfo.name];
+            loginInfo.phone = wself.loginView.PhoneTextFiled.text;
             [loginInfo synchronized];
-            if ( wself.autoDismiss )
-            {
-                if ( wnav )
-                {
-                    [wnav dismissViewControllerAnimated:YES completion:nil];
-                }
-                else
-                {
-                    [wself dismissViewControllerAnimated:YES completion:nil];
-                }
-                [EVBaseToolManager notifyLoginViewDismiss];
-                return ;
-            }
             [wself gotoHomePage];
-            return ;
+            [wself loginEMIMInfo:loginInfo];
+            [EVNotificationCenter postNotificationName:@"newUserRefusterSuccess" object:nil];
+        }else {
+             [self newUserRegister:loginInfo];
         }
-        [wself gotoUserSettingWithLoginInfo:loginInfo];
+//        [EVProgressHUD hideHUDForView:wself.view];
+//        [wself dismissViewControllerAnimated:YES completion:nil];
+//        [EVBugly setUserId:loginInfo.name];
+//        [EVSDKInitManager initMessageSDKUserData:loginInfo.name];
+//        loginInfo.phone = wself.loginView.PhoneTextFiled.text;
+//        [loginInfo synchronized];
+//        [wself gotoHomePage];
+//        [EVNotificationCenter postNotificationName:@"newUserRefusterSuccess" object:nil];
     }];
 }
 
+
+
 - (void)attributedLabelButton
 {
-    EVTextViewController *tvc = [[EVTextViewController alloc] init];
-    tvc.type = CCTermOfService;
-    [self.navigationController presentViewController:tvc
-                                            animated:YES
-                                          completion:nil];
+    EVPhoneRegistFirstController *phoneRegistVC = [[EVPhoneRegistFirstController alloc] init];
+    [self.navigationController pushViewController:phoneRegistVC animated:YES];
 }
+
+
+
+- (void)newUserRegister:(EVLoginInfo *)info
+{
+    WEAK(self)
+    [self.engine GETNewUserRegistMessageWithParams:[self userInfoDict:info] start:^{
+        [EVProgressHUD showMessage:kE_GlobalZH(@"logining_user_information") toView:weakself.view];
+    } fail:^(NSError *error) {
+        [EVProgressHUD hideHUDForView:weakself.view];
+        NSString *errorStr = [error errorInfoWithPlacehold:kE_GlobalZH(@"fail_user_information")];
+        [EVProgressHUD showError:errorStr toView:weakself.view];
+    } success:^(EVLoginInfo *loginInfo) {
+        loginInfo.registeredSuccess = YES;
+        EVLog(@"denglu---------------   %@",loginInfo.name);
+        [EVSDKInitManager initMessageSDKUserData:loginInfo.name];
+        [loginInfo synchronized];
+        [EVProgressHUD hideHUDForView:weakself.view];
+        //        weakself.userInfo.sessionid = loginInfo.sessionid;
+        //        if ( wself.userInfo.selectImage )
+        //        {
+        //            [wself upLoadLogoImage];
+        //        }
+        //        else
+        //        {
+        [weakself loginEMIMInfo:loginInfo];
+        [EVNotificationCenter postNotificationName:@"newUserRefusterSuccess" object:nil];
+        [weakself dismissViewControllerAnimated:YES completion:nil];
+        //        }
+    }];
+}
+
+- (void)upLoadLogoImage
+{
+//    [EVProgressHUD hideHUDForView:self.view];
+//    __weak typeof(self) wself = self;
+//    [self.engine GETUploadUserLogoWithImage:self.userInfo.selectImage uname:self.userInfo.nickname start:^{
+//        [EVProgressHUD showMessage:kE_GlobalZH(@"update_image") toView:wself.view];
+//        
+//    } fail:^(NSError *error) {
+//        [EVProgressHUD hideHUDForView:wself.view];
+//        self.barButtonItem.enabled = YES;
+//        self.upDateImageError = YES;
+//        NSString *customErrorInfo = [error errorInfoWithPlacehold:kE_GlobalZH(@"fail_update_image")];
+//        if ( customErrorInfo ) {
+//            [[EVAlertManager shareInstance] performComfirmTitle:kTooltip message:customErrorInfo comfirmTitle:kOK WithComfirm:nil];
+//        } else {
+//            [EVProgressHUD showError:kE_GlobalZH(@"again_fail_update_image") toView:wself.view];
+//        }
+//    } success:^(NSDictionary *retinfo){
+//        self.barButtonItem.enabled = YES;
+//        wself.upDateImageError = NO;
+//        wself.userInfo.logourl = retinfo[@"logourl"];
+//        [EVNotificationCenter postNotificationName:CCUpdateLogolURLNotification object:nil userInfo:retinfo];
+//        [wself.userInfo synchronized];
+//        [EVProgressHUD hideHUDForView:wself.view];
+//        [EVProgressHUD showSuccess:kE_GlobalZH(@"update_iamge_success") toView:wself.view];
+//        [wself upLoadLogoSuccess];
+//        
+//    } sessionExpire:^{
+//        self.barButtonItem.enabled = YES;
+//    }];
+}
+
+
+- (NSMutableDictionary *)userInfoDict:(EVLoginInfo *)info
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+   
+   
+    if ([info.authtype isEqualToString:@"phone"]) {
+         NSString *userName = [NSString stringWithFormat:@"%@%@",@"火眼财经",[info.phone substringWithRange:NSMakeRange(7, 4)]];
+         [dict setValue:userName forKey:@"nickname"];
+        NSString *phone  = [NSString stringWithFormat:@"86_%@",info.phone];
+        [dict setValue:phone forKey:kToken];
+        [dict setValue:info.password forKey:kPassword];
+    }else {
+        if (info.token) {
+            [dict setValue:info.token forKey:kToken];
+        }
+        if (info.nickname) {
+            [dict setValue:info.nickname forKey:kNickName];
+        }
+        
+        if (info.access_token) {
+            [dict setValue:info.access_token forKey:kAccess_token];
+        }
+        
+        if (info.gender) {
+            [dict setValue:info.gender forKey:kGender];
+        }
+        
+        if (info.birthday) {
+             [dict setValue:info.birthday forKey:kBirthday];
+        }
+        
+        if (info.location) {
+            [dict setValue:info.location forKey:kLocation];
+        }
+       
+        if (info.signature) {
+            [dict setValue:info.signature forKey:kLocation];
+        }
+        if (info.logourl) {
+            [dict setValue:info.logourl forKey:kLogourl];
+        }
+   
+    }
+   
+    [dict setValue:info.authtype forKey:kAuthType];
+    return dict;
+}
+
 
 - (void) gotoUserSettingWithLoginInfo:(EVLoginInfo *)info
 {
@@ -409,34 +736,32 @@ typedef NS_ENUM(NSInteger, CCLoginViewButtonType) {
     NSString *errorInfo = userInfo[kErrorInfo];
     if ( [errorInfo isEqualToString:kQQAuthFail] )
     {
-        // TODO
     }
     else if ( [errorInfo isEqualToString:kQQAuthCancel] )
     {
-        // TODO
     }
     else if ( [errorInfo isEqualToString:kQQAuthNoNetWork] )
     {
-        // TODO
+    
     } else if ( [errorInfo isEqualToString:kWeixinAuthFail] )
     {
-        // TODO
+        
     }
     else if ( [errorInfo isEqualToString:kWeiXinAuthCancel] )
     {
-        // TODO
+    
     }
     else if ( [errorInfo isEqualToString:kWeiBoAuthCancel] )
     {
-        // TODO
+        
     }
     else if ( [errorInfo isEqualToString:kWeiBoAuthDeny] )
     {
-        // TODO
+        
     }
     else if ( [errorInfo isEqualToString:kWeiBoAuthFail] )
     {
-        // TODO
+        
     }
 }
 

@@ -48,8 +48,8 @@
 {
     // 昵称
     UILabel *nickNameLabel = [[UILabel alloc] init];
-    nickNameLabel.textColor = [UIColor colorWithHexString:@"#222222"];
-    nickNameLabel.font = [UIFont boldSystemFontOfSize:15];
+    nickNameLabel.textColor = [UIColor evTextColorH2];
+    nickNameLabel.font = [UIFont boldSystemFontOfSize:16];
 
     [self addSubview:nickNameLabel];
     [nickNameLabel autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
@@ -88,24 +88,6 @@
     _ageLabel = ageLabel;
     _ageLabel.hidden = YES;
     
-    
-    //星座
-    UILabel * constellationLabel = [[UILabel alloc] init];
-    constellationLabel.backgroundColor = [UIColor colorWithHexString:@"#eef2ff"];
-    constellationLabel.textColor = [UIColor colorWithHexString:@"#9ac9ff"];
-    constellationLabel.layer.borderColor = [UIColor colorWithHexString:@"#8DA8FF"].CGColor;
-    constellationLabel.layer.borderWidth = 0.5f;
-    constellationLabel.textAlignment = NSTextAlignmentCenter;
-    constellationLabel.font = [UIFont boldSystemFontOfSize:10];
-    constellationLabel.layer.cornerRadius = 2;
-    constellationLabel.layer.masksToBounds = YES;
-    [self addSubview:constellationLabel];
-    [constellationLabel autoAlignAxis:ALAxisHorizontal toSameAxisOfView:nickNameLabel];
-    self.constellationLeftConstraint = [constellationLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:sexView withOffset:0];
-    self.constellationWidthConstraint = [constellationLabel autoSetDimension:ALDimensionWidth toSize:0];
-    [constellationLabel autoSetDimension:ALDimensionHeight toSize:13];
-    _constellationLabel = constellationLabel;
-    _constellationLabel.hidden = YES;
 
 }
 
@@ -152,9 +134,9 @@
     else
     {
         self.sexView.backgroundColor = [gender isEqualToString:@"female"] ? [UIColor colorWithHexString:@"#FFEEF2"]:[UIColor colorWithHexString:@"#F0F7FF"];
-        self.sexView.layer.borderColor =  [gender isEqualToString:@"female"] ? [UIColor evAssistColor].CGColor : [UIColor colorWithHexString:@"#9ac9ff"].CGColor;
+        self.sexView.layer.borderColor =  [gender isEqualToString:@"female"] ? [UIColor evAssistColor].CGColor : [UIColor evMainColor].CGColor;
         UIImage * sexImage = [gender isEqualToString:@"female"]? [UIImage imageNamed:@"home_icon_woman"]:[UIImage imageNamed:@"home_icon_man"];
-        self.ageLabel.textColor = [gender isEqualToString:@"female"]? [UIColor evAssistColor]:[UIColor colorWithHexString:@"#9ac9ff"];
+        self.ageLabel.textColor = [gender isEqualToString:@"female"]? [UIColor evAssistColor]:[UIColor evMainColor];
         self.sexView.hidden = NO;
         self.sexImageView.image =  sexImage;
         self.genderWidthConstraint.constant = 15;
@@ -162,35 +144,5 @@
     }
 }
 
-- (void)setBirth:(NSString *)birth
-{
-    _birth = [birth copy];
-    if ( _birth )
-    {
-        self.ageLabel.text = [NSString ageFromDateStr:birth];
-        self.constellationLabel.text = [[NSString judConstellationDateStr:birth] substringToIndex:2];
-        self.ageLabel.hidden = NO;
-        self.constellationLabel.hidden = NO;
-        self.genderLeftConstraint.constant = 4;
-        if (self.ageLabel.text.length <= 2) {
-            self.genderWidthConstraint.constant = 30;
-        } else if (self.ageLabel.text.length == 3) {
-            self.genderWidthConstraint.constant = 36;
-        } else {
-            self.genderWidthConstraint.constant = 42;
-        }
-        self.constellationWidthConstraint.constant = 25;
-        self.constellationLeftConstraint.constant = 4;
-    }
-    else
-    {
-        self.ageLabel.hidden = YES;
-        self.constellationLabel.hidden = YES;
-        self.genderLeftConstraint.constant = 0;
-        self.genderWidthConstraint.constant = 0;
-        self.constellationWidthConstraint.constant = 0;
-        self.constellationLeftConstraint.constant = 0;
-    }
-}
 
 @end

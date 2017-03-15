@@ -14,29 +14,29 @@
 
 @class EVVideoTopView, EVBaseToolManager;
 
-#define CCAUDIENCEINFOVIEW_HEIGHT 37
+
 #define CCICON_HEIGHT             50
 #define CCBACKVIEW_HEIGHT         35
 #define CCBACKVIEW_WIDTH          125
 
-typedef NS_ENUM(NSInteger, CCAudienceInfoItemMode)
+typedef NS_ENUM(NSInteger, EVAudienceInfoItemMode)
 {
-    CCAudienceInfoItemReplay,
-    CCAudienceInfoItemWatchLive,
-    CCAudienceInfoItemLiving
+    EVAudienceInfoItemReplay,
+    EVAudienceInfoItemWatchLive,
+    EVAudienceInfoItemLiving
 };
 
-typedef NS_ENUM(NSInteger, CCAudienceInfoViewButtonType)
+typedef NS_ENUM(NSInteger, EVAudienceInfoViewButtonType)
 {
-    CCAudienceInfoIndexPage = 100, // 进入主播主页
-    CCAudienceInfoMessage,      // 私信主播
-    CCAudienceInfoComment,      // @主播
-    CCAudienceInfoFocus,        // 关注主播
-    CCAudienceInfoReport,       // 举报视频
-    CCAudienceInfoCancel,       // 关闭页面
-    CCAudienceInfoSessionExpire, // session过期
-    CCAudienceInfoCamera,    // 前后置摄像头
-    CCAudienceInfoFollow
+    EVAudienceInfoIndexPage = 100, // 进入主播主页
+    EVAudienceInfoMessage,      // 私信主播
+    EVAudienceInfoComment,      // @主播
+    EVAudienceInfoFocus,        // 关注主播
+    EVAudienceInfoReport,       // 举报视频
+    EVAudienceInfoCancel,       // 关闭页面
+    EVAudienceInfoSessionExpire, // session过期
+    EVAudienceInfoCamera,    // 前后置摄像头
+    EVAudienceInfoFollow
 };
 
 typedef NS_ENUM(NSInteger, CCAudiencceInfoViewProtocolDataType)
@@ -48,7 +48,7 @@ typedef NS_ENUM(NSInteger, CCAudiencceInfoViewProtocolDataType)
 
 @optional
 - (void)audienceInfoView:(EVVideoTopView *)view
-              didClicked:(CCAudienceInfoViewButtonType)buttonType;
+              didClicked:(EVAudienceInfoViewButtonType)buttonType;
 
 @end
 
@@ -67,7 +67,7 @@ typedef NS_ENUM(NSInteger, CCAudiencceInfoViewProtocolDataType)
 /** 头像地址  AUDIENCE_UPDATE_ICON */
 @property (nonatomic,copy) NSString *iconURLString;
 /** 模式 AUDIENCE_UPDATE_TIME_MODE */
-@property (nonatomic, assign) CCAudienceInfoItemMode mode;
+@property (nonatomic, assign) EVAudienceInfoItemMode mode;
 /** 观看人数 AUDIENCE_UPDATE_WATCH_COUNT */
 @property (nonatomic, assign) NSInteger watchCount;
 /** 观看中的人数 AUDIENCE_UPDATE_WATCHING_COUNT */
@@ -131,7 +131,7 @@ typedef NS_ENUM(NSInteger, CCAudiencceInfoViewProtocolDataType)
 
 
 
-@interface EVVideoTopView : UIView <CCControllerContacterProtocol>
+@interface EVVideoTopView : UIView <EVControllerContacterProtocol>
 
 @property (nonatomic, strong) EVAudienceInfoItem *item;
 @property (nonatomic, weak) EVAnchorInfoView *extendView;

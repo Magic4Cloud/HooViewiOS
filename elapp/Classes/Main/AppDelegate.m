@@ -7,26 +7,22 @@
 //
 
 #import "AppDelegate.h"
-#import "EVNotifyViewController.h"
 #import "EVHomeTabBarItem.h"
 #import "EVLoginViewController.h"
 #import "EVPushManager.h"
 #import "EVNetWorkStateManger.h"
 #import "EVPushBar.h"
-#import "EVWatchViewController.h"
 #import "UIWindow+Extension.h"
 #import "EVLiveViewController.h"
 #import "EVOpenURLManager.h"
 #import "NSString+Extension.h"
 #import "EVAlertManager.h"
-#import "EVEaseMob.h"
 #import "EVNotifyConversationItem.h"
 #import "EVLoginInfo.h"
 #import "EVNotifyListViewController.h"
 #import "EVCacheManager.h"
 #import "EVBugly.h"
 #import "EVNavigationController.h"
-#import "EVTimeLineViewController.h"
 #import "EVPayManager.h"
 #import "EVWatchVideoInfo.h"
 #import "EVDetailWebViewController.h"
@@ -35,11 +31,18 @@
 #import "EVSDKInitManager.h"
 #import "EVNotificationManager.h"
 #import "EVAudioPlayer.h"
-
-
+#import "EVMineViewController.h"
+#import "EVMarketViewController.h"
+#import "EVConsultViewController.h"
+#import "EVLiveListViewController.h"
+#import "EVHVWatchViewController.h"
+#import "EVEaseMob.h"
+#import "ZYLauchMovieViewController.h"
 
 
 NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
+
+#define kIsFirstLauchApp @"kIsFirstLauchApp"
 
 @interface AppDelegate ()<UIAlertViewDelegate>
 
@@ -50,12 +53,12 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 @implementation AppDelegate
 
 - (void)dealloc{
-    [CCNotificationCenter removeObserver:self];
+    [EVNotificationCenter removeObserver:self];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [[CCAppSetting shareInstance] createCacheAppFolder];
+    [[EVAppSetting shareInstance] createCacheAppFolder];
     application.applicationIconBadgeNumber = 0;
     UIWindow *win = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     win.backgroundColor = [UIColor whiteColor];
@@ -70,22 +73,35 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     [self appPrepareWithOptions:launchOptions];
     [self setUpAppHomeController];
     
-    [EVAudioPlayer  initialAudioPlayerBackgroundThread];
+//    [EVAudioPlayer  initialAudioPlayerBackgroundThread];
     
     // 清理资源
     [[EVCacheManager shareInstance] cleanDiskImageCaches];
     [self setUpTimer];
     
+    [[EVPushManager sharePushManager] setDidReceiveNotificationResponseBlock:^(NSDictionary *userInfo) {
+        [EVPushManager setCurrentBadge:[userInfo[@"aps"][@"badge"] integerValue]];
+        [self handlelLocalNotificationWith:userInfo];
+    }];
+    
+    [[EVPushManager sharePushManager] setWillPresentNotificationBlock:^(NSDictionary *userInfo) {
+        [EVPushManager setCurrentBadge:0];
+        [self handlelLocalNotificationWithOnActiveState:userInfo];
+    }];
+  
+    
     return YES;
 }
 
 
+- (BOOL)isFirstLauchApp {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:kIsFirstLauchApp];
+}
 - (void)setUpTimer
 {
     _timerTool = [[EVTimerTool alloc] init];
     [_timerTool startCountTime];
 }
-
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
@@ -105,7 +121,7 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 
 - (void)statusBarTouchedAction
 {
-    [CCNotificationCenter postNotificationName:kStatusBarTappedNotification object:nil];
+    [EVNotificationCenter postNotificationName:kStatusBarTappedNotification object:nil];
 }
 
 - (EVBaseToolManager *)liveEngine
@@ -119,39 +135,36 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 
 - (void)setUpNotification
 {
-    [CCNotificationCenter addObserver:self selector:@selector(netWorkChange:) name:CCNetWorkChangeNotification object:nil];
-    [CCNotificationCenter addObserver:self selector:@selector(onReLogin:) name:CCNeedToReLoginNotification object:nil];
+    [EVNotificationCenter addObserver:self selector:@selector(netWorkChange:) name:CCNetWorkChangeNotification object:nil];
+    [EVNotificationCenter addObserver:self selector:@selector(onReLogin:) name:CCNeedToReLoginNotification object:nil];
 }
 
 - (void)onReLogin:(NSNotification *)notification
 {
+    [EVLoginInfo cleanLoginInfo];
     [EVBaseToolManager resetSession];
 
     if ( [notification.userInfo[FROM_WATCH_LIVING_CONTROLLER] boolValue] )
     {
         [[EVAlertManager shareInstance] performComfirmTitle:kTooltip message:kE_GlobalZH(@"account_again_login") comfirmTitle:kOK WithComfirm:^{
-            [CCNotificationCenter postNotificationName:CCNeedToForceCloseLivePageOrWatchPage object:nil userInfo:@{CCNeedToReLoginControllerNotificationKey: self}];
+            [EVNotificationCenter postNotificationName:CCNeedToForceCloseLivePageOrWatchPage object:nil userInfo:@{CCNeedToReLoginControllerNotificationKey: self}];
         }];
         return;
     }
     
     UIViewController *controller =  notification.userInfo[CCNeedToReLoginControllerNotificationKey];
     
-    if ( [controller isKindOfClass:[EVWatchViewController class]] )
-    {
-        [CCNotificationCenter postNotificationName:CCLoginNeedToPauseWatchViewController object:nil];
-    }
     
-    if ([CCAppSetting shareInstance].isLogining)  return;
+    if ([EVAppSetting shareInstance].isLogining)  return;
     
-    UINavigationController *navCon = [EVLoginViewController loginViewControllerWithNavigationController];
-    [controller presentViewController:navCon animated:YES completion:nil];
+//    UINavigationController *navCon = [EVLoginViewController loginViewControllerWithNavigationController];
+//    [controller presentViewController:navCon animated:YES completion:nil];
 }
 
 
 
 - (void)netWorkChange:(NSNotification *)notification{
-    CCNetworkStatus state = (CCNetworkStatus)[notification.userInfo[CCNetWorkStateKey] integerValue];
+    EVNetworkStatus state = (EVNetworkStatus)[notification.userInfo[CCNetWorkStateKey] integerValue];
     if ( WithoutNetwork != state ) {
         [EVBaseToolManager checkSessionID];
     }
@@ -174,18 +187,31 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 
 - (void)setUpAppHomeController
 {
-//    NSLog(@"session_info -----  %@",[CCUserDefault objectForKey:SESSION_ID_STR]);
-    if ( [EVBaseToolManager userHasLoginLogin] )
-    {
-        [self setUpHomeController];
-        NSLog(@"------ %@ ---- ",[EVLoginInfo localObject].name);
-        [EVSDKInitManager initMessageSDKUserData:[EVLoginInfo localObject].name];
-        //  下载备注列表
+//    [self setUpHomeController]; 
+   
+    if (![self isFirstLauchApp]) {
+        ZYLauchMovieViewController *vc = [[ZYLauchMovieViewController alloc] init];
+        self.window.rootViewController = vc;
+        vc.mainBlock  = ^(){
+             [self setUpHomeController];
+            
+        };
+    }else {
+         [self setUpHomeController]; 
     }
-    else
-    {
-        [self setUpLoginController];
-    }
+//    [self.window makeKeyAndVisible];
+    NSLog(@"------ %@ ---- ",[EVLoginInfo localObject].name);
+    [EVSDKInitManager initMessageSDKUserData:[EVLoginInfo localObject].name];
+//    if ( [EVBaseToolManager userHasLoginLogin] )
+//    {
+//        
+//        //  下载备注列表
+//    }
+//    else
+//    {
+////        [self setUpHomeController];
+//        [self setUpLoginController];
+//    }
 }
 
 - (void)setUpLoginController
@@ -213,18 +239,31 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 
     NSMutableArray *items = [NSMutableArray array];
     
-    // 首页
-    EVTimeLineViewController *discoverVC = [[EVTimeLineViewController alloc] init];
-    EVNavigationController *discoverNav = [EVNavigationController navigationWithWrapController:discoverVC];
-    EVHomeTabBarItem *discoverItem = [EVHomeTabBarItem homeTabBarItemWithController:discoverNav];
-    [items addObject:discoverItem];
+    // 咨询
+    EVConsultViewController *firstVC = [[EVConsultViewController alloc] init];
+    EVNavigationController *firstNav = [EVNavigationController navigationWithWrapController:firstVC];
+    EVHomeTabBarItem *firstItem = [EVHomeTabBarItem homeTabBarItemWithController:firstNav];
+    [items addObject:firstItem];
     
     
-    // 消息
-    EVNotifyViewController *mineVC = [[EVNotifyViewController alloc] init];
-    EVNavigationController *mineNav = [EVNavigationController navigationWithWrapController:mineVC];
-    EVHomeTabBarItem *mineItem = [EVHomeTabBarItem homeTabBarItemWithController:mineNav];
-    [items addObject:mineItem];
+    // 直播
+    EVLiveListViewController *secondVC = [[EVLiveListViewController alloc] init];
+    EVNavigationController *secondNav = [EVNavigationController navigationWithWrapController:secondVC];
+    EVHomeTabBarItem *secondItem = [EVHomeTabBarItem homeTabBarItemWithController:secondNav];
+    [items addObject:secondItem];
+    
+    
+    // 行情
+    EVMarketViewController *threeVC = [[EVMarketViewController alloc] init];
+    EVNavigationController *threeNav = [EVNavigationController navigationWithWrapController:threeVC];
+    EVHomeTabBarItem *threeItem = [EVHomeTabBarItem homeTabBarItemWithController:threeNav];
+    [items addObject:threeItem];
+    
+    // 个人
+    EVMineViewController *fourVC = [[EVMineViewController alloc] init];
+    EVNavigationController *fourNav = [EVNavigationController navigationWithWrapController:fourVC];
+    EVHomeTabBarItem *fourItem = [EVHomeTabBarItem homeTabBarItemWithController:fourNav];
+    [items addObject:fourItem];
     
     
     EVHomeViewController *homeVC = [EVHomeViewController homeViewControllerWithItems:items];
@@ -247,16 +286,13 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     if ( deviceToken )
     {
         [[EVPushManager sharePushManager] bindWithDeviceToken:deviceToken];
-        [[EVEaseMob cc_shareInstance] registerForRemoteNotificationsWithDeviceToken:deviceToken];
+//        [[EVEaseMob cc_shareInstance] registerForRemoteNotificationsWithDeviceToken:deviceToken];
     }
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
-//#ifdef CCDEBUG
-//    NSAssert(NO, @"远程证书有误");
-//#endif
-    [[EVEaseMob cc_shareInstance] remoteRegistDidFailToRegisterForRemoteNotificationsWithError:error];
+//    [[EVEaseMob cc_shareInstance] remoteRegistDidFailToRegisterForRemoteNotificationsWithError:error];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler{
@@ -270,7 +306,6 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     }
     [self handleRemoteNotification:userInfo];
 
-//    completionHandler(UIBackgroundFetchResultNewData);
 }
 
 
@@ -312,7 +347,7 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     item.groupid = dict[@"groupid"];
     notifyListVC.notiItem = item;
 
-    [self setUpHomeController];
+//    [self setUpHomeController];
     self.homeVC.selectedIndex = 2;
     
     EVNavigationController *notifyNavVC = self.homeVC.viewControllers[2];
@@ -322,7 +357,7 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 #pragma mark - 环信推送
 - (void)handleIMNoticationWith:(NSDictionary *)dict
 {   
-    [self setUpHomeController];
+//    [self setUpHomeController];
     self.homeVC.selectedIndex = 3;
 }
 
@@ -337,34 +372,37 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     {
         return;
     }
-    EVWatchViewController *watchVC = [[EVWatchViewController alloc] init];
-    EVWatchVideoInfo *watchVideoInfo = [[EVWatchVideoInfo alloc] init];
-    watchVideoInfo.vid = vid;
-    watchVC.watchVideoInfo = watchVideoInfo;
+//    EVWatchViewController *watchVC = [[EVWatchViewController alloc] init];
+//    EVWatchVideoInfo *watchVideoInfo = [[EVWatchVideoInfo alloc] init];
+//    watchVideoInfo.vid = vid;
+//    watchVC.watchVideoInfo = watchVideoInfo;
+//    
+//    __block UIViewController *presenetVC = [self.window visibleViewController];
+//    
+//    if ( [presenetVC isKindOfClass:[EVWatchViewController class]] )
+//    {
+//        [[EVAlertManager shareInstance] performComfirmTitle:kTooltip message:kE_GlobalZH(@"is_end_play") cancelButtonTitle:kCancel comfirmTitle:kOK WithComfirm:^{
+//            EVHVWatchViewController *currWatchVC = (EVHVWatchViewController *)presenetVC;
+//            UIViewController *vc = [self.window visibleViewController];
+//            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:currWatchVC];
+//            [self presentViewController:nav animated:YES completion:nil];
+////            [currWatchVC foreceToPopCurrentWatchPage:^{
+////
+////                UINavigationController *nav = (UINavigationController *)([vc isKindOfClass:[UINavigationController class]] ? vc : vc.navigationController);
+////                [nav pushViewController:watchVC animated:YES];
+////            }];
+//        } cancel:nil];
+//        return;
+//    }
     
-    __block UIViewController *presenetVC = [self.window visibleViewController];
-    
-    if ( [presenetVC isKindOfClass:[EVWatchViewController class]] )
-    {
-        [[EVAlertManager shareInstance] performComfirmTitle:kTooltip message:kE_GlobalZH(@"is_end_play") cancelButtonTitle:kCancel comfirmTitle:kOK WithComfirm:^{
-            EVWatchViewController *currWatchVC = (EVWatchViewController *)presenetVC;
-            [currWatchVC foreceToPopCurrentWatchPage:^{
-                UIViewController *vc = [self.window visibleViewController];
-                UINavigationController *nav = (UINavigationController *)([vc isKindOfClass:[UINavigationController class]] ? vc : vc.navigationController);
-                [nav pushViewController:watchVC animated:YES];
-            }];
-        } cancel:nil];
-        return;
-    }
-    
-    if ( [presenetVC isKindOfClass:[EVLiveViewController class]] )
-    {
-         [CCProgressHUD showMessageInAFlashWithMessage:kE_GlobalZH(@"self_living_not_push")];
-        return;
-    }
-    
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:watchVC];
-    [self.homeVC presentViewController:nav animated:NO completion:nil];
+//    if ( [presenetVC isKindOfClass:[EVLiveViewController class]] )
+//    {
+//         [EVProgressHUD showMessageInAFlashWithMessage:kE_GlobalZH(@"self_living_not_push")];
+//        return;
+//    }
+//    
+//    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:watchVC];
+//    [self.homeVC presentViewController:nav animated:NO completion:nil];
     
 }
 
@@ -379,13 +417,6 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 - (void)handlelFocusNotificationWith:(NSDictionary *)dict
 {
     UIViewController *presenetVC = [self.window visibleViewController];
-    if ( [presenetVC isKindOfClass:[EVWatchViewController class]] || [presenetVC isKindOfClass:[EVLiveViewController class]] ) {
-        [CCNotificationCenter postNotificationName:CCNeedToForceCloseLivePageOrWatchPage object:nil userInfo:nil];
-    }
-    else
-    {
-        [presenetVC dismissViewControllerAnimated:YES completion:nil];
-    }
     
     UINavigationController *presentNav = presenetVC.navigationController;
     
@@ -500,6 +531,21 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 - (void)applicationWillResignActive:(UIApplication*)application{
     /*添加你自己的挂起前准备代码*/
     [[EVPushManager sharePushManager]resetJpushBadge];
+    
+}
+
+- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(nullable UIWindow *)window
+
+{
+    if (_allowRotation == YES) {
+        
+        return UIInterfaceOrientationMaskLandscapeLeft;
+        
+    }else{
+        
+        return (UIInterfaceOrientationMaskPortrait);
+        
+    }
     
 }
 @end

@@ -9,6 +9,9 @@
 #import "EVBaseToolManager+EVFindFreindsAPI.h"
 #import "constants.h"
 #import "EVHttpURLManager.h"
+
+
+
 @implementation EVBaseToolManager (EVFindFreindsAPI)
 
 
@@ -34,40 +37,9 @@
               forKey:kCount];
     
     NSString *urlString = [EVHttpURLManager fullURLStringWithURI:EVFriendcircleAPI
-                                              params:params];
-    [self requestWithURLString:urlString
-                         start:startBlock
-                          fail:failBlock
-                       success:^(NSData *data)
-     {
-         if ( data )
-         {
-             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:0
-                                                                    error:NULL];
-             if ( [info[kRetvalKye] isEqualToString:kRequestOK] )
-             {
-                 if ( successBlock )
-                 {
-                     NSDictionary *retinfo = info[kRetinfoKey];
-                     successBlock(retinfo);
-                 }
-             }
-             else if ( [info[kRetvalKye] isEqualToString:kSessionIdExpireValue] )
-             {
-                 if ( sessionExpireBlock )
-                 {
-                     sessionExpireBlock();
-                 }
-             }
-             else if ( failBlock )
-             {
-                 failBlock([NSError errorWithDomain:kBaseToolDomain
-                                               code:-1
-                                           userInfo:@{kCustomErrorKey: k_REQUST_FAIL}]);
-             }
-         }
-     }];
+                                              params:nil];
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+
 }
 
 

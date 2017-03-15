@@ -26,8 +26,8 @@ typedef NS_ENUM(NSInteger, CCCommentClickType)
 @protocol CCCommentCellDelegate <NSObject>
 
 @optional
-- (void)commentCell:(EVCommentCell *)cell
-         didClicked:(CCCommentClickType)type;
+//- (void)commentCell:(EVCommentCell *)cell
+//         didClicked:(CCCommentClickType)type;
 
 @end
 

@@ -15,13 +15,13 @@
 #import "EVPresentHeaderView.h"
 #import "EVSDKLiveEngineParams.h"
 
-@interface EVPresentView ()<CCPresentHeaderViewDelegate>
+@interface EVPresentView ()<EVPresentHeaderViewDelegate>
 
 /** 容器 */
 @property (nonatomic, weak) UIView *containerView;
 
 /** 头像 */
-@property (nonatomic, weak) CCHeaderImageView *logoImageView;
+@property (nonatomic, weak) EVHeaderImageView *logoImageView;
 
 /** 昵称 */
 @property (nonatomic, weak) UILabel *nickNameLabel;
@@ -50,19 +50,23 @@
 /** 所有礼物 */
 @property (nonatomic, strong) NSArray *presentArr;
 
+/** 自己的账号 */
 @property (nonatomic,copy) NSString *currUserName;
 
+/** 自己的名字 */
 @property (nonatomic,copy) NSString *currUserNickName;
 
+/** 自己的头像 */
 @property (nonatomic,copy) NSString *currUserLogourl;
 
 /** 数字描边 */
 @property ( nonatomic, strong ) NSMutableAttributedString *numLabelAttributeStr;
 
+/** 上面的礼物条 */
 @property (nonatomic, weak)EVPresentHeaderView *presentHeaderView;
 
+/** 下面的礼物条 */
 @property (nonatomic, weak)EVPresentHeaderView *presentHeaderViewTwo;
-
 
 /** 当前展示的礼物 */
 @property ( nonatomic, strong ) EVStartGoodModel *currPresent;
@@ -79,7 +83,6 @@
         _presentQueue = [NSMutableArray array];
         _isPerformRepeat = NO;
         [self setUpHeaderView];
-//        [self setupDanmuViews];
         EVLoginInfo *info = [EVLoginInfo localObject];
         _currUserName = info.name;
         _currUserNickName = info.nickname;
@@ -157,8 +160,8 @@
         NSLog(@"---------------------- %@",present[@"gid"]);
         if (localPresent.ID == [present[@"gid"] integerValue]) {
             self.isAnimatingPresent = localPresent;
-            if (localPresent.anitype == CCPresentAniTypeRedPacket || localPresent.anitype == CCPresentAniTypeZip) {
-                if (localPresent.anitype == CCPresentAniTypeZip) {
+            if (localPresent.anitype == EVPresentAniTypeRedPacket || localPresent.anitype == EVPresentAniTypeZip) {
+                if (localPresent.anitype == EVPresentAniTypeZip) {
                     [self performCenterAnimationWithPresent:localPresent time:[present[@"gct"] integerValue] mine:NO nickName:present[@"nm"]];
                 }
                 [self.presentQueue removeObject:present];
@@ -183,7 +186,7 @@
 // 通知代理动画已经开始执行
 - (void)performCenterAnimationWithPresent:(EVStartGoodModel *)present time:(NSInteger)time mine:(BOOL)mine nickName:(NSString *)nickName
 {
-    if (present.type == CCPresentTypePresent && self.delegate && [self.delegate respondsToSelector:@selector(animationWithPresent:time:mine:nickName:)]) {
+    if (present.type == EVPresentTypePresent && self.delegate && [self.delegate respondsToSelector:@selector(animationWithPresent:time:mine:nickName:)]) {
         [self.delegate animationWithPresent:present time:time mine:mine nickName:nickName];
     }
 }
@@ -224,7 +227,7 @@
                                  logoUrl:_currUserLogourl headerView:self.presentHeaderView];
         [self startAnimationWithHeaderView:self.presentHeaderView];
         
-        if ( present.type == CCPresentTypePresent ) {
+        if ( present.type == EVPresentTypePresent ) {
             [self performCenterAnimationWithPresent:present time:1 mine:YES nickName:_currUserNickName];
         }
         // 连发
@@ -237,7 +240,7 @@
 
 - (void)dealloc
 {
-    CCLog(@"CCPresentView dealloc");
+    EVLog(@"CCPresentView dealloc");
     [_presentQueue removeAllObjects];
     _presentQueue = nil;
     [_presentHeaderView.layer removeAllAnimations];
@@ -277,7 +280,7 @@
 {
     // 文字描边描边
     NSString *timeStr = [NSString stringWithFormat:@"%@×%d", kE_GlobalZH(@"send_gift_num"), (int)headerView.didTime];
-    NSMutableAttributedString *mAttStr = [[NSMutableAttributedString alloc] initWithString:timeStr attributes:@{NSStrokeColorAttributeName: CCAppMainColor, NSForegroundColorAttributeName: [UIColor whiteColor], NSStrokeWidthAttributeName: @-1.0}];
+    NSMutableAttributedString *mAttStr = [[NSMutableAttributedString alloc] initWithString:timeStr attributes:@{NSStrokeColorAttributeName: [UIColor evMainColor], NSForegroundColorAttributeName: [UIColor whiteColor], NSStrokeWidthAttributeName: @-1.0}];
     headerView.numLabel.attributedText = mAttStr;
     
     [headerView.numLabel.layer addAnimation:headerView.scaleAnimation forKey:@"scaleAnimation"];
@@ -323,7 +326,7 @@
                 
                 self.beginPerformRepeat = NO;
                 
-                if ( self.currPresent.anitype == CCPresentAniTypeRedPacket ) {
+                if ( self.currPresent.anitype == EVPresentAniTypeRedPacket ) {
                     [self outAnimationWithHeaderView:headerView];
                 }
             } else {
@@ -365,28 +368,13 @@
 {
     if (!_presentArr)
     {
-        NSArray *presents = [[EVStartResourceTool shareInstance] presentsWithType:CCPresentTypePresent];
-        NSArray *emojis = [[EVStartResourceTool shareInstance] presentsWithType:CCPresentTypeEmoji];
+        NSArray *presents = [[EVStartResourceTool shareInstance] presentsWithType:EVPresentTypePresent];
+        NSArray *emojis = [[EVStartResourceTool shareInstance] presentsWithType:EVPresentTypeEmoji];
         NSMutableArray *presentArr = [NSMutableArray arrayWithArray:presents];
         [presentArr addObjectsFromArray:emojis];
         _presentArr = presentArr;
     }
     return _presentArr;
-}
-
-
-- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
-{
-    if (!self.clipsToBounds && !self.hidden && self.alpha > 0) {
-        for (UIView *subview in self.subviews.reverseObjectEnumerator) {
-            UIView *result = [subview hitTest:point withEvent:event];
-            if (result != nil) {
-                return result;
-            }
-        }
-    }
-    
-    return nil;
 }
 
 @end

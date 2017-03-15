@@ -7,27 +7,28 @@
 //
 
 
-#import "CCEnums.h"
-#import "CCBaseObject.h"
+#import "EVEnums.h"
+#import "EVBaseObject.h"
 
-@class CCCarouselContent;
 
-typedef NS_ENUM(NSInteger, CCCarouselItemType)
+typedef NS_ENUM(NSInteger, EVCarouselItemType)
 {
-    CCCarouselItemUnknow = -1,
-    CCCarouselItemForecast = 0,
-    CCCarouselItemActivity = 1,
-    CCCarouselItemWebType = 2
+    EVCarouselItemH5 = 0,
+    EVCarouselItemNews = 1,
+    EVCarouselItemGoodVideo = 2,
+    EVCarouselItemLiveVideo = 3,
+    EVCarouselItemTextLive = 4,
+    EVCarouselItemUserCenter = 5,
 };
 
-@interface EVCarouselItem : CCBaseObject
+@interface EVCarouselItem : EVBaseObject
 
 /*
  thumb：轮播图片地址
  content: 轮播数据内容，json格式
  */
 
-@property (nonatomic, copy) NSString *thumb;        /**< 轮播图片地址 */
+@property (nonatomic, copy) NSString *img;        /**< 轮播图片地址 */
 
 /** 轮播图滚动的位置 */
 @property (nonatomic, assign) CGPoint contentOffset;
@@ -44,14 +45,10 @@ typedef NS_ENUM(NSInteger, CCCarouselItemType)
 @property (nonatomic, strong) NSDictionary *content;    /**< 轮播数据内容，json格式 */
 @property (nonatomic, strong) NSDictionary *data;       /**< 具体数据内容 */
 
-@property (nonatomic, assign) CCCarouselItemType type;
+@property (nonatomic, assign) EVCarouselItemType type;
 
-@property (nonatomic, copy) NSString *noticeID;         /**< 预告ID */
-@property (nonatomic, copy) NSString *activetyID;       /**< 活动ID */
+@property (nonatomic, copy) NSString *resource;       /**< 活动ID */
 @property (nonatomic, copy) NSString *web_url;          /**< h5页面地址 */
 @property (nonatomic, copy) NSString *title;            /**< web页面活动标题 */
-
-
-
 
 @end

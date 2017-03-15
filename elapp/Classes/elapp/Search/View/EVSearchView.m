@@ -69,8 +69,6 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    // 1. 结束编辑
-//    [textField endEditing:YES];
     // 2. 获取搜索关键字
     NSString *searchText = [textField.text mutableCopy];
     // 3. 开始搜索
@@ -84,8 +82,10 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    CCLog(@"---text field:-%@-, range:%@, replacement string:-%@-", textField.text, NSStringFromRange(range), string);
-    
+    EVLog(@"---text field:-%@-, range:%@, replacement string:-%@-", textField.text, NSStringFromRange(range), string);
+    if (textField.text.length <= 0) {
+         [_searchDelegate searchView:self didBeginEditing:textField];
+    }
     return [textField.text isEqualToString:@""] && [string isEqualToString:@" "] ? NO : YES;
 }
 
@@ -93,18 +93,21 @@
 {
     if ( _searchDelegate && [_searchDelegate respondsToSelector:@selector(searchView:didBeginEditing:)] )
     {
+        self.text = textField.text;
         [_searchDelegate searchView:self didBeginEditing:textField];
     }
 }
 
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    self.text = textField.text;
+}
 
 #pragma mark - event actions
-
 - (void)cancelSearch
 {
     // 取消编辑
     [self endEditing:YES];
-    
     // 响应代理
     if ( _searchDelegate && [_searchDelegate respondsToSelector:@selector(cancelSearch)] )
     {
@@ -117,16 +120,14 @@
 
 - (void)addSubviews
 {
-    CGFloat space = 13.0f;
     CGFloat fontSize = 16.0f;
-//    CGFloat height = 31.0f;
     CGFloat cancelBtnW = 33.0f + 13.0f;
     
     // 取消按钮
     UIButton *cancelBtn = [[UIButton alloc] initWithFrame:CGRectZero];
     [cancelBtn setTitle:kCancel forState:UIControlStateNormal];
-    cancelBtn.titleLabel.font = [[CCAppSetting shareInstance] normalFontWithSize:fontSize];
-    [cancelBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    cancelBtn.titleLabel.font = [[EVAppSetting shareInstance] normalFontWithSize:fontSize];
+    [cancelBtn setTitleColor:[UIColor evMainColor] forState:UIControlStateNormal];
     [cancelBtn setContentMode:UIViewContentModeLeft];
     [cancelBtn setTitleEdgeInsets:UIEdgeInsetsMake(.0f, 13.0f, .0f, .0f)];
     cancelBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
@@ -142,9 +143,8 @@
     
     // 搜索容器，盛放搜索图标和搜索框
     UIView *searchView = [[UIView alloc] initWithFrame:CGRectZero];
-    searchView.layer.cornerRadius = 6.0f;
-    searchView.layer.borderColor = [UIColor whiteColor].CGColor;
-    searchView.layer.borderWidth = 0.9f;
+    searchView.layer.cornerRadius =15.0f;
+    searchView.backgroundColor = [UIColor colorWithHexString:@"E6E6E6"];
     searchView.layer.masksToBounds = YES;
     [self addSubview:searchView];
     // 搜索容器的约束
@@ -153,33 +153,27 @@
     [searchView autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:.0f];
     [searchView autoPinEdge:ALEdgeRight toEdge:ALEdgeLeft ofView:cancelBtn];
     
-    // 搜索图标
-    UIImageView *searchIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"home_icon_navigation_searchbar_search"]];
-    [searchView addSubview:searchIcon];
-    _searchIcon = searchIcon;
-    // 搜索图标约束
-    [searchIcon autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:10];
-    [searchIcon autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
-    [searchIcon autoSetDimensionsToSize:CGSizeMake(20, 20)];
     
     // 搜索框
     UITextField *searchTF = [[UITextField alloc] initWithFrame:CGRectZero];
     searchTF.placeholder = kSearch;
-    searchTF.textColor = [UIColor whiteColor];
-    searchTF.clearButtonMode = UITextFieldViewModeWhileEditing;
+    searchTF.textColor = [UIColor evTextColorH1];
     searchTF.returnKeyType = UIReturnKeySearch;
-    searchTF.tintColor = [UIColor whiteColor];
-    searchTF.font = [[CCAppSetting shareInstance] normalFontWithSize:15.0f];
+    searchTF.tintColor = [UIColor textBlackColor];
+    searchTF.font = [[EVAppSetting shareInstance] normalFontWithSize:15.0f];
     searchTF.delegate = self;
+    searchTF.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 30)];
+    searchTF.leftViewMode = UITextFieldViewModeAlways;
     [searchView addSubview:searchTF];
+    searchTF.backgroundColor = [UIColor clearColor];
     _searchTF = searchTF;
     // 搜索框约束
     [searchTF autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:.0f];
     [searchTF autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:.0f];
-    [searchTF autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:.0f];
-    [searchTF autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:searchIcon withOffset:space - 5];
+    [searchTF autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:5.f];
+    [searchTF autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:5];
     
-    
+
     [self layoutIfNeeded];
 }
 
@@ -204,7 +198,6 @@
     }
     if ( self.searchTF )
     {
-//        self.searchTF.tintColor = placeHolderColor;
         self.searchTF.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.placeHolder attributes:@{NSForegroundColorAttributeName : placeHolderColor}];
     }
 }

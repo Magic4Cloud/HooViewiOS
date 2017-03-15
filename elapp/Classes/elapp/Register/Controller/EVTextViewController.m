@@ -27,16 +27,16 @@
     //
     switch (self.type)
     {
-        case CCTermOfService:
+        case EVTermOfService:
             self.title = kService_provision;
             break;
-        case CCPrivacyPolicy:
+        case EVPrivacyPolicy:
             self.title = kPrivacy_policy;
             break;
     }
 }
 
-- (void)setType:(CCTextVCType)type
+- (void)setType:(EVTextVCType)type
 {
     _type = type;
 }
@@ -46,15 +46,15 @@
     NSString *path = [[NSBundle mainBundle] pathForResource:@"用户注册协议.rtf" ofType:nil];
     UITextView *textView = [[UITextView alloc] init];
     NSMutableAttributedString *attriStr = [[NSMutableAttributedString alloc] initWithData:[NSData dataWithContentsOfFile:path] options:@{} documentAttributes:nil error:nil];
-    [attriStr addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14],NSForegroundColorAttributeName:CCTextBlackColor} range:NSMakeRange(0, attriStr.length)];
+    [attriStr addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14],NSForegroundColorAttributeName:[UIColor textBlackColor]} range:NSMakeRange(0, attriStr.length)];
     textView.attributedText = attriStr;
-    textView.backgroundColor = CCBackgroundColor;
+    textView.backgroundColor = [UIColor evBackgroundColor];
     textView.editable = NO;
     [self.view addSubview:textView];
     [textView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
 
     UIView *navView = [[UIView alloc] initWithFrame:CGRectMake(0.f, 0.f, ScreenWidth, 64.f)];
-    navView.backgroundColor = CCBackgroundColor;
+    navView.backgroundColor = [UIColor evBackgroundColor];
     [self.view addSubview:navView];
     
     [self.dismissBtn setImage:[UIImage imageNamed:@"login_icon_close_bloack"] forState:UIControlStateNormal];

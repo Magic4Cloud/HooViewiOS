@@ -41,7 +41,7 @@
 //    self.privateButton.layer.borderWidth = 1;
 //    self.privateButton.layer.borderColor = [UIColor lightGrayColor].CGColor;
     UIView *seperateLine = [[UIView alloc] init];
-    seperateLine.backgroundColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+    seperateLine.backgroundColor = [UIColor evGlobalSeparatorColor];
     [self.contentView addSubview:seperateLine];
     self.seperateLine = seperateLine;
     self.selectionStyle = UITableViewCellSelectionStyleNone;

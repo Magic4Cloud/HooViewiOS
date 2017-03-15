@@ -6,24 +6,26 @@
 //  Copyright (c) 2016 EasyVass. All rights reserved.
 //
 
-#import "CCBaseObject.h"
+#import "EVBaseObject.h"
 
-typedef NS_ENUM(NSInteger, CCPresentAniType)
+typedef NS_ENUM(NSInteger, EVPresentAniType)
 {
-    CCPresentAniTypeNone,
-    CCPresentAniTypeStaticImage,
-    CCPresentAniTypeGif,
-    CCPresentAniTypeZip,
-    CCPresentAniTypeRedPacket
+    EVPresentAniTypeNone,
+    EVPresentAniTypeStaticImage,
+    EVPresentAniTypeGif,
+    EVPresentAniTypeZip,
+    EVPresentAniTypeRedPacket
 };
 
-@interface EVStartGoodModel : CCBaseObject
+@interface EVStartGoodModel : EVBaseObject
 
 /** id */
 @property (nonatomic, assign) NSInteger ID;
 
 /** 名称 */
 @property (nonatomic, copy) NSString *name;
+
+@property (nonatomic, copy) NSString *giftName;
 
 /** 图片 */
 @property (nonatomic, copy) NSString *pic;
@@ -32,7 +34,7 @@ typedef NS_ENUM(NSInteger, CCPresentAniType)
 @property (nonatomic, copy) NSString *ani;
 
 /** 动画类型 */
-@property (nonatomic, assign) CCPresentAniType anitype;
+@property (nonatomic, assign) EVPresentAniType anitype;
 
 /** 价格 */
 @property (nonatomic, assign) NSInteger cost;
@@ -47,14 +49,17 @@ typedef NS_ENUM(NSInteger, CCPresentAniType)
 @property (nonatomic, strong) UIImage *costImage;
 
 /** 礼物类型 */
-@property (nonatomic, assign) CCPresentType type;
+@property (nonatomic, assign) EVPresentType type;
 
-/********* 附加属性  **********/
 /** 选中个数 */
 @property (nonatomic, assign) NSInteger selectNum;
 
 /** 是否选中 */
 @property (nonatomic, assign) BOOL selected;
+
+@property (nonatomic, copy) NSString *colorStr;
+
+@property (nonatomic, assign) long long timeLong;
 
 + (EVStartGoodModel *)modelWithDict:(NSDictionary *)dict;
 @end

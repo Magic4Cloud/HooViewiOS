@@ -73,8 +73,8 @@
     [self.contentView addSubview:container];
     [container autoPinEdgesToSuperviewEdges];
     
-    UILabel *listNumLbl = [UILabel labelWithDefaultTextColor:CCTextBlackColor
-                                                        font:CCNormalFont(15.0f)];
+    UILabel *listNumLbl = [UILabel labelWithDefaultTextColor:[UIColor textBlackColor]
+                                                        font:EVNormalFont(15.0f)];
     listNumLbl.textAlignment = NSTextAlignmentCenter;
     [container addSubview:listNumLbl];
     listNumLbl.hidden = YES;
@@ -93,7 +93,7 @@
     [logoBtn autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
    
     UILabel *nicknameLbl = [UILabel labelWithDefaultTextColor:[UIColor evTextColorH1]
-                                                         font:CCNormalFont(15)];
+                                                         font:EVNormalFont(15)];
     [container addSubview:nicknameLbl];
     self.nicknameLbl = nicknameLbl;
     [nicknameLbl autoAlignAxis:ALAxisHorizontal toSameAxisOfView:self withOffset:-11];
@@ -106,8 +106,8 @@
     [levelView autoAlignAxis:ALAxisHorizontal toSameAxisOfView:self withOffset:11];
     _levelView = levelView;
     
-    UILabel *contributesLbl = [UILabel labelWithDefaultTextColor:CCTextBlackColor
-                                                         font:CCNormalFont(12.0f)];
+    UILabel *contributesLbl = [UILabel labelWithDefaultTextColor:[UIColor textBlackColor]
+                                                         font:EVNormalFont(12.0f)];
     contributesLbl.textAlignment = NSTextAlignmentRight;
     contributesLbl.textColor = [UIColor evTextColorH2];
     contributesLbl.font = [UIFont systemFontOfSize:13];
@@ -116,8 +116,8 @@
     [contributesLbl autoAlignAxis:ALAxisHorizontal toSameAxisOfView:self withOffset:11];
     [contributesLbl autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(.0, 50, .0, 20.0f) excludingEdge:ALEdgeLeft];
     
-    UILabel * gxLabel = [UILabel labelWithDefaultTextColor:CCTextBlackColor
-                                                      font:CCNormalFont(12.0f)];
+    UILabel * gxLabel = [UILabel labelWithDefaultTextColor:[UIColor textBlackColor]
+                                                      font:EVNormalFont(12.0f)];
     gxLabel.textAlignment = NSTextAlignmentRight;
     gxLabel.text = kE_GlobalZH(@"e_devote");
     [container addSubview:gxLabel];
@@ -128,7 +128,7 @@
     
     // 低部分割线
     UIView *bottomLine = [[UIView alloc] init];
-    bottomLine.backgroundColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+    bottomLine.backgroundColor = [UIColor evGlobalSeparatorColor];
     [container addSubview:bottomLine];
     [bottomLine autoPinEdgeToSuperviewEdge:ALEdgeBottom];
     [bottomLine autoPinEdgeToSuperviewEdge:ALEdgeRight];
@@ -145,7 +145,7 @@
     self.listNumLbl.hidden = NO;
     self.contributesLbl.hidden = NO;
     self.logoBtnLayoutCon.constant = -5.f;
-    [self.logoBtn cc_setBackgroundImageURL:model.logourl placeholderImage:[UIImage imageNamed:@"avatar"] isVip:![model.vip isEqualToString:@"0"] vipSizeType:CCVipMini];
+    [self.logoBtn cc_setBackgroundImageURL:model.logourl placeholderImage:[UIImage imageNamed:@"avatar"] isVip:![model.vip isEqualToString:@"0"] vipSizeType:EVVipMini];
     self.nicknameLbl.text = model.nickname;
     self.contributesLbl.text = [NSString stringWithFormat:@"%ld", model.riceroll];
     self.levelView.gender = model.gender;
@@ -159,7 +159,7 @@
     self.contributesLbl.hidden = YES;
     self.gxLabel.hidden = YES;
     self.logoBtnLayoutCon.constant = -40.f;
-    [self.logoBtn cc_setBackgroundImageURL:listModel.logourl placeholderImage:[UIImage imageNamed:@"avatar"] isVip:nil vipSizeType:CCVipMini];
+    [self.logoBtn cc_setBackgroundImageURL:listModel.logourl placeholderImage:[UIImage imageNamed:@"avatar"] isVip:nil vipSizeType:EVVipMini];
     self.nicknameLbl.text = listModel.nickname;
     self.levelView.gender = listModel.gender;
 }

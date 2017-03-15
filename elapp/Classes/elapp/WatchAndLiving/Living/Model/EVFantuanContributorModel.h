@@ -7,10 +7,10 @@
 //
 
 
-#import "CCBaseObject.h"
+#import "EVBaseObject.h"
 #import "EVUserModel.h"
 
-@interface EVFantuanContributorModel : CCBaseObject
+@interface EVFantuanContributorModel : EVBaseObject
 
 @property (copy, nonatomic) NSString *name;  /**< 云播号，string */
 @property (copy, nonatomic) NSString *logourl;  /**< 用户头像链接地址，string */

@@ -69,7 +69,7 @@ static NSString *identifier = @"userTableViewCell";
         
         // 设置昵称
         UILabel *userNameLabel = [[UILabel alloc]init];
-        userNameLabel.font = [[CCAppSetting shareInstance] normalFontWithSize:14.0f];
+        userNameLabel.font = [[EVAppSetting shareInstance] normalFontWithSize:14.0f];
         userNameLabel.textColor = [UIColor evTextColorH1];
         _userNameLabel = userNameLabel;
         [self.contentView addSubview:userNameLabel];
@@ -81,7 +81,7 @@ static NSString *identifier = @"userTableViewCell";
     
         // 设置个性签名
         UILabel *profileDescriptionLabel = [[UILabel alloc]init];
-        profileDescriptionLabel.font = [[CCAppSetting shareInstance]normalFontWithSize:11];
+        profileDescriptionLabel.font = [[EVAppSetting shareInstance]normalFontWithSize:11];
         profileDescriptionLabel.textColor = [UIColor evTextColorH2];
         _profileDescriptionLabel = profileDescriptionLabel;
         [self.contentView addSubview:profileDescriptionLabel];
@@ -91,7 +91,7 @@ static NSString *identifier = @"userTableViewCell";
         
         // 设置粉丝数
         UILabel *fanTotalLabel = [[UILabel alloc]init];
-        fanTotalLabel.font = [[CCAppSetting shareInstance]normalFontWithSize:11];
+        fanTotalLabel.font = [[EVAppSetting shareInstance]normalFontWithSize:11];
         fanTotalLabel.textColor = [UIColor colorWithHexString:@"#999999"];
         _fanTotalLabel = fanTotalLabel;
         [self.contentView addSubview:fanTotalLabel];
@@ -100,7 +100,7 @@ static NSString *identifier = @"userTableViewCell";
         
         // 设置赞数
         UILabel *praiseTotalLabel = [[UILabel alloc]init];
-        praiseTotalLabel.font = [[CCAppSetting shareInstance]normalFontWithSize:11];
+        praiseTotalLabel.font = [[EVAppSetting shareInstance]normalFontWithSize:11];
         praiseTotalLabel.textColor = [UIColor colorWithHexString:@"#999999"];
         _praiseTotalLabel = praiseTotalLabel;
         [self.contentView addSubview:praiseTotalLabel];
@@ -120,7 +120,7 @@ static NSString *identifier = @"userTableViewCell";
         
         // 添加底部分割线
         UIView *bottomLine = [[UIView alloc] initWithFrame:CGRectZero];
-        bottomLine.backgroundColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+        bottomLine.backgroundColor = [UIColor evGlobalSeparatorColor];
         [self.contentView addSubview:bottomLine];
         self.bottomLine = bottomLine;
         

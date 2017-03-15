@@ -16,9 +16,9 @@
 typedef void(^ClickBlock)();
 
 
-
 @interface EVLoadingView : UIView
 
+@property (nonatomic,strong)UIActivityIndicatorView *activityIndicator;
 @property (nonatomic,copy)NSString *failTitle;
 
 - (void)showLoadingView;

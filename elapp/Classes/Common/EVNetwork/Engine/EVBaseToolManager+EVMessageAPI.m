@@ -10,6 +10,7 @@
 #import "constants.h"
 #import "EVHttpURLManager.h"
 
+
 @implementation EVBaseToolManager (EVMessageAPI)
 - (void)GETMessageRedEnvelopeCode:(NSString *)code open:(NSInteger)open start:(void (^)())startBlock fail:(void (^)(NSError *))failBlock success:(void (^)(NSDictionary *))successBlock sessionExpire:(void (^)())sessionExpireBlock
 {
@@ -27,39 +28,8 @@
         return ;
     }
     params[kCode] = code;
-    NSString *urlString = [EVHttpURLManager httpsFullURLStringWithURI:EVOpenRedEnvelAPI params:params];
-    [self requestWithURLString:urlString
-                         start:startBlock
-                          fail:failBlock
-                       success:^(NSData *data)
-     {
-         if ( data )
-         {
-             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:0
-                                                                    error:NULL];
-             if ( [info[kRetvalKye] isEqualToString:kSessionIdExpireValue]
-                 && sessionExpireBlock )
-             {
-                 sessionExpireBlock();
-             }
-             
-             if ( [info[kRetvalKye] isEqualToString:kRequestOK] )
-             {
-                 if (successBlock) {
-                     successBlock(info[kRetinfoKey]);
-                 }
-             }
-             else
-             {
-                 failBlock([NSError cc_errorWithDictionary:info]);
-             }
-         }
-         else if (failBlock)
-         {
-             failBlock(nil);
-         }
-     }];
+    NSString *urlString = [EVHttpURLManager httpsFullURLStringWithURI:EVOpenRedEnvelAPI params:nil];
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
 }
 
 //  获取招呼内的消息组列表 小秘书和新朋友
@@ -81,37 +51,9 @@
         return;
     }
     NSString *urlString = [EVHttpURLManager fullURLStringWithURI:EVMessagegrouplistAPI
-                                              params:params];
-    [self requestWithURLString:urlString
-                         start:startBlock
-                          fail:failBlock
-                       success:^(NSData *data)
-     {
-         if ( data )
-         {
-             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:0
-                                                                    error:NULL];
-             CCLog(@"%@",info);
-             if ( [info[kRetvalKye] isEqualToString:kRequestOK] )
-             {
-                 if ( successBlock )
-                 {
-                     successBlock(info[kRetinfoKey]);
-                 }
-             } else if ( failBlock )
-             {
-                 failBlock([NSError errorWithDomain:kBaseToolDomain
-                                               code:-1
-                                           userInfo:@{kCustomErrorKey: k_REQUST_FAIL}]);
-             }
-         }
-         else if (failBlock)
-         {
-             failBlock(nil);
-         }
-         
-     }];
+                                              params:nil];
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:sessionExpiredBlock fail:failBlock];
+   
 }
 
 
@@ -129,43 +71,15 @@
         return ;
     }
     params[kSessionIdKey] = sessionID;
-    [params setValue:groupid forKey:KgroupidKey];
+    [params setValue:@"0" forKey:KgroupidKey];
     [params setValue:@(start) forKey:kStart];
     [params setValue:@(count) forKey:kCount];
     
     NSString *urlString = [EVHttpURLManager fullURLStringWithURI:EVMessageitemlistAPI
-                                              params:params];
-    [self requestWithURLString:urlString
-                         start:startBlock
-                          fail:failBlock
-                       success:^(NSData *data)
-     {
-         if ( data )
-         {
-             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:0
-                                                                    error:NULL];
-             CCLog(@"%@",info);
-             if ( [info[kRetvalKye] isEqualToString:kRequestOK] )
-             {
-                 if ( successBlock )
-                 {
-                     NSDictionary *retinfo = info[kRetinfoKey];
-                     successBlock(retinfo);
-                 }
-             }
-             else if ( failBlock )
-             {
-                 failBlock([NSError errorWithDomain:kBaseToolDomain
-                                               code:-1
-                                           userInfo:@{kCustomErrorKey: k_REQUST_FAIL}]);
-             }
-         }
-         else if ( failBlock )
-         {
-             failBlock(nil);
-         }
-     }];
+                                              params:nil];
+    
+    
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:nil fail:failBlock];
 }
 
 
@@ -182,37 +96,9 @@
         params[kSessionIdKey] = sessionID;
     }
     NSString *urlString = [EVHttpURLManager fullURLStringWithURI:EVMessageunreadcountAPI
-                                              params:params];
-    [self requestWithURLString:urlString
-                         start:startBlock
-                          fail:failBlock
-                       success:^(NSData *data)
-     {
-         if ( data )
-         {
-             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:0
-                                                                    error:NULL];
-             CCLog(@"%@",info);
-             if ( [info[kRetvalKye] isEqualToString:kRequestOK] )
-             {
-                 if ( successBlock )
-                 {
-                     successBlock(info[kRetinfoKey]);
-                 }
-             }
-             else if ( failBlock )
-             {
-                 failBlock([NSError errorWithDomain:kBaseToolDomain
-                                               code:-1
-                                           userInfo:@{kCustomErrorKey: k_REQUST_FAIL}]);
-             }
-         }
-         else if (failBlock)
-         {
-             failBlock(nil);
-         }
-     }];
+                                              params:nil];
+
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:nil fail:failBlock];
 }
 
 @end

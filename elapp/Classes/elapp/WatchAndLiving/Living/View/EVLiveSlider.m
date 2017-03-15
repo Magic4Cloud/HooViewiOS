@@ -57,7 +57,7 @@
     }
     
     slider.maximumTrackTintColor = [UIColor whiteColor];
-    slider.minimumTrackTintColor = CCAppMainColor;
+    slider.minimumTrackTintColor = [UIColor evMainColor];
     self.slider = slider;
     
     UIButton *addButton = [[UIButton alloc] init];
@@ -155,13 +155,13 @@
 
 - (void)sliderTouchDown
 {
-    CCLog(@"sliderTouchDown");
+    EVLog(@"sliderTouchDown");
     self.sliderHoldOn = YES;
 }
 
 - (void)sliderTouchUp
 {
-    CCLog(@"sliderTouchUp");
+    EVLog(@"sliderTouchUp");
     self.sliderHoldOn = NO;
     if ( self.needToHideSlider )
     {

@@ -29,7 +29,7 @@
         self.placeholderLabel.userInteractionEnabled = NO;
         self.placeholderLabel.editable = NO;
         [self addSubview:placeholderLabel];
-        [CCNotificationCenter addObserver:self selector:@selector(textChanged) name:UITextViewTextDidChangeNotification object:nil];
+        [EVNotificationCenter addObserver:self selector:@selector(textChanged) name:UITextViewTextDidChangeNotification object:nil];
     }
     return self;
 }
@@ -66,7 +66,7 @@
 {
     [super setTextAlignment:textAlignment];
     self.placeholderLabel.textAlignment = textAlignment;
-    self.placeholderLabel.font = CCNormalFont(17);
+    self.placeholderLabel.font = EVNormalFont(17);
     self.placeholderLabel.textColor = [UIColor colorWithHexString:@"#ffffff" alpha:0.5];
 }
 

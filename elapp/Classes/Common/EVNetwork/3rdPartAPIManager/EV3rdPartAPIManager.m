@@ -12,7 +12,8 @@
 #import "WeiboSDK.h"
 #import <TencentOpenAPI/TencentOAuth.h>
 #import "EVNetWorkManager.h"
-#import <AFNetworking.h>
+#import "EVBaseToolManager.h"
+
 
 
 NSString *const kErrorInfo = @"kErrorInfo";
@@ -41,13 +42,12 @@ NSString *const k_AccessToken_WeiXin_Key = @"k_AccessToken_WeiXin_Key";
 NSString *const k_AccessToken_QQ_Key = @"k_AccessToken_QQ_Key";
 
 
-#define WeiXinAuthURLStringWithCode(code) [NSString stringWithFormat:@"https://api.weixin.qq.com/sns/oauth2/access_token?appid=%@&secret=%@&code=%@&grant_type=authorization_code", WEIXIN_APP_KEY, WEIXIN_SECRET_KEY, code]
+#define WeiXinAuthURLStringWithCode(ecode) [NSString stringWithFormat:@"https://api.weixin.qq.com/sns/oauth2/access_token?appid=%@&secret=%@&code=%@&grant_type=authorization_code", WEIXIN_APP_KEY, WEIXIN_SECRET_KEY, ecode]
 
 @interface EV3rdPartAPIManager ()<WeiboSDKDelegate,WXApiDelegate>
 
 @property (nonatomic, strong) TencentOAuth *tencentOAuth;
 
-@property (nonatomic,strong) AFURLSessionManager *sessionManager;
 
 @end
 
@@ -63,16 +63,6 @@ NSString *const k_AccessToken_QQ_Key = @"k_AccessToken_QQ_Key";
     
     return instance;
 }
-
-- (instancetype)init
-{
-    if ( self = [super init] )
-    {
-        _sessionManager = [[AFURLSessionManager alloc] init];
-    }
-    return self;
-}
-
 #pragma mark - 授权相关 >>>>
 #pragma mark 回调处理
 - (void)qqSuccess:(NSDictionary *)dic {
@@ -131,7 +121,7 @@ NSString *const k_AccessToken_QQ_Key = @"k_AccessToken_QQ_Key";
         self.tencentOAuth = [[TencentOAuth alloc] initWithAppId:QQKey andDelegate:self];
     }
     
-#ifdef CCDEBUG
+#ifdef EVDEBUG
     [WeiboSDK enableDebugMode:NO];
 #endif
     
@@ -178,7 +168,7 @@ NSString *const k_AccessToken_QQ_Key = @"k_AccessToken_QQ_Key";
     request.scope = @"follow_app_official_microblog";
     if ( ![WeiboSDK sendRequest:request] )
     {
-        CCLog(@"weiboLogin - %@", request.sdkVersion);
+        EVLog(@"weiboLogin - %@", request.sdkVersion);
     }
 }
 
@@ -200,19 +190,19 @@ NSString *const k_AccessToken_QQ_Key = @"k_AccessToken_QQ_Key";
 - (void)getQQUserInfo:(EVThirdPartUserInfo *)userInfo success:(void(^)(EVThirdPartUserInfo *userInfo))successBlock fail:(void(^)(NSError *error))failBlock{
     NSAssert(userInfo.access_token && userInfo.openID , @"user info can not be nil");
     NSString *urlString = [NSString stringWithFormat:@"%@?access_token=%@&oauth_consumer_key=%@&openid=%@", QQBaseURL, userInfo.access_token, QQ_APP_ID, userInfo.openID];
-    [[EVNetWorkManager shareInstance] requestWithURLString:urlString start:nil success:^(NSData *data) {
-        NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];
+    [EVBaseToolManager GETNoSessionWithUrl:urlString parameters:nil success:^(NSDictionary *successDict) {
         if ( successBlock == nil ) {
             return ;
         }
-        userInfo.dname = info[@"nickname"];
-        userInfo.logourl = info[@"figureurl_qq_2"];
+        userInfo.dname = successDict[@"nickname"];
+        userInfo.logourl = successDict[@"figureurl_qq_2"];
         successBlock(userInfo);
     } fail:^(NSError *error) {
         if ( failBlock ) {
             failBlock(error);
         }
     }];
+   
 }
 
 
@@ -292,7 +282,7 @@ NSString *const k_AccessToken_QQ_Key = @"k_AccessToken_QQ_Key";
 #pragma mark - weixin WXApiDelegate
 -(void)onReq:(BaseReq*)req
 {
-    CCLog(@"-----");
+    EVLog(@"-----");
 }
 
 
@@ -305,30 +295,26 @@ NSString *const k_AccessToken_QQ_Key = @"k_AccessToken_QQ_Key";
                 SendAuthResp *respWeixin = (SendAuthResp*)resp;
                 NSString *code = respWeixin.code;
                 NSString *urlString = WeiXinAuthURLStringWithCode(code);
-                
-                [[EVNetWorkManager shareInstance] requestWithURLString:urlString start:nil success:^(NSData *data) {
-                    NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];
-                    
-                    if ( info[@"openid"] ) {
-                        NSTimeInterval expirein = [[NSDate date] timeIntervalSince1970] + [info[@"expires_in"] doubleValue];
+                [EVBaseToolManager GETNoSessionWithUrl:urlString parameters:nil success:^(NSDictionary *successDict) {
+                    if ( successDict[@"openid"] ) {
+                        NSTimeInterval expirein = [[NSDate date] timeIntervalSince1970] + [successDict[@"expires_in"] doubleValue];
                         [NSString stringWithFormat:@"%lf",expirein];
-                        [self persistentToken:info[@"access_token"] withExpireIn:[NSString stringWithFormat:@"%lf",expirein] withType:EVShareManagerAuthWeixin];
+                        [self persistentToken:successDict[@"access_token"] withExpireIn:[NSString stringWithFormat:@"%lf",expirein] withType:EVShareManagerAuthWeixin];
                         
-                         [self wechatSuccess:info];
+                        [self wechatSuccess:successDict];
                     } else {
                         [self wechatFailure:@{kErrorInfo : kWeixinAuthFail}];
                         
                     }
-                    
-                }fail:^(NSError *error) {
-                     [self wechatFailure:@{kErrorInfo : kWeixinAuthFail}];
-                    CCLog(@"weixin auth request fail - %@",error);
-
+                } fail:^(NSError *error) {
+                    [self wechatFailure:@{kErrorInfo : kWeixinAuthFail}];
+                    EVLog(@"weixin auth request fail - %@",error);
                 }];
+            
                 
             }else{
                 [self wechatFailure:@{kErrorInfo : kWeiXinAuthCancel}];
-                CCLog(@"wxlogin fail------");
+                EVLog(@"wxlogin fail------");
             }
         }
     }else if ( [EV3rdPartAPIManager sharedManager].authType == EVPayManagerAuthWeixin ) {
@@ -339,16 +325,16 @@ NSString *const k_AccessToken_QQ_Key = @"k_AccessToken_QQ_Key";
             {
                 case WXSuccess:
                 {
-                    CCLog(@"支付成功－PaySuccess，retcode = %d", resp.errCode);
+                    EVLog(@"支付成功－PaySuccess，retcode = %d", resp.errCode);
                     [self wechatPaySucc:nil];
-                    [CCNotificationCenter postNotificationName:WeixinPaySuccessNotification  object:nil userInfo:nil];
+                    [EVNotificationCenter postNotificationName:WeixinPaySuccessNotification  object:nil userInfo:nil];
                 }
                     break;
                     
                 case WXErrCodeUserCancel:
                 {
-                    CCLog(@"错误，retcode = %d, retstr = %@", resp.errCode,resp.errStr);
-                    [CCNotificationCenter postNotificationName:WeixinPayFailedNotification  object:nil userInfo:@{kErrorInfo:kWeiXinPayCancel}];
+                    EVLog(@"错误，retcode = %d, retstr = %@", resp.errCode,resp.errStr);
+                    [EVNotificationCenter postNotificationName:WeixinPayFailedNotification  object:nil userInfo:@{kErrorInfo:kWeiXinPayCancel}];
                     
                      [self wechatPayFail:@{kErrorInfo : kWeiXinPayFailed}];
                 }
@@ -360,8 +346,8 @@ NSString *const k_AccessToken_QQ_Key = @"k_AccessToken_QQ_Key";
                 case WXErrCodeUnsupport:
                 default:
                 {
-                    CCLog(@"错误，retcode = %d, retstr = %@", resp.errCode,resp.errStr);
-                    [CCNotificationCenter postNotificationName:WeixinPayFailedNotification object:nil userInfo:@{kErrorInfo:kWeiXinPayFailed}];
+                    EVLog(@"错误，retcode = %d, retstr = %@", resp.errCode,resp.errStr);
+                    [EVNotificationCenter postNotificationName:WeixinPayFailedNotification object:nil userInfo:@{kErrorInfo:kWeiXinPayFailed}];
                      [self wechatPayFail:@{kErrorInfo : kWeiXinPayFailed}];
                 }
                     break;
@@ -457,25 +443,19 @@ NSString *const k_AccessToken_QQ_Key = @"k_AccessToken_QQ_Key";
             break;
     }
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    [[EVNetWorkManager shareInstance] requestWithURLString:urlString start:startBlock success:^(NSData *data) {
-        if ( data ) {
-            if ( successBlock ) {
-                NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];
-                [self handleLoginInfo:userInfo info:info success:successBlock];
-            }
-        }else if ( failBlock ){
+    
+    [EVBaseToolManager GETNoSessionWithUrl:urlString parameters:nil success:^(NSDictionary *successDict) {
+        if ( successBlock ) {
             
-            failBlock(nil);
-            
-        } else {
-            
+            [self handleLoginInfo:userInfo info:successDict success:successBlock];
         }
-        } fail:^(NSError *error) {
-            if ( failBlock ) {
-                failBlock(error);
-            }
-
+    } fail:^(NSError *error) {
+        if ( failBlock ) {
+            failBlock(error);
+        }
     }];
+ 
+
     
     return;
 }

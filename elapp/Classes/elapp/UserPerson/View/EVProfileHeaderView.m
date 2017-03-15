@@ -97,7 +97,7 @@ CGFloat const EVProfileHeaderViewRoomHeight = kPaddingHeight;     /**< 房间+�
     [centerContanerView addSubview: nickNameLabel];
     [nickNameLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:headerButton withOffset:8.];
     [nickNameLabel autoAlignAxis:ALAxisVertical toSameAxisOfView:centerContanerView];
-    nickNameLabel.font = CCNormalFont(13);
+    nickNameLabel.font = EVNormalFont(13);
     nickNameLabel.textColor = [UIColor evTextColorH3];
     nickNameLabel.textAlignment = NSTextAlignmentCenter;
     self.nickNameLabel = nickNameLabel;
@@ -117,7 +117,7 @@ CGFloat const EVProfileHeaderViewRoomHeight = kPaddingHeight;     /**< 房间+�
     [idLabel autoAlignAxis:ALAxisVertical toSameAxisOfView:containerView];
     [idLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:levelView withOffset:8.f];
     idLabel.text = [NSString stringWithFormat:@"ID:%@",kE_GlobalZH(@"loading")];
-    idLabel.font = CCNormalFont(12);
+    idLabel.font = EVNormalFont(12);
     idLabel.textColor = [UIColor colorWithRed:182.0/255 green:182.0/255 blue:182.0/255 alpha:1.0];
     self.idLabel = idLabel;
     
@@ -140,7 +140,7 @@ CGFloat const EVProfileHeaderViewRoomHeight = kPaddingHeight;     /**< 房间+�
     [editDatabtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
     editDatabtn.titleLabel.textAlignment = NSTextAlignmentCenter;
     editDatabtn.titleLabel.font = [UIFont systemFontOfSize:15.0];
-    [editDatabtn setBackgroundColor:CCColor(98, 45, 128)];
+    [editDatabtn setBackgroundColor:[UIColor evSecondColor]];
     [editDatabtn addTarget:self action:@selector(editDataClick:) forControlEvents:(UIControlEventTouchUpInside)];
     [editDatabtn autoAlignAxis:ALAxisVertical toSameAxisOfView:centerContanerView];
     [editDatabtn autoSetDimension:ALDimensionWidth toSize:100];
@@ -208,7 +208,7 @@ CGFloat const EVProfileHeaderViewRoomHeight = kPaddingHeight;     /**< 房间+�
     [bottomLine autoPinEdgeToSuperviewEdge:ALEdgeRight];
     [bottomLine autoPinEdgeToSuperviewEdge:ALEdgeBottom];
     [bottomLine autoSetDimension:ALDimensionHeight toSize:kGlobalSeparatorHeight];
-    bottomLine.backgroundColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+    bottomLine.backgroundColor = [UIColor evGlobalSeparatorColor];
 }
 
 - (void)setUserModel:(EVUserModel *)userModel
@@ -219,7 +219,7 @@ CGFloat const EVProfileHeaderViewRoomHeight = kPaddingHeight;     /**< 房间+�
     }
     _userModel = userModel;
     __weak typeof(self) weakself = self;
-    [self.headButton cc_setBackgroundImageURL:self.userModel.logourl placeholderImageStr:kUserLogoPlaceHolder isVip:userModel.vip vipSizeType:CCVipMax complete:^(UIImage *image) {
+    [self.headButton cc_setBackgroundImageURL:self.userModel.logourl placeholderImageStr:kUserLogoPlaceHolder isVip:userModel.vip vipSizeType:EVVipMax complete:^(UIImage *image) {
         weakself.headerImage = image;
     }];
     
@@ -228,7 +228,6 @@ CGFloat const EVProfileHeaderViewRoomHeight = kPaddingHeight;     /**< 房间+�
     
     self.levelView.gender = userModel.gender;
     
-    self.levelView.birth = userModel.birthday;
     self.levelView.levelModeType = EVLevelModeTypeLine;
     
     NSString *genderIconName = [userModel.gender isEqualToString:@"male"] ? @"home_icon_man":@"home_icon_woman";

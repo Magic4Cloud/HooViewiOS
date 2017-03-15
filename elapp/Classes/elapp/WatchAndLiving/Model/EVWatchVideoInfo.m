@@ -10,9 +10,17 @@
 #import "EVWatchVideoInfo.h"
 #import "EVLoginInfo.h"
 #import "EVRecoderInfo.h"
-
+#import "EVUserTagsModel.h"
 @implementation EVWatchVideoInfo
++ (NSDictionary *)gp_dictionaryKeysMatchToPropertyNames
+{
+    return @{@"id":@"liveID"};
+}
 
++ (NSDictionary *)gp_objectClassesInArryProperties
+{
+    return @{@"tags" : [EVUserTagsModel class]};
+}
 + (instancetype)objectWithDictionary:(NSDictionary *)dict
 {
     EVWatchVideoInfo *instance = [super objectWithDictionary:dict];
@@ -36,12 +44,6 @@
     _thumb = [thumb copy];
 }
 
-
-- (void)setAudioOnlyBGItem:(EVAudioOnlyCollectionViewCellItem *)audioOnlyBGItem
-{
-    _audioOnlyBGItem = audioOnlyBGItem;
-    self.thumbImage = audioOnlyBGItem.image;
-}
 
 - (void)setLive_start_time:(NSString *)live_start_time
 {

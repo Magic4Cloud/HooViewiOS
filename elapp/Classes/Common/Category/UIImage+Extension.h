@@ -169,7 +169,6 @@ typedef NS_ENUM(NSUInteger, GradientType) {
 + (void)gp_imageWithURlString:(NSString *)urlString comolete:(void(^)(UIImage *image))completeBlokck;
 
 /**
- *  @author shizhiang, 15-10-20 17:10:18
  *
  *  加载图片,并告诉调用者是否从本地加载
  *
@@ -238,7 +237,6 @@ typedef NS_ENUM(NSUInteger, GradientType) {
 + (UIImage *)scaleImage:(UIImage *)image scaleSize:(CGSize)scaleSize;
 
 /**
- *  @author shizhiang, 16-02-27 10:02:43
  *
  *  两张图片和成一张（左右排列）
  *

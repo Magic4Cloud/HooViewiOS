@@ -21,4 +21,6 @@
 @property (nonatomic, weak) UIView *likeCountLine;
 @property (nonatomic, weak) UIView *commentCountLine;
 
+@property (nonatomic, weak) UILabel *timeLabel;
+
 @end

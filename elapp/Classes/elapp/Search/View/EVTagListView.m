@@ -8,13 +8,14 @@
 
 
 #import "EVTagListView.h"
-
+#import "EVUserTagsModel.h"
 
 @interface EVTagListView ()
 //{
 //     NSArray *disposeAry;
 //}
 @property (nonatomic,assign) BOOL isFirst;//第一加载
+
 
 @end
 
@@ -29,12 +30,12 @@
         self.backgroundColor = [UIColor whiteColor];
         _isFirst = YES;
         _tagSpace = 20.;
-        _tagHeight = 20.0;
+        _tagHeight = 30.0;
         _borderColor = [UIColor evTextColorH2];
         _borderWidth = 0.5f;
         _masksToBounds = YES;
         _cornerRadius = 2.0;
-        _titleSize = 14;
+        _titleSize = 16;
         _tagOriginX = 15;
         _tagOriginY = 18;
         _tagHorizontalSpace = 10;
@@ -55,14 +56,21 @@
     }
    NSArray *disposeAry = [self disposeTags:_tagAry];
 
+    if (disposeAry.count < 2) {
+        return;
+    }
+    NSArray *tagArray = disposeAry[0];
+    NSArray *modelAry = disposeAry[1];
     //遍历标签数组,将标签显示在界面上,并给每个标签打上tag加以区分
-    for (NSArray *iTags in disposeAry) {
-        NSUInteger i = [disposeAry indexOfObject:iTags];
-        
-        for (NSDictionary *tagDic in iTags) {
-            NSUInteger j = [iTags indexOfObject:tagDic];
-            
-            NSString *tagTitle = tagDic[@"tagTitle"];
+
+    for (NSInteger i = 0 ; i < tagArray.count; i++) {
+        NSArray *iTags = tagArray[i];
+        NSMutableArray *xAry = modelAry[i];
+        for (NSInteger j = 0; j < iTags.count; j++) {
+            NSDictionary *tagDic = iTags[j];
+            EVUserTagsModel *userTagsModel = [xAry objectAtIndex:j];
+
+            NSString *tagTitle = userTagsModel.tagname;
             float originX = [tagDic[@"originX"] floatValue];
             float buttonWith = [tagDic[@"buttonWith"] floatValue];
             
@@ -76,23 +84,31 @@
             [button setTitle:tagTitle forState:UIControlStateNormal];
             button.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 10);
             [button setTitleColor:_titleColor forState:UIControlStateNormal];
-            [button setBackgroundImage:_normalBackgroundImage forState:UIControlStateNormal];
-            [button setBackgroundImage:_highlightedBackgroundImage forState:UIControlStateHighlighted];
-            button.tag = i*iTags.count+j;
+            button.tag = userTagsModel.tagid + 8000;
+            if (userTagsModel.tagSelect == YES) {
+                button.selected = YES;
+                [button setBackgroundColor:[UIColor hvPurpleColor]];
+                [button setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
+            }else {
+                [button setBackgroundColor:[UIColor whiteColor]];
+                [button setTitleColor:[UIColor evTextColorH2] forState:(UIControlStateNormal)];
+            }
             [button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchDown];
             [self addSubview:button];
         }
+
     }
+
     
-    if (disposeAry.count > 0) {
+    if (tagArray.count > 0) {
         if (_type == 0) {
             //多行
-            float contentSizeHeight = _tagOriginY+disposeAry.count*(_tagHeight+_tagVerticalSpace)+6;
+            float contentSizeHeight = _tagOriginY+tagArray.count*(_tagHeight+_tagVerticalSpace)+6;
             self.contentSize = CGSizeMake(self.frame.size.width,contentSizeHeight);
-             self.frame = CGRectMake(CGRectGetMinX([self frame]), CGRectGetMinY([self frame]), CGRectGetWidth([self frame]), [self getDisposeTagsViewHeight:disposeAry]);
+             self.frame = CGRectMake(CGRectGetMinX([self frame]), CGRectGetMinY([self frame]), CGRectGetWidth([self frame]), [self getDisposeTagsViewHeight:tagArray]);
         } else if (_type == 1) {
             //单行
-            NSArray *a = disposeAry[0];
+            NSArray *a = tagArray[0];
             NSDictionary *tagDic = a[a.count-1];
             float originX = [tagDic[@"originX"] floatValue];
             float buttonWith = [tagDic[@"buttonWith"] floatValue];
@@ -102,7 +118,7 @@
     
     //多行
     if (self.frame.size.height <= 0) {
-        self.frame = CGRectMake(CGRectGetMinX([self frame]), CGRectGetMinY([self frame]), CGRectGetWidth([self frame]), [self getDisposeTagsViewHeight:disposeAry]);
+        self.frame = CGRectMake(CGRectGetMinX([self frame]), CGRectGetMinY([self frame]), CGRectGetWidth([self frame]), [self getDisposeTagsViewHeight:tagArray]);
     } else {
         if (_type == 0) {
             if (self.frame.size.height > self.contentSize.height) {
@@ -115,13 +131,16 @@
 //将标签数组根据type以及其他参数进行分组装入数组
 - (NSArray *)disposeTags:(NSArray *)ary {
     NSMutableArray *tags = [NSMutableArray new];//纵向数组
-    NSMutableArray *subTags = [NSMutableArray new];//横向数组
+    NSMutableArray *subTags = [NSMutableArray new];//横向数
+    NSMutableArray *modelTags = [NSMutableArray new];//纵向数组
+    NSMutableArray *modelSubTags = [NSMutableArray new];//横向数
+    NSMutableArray *allAry = [NSMutableArray new];
     float originX = _tagOriginX;
-    for (NSString *tagTitle in ary) {
-        NSUInteger index = [ary indexOfObject:tagTitle];
-        
+    for (EVUserTagsModel *model in ary) {
+        NSString *tagTitle = [NSString stringWithFormat:@"%@",model.tagname];
+        NSUInteger index = [ary indexOfObject:model];
         //计算每个tag的宽度
-        CGSize contentSize = [tagTitle fdd_sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(ScreenWidth-50, MAXFLOAT)];
+        CGSize contentSize = [tagTitle fdd_sizeWithFont:[UIFont systemFontOfSize:16] constrainedToSize:CGSizeMake(ScreenWidth-50, MAXFLOAT)];
         
         NSMutableDictionary *dict = [NSMutableDictionary new];
         dict[@"tagTitle"] = tagTitle;//标签标题
@@ -130,39 +149,56 @@
         if (index == 0) {
             dict[@"originX"] = [NSString stringWithFormat:@"%f",originX];//标签的X坐标
             [subTags addObject:dict];
+            [modelSubTags addObject:model];
         } else {
             if (_type == 0) {
                 //多行
                 if (originX + contentSize.width > self.frame.size.width-_tagOriginX*2) {
                     //当前标签的X坐标+当前标签的长度>屏幕的横向总长度则换行
                     [tags addObject:subTags];
+                    [modelTags addObject:modelSubTags];
                     //换行标签的起点坐标初始化
                     originX = _tagOriginX;
                     dict[@"originX"] = [NSString stringWithFormat:@"%f",originX];//标签的X坐标
                     subTags = [NSMutableArray new];
+                    modelSubTags = [NSMutableArray new];
                     [subTags addObject:dict];
+                    [modelSubTags addObject:model];
                 } else {
                     //如果没有超过屏幕则继续加在前一个数组里
                     dict[@"originX"] = [NSString stringWithFormat:@"%f",originX];//标签的X坐标
                     [subTags addObject:dict];
+                    [modelSubTags addObject:model];
                 }
             } else {
                 //一行
                 dict[@"originX"] = [NSString stringWithFormat:@"%f",originX];//标签的X坐标
                 [subTags addObject:dict];
+                [modelSubTags addObject:model];
             }
         }
         
         if (index +1 == ary.count) {
             //最后一个标签加完将横向数组加到纵向数组中
             [tags addObject:subTags];
-            return tags;
+            [modelTags addObject:modelSubTags];
+            if (ary.count > 0) {
+                [allAry addObject:tags];
+                [allAry addObject:modelTags];
+            }
+            return allAry;
         }
         
         //标签的X坐标每次都是前一个标签的宽度+标签左右空隙+标签距下个标签的距离
         originX += contentSize.width+_tagHorizontalSpace+_tagSpace;
     }
-    return tags;
+    [tags addObject:subTags];
+    [modelTags addObject:modelSubTags];
+    if (ary.count > 0) {
+        [allAry addObject:tags];
+        [allAry addObject:modelTags];
+    }
+    return allAry;
 }
 
 //获取处理后的tagsView的高度根据标签的数组
@@ -180,6 +216,37 @@
 }
 
 - (void)buttonAction:(UIButton *)sender {
+
+    
+    if (self.selectTagAry.count >= 3 && sender.selected == NO) {
+        [EVProgressHUD showMessage:@"最多选3个"];
+        return;
+    }
+    sender.selected = !sender.selected;
+    
+    
+    if (sender.selected == YES) {
+        for (NSInteger i = 0; i < _tagAry.count; i++) {
+            EVUserTagsModel *userTagsModel = _tagAry[i];
+            if (userTagsModel.tagid == (sender.tag - 8000)) {
+                [self.selectTagAry addObject:userTagsModel];
+            }
+        }
+        
+        [sender setBackgroundColor:[UIColor hvPurpleColor]];
+        [sender setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
+    }else {
+        for (NSInteger i = 0; i < self.selectTagAry.count; i++) {
+            EVUserTagsModel *userTagsModel = self.selectTagAry[i];
+            if (userTagsModel.tagid == (sender.tag - 8000)) {
+                [self.selectTagAry removeObject:userTagsModel];
+                continue;
+            }
+        }
+        
+        [sender setBackgroundColor:[UIColor whiteColor]];
+        [sender setTitleColor:[UIColor evTextColorH2] forState:(UIControlStateNormal)];
+    }
     if (_tagDelegate && [_tagDelegate respondsToSelector:@selector(tagsViewButtonAction:button:)]) {
         [_tagDelegate tagsViewButtonAction:self button:sender];
     }
@@ -220,6 +287,14 @@
     // Drawing code
 }
 */
+
+- (NSMutableArray *)selectTagAry
+{
+    if (!_selectTagAry) {
+        _selectTagAry = [NSMutableArray array];
+    }
+    return _selectTagAry;
+}
 
 @end
 

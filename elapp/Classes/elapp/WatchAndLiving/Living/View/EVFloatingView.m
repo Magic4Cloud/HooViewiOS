@@ -15,16 +15,16 @@
 
 #define kFansSpace   24
 
-@interface EVFloatingView()<CAAnimationDelegate>
+@interface EVFloatingView()
 
-@property ( weak, nonatomic ) CCHeaderImageView *headIconView;  // 头像
+@property ( weak, nonatomic ) EVHeaderImageView *headIconView;  // 头像
 @property ( weak, nonatomic ) UILabel *signalLabel;             // 签名
 @property ( nonatomic, weak ) UILabel *nickName;                // 昵称
 @property ( weak, nonatomic ) UIImageView *sexImageView;        // 性别图标
 @property ( weak, nonatomic ) UILabel *idLabel;                 // 用户id
 @property ( weak, nonatomic ) UILabel *audioCountLabel;         // 音频数
 @property ( weak, nonatomic ) UILabel *fansCountLabel;          // 粉丝数
-@property ( weak, nonatomic ) UILabel *moneyCountLabel;         //送出的云币数
+@property ( weak, nonatomic ) UILabel *moneyCountLabel;         //送出的火眼豆数
 @property ( weak, nonatomic ) UILabel *focusCountLabel;         // 关注数
 @property ( weak, nonatomic ) UIButton *focusButton;            // 关注按钮
 @property ( weak, nonatomic ) UIButton *focusButtonTop;         // 加到上面的关注按钮
@@ -120,7 +120,7 @@
     
     UIView *lineView = [[UIView alloc] init];
     [self addSubview:lineView];
-    lineView.backgroundColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+    lineView.backgroundColor = [UIColor evGlobalSeparatorColor];
     [lineView autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:0.];
     [lineView autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:45.];
     [lineView autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:0.];
@@ -161,7 +161,7 @@
    
 
     // 头像
-    CCHeaderImageView *headIconView = [[CCHeaderImageView alloc] init];
+    EVHeaderImageView *headIconView = [[EVHeaderImageView alloc] init];
     [self addSubview:headIconView];
     [headIconView autoSetDimensionsToSize:CGSizeMake(70.0, 70.0)];
     [headIconView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:39];
@@ -203,7 +203,7 @@
     _signalLabel = signalLabel;
     
     
-    // 底部送出的云币、粉丝、关注
+    // 底部送出的火眼豆、粉丝、关注
     UIFont *labelFont = [UIFont systemFontOfSize:16.0];
     UIColor *labelColor = [UIColor colorWithHexString:@"#403B37"];
     
@@ -292,11 +292,10 @@
 - ( void )setBottomButtonsWithTitles:(NSArray *)titles tags:(NSArray *)tags superView:(UIView *)superView
 {
     // 按钮颜色
-//    UIColor *buttonColor = [UIColor colorWithHexString:kGlobalGreenColor];
-    UIColor *buttonColor = CCColor(98, 45, 128);
-
+    UIColor *buttonColor = [UIColor evMainColor];
+    
     // 分割线颜色
-    UIColor *lineColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+    UIColor *lineColor = [UIColor evGlobalSeparatorColor];
     
     // 按钮字体
     UIFont *buttonFont = [UIFont boldSystemFontOfSize:13];
@@ -446,6 +445,8 @@
 {
     _isAnchor = isAnchor;
     self.bottmBgView.hidden = !isAnchor;
+    NSString *reportStr = isAnchor ? kE_GlobalZH(@"e_manager") : kE_GlobalZH(@"e_report");
+    [self.reportButton setTitle:reportStr forState:(UIControlStateNormal)];
 }
 
 - (void)setIsMng:(BOOL)isMng
@@ -453,6 +454,9 @@
     _isMng = isMng;
     self.shutupButton.hidden = !isMng;
     NSString *reportStr = isMng ? kE_GlobalZH(@"e_manager") : kE_GlobalZH(@"e_report");
+    if ( self.isAnchor == YES ) {
+        reportStr = kE_GlobalZH(@"e_manager");
+    }
     [self.reportButton setTitle:reportStr forState:(UIControlStateNormal)];
 }
 
@@ -460,7 +464,7 @@
 - (void)setUserModel:(EVUserModel *)userModel
 {
     _userModel = userModel;
-    [self.headIconView cc_setImageWithURLString:userModel.logourl isVip:userModel.vip vipSizeType:CCVipMax];
+    [self.headIconView cc_setImageWithURLString:userModel.logourl isVip:userModel.vip vipSizeType:EVVipMax];
     self.signalLabel.text = userModel.signature;
     
     self.nickName.text = [NSString stringWithFormat:@"%@",userModel.nickname];

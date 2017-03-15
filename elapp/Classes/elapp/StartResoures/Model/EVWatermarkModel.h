@@ -6,7 +6,7 @@
 //  Copyright (c) 2016 EasyVass. All rights reserved.
 //
 
-#import "CCBaseObject.h"
+#import "EVBaseObject.h"
 
 /*
  CGFloat x_pos = 494;
@@ -27,7 +27,7 @@
 
 #define kWatermarkDefaultRelativeFrame          CGRectMake(0, 0, 720, 1280);
 
-@interface EVWatermarkModel : CCBaseObject
+@interface EVWatermarkModel : EVBaseObject
 
 @property (assign, nonatomic) BOOL enable; /**< 水印是否可用 */
 @property (assign, nonatomic) CGFloat height; /**< 水印高度 */

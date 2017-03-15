@@ -17,7 +17,7 @@
 #define LIVE_SLIDER_MAX_VALUE       5.0
 #define LIVE_SLIDER_VALUE_STEP      0.5
 
-@protocol CCLiveSliderDelegate <NSObject>
+@protocol EVLiveSliderDelegate <NSObject>
 
 @optional
 - (void)liveSlider:(EVLiveSlider *)slider valueChanged:(CGFloat)value;
@@ -26,7 +26,7 @@
 
 @interface EVLiveSlider : UIView
 
-@property (nonatomic,weak) id<CCLiveSliderDelegate> delegate;
+@property (nonatomic,weak) id<EVLiveSliderDelegate> delegate;
 
 @property (nonatomic, assign) CGFloat value;
 

@@ -37,6 +37,7 @@
 @property (nonatomic,strong) UIImage *normalBackgroundImage;//标签默认背景颜色
 @property (nonatomic,strong) UIImage *highlightedBackgroundImage;//标签高亮背景颜色
 @property (nonatomic,strong) NSArray *tagAry;//传入的标签数组 字符串数组
+@property (nonatomic, strong) NSMutableArray *selectTagAry;
 
 - (void)reloadData;
 

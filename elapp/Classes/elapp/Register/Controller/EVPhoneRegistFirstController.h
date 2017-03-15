@@ -9,6 +9,7 @@
 #import "EVViewController.h"
 #import "EVLoginInfo.h"
 
+
 @interface EVPhoneRegistFirstController : EVViewController
 /**
  *  YES     走重置密码流程

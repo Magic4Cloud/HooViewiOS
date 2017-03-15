@@ -27,7 +27,7 @@ typedef NS_ENUM(NSUInteger, EVWithdrawInfoCtrlBtnType)
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = CCBackgroundColor;
+    self.view.backgroundColor = [UIColor evBackgroundColor];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     
     [self navBar];
@@ -68,11 +68,11 @@ typedef NS_ENUM(NSUInteger, EVWithdrawInfoCtrlBtnType)
     [label3 autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:amountLabel withOffset:55.f];
     
     UIButton *shadowBtn = [[UIButton alloc] init];
-    shadowBtn.layer.borderColor = [UIColor colorWithHexString:kGlobalGreenColor].CGColor;
+    shadowBtn.layer.borderColor = [UIColor evMainColor].CGColor;
     shadowBtn.layer.borderWidth = 1.f;
     shadowBtn.layer.cornerRadius = 20.f;
     [shadowBtn setTitle:kE_GlobalZH(@"put_forward") forState:UIControlStateNormal];
-    [shadowBtn setTitleColor:[UIColor colorWithHexString:kGlobalGreenColor] forState:UIControlStateNormal];
+    [shadowBtn setTitleColor:[UIColor evMainColor] forState:UIControlStateNormal];
     shadowBtn.tag = EVWithdrawInfoCtrlBtnType_withdraw;
     [shadowBtn addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
     shadowBtn.titleLabel.font = [UIFont systemFontOfSize:17.f];
@@ -129,20 +129,20 @@ typedef NS_ENUM(NSUInteger, EVWithdrawInfoCtrlBtnType)
     NSInteger rmb = [self.withdrawAmount floatValue] * 100;
 //    [self.engine GETCashoutRmb:[NSString stringWithFormat:@"%zd", rmb]
 //                      start:^{
-//                          [CCProgressHUD showMessage:kE_GlobalZH(@"put_forward_please_wait") toView:wself.view];
+//                          [EVProgressHUD showMessage:kE_GlobalZH(@"put_forward_please_wait") toView:wself.view];
 //                      } fail:^(NSError *error) {
-//                          [CCProgressHUD hideHUDForView:wself.view];
-//                          [CCProgressHUD showError:kE_GlobalZH(@"put_forward_fail") toView:wself.view];
+//                          [EVProgressHUD hideHUDForView:wself.view];
+//                          [EVProgressHUD showError:kE_GlobalZH(@"put_forward_fail") toView:wself.view];
 //                      } success:^(NSDictionary *imInfo) {
-//                          [CCProgressHUD hideHUDForView:wself.view];
+//                          [EVProgressHUD hideHUDForView:wself.view];
 //                          EVWithdrawSuccessCtrl *ctrl = [[EVWithdrawSuccessCtrl alloc] init];
 //                          ctrl.amount = [self.amount mutableCopy];
 //                          [wself.navigationController pushViewController:ctrl animated:YES];
 //                      } sessionExpire:^{
-//                          [CCProgressHUD hideHUDForView:wself.view];
+//                          [EVProgressHUD hideHUDForView:wself.view];
 //                          
 //                          [[EVAlertManager shareInstance] performComfirmTitle:nil message:kE_GlobalZH(@"fail_account_again_login") comfirmTitle:kOK WithComfirm:^{
-//                              CCRelogin(wself);
+//                              EVRelogin(wself);
 //                          }];
 //                      }];
 }

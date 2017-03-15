@@ -41,15 +41,14 @@
 {
     NSInteger tag = button.tag;
     switch (tag) {
-        case CCLivebottomCameraItem:
+        case EVLivebottomCameraItem:
         {
             self.cameraButton.selected = !self.cameraButton.selected;
             self.flashButton.highlighted = self.cameraButton.selected;
             self.flashButton.userInteractionEnabled = !self.cameraButton.selected;
-            CCLog(@"user interaction enable = %d", self.flashButton.userInteractionEnabled);
         }
             break;
-        case CCLiveBottomFlashItem:
+        case EVLiveBottomFlashItem:
         {
             self.cameraButton.userInteractionEnabled = self.flashButton.selected;
             self.flashButton.selected = !self.flashButton.selected;
@@ -59,15 +58,15 @@
         default:
             break;
     }
-    if ( tag == CCLiveBottomToRightItem )
+    if ( tag == EVLiveBottomToRightItem )
     {
         self.rightViewRightConstraint.constant = -10;
     }
-    else if ( tag == CCLiveBottomToLeftItem )
+    else if ( tag == EVLiveBottomToLeftItem )
     {
-        self.rightViewRightConstraint.constant = DEVICEWIDTH - 10;
+        self.rightViewRightConstraint.constant = ScreenWidth - 10;
     }
-    else if (tag == CCLivebottomFaceItem)
+    else if (tag == EVLivebottomFaceItem)
     {
         button.selected = !button.selected;
         if ( self.delegate && [self.delegate respondsToSelector:@selector(liveBottomItemViewButtonClick:)] )
@@ -75,8 +74,7 @@
             [self.delegate liveBottomItemViewButtonClick:button];
         }
     }
-    else if (tag == CCLiveBottomPlayerItem) {
-         button.selected = !button.selected;
+    else if (tag == EVLiveBottomPlayerItem) {
         if ( self.delegate && [self.delegate respondsToSelector:@selector(liveBottomItemViewButtonClick:)] )
         {
             [self.delegate liveBottomItemViewButtonClick:button];
@@ -103,12 +101,12 @@
     [rightView autoPinEdgeToSuperviewEdge:ALEdgeBottom];
     [rightView autoPinEdgeToSuperviewEdge:ALEdgeTop];
     self.rightViewRightConstraint = [rightView autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:10];
-    [rightView autoSetDimension:ALDimensionWidth toSize:DEVICEWIDTH - 20];
+    [rightView autoSetDimension:ALDimensionWidth toSize:ScreenWidth - 20];
     
     // 向左
     UIButton *toLeftButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [toLeftButton setImage:[UIImage imageNamed:@"living_icon_more"] forState:UIControlStateNormal];
-    toLeftButton.tag = CCLiveBottomToLeftItem;
+    toLeftButton.tag = EVLiveBottomToLeftItem;
     [toLeftButton addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
     [rightView addSubview:toLeftButton];
     [toLeftButton autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero excludingEdge:ALEdgeRight];
@@ -116,27 +114,26 @@
     // 聊天
     UIButton *chatButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [chatButton setImage:[UIImage imageNamed:@"living_icon_talk"] forState:UIControlStateNormal];
-    chatButton.tag = CCLiveBottomChatItem;
+    chatButton.tag = EVLiveBottomChatItem;
     [chatButton addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
     [rightView addSubview:chatButton];
     [chatButton autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:toLeftButton withOffset:10];
     
    
-    // adapt hidden by 佳南
+    
     // 发红包
     UIButton *sendRedPacketBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [sendRedPacketBtn setImage:[UIImage imageNamed:@"living_icon_redpacket"] forState:UIControlStateNormal];
-    sendRedPacketBtn.tag = CCLiveBottomSendRedPacketItem;
+    sendRedPacketBtn.tag = EVLiveBottomSendRedPacketItem;
     [sendRedPacketBtn addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
     [rightView addSubview:sendRedPacketBtn];
     [sendRedPacketBtn autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:0];
     _sendRedPacketBtn = sendRedPacketBtn;
-    _sendRedPacketBtn.hidden = sendRedPacketBtn.hidden = YES;
     self.ImageWid = sendRedPacketBtn.imageView.image.size.width;
     
     UIButton *shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [shareButton setImage:[UIImage imageNamed:@"living_icon_share"] forState:UIControlStateNormal];
-    shareButton.tag = CCLiveBottomShareItem;
+    shareButton.tag = EVLiveBottomShareItem;
     [shareButton addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
     [rightView addSubview:shareButton];
     [shareButton autoPinEdge:ALEdgeRight toEdge:ALEdgeRight ofView:rightView withOffset:-(10 + self.ImageWid)];
@@ -145,7 +142,7 @@
     
     /** 摄像头切换 */
     UIButton *cameraButton = [[UIButton alloc] init];
-    cameraButton.tag = CCLivebottomCameraItem;
+    cameraButton.tag = EVLivebottomCameraItem;
     [cameraButton setImage:[UIImage imageNamed:@"living_icon_change"] forState:UIControlStateNormal];
     [cameraButton addTarget:self action:@selector(buttonClick:) forControlEvents:(UIControlEventTouchUpInside)];
     [rightView addSubview:cameraButton];
@@ -153,42 +150,30 @@
     [cameraButton autoPinEdge:ALEdgeRight toEdge:ALEdgeRight ofView:rightView withOffset:-(20+self.ImageWid * 2)];
     self.cameraButton = cameraButton;
     
-   
-    // 分享
 
     
-    // 美颜按钮 ios8 以上才会支持美颜
-    UIButton *faceButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [faceButton setImage:[UIImage imageNamed:@"living_icon_beauty_close"] forState:UIControlStateNormal];
-    [faceButton setImage:[UIImage imageNamed:@"living_icon_beauty"] forState:UIControlStateSelected];
-    faceButton.tag = CCLivebottomFaceItem;
-    faceButton.selected = YES;
-    [rightView addSubview:faceButton];
-    [faceButton addTarget:self action:@selector(buttonClick:) forControlEvents:(UIControlEventTouchUpInside)];
-    if ( !([NSString isBeautyFaceAvailable] && IOS8_OR_LATER))
-    {
-        faceButton.hidden = YES;
-    }
-    self.faceButton = faceButton;
-    self.shareButtonConstraint =  [faceButton autoPinEdge:ALEdgeRight toEdge:ALEdgeRight ofView:rightView withOffset:-(10 * 3 + self.ImageWid * 3)];
     
-    
-    // 美颜按钮 ios8 以上才会支持美颜
     UIButton *playerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [playerButton setTitle:@"开始" forState:(UIControlStateNormal)];
-    [playerButton setTitle:@"停止" forState:(UIControlStateSelected)];
-    [playerButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
-    playerButton.tag = CCLiveBottomPlayerItem;
-    playerButton.selected = NO;
+    [playerButton setImage:[UIImage imageNamed:@"living_icon_music"] forState:UIControlStateNormal];
+    playerButton.tag = EVLiveBottomPlayerItem;
     [rightView addSubview:playerButton];
     self.playerButton = playerButton;
-    _playerButton.hidden = playerButton.hidden = YES;
     [playerButton addTarget:self action:@selector(buttonClick:) forControlEvents:(UIControlEventTouchUpInside)];
-  
-//    self.faceButton = faceButton;
-    self.shareButtonConstraint =  [playerButton autoPinEdge:ALEdgeRight toEdge:ALEdgeRight ofView:rightView withOffset:-(10 * 4 + self.ImageWid * 4)];
+
     
-    [@[toLeftButton,cameraButton,sendRedPacketBtn,shareButton,chatButton, faceButton,playerButton]autoAlignViewsToAxis:ALAxisHorizontal];
+    
+    self.shareButtonConstraint =  [playerButton autoPinEdge:ALEdgeRight toEdge:ALEdgeRight ofView:rightView withOffset:-(10 * 3 + self.ImageWid * 3)];
+    
+    UIButton *linkButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [linkButton setImage:[UIImage imageNamed:@"living_icon_link_anchor"] forState:UIControlStateNormal];
+    linkButton.tag = EVLiveBottomLinkItem;
+    [rightView addSubview:linkButton];
+    self.linkButton = linkButton;
+    [linkButton addTarget:self action:@selector(buttonClick:) forControlEvents:(UIControlEventTouchUpInside)];
+
+    [linkButton autoPinEdge:ALEdgeRight toEdge:ALEdgeRight ofView:rightView withOffset:-(10 * 4 + self.ImageWid * 4)];
+    
+    [@[toLeftButton,cameraButton,sendRedPacketBtn,shareButton,chatButton,playerButton,linkButton]autoAlignViewsToAxis:ALAxisHorizontal];
 }
 
 - (void)addLeftView
@@ -207,7 +192,7 @@
     // 向右
     UIButton *toRightButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [toRightButton setImage:[UIImage imageNamed:@"living_icon_packup"] forState:UIControlStateNormal];
-    toRightButton.tag = CCLiveBottomToRightItem;
+    toRightButton.tag = EVLiveBottomToRightItem;
     [toRightButton addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
     [leftView addSubview:toRightButton];
     [toRightButton autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero excludingEdge:ALEdgeLeft];
@@ -218,26 +203,40 @@
     [muteButton setImage:[UIImage imageNamed:@"living_icon_mute"] forState:UIControlStateNormal];
     [muteButton setImage:[UIImage imageNamed:@"living_icon_mute_on"] forState:UIControlStateSelected];
     _muteButton = muteButton;
-    muteButton.tag = CCLiveBottomMuteItem;
+    muteButton.tag = EVLiveBottomMuteItem;
     [muteButton addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
     [leftView addSubview:muteButton];
-    [muteButton autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:leftView withOffset:34];
-    [muteButton autoSetDimension:ALDimensionWidth toSize:ScreenWidth/2-20-34];
+    [muteButton autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:leftView withOffset:0];
+    [muteButton autoSetDimension:ALDimensionWidth toSize:self.ImageWid];
     
     // 闪光
     UIButton *flashButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [flashButton setImage:[UIImage imageNamed:@"living_icon_flash"] forState:UIControlStateNormal];
-    [flashButton setImage:[UIImage imageNamed:@"living_icon_flash_close"] forState:UIControlStateSelected];
-    [flashButton setImage:[UIImage imageNamed:@"living_icon_flash_nor"] forState:UIControlStateHighlighted];
-    flashButton.tag = CCLiveBottomFlashItem;
+    [flashButton setImage:[UIImage imageNamed:@"living_icon_flash_nor"] forState:UIControlStateSelected];
+    [flashButton setImage:[UIImage imageNamed:@"living_icon_flash_disabled"] forState:UIControlStateHighlighted];
+    flashButton.tag = EVLiveBottomFlashItem;
     [flashButton addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
     [leftView addSubview:flashButton];
     self.flashButton = flashButton;
-    [flashButton autoPinEdge:ALEdgeRight toEdge:ALEdgeLeft ofView:toRightButton];
-    [flashButton autoSetDimension:ALDimensionWidth toSize:ScreenWidth/2-20-34];
+    [flashButton autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:muteButton withOffset:10];
+    [flashButton autoSetDimension:ALDimensionWidth toSize:self.ImageWid];
     
+    // 美颜按钮 ios8 以上才会支持美颜
+    UIButton *faceButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [faceButton setImage:[UIImage imageNamed:@"living_icon_beauty_close"] forState:UIControlStateNormal];
+    [faceButton setImage:[UIImage imageNamed:@"living_icon_beauty"] forState:UIControlStateSelected];
+    faceButton.tag = EVLivebottomFaceItem;
+    faceButton.selected = YES;
+    [leftView addSubview:faceButton];
+    [faceButton addTarget:self action:@selector(buttonClick:) forControlEvents:(UIControlEventTouchUpInside)];
+    if ( !([NSString isBeautyFaceAvailable] && IOS8_OR_LATER))
+    {
+        faceButton.hidden = YES;
+    }
+    self.faceButton = faceButton;
+    self.shareButtonConstraint =  [faceButton autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:flashButton withOffset:10];
    
-    [@[toRightButton, muteButton, flashButton] autoAlignViewsToAxis:ALAxisHorizontal];
+    [@[toRightButton, muteButton, flashButton,faceButton] autoAlignViewsToAxis:ALAxisHorizontal];
 }
 
 - (void)setUI

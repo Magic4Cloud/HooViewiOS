@@ -22,12 +22,12 @@
 // 设置参数
 - (void)configuration
 {
-    self.tintColor = [UIColor colorWithHexString:kGlobalGreenColor];
+    self.tintColor = [UIColor evMainColor];
     
     // 获取当前对象的底部视图
     UIView *bgView = [self.subviews objectAtIndex:0];
     CALayer *bgLayer = [CALayer layer];
-    bgLayer.backgroundColor = CCBackgroundColor.CGColor;
+    bgLayer.backgroundColor = [UIColor evBackgroundColor].CGColor;
     if ( IOS8_OR_LATER )
     {
         bgLayer.frame = CGRectMake(0, - 20, bgView.bounds.size.width, bgView.bounds.size.height + 20);

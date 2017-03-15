@@ -17,6 +17,10 @@
 #import "EVBaseToolManager+EVUserCenterAPI.h"
 #import "AppDelegate.h"
 #import "EVSDKInitManager.h"
+#import "EVSignatureEditView.h"
+#import "EVUserTagsViewController.h"
+#import "EVUserTagsView.h"
+#import "EVUserTagsModel.h"
 
 #define kDefaultTitle kE_GlobalZH(@"setting_user")
 #define kTableFooterHeiht 44
@@ -31,6 +35,8 @@
 
 @property (nonatomic, copy) NSString *signature;
 
+@property (nonatomic, copy) NSString *credentials;
+
 @property (nonatomic,strong)CCUserSettingItem *UserSettingItem;
 
 @property (nonatomic, strong)CCUserSettingItem *headImageSettingItem;
@@ -38,6 +44,8 @@
 @property (nonatomic, strong) UIBarButtonItem *barButtonItem;
 
 @property (nonatomic, assign) BOOL upDateImageError;
+
+@property (nonatomic, strong) EVSignatureEditView *signatureView;
 
 @end
 
@@ -84,16 +92,24 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    self.signatureView = nil;
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    
+}
 - (void)dealloc
 {
+    self.signatureView = nil;
     self.tableView.dataSource = nil;
     self.tableView.delegate = nil;
-    [CCNotificationCenter removeObserver:self];
+    [EVNotificationCenter removeObserver:self];
     
-    CCLog(@" %@ dealloc", [self class]);
+    EVLog(@" %@ dealloc", [self class]);
     [_engin cancelAllOperation];
     _engin = nil;
 }
@@ -102,21 +118,20 @@
 #pragma mark - ***********      Build UI 🎨       ***********
 - (void)configView
 {
-// fix by 施志昂 检查约束
 //    self.tableView.rowHeight = 51;
     self.tableView.sectionHeaderHeight = CGFLOAT_MIN;
-    self.title = kDefaultTitle;
+    self.title = @"编辑资料";
     
 
     UIView *headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 10)];
     headView.backgroundColor = [UIColor clearColor];
     self.tableView.tableHeaderView = headView;
-    self.tableView.separatorColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+    self.tableView.separatorColor = [UIColor evGlobalSeparatorColor];
     // 右上角下一步按钮
     self.tableView.backgroundColor = [UIColor evBackgroundColor];
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:self.isReedit ? kE_GlobalZH(@"carry_out") : kE_GlobalZH(@"next") style:UIBarButtonItemStylePlain target:self action:@selector(next)];
     self.navigationItem.rightBarButtonItem = rightItem;
-    [rightItem setTintColor:[UIColor evSecondColor]];
+    [rightItem setTintColor:[UIColor evMainColor]];
     [rightItem setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0]} forState:(UIControlStateNormal)];
     _barButtonItem = rightItem;
     
@@ -151,34 +166,7 @@
     sex.cellStyleType = EVCellStyleNomal;
     [self.secondSectionItems addObject:sex];
     
-    CCUserSettingItem *birthday = [[CCUserSettingItem alloc] init];
-    birthday.settingTitle = kBirthDayTitle;
-    birthday.contentTitle = self.userInfo.birthday
-    ;
-    birthday.access = YES;
-    birthday.loginInfo= self.userInfo;
-    birthday.keyBoardType = EVKeyBoardBirthday;
-    birthday.placeHolder = @"1990-06-15";
-    birthday.cellStyleType = EVCellStyleNomal;
-    [self.secondSectionItems addObject:birthday];
     
-    CCUserSettingItem *Constellation = [[CCUserSettingItem alloc] init];
-//    NSString *ConstellationStr = [NSString judConstellationDateStr:self.userInfo.birthday];
-    Constellation.settingTitle = kConstellation;
-//    Constellation.contentTitle = ConstellationStr;
-    Constellation.access = NO;
-    if (!self.isReedit) {
-        
-    }else {
-        NSString *ConstellationStr = [NSString judConstellationDateStr:self.userInfo.birthday];
-        Constellation.contentTitle = ConstellationStr;
-        Constellation.placeHolder = @"双子座";
-    }
-    Constellation.cellStyleType = EVCellStyleConstellation;
-    [self.secondSectionItems addObject:Constellation];
-    self.UserSettingItem = Constellation;
-   
-
     CCUserSettingItem *location = [[CCUserSettingItem alloc] init];
     location.settingTitle = kLocationTitle;
     location.contentTitle = self.userInfo.location;
@@ -189,23 +177,64 @@
     location.cellStyleType = EVCellStyleNomal;
     [self.secondSectionItems addObject:location];
     
+    
     CCUserSettingItem *intro = [[CCUserSettingItem alloc] init];
-    intro.settingTitle = kIntroTitle;
+    intro.settingTitle = @"介绍自己";
     intro.contentTitle = self.userInfo.signature;
     intro.access = YES;
     intro.loginInfo = self.userInfo;
-    intro.placeHolder = kE_GlobalZH(@"write_signature");
+    intro.placeHolder = @"火眼助你成为财经大师";
     intro.cellStyleType = EVCellStyleSignature;
     [self.secondSectionItems addObject:intro];
     
+    if ([EVLoginInfo localObject].vip) {
+        CCUserSettingItem *preNum = [[CCUserSettingItem alloc] init];
+        preNum.settingTitle = @"执业证号";
+        preNum.contentTitle = self.userInfo.credentials.length > 0 ? self.userInfo.credentials : @"请完善您的证券执业资格号";
+        preNum.access = YES;
+        preNum.loginInfo = self.userInfo;
+        preNum.placeHolder = @"请完善您的证券执业资格号";
+        preNum.cellStyleType = EVCellStylePreNum;
+        [self.secondSectionItems addObject:preNum];
+        
+        CCUserSettingItem *birthday = [[CCUserSettingItem alloc] init];
+        birthday.settingTitle = @"我的标签";
+        birthday.contentTitle = self.userInfo.birthday;
+        birthday.access = YES;
+        birthday.loginInfo= self.userInfo;
+        birthday.cellStyleType = EVCellStyleTags;
+        [self.secondSectionItems addObject:birthday];
+        
+    }
+   
+
+
+    
 }
 
+- (void)setTagsAry:(NSArray *)tagsAry
+{
+    _tagsAry = tagsAry;
+}
+- (void)loadTagsData
+{
+    [self.engin GETUserTagsListfail:^(NSError *error) {
+        
+    } success:^(NSDictionary *info) {
+        NSArray *tagArray = info[@"tags"];
+        NSMutableArray *titleAry = [NSMutableArray array];
+        for (NSDictionary *dict in tagArray) {
+            [titleAry addObject:dict[@"tagname"]];
+        }
+      
+    
+    }];
+}
 #pragma mark - ***********      Actions 🌠        ***********
 - (void)upLoadLogoSuccess
 {
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     self.barButtonItem.enabled = YES;
-    // fix by 马帅伟 测试 (已经测试通过，不再执行页面消失的动画，直接切换到主页面，根据情况采用不同的切换方式)
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     // 直接进入的注册，root view controller 为 loginVC
     [appDelegate setUpHomeController];
@@ -215,6 +244,7 @@
 #pragma mark - network
 - (void)next
 {
+    [self.view endEditing:YES];
     if ( !self.isReedit && !self.userInfo.selectImage && !self.userInfo.logourl )
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:kE_GlobalZH(@"not_user_image") delegate:nil cancelButtonTitle:kOK otherButtonTitles:nil, nil];
@@ -238,13 +268,6 @@
     }
     self.userInfo.nickname = nickNameNoSpace;
     
-    if (self.userInfo.birthday.length <= 0)
-    {
-        UIAlertView *dataalert = [[UIAlertView alloc] initWithTitle:nil message:kE_GlobalZH(@"not_birthday") delegate:nil cancelButtonTitle:kOK otherButtonTitles:nil, nil];
-        [dataalert show];
-        return;
-    }
-    
     __weak typeof(self) wself = self;
     if ( !self.isReedit )
     { // 新注册信息
@@ -254,17 +277,18 @@
         }
         [self.engin GETNewUserRegistMessageWithParams:[self.userInfo userRegistParams] start:^{
             wself.barButtonItem.enabled = NO;
-            [CCProgressHUD showMessage:kE_GlobalZH(@"logining_user_information") toView:wself.view];
+            [EVProgressHUD showMessage:kE_GlobalZH(@"logining_user_information") toView:wself.view];
         } fail:^(NSError *error) {
-            [CCProgressHUD hideHUDForView:wself.view];
+            [EVProgressHUD hideHUDForView:wself.view];
             wself.barButtonItem.enabled = YES;
             NSString *errorStr = [error errorInfoWithPlacehold:kE_GlobalZH(@"fail_user_information")];
-            [CCProgressHUD showError:errorStr toView:wself.view];
+            [EVProgressHUD showError:errorStr toView:wself.view];
+            
         } success:^(EVLoginInfo *loginInfo) {
             loginInfo.registeredSuccess = YES;
             [EVSDKInitManager initMessageSDKUserData:loginInfo.name];
             [loginInfo synchronized];
-            [CCProgressHUD hideHUDForView:wself.view];
+            [EVProgressHUD hideHUDForView:wself.view];
             wself.userInfo.sessionid = loginInfo.sessionid;
             if ( wself.userInfo.selectImage )
             {
@@ -288,16 +312,20 @@
         
         NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:self.userInfo.userInfoParams];
         [params setValue:self.userInfo.userInfoParams[kDisplayname] forKey:kNickName];
-        [params setValue:tagStr forKey:kTaglist];
         [self.engin GETUsereditinfoWithParams:params start:^{
-            [CCProgressHUD showMessage:kE_GlobalZH(@"save_user_data") toView:wself.view];
+            [EVProgressHUD showMessage:kE_GlobalZH(@"save_user_data") toView:wself.view];
         } fail:^(NSError *error) {
             NSString *errorStr = [error errorInfoWithPlacehold:kE_GlobalZH(@"fail_change_date")];
-            [CCProgressHUD hideHUDForView:wself.view];
-            [CCProgressHUD showError:errorStr toView:wself.view];
+            [EVProgressHUD hideHUDForView:wself.view];
+            [EVProgressHUD showError:errorStr toView:wself.view];
+            if ([errorStr isEqualToString:@"昵称包含不当词语"]) {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    EVUserSettingCell *nicknameCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:1 inSection:0]];
+                    [nicknameCell textFieldBecomeFirstResponse];
+                });
+            }
         } success:^{
-            [wself.userInfo synchronized];
-            [CCProgressHUD hideHUDForView:wself.view];
+            [EVProgressHUD hideHUDForView:wself.view];
             if ( wself.userInfo.selectImage )
             {
                 [wself upLoadLogoImage];
@@ -307,45 +335,51 @@
                 [wself.navigationController popViewControllerAnimated:YES];
                 [EVBaseToolManager notifyLoginViewDismiss];
             }
+            [EVNotificationCenter postNotificationName:@"modifyUserInfoSuccess" object:nil];
         } sessionExpire:^{
-            [CCProgressHUD hideHUDForView:wself.view];
-            [CCProgressHUD showError:kE_GlobalZH(@"fail_account_again_login") toView:wself.view];
+            [EVProgressHUD hideHUDForView:wself.view];
+            [EVProgressHUD showError:kE_GlobalZH(@"fail_account_again_login") toView:wself.view];
             [wself.navigationController popViewControllerAnimated:YES];
-            [CCProgressHUD hideHUD];
+            [EVProgressHUD hideHUD];
         }];
     }
 }
 
 - (void)upLoadLogoImage
 {
-    [CCProgressHUD hideHUDForView:self.view];
+    [EVProgressHUD hideHUDForView:self.view];
     __weak typeof(self) wself = self;
     [self.engin GETUploadUserLogoWithImage:self.userInfo.selectImage uname:self.userInfo.nickname start:^{
-        [CCProgressHUD showMessage:kE_GlobalZH(@"update_image") toView:wself.view];
+        [EVProgressHUD showMessage:kE_GlobalZH(@"update_image") toView:wself.view];
         
     } fail:^(NSError *error) {
-        [CCProgressHUD hideHUDForView:wself.view];
+        [EVProgressHUD hideHUDForView:wself.view];
         self.barButtonItem.enabled = YES;
         self.upDateImageError = YES;
         NSString *customErrorInfo = [error errorInfoWithPlacehold:kE_GlobalZH(@"fail_update_image")];
         if ( customErrorInfo ) {
             [[EVAlertManager shareInstance] performComfirmTitle:kTooltip message:customErrorInfo comfirmTitle:kOK WithComfirm:nil];
         } else {
-            [CCProgressHUD showError:kE_GlobalZH(@"again_fail_update_image") toView:wself.view];
+            [EVProgressHUD showError:kE_GlobalZH(@"again_fail_update_image") toView:wself.view];
         }
     } success:^(NSDictionary *retinfo){
-        self.barButtonItem.enabled = YES;
+        wself.barButtonItem.enabled = YES;
         wself.upDateImageError = NO;
         wself.userInfo.logourl = retinfo[@"logourl"];
-        [CCNotificationCenter postNotificationName:CCUpdateLogolURLNotification object:nil userInfo:retinfo];
+        [EVNotificationCenter postNotificationName:CCUpdateLogolURLNotification object:nil userInfo:retinfo];
         [wself.userInfo synchronized];
-        [CCProgressHUD hideHUDForView:wself.view];
-        [CCProgressHUD showSuccess:kE_GlobalZH(@"update_iamge_success") toView:wself.view];
-        [wself upLoadLogoSuccess];
+        [EVProgressHUD hideHUDForView:wself.view];
+        [EVProgressHUD showSuccess:kE_GlobalZH(@"update_iamge_success") toView:wself.view];
+//        if (self.isReedit) {
+//            
+//        }else {
+//            [wself upLoadLogoSuccess];
+//        }
+        [EVNotificationCenter postNotificationName:@"newUserRefusterSuccess" object:nil];
+        [wself.navigationController popViewControllerAnimated:YES];
         
     } sessionExpire:^{
-        self.barButtonItem.enabled = YES;
-        // TODO
+        wself.barButtonItem.enabled = YES;
     }];
 }
 
@@ -385,7 +419,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     [picker dismissViewControllerAnimated:YES completion:nil];
     UIImage *image = info[UIImagePickerControllerEditedImage];
     image = [image cc_reSizeImageToSize:CGSizeMake(640, 640)];
-#ifdef CCDEBUG
+#ifdef EVDEBUG
     NSAssert(image, @"get image fail");
 #endif
     self.headImageSettingItem.logoImage  = image;
@@ -427,18 +461,43 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     
     CCUserSettingItem *item = itemArray[indexPath.row];
     __weak typeof(self) wself = self;
-    if ( [item.settingTitle isEqualToString:kIntroTitle] )
+    if ( [item.settingTitle isEqualToString:@"介绍自己"] )
     {
-        //点击个性签名跳转到个性签名设置
-        EVSignatureViewController *svc = [[EVSignatureViewController alloc] init];
-        svc.text = item.contentTitle;
-        __block NSIndexPath *wIndexPath = indexPath;
-        svc.commitBlock = ^(NSString *text) {
-            wself.signature = text;
-            [wself.tableView reloadRowsAtIndexPaths:@[wIndexPath] withRowAnimation:UITableViewRowAnimationNone];
-        };
-        [self.navigationController pushViewController:svc animated:YES];
+        [self addSignatureView:item.contentTitle];
         
+        //点击个性签名跳转到个性签名设置
+//        EVSignatureViewController *svc = [[EVSignatureViewController alloc] init];
+//        svc.text = item.contentTitle;
+//        __block NSIndexPath *wIndexPath = indexPath;
+//        svc.commitBlock = ^(NSString *text) {
+//            wself.signature = text;
+//            [wself.tableView reloadRowsAtIndexPaths:@[wIndexPath] withRowAnimation:UITableViewRowAnimationNone];
+//        };
+//        [self.navigationController pushViewController:svc animated:YES];
+        
+        //点击进入个性标签
+    }
+    if ( [item.settingTitle isEqualToString:@"我的标签"] )
+    {
+        //        [self addSignatureView];
+//        
+//        //点击个性签名跳转到个性签名设置
+//        EVSignatureViewController *svc = [[EVSignatureViewController alloc] init];
+//        svc.text = item.contentTitle;
+//        __block NSIndexPath *wIndexPath = indexPath;
+//        svc.commitBlock = ^(NSString *text) {
+//            wself.signature = text;
+//            [wself.tableView reloadRowsAtIndexPaths:@[wIndexPath] withRowAnimation:UITableViewRowAnimationNone];
+//        };
+//        [self.navigationController pushViewController:svc animated:YES];
+        EVUserSettingCell *firstGroupCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:4 inSection:1]];
+        NSLog(@"跳转标签设置页面");
+        EVUserTagsViewController *userTagsVC = [[EVUserTagsViewController alloc] init];\
+        __weak typeof(firstGroupCell) gCell = firstGroupCell;
+        userTagsVC.userTLBlock = ^(NSMutableArray *tagAry) {
+            gCell.userTagsView.dataArray = tagAry;
+        };
+        [self.navigationController pushViewController:userTagsVC animated:YES];
         //点击进入个性标签
     }
     
@@ -447,11 +506,31 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
                                                           delegate:self
                                                  cancelButtonTitle:kCancel
                                             destructiveButtonTitle:nil
-                                                 otherButtonTitles:kE_GlobalZH(@"photo_gallery_change"),kE_GlobalZH(@"camera_shooting"), nil];
+                                                 otherButtonTitles:kE_GlobalZH(@"photo_album"),kE_GlobalZH(@"photo_capture"), nil];
         [action showInView:self.view];
     }
 }
 
+- (void)addSignatureView:(NSString *)text
+{
+    
+    self.signatureView = [[EVSignatureEditView alloc] init];
+    self.signatureView.originText = text;
+    self.signatureView.frame = [UIScreen mainScreen].bounds;
+    self.signatureView.backgroundColor = [UIColor clearColor];
+    WEAK(self)
+    self.signatureView.hideViewBlock = ^(NSString *inputStr){
+        weakself.signatureView = nil;
+        [weakself.signatureView resignKeyWindow];
+    };
+    self.signatureView.confirmBlock = ^(NSString *inputStr) {
+        weakself.signature = inputStr;
+        NSIndexPath *indexPath=[NSIndexPath indexPathForRow:2 inSection:1];
+        [weakself.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        weakself.signatureView = nil;
+        [weakself.signatureView resignKeyWindow];
+    };
+}
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -484,14 +563,15 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
         itemArray = self.secondSectionItems;
         
     }
+    WEAK(self)
     cell.constellationB = ^(NSString *sssss){
         NSString *ConstellationStr = [NSString judConstellationDateStr:self.userInfo.birthday];
-        self.UserSettingItem.contentTitle = ConstellationStr;
+        weakself.UserSettingItem.contentTitle = ConstellationStr;
         NSIndexPath *indexPath=[NSIndexPath indexPathForRow:2 inSection:1];
         [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
     };
     CCUserSettingItem *item = itemArray[indexPath.row];
-    if ( [item.settingTitle isEqualToString:kIntroTitle] )
+    if ( [item.settingTitle isEqualToString:@"介绍自己"] )
     {
         if ( self.signature )
         {
@@ -500,7 +580,13 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
         self.userInfo.signature = item.contentTitle;
     }
     cell.settingItem = item;
-    
+    if (indexPath.section == 1 && indexPath.row == 4) {
+        NSMutableArray *titleAry = [NSMutableArray array];
+        for (EVUserTagsModel *model in self.tagsAry) {
+            [titleAry addObject:model.tagname];
+        }
+        cell .userTagsView.dataArray = titleAry;
+    }
     return cell;
 }
 

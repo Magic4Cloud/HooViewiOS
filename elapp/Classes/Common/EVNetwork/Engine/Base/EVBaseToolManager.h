@@ -7,11 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "EVNetWorkManager.h"
-#import "CCEnums.h"
+#import "EVEnums.h"
 #import "NSError+Extention.h"
 
-@class ASIHTTPRequest, EVLoginInfo, CCLoginIMInfo, EMError;
+@class EVLoginInfo, EVLoginIMInfo, EMError;
 @interface EVBaseToolManager : NSObject
 
 @property (nonatomic, assign) BOOL syschronizedCache;
@@ -27,10 +26,6 @@
 
 // 删除制定的URL请求
 - (void)removeOperationWithURLString:(NSString *)urlString;
-
-// 添加一个http请求
-- (void)addRequest:(ASIHTTPRequest *)request
-            forKey:(NSString *)urlString;
 
 
 // 获取本地Session
@@ -91,7 +86,7 @@
 
 /** 用于环信登录的 */
 + (void)imLoginWithLoginInfo:(EVLoginInfo *)login
-                     success:(void(^)(CCLoginIMInfo *imInfo))success
+                     success:(void(^)(EVLoginIMInfo *imInfo))success
                         fail:(void(^)(EMError *error))fail
                sessionExpire:(void(^)())sessionExpire;
 
@@ -101,6 +96,17 @@
                   fail:(void(^)(EMError *error))fail;
 
 
+
++ (void)GETNotVerifyRequestWithUrl:(NSString *)url parameters:(nullable id)parameters success:(nullable void (^)(NSDictionary *successDict))success fail:(nullable void(^)(NSError  * error))fail;
+
++ (void)GETRequestWithUrl:(nullable NSString *)url parameters:(nullable id)parameters success:(nullable void (^)(NSDictionary *successDict))success sessionExpireBlock:(void(^)())sessionExpireBlock fail:(nullable void(^)(NSError  * error))fail;
+
+
++ (void)POSTRequestWithUrl:(NSString *)url params:(id)param fileData:(NSData *)fileData fileMineType:(NSString *)fileMineType fileName:(NSString *)filename success:(void (^)(NSDictionary *successDict))success sessionExpireBlock:(void(^)())sessionExpireBlock failError:(void(^)(NSError  * error))failError;
+
++ (void)GETNoSessionWithUrl:(nullable NSString *)url parameters:(nullable id)parameters success:(nullable void (^)(NSDictionary *successDict))success fail:(nullable void(^)(NSError  * error))fail;
+
++ (void)POSTNotSessionWithUrl:(NSString *)url params:(NSDictionary *)param fileData:(NSData *)fileData fileMineType:(NSString *)fileMineType fileName:(NSString *)filename success:(void (^)(NSDictionary *successDict))success failError:(void(^)(NSError  * error))failError;
 @end
 
 
@@ -125,51 +131,6 @@
 @end
 
 @interface EVBaseToolManager ( Common )
-
-// 请求指定URL的内容
-- (NSString *)requestWithURLString:(NSString *)urlString
-                             start:(void (^)())startBlock
-                              fail:(void (^)(NSError *))failBlock
-                           success:(void (^)(NSData *data))successBlock;
-
-// 同步请求
-- (ASIHTTPRequest *)startSynchronousRequestWithURLString:(NSString *)urlString;
-
-/**
- *  @author shizhiang, 16-01-18 18:01:42
- *
- *  上拉、下拉刷新请求
- *
- *  @param url          请求路径
- *  @param startBlock   开始请求
- *  @param failBlock    请求失败
- *  @param successBlock 请求成功
- 
- *  @return 网络请求路径
- */
-- (NSString *)refreshRequestWithUrl:(NSString *)url
-                              start:(void (^)())startBlock
-                               fail:(void (^)(NSError *))failBlock
-                            success:(void (^)(NSData *data))successBlock;
-
-// 发送一条Post指令
-- (NSString *)postWithURLString:(NSString *)urlString
-                    contentType:(NSString *)contentType
-                         params:(NSMutableDictionary *)params
-                       fileData:(NSData *)data
-                   fileMineType:(NSString *)fileMineType
-                       fileName:(NSString *)fileName
-                          start:(void (^)())startBlock
-                           fail:(void (^)(NSError *))failBlock
-                        success:(void (^)(NSData *data))successBlock;
-
-// 发送一条Post指令 contentType: application/json
-- (NSString *)jsonPostWithURLString:(NSString *)urlString
-                             params:(NSDictionary *)params
-                              start:(void (^)())startBlock
-                               fail:(void (^)(NSError *))failBlock
-                            success:(void (^)(NSData *data))successBlock;
-
 // 获取SessionID
 - (NSString *)getSessionIdWithBlock:(void(^)())sessionExpireBlock;
 

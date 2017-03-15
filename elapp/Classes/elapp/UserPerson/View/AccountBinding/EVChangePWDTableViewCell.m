@@ -46,7 +46,7 @@
 
 - (void)addCustomSubviews
 {
-    UILabel *title = [UILabel labelWithDefaultTextColor:CCTextBlackColor font:CCNormalFont(14.0f)];
+    UILabel *title = [UILabel labelWithDefaultTextColor:[UIColor textBlackColor] font:EVNormalFont(14.0f)];
     title.text = kE_GlobalZH(@"motify_password");
     [self.contentView addSubview:title];
     [title autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(.0f, 16.0f, .0f, .0f) excludingEdge:ALEdgeRight];

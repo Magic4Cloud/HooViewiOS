@@ -6,31 +6,12 @@
 //  Copyright (c) 2016 EasyVass. All rights reserved.
 //
 
-//
-//  EVBaseToolManager+EVHomeAPI.h
-//
-//  Created by 杨尚彬 on 16/7/18.
-//  Copyright © 2016年 easyvaas. All rights reserved.
-//
 
 #import "EVBaseToolManager.h"
 
 
-//Recommend
-typedef NS_ENUM(NSInteger, CCHomeWatchListType){
-    CCHomeWatchListPopular,
-    CCHomeWatchListFollow,
-    CCHomeWatchListSearch
-};
-
 @interface EVBaseToolManager (EVHomeAPI)
-- (void)GETNewTopicVideolistStart:(NSInteger)start
-                            count:(NSInteger)count
-                          topicid:(NSString *)topicid
-                            start:(void(^)())startBlock
-                             fail:(void(^)(NSError *error))failBlock
-                          success:(void(^)(NSDictionary *info))successBlock
-                   sessionExpired:(void(^)())sessionExpiredBlock;
+
 /**
  *  热门直播视频列表
  *
@@ -54,6 +35,23 @@ typedef NS_ENUM(NSInteger, CCHomeWatchListType){
 
 
 
+- (void)GETGoodVideoListStart:(NSString *)start count:(NSString *)count fail:(void(^)(NSError *error))failBlock success:(void(^)(NSDictionary *info))successBlock;
+
+- (void)POSTVideoCommentContent:(NSString *)content
+                            vid:(NSString *)vid
+                         userID:(NSString *)userid
+                       userName:(NSString *)username
+                     userAvatar:(NSString *)useravatar
+                          start:(void(^)())startBlock
+                           fail:(void(^)(NSError *error))failBlock
+                        success:(void(^)(NSDictionary *retinfo))successBlock;
+
+- (void)GETVideoCommentListVid:(NSString *)vid
+                         start:(NSString *)start
+                         count:(NSString *)count
+                         start:(void(^)())startBlock
+                          fail:(void(^)(NSError *error))failBlock
+                       success:(void(^)(NSDictionary *retinfo))successBlock;
 
 
 /** 推荐页轮播图 */
@@ -66,8 +64,8 @@ typedef NS_ENUM(NSInteger, CCHomeWatchListType){
 
 
 
-
-
+- (void)GETTextLiveHomeListStart:(NSString *)start success:(void (^)(NSDictionary *info))successBlock
+                            fail:(void (^)(NSError *error))failBlock;
 
 
 

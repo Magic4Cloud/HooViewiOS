@@ -13,8 +13,10 @@
 #import "OpenUDID.h"
 #import "JPUSHService.h"
 #import <AdSupport/AdSupport.h>
+#import <UserNotifications/UserNotifications.h>
 
-#define kAPP_KEY  [[CCAppSetting shareInstance] appPushServiceKey]
+
+#define kAPP_KEY  [[EVAppSetting shareInstance] appPushServiceKey]
 
 //#define kAPP_KEY  @"CtrIXAieWOjWbMF1OlNv6imD"
 
@@ -56,7 +58,7 @@
             self.push_id = dict[kUser_id];
         }
         
-#ifdef CCDEBUG
+#ifdef EVDEBUG
         NSAssert(self.app_id && self.channel_id, @"these two params can not be nil");
 #endif
         
@@ -91,7 +93,7 @@
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder{
-#ifdef CCDEBUG
+#ifdef EVDEBUG
     NSAssert(_dev_token, @"dev_token 不能为空");
 #endif
     [encoder encodeInteger:_error_code forKey:kError_code];
@@ -105,7 +107,7 @@
 
 @end
 
-@interface EVPushManager ()<CLLocationManagerDelegate>
+@interface EVPushManager ()<CLLocationManagerDelegate,JPUSHRegisterDelegate>
 
 @property (nonatomic, strong) NSDictionary *responseData;
 /** 极光推送 channelId */
@@ -158,19 +160,22 @@ singtonImplement(PushManager)
 
 - (void)setUpWithOptions:(NSDictionary *)launchOptions
 {
-    // iOS8 下需要使用新的 API
-    if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
-        //可以添加自定义categories
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 10.0) {
+        JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
+        entity.types = UNAuthorizationOptionAlert|UNAuthorizationOptionBadge|UNAuthorizationOptionSound;
+        [JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
+    }
+    else if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
+        //       categories
         [JPUSHService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
                                                           UIUserNotificationTypeSound |
-                                                          UIUserNotificationTypeAlert)
-                                              categories:nil];
-    } else {
-        //categories 必须为nil
+                                                          UIUserNotificationTypeAlert) categories:nil];
+    }
+    else {
+        //categories    nil
         [JPUSHService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
                                                           UIRemoteNotificationTypeSound |
-                                                          UIRemoteNotificationTypeAlert)
-                                              categories:nil];
+                                                          UIRemoteNotificationTypeAlert) categories:nil];
     }
     
     BOOL isProduction = YES;
@@ -192,12 +197,10 @@ singtonImplement(PushManager)
     [self.locationMgr startUpdatingLocation];
 }
 
-/**
- *  添加激光推送的监听
- */
+/** 添加激光推送的监听 */
 - (void)addObserverToJPush
 {
-    [CCNotificationCenter addObserver:self selector:@selector(JPushDidLoginSuccess:) name:kJPFNetworkDidLoginNotification object:nil];
+    [EVNotificationCenter addObserver:self selector:@selector(JPushDidLoginSuccess:) name:kJPFNetworkDidLoginNotification object:nil];
 }
 
 
@@ -207,9 +210,9 @@ singtonImplement(PushManager)
 {
     NSString *channelId = [JPUSHService registrationID];
     _channelId = [NSString stringWithFormat:@"j_%@", channelId];
-    CCLog(@"---JPush notification:%@", channelId);
+    EVLog(@"---JPush notification:%@", channelId);
     
-#ifdef CCDEBUG
+#ifdef EVDEBUG
     assert( ![J_PUSH_APP_KEY isKindOfClass:[NSNull class]] );
     assert( ![_channelId isKindOfClass:[NSNull class]] );
 #endif
@@ -235,7 +238,7 @@ singtonImplement(PushManager)
 
 - (void)removeNotification
 {
-    [CCNotificationCenter removeObserver:self];
+    [EVNotificationCenter removeObserver:self];
 }
 
 - (EVPushUserInfo *)userInfo
@@ -258,7 +261,7 @@ singtonImplement(PushManager)
     _dev_token = [_dev_token stringByReplacingOccurrencesOfString:@" " withString:@""];
     
     // 缓存dev_token
-    [CCUserDefault setObject:_dev_token forKey:kCCDeviceTokenKey];
+    [CCUserDefault setObject:_dev_token forKey:kEVDeviceTokenKey];
     [JPUSHService registerDeviceToken:token_data];
 }
 
@@ -274,7 +277,7 @@ singtonImplement(PushManager)
 
 - (void)registUserInfoToServer
 {
-#ifdef CCDEBUG
+#ifdef EVDEBUG
     NSAssert(_userInfo, @"获取用户数据失败");
 #endif
     if ( self.userInfo == nil
@@ -315,10 +318,10 @@ singtonImplement(PushManager)
         params[kApp_id] = _userInfo.app_id;
     }
     
-    NSString *adId = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
-    [params setValue:adId forKey:kIdfa];
+//    NSString *adId = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
+//    [params setValue:adId forKey:kIdfa];
     
-    CCLog(@"JPush: %@", params);
+    EVLog(@"JPush: %@", params);
     return params;
 }
 
@@ -333,9 +336,9 @@ singtonImplement(PushManager)
     self.longitude = coordinate.longitude;
     
     [[EVGeocoder shareInstace] decoderLocationWithLatitude:coordinate.latitude longitude:coordinate.longitude success:^(NSString *addressName) {
-        CCLog(@"addressName - %@",addressName);
+        EVLog(@"addressName - %@",addressName);
     } fail:^(NSError *error) {
-        CCLog(@"get location address fail : %@",error);
+        EVLog(@"get location address fail : %@",error);
     }];
     
     // 获取经纬度
@@ -369,7 +372,7 @@ didChangeAuthorizationStatus:(CLAuthorizationStatus)status
         _userInfo.push_id = [_channelId mutableCopy];
         if ( _dev_token == nil )
         {
-            _dev_token = [CCUserDefault objectForKey:kCCDeviceTokenKey];
+            _dev_token = [CCUserDefault objectForKey:kEVDeviceTokenKey];
         }
         _userInfo.dev_token = _dev_token;
         if ( _userInfo != nil )
@@ -388,6 +391,41 @@ didChangeAuthorizationStatus:(CLAuthorizationStatus)status
 - (EVPushUserInfo *)userInFromLocal
 {
     return [NSKeyedUnarchiver unarchiveObjectWithFile:userInfoFullPath];
+}
+
++ (void)setCurrentBadge:(NSInteger)badge {
+    [UIApplication sharedApplication].applicationIconBadgeNumber = badge;
+    [JPUSHService setBadge:badge];
+}
+
+#pragma mark- JPUSHRegisterDelegate
+// iOS 10 Support
+- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(NSInteger))completionHandler {
+    // Required
+    NSDictionary * userInfo = notification.request.content.userInfo;
+    
+    if (self.willPresentNotificationBlock) {
+        self.willPresentNotificationBlock(userInfo);
+    }
+    
+    if([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+        [JPUSHService handleRemoteNotification:userInfo];
+    }
+    //    completionHandler(UNNotificationPresentationOptionAlert); //                    Badge Sound Alert
+}
+// iOS 10 Support
+- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
+    // Required
+    NSDictionary * userInfo = response.notification.request.content.userInfo;
+    
+    if (self.didReceiveNotificationResponseBlock) {
+        self.didReceiveNotificationResponseBlock(userInfo);
+    }
+    
+    if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+        [JPUSHService handleRemoteNotification:userInfo];
+    }
+    //    completionHandler();
 }
 
 @end

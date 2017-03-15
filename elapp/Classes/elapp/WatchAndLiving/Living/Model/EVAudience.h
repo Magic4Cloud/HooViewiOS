@@ -6,7 +6,7 @@
 //  Copyright (c) 2016 EasyVass. All rights reserved.
 //
 
-#import "CCBaseObject.h"
+#import "EVBaseObject.h"
 
 // 观众在观众列表里面的操作类型
 typedef NS_ENUM(NSInteger, CCAudienceOperationType) {
@@ -15,7 +15,7 @@ typedef NS_ENUM(NSInteger, CCAudienceOperationType) {
     CCAudienceOperationRemove
 };
 
-@interface EVAudience : CCBaseObject
+@interface EVAudience : EVBaseObject
 /** 观众在观众列表里面的操作类型 */
 @property (nonatomic,assign) CCAudienceOperationType operationType;
 /** 观众的name */
@@ -29,14 +29,6 @@ typedef NS_ENUM(NSInteger, CCAudienceOperationType) {
 /** 官方认证vip */
 @property (nonatomic, assign) NSInteger vip;
 
-/** 普通等级 */
-@property ( nonatomic ) NSInteger level;
-
-/** vip等级 */
-@property ( nonatomic ) NSInteger vip_level;
-
-/** 主播等级 */
-@property ( nonatomic ) NSInteger anchor_level;
 
 /**
  *  观众对象模型初始化方法

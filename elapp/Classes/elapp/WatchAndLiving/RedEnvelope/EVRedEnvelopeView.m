@@ -21,16 +21,16 @@
 #define RedEnvelopeViewWidth 275.f
 #define RedEnvelopeViewHeight 366.5f
 
-@class CCBackgroundWindow;
+@class EVBackgroundWindow;
 
 static BOOL sAnimating;
 static NSMutableArray *sRedEnvelopeQueue;
-static CCBackgroundWindow *sBackgroundWindow;
+static EVBackgroundWindow *sBackgroundWindow;
 static EVRedEnvelopeView *sCurrentRedEnvelopeView;
 static NSMutableDictionary *sRedEnvelopeDictionary;
 static NSMutableDictionary *sRedEnvelopeBrokenDic;  //hid= 1：你抢过红包；2：红包已抢完；0：没有抢过继续抢
 
-@interface EVRedEnvelopeView () <UITableViewDelegate, UITableViewDataSource, UIApplicationDelegate,CAAnimationDelegate>
+@interface EVRedEnvelopeView () <UITableViewDelegate, UITableViewDataSource, UIApplicationDelegate,UIApplicationDelegate,CAAnimationDelegate>
 
 #ifdef __IPHONE_7_0
 @property (nonatomic, assign) UIViewTintAdjustmentMode oldTintAdjustmentMode;
@@ -62,11 +62,11 @@ static NSMutableDictionary *sRedEnvelopeBrokenDic;  //hid= 1：你抢过红包�
 const UIWindowLevel UIWindowLevelDefault = 2016.0;
 const UIWindowLevel UIWindowLevelBackground = 1987.0;
 
-@interface CCBackgroundWindow : UIWindow
+@interface EVBackgroundWindow : UIWindow
 
 @end
 
-@implementation CCBackgroundWindow
+@implementation EVBackgroundWindow
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -89,13 +89,13 @@ const UIWindowLevel UIWindowLevelBackground = 1987.0;
 @end
 
 
-@interface CCRedEnvelopeCtrl : UIViewController
+@interface EVRedEnvelopeCtrl : UIViewController
 
 @property (nonatomic, strong) EVRedEnvelopeView *redEnvelopeView;
 
 @end
 
-@implementation CCRedEnvelopeCtrl
+@implementation EVRedEnvelopeCtrl
 
 - (void)loadView
 {
@@ -182,7 +182,7 @@ const UIWindowLevel UIWindowLevelBackground = 1987.0;
         {
             frame = [[[UIScreen mainScreen] fixedCoordinateSpace] convertRect:frame fromCoordinateSpace:[[UIScreen mainScreen] coordinateSpace]];
         }
-        sBackgroundWindow = [[CCBackgroundWindow alloc] initWithFrame:frame];
+        sBackgroundWindow = [[EVBackgroundWindow alloc] initWithFrame:frame];
         [sBackgroundWindow makeKeyAndVisible];
         sBackgroundWindow.alpha = 0;
         
@@ -202,7 +202,6 @@ const UIWindowLevel UIWindowLevelBackground = 1987.0;
         return;
     }
     
-    //
     [UIView animateWithDuration:0.3
                      animations:^{
                          sBackgroundWindow.alpha = 0;
@@ -228,7 +227,6 @@ const UIWindowLevel UIWindowLevelBackground = 1987.0;
     }
 #endif
     
-   
     
     if ([EVRedEnvelopeView isAnimating]) {
         return;
@@ -244,7 +242,7 @@ const UIWindowLevel UIWindowLevelBackground = 1987.0;
         self.willShowHandler(self);
     }
     
-    CCRedEnvelopeCtrl *redEnvelopeCtrl = [[CCRedEnvelopeCtrl alloc] initWithNibName:nil bundle:nil];
+    EVRedEnvelopeCtrl *redEnvelopeCtrl = [[EVRedEnvelopeCtrl alloc] initWithNibName:nil bundle:nil];
     redEnvelopeCtrl.redEnvelopeView = self;
   
     if (redEnvelopeCtrl.redEnvelopeView.currentModel.htp ==  CCRedEnvelopeTypeSystem) {
@@ -301,7 +299,7 @@ const UIWindowLevel UIWindowLevelBackground = 1987.0;
     [EVRedEnvelopeView setCurrentView:self];
     [EVRedEnvelopeView showBackground];
     
-    CCRedEnvelopeCtrl *redEnvelopeCtrl = [[CCRedEnvelopeCtrl alloc] initWithNibName:nil bundle:nil];
+    EVRedEnvelopeCtrl *redEnvelopeCtrl = [[EVRedEnvelopeCtrl alloc] initWithNibName:nil bundle:nil];
     redEnvelopeCtrl.redEnvelopeView = self;
     
     if ( !self.currentKeyWindow ) {
@@ -444,13 +442,13 @@ const UIWindowLevel UIWindowLevelBackground = 1987.0;
 
 - (void) didStopAnimation
 {
-    CCLog(@"animation_exchangeSubview end");
+    EVLog(@"animation_exchangeSubview end");
 }
 
 - (void)transitionInCompletion:(void(^)(void))completion
 {
     switch (self.transitionStyle) {
-        case CCViewTransitionStyleSlideFromBottom:
+        case EVViewTransitionStyleSlideFromBottom:
         {
             CGRect rect = self.containerView.frame;
             CGRect originalRect = rect;
@@ -467,7 +465,7 @@ const UIWindowLevel UIWindowLevelBackground = 1987.0;
                              }];
         }
             break;
-        case CCViewTransitionStyleSlideFromTop:
+        case EVViewTransitionStyleSlideFromTop:
         {
             CGRect rect = self.containerView.frame;
             CGRect originalRect = rect;
@@ -484,7 +482,7 @@ const UIWindowLevel UIWindowLevelBackground = 1987.0;
                              }];
         }
             break;
-        case CCViewTransitionStyleFade:
+        case EVViewTransitionStyleFade:
         {
             self.containerView.alpha = 0;
             [UIView animateWithDuration:0.3
@@ -498,7 +496,7 @@ const UIWindowLevel UIWindowLevelBackground = 1987.0;
                              }];
         }
             break;
-        case CCViewTransitionStyleBounce:
+        case EVViewTransitionStyleBounce:
         {
             CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
             animation.values = @[@(0.01), @(1.2), @(0.9), @(1)];
@@ -519,7 +517,7 @@ const UIWindowLevel UIWindowLevelBackground = 1987.0;
 - (void)transitionOutCompletion:(void(^)(void))completion
 {
     switch (self.transitionStyle) {
-        case CCViewTransitionStyleSlideFromBottom:
+        case EVViewTransitionStyleSlideFromBottom:
         {
             CGRect rect = self.containerView.frame;
             rect.origin.y = self.bounds.size.height;
@@ -536,7 +534,7 @@ const UIWindowLevel UIWindowLevelBackground = 1987.0;
                              }];
         }
             break;
-        case CCViewTransitionStyleSlideFromTop:
+        case EVViewTransitionStyleSlideFromTop:
         {
             CGRect rect = self.containerView.frame;
             rect.origin.y = -rect.size.height;
@@ -553,7 +551,7 @@ const UIWindowLevel UIWindowLevelBackground = 1987.0;
                              }];
         }
             break;
-        case CCViewTransitionStyleFade:
+        case EVViewTransitionStyleFade:
         {
             [UIView animateWithDuration:0.25
                              animations:^{
@@ -566,7 +564,7 @@ const UIWindowLevel UIWindowLevelBackground = 1987.0;
                              }];
         }
             break;
-        case CCViewTransitionStyleBounce:
+        case EVViewTransitionStyleBounce:
         {
             CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
             animation.values = @[@(1), @(1.2), @(0.01)];
@@ -669,7 +667,7 @@ const UIWindowLevel UIWindowLevelBackground = 1987.0;
     UIButton *cancelBtn = [[UIButton alloc]init];
     [cancelBtn setImage:[UIImage imageNamed:@"living_icon_cancel"] forState:UIControlStateNormal];
     [cancelBtn addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
-    cancelBtn.tag = CCButtonTag_Cancel;
+    cancelBtn.tag = EVButtonTag_Cancel;
     [self.containerView addSubview:cancelBtn];
     [cancelBtn autoSetDimensionsToSize:CGSizeMake(CancelButtonWidth, CancelButtonWidth)];
     [cancelBtn autoPinEdge:ALEdgeRight toEdge:ALEdgeRight ofView:secondView];
@@ -734,7 +732,7 @@ const UIWindowLevel UIWindowLevelBackground = 1987.0;
     
     UIButton *chaiBtn = [[UIButton alloc]init];
     [chaiBtn setBackgroundImage:[UIImage imageNamed:@"living_redpaper_dismantle"] forState:UIControlStateNormal];
-    chaiBtn.tag = CCButtonTag_Chai;
+    chaiBtn.tag = EVButtonTag_Chai;
     [chaiBtn addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
     [bgImageView addSubview:chaiBtn];
     [chaiBtn autoAlignAxisToSuperviewAxis:ALAxisVertical];
@@ -745,7 +743,7 @@ const UIWindowLevel UIWindowLevelBackground = 1987.0;
     UIButton *cancelBtn = [[UIButton alloc]init];
     [cancelBtn setImage:[UIImage imageNamed:@"living_icon_cancel"] forState:UIControlStateNormal];
     [cancelBtn addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
-    cancelBtn.tag = CCButtonTag_Cancel;
+    cancelBtn.tag = EVButtonTag_Cancel;
     [self.containerView addSubview:cancelBtn];
     [cancelBtn autoSetDimensionsToSize:CGSizeMake(CancelButtonWidth, CancelButtonWidth)];
     [cancelBtn autoPinEdge:ALEdgeRight toEdge:ALEdgeRight ofView:bgImageView];
@@ -813,7 +811,7 @@ const UIWindowLevel UIWindowLevelBackground = 1987.0;
     [seeEveryoneLuckButton setImageEdgeInsets:UIEdgeInsetsMake(2, 57, 0, -57)];
     [seeEveryoneLuckButton setTintColor:[UIColor colorWithHexString:@"#F7C35B"]];
     [seeEveryoneLuckButton addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
-    seeEveryoneLuckButton.tag = CCButtonTag_See;
+    seeEveryoneLuckButton.tag = EVButtonTag_See;
     [bgImageView addSubview:seeEveryoneLuckButton];
     [seeEveryoneLuckButton autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:self.rstLabel withOffset:160];
     [seeEveryoneLuckButton autoAlignAxisToSuperviewAxis:ALAxisVertical];
@@ -855,7 +853,9 @@ const UIWindowLevel UIWindowLevelBackground = 1987.0;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.allRedArray.count;
+    NSArray *Array = sRedEnvelopeDictionary[[EVRedEnvelopeView currentView].currentModel.hid];
+    
+    return Array.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -904,7 +904,7 @@ const UIWindowLevel UIWindowLevelBackground = 1987.0;
     }
     
     NSArray *arr = sRedEnvelopeDictionary[[EVRedEnvelopeView currentView].currentModel.hid];
-    cell.itemModel = self.allRedArray[indexPath.row];
+    cell.itemModel = arr[indexPath.row];
     
     return cell;
 }
@@ -919,19 +919,19 @@ const UIWindowLevel UIWindowLevelBackground = 1987.0;
 - (void)buttonAction:(UIButton *)sender
 {
     switch (sender.tag) {
-        case CCButtonTag_Cancel:
+        case EVButtonTag_Cancel:
         {
             [self dismissAnimated:YES];
         }
             break;
             
-        case CCButtonTag_Chai:
+        case EVButtonTag_Chai:
         {
             [self loadData];
         }
             
             break;
-        case CCButtonTag_See:
+        case EVButtonTag_See:
         {
             [self seeLuck];
         }
@@ -1006,7 +1006,6 @@ const UIWindowLevel UIWindowLevelBackground = 1987.0;
         wself.bgImageView.image = [UIImage imageNamed:@"living_redpaper_opened_yes"];
         [wself deleteRotationAnimation];
         
-        //
         NSLog(@"------------------   %@",retinfo);
         NSMutableArray *userNames = [NSMutableArray array];
         NSArray *userArray = [EVRedEnvelopeModel objectWithDictionaryArray:retinfo[@"users"]];
@@ -1046,13 +1045,15 @@ const UIWindowLevel UIWindowLevelBackground = 1987.0;
         NSArray *allUserA = [EVRedEnvelopeItemModel objectWithDictionaryArray:retinfo[@"users"]];
         [self.allRedArray addObjectsFromArray:allUserA];
         
+        [sRedEnvelopeDictionary setValue:allUserA forKey:hid];
+        sRedEnvelopeBrokenDic[hid] = @(1);
         
         [wself.mTableView reloadData];
         [wself exchangeViewAnimation];
         
     } sessionExpire:^{
         [wself deleteRotationAnimation];
-        CCRelogin(wself);
+        EVRelogin(wself);
     }];
 }
 

@@ -28,7 +28,7 @@
 - (id)initWithCoder:(NSCoder *)aDecoder {
     if ( self = [super initWithCoder:aDecoder] ) {
         self.delegate = self;
-        self.font = [[CCAppSetting shareInstance] normalFontWithSize:14];
+        self.font = [[EVAppSetting shareInstance] normalFontWithSize:14];
     }
     return self;
 }
@@ -36,17 +36,17 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if ( self = [super initWithFrame:frame] ) {
         self.delegate = self;
-        self.font = [[CCAppSetting shareInstance] normalFontWithSize:14];
+        self.font = [[EVAppSetting shareInstance] normalFontWithSize:14];
     }
     return self;
 }
 
 - (void)addPlaceHoldLabel {
-    CGRect frame = [self.placeHolder boundingRectWithSize:CGSizeMake(ScreenWidth - 34.0f, self.frame.size.height) options:NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName : [[CCAppSetting shareInstance] normalFontWithSize:14]} context:nil];
+    CGRect frame = [self.placeHolder boundingRectWithSize:CGSizeMake(ScreenWidth - 34.0f, self.frame.size.height) options:NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName : [[EVAppSetting shareInstance] normalFontWithSize:14]} context:nil];
     _placeHolderLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, ScreenWidth - 34.0f, frame.size.height + 20)];
     _placeHolderLabel.text = self.placeHolder;
-    _placeHolderLabel.textColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
-    _placeHolderLabel.font = [[CCAppSetting shareInstance] normalFontWithSize:14];
+    _placeHolderLabel.textColor = [UIColor evGlobalSeparatorColor];
+    _placeHolderLabel.font = [[EVAppSetting shareInstance] normalFontWithSize:14];
     _placeHolderLabel.numberOfLines = 0;
     if ( ![self.text isEqualToString:@""] ) {
         [self addSubview:_placeHolderLabel];

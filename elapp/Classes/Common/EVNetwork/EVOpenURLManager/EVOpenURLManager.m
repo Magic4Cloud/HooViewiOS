@@ -13,7 +13,6 @@
 #import "EVWatchVideoInfo.h"
 #import "EVLiveViewController.h"
 #import "EVAlertManager.h"
-#import "EVWatchViewController.h"
 #import "UIWindow+Extension.h"
 #import "EVDetailWebViewController.h"
 
@@ -100,7 +99,7 @@ static EVOpenURLManager *_openURLManager;
 
 - (void)switchToSearchPageWithSearchKeyWords:(NSString *)keyWords
 {
-    [CCNotificationCenter postNotificationName:CCNeedToForceCloseLivePageOrWatchPage object:nil];
+    [EVNotificationCenter postNotificationName:CCNeedToForceCloseLivePageOrWatchPage object:nil];
     
 //    CCFindFriendViewController *findFriendVC = [[CCFindFriendViewController alloc] init];
 //    findFriendVC.searchKeyWordsFromWeb = keyWords;
@@ -133,13 +132,6 @@ static EVOpenURLManager *_openURLManager;
     __block UIViewController *presenetVC = [((AppDelegate *)[UIApplication sharedApplication].delegate).window visibleViewController];
     if (!presenetVC)
     {
-        return;
-    }
-    if ( [presenetVC isKindOfClass:[EVWatchViewController class]] )
-    {
-        [[EVAlertManager shareInstance] performComfirmTitle:kTooltip message:kE_GlobalZH(@"quit_watch_again_click_url") comfirmTitle:kOK WithComfirm:^{
-            
-        }];
         return;
     }
     

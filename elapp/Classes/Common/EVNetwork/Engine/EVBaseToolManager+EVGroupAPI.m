@@ -9,19 +9,19 @@
 #import "EVBaseToolManager+EVGroupAPI.h"
 #import "EVHttpURLManager.h"
 #import "constants.h"
-#import "ASIFormDataRequest.h"
 #import "EVUserModel.h"
 #import "EVLoginInfo.h"
 #import "NSString+Extension.h"
 
+
 @implementation EVBaseToolManager (EVGroupAPI)
 
-- (NSDictionary *)baseUserInfoUrlWithImuser:(NSString *)imuser
+- (void)baseUserInfoUrlWithImuser:(NSString *)imuser success:(void(^)(NSDictionary *modelDict))successBlock
 {
     NSString *sessionID = [self getSessionIdWithBlock:nil];
     if ( sessionID == nil )
     {
-        return nil;
+        return;
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[kSessionIdKey] = sessionID;
@@ -31,21 +31,13 @@
     }
     
     NSString *urlString = [EVHttpURLManager fullURLStringWithURI:EVUserBaseInfoAPI
-                                                          params:params];
-    ASIHTTPRequest *request = [self startSynchronousRequestWithURLString:urlString];
-    NSData *data = request.responseData;
-    if ( data )
-    {
-        return [NSJSONSerialization JSONObjectWithData:data
-                                               options:0
-                                                 error:NULL];
-    }
-    return nil;
+                                                          params:nil];
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:nil fail:nil];
 }
 
 
 // http://115.29.109.121/mediawiki/index.php?title=Userinfo
-- (NSString *)GETBaseUserInfoWithUname:(NSString *)uname
+- (void)GETBaseUserInfoWithUname:(NSString *)uname
                            orImuser:(NSString *)imuser
                               start:(void(^)())startBlock
                                fail:(void(^)(NSError *error))failBlock
@@ -55,7 +47,7 @@
     NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
     if ( sessionID == nil )
     {
-        return nil;
+        return;
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[kSessionIdKey] = sessionID;
@@ -71,57 +63,15 @@
     }
     
     NSString *urlString = [EVHttpURLManager fullURLStringWithURI:EVUserBaseInfoAPI
-                                              params:params];
+                                              params:nil];
     
-    return [self requestWithURLString:urlString
-                                start:startBlock
-                                 fail:failBlock
-                              success:^(NSData *data)
-            {
-                if ( data )
-                {
-                    NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                         options:0
-                                                                           error:NULL];
-                    if ( [info[kRetvalKye] isEqualToString:kSessionIdExpireValue] )
-                    {
-                        if ( sessionExpireBlock )
-                        {
-                            sessionExpireBlock();
-                        }
-                    }
-                    else if ( [info[kRetvalKye] isEqualToString:kRequestOK] )
-                    {
-                        if ( successBlock )
-                        {
-                            successBlock(info[kRetinfoKey]);
-                        }
-                    }
-                    else if ( [info[kRetvalKye] isEqualToString:kE_VIDEO_NOT_EXISTS] )
-                    {
-                        if ( failBlock )
-                        {
-                            NSError *error = [NSError errorWithDomain:kBaseToolDomain
-                                                                 code:-1
-                                                             userInfo:@{kCustomErrorKey: @"该用户不存在"}];
-                            failBlock(error);
-                        }
-                    }
-                    else if ( failBlock )
-                    {
-                        failBlock(nil);
-                    }
-                }
-                else if (failBlock)
-                {
-                    failBlock(nil);
-                }
-            }];
+  
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
 }
 
 
 // http://115.29.109.121/mediawiki/index.php?title=Userfollowaction
-- (NSString *)GETFollowUserWithName:(NSString *)name
+- (void)GETFollowUserWithName:(NSString *)name
                       followType:(FollowType)type
                            start:(void(^)())startBlock
                             fail:(void(^)(NSError *error))failBlock
@@ -131,7 +81,7 @@
     NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
     if ( sessionID == nil )
     {
-        return nil;
+        return;
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:sessionID forKey:kSessionIdKey];
@@ -141,50 +91,8 @@
     [params setValue:action forKey:kAction];
     
     NSString *url = [EVHttpURLManager fullURLStringWithURI:EVVideoFollowUserAPI
-                                        params:params];
-    return [self requestWithURLString:url
-                                start:startBlock
-                                 fail:failBlock
-                              success:^(NSData *data)
-            {
-                if ( data )
-                {
-                    NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                         options:NSJSONReadingMutableContainers
-                                                                           error:NULL];
-                    if ( [info[kRetvalKye] isEqualToString:kRequestOK] )
-                    {
-                        if ( successBlock )
-                        {
-                            successBlock();
-                        }
-                        [EVUserModel updateFollowStateWithName:name followed:type completet:nil];
-                        [CCNotificationCenter postNotificationName:CCFollowedStateChangedNotification
-                                                            object:nil
-                                                          userInfo:@{kNameKey:name,
-                                                                     kFollow:@(type)}];
-                    }
-                    else if ( [info[kRetvalKye] isEqualToString:kSessionIdExpireValue] )
-                    {
-                        if ( sessionExpireBlock )
-                        {
-                            sessionExpireBlock();
-                        }
-                    }
-                    else
-                    {
-                        CCLog(@"Request not work properly!");
-                        if (failBlock)
-                        {
-                            failBlock(nil);
-                        }
-                    }
-                }
-                else if (failBlock)
-                {
-                    failBlock(nil);
-                }
-            }];
+                                        params:nil];
+    [EVBaseToolManager GETRequestWithUrl:url parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
 }
 
 
@@ -255,20 +163,20 @@
 }
 
 
-- (NSString *)userbasicinfolistWithNameList:(NSArray *)names
+- (void)userbasicinfolistWithNameList:(NSArray *)names
                                orImuserList:(NSArray *)imusers
                                       start:(void(^)())startBlock
                                        fail:(void(^)(NSError *error))failBlock
                                     success:(void(^)(NSDictionary *modelDict))successBlock
                               sessionExpire:(void(^)())sessionExpireBlock
 {
-    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
-    if ( sessionID == nil )
-    {
-        return nil;
-    }
+//    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
+//    if ( sessionID == nil )
+//    {
+//        return;
+//    }
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[kSessionIdKey] = sessionID;
+//    params[kSessionIdKey] = sessionID;
     
     if ( names )
     {
@@ -281,41 +189,7 @@
     }
     
     NSString *urlString = [EVHttpURLManager fullURLStringWithURI:EVUserInfos
-                                              params:params];
-    return [self requestWithURLString:urlString
-                                start:startBlock
-                                 fail:failBlock
-                              success:^(NSData *data)
-            {
-                if ( data )
-                {
-                    NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                         options:0
-                                                                           error:NULL];
-                    CCLog(@"%@", info);
-                    if ( [info[kRetvalKye] isEqualToString:kSessionIdExpireValue] )
-                    {
-                        if ( sessionExpireBlock )
-                        {
-                            sessionExpireBlock();
-                        }
-                    }
-                    else if ( [info[kRetvalKye] isEqualToString:kRequestOK] )
-                    {
-                        if ( successBlock )
-                        {
-                            successBlock(info[kRetinfoKey]);
-                        }
-                    }
-                    else if ( failBlock )
-                    {
-                        failBlock([NSError cc_errorWithDictionary:info]);
-                    }
-                }
-                else if (failBlock)
-                {
-                    failBlock(nil);
-                }
-            }];
+                                              params:nil];
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
 }
 @end

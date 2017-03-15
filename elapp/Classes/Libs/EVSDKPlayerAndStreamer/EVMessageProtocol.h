@@ -3,7 +3,7 @@
 //  EVMessage
 //
 //  Created by mashuaiwei on 16/7/10.
-//  Copyright © 2016年 easyvaas. All rights reserved.
+//  Copyright © 2016年 cloudfocous. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -65,13 +65,52 @@
 - (void)EVMessageUsers:(NSArray <NSString *>*)userids
              leftTopic:(NSString *)topic;
 
+/**
+ *  更新点赞数
+ *
+ *  @param likeCount 更新后的点赞数
+ *  @param topic     话题
+ */
 - (void)EVMessageDidUpdateLikeCount:(long long)likeCount
                             inTopic:(NSString *)topic;
 
+/**
+ *  更新正在观看数
+ *
+ *  @param watchingCount 更新后的正在观看数
+ *  @param topic         话题
+ */
 - (void)EVMessageDidUpdateWatchingCount:(NSInteger)watchingCount
                                 inTopic:(NSString *)topic;
 
+/**
+ *  更新观看人次
+ *
+ *  @param watchedCount 更新后的观看人次
+ *  @param topic        话题
+ */
 - (void)EVMessageDidUpdateWatchedCount:(NSInteger)watchedCount
                                inTopic:(NSString *)topic;
+
+/**
+ *  更新饭团数
+ *
+ *  @param watchedCount 更新后的饭团数
+ *  @param topic        话题
+ */
+- (void)EVMessageDidUpdateRiceRoll:(long long)riceRoll
+                           inTopic:(NSString *)topic;
+///
+- (void)EVMessageShutupWithUsers:(NSArray <NSString *>*)users
+                       operation:(EVMessageOperationCode)operation
+                         inTopic:(NSString *)topic;
+
+- (void)EVMessageKickUserWithUsers:(NSArray <NSString *>*)users
+                         operation:(EVMessageOperationCode)operation
+                           inTopic:(NSString *)topic;
+
+- (void)EVMessageManagerWithUsers:(NSArray <NSString *>*)users
+                        operation:(EVMessageOperationCode)operation
+                          inTopic:(NSString *)topic;
 
 @end

@@ -1,9 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -15,52 +18,60 @@
                 <rect key="frame" x="0.0" y="0.0" width="376" height="155.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="2015年4月19号" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uBV-zq-Yj4">
-                        <rect key="frame" x="149" y="17" width="78" height="13.5"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="my8-lf-5DB" userLabel="头像">
-                        <rect key="frame" x="14" y="63.5" width="40" height="40"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M5N-Cj-cbE">
+                        <rect key="frame" x="18" y="50" width="340" height="102"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="文峰区分为非却无法品味非凡我为父亲为人感染为父亲为父亲问过去玩过" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yOY-17-Yo4">
+                                <rect key="frame" x="18" y="44" width="304" height="42"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zeH-qf-nHA">
+                                <rect key="frame" x="18" y="14" width="304" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="103-dA-eJE"/>
+                                </constraints>
+                                <state key="normal">
+                                    <color key="titleColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="40" id="gWj-WG-aA9"/>
-                            <constraint firstAttribute="height" constant="40" id="nsZ-S3-qoy"/>
+                            <constraint firstItem="zeH-qf-nHA" firstAttribute="top" secondItem="M5N-Cj-cbE" secondAttribute="top" constant="14" id="KYx-Io-Sto"/>
+                            <constraint firstItem="yOY-17-Yo4" firstAttribute="top" secondItem="zeH-qf-nHA" secondAttribute="bottom" constant="10" id="KmH-6T-fOU"/>
+                            <constraint firstItem="zeH-qf-nHA" firstAttribute="leading" secondItem="M5N-Cj-cbE" secondAttribute="leading" constant="18" id="XeK-Zh-22w"/>
+                            <constraint firstAttribute="trailing" secondItem="yOY-17-Yo4" secondAttribute="trailing" constant="18" id="cHt-ra-ABZ"/>
+                            <constraint firstItem="yOY-17-Yo4" firstAttribute="leading" secondItem="M5N-Cj-cbE" secondAttribute="leading" constant="18" id="kqX-Qe-gVu"/>
+                            <constraint firstAttribute="bottom" secondItem="yOY-17-Yo4" secondAttribute="bottom" constant="16" id="xhl-AD-xIO"/>
+                            <constraint firstAttribute="trailing" secondItem="zeH-qf-nHA" secondAttribute="trailing" constant="18" id="zB0-jG-ToT"/>
                         </constraints>
-                    </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="文峰区分为非却无法品味非凡我为父亲为人感染为父亲为父亲问过去玩过" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yOY-17-Yo4">
-                        <rect key="frame" x="81" y="50" width="252" height="33.5"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <color key="textColor" red="0.13333333333333333" green="0.13333333333333333" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <nil key="highlightedColor"/>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="2015年4月19号" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uBV-zq-Yj4">
+                        <rect key="frame" x="135" y="16" width="106" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="22" id="852-gm-ALG"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </label>
                 </subviews>
-                <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
+                <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
-                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="yOY-17-Yo4" secondAttribute="trailing" constant="43" id="3gd-4k-58J"/>
-                    <constraint firstItem="yOY-17-Yo4" firstAttribute="top" secondItem="uBV-zq-Yj4" secondAttribute="bottom" constant="20" id="71R-AP-G8H"/>
-                    <constraint firstItem="my8-lf-5DB" firstAttribute="leading" secondItem="5qn-66-Hi8" secondAttribute="leading" constant="14" id="JNF-N3-fq4"/>
-                    <constraint firstItem="my8-lf-5DB" firstAttribute="bottom" secondItem="yOY-17-Yo4" secondAttribute="bottom" constant="20" id="ZM7-Wn-yvR"/>
+                    <constraint firstAttribute="bottom" secondItem="M5N-Cj-cbE" secondAttribute="bottom" constant="4" id="F37-cK-YkG"/>
+                    <constraint firstItem="M5N-Cj-cbE" firstAttribute="top" secondItem="uBV-zq-Yj4" secondAttribute="bottom" constant="12" id="N7i-YT-3cS"/>
                     <constraint firstAttribute="centerX" secondItem="uBV-zq-Yj4" secondAttribute="centerX" id="Zkb-er-AmW"/>
-                    <constraint firstItem="uBV-zq-Yj4" firstAttribute="top" secondItem="5qn-66-Hi8" secondAttribute="top" constant="17" id="ipF-wY-GS1"/>
-                    <constraint firstItem="yOY-17-Yo4" firstAttribute="leading" secondItem="my8-lf-5DB" secondAttribute="trailing" constant="27" id="llS-ob-xcv"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="my8-lf-5DB" secondAttribute="bottom" id="xJY-Vq-q6H"/>
+                    <constraint firstItem="uBV-zq-Yj4" firstAttribute="top" secondItem="5qn-66-Hi8" secondAttribute="top" constant="16" id="ipF-wY-GS1"/>
+                    <constraint firstItem="M5N-Cj-cbE" firstAttribute="leading" secondItem="5qn-66-Hi8" secondAttribute="leading" constant="18" id="sbJ-hL-kkw"/>
+                    <constraint firstAttribute="trailing" secondItem="M5N-Cj-cbE" secondAttribute="trailing" constant="18" id="yaG-td-FVF"/>
                 </constraints>
-                <variation key="default">
-                    <mask key="constraints">
-                        <exclude reference="xJY-Vq-q6H"/>
-                    </mask>
-                </variation>
             </tableViewCellContentView>
             <connections>
-                <outlet property="TimeLabelToLabel" destination="71R-AP-G8H" id="f3B-U1-xcL"/>
-                <outlet property="contentText" destination="yOY-17-Yo4" id="OJ2-rr-XSe"/>
-                <outlet property="iconImageView" destination="my8-lf-5DB" id="5A1-aS-Nx5"/>
-                <outlet property="iconLeadingToSuperView" destination="JNF-N3-fq4" id="qfB-yZ-CCT"/>
-                <outlet property="iconTrailingToLabelLeading" destination="llS-ob-xcv" id="w4E-u6-Iyk"/>
-                <outlet property="iconWidth" destination="gWj-WG-aA9" id="rOM-Cf-xmo"/>
-                <outlet property="labelBottomToIocnBottom" destination="ZM7-Wn-yvR" id="Fhi-wl-Zrt"/>
-                <outlet property="labelTrailingToSuperView" destination="3gd-4k-58J" id="y5w-eJ-2Ke"/>
+                <outlet property="contentBackView" destination="M5N-Cj-cbE" id="Mdc-Zn-jeu"/>
+                <outlet property="contentText" destination="yOY-17-Yo4" id="KA2-UH-NyI"/>
+                <outlet property="msgTypeBtn" destination="zeH-qf-nHA" id="Qab-Bt-MUz"/>
                 <outlet property="timeLabelTopToSuperView" destination="ipF-wY-GS1" id="M1u-Af-MIb"/>
                 <outlet property="updateTime" destination="uBV-zq-Yj4" id="jN9-fp-5Kt"/>
             </connections>

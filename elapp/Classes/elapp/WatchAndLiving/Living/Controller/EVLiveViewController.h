@@ -7,8 +7,7 @@
 //
 
 #import "EVVideoViewController.h"
-#import "EVLiveShareView.h"
-#import "CCEnums.h"
+#import "EVEnums.h"
 #import "EVLivePrePareView.h"
 
 @class CCForeShowItem, EVLiveViewController;

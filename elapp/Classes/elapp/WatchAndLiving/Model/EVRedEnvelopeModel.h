@@ -7,7 +7,7 @@
 //
 
 
-#import "CCBaseObject.h"
+#import "EVBaseObject.h"
 
 typedef NS_ENUM(NSInteger, CCRedEnvelopeType)
 {
@@ -16,7 +16,7 @@ typedef NS_ENUM(NSInteger, CCRedEnvelopeType)
     CCRedEnvelopeTypeAnchor,     // 主播发的红包
 };
 
-@interface EVRedEnvelopeItemModel : CCBaseObject
+@interface EVRedEnvelopeItemModel : EVBaseObject
 
 @property (nonatomic,copy) NSString *hid;   // 红包编号（字符串）
 
@@ -25,13 +25,13 @@ typedef NS_ENUM(NSInteger, CCRedEnvelopeType)
 @property (nonatomic,copy) NSString *hlg;   // 红包logo（字符串）
 @property ( nonatomic ) CCRedEnvelopeType htp;    // 红包类型
 @property (nonatomic,assign) int htm;       // 红包持续时间(数字 范围秒)
-@property (nonatomic,assign) int flag;      // 红包触发标志（数字，1-发红包，0-拆过红包的人）
+@property (nonatomic,assign) int open;      // 红包触发标志（数字，1-发红包，0-拆过红包的人）
 @property (nonatomic,copy) NSString *name;   // 领红包者云播号 （字符串）
 
 /** 领红包、发红包者昵称 （字符串） */
 @property (nonatomic,copy) NSString *nickname;
 @property (nonatomic,copy) NSString *ulg;   //领红包者头像 (字符串) 一个完整的用户图标应该由用户图标前缀，加上对应后缀组成
-@property (nonatomic, copy) NSString *ecoin;        // 所领取的金额（数字 单位云币）
+@property (nonatomic, copy) NSString *ecoin;        // 所领取的金额（数字 单位火眼豆）
 @property (nonatomic, copy) NSString *isbest;        // 最佳标志(数字 1-最佳)
 
 @property (nonatomic,copy) NSString *logoUrl;
@@ -40,7 +40,7 @@ typedef NS_ENUM(NSInteger, CCRedEnvelopeType)
 @end
 
 
-@interface EVRedEnvelopeModel : CCBaseObject
+@interface EVRedEnvelopeModel : EVBaseObject
 
 @property (nonatomic,copy) NSArray *htb;
 

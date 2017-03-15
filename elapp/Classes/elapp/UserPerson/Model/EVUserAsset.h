@@ -7,14 +7,14 @@
 //
 
 
-#import "CCBaseObject.h"
+#import "EVBaseObject.h"
 
-@interface EVUserAsset : CCBaseObject
+@interface EVUserAsset : EVBaseObject
 
 @property (nonatomic, assign) NSInteger daybarley;  /**< 今日薏米数 */
 @property (nonatomic, assign) NSInteger barley;     /**< 总薏米数 */
-@property (nonatomic, assign) NSInteger ecoin;      /**< 云币数目 */
-@property (nonatomic, assign) NSInteger riceroll;   /**< 云票数目 */
+@property (nonatomic, assign) NSInteger ecoin;      /**< 火眼豆数目 */
+@property (nonatomic, assign) NSInteger riceroll;   /**< 火眼币数目 */
 @property (nonatomic, assign) NSInteger limitcash;  /**< 今日限定可提现数目 */
 @property (nonatomic, assign) NSInteger cash;       /**< 可提现数目，单位分，int */
 @property (nonatomic, assign) CGFloat feerate;       /**< 利率 */

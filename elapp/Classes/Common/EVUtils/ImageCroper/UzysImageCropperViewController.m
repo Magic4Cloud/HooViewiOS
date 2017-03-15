@@ -24,9 +24,9 @@
         
         if(!originImage || newImage.size.width <= cropSize.width || newImage.size.height <= cropSize.height)
         {
-            CCLog(@"Image Size is smaller than cropSize");
+            EVLog(@"Image Size is smaller than cropSize");
             newImage = [newImage resizedImageToFitInSize:CGSizeMake(cropSize.width, cropSize.height) scaleIfSmaller:YES];
-            CCLog(@"newImage Size %@",NSStringFromCGSize(newImage.size));
+            EVLog(@"newImage Size %@",NSStringFromCGSize(newImage.size));
         }
         self.view.backgroundColor = [UIColor blackColor];
         cropperView = [[UzysImageCropper alloc] 
@@ -36,22 +36,22 @@
         [self.view addSubview:cropperView];
         UIView *copyFrameView = (UIView *)[cropperView valueForKey:@"_cropperView"];
         [copyFrameView.layer setBorderColor:[UIColor lightGrayColor].CGColor];
-        UIView *controlView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-40, self.view.bounds.size.width, 40)];
-        [controlView setBackgroundColor:[UIColor evBackgroundColor]];
+        UIView *controlView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-60, self.view.bounds.size.width, 60)];
+        [controlView setBackgroundColor:[UIColor blackColor]];
         
         [self.view addSubview:controlView];
         
-        UIButton *cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 5, 40, 30)];
+        UIButton *cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 5, 40, 60)];
         [cancelBtn setTitle:kCancel forState:UIControlStateNormal];
         cancelBtn.titleLabel.font = [UIFont systemFontOfSize:16];
-        [cancelBtn setTitleColor:[UIColor evMainColor] forState:UIControlStateNormal];
+        [cancelBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [controlView addSubview:cancelBtn];
         [cancelBtn addTarget:self action:@selector(cancelCropping) forControlEvents:UIControlEventTouchUpInside];
         
-        UIButton *okBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width-40-10, 5, 40, 30)];
+        UIButton *okBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width-40-10, 5, 40, 60)];
         [okBtn setTitle:kOK forState:UIControlStateNormal];
         okBtn.titleLabel.font = [UIFont systemFontOfSize:16];
-        [okBtn setTitleColor:[UIColor evMainColor] forState:UIControlStateNormal];
+        [okBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [controlView addSubview:okBtn];
         [okBtn addTarget:self action:@selector(finishCropping) forControlEvents:UIControlEventTouchUpInside];
         
@@ -77,7 +77,7 @@
 
 - (void)finishCropping
 {
-    //CCLog(@"%@",@"ImageCropper finish cropping end");
+    //EVLog(@"%@",@"ImageCropper finish cropping end");
     UIImage *cropped =[cropperView getCroppedImage];
     if (delegate && [delegate respondsToSelector:@selector(imageCropper:didFinishCroppingWithImage:)]) {
         [delegate imageCropper:self didFinishCroppingWithImage:cropped];

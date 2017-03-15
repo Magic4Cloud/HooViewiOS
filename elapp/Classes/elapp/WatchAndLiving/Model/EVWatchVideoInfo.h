@@ -6,8 +6,7 @@
 //  Copyright (c) 2016 EasyVass. All rights reserved.
 //
 
-#import "CCBaseObject.h"
-#import "EVAudioOnlyCollectionViewCellItem.h"
+#import "EVBaseObject.h"
 
 @class EVLiveUserInfo,EVTopicItem;
 
@@ -24,15 +23,13 @@ typedef NS_ENUM(NSInteger, CCLiveStatus) {
 #define LIVE_MODE           0
 #define AUDIO_MODE          1
 
-@interface EVWatchVideoInfo : CCBaseObject
-
-// MARK: 服务器相关
-//@property (nonatomic,copy) NSString *chat_server_ip;
-//@property (nonatomic,copy) NSString *chat_server_port;
+@interface EVWatchVideoInfo : EVBaseObject
 
 #pragma mark - chatserver
 @property (nonatomic,copy) NSString *hcs_ip;
 @property (nonatomic,copy) NSString *hcs_port;
+@property (nonatomic,copy) NSString *horizontal;
+
 // MARK: 语音相关
 /** 语音直播背景 id */
 @property (nonatomic, assign) NSInteger bgpid;
@@ -48,8 +45,9 @@ typedef NS_ENUM(NSInteger, CCLiveStatus) {
 //必传
 @property (nonatomic,copy) NSString *uri;
 
-/** 语音模式的背景 */
-@property (nonatomic,strong) EVAudioOnlyCollectionViewCellItem *audioOnlyBGItem;
+@property (nonatomic, copy) NSString *live_start_time;
+
+@property (nonatomic, assign) NSInteger status;
 /**
  *  permission = 6的时候必填参数
  */
@@ -73,13 +71,15 @@ typedef NS_ENUM(NSInteger, CCLiveStatus) {
 
 @property (nonatomic, assign) double live_start_time_span;
 
-@property (nonatomic,copy) NSString *live_start_time;
+@property (nonatomic, copy) NSString *signature;
 /** 官方认证vip */
 @property (nonatomic, assign) NSInteger vip;
 
 @property (nonatomic, assign) NSInteger certification;
 
 @property (nonatomic, assign) BOOL followed;
+
+@property (nonatomic, assign) NSInteger follow_count;
 
 @property (nonatomic, copy) NSString *logourl;   /*< 用户头像url */
 
@@ -95,7 +95,7 @@ typedef NS_ENUM(NSInteger, CCLiveStatus) {
 
 @property (nonatomic, assign) NSInteger bufferCount;
 
-@property (nonatomic, assign) BOOL living;
+@property (nonatomic, assign) NSInteger living;
 
 @property (nonatomic, assign) CCLiveStatus living_status;
 
@@ -121,16 +121,28 @@ typedef NS_ENUM(NSInteger, CCLiveStatus) {
 #pragma mark - 2.0.1
 @property (nonatomic, assign) NSInteger currSecond;
 
+@property (nonatomic, strong) NSArray *tags;
+
 //新的直播间model
 @property (nonatomic, assign) NSInteger roomstatus;// 1表示房间直播 0表示房间未直播
 
 @property (nonatomic, copy) NSString *room; //房间号
 
-@property (nonatomic, assign) NSInteger horizontal; //是否是横屏 1是横屏 0是竖屏
+//@property (nonatomic, assign) NSInteger horizontal; //是否是横屏 1是横屏 0是竖屏
+
+@property (nonatomic, assign) NSInteger duration;
 
 // vr 相关 (mode == 2 为 vr)
 @property (assign, nonatomic) BOOL isGlassesMode; /**< 是否是双眼3D模式 */
 @property (assign, nonatomic) BOOL isHandSwitchMode; /**< 是否手动转动全景 */
 @property (assign, nonatomic) BOOL isClearMode; /**< 是否是清屏模式 */
+
+//图文直播
+@property (nonatomic, copy) NSString  *liveID;
+@property (nonatomic, copy) NSString *ownerid;
+@property (nonatomic, assign) NSInteger viewcount;
+@property (nonatomic, assign) NSInteger fans_count;
+
+
 
 @end

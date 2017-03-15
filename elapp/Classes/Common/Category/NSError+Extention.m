@@ -14,7 +14,7 @@
 
 - (NSString *)errorInfoWithPlacehold:(NSString *)placeholderInfo
 {
-#ifdef CCDEBUG
+#ifdef EVDEBUG
     NSAssert(self != nil, @"error info cannot be nil");
 #endif
     NSDictionary *userInfo = self.userInfo;
@@ -55,7 +55,7 @@
     {
         errorKey = kE_GlobalZH(@"user_not_exist");
     }
-    else if ( [errorKey isEqualToString:kE_AUTH] )
+    else if ( [errorKey isEqualToString:kE_Auth] )
     {
         errorKey = kE_GlobalZH(@"warrant_fail");
     }
@@ -118,6 +118,10 @@
     else if ( [errorKey isEqualToString:kE_PAY_ECOIN_NOT_ENOUGH])
     {
         errorKey = kE_GlobalZH(@"nil_coin");
+    }
+    else if ( [errorKey isEqualToString:kE_COLLECT_EXISTS])
+    {
+        errorKey = @"重复添加";
     }
     else
     {

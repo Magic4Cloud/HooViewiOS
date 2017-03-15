@@ -15,10 +15,10 @@
 + (void)registerBugly
 {
     BuglyConfig *config = [[BuglyConfig alloc] init];
-#if defined(CCDEBUG)
+#if defined(EVDEBUG)
     assert([NSThread mainThread]);
     config.reportLogLevel = BuglyLogLevelSilent;
-    NSString *version = [NSString stringWithFormat:@"%@_dev", CCAppVersion];
+    NSString *version = [NSString stringWithFormat:@"%@_dev", EVAppVersion];
     [Bugly updateAppVersion:version];
 #else
     config.reportLogLevel = BuglyLogLevelWarn;

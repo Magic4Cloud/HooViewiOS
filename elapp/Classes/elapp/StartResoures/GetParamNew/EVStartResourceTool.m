@@ -10,12 +10,9 @@
 #import "EVBaseToolManager+EVAccountAPI.h"
 #import "EVNetWorkStateManger.h"
 #import "NSString+Extension.h"
-#import "EVAudioOnlyCollectionViewCellItem.h"
 #import "EVVideoTopicItem.h"
-#import "ASIHTTPRequest.h"
 
 #import "EVWatermarkModel.h"
-#import "EVCertificationModel.h"
 #import "EVBaseToolManager+EVStartAppAPI.h"
 
 #define MAX_RECONNECT   5
@@ -36,7 +33,7 @@
 #define P_SWITCHLIST                        @"switchlist"
 #define P_BPUSH                             @"bpush"
 
-@interface EVStartResourceTool () <ASIHTTPRequestDelegate> {
+@interface EVStartResourceTool () {
     BOOL _prensentEnable;    /** 礼物动画是否可用 */
     BOOL _emojiPresentEable; /** 表情是否可用 */
 }
@@ -47,6 +44,8 @@
 @property(nonatomic, assign) BOOL requestGoods;
 
 @property(nonatomic, assign) NSInteger topicRequestCount;
+
+@property (nonatomic, assign) NSInteger goodsRequestCount;
 
 /** 标示该操作是否成功 */
 @property(nonatomic, assign) BOOL requestSuccess;
@@ -102,11 +101,11 @@
 
 // 通知处理方法
 - (void)setUpNetworkNotification {
-    [CCNotificationCenter addObserver:self selector:@selector(loadData) name:CCNetWorkChangeNotification object:nil];
+    [EVNotificationCenter addObserver:self selector:@selector(loadData) name:CCNetWorkChangeNotification object:nil];
 }
 
 - (void)removeNotification {
-    [CCNotificationCenter removeObserver:self];
+    [EVNotificationCenter removeObserver:self];
 }
 
 
@@ -115,9 +114,9 @@
     [self.engin GETGoodsListWithStart:^{
 
     }                            fail:^(NSError *error) {
-        if (weakself.topicRequestCount < 10) {
+        if (weakself.goodsRequestCount < 10) {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t) (10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                weakself.topicRequestCount++;
+                weakself.goodsRequestCount++;
                 [weakself loadGoodsData];
             });
         }
@@ -128,6 +127,34 @@
 
     }];
 
+}
+
+- (void)loadTopicData
+{
+    WEAK(self)
+    [self.engin GETNewtopicWithStart:^{
+        
+    } fail:^(NSError *error) {
+        if (weakself.topicRequestCount < 10) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t) (10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                weakself.topicRequestCount++;
+                [weakself loadTopicData];
+            });
+        }
+    } success:^(NSDictionary *info) {
+        NSArray *topics = info[@"topics"];
+        if ( [topics isKindOfClass:[NSArray class]] && topics.count )
+        {
+            [weakself handleTopicDataWithArray:topics];
+        }
+    } sessionExpired:^{
+        
+    }];
+}
+
+- (void)handleTopicDataWithArray:(NSArray  *)array
+{
+    _allTopicArray = [EVVideoTopicItem objectWithDictionaryArray:array].mutableCopy;
 }
 
 - (NSArray *)topicItems {
@@ -148,7 +175,7 @@
     NSMutableArray *objectImagePaths = [NSMutableArray array]; // 存储本次所有礼物的图片链接MD5
     for (NSDictionary *object in objects) {
         NSString *aniURL = [object[P_PRESENT_ANI] md5String];
-        if ([object[P_PRESENT_ANITYPE] integerValue] == CCPresentAniTypeZip) {
+        if ([object[P_PRESENT_ANITYPE] integerValue] == EVPresentAniTypeZip) {
 
         }
 
@@ -181,11 +208,11 @@
 
         // 下载礼物动画大图
         NSString *storeAniImageUrl = [object[P_PRESENT_ANI] md5String];
-        if ([object[P_PRESENT_ANITYPE] integerValue] == CCPresentAniTypeZip) {
+        if ([object[P_PRESENT_ANITYPE] integerValue] == EVPresentAniTypeZip) {
 
         }
         NSString *downLoadAniImageUrl = [object[P_PRESENT_ANI] componentsSeparatedByString:@"/"].lastObject;
-        BOOL needDownLoad = [object[P_PRESENT_ANITYPE] integerValue] == CCPresentAniTypeZip || [object[P_PRESENT_ANITYPE] integerValue] == CCPresentAniTypeStaticImage;   // 需要进行数据下载
+        BOOL needDownLoad = [object[P_PRESENT_ANITYPE] integerValue] == EVPresentAniTypeZip || [object[P_PRESENT_ANITYPE] integerValue] == EVPresentAniTypeStaticImage;   // 需要进行数据下载
         NSString *path = PRESENTFILEPATH(storeImageUrl);
         if (needDownLoad && ![[NSFileManager defaultManager] fileExistsAtPath:path]) {
             // 下载静态图
@@ -197,16 +224,14 @@
             }
             else if ([object[P_PRESENT_ANITYPE] integerValue] == 3)   // 下载压缩包
             {
-                ASIHTTPRequest *downLoadRequest = [[ASIHTTPRequest alloc] initWithURL:[NSURL URLWithString:object[P_PRESENT_ANI]]];
-                downLoadRequest.delegate = self;
-                downLoadRequest.downloadDestinationPath = PRESENTFILEPATH(downLoadAniImageUrl);
-                [downLoadRequest startAsynchronous];
+
+                
             }
         }
     }
 
-    _prensentEnable = [self presentsWithType:CCPresentTypePresent].count != 0;
-    _emojiPresentEable = [self presentsWithType:CCPresentTypeEmoji].count != 0;
+    _prensentEnable = [self presentsWithType:EVPresentTypePresent].count != 0;
+    _emojiPresentEable = [self presentsWithType:EVPresentTypeEmoji].count != 0;
 }
 
 - (BOOL)prensentEnable {
@@ -218,10 +243,10 @@
 }
 
 // 某种礼物
-- (NSArray *_Nullable)presentsWithType:(CCPresentType)type {
+- (NSArray *_Nullable)presentsWithType:(EVPresentType)type {
     NSMutableArray *arr = [NSMutableArray array];
     for (NSDictionary *present in self.presents) {
-        if ([present[P_PRESENT_ANITYPE] integerValue] == CCPresentAniTypeZip) {
+        if ([present[P_PRESENT_ANITYPE] integerValue] == EVPresentAniTypeZip) {
         }
         if ([present[kType] integerValue] == type) {
             [arr addObject:present];
@@ -247,11 +272,11 @@
         return;
     }
 
-    if (![[EVNetWorkStateManger sharedManager] isNetWorkEnable]) {
-        [self removeNotification];
-        [self setUpNetworkNotification];
-        return;
-    }
+//    if (![[EVNetWorkStateManger sharedManager] isNetWorkEnable]) {
+//        [self removeNotification];
+//        [self setUpNetworkNotification];
+//        return;
+//    }
 
 
     __weak EVStartResourceTool *wself = self;
@@ -285,6 +310,7 @@
     if (!self.requestGoods) {
         self.requestGoods = YES;
         [self loadGoodsData];
+        [self loadTopicData];
     }
 }
 

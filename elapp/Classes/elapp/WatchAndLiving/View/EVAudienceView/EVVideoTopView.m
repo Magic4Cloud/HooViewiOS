@@ -15,6 +15,7 @@
 #import "EVBaseToolManager+EVUserCenterAPI.h"
 #import "EVVideoFunctions.h"
 
+#define EVAudienceInfoVIEW_HEIGHT 37
 #define kAnimationTime 0.3
 #define kDefaultShowAnchorInfoTime 3
 #define kExtendViewHeight 205
@@ -93,7 +94,7 @@
     {
         [self setAnchorInfoView];
         self.backgroundColor = [UIColor clearColor];
-        [CCNotificationCenter addObserver:self selector:@selector(updateTime) name:CCUpdateForecastTime object:nil];
+        [EVNotificationCenter addObserver:self selector:@selector(updateTime) name:EVUpdateTime object:nil];
     }
     return self;
 }
@@ -109,7 +110,7 @@
 
 - (void)dealloc
 {
-    [CCNotificationCenter removeObserver:self];
+    [EVNotificationCenter removeObserver:self];
     [self.containerWindow resignKeyWindow];
     self.containerWindow = nil;
 }
@@ -169,7 +170,7 @@
     nickNameLabel.text = kE_GlobalZH(@"loading");
     nickNameLabel.numberOfLines = 1;
     nickNameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-    nickNameLabel.font = CCBoldFont(15);
+    nickNameLabel.font = EVBoldFont(15);
     nickNameLabel.textColor = [UIColor evTextColorH1];
     [extendView addSubview:nickNameLabel];
     [nickNameLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:iconImageView withOffset:10];
@@ -179,7 +180,7 @@
     
     
     UIButton *reportButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    reportButton.tag = CCAudienceInfoReport;
+    reportButton.tag = EVAudienceInfoReport;
     [reportButton addTarget:self action:@selector(buttonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
     [extendView addSubview:reportButton];
     reportButton.layer.borderColor = [UIColor evLineColor].CGColor;
@@ -317,7 +318,7 @@
 
     UIView *lineView = [[UIView alloc] init];
     [bottomView addSubview:lineView];
-    lineView.backgroundColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+    lineView.backgroundColor = [UIColor evGlobalSeparatorColor];
     [lineView autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:0.];
     [lineView autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:45.];
     [lineView autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:0.];
@@ -339,11 +340,10 @@
 - ( void )setBottomButtonsWithTitles:(NSArray *)titles tags:(NSArray *)tags superView:(UIView *)superView
 {
     // 按钮颜色
-//    UIColor *buttonColor = [UIColor colorWithHexString:kGlobalGreenColor];
-    UIColor *buttonColor = CCColor(98, 45, 128);
+    UIColor *buttonColor = [UIColor evMainColor];
     
     // 分割线颜色
-    UIColor *lineColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+    UIColor *lineColor = [UIColor evGlobalSeparatorColor];
     
     // 按钮字体
     UIFont *buttonFont = [UIFont boldSystemFontOfSize:13];
@@ -393,7 +393,7 @@
         leftButton = button;
         
         // 标记关注按钮
-        if ( button.tag == CCAudienceInfoFocus ) {
+        if ( button.tag == EVAudienceInfoFocus ) {
             if ( [superView isKindOfClass:[superView class]] ) {
                 self.focusButton = button;
                 [self.focusButton setTitle:kE_GlobalZH(@"e_cancel_follow") forState:(UIControlStateSelected)];
@@ -493,7 +493,7 @@
     UIButton *menuButton = [[UIButton alloc] init];
     [menuButton setTitleColor:[UIColor colorWithHexString:@"#FB6655"] forState:UIControlStateNormal];
     [menuButton addTarget:self action:@selector(buttonDidClicked:) forControlEvents:UIControlEventTouchDown];
-    menuButton.titleLabel.font = CCBoldFont(12.0);
+    menuButton.titleLabel.font = EVBoldFont(12.0);
     return menuButton;
 }
 
@@ -501,7 +501,7 @@
 {
     UILabel *label = [[UILabel alloc] init];
     label.textColor = [UIColor colorWithHexString:@"#FB6655"];
-    label.font = CCNormalFont(13);
+    label.font = EVNormalFont(13);
     return label;
 }
 
@@ -583,7 +583,7 @@
     backView.clipsToBounds = YES;
     [backView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero excludingEdge:ALEdgeRight];
     self.backViewConstraint =  [backView autoSetDimension:ALDimensionWidth toSize:CCBACKVIEW_WIDTH];
-    [backView autoSetDimension:ALDimensionHeight toSize:CCAUDIENCEINFOVIEW_HEIGHT];
+    [backView autoSetDimension:ALDimensionHeight toSize:EVAudienceInfoVIEW_HEIGHT];
     
     
     /** 头像 */
@@ -605,7 +605,7 @@
 
     
     /** 播放时间背景 */
-    CGFloat labelBGHeight = 0.5 * CCAUDIENCEINFOVIEW_HEIGHT;
+    CGFloat labelBGHeight = 0.5 * EVAudienceInfoVIEW_HEIGHT;
     
     UILabel *timeLabel = [self normalFontLabel];
     timeLabel.textColor = [UIColor whiteColor];
@@ -615,7 +615,7 @@
     timeLabel.hidden = NO;
     self.timeLabel = timeLabel;
     [timeLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:iconImageView withOffset:3];
-    [timeLabel autoAlignAxis:ALAxisHorizontal toSameAxisOfView:iconImageView withOffset:-(0.25 * CCAUDIENCEINFOVIEW_HEIGHT)];
+    [timeLabel autoAlignAxis:ALAxisHorizontal toSameAxisOfView:iconImageView withOffset:-(0.25 * EVAudienceInfoVIEW_HEIGHT)];
     timeLabel.text = kE_GlobalZH(@"living");
     
     
@@ -637,7 +637,7 @@
     watchingCountLabel.hidden = NO;
     [self addSubview:watchingCountLabel];
     [watchingCountLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:iconImageView withOffset:3];
-    [watchingCountLabel autoAlignAxis:ALAxisHorizontal toSameAxisOfView:iconImageView withOffset:(0.25 * CCAUDIENCEINFOVIEW_HEIGHT)];
+    [watchingCountLabel autoAlignAxis:ALAxisHorizontal toSameAxisOfView:iconImageView withOffset:(0.25 * EVAudienceInfoVIEW_HEIGHT)];
     self.watchingCountLabel = watchingCountLabel;
     watchingCountLabel.text = @"0人";
     
@@ -647,7 +647,7 @@
     followButton.backgroundColor = [UIColor evAssistColor];
     [backView addSubview:followButton];
     self.followButton = followButton;
-    followButton.tag = CCAudienceInfoFollow;
+    followButton.tag = EVAudienceInfoFollow;
     followButton.layer.cornerRadius = CCBACKVIEW_HEIGHT * 0.25;
     followButton.clipsToBounds = YES;
     followButton.hidden = YES;
@@ -655,7 +655,7 @@
     followButton.titleLabel.font = [UIFont systemFontOfSize:10.0];
     [followButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
     [followButton autoPinEdge:ALEdgeRight toEdge:ALEdgeRight ofView:backView withOffset:-kSpaceWidth];
-    [followButton autoSetDimension:ALDimensionWidth toSize:CCAUDIENCEINFOVIEW_HEIGHT];
+    [followButton autoSetDimension:ALDimensionWidth toSize:EVAudienceInfoVIEW_HEIGHT];
     [followButton autoSetDimension:ALDimensionHeight toSize:CCBACKVIEW_HEIGHT * 0.5];
     [followButton autoPinEdge:ALEdgeTop toEdge:ALEdgeTop ofView:backView withOffset:CCBACKVIEW_HEIGHT * 0.25];
     [followButton addTarget:self action:@selector(buttonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -664,7 +664,7 @@
     
     /** 取消按钮 */
     UIButton *cancelButton = [[UIButton alloc] init];
-    cancelButton.tag = CCAudienceInfoCancel;
+    cancelButton.tag = EVAudienceInfoCancel;
     [cancelButton setImage:[UIImage imageNamed:@"living_over_close"] forState:UIControlStateNormal];
     cancelButton.backgroundColor = [UIColor clearColor];
     [self addSubview:cancelButton];
@@ -673,13 +673,13 @@
     [cancelButton addTarget:self action:@selector(buttonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
     
 
-    /** 主播信息 */
-    EVAnchorInfoView *anchorInfoView = [[EVAnchorInfoView alloc] init];
-    anchorInfoView.infoView = self;
-    [self addSubview:anchorInfoView];
-    [anchorInfoView autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:self withOffset:-10];
-    [anchorInfoView autoPinEdge:ALEdgeTop toEdge:ALEdgeTop ofView:self withOffset:-10];
-    self.extendView = anchorInfoView;
+//    /** 主播信息 */
+//    EVAnchorInfoView *anchorInfoView = [[EVAnchorInfoView alloc] init];
+//    anchorInfoView.infoView = self;
+//    [self addSubview:anchorInfoView];
+//    [anchorInfoView autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:self withOffset:-10];
+//    [anchorInfoView autoPinEdge:ALEdgeTop toEdge:ALEdgeTop ofView:self withOffset:-10];
+//    self.extendView = anchorInfoView;
     
     [self setUpObserver];
     
@@ -764,18 +764,18 @@
     {
         switch ( self.item.mode )
         {
-            case CCAudienceInfoItemReplay:
+            case EVAudienceInfoItemReplay:
             {
                 [self observeObjectItemReplay];
             }
                 break;
-            case CCAudienceInfoItemWatchLive:
+            case EVAudienceInfoItemWatchLive:
             {
                 [self observeObjectItemWatchLive];
             }
                 break;
                 
-            case CCAudienceInfoItemLiving:
+            case EVAudienceInfoItemLiving:
             {
                 [self observeObjectItemLiving];
                
@@ -837,7 +837,7 @@
             self.backViewConstraint.constant = 125;
             self.followButton.hidden = NO;
         }
-        if (self.item.mode == CCAudienceInfoItemLiving) {
+        if (self.item.mode == EVAudienceInfoItemLiving) {
             self.backViewConstraint.constant = 125;
             self.followButton.hidden = YES;
         }
@@ -879,9 +879,9 @@
     NSString  *modeAlert = kE_GlobalZH(@"playback");
     self.timeLabel.text = [NSString stringWithFormat:@"%@",modeAlert];
     self.extendView.reportButton.hidden = NO;
-    [self watchingAndReplay:@[kE_GlobalZH(@"add_follow"), kE_GlobalZH(@"private_letter"),kE_GlobalZH(@"home_user")] tagArray:@[@(CCAudienceInfoFocus),
-                                                                                                                               @(CCAudienceInfoMessage),
-                                                                                                                               @(CCAudienceInfoIndexPage)]];
+    [self watchingAndReplay:@[kE_GlobalZH(@"add_follow"), kE_GlobalZH(@"private_letter"),kE_GlobalZH(@"home_user")] tagArray:@[@(EVAudienceInfoFocus),
+                                                                                                                               @(EVAudienceInfoMessage),
+                                                                                                                               @(EVAudienceInfoIndexPage)]];
 }
 
 - (void)observeObjectItemWatchLive
@@ -889,10 +889,10 @@
     NSString  *modeAlert = kE_GlobalZH(@"living");
     self.timeLabel.text = [NSString stringWithFormat:@"%@", modeAlert];
     self.extendView.reportButton.hidden = NO;
-    [self watchingAndReplay:@[kE_GlobalZH(@"add_follow"), kE_GlobalZH(@"private_letter"), kE_GlobalZH(@"@_user"), kE_GlobalZH(@"home_user")] tagArray:@[@(CCAudienceInfoFocus),
-                                                                                                                                                        @(CCAudienceInfoMessage),
-                                                                                                                                                        @(CCAudienceInfoComment),
-                                                                                                                                                        @(CCAudienceInfoIndexPage)]];
+    [self watchingAndReplay:@[kE_GlobalZH(@"add_follow"), kE_GlobalZH(@"private_letter"), kE_GlobalZH(@"@_user"), kE_GlobalZH(@"home_user")] tagArray:@[@(EVAudienceInfoFocus),
+                                                                                                                                                        @(EVAudienceInfoMessage),
+                                                                                                                                                        @(EVAudienceInfoComment),
+                                                                                                                                                        @(EVAudienceInfoIndexPage)]];
 }
 
 - (void)observeObjectItemLiving
@@ -900,10 +900,10 @@
     NSString  *modeAlert = kE_GlobalZH(@"living");
     self.timeLabel.text = [NSString stringWithFormat:@"%@", modeAlert];
     self.extendView.reportButton.hidden = YES;
-    [self watchingAndReplay:@[kE_GlobalZH(@"add_follow"), kE_GlobalZH(@"private_letter"), kE_GlobalZH(@"@_user"), kE_GlobalZH(@"home_user")] tagArray:@[@(CCAudienceInfoFocus),
-                                                                                                                                                        @(CCAudienceInfoMessage),
-                                                                                                                                                        @(CCAudienceInfoComment),
-                                                                                                                                                        @(CCAudienceInfoIndexPage)]];
+    [self watchingAndReplay:@[kE_GlobalZH(@"add_follow"), kE_GlobalZH(@"private_letter"), kE_GlobalZH(@"@_user"), kE_GlobalZH(@"home_user")] tagArray:@[@(EVAudienceInfoFocus),
+                                                                                                                                                        @(EVAudienceInfoMessage),
+                                                                                                                                                        @(EVAudienceInfoComment),
+                                                                                                                                                        @(EVAudienceInfoIndexPage)]];
     self.followButton.hidden = YES;
     self.backViewConstraint.constant = 125;
     self.timeLabel.hidden = NO;
@@ -933,11 +933,11 @@
 
 - (void)buttonDidClicked:(UIButton *)btn
 {
-    if ( btn.tag == CCAudienceInfoMessage  )
+    if ( btn.tag == EVAudienceInfoMessage  )
     {
         if ( self.item.userModel == nil )
         {
-            [CCProgressHUD showError:kE_GlobalZH(@"fail_user_data_again") toView:self];
+            [EVProgressHUD showError:kE_GlobalZH(@"fail_user_data_again") toView:self];
             
             if ( self.item.watchSide )
             {

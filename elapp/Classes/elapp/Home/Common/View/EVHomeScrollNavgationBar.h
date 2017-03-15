@@ -8,22 +8,21 @@
 
 
 #import <UIKit/UIKit.h>
-#import "EVHeaderView.h"
 
 @class EVHomeScrollNavgationBar;
 
-#define CCHOMENAV_HEIGHT 65
+#define CCHOMENAV_HEIGHT 64
 
-typedef NS_ENUM(NSInteger, CCHomeScrollNavgationBarButton)
+typedef NS_ENUM(NSInteger, EVHomeScrollNavgationBarButton)
 {
-    CCHomeScrollNavgationBarIconButton = 100,
-    CCHomeScrollNavgationBarSearchButton
+    EVHomeScrollNavgationBarEditButton = 100,
+    EVHomeScrollNavgationBarSearchButton
 };
 
 @protocol CCHomeScrollNavgationBarDelegate <NSObject>
 
 @optional
-- (void)homeScrollNavgationBarDidClicked:(CCHomeScrollNavgationBarButton)btn;
+- (void)homeScrollNavgationBarDidClicked:(EVHomeScrollNavgationBarButton)btn;
 - (void)homeScrollNavgationBarDidSeleceIndex:(NSInteger)index;
 - (void)homeScrollViewUserDidMoveToPercent:(CGFloat)percent;
 - (void)homeScrollNavgationBarDidDragToUpdateIndex:(NSInteger)index;
@@ -39,8 +38,7 @@ typedef NS_ENUM(NSInteger, CCHomeScrollNavgationBarButton)
 @property (nonatomic,strong) NSArray *subTitles;
 
 @property (nonatomic, assign) NSInteger selectedIndex;
-//用户头像
-@property (nonatomic, strong) EVHeaderButton *personalButton;
+
 
 @property (nonatomic,weak) id<CCHomeScrollNavgationBarDelegate> delegate;
 

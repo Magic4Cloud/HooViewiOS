@@ -9,28 +9,28 @@
 #import <UIKit/UIKit.h>
 #import "EVControllerContacter.h"
 
-typedef NS_ENUM(NSInteger, CCLiveBottomLeftItemType)
+typedef NS_ENUM(NSInteger, EVLiveBottomLeftItemType)
 {
-    CCLiveBottomShareItem,//分享
-    CCLivebottomFaceItem,//美颜
-    CCLiveBottomMuteItem,
-    CCLiveBottomToRightItem,
-    CCLiveBottomFlashItem,
-    CCLiveBottomPlayerItem
+    EVLiveBottomShareItem,//分享
+    EVLivebottomFaceItem,//美颜
+    EVLiveBottomMuteItem,
+    EVLiveBottomToRightItem,
+    EVLiveBottomFlashItem,
+    EVLiveBottomPlayerItem,
+    EVLiveBottomLinkItem
 };
 
-typedef NS_ENUM(NSInteger, CCLiveBottomRightItemType)
+typedef NS_ENUM(NSInteger, EVLiveBottomRightItemType)
 {
-    CCLiveBottomToLeftItem = 10,//隐藏
-    CCLiveBottomChatItem,//聊天
-    CCLiveBottomSendRedPacketItem,//红包
-    CCLivebottomCameraItem,//摄像头
+    EVLiveBottomToLeftItem = 10,//隐藏
+    EVLiveBottomChatItem,//聊天
+    EVLiveBottomSendRedPacketItem,//红包
+    EVLivebottomCameraItem,//摄像头
 };
 
-@protocol CCLiveBottomItemViewDelegate <NSObject>
+@protocol EVLiveBottomItemViewDelegate <NSObject>
 
 /**
- *  @author shizhiang, 16-02-27 14:02:15
  *
  *  直播下面的按钮时间
  *
@@ -45,7 +45,7 @@ typedef NS_ENUM(NSInteger, CCLiveBottomRightItemType)
 //数据连接类
 @property (nonatomic, strong) EVControllerContacter *contacter;
 /** 代理 */
-@property ( nonatomic, weak ) id<CCLiveBottomItemViewDelegate> delegate;
+@property ( nonatomic, weak ) id<EVLiveBottomItemViewDelegate> delegate;
 
 /** 发红包按钮 */
 @property ( nonatomic, weak ) UIButton *sendRedPacketBtn;
@@ -54,15 +54,17 @@ typedef NS_ENUM(NSInteger, CCLiveBottomRightItemType)
 @property ( nonatomic, weak, readonly ) UIButton *muteButton;
 
 /** 美颜按钮 */
-@property (nonatomic,weak)UIButton *faceButton;
+@property (nonatomic, weak) UIButton *faceButton;
 
 /** 切换摄像头按钮 */
-@property (nonatomic,weak)UIButton *cameraButton;
+@property (nonatomic, weak) UIButton *cameraButton;
 
 /* 闪光按钮 */
-@property (nonatomic,weak)UIButton *flashButton;
+@property (nonatomic, weak) UIButton *flashButton;
 
 @property (nonatomic, weak) UIButton *playerButton;
+
+@property (nonatomic, weak) UIButton *linkButton;
 
 @property (strong, nonatomic ) NSLayoutConstraint *cameraButtonConstraint;
 

@@ -7,7 +7,6 @@
 //
 
 #import "UIViewController+Extension.h"
-#import "EVWatchViewController.h"
 #import "EVWatchVideoInfo.h"
 #import "EVAlertManager.h"
 #import "EVLiveViewController.h"
@@ -57,9 +56,6 @@
 - (void)playWithVideoInfo:(EVWatchVideoInfo *)videoInfo
 {
 
-    EVWatchViewController *watchVC = [[EVWatchViewController alloc] init];
-    watchVC.watchVideoInfo = videoInfo;
-    [self showWatchViewController:watchVC];
 }
 
 - (void)showPasswordInputPageWithVideoInfo:(EVWatchVideoInfo *)videoInfo
@@ -208,21 +204,6 @@
     
     return lastVC;
 }
-- (void)showWatchViewController:(EVWatchViewController *)watchVC
-{
-    if ( self.navigationController )
-    {
-        [self.navigationController pushViewController:watchVC animated:YES];
-    }
-    else
-    {
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:watchVC];
-        nav.hidesBottomBarWhenPushed = YES;
-        [self presentViewController:nav animated:YES completion:nil];
-    }
-
-}
-
 - (void)checkLiveNeedToContinueStart:(void(^)())normalStart
                       continueLiving:(void(^)())continueLiving
 {
@@ -302,7 +283,5 @@
     return top;
 }
 
-
 #pragma mark - private methods
-
 @end

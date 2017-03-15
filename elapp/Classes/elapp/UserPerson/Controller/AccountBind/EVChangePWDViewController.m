@@ -23,7 +23,7 @@ typedef enum : NSUInteger {
     EVChangePWDTagReinput,
 } EVChangePWDTag;
 
-@interface EVChangePWDViewController ()
+@interface EVChangePWDViewController ()<UITextFieldDelegate>
 
 @property (weak, nonatomic) UIView *container;  /**< 容器视图 */
 @property (weak, nonatomic) UITextField *oldPWDField;  /**< 原密码框 */
@@ -74,6 +74,10 @@ typedef enum : NSUInteger {
     }
     
     // 判断新密码是否合乎规则，为空则提示用户输入
+    if (self.newpPWDField.text.length == 0) {
+        [EVProgressHUD showError:@"提示请输入新密码"];
+        return;
+    }
     if ( self.newpPWDField.text.length < 6 || self.newpPWDField.text.length >= 20)
     {
         [[EVAlertManager shareInstance] performComfirmTitle:nil message:kE_GlobalZH(@"password_lessthan_six_num_again_enter") comfirmTitle:kOK WithComfirm:^{
@@ -96,20 +100,24 @@ typedef enum : NSUInteger {
     weakself.isRequesting = YES;
     [self.engine POSTModifyPasswordWithOldPwd:self.oldPWDField.text newPwd:self.newpPWDField.text startBlock:^{
         weakself.isRequesting = NO;
-        [CCProgressHUD showProgressMumWithClearColorToView:weakself.view];
+        [EVProgressHUD showProgressMumWithClearColorToView:weakself.view];
     } fail:^(NSError *error) {
         weakself.isRequesting = NO;
-        [CCProgressHUD hideHUDForView:weakself.view];
+        [EVProgressHUD hideHUDForView:weakself.view];
         NSString *errorStr = [error errorInfoWithPlacehold:kE_GlobalZH(@"motify_fail")];
-        [CCProgressHUD showError:errorStr];
+        if ([errorStr isEqualToString:@"授权失败"]) {
+           [EVProgressHUD showError:@"修改失败"];
+            return;
+        }
+        [EVProgressHUD showError:errorStr];
     } success:^(NSDictionary *dict) {
         weakself.isRequesting = NO;
-        [CCProgressHUD hideHUDForView:weakself.view];
+        [EVProgressHUD hideHUDForView:weakself.view];
         [weakself.navigationController popViewControllerAnimated:YES];
     } sessionExpire:^{
         weakself.isRequesting = NO;
-        [CCProgressHUD hideHUDForView:weakself.view];
-        CCRelogin(weakself);
+        [EVProgressHUD hideHUDForView:weakself.view];
+        EVRelogin(weakself);
     }];
 }
 
@@ -122,7 +130,7 @@ typedef enum : NSUInteger {
     
     // 右上角完成按钮
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:[NSString stringWithFormat:@"%@ ",kE_GlobalZH(@"carry_out")] style:UIBarButtonItemStylePlain target:self action:@selector(commit)];
-    [rightItem setTitleTextAttributes:@{UITextAttributeTextColor:[UIColor evSecondColor],UITextAttributeFont:[UIFont systemFontOfSize:15.f]} forState:(UIControlStateNormal)];
+    [rightItem setTitleTextAttributes:@{UITextAttributeTextColor:[UIColor evMainColor],UITextAttributeFont:[UIFont systemFontOfSize:15.f]} forState:(UIControlStateNormal)];
     self.navigationItem.rightBarButtonItem = rightItem;
     
     // 输入密码页面
@@ -151,7 +159,7 @@ typedef enum : NSUInteger {
     
     // 顶部分割线
     UIView *topLine = [[UIView alloc] init];
-    topLine.backgroundColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+    topLine.backgroundColor = [UIColor evGlobalSeparatorColor];
     [container addSubview:topLine];
     [topLine autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(10.0f, .0f, .0f, .0f) excludingEdge:ALEdgeBottom];
     [topLine autoSetDimension:ALDimensionHeight toSize:kGlobalSeparatorHeight];
@@ -168,7 +176,7 @@ typedef enum : NSUInteger {
     bottomView.backgroundColor = [UIColor whiteColor];
     [container addSubview:bottomView];
     
-    UILabel *title = [UILabel labelWithDefaultTextColor:CCTextBlackColor font:CCNormalFont(14.0f)];
+    UILabel *title = [UILabel labelWithDefaultTextColor:[UIColor textBlackColor] font:EVNormalFont(14.0f)];
     title.frame = CGRectMake(x, y, titleWith, height);
     title.text = dict[CCChangePWDViewControllerTitle];
     [container addSubview:title];
@@ -177,9 +185,10 @@ typedef enum : NSUInteger {
     // 输入框
     UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(x , y, ScreenWidth - x, height)];
     textField.placeholder = dict[CCChangePWDViewControllerPlaceHolder];
-    textField.font = CCNormalFont(14.0f);
+    textField.font = EVNormalFont(14.0f);
     textField.secureTextEntry = YES;
-    textField.tintColor = CCTextBlackColor;
+    textField.tintColor = [UIColor textBlackColor];
+    textField.delegate = self;
     textField.tag = [((NSNumber *)dict[CCChangePWDViewControllerTag]) integerValue];
     [container addSubview:textField];
     
@@ -206,10 +215,25 @@ typedef enum : NSUInteger {
     
     // 底部分割线
     UIView *bottomLine = [[UIView alloc] initWithFrame:CGRectMake(.0f, y + height - .5f, ScreenWidth, kGlobalSeparatorHeight)];
-    bottomLine.backgroundColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+    bottomLine.backgroundColor = [UIColor evGlobalSeparatorColor];
     [container addSubview:bottomLine];
 }
 
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (range.length == 1) {
+        return YES;
+    }else if (textField.text.length >= 20) {
+        return NO;
+    }
+    return YES;
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [self.oldPWDField resignFirstResponder];
+    [self.newpPWDField resignFirstResponder];
+    [self.reinputField resignFirstResponder];
+}
 
 #pragma mark - setter and getter
 

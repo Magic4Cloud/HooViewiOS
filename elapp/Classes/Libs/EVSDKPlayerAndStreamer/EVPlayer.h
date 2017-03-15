@@ -58,11 +58,12 @@ typedef void(^EVPlayerCompleteBlock)(EVPlayerResponseCode responseCode, NSDictio
 @property (nonatomic, readonly) NSTimeInterval duration;    /**< 总回放的时长（单位：s） */
 @property (nonatomic, readonly) NSTimeInterval playableDuration;    /**< 可播放的时长，即缓冲时长（单位：s） */
 @property (nonatomic, readonly) NSInteger bufferingProgress;        /**< 缓冲百分比（单位：1，完全缓冲为100） */
+@property (nonatomic, assign) BOOL needRotate;              /**< 是否需要把视频旋转 90° 显示, 在 playPrepareComplete: 前设置 */
 
 /**
  *  播放准备阶段
  *
- *  @param complete 准备完成的回到
+ *  @param complete 准备完成的回调
  */
 - (void)playPrepareComplete:(EVPlayerCompleteBlock)complete;
 

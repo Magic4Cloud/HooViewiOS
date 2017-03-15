@@ -6,24 +6,18 @@
 //  Copyright (c) 2016 EasyVass. All rights reserved.
 //
 
-/**************************************************************
- *
- *
- * 修改记录
- *  修改日期 :
- *  修改人员 :
- *  修改内容 :
- ***************************************************************/
+
 
 #import "EVUserSettingCell.h"
-#import "CCBaseObject.h"
+#import "EVBaseObject.h"
 #import "EVLoginInfo.h"
 #import <PureLayout.h>
 #import "NSString+Extension.h"
+#import "EVUserTagsView.h"
 
 #define MAX_STARWORDS_LENGTH 10
 
-@interface CCProvince : CCBaseObject
+@interface CCProvince : EVBaseObject
 
 @property (nonatomic,copy) NSString *name;  // 省名
 @property (nonatomic,copy) NSArray *cities; // 省内城市
@@ -40,6 +34,9 @@
 
 @interface EVUserSettingCell () <UIPickerViewDataSource,UIPickerViewDelegate,UITextFieldDelegate>
 
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *TextFiledLeftCon;
+
 @property (nonatomic, weak) IBOutlet UILabel *settingTltieLabel;    // 行名
 @property (nonatomic, weak) IBOutlet UITextField *contentTextField; // 内容
 
@@ -55,11 +52,13 @@
 
 @property (nonatomic, weak) UILabel *signatureLabel;               // 个性签名
 
-@property (nonatomic, strong) UIImageView *indicateImageView;        // 右箭头
+@property (nonatomic, strong) UIButton *indicateImageView;        // 右箭头
 
 @property (nonatomic, assign) BOOL hasMannueChanged;
 
 @property (nonatomic,copy) NSString *constellation;
+
+
 
 @end
 
@@ -67,36 +66,41 @@
 
 - (void)dealloc
 {
-    [CCNotificationCenter removeObserver:self];
+    [EVNotificationCenter removeObserver:self];
 }
 
 - (void)textFiledResignFirstResponse
 {
     [self.contentTextField resignFirstResponder];
 }
+- (void)textFieldBecomeFirstResponse {
+    [self.contentTextField becomeFirstResponder];
+}
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    self.settingTltieLabel.textColor = [UIColor colorWithHexString:@"#262626"];
+    self.settingTltieLabel.textColor = [UIColor evTextColorH2];
     
     self.headImageView.clipsToBounds = YES;
     self.headImageView.layer.cornerRadius = 30;
-    self.headImageView.backgroundColor = [UIColor yellowColor];
+    self.headImageView.backgroundColor = [UIColor clearColor];
     
-    self.contentTextField.tintColor = CCTextBlackColor;
-    self.contentTextField.textColor = [UIColor colorWithHexString:@"#262626"];
+    self.contentTextField.tintColor = [UIColor textBlackColor];
+    self.contentTextField.textColor = [UIColor colorWithHexString:@"#cccccc"];
     self.contentTextField.delegate = self;
    
-    self.indicateImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"home_icon_next"]];
+    self.indicateImageView = [UIButton buttonWithType:(UIButtonTypeCustom)];
     self.indicateImageView.hidden = NO;
     self.indicateImageView.backgroundColor = [UIColor clearColor];
     [self.contentView addSubview:_indicateImageView];
+    [self.indicateImageView setImage:[UIImage imageNamed:@"btn_next_n"] forState:(UIControlStateNormal)];
     [_indicateImageView autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
     [_indicateImageView autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:15];
-    [_indicateImageView autoSetDimension:ALDimensionHeight toSize:13];
-    [_indicateImageView autoSetDimension:ALDimensionWidth toSize:7];
+    [_indicateImageView autoSetDimension:ALDimensionHeight toSize:40];
+    [_indicateImageView autoSetDimension:ALDimensionWidth toSize:40];
     
     CGFloat accessViewHeight = 49;
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, accessViewHeight)];
@@ -121,7 +125,16 @@
     
     [self signatureLabel];
     
-    [CCNotificationCenter addObserver:self selector:@selector(textChanged) name:UITextFieldTextDidChangeNotification object:nil];
+    [EVNotificationCenter addObserver:self selector:@selector(textChanged) name:UITextFieldTextDidChangeNotification object:nil];
+    
+    
+    EVUserTagsView *userTagsView = [[EVUserTagsView alloc] init];
+    [self.contentView addSubview:userTagsView];
+    self.userTagsView = userTagsView;
+    [userTagsView autoPinEdge:ALEdgeRight toEdge:ALEdgeRight ofView:self.contentView withOffset:0];
+    [userTagsView autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:self.contentView withOffset:94];
+    [userTagsView autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
+    [userTagsView autoSetDimension:ALDimensionHeight toSize:20];
 }
 
 - (void)textFiledEditChanged:(NSNotification *)obj
@@ -206,6 +219,10 @@
     else if ( [self.settingItem.settingTitle isEqualToString:kIntroTitle] )
     {  // 个性签名
     }
+    else if ([self.settingItem.settingTitle isEqualToString:@"执业证号"]) {
+        self.settingItem.contentTitle = self.contentTextField.text;
+        self.settingItem.loginInfo.credentials = self.contentTextField.text;
+    }
 }
 
 - (NSArray *)provices {
@@ -232,9 +249,6 @@
         case EVKeyBoardNormal:
             self.contentTextField.inputView = nil;
             break;
-        case EVKeyBoardBirthday:
-            [self setUpDatePicker];
-            break;
         case EVKeyBoardSex:
             [self setUpLocationKeyBoard];
             break;
@@ -252,6 +266,8 @@
             self.headImageView.hidden = YES;
             self.contentTextField.hidden = NO;
              self.indicateImageView.hidden = NO;
+             self.userTagsView.hidden = YES;
+            self.TextFiledLeftCon.constant = 62;
         }
             break;
         case EVCellStyleSignature:
@@ -263,6 +279,8 @@
             self.headImageView.hidden = YES;
             self.contentTextField.hidden = YES;
              self.indicateImageView.hidden = NO;
+             self.userTagsView.hidden = YES;
+            self.TextFiledLeftCon.constant = 62;
         }
             break;
             
@@ -275,11 +293,13 @@
             self.contentTextField.placeholder = settingItem.placeHolder;
             self.signatureLabel.text = settingItem.placeHolder;
             self.signatureLabel.textColor = [UIColor evTextColorH1];
+             self.userTagsView.hidden = YES;
             [self.headImageView cc_setImageWithURLString:settingItem.logoUrl placeholderImage:[UIImage imageNamed:@"login_icon_default"]];
             if (settingItem.logoImage == nil) {
                 break;
             }
             self.headImageView.image = settingItem.logoImage;
+            self.TextFiledLeftCon.constant = 62;
         }
             break;
             
@@ -291,22 +311,37 @@
             self.contentTextField.hidden = NO;
             self.headImageView.hidden = YES;
             self.contentTextField.hidden = NO;
-             self.indicateImageView.hidden = YES;
-             self.contentTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+            self.indicateImageView.hidden = YES;
+             self.userTagsView.hidden = YES;
+            self.TextFiledLeftCon.constant = 62;
         }
             break;
-        case EVCellStyleConstellation:
+     case EVCellStyleTags:
+        {
+            self.contentTextField.text = settingItem.contentTitle;
+            self.signatureLabel.text = self.settingItem.contentTitle;
+            self.signatureLabel.hidden = YES;
+            self.contentTextField.hidden = YES;
+            self.headImageView.hidden = YES;
+            self.contentTextField.hidden = YES;
+            self.indicateImageView.hidden = NO;
+            self.userTagsView.hidden = NO;
+            self.TextFiledLeftCon.constant = 62;
+        }
+            break;
+    case EVCellStylePreNum:
         {
             self.contentTextField.text = settingItem.contentTitle;
             self.signatureLabel.text = self.settingItem.contentTitle;
             self.signatureLabel.hidden = YES;
             self.contentTextField.hidden = NO;
             self.headImageView.hidden = YES;
+            self.contentTextField.hidden = NO;
             self.indicateImageView.hidden = YES;
-            self.contentTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+            self.userTagsView.hidden = YES;
+            self.TextFiledLeftCon.constant = 94;
         }
             break;
-        
         default:
             break;
     }
@@ -431,11 +466,6 @@
         UIPickerView *pickerView = (UIPickerView *)textField.inputView;
         [self pickerView:pickerView didSelectRow:self.provinceIndex inComponent:self.cityIndex];
     }
-    else if ( self.settingItem.keyBoardType == EVKeyBoardBirthday )
-    {
-        UIDatePicker *datePicker = (UIDatePicker *)textField.inputView;
-        [self dateChanged:datePicker];
-    }
     else if ( self.settingItem.keyBoardType == EVKeyBoardSex )
     {
         textField.text = [self.settingItem.contentTitle isEqualToString:kE_GlobalZH(@"e_male")] ? kE_GlobalZH(@"e_male") : kE_GlobalZH(@"e_female");
@@ -531,7 +561,6 @@
         // 城市
         NSInteger cityIndex = [pickerView selectedRowInComponent:1];
         
-        // TODO
         NSArray *cities = [self.provices[self.provinceIndex] cities];
         if ( cities.count -1 >= cityIndex  )
         {
@@ -553,13 +582,13 @@
     {
         UILabel *signatureLabel = [[UILabel alloc] init];
         signatureLabel.numberOfLines = 0;
-        signatureLabel.font = [[CCAppSetting shareInstance] normalFontWithSize:15];
-        signatureLabel.textColor = [UIColor evTextColorH1];
-        signatureLabel.textAlignment = NSTextAlignmentRight;
+        signatureLabel.font = [[EVAppSetting shareInstance] normalFontWithSize:16.f];
+        signatureLabel.textColor = [UIColor colorWithHexString:@"#cccccc"];
+        signatureLabel.textAlignment = NSTextAlignmentLeft;
         [self.contentView addSubview:signatureLabel];
         
         [signatureLabel autoPinEdge:ALEdgeRight toEdge:ALEdgeLeft ofView:self.indicateImageView withOffset:-6];
-        [signatureLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:self.settingTltieLabel];
+        [signatureLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:self.contentView withOffset:94];
         [signatureLabel autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
         
         _signatureLabel = signatureLabel;

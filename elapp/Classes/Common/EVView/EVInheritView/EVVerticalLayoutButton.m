@@ -62,7 +62,7 @@
     UILabel *myLabel = [[UILabel alloc] init];
     [self addSubview:myLabel];
     _myLabel = myLabel;
-    myLabel.font = [[CCAppSetting shareInstance] normalFontWithSize:12];
+    myLabel.font = [[EVAppSetting shareInstance] normalFontWithSize:12];
     myLabel.textAlignment = NSTextAlignmentCenter;
     myLabel.textColor = [UIColor evTextColorH3];
     [myLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:normalImageView withOffset:ScreenWidth/375*8];
@@ -88,7 +88,7 @@
     }
     else
     {
-        CCLog(@"没有对这个状态进行处理");
+        EVLog(@"没有对这个状态进行处理");
     }
 }
 
@@ -100,14 +100,14 @@
         self.selectImageView.hidden = NO;
         self.normalImageView.hidden = YES;
         self.backgroundColor = self.selectBgColor;
-        self.myLabel.textColor = CCAppMainColor;
+        self.myLabel.textColor = [UIColor evMainColor];
     }
     else
     {
         self.selectImageView.hidden = YES;
         self.normalImageView.hidden = NO;
         self.backgroundColor = self.normalBgColor;
-        self.myLabel.textColor = CCTextBlackColor;
+        self.myLabel.textColor = [UIColor textBlackColor];
     }
 }
 

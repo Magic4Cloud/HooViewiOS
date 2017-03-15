@@ -6,9 +6,9 @@
 //  Copyright (c) 2016 EasyVass. All rights reserved.
 //
 
-#import "CCBaseObject.h"
+#import "EVBaseObject.h"
 
-@interface EVFindUserInfo : CCBaseObject
+@interface EVFindUserInfo : EVBaseObject
 
 @property (nonatomic,copy) NSString *name;              /**< 直播号 */
 @property (nonatomic,copy) NSString *nickname;          /**< 昵称 */

@@ -6,9 +6,9 @@
 //  Copyright (c) 2016 EasyVass. All rights reserved.
 //
 
-#import "CCBaseObject.h"
+#import "EVBaseObject.h"
 
-@interface EVNewFriendItem : CCBaseObject
+@interface EVNewFriendItem : EVBaseObject
 /*消息组数目**/
 @property(nonatomic,assign) NSInteger count;
 /*消息组对象数组，每个消息组对象包含如下信息：**/

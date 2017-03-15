@@ -84,7 +84,7 @@
         }
     } sessionExpire:^{
         [weakSelf.tableview endFooterRefreshing];
-        CCRelogin(weakSelf);
+        EVRelogin(weakSelf);
     } reterrBlock:^(NSString *reterr) {
         weakSelf.loadingView.failTitle = kNot_find_content;
         [weakSelf.loadingView showFailedViewWithClickBlock:^{
@@ -124,7 +124,7 @@
     _tableview = tableview;
     [self.view addSubview:tableview];
     [tableview autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
-    self.view.backgroundColor = CCBackgroundColor;
+    self.view.backgroundColor = [UIColor evBackgroundColor];
 }
 
 #pragma mark - 添加加载更多动画
@@ -219,7 +219,7 @@
         weakCell.userInfo.followed = !weakCell.userInfo.followed;
         weakBtn.selected = weakCell.userInfo.followed;
     } essionExpire:^{
-        CCRelogin(weakself);
+        EVRelogin(weakself);
     }];
 }
 

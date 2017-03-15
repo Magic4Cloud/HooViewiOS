@@ -39,6 +39,7 @@
     startModel.selectNum = [dict[@"gct"] integerValue];
     startModel.pic = dict[@"glg"];
     startModel.anitype = [dict[@"gtp"] integerValue];
+    startModel.giftName = dict[@"gnm"];
     
     return startModel;
 }

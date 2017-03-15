@@ -48,6 +48,7 @@
 {
     if (images == nil) return;
     
+    self.stateLabel.mj_x += 20;
     self.stateImages[@(state)] = images;
     self.stateDurations[@(state)] = @(duration);
     
@@ -93,7 +94,7 @@
         self.gifView.contentMode = UIViewContentModeRight;
         // 获取右边文字所占的最大值
         
-        self.gifView.mj_w = self.mj_w * 0.5 - 60;
+        self.gifView.mj_w = self.mj_w * 0.5 - 25;
 //        self.gifView.backgroundColor = [UIColor redColor];
      // NSLog(@"self.gifView:%@", NSStringFromCGRect(self.gifView.frame));
     }

@@ -56,16 +56,14 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor evBackgroundColor];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.view.backgroundColor = [UIColor evBackgroundColor];
     if (self.navigationController)
     {
-        // fix by 马帅伟 测试 这行代码 放在 viewdidload 里面会有什么后果(改到这里面了，暂时没发现什么问题)
-        // 20160127 记起：之所以把设置左侧按钮写在 viewWillAppear: 中，是因为在 viewDidLoad 中拿到的 self.navigationController 可能为空
         [self setLeftItem];
     }
     
@@ -76,8 +74,6 @@
         self.navigationController.interactivePopGestureRecognizer.delegate = nil;
         return;
     }
-    
-    //    CCLog(@"--^@^--self.navigationController.viewControllers.count:%@,%ld", NSStringFromClass([self class]), self.navigationController.viewControllers.count);
     // 重新设置代理，防止从pop出来的控制器，导航控制器的手势丢失代理引起crash
     if ( self.navigationController )
     {
@@ -89,7 +85,6 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    BLYLogWarn(@"instance = %@", self);
     if ([self respondsToSelector:@selector(hideCoverImageView)])
     {
         [self hideCoverImageView];
@@ -109,11 +104,11 @@
 {
     if ( _cc_leftBarButtonItem == nil )
     {
-        UIButton *backBtn = [[UIButton alloc] initWithTitle:kGlobalBackButtonTitle];
+        UIButton *backBtn = [[UIButton alloc] initWithTitle:@""];
         CGRect frame = backBtn.bounds;
         frame.size.width = 17.0f * 4;
         backBtn.bounds = frame;
-        [backBtn setImage:[UIImage imageNamed:@"nav_icon_return"] forState:UIControlStateNormal];
+        [backBtn setImage:[UIImage imageNamed:@"hv_back_return"] forState:UIControlStateNormal];
         backBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
         backBtn.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         [backBtn addTarget:self action:@selector(popBack) forControlEvents:UIControlEventTouchUpInside];
@@ -130,13 +125,11 @@
 #pragma mark - UIGestureRecogiserDelegate
 -(BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
 {
-    CCLog(@"-------gestureRecognizer--------");
+    EVLog(@"-------gestureRecognizer--------");
     if ( !IOS8_OR_LATER )
     {
         return NO;
     }
-    
-//    CCLog(@"-*-^@^--self.navigationController.viewControllers.count:%@,%ld", NSStringFromClass([self class]), self.navigationController.viewControllers.count);
     // 导航控制器的子控制器的个数为1时，则不再响应手势
     if ( [self.navigationController.viewControllers count] <= 1 )
     {

@@ -6,9 +6,9 @@
 //  Copyright (c) 2016 EasyVass. All rights reserved.
 //
 
-#import "CCBaseObject.h"
+#import "EVBaseObject.h"
 
-@interface EVRecordlistItemModel : CCBaseObject
+@interface EVRecordlistItemModel : EVBaseObject
 
 //消费时间
 @property (nonatomic, copy) NSString *time;
@@ -21,7 +21,7 @@
 //花费的云票数
 @property (nonatomic,assign) NSInteger riceroll;
 
-//获取的云币数
+//获取的火眼豆数
 @property (nonatomic,assign) NSInteger ecoin;
 //花费描述
 @property (nonatomic,copy) NSString *descriptionss;
@@ -40,7 +40,7 @@
 
 @property (nonatomic,copy) NSString  *orderid;
 
-@property (nonatomic,assign)NSInteger pfplatform;
+@property (nonatomic,assign)NSInteger platform;
 
 @property (nonatomic,assign) NSInteger server_ip;
 
@@ -50,7 +50,7 @@
 
 @end
 
-@interface CCConsumptionModel : CCBaseObject
+@interface CCConsumptionModel : EVBaseObject
 
 @property (nonatomic, copy) NSArray *recordlist;
 

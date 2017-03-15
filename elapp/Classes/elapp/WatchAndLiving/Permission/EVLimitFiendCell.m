@@ -32,7 +32,7 @@
     [self.selectedButton setBackgroundImage:[UIImage imageNamed:@"living_ready_limit_icon_friend_select"] forState:UIControlStateSelected];
     
     UIView *seperator = [[UIView alloc] init];
-    seperator.backgroundColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+    seperator.backgroundColor = [UIColor evGlobalSeparatorColor];
     [self.contentView addSubview:seperator];
     [seperator autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:0];
     [seperator autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:62];

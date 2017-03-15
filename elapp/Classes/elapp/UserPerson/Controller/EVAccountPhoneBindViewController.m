@@ -113,7 +113,7 @@
 
 - (void)addNotification
 {
-    [CCNotificationCenter addObserver:self selector:@selector(textChanged) name:UITextFieldTextDidChangeNotification object:nil];
+    [EVNotificationCenter addObserver:self selector:@selector(textChanged) name:UITextFieldTextDidChangeNotification object:nil];
 }
 
 - (void)setUpView
@@ -126,9 +126,9 @@
     self.getVerifButton.layer.cornerRadius = 15;
     self.getVerifButton.layer.borderWidth = kGlobalSeparatorHeight;
     self.getVerifButton.layer.borderColor = [UIColor colorWithHexString:@"#999999"].CGColor;
-    [self.getVerifButton setTitleColor:[UIColor colorWithHexString:kLightGrayTextColor] forState:UIControlStateNormal];
+    [self.getVerifButton setTitleColor:[UIColor evlightGrayTextColor] forState:UIControlStateNormal];
     
-    self.comfirmButton.backgroundColor = CCAppMainColor;
+    self.comfirmButton.backgroundColor = [UIColor evMainColor];
     self.comfirmButton.layer.cornerRadius = 22;
     [self disableComfirmButtom];
     
@@ -148,7 +148,7 @@
     self.title = kE_GlobalZH(@"phone_num_binding");
     
     // UITextFieldTextDidChangeNotification
-    [CCNotificationCenter addObserver:self selector:@selector(textChange) name:UITextFieldTextDidChangeNotification object:nil];
+    [EVNotificationCenter addObserver:self selector:@selector(textChange) name:UITextFieldTextDidChangeNotification object:nil];
     
     EVRegionCodeModel *defaultRegion = [[EVRegionCodeModel alloc] init];
     defaultRegion.contry_name = kEChina;
@@ -159,7 +159,7 @@
 - (void)addUnderLineToView:(UIView *)view {
     UIView *line = [[UIView alloc] init];
     [view addSubview:line];
-    line.backgroundColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+    line.backgroundColor = [UIColor evGlobalSeparatorColor];
     [line autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero excludingEdge:ALEdgeTop];
     [line autoSetDimension:ALDimensionHeight toSize:kGlobalSeparatorHeight];
 }
@@ -294,38 +294,38 @@
 //    if ( ![CCBaseTool checkPhoneNumByRegx:self.phoneNumTextField.text] )
     if ( ![self.phoneNumTextField.text CC_isPhoneNumberNew] )
     {
-        [CCProgressHUD showError:kE_GlobalZH(@"fail_phone_num") toView:self.view];
+        [EVProgressHUD showError:kE_GlobalZH(@"fail_phone_num") toView:self.view];
         [self stopFireVerifyCodeTime];
         return;
     }
     if ( [self.verifyCodeTextField.text isEqualToString:@""] )
     {
-        [CCProgressHUD showError:kE_GlobalZH(@"verify_fail_please_enter_new") toView:self.view];
+        [EVProgressHUD showError:kE_GlobalZH(@"verify_fail_please_enter_new") toView:self.view];
         [self stopFireVerifyCodeTime];
         return;
     }
     if ( self.passwordTextField.text.length < 6 )
     {
-        [CCProgressHUD showError:kE_GlobalZH(@"fail_password") toView:self.view];
+        [EVProgressHUD showError:kE_GlobalZH(@"fail_password") toView:self.view];
         [self stopFireVerifyCodeTime];
         return;
     }
 
     NSString *verifyCode = self.verifyCodeTextField.text;
-    [CCProgressHUD showMessage:kE_GlobalZH(@"now_verify") toView:self.view];
+    [EVProgressHUD showMessage:kE_GlobalZH(@"now_verify") toView:self.view];
     [self disableComfirmButtom];
     __weak typeof(self) wself = self;
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     NSString *sms_id = [ud objectForKey:kSms_id];
     [self.accountEngine getSmsverifyWithSmd_id:sms_id sms_code:verifyCode start:^{
-        [CCProgressHUD hideHUDForView:wself.view];
+        [EVProgressHUD hideHUDForView:wself.view];
     } fail:^(NSError *error) {
         [wself enableComfirmButtom];
-        [CCProgressHUD hideHUDForView:wself.view];
-        [CCProgressHUD showError:[error errorInfoWithPlacehold:kE_GlobalZH(@"verify_fail")] toView:wself.view];
+        [EVProgressHUD hideHUDForView:wself.view];
+        [EVProgressHUD showError:[error errorInfoWithPlacehold:kE_GlobalZH(@"verify_fail")] toView:wself.view];
         self.seconds = 0;
     } success:^{
-        [CCProgressHUD hideHUDForView:wself.view];
+        [EVProgressHUD hideHUDForView:wself.view];
         [wself accountBind];
     }];
 }
@@ -334,7 +334,7 @@
 {
      NSString *phoneNum = self.phoneNumTextField.text;
     if ( phoneNum.length == 0 ) {
-        [CCProgressHUD showMessageInAFlashWithMessage:kE_GlobalZH(@"phone_num_not_nil")];
+        [EVProgressHUD showMessageInAFlashWithMessage:kE_GlobalZH(@"phone_num_not_nil")];
         return;
     }
     [self.view endEditing:YES];
@@ -343,27 +343,27 @@
 //    if ( ![CCBaseTool checkPhoneNumByRegx:phoneNum] ) {
     if ( ![phoneNum CC_isPhoneNumberNew] ) {
 
-        [CCProgressHUD showError:kE_GlobalZH(@"phone_num_format_fail") toView:self.view];
+        [EVProgressHUD showError:kE_GlobalZH(@"phone_num_format_fail") toView:self.view];
         return;
     }
     phoneNum = [NSString stringWithFormat:@"%@_%@",self.currRegion.area_code, phoneNum];
-    [self.accountEngine GETSmssendWithAreaCode:nil Phone:phoneNum type:2 phoneNumError:^(NSString *numError) {
+    [self.accountEngine GETSmssendWithAreaCode:nil Phone:phoneNum type:0 phoneNumError:^(NSString *numError) {
         
     }  start:^{
         [wself startFireVerifyCodeTime];
     } fail:^(NSError *error) {
-        [CCProgressHUD showError:[error errorInfoWithPlacehold:kE_GlobalZH(@"verify_fail")] toView:wself.view];
+        [EVProgressHUD showError:[error errorInfoWithPlacehold:kE_GlobalZH(@"verify_fail")] toView:wself.view];
         [wself stopFireVerifyCodeTime];
     } success:^(NSDictionary *info) {
         
         if ([info[kRegistered]  isEqual: @(1)])     // 手机号已被绑定
         {
-            [CCProgressHUD showError:kE_GlobalZH(@"phone_num_binding_account") toView:wself.view];
+            [EVProgressHUD showError:kE_GlobalZH(@"phone_num_binding_account") toView:wself.view];
             [wself stopFireVerifyCodeTime];
             return;
         }
         
-        [CCProgressHUD showSuccess:kE_GlobalZH(@"verify_send_phone") toView:wself.view];
+        [EVProgressHUD showSuccess:kE_GlobalZH(@"verify_send_phone") toView:wself.view];
         NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
         if ( info[kSms_id] != nil )
         {
@@ -377,10 +377,10 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     if ( self.passwordContainView.hidden == NO ) {
         if ( password.length == 0 ) {
-            [CCProgressHUD showMessageInAFlashWithMessage:kE_GlobalZH(@"not_password")];
+            [EVProgressHUD showMessageInAFlashWithMessage:kE_GlobalZH(@"not_password")];
             return;
         } else if ( password.length < kPasswordMinLength  ) {
-            [CCProgressHUD showMessageInAFlashWithMessage:kE_GlobalZH(@"password_lessthan_six_num_again_enter")];
+            [EVProgressHUD showMessageInAFlashWithMessage:kE_GlobalZH(@"password_lessthan_six_num_again_enter")];
             return;
         } else if ( self.passwordContainView.hidden == NO ) {
             [params setValue:[password md5String] forKey:@"password"];
@@ -392,18 +392,18 @@
     __weak typeof(self) weakself = self;
     
     [self.accountEngine GETUserBindWithParams:params start:^{
-        [CCProgressHUD showMessage:kE_GlobalZH(@"now_binding_phone_num") toView:weakself.view];
+        [EVProgressHUD showMessage:kE_GlobalZH(@"now_binding_phone_num") toView:weakself.view];
     } fail:^(NSError *error) {
-        [CCProgressHUD hideHUDForView:weakself.view];
-        [CCProgressHUD showError:[error errorInfoWithPlacehold:kE_GlobalZH(@"fail_binding")] toView:weakself.view];
+        [EVProgressHUD hideHUDForView:weakself.view];
+        [EVProgressHUD showError:[error errorInfoWithPlacehold:kE_GlobalZH(@"fail_binding")] toView:weakself.view];
     } success:^{
-        [CCProgressHUD hideHUDForView:weakself.view];
-        [CCProgressHUD showSuccess:kE_GlobalZH(@"binding_success")];
+        [EVProgressHUD hideHUDForView:weakself.view];
+        [EVProgressHUD showSuccess:kE_GlobalZH(@"binding_success")];
         [weakself.model setValue:[NSString stringWithFormat:@"86_%@",weakself.phoneNumTextField.text] forKey:@"token"];
         [self dismissViewControllerAnimated:YES completion:nil];
     } sessionExpire:^{
-        [CCProgressHUD hideHUDForView:weakself.view];
-        CCRelogin(weakself);
+        [EVProgressHUD hideHUDForView:weakself.view];
+        EVRelogin(weakself);
     }];
 }
 

@@ -8,16 +8,22 @@
 
 #import "EVBaseToolManager.h"
 #import "constants.h"
-#import "ASIHTTPRequest.h"
 #import "EVPushManager.h"
 #import "EVLoginInfo.h"
 #import "OpenUDID.h"
-#import "EVEaseMob.h"
 #import "NSObject+Extension.h"
 #import "EVStreamer+Extension.h"
+#import  "AFHTTPSessionManager.h"
+#import "EVNetWorkManager.h"
 
 
-#define kSessionActionCheckAction @"usersessioncheck"
+#define kSessionActionCheckAction @"/user/sessioncheck"
+
+@interface EVBaseToolManager ()
+
+
+@end
+
 
 @implementation EVBaseToolManager
 // 检查摄像头和麦克风
@@ -55,11 +61,9 @@
 // 停止所有的网络请求
 - (void)_cancelAllOperation
 {
-    for (ASIHTTPRequest *request in self.requests.objectEnumerator.allObjects)
-    {
-        [request cancel];
-    }
-    self.requests = nil;
+
+    
+    
 }
 
 // 设置Session的检查状态
@@ -92,53 +96,39 @@ static BOOL sessioncheck = NO;
     NSString *sessionId = [self userSessionIDFromLocal];
     
     // 生成Url校验字符串
-    NSString *urlString = [NSString stringWithFormat:@"%@%@?sessionid=%@",CCVideoBaseURL,kSessionActionCheckAction,sessionId];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@?sessionid=%@",EVVideoBaseURL,kSessionActionCheckAction,sessionId];
     
     // 发起校验请求
-    [[EVNetWorkManager shareInstance] requestWithURLString:urlString
-                                                   success:^(NSData *data)
-     {
-         if ( data )
-         {
-             // 请求成功返回
-             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:0
-                                                                    error:NULL];
-             if ( [info[kRetvalKye] isEqualToString:kSessionIdExpireValue] )
-             {
-                 // Session信息失效
-                 [self resetSession];
-             }
-             else if ( [info[kRetvalKye] isEqualToString:kRequestOK] )
-             {
-                 // Session信息OK
-                 EVLoginInfo *login = [EVLoginInfo localObject];
-                 if ( login.impwd.length == 0 || login.imuser.length == 0 )
-                 {
-                     // 设置为当前未登录(这句话是否多余? -- 周锋)
-                     [self setIMAccountHasLogin:NO];
-                 }
-                 else
-                 {
-                     // 更新登录状态
-                     [self imLoginWithLoginInfo:login
-                                        success:nil
-                                           fail:nil
-                                  sessionExpire:nil];
-                     sessioncheck = YES;
-                 }
-                 
-             }
-         }
-     }
-                                                      fail:^(NSError *error)
-     {
-         // 网络失败则3秒钟之后重新尝试校验
-         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^
-                        {
-                            [self checkSessionID];
-                        });
-     }];
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:nil success:^(NSDictionary *successDict) {
+        // Session信息OK
+        EVLoginInfo *login = [EVLoginInfo localObject];
+        if ( login.impwd.length == 0 || login.imuser.length == 0 )
+        {
+            // 设置为当前未登录(这句话是否多余? -- 周锋)
+            [self setIMAccountHasLogin:NO];
+        }
+        else
+        {
+            // 更新登录状态
+            [self imLoginWithLoginInfo:login
+                               success:nil
+                                  fail:nil
+                         sessionExpire:nil];
+            sessioncheck = YES;
+        }
+
+    } sessionExpireBlock:^{
+        
+            // Session信息失效
+            [self resetSession];
+        
+    } fail:^(NSError *error) {
+        // 网络失败则3秒钟之后重新尝试校验
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^
+                       {
+                           [self checkSessionID];
+                       });
+    }];
 }
 
 
@@ -161,46 +151,28 @@ static BOOL sessioncheck = NO;
     NSString *sessionId = [self userSessionIDFromLocal];
     
     // 生成Url校验字符串
-    NSString *urlString = [NSString stringWithFormat:@"%@%@?sessionid=%@",CCVideoBaseURL,kSessionActionCheckAction,sessionId];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@?sessionid=%@",EVVideoBaseURL,kSessionActionCheckAction,sessionId];
     
-    // 发起校验请求
-    [[EVNetWorkManager shareInstance] requestWithURLString:urlString
-                                                   success:^(NSData *data)
-     {
-         if ( data )
-         {
-             // 成功获得反馈
-             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:0
-                                                                    error:NULL];
-             if ( [info[kRetvalKye] isEqualToString:kSessionIdExpireValue] )
-             {
-                 // 登录失败
-                 [self resetSession];
-                 if ( complete )
-                 {
-                     complete(YES);
-                 }
-             }
-             else if ( [info[kRetvalKye] isEqualToString:kRequestOK] )
-             {
-                 // 登录成功
-                 if ( complete )
-                 {
-                     complete(NO);
-                 }
-             }
-         }
-     }
-                                                      fail:^(NSError *error)
-     {
-         // 获得服务器反馈失败
-         [self resetSession];
-         if ( fail )
-         {
-             fail(error);
-         }
-     }];
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:nil success:^(NSDictionary *successDict) {
+        // 登录成功
+        if ( complete )
+        {
+            complete(NO);
+        }
+    } sessionExpireBlock:^{
+        [self resetSession];
+        if ( complete )
+        {
+            complete(YES);
+        }
+    } fail:^(NSError *error) {
+        // 获得服务器反馈失败
+        [self resetSession];
+        if ( fail )
+        {
+            fail(error);
+        }
+    }];
 }
 
 // 环信账号是否登陆
@@ -233,7 +205,7 @@ static BOOL sessioncheck = NO;
 
 // 环信账号登录
 + (void)imLoginWithLoginInfo:(EVLoginInfo *)login
-                     success:(void(^)(CCLoginIMInfo *imInfo))success
+                     success:(void(^)(EVLoginIMInfo *imInfo))success
                         fail:(void(^)(EMError *error))fail
                sessionExpire:(void(^)())sessionExpire
 {
@@ -248,47 +220,47 @@ static BOOL sessioncheck = NO;
         [self setIMAccountHasLogin:NO];
         return;
     }
-    CCLog(@"---------- im login");
-    // 登录环信
-    [[EVEaseMob cc_shareInstance] loginWithUserName:login.imuser
-                                           password:login.impwd
-                                            success:^(NSDictionary *loginInfo)
-     {
-         // 登录成功
-         CCLoginIMInfo *imInfo = [CCLoginIMInfo objectWithDictionary:loginInfo];
-         login.imLoginInfo = imInfo;
-         [login synchronized];
-         if ( success )
-         {
-             success(imInfo);
-         }
-         
-         // 标记已经成功登录
-         [self setIMAccountHasLogin:YES];
-         
-         //发送已经成功登录的通知
-         [CCNotificationCenter postNotificationName:CCIMAccountHasLoginNotifcation
-                                             object:nil userInfo:nil];
-         CCLog(@"---------- imlogin success usernickname: %@      password: %@", login.imuser, login.impwd);
-     }
-                                               fail:^(EMError *error)
-     {
-         // 登录失败
-         if ( [error.description isEqualToString:kE_GlobalZH(@"already_login_common")] )
-         {
-             // 已经登录过
-             [self setIMAccountHasLogin:YES];
-             CCLog(@"---------- imlogin success usernickname: %@      password: %@", login.imuser, login.impwd);
-         }
-         else
-         {
-             [self setIMAccountHasLogin:NO];
-             if ( fail )
-             {
-                 fail(error);
-             }
-         }
-     }];
+    EVLog(@"---------- im login");
+//    // 登录环信
+//    [[EVEaseMob cc_shareInstance] loginWithUserName:login.imuser
+//                                           password:login.impwd
+//                                            success:^(NSDictionary *loginInfo)
+//     {
+//         // 登录成功
+//         EVLoginIMInfo *imInfo = [EVLoginIMInfo objectWithDictionary:loginInfo];
+//         login.imLoginInfo = imInfo;
+//         [login synchronized];
+//         if ( success )
+//         {
+//             success(imInfo);
+//         }
+//         
+//         // 标记已经成功登录
+//         [self setIMAccountHasLogin:YES];
+//         
+//         //发送已经成功登录的通知
+//         [EVNotificationCenter postNotificationName:CCIMAccountHasLoginNotifcation
+//                                             object:nil userInfo:nil];
+//         EVLog(@"---------- imlogin success usernickname: %@      password: %@", login.imuser, login.impwd);
+//     }
+//                                               fail:^(EMError *error)
+//     {
+//         // 登录失败
+//         if ( [error.description isEqualToString:kE_GlobalZH(@"already_login_common")] )
+//         {
+//             // 已经登录过
+//             [self setIMAccountHasLogin:YES];
+//             EVLog(@"---------- imlogin success usernickname: %@      password: %@", login.imuser, login.impwd);
+//         }
+//         else
+//         {
+//             [self setIMAccountHasLogin:NO];
+//             if ( fail )
+//             {
+//                 fail(error);
+//             }
+//         }
+//     }];
 }
 
 
@@ -297,28 +269,28 @@ static BOOL sessioncheck = NO;
                success:(void(^)(NSDictionary *info))success
                   fail:(void(^)(EMError *error))fail
 {
-    [[EaseMob sharedInstance].chatManager asyncLogoffWithUnbindDeviceToken:unbind
-                                                                completion:^(NSDictionary *info, EMError *error)
-     {
-         if ( error )
-         {
-             CCLog(@"imlogoff fail - %@", error);
-             if ( fail )
-             {
-                 fail(error);
-             }
-         }
-         else
-         {
-             CCLog(@"imlogoff success - %@", info);
-             if ( success )
-             {
-                 success(info);
-             }
-             [self setIMAccountHasLogin:NO];
-         }
-     }
-                                                                   onQueue:dispatch_get_global_queue(0, 0)];
+//    [[EaseMob sharedInstance].chatManager asyncLogoffWithUnbindDeviceToken:unbind
+//                                                                completion:^(NSDictionary *info, EMError *error)
+//     {
+//         if ( error )
+//         {
+//             EVLog(@"imlogoff fail - %@", error);
+//             if ( fail )
+//             {
+//                 fail(error);
+//             }
+//         }
+//         else
+//         {
+//             EVLog(@"imlogoff success - %@", info);
+//             if ( success )
+//             {
+//                 success(info);
+//             }
+//             [self setIMAccountHasLogin:NO];
+//         }
+//     }
+//                                                                   onQueue:dispatch_get_global_queue(0, 0)];
 }
 
 // 停止指定的网络请求
@@ -339,49 +311,10 @@ static BOOL sessioncheck = NO;
 
 - (void)_cancelOperataionWithURLString:(NSString *)urlString
 {
-    ASIHTTPRequest *request = [self.requests objectForKey:urlString];
-    [request cancel];
-    [self.requests removeObjectForKey:urlString];
+
+    
 }
 
-// 添加网络请求
-- (void)addRequest:(ASIHTTPRequest *)request
-            forKey:(NSString *)urlString
-{
-    if ( _syschronizedCache )
-    {
-        @synchronized( self )
-        {
-            [self _addRequest:request forKey:urlString];
-        }
-    }
-    else
-    {
-        [self _addRequest:request forKey:urlString];
-    }
-}
-
-- (void)_addRequest:(ASIHTTPRequest *)request
-             forKey:(NSString *)urlString
-{
-    ASIHTTPRequest *prerequest = [self.requests objectForKey:urlString];
-    if ( prerequest )
-    {
-        if ( [NSThread currentThread].isMainThread )
-        {
-            [prerequest setFailedBlock:nil];
-            [prerequest cancel];
-        }
-        else
-        {
-            dispatch_sync(dispatch_get_main_queue(), ^{
-                [prerequest setFailedBlock:nil];
-                [prerequest cancel];
-            });
-        }
-    }
-    [self.requests setObject:request forKey:urlString];
-}
 
 // 删除指定的网络请求节点
 - (void)removeOperationWithURLString:(NSString *)urlString
@@ -451,8 +384,7 @@ static BOOL sessioncheck = NO;
 // 清空本地Session
 + (void)resetSession
 {
-    [CCUserDefault setObject:nil
-                      forKey:SESSION_ID_STR];
+    [CCUserDefault removeObjectForKey:SESSION_ID_STR];
     [CCUserDefault setObject:nil
                       forKey:USER_DNAME_STR];
     [CCUserDefault synchronize];
@@ -461,7 +393,7 @@ static BOOL sessioncheck = NO;
     // 到主线程中执行下面这个block中的代码
     [self performBlockOnMainThreadInClass:^
      {
-         [CCNotificationCenter postNotificationName:CCSessionDidCleanFromLocalNotification
+         [EVNotificationCenter postNotificationName:CCSessionDidCleanFromLocalNotification
                                              object:nil
                                            userInfo:nil];
      }];
@@ -476,7 +408,7 @@ static BOOL sessioncheck = NO;
     [CCUserDefault synchronize];
     if ( ![sesseionId isEqualToString:preSession] )
     {
-        [CCNotificationCenter postNotificationName:CCSessionIdDidUpdateNotification
+        [EVNotificationCenter postNotificationName:CCSessionIdDidUpdateNotification
                                             object:nil
                                           userInfo:nil];
         // 清除续播的缓存
@@ -487,7 +419,7 @@ static BOOL sessioncheck = NO;
 // 通知登录视图关闭
 + (void)notifyLoginViewDismiss
 {
-    [CCNotificationCenter postNotificationName:CCLoginPageDidDissmissNotification
+    [EVNotificationCenter postNotificationName:CCLoginPageDidDissmissNotification
                                         object:nil
                                       userInfo:nil];
 }
@@ -524,6 +456,152 @@ static BOOL sessioncheck = NO;
     return devid;
 }
 
++ (void)GETNotVerifyRequestWithUrl:(NSString *)url parameters:(nullable id)parameters success:(nullable void (^)(NSDictionary *successDict))success fail:(nullable void(^)(NSError  * error))fail
+{
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json",@"text/plain",nil];
+    NSURLSessionDataTask *task =  [manager GET:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        EVLog(@"responseObject---------  %@ ------  %@",responseObject,task.currentRequest);
+        if (responseObject) {
+            if ( [responseObject[kRetvalKye] isEqualToString:kRequestOK] )
+            {
+                if ( success )
+                {
+                    success(responseObject[kRetinfoKey]);
+                }
+            }else {
+                fail([NSError cc_errorWithDictionary:responseObject]);
+            }
+        }
+        
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (fail) {
+            fail(error);
+        }
+    }];
+    EVLog(@"responseObject-------- ------  %@",task.currentRequest);
+//    [task resume];
+}
+
++ (void)GETRequestWithUrl:(nullable NSString *)url parameters:(nullable id)parameters success:(nullable void (^)(NSDictionary *successDict))success sessionExpireBlock:(void(^)())sessionExpireBlock fail:(nullable void(^)(NSError  * error))fail
+{
+    if ( parameters[@"device"] == nil )
+    {
+        parameters[@"device"] = @"ios";
+    }
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json",@"text/plain",nil];
+    NSURLSessionDataTask *task =  [manager GET:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (responseObject) {
+            if ( [responseObject[kRetvalKye] isEqualToString:kRequestOK] )
+            {
+                if ( success )
+                {
+                    success(responseObject[kRetinfoKey]);
+                }
+            }
+            else if ( [responseObject[kRetvalKye] isEqualToString:kSessionIdExpireValue] )
+            {
+                if ( sessionExpireBlock )
+                {
+                    sessionExpireBlock();
+                }
+            }else if (fail) {
+                fail([NSError cc_errorWithDictionary:responseObject]);
+            }
+        }
+        
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (fail) {
+            fail(error);
+        }
+    }];
+    EVLog(@"responseObject---------  %@ ------ ",task.currentRequest);
+    [task resume];
+}
+
++ (void)POSTRequestWithUrl:(NSString *)url params:(id)param fileData:(NSData *)fileData fileMineType:(NSString *)fileMineType fileName:(NSString *)filename success:(void (^)(NSDictionary *successDict))success sessionExpireBlock:(void(^)())sessionExpireBlock failError:(void(^)(NSError  * error))failError
+{
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", nil];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    
+    [manager POST:url parameters:param constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        
+        [formData appendPartWithFileData:fileData name:filename fileName:@"file.jpg" mimeType:fileMineType];
+    } progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (responseObject) {
+            success (responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (error) {
+            failError(error);
+        }
+        
+    }];
+}
+
++ (void)POSTNotSessionWithUrl:(NSString *)url params:(NSDictionary *)param fileData:(NSData *)fileData fileMineType:(NSString *)fileMineType fileName:(NSString *)filename success:(void (^)(NSDictionary *successDict))success failError:(void(^)(NSError  * error))failError
+{
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json",@"text/javascript", @"text/plain", @"text/html", nil];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    manager.requestSerializer.HTTPMethodsEncodingParametersInURI = [NSSet setWithArray:@[@"POST", @"GET", @"HEAD"]];
+   NSURLSessionDataTask *task =   [manager POST:url parameters:param progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                if (responseObject) {
+                    success (responseObject);
+                }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                if (error) {
+                    failError(error);
+                }
+    }];
+    EVLog(@"------- %@",task.currentRequest);
+}
+
++ (void)GETNoSessionWithUrl:(nullable NSString *)url parameters:(nullable id)parameters success:(nullable void (^)(NSDictionary *successDict))success fail:(nullable void(^)(NSError  * error))fail
+{
+    if ( parameters[@"device"] == nil )
+    {
+        parameters[@"device"] = @"ios";
+    }
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json",@"text/plain",nil];
+    NSURLSessionDataTask *task =  [manager GET:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        if (responseObject) {
+            if ( success )
+            {
+                success(responseObject);
+            }
+            else if (fail)
+            {
+                fail([NSError cc_errorWithDictionary:responseObject]);
+            }
+        }
+        
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (fail) {
+            fail(error);
+        }
+    }];
+    
+    EVLog(@"--- %@",task.currentRequest);
+    [task resume];
+}
+
 
 @end
 
@@ -542,27 +620,8 @@ success:(void(^)())successBlock
         params[kSms_id] = sms_id;
     }
     params[kSms_code] = sms_code;
-    NSString *urlString = [self fullURLStringWithURI:EVSmsVerfyAPI  params:params];
-    [self requestWithURLString:urlString
-                         start:startBlock
-                          fail:failBlock
-                       success:^(NSData *data)
-     {
-         if ( data )
-         {
-             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:0
-                                                                    error:NULL];
-             if ([info[kRetvalKye] isEqualToString:kRequestOK]&& successBlock)
-             {
-                 successBlock();
-             }
-             else if ( failBlock )
-             {
-                 failBlock([NSError cc_errorWithDictionary:info]);
-             }
-         }
-     }];
+    NSString *urlString = [self fullURLStringWithURI:EVSmsVerfyAPI  params:nil];
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:nil fail:failBlock];
 }
 
 // 使用sms_id进行验证 (带认证方式)
@@ -582,39 +641,9 @@ success:(void(^)())successBlock
     params[kSms_code] = sms_code;
     params[kAuthType] = authType;
     NSString *urlString = [self fullURLStringWithURI:EVSmsVerfyAPI
-                                              params:params];
-    [self requestWithURLString:urlString
-                         start:startBlock
-                          fail:failBlock
-                       success:^(NSData *data)
-     {
-         if ( data )
-         {
-             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:0
-                                                                    error:NULL];
-             CCLog(@"%@",info);
-             if ( [info[kRetvalKye] isEqualToString:kRequestOK] )
-             {
-                 if ( successBlock )
-                 {
-                     successBlock();
-                 }
-             }
-             else if ( failBlock )
-             {
-                 if ( [info[kRetvalKye] isEqualToString:kE_SMS_VERIFY] )
-                     failBlock([NSError errorWithDomain:kBaseToolDomain
-                                                   code:-1
-                                               userInfo:@{kCustomErrorKey: kE_GlobalZH(@"verify_error")}]);
-                 else
-                     failBlock([NSError errorWithDomain:kBaseToolDomain
-                                                   code:-1
-                                               userInfo:@{kCustomErrorKey: info[kRetvalKye]}]);
-                 
-             }
-         }
-     }];
+                                              params:nil];
+   
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:nil fail:failBlock];
 }
 
 
@@ -622,7 +651,7 @@ success:(void(^)())successBlock
 - (NSString *)fullURLStringWithURI:(NSString *)uriString
 params:(NSMutableDictionary *)params
 {
-    return [self urlStringWithHost:CCVideoBaseURL
+    return [self urlStringWithHost:EVVideoBaseURL
                          uriString:uriString
                             params:params];
 }
@@ -631,7 +660,7 @@ params:(NSMutableDictionary *)params
 - (NSString *)httpsFullURLStringWithURI:(NSString *)uriString
 params:(NSMutableDictionary *)params
 {
-    return [self urlStringWithHost:CCVideoBaseHTTPSURL
+    return [self urlStringWithHost:EVVideoBaseHTTPSURL
                          uriString:uriString
                             params:params];
 }
@@ -657,14 +686,14 @@ params:(NSMutableDictionary *)params
     EVNetWorkRequest *request = [EVNetWorkRequest netWorkRequestURLString:urlString];
     request.getParams = params;
     urlString = request.urlString;
-#ifdef CCDEBUG
+#ifdef EVDEBUG
     if ( [urlString hasPrefix:@"https"] )
     {
-        //        CCLog(@"https---%@",urlString);
+        //        EVLog(@"https---%@",urlString);
     }
     else
     {
-        //        CCLog(@"---%@",urlString);
+        //        EVLog(@"---%@",urlString);
     }
 #endif
     return urlString;
@@ -689,144 +718,10 @@ params:(NSMutableDictionary *)params
     return sessionID;
 }
 
-#pragma mack - 发送post 请求
-// 发送post请求
-- (NSString *)postWithURLString:(NSString *)urlString
-                    contentType:(NSString *)contentType
-                         params:(NSMutableDictionary *)params
-                       fileData:(NSData *)data
-                   fileMineType:(NSString *)fileMineType
-                       fileName:(NSString *)fileName
-                          start:(void (^)())startBlock
-                           fail:(void (^)(NSError *))failBlock
-                        success:(void (^)(NSData *data))successBlock
-{
-    __weak typeof(self) wself = self;
-    ASIHTTPRequest *asiReq = [[EVNetWorkManager shareInstance] postRequestWithURLString:urlString
-                                                                             postParams:params
-                                                                               fileData:data
-                                                                           fileMineType:fileMineType
-                                                                               fileName:fileName
-                                                                            contentType:contentType
-                                                                                  start:startBlock
-                                                                                success:^(NSData *data)
-                              {
-                                  if ( successBlock )
-                                  {
-                                      successBlock(data);
-                                  }
-                                  [wself removeOperationWithURLString:urlString];
-                              }
-                                                                                   fail:^(NSError *error)
-                              {
-                                  if ( failBlock )
-                                  {
-                                      failBlock(error);
-                                  }
-                                  [wself removeOperationWithURLString:urlString];
-                              }];
-    [self addRequest:asiReq forKey:urlString];
-    return urlString;
-}
-
-// contentType: json
-- (NSString *)jsonPostWithURLString:(NSString *)urlString
-                             params:(NSDictionary *)params
-                              start:(void (^)())startBlock
-                               fail:(void (^)(NSError *))failBlock
-                            success:(void (^)(NSData *data))successBlock
-{
-    NSMutableDictionary *postParams = nil;
-    if ( params )
-    {
-        postParams = [NSMutableDictionary dictionaryWithDictionary:params];
-    }
-    return [self postWithURLString:urlString
-                       contentType:@"application/json"
-                            params:postParams
-                          fileData:nil
-                      fileMineType:nil
-                          fileName:nil
-                             start:startBlock
-                              fail:failBlock
-                           success:successBlock];
-}
-
-// 发送GET请求
-- (NSString *)requestWithURLString:(NSString *)urlString
-                             start:(void (^)())startBlock
-                              fail:(void (^)(NSError *))failBlock
-                           success:(void (^)(NSData *data))successBlock
-{
-    __weak typeof(self) wself = self;
-    ASIHTTPRequest *asiReq = [[EVNetWorkManager shareInstance] requestWithURLString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
-                                                                              start:startBlock success:^(NSData *data)
-                              {
-                                  if ( successBlock )
-                                  {
-                                      successBlock(data);
-                                  }
-                                  [wself removeOperationWithURLString:urlString];
-                              }
-                                                                               fail:^(NSError *error)
-                              {
-                                  if ( failBlock )
-                                  {
-                                      failBlock(error);
-                                  }
-                                  [wself removeOperationWithURLString:urlString];
-                              }];
-    
-    [self addRequest:asiReq forKey:urlString];
-    return urlString;
-}
-
-// 发送同步get请求
-- (ASIHTTPRequest *)startSynchronousRequestWithURLString:(NSString *)urlString
-{
-    ASIHTTPRequest *request = [[EVNetWorkManager shareInstance] startSynchronousRequestWIthURLString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    [self addRequest:request forKey:urlString];
-    return request;
-}
 
 
-// 刷新请求
-- (NSString *)refreshRequestWithUrl:(NSString *)url
-                              start:(void (^)())startBlock
-                               fail:(void (^)(NSError *))failBlock
-                            success:(void (^)(NSData *data))successBlock
-{
-    // 截取?前的内容
-    NSInteger location = [url rangeOfString:@"?"].location;
-    NSString *urlKey = url;
-    if (location != NSNotFound)
-    {
-        urlKey = [url substringToIndex:location];
-    }
-    
-    // 发出请求
-    __weak typeof(self) wself = self;
-    ASIHTTPRequest *asiReq = [[EVNetWorkManager shareInstance] requestWithURLString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
-                                                                              start:startBlock success:^(NSData *data)
-                              {
-                                  if ( successBlock )
-                                  {
-                                      successBlock(data);
-                                  }
-                                  [wself removeOperationWithURLString:urlKey];
-                              }
-                                                                               fail:^(NSError *error)
-                              {
-                                  if ( failBlock )
-                                  {
-                                      failBlock(error);
-                                  }
-                                  [wself removeOperationWithURLString:urlKey];
-                              }];
-    
-    [self addRequest:asiReq forKey:urlKey];
-    return url;
-}
+
+
 
 #pragma mark - 发送get请求
 
@@ -890,6 +785,10 @@ params:(NSMutableDictionary *)params
         params[@"devid"] = dev_id;
     }
 }
+
+
+
+
 
 @end
 

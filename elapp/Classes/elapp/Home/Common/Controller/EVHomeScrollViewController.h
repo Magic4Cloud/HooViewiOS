@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "EVHomeScrollNavgationBar.h"
 
-@protocol CCHomeScrollViewControllerProtocol <NSObject>
+@protocol EVHomeScrollViewControllerProtocol <NSObject>
 
 @required
 - (void)homeScrollViewControllerShowBar;
@@ -17,7 +17,7 @@
 
 @end
 
-@interface EVHomeScrollViewController : UIViewController <CCHomeScrollViewControllerProtocol>
+@interface EVHomeScrollViewController : UIViewController <EVHomeScrollViewControllerProtocol>
 
 @property (nonatomic, assign) NSInteger selectedIndex;
 
@@ -40,7 +40,7 @@
  *  子类实现此方法点击个人中心头像或者搜索
  *
  */
-- (void)homeScrollNavgationBarDidClicked:(CCHomeScrollNavgationBarButton)btn;
+- (void)homeScrollNavgationBarDidClicked:(EVHomeScrollNavgationBarButton)btn;
 
 - (void)homeScrollViewDidScroll;
 

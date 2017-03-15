@@ -52,7 +52,7 @@
     UITextField *textField = [[UITextField alloc] init];
     textField.keyboardType = UIKeyboardTypeNumberPad;
     textField.placeholder = kE_GlobalZH(@"verify_num");
-    textField.font = CCNormalFont(15.0f);
+    textField.font = EVNormalFont(15.0f);
     textField.tintColor = [UIColor evTextColorH3];
     [self addSubview:textField];
     [textField autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:.0f];
@@ -69,25 +69,25 @@
     [verifyCodeBtn autoSetDimension:ALDimensionWidth toSize:82.0f];
     [verifyCodeBtn autoSetDimension:ALDimensionHeight toSize:22.0f];
     [verifyCodeBtn setTitle:kE_GlobalZH(@"send_verify_num") forState:UIControlStateNormal];
-    [verifyCodeBtn.titleLabel setFont:CCNormalFont(12.0f)];
+    [verifyCodeBtn.titleLabel setFont:EVNormalFont(12.0f)];
     [verifyCodeBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    verifyCodeBtn.layer.borderColor = CCColor(98, 45, 128).CGColor;
+    verifyCodeBtn.layer.borderColor = [UIColor evAssistColor].CGColor;
     verifyCodeBtn.layer.borderWidth = .5f;
     verifyCodeBtn.layer.cornerRadius = 3.0f;
-    verifyCodeBtn.backgroundColor = CCColor(98, 45, 128);
+    verifyCodeBtn.backgroundColor = [UIColor evAssistColor];
     [verifyCodeBtn addTarget:self action:@selector(getVerifyCodeButtonClick) forControlEvents:UIControlEventTouchUpInside];
     self.verifyBtn = verifyCodeBtn;
     
     // 顶部分割线
     UIView *topLine = [[UIView alloc] init];
-    topLine.backgroundColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+    topLine.backgroundColor = [UIColor evGlobalSeparatorColor];
     [self addSubview:topLine];
     [topLine autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(.0f, .0f, .0f, .0f) excludingEdge:ALEdgeBottom];
     [topLine autoSetDimension:ALDimensionHeight toSize:kGlobalSeparatorHeight];
     
     // 底部分割线
     UIView *bottomLine = [[UIView alloc] init];
-    bottomLine.backgroundColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+    bottomLine.backgroundColor = [UIColor evGlobalSeparatorColor];
     [self addSubview:bottomLine];
     [bottomLine autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(.0f, .0f, .0f, .0f) excludingEdge:ALEdgeTop];
     [bottomLine autoSetDimension:ALDimensionHeight toSize:kGlobalSeparatorHeight];

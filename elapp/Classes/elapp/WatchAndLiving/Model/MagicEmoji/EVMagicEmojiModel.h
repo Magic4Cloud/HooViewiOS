@@ -6,9 +6,9 @@
 //  Copyright (c) 2016 EasyVass. All rights reserved.
 //
 
-#import "CCBaseObject.h"
+#import "EVBaseObject.h"
 
-@interface EVMagicEmojiModel : CCBaseObject
+@interface EVMagicEmojiModel : EVBaseObject
 
 /** id */
 @property (nonatomic, copy) NSString *Id;
@@ -34,7 +34,7 @@
 /** 单价 */
 @property (nonatomic, assign) NSInteger cost;
 
-/** 消费类型，0表示薏米，1表示云币 */
+/** 消费类型，0表示薏米，1表示火眼豆 */
 @property (nonatomic, assign) NSInteger costtype;
 
 /** 消费类型的字符串 */

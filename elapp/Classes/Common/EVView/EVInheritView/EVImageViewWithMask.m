@@ -8,6 +8,9 @@
 
 #import "EVImageViewWithMask.h"
 
+
+#define kGlobalGrayLayerHeight   19.0f
+
 @interface EVImageViewWithMask ()
 
 
@@ -20,8 +23,8 @@
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        [self addMaskLayer];
-        [self addTitleLable];
+//        [self addMaskLayer];
+//        [self addTitleLable];
     }
     return self;
 }
@@ -29,8 +32,8 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        [self addMaskLayer];
-        [self addTitleLable];
+//        [self addMaskLayer];
+//        [self addTitleLable];
     }
     return self;
 }
@@ -61,7 +64,7 @@
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(.0f, self.bounds.size.height - kGlobalGrayLayerHeight, self.bounds.size.width, kGlobalGrayLayerHeight)];
     title.textColor = [UIColor whiteColor];
     title.textAlignment = NSTextAlignmentCenter;
-    title.font = [[CCAppSetting shareInstance] normalFontWithSize:12.0f];
+    title.font = [[EVAppSetting shareInstance] normalFontWithSize:12.0f];
     [self addSubview:title];
     _title = title;
 }

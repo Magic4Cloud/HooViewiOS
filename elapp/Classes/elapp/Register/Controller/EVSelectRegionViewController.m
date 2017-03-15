@@ -181,7 +181,7 @@ NSString *const regionCodeCell = @"regionCodeCell";
     if ( !_navBar )
     {
         UIView *navBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 64)];
-        navBar.backgroundColor = CCBackgroundColor;
+        navBar.backgroundColor = [UIColor evBackgroundColor];
         UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, navBar.bounds.size.height - 0.5, navBar.bounds.size.width, 0.5)];
         bottomView.backgroundColor = [UIColor lightGrayColor];
         [navBar addSubview:bottomView];

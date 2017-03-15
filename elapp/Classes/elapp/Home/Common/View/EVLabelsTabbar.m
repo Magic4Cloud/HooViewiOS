@@ -53,14 +53,14 @@
     
     UIView *slider = [[UIView alloc] init];
     slider.userInteractionEnabled = NO;
-    slider.backgroundColor = CCAppMainColor;
+    slider.backgroundColor = [UIColor evMainColor];
     [self addSubview:slider];
     CGRect frame = CGRectMake(0, LABELTABBAR_HEIGHT - SLIDER_HEIGHT, itemw, SLIDER_HEIGHT);
     slider.frame = frame;
     self.slider = slider;
     
     UIView *line = [[UIView alloc] init];
-    line.backgroundColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+    line.backgroundColor = [UIColor evGlobalSeparatorColor];
     [self addSubview:line];
     [line autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero excludingEdge:ALEdgeTop];
     [line autoSetDimension:ALDimensionHeight toSize:0.5];

@@ -9,15 +9,15 @@
 #import <UIKit/UIKit.h>
 
 typedef NS_ENUM(NSInteger, ShareType) {
-    ShareTypeLiveWatch       = 1,       /**< 用户观看直播 */
+    ShareTypeGoodVideo       = 1,       /**< 用户观看直播 */
     ShareTypeLiveAnchor      = 2,       /**< 主播端直播 */
     ShareTypeVideoWatch      = 3,       /**< 回放 */
-    ShareTypeMineCentre      = 4,       /**< 个人中心 */
+    ShareTypeMineTextLive      = 4,       /**< 个人中心 */
     ShareTypeOtherCentre     = 5,       /**< 他人中心 */
     ShareTypeAnchorBeginLive = 8,       /**< 主播开播分享 */
-    ShareTypeActivity        = 9,       /**< 活动 */
+    ShareTypeNews       = 9,       /**< 活动 */
     ShareTypeInviteFriend    = 12,      /**< 邀请好友 */
-    ShareTypeMineVideo       = 14,      /**< 个人中心视频 */
+    ShareTypeNewsWeb       = 14,      /**< 个人中心视频 */
 };
 
 extern NSString *const CCShareFunctionsKeyTitle;
@@ -47,13 +47,13 @@ extern NSString *const CCShareFunctionsKeyIsVideo;
 /**
  *  分享内容（描述中包含 name、id 两个拼接内容）
  */
-- (void)shareContentWithPlatform:(CCLiveShareButtonType)platform
+- (void)shareContentWithPlatform:(EVLiveShareButtonType)platform
                        shareType:(ShareType)shareType
                     titleReplace:(NSString *)titleReplaceString
           descriptionReplaceName:(NSString *)descriptionReplaceNameString
             descriptionReplaceId:(NSString *)descriptionReplaceIdString
                        URLString:(NSString *)urlString
-                           image:(UIImage *)shareImage;
+                           image:(UIImage *)shareImage outImage:(UIImage *)outimage;
 
 
 

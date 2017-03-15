@@ -88,7 +88,7 @@
 {
     _model = model;
     [self.avatarImageView cc_setImageWithURLString:model.logo placeholderImage:nil];
-    NSMutableAttributedString *contentAtt = [model.content cc_attributStringWithLineHeight:CCBoldFont(14).lineHeight];
+    NSMutableAttributedString *contentAtt = [model.content cc_attributStringWithLineHeight:EVBoldFont(14).lineHeight];
     self.commentLabel.attributedText = contentAtt;
     self.nicknameLabel.text = model.nickname;
     EVLoginInfo *loginInfo = [EVLoginInfo localObject];

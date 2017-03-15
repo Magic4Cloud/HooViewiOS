@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "EVSystemPublic.h"
 
-@class EVLoginInfo;
+@class EVLoginInfo,EVUserTagsView;
 
 #define kNameTitle  kE_GlobalZH(@"nickname_title")
 #define kSexTitle  kE_GlobalZH(@"sex_title")
@@ -19,10 +19,10 @@
 #define kIntroTitle  kE_GlobalZH(@"signature_title")
 #define kHeaderImage kE_GlobalZH(@"user_image")
 
+
 typedef NS_ENUM(NSInteger, EVKeyBoardType) {
     EVKeyBoardNormal,       //
     EVKeyBoardLocation,     // 选择地理位置
-    EVKeyBoardBirthday,     // 选择出生日期
     EVKeyBoardSex           // 选择性别
 };
 
@@ -31,7 +31,8 @@ typedef NS_ENUM(NSInteger, EVCellStyleType) {
     EVCellStyleHeaderImage,
     EVCellStyleSignature,
     EVCellStyleName,
-    EVCellStyleConstellation
+    EVCellStyleTags,
+    EVCellStylePreNum
 };
 typedef void(^ConstellationBlock)(NSString *Contellation);
 @interface CCUserSettingItem : NSObject
@@ -62,8 +63,10 @@ typedef void(^ConstellationBlock)(NSString *Contellation);
 
 @interface EVUserSettingCell : UITableViewCell
 
+@property (nonatomic, weak) EVUserTagsView *userTagsView;
 @property (nonatomic, strong) CCUserSettingItem *settingItem;   // 个人设置模型
 @property (nonatomic, copy) ConstellationBlock constellationB;
 - (void)textFiledResignFirstResponse;
+- (void)textFieldBecomeFirstResponse;
 
 @end

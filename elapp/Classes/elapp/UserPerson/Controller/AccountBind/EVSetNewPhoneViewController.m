@@ -75,7 +75,7 @@
     }
     if ( self.verifyCodeView.verifyInputField.text.length != 4 )
     {
-        [CCProgressHUD showError:kE_GlobalZH(@"verify_fail_please_enter_new")];
+        [EVProgressHUD showError:kE_GlobalZH(@"verify_fail_please_enter_new")];
         
         return;
     }
@@ -87,7 +87,7 @@
     [self.engine getSmsverifyWithSmd_id:self.smsId sms_code:self.verifyCodeView.verifyInputField.text start:^{
         
     } fail:^(NSError *error) {
-        [CCProgressHUD showError:[error errorInfoWithPlacehold:kE_GlobalZH(@"verify_wrong")]];
+        [EVProgressHUD showError:[error errorInfoWithPlacehold:kE_GlobalZH(@"verify_wrong")]];
         weakself.isCheckingSmsId = NO;
     } success:^{
         __strong typeof(weakself) strongSelf = weakself;
@@ -105,7 +105,7 @@
     }
     
     // 开始走表
-    [CCNotificationCenter addObserver:self selector:@selector(modifyTime) name:CCUpdateForecastTime object:nil];
+    [EVNotificationCenter addObserver:self selector:@selector(modifyTime) name:EVUpdateTime object:nil];
     
     NSString *newPhone = [NSString stringWithFormat:@"%@_%@", self.currRegion.area_code, self.phoneInputField.text];
     
@@ -116,20 +116,20 @@
     [self.engine GETSmssendWithAreaCode:nil Phone:newPhone type:PHONE phoneNumError:^(NSString *numError) {
         
     } start:^{
-        [CCProgressHUD showMessage:kE_GlobalZH(@"get_verify") toView:wself.view];
+        [EVProgressHUD showMessage:kE_GlobalZH(@"get_verify") toView:wself.view];
     } fail:^(NSError *error) {
-        [CCProgressHUD hideHUDForView:wself.view];
-        [CCProgressHUD showError:[error errorInfoWithPlacehold:kE_GlobalZH(@"verify_fail")] toView:wself.view];
+        [EVProgressHUD hideHUDForView:wself.view];
+        [EVProgressHUD showError:[error errorInfoWithPlacehold:kE_GlobalZH(@"verify_fail")] toView:wself.view];
     } success:^(NSDictionary *info) {
-        [CCProgressHUD hideHUDForView:wself.view];
+        [EVProgressHUD hideHUDForView:wself.view];
         
         if ([info[kRegistered]  isEqual: @(1)])     // 手机号已被绑定
         {
-            [CCProgressHUD showError:kE_GlobalZH(@"phone_num_binding_account") toView:wself.view];
+            [EVProgressHUD showError:kE_GlobalZH(@"phone_num_binding_account") toView:wself.view];
             return;
         }
         
-        [CCProgressHUD showSuccess:kE_GlobalZH(@"verify_send_phone") toView:wself.view];
+        [EVProgressHUD showSuccess:kE_GlobalZH(@"verify_send_phone") toView:wself.view];
         if ( info[kSms_id] != nil )
         {
             NSNumber *smsId = info[kSms_id];
@@ -153,11 +153,6 @@
     self.title = kE_GlobalZH(@"change_new_phone_num");
     self.timeLength = 60;
     
-    // 右上角下一步按钮
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:kE_GlobalZH(@"carry_out") style:UIBarButtonItemStylePlain target:self action:@selector(commit)];
-    [rightItem setTintColor:[UIColor whiteColor]];
-    self.navigationItem.rightBarButtonItem = rightItem;
-    
     // 国际区号
     UIView *regionContainer = [[UIView alloc] init];
     regionContainer.backgroundColor = [UIColor whiteColor];
@@ -165,7 +160,7 @@
     [regionContainer autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(10.0f, .0f, .0f, .0f) excludingEdge:ALEdgeBottom];
     [regionContainer autoSetDimension:ALDimensionHeight toSize:55.0f];
     // 区号label
-    UILabel *regionLbl = [UILabel labelWithDefaultTextColor:CCTextBlackColor font:CCNormalFont(14.0f)];
+    UILabel *regionLbl = [UILabel labelWithDefaultTextColor:[UIColor textBlackColor] font:EVNormalFont(14.0f)];
     [regionContainer addSubview:regionLbl];
     self.regionLbl = regionLbl;
     [regionLbl autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(.0f, 16.0f, .0f, .0f)];
@@ -174,14 +169,14 @@
     [regionContainer addSubview:indicator];
     [indicator autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:16.0f];
     [indicator autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
-    // 响应点击
-    UIButton *regionBtn = [[UIButton alloc] init];
-    [regionContainer addSubview:regionBtn];
-    [regionBtn addTarget:self action:@selector(gotoChooseRegionPage) forControlEvents:UIControlEventTouchUpInside];
-    [regionBtn autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
+//    // 响应点击
+//    UIButton *regionBtn = [[UIButton alloc] init];
+//    [regionContainer addSubview:regionBtn];
+//    [regionBtn addTarget:self action:@selector(gotoChooseRegionPage) forControlEvents:UIControlEventTouchUpInside];
+//    [regionBtn autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
     // 手机号输入框顶部分割线
     UIView *regionTopLine = [[UIView alloc] init];
-    regionTopLine.backgroundColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+    regionTopLine.backgroundColor = [UIColor evGlobalSeparatorColor];
     [regionContainer addSubview:regionTopLine];
     [regionTopLine autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(.0f, .0f, .0f, .0f) excludingEdge:ALEdgeBottom];
     [regionTopLine autoSetDimension:ALDimensionHeight toSize:kGlobalSeparatorHeight];
@@ -204,8 +199,8 @@
     UITextField *textField = [[UITextField alloc] init];
     textField.keyboardType = UIKeyboardTypeNumberPad;
     textField.placeholder = kE_GlobalZH(@"enter_new_phone_num");
-    textField.font = CCNormalFont(14.0f);
-    textField.tintColor = CCTextBlackColor;
+    textField.font = EVNormalFont(14.0f);
+    textField.tintColor = [UIColor textBlackColor];
     [phoneContainer addSubview:textField];
     [textField autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:.0f];
     [textField autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:.0f];
@@ -214,7 +209,7 @@
     self.phoneInputField = textField;
     // 手机号输入框顶部分割线
     UIView *phoneTopLine = [[UIView alloc] init];
-    phoneTopLine.backgroundColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+    phoneTopLine.backgroundColor = [UIColor evGlobalSeparatorColor];
     [phoneContainer addSubview:phoneTopLine];
     [phoneTopLine autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(.0f, .0f, .0f, .0f) excludingEdge:ALEdgeBottom];
     [phoneTopLine autoSetDimension:ALDimensionHeight toSize:kGlobalSeparatorHeight];
@@ -241,6 +236,21 @@
     defaultRegion.contry_name = kEChina;
     defaultRegion.area_code = @"86";
     self.currRegion = defaultRegion;
+    
+    UIButton *nextBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [nextBtn setBackgroundColor:[UIColor evMainColor]];
+    [nextBtn setTitle:kE_GlobalZH(@"carry_out") forState:UIControlStateNormal];
+    [nextBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    nextBtn.titleLabel.font = [UIFont systemFontOfSize:16];
+    [nextBtn addTarget:self action:@selector(commit) forControlEvents:UIControlEventTouchUpInside];
+    nextBtn.layer.cornerRadius = 20;
+    nextBtn.clipsToBounds = YES;
+    [self.view addSubview:nextBtn];
+    [nextBtn autoSetDimension:ALDimensionHeight toSize:40];
+    [nextBtn autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:57];
+    [nextBtn autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:57];
+    [nextBtn autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:verifyView withOffset:72];
+    [nextBtn autoAlignAxisToSuperviewAxis:ALAxisVertical];
 }
 
 /**
@@ -250,7 +260,7 @@
 {
     if ( self.timeLength <= 1 )
     {
-        [CCNotificationCenter removeObserver:self];
+        [EVNotificationCenter removeObserver:self];
         [self.verifyCodeView.verifyBtn setTitle:kE_GlobalZH(@"send_verify_num") forState:UIControlStateNormal];
 
         self.timeLength = 60;
@@ -267,14 +277,14 @@
 {
     __weak typeof(self) weakself = self;
     [self.engine GETAuthPhoneChangeWithPhone:newPhone startBlock:^{
-        [CCProgressHUD showMessage:kE_GlobalZH(@"change_phone_num") toView:weakself.view];
+        [EVProgressHUD showMessage:kE_GlobalZH(@"change_phone_num") toView:weakself.view];
     } fail:^(NSError *error) {
-        [CCProgressHUD hideHUDForView:weakself.view];
+        [EVProgressHUD hideHUDForView:weakself.view];
     } success:^(NSDictionary *dict) {
-        [CCProgressHUD hideHUDForView:weakself.view];
+        [EVProgressHUD hideHUDForView:weakself.view];
         [weakself.navigationController popToRootViewControllerAnimated:NO];
     } sessionExpire:^{
-        [CCProgressHUD hideHUDForView:weakself.view];
+        [EVProgressHUD hideHUDForView:weakself.view];
     }];
 }
 

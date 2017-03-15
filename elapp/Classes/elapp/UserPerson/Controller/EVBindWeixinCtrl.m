@@ -35,7 +35,7 @@ typedef NS_ENUM(NSUInteger, EVBindWeixinCtrlBtnType)
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = CCBackgroundColor;
+    self.view.backgroundColor = [UIColor evBackgroundColor];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     
  
@@ -50,7 +50,7 @@ typedef NS_ENUM(NSUInteger, EVBindWeixinCtrlBtnType)
         [weakself handle3rdPartNotification:callBackDic];
     }];
     [[EV3rdPartAPIManager sharedManager] setWechatLoginFailure:^(NSDictionary *callBackDic) {
-        CCLog(@"%s %@", __FUNCTION__, callBackDic);
+        EVLog(@"%s %@", __FUNCTION__, callBackDic);
     }];
 }
 
@@ -112,11 +112,11 @@ typedef NS_ENUM(NSUInteger, EVBindWeixinCtrlBtnType)
     [label1 autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:bgView withOffset:10.f];
     
     UIButton *shadowBtn = [[UIButton alloc] init];
-    shadowBtn.layer.borderColor = [UIColor colorWithHexString:kGlobalGreenColor].CGColor;
+    shadowBtn.layer.borderColor = [UIColor evMainColor].CGColor;
     shadowBtn.layer.borderWidth = 1.f;
     shadowBtn.layer.cornerRadius = 20.f;
     [shadowBtn setTitle:kE_GlobalZH(@"next") forState:UIControlStateNormal];
-    [shadowBtn setTitleColor:[UIColor colorWithHexString:kGlobalGreenColor] forState:UIControlStateNormal];
+    [shadowBtn setTitleColor:[UIColor evMainColor] forState:UIControlStateNormal];
     shadowBtn.tag = EVBindWeixinCtrlBtnType_next;
     [shadowBtn addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
     shadowBtn.titleLabel.font = [UIFont systemFontOfSize:17.f];
@@ -191,12 +191,12 @@ typedef NS_ENUM(NSUInteger, EVBindWeixinCtrlBtnType)
     
     __weak typeof(self) weakself = self;
     [self.engine GETUserBindWithParams:params start:^{
-        [CCProgressHUD showMessage:kE_GlobalZH(@"binding_wechat_account_please_wait") toView:weakself.view];
+        [EVProgressHUD showMessage:kE_GlobalZH(@"binding_wechat_account_please_wait") toView:weakself.view];
     } fail:^(NSError *error) {
-        [CCProgressHUD hideHUDForView:weakself.view];
-        [CCProgressHUD showError:[error errorInfoWithPlacehold:kE_GlobalZH(@"fail_binding")] toView:weakself.view];
+        [EVProgressHUD hideHUDForView:weakself.view];
+        [EVProgressHUD showError:[error errorInfoWithPlacehold:kE_GlobalZH(@"fail_binding")] toView:weakself.view];
     } success:^{
-        [CCProgressHUD hideHUDForView:weakself.view];
+        [EVProgressHUD hideHUDForView:weakself.view];
         weakself.bindTipLabel.text = kE_GlobalZH(@"alreddy_binding");
         weakself.bindWeixinBtn.userInteractionEnabled = NO;
         EVLoginInfo *loginInfo = [EVLoginInfo localObject];
@@ -210,8 +210,8 @@ typedef NS_ENUM(NSUInteger, EVBindWeixinCtrlBtnType)
         loginInfo.auth = arrM;
         [loginInfo synchronized];
     } sessionExpire:^{
-        [CCProgressHUD hideHUDForView:weakself.view];
-        CCRelogin(weakself);
+        [EVProgressHUD hideHUDForView:weakself.view];
+        EVRelogin(weakself);
     }];
 }
 

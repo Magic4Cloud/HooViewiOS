@@ -10,18 +10,18 @@
 #import "EVLiveEndBaseView.h"
 @class EVWatchLiveEndView;
 
-typedef NS_ENUM(NSInteger, CCWatchEndViewButtonType)
+typedef NS_ENUM(NSInteger, EVWatchEndViewButtonType)
 {
-    CCWatchEndViewFocusButton = 400,
-    CCWatchEndViewHomeButton,
-    CCWatchEndViewCancelButton,
-    CCWatchEndViewSendPrivateLetter,
+    EVWatchEndViewFocusButton = 400,
+    EVWatchEndViewHomeButton,
+    EVWatchEndViewCancelButton,
+    EVWatchEndViewSendPrivateLetter,
 };
 
-@protocol CCWatchEndViewDelegate <NSObject>
+@protocol EVWatchEndViewDelegate <NSObject>
 
 @optional
-- (void)watchEndView:(EVWatchLiveEndView *)watch didClickedButton:(CCWatchEndViewButtonType)type;
+- (void)watchEndView:(EVWatchLiveEndView *)watch didClickedButton:(EVWatchEndViewButtonType)type;
 
 @end
 
@@ -45,6 +45,6 @@ typedef NS_ENUM(NSInteger, CCWatchEndViewButtonType)
 
 - (void)disMiss;
 
-@property (nonatomic,weak) id<CCWatchEndViewDelegate> delegate;
+@property (nonatomic,weak) id<EVWatchEndViewDelegate> delegate;
 
 @end

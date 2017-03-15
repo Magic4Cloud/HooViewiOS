@@ -6,10 +6,10 @@
 //  Copyright (c) 2016 EasyVass. All rights reserved.
 //
 
-#import "CCBaseObject.h"
+#import "EVBaseObject.h"
 #import "EVUserModel.h"
 
-@interface EVBlackListItem : CCBaseObject
+@interface EVBlackListItem : EVBaseObject
 
 @property (assign, nonatomic) BOOL selected;    /**< 是否选中 */
 @property (copy, nonatomic) NSString *logoUrl;  /**< 头像url */

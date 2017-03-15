@@ -31,7 +31,7 @@
     _webView.delegate = self;
     [self.view addSubview: _webView];
     [_webView autoPinEdgesToSuperviewEdges];
-    _webView.backgroundColor = CCBackgroundColor;
+    _webView.backgroundColor = [UIColor evBackgroundColor];
     NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:self.requestUrl]];
     [_webView loadRequest:request];
 }
@@ -61,11 +61,11 @@
 {
     __weak typeof(self) wself = self;
     _requestUrl = [NSString stringWithFormat:@"%@?sessionid=%@", requestUrl,[self getSessionIdWithBlock:^{
-        CCRelogin(wself);
+        EVRelogin(wself);
     }]];
     if (![requestUrl hasPrefix:@"http://"] && ![requestUrl hasPrefix:@"https://"]) {
         _requestUrl = [NSString stringWithFormat:@"http://%@?sessionid=%@",requestUrl,[self getSessionIdWithBlock:^{
-            CCRelogin(wself);
+            EVRelogin(wself);
         }]];
     }
 }

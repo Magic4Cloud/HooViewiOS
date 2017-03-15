@@ -398,29 +398,32 @@
 - (void)configGifHeader:(EVRefreshGifHeader *)gifHeader
 {
     // 设置文字展示的方式
-    gifHeader.lastUpdatedTimeLabel.textColor = [CCAppSetting shareInstance].appMainColor;
-    gifHeader.lastUpdatedTimeLabel.font = [[CCAppSetting shareInstance] normalFontWithSize:11.0f];
-    gifHeader.stateLabel.textColor = [CCAppSetting shareInstance].appMainColor;
-    gifHeader.stateLabel.font = [[CCAppSetting shareInstance] normalFontWithSize:11.0f];
-    [gifHeader setTitle:kE_GlobalZH(@"pull_refresh_loading") forState:MJRefreshStateRefreshing];
+    gifHeader.lastUpdatedTimeLabel.textColor = [UIColor evMainColor];
+    gifHeader.lastUpdatedTimeLabel.font = [[EVAppSetting shareInstance] normalFontWithSize:11.0f];
+    gifHeader.stateLabel.textColor = [UIColor evTextColorH2];
+    gifHeader.stateLabel.font = [[EVAppSetting shareInstance] normalFontWithSize:14.0f];
+    [gifHeader setTitle:@"     下拉刷新" forState:MJRefreshStateWillRefresh];
+    [gifHeader setTitle:@"    加载中..." forState:MJRefreshStateRefreshing];
+    [gifHeader setTitle:@"     准备刷新" forState:MJRefreshStatePulling];
+    [gifHeader setTitle:@"     下拉刷新" forState:MJRefreshStateIdle];
     
     // 设置普通状态的动画图片
     NSMutableArray *idleImages = [NSMutableArray array];
     for (NSUInteger i = 1; i <= 1; i++) {
-        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"spinner_%zd", i]];
+        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"ic_downward%zd", i]];
         [idleImages addObject:image];
     }
     [gifHeader setImages:idleImages forState:MJRefreshStateIdle];
-    gifHeader.stateLabel.hidden = YES;
+    gifHeader.stateLabel.hidden = NO;
     gifHeader.lastUpdatedTimeLabel.hidden = YES;
     
     // 设置即将刷新状态的动画图片（一松开就会刷新的状态）
     NSMutableArray *refreshingImages = [NSMutableArray array];
-    for (NSUInteger i = 0; i < 8; i++) {
-        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"spinner_%zd", i]];
+    for (NSUInteger i = 1; i < 2; i++) {
+        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"ic_loading_%zd", i]];
         [refreshingImages addObject:image];
     }
-    [gifHeader setImages:idleImages forState:MJRefreshStatePulling];
+//    [gifHeader setImages:idleImages forState:MJRefreshStateRefreshing];
     
     // 设置正在刷新状态的动画图片
     [gifHeader setImages:refreshingImages duration:refreshingImages.count * .1 forState:MJRefreshStateRefreshing];
@@ -428,27 +431,28 @@
 
 - (void)configGifFooter:(EVRefreshGifFooter *)gifFooter
 {
-    gifFooter.stateLabel.textColor = [CCAppSetting shareInstance].appMainColor;
-    gifFooter.stateLabel.font = [[CCAppSetting shareInstance] normalFontWithSize:11.0f];
-    
+    gifFooter.stateLabel.textColor = [UIColor evTextColorH2];
+    gifFooter.stateLabel.font = [[EVAppSetting shareInstance] normalFontWithSize:14.0f];
+     [gifFooter setTitle:@"加载中..." forState:MJRefreshStatePulling];
     // 设置普通状态的动画图片
     NSMutableArray *idleImages = [NSMutableArray array];
-    for (NSUInteger i = 0; i <= 0; i++) {
-        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"spinner_%zd", i]];
+    for (NSUInteger i = 1; i <= 1; i++) {
+        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"ic_loading_%zd", i]];
         [idleImages addObject:image];
     }
-    [gifFooter setImages:idleImages forState:MJRefreshStateIdle];
-    gifFooter.stateLabel.hidden = YES;
-    gifFooter.refreshingTitleHidden = YES;
-    
+    [gifFooter setImages:idleImages forState:MJRefreshStateRefreshing];
+    gifFooter.stateLabel.hidden = NO;
+    gifFooter.refreshingTitleHidden = NO;
+    [gifFooter setTitle:@"已经到底了" forState:MJRefreshStateNoMoreData];
+  
     // 设置即将刷新状态的动画图片（一松开就会刷新的状态）
     NSMutableArray *refreshingImages = [NSMutableArray array];
-    for (NSUInteger i = 0; i < 8; i++) {
-        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"spinner_%zd", i]];
+    for (NSUInteger i = 1; i <= 1; i++) {
+        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"ic_loading_%zd", i]];
         [refreshingImages addObject:image];
     }
     [gifFooter setImages:idleImages forState:MJRefreshStatePulling];
-    
+    [gifFooter setTitle:@"加载中..." forState:MJRefreshStateRefreshing];
     // 设置正在刷新状态的动画图片
     [gifFooter setImages:refreshingImages duration:refreshingImages.count * .1 forState:MJRefreshStateRefreshing];
 }

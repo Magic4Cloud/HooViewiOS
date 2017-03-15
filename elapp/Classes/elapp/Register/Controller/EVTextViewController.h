@@ -7,10 +7,10 @@
 //
 
 #import "EVViewController.h"
-#import "CCEnums.h"
+#import "EVEnums.h"
 
 @interface EVTextViewController : EVViewController
 
-@property (assign, nonatomic) CCTextVCType type;    // 展示内容类型
+@property (assign, nonatomic) EVTextVCType type;    // 展示内容类型
 
 @end

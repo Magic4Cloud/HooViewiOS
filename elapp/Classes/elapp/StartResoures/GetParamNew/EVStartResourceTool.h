@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "EVStartGoodModel.h"
 
-@class EVAudioOnlyCollectionViewCellItem, EVVideoTopicItem, EVWatermarkModel;
+@class  EVVideoTopicItem, EVWatermarkModel;
 
 #define CCTOPICCACHECOMPLETENOTIFICATION @"CCTOPICCACHECOMPLETENOTIFICATION"
 
@@ -20,11 +20,12 @@
 #define P_PRESENT_TYPE                      @"type" // 礼物类型 0表示表情，1表示薏米，2表示礼物
 #define P_PRESENT_ANI                       @"ani"  // 礼物动画类型，1表示静态图，2表示gif，3表示压缩包，4表示红包
 #define P_PRESENT_COST                      @"cost" // 礼物价格
-#define P_PRESENT_COSTYPE                   @"costtype" // 消费类型，0表示薏米，1表示云币
+#define P_PRESENT_COSTYPE                   @"costtype" // 消费类型，0表示薏米，1表示火眼豆
 #define P_PRESENT_ANITYPE                   @"anitype"  // 礼物动画类型，1表示静态图，2表示gif，3表示压缩包，4表示红包
 
 // 可发送礼物文件路径
 #define PRESENTFOLDER [FOLDERPATH stringByAppendingPathComponent:@"present"]
+// 礼物路径不能删除
 #define PRESENTFILEPATH( name ) [PRESENTFOLDER stringByAppendingPathComponent:(name)]
 
 @interface EVStartResourceTool : NSObject
@@ -33,7 +34,7 @@
 
 @property (nonatomic, readonly, getter = getDaily_task_list, nullable) NSArray *daily_task_list;
 
-@property (nonatomic, strong) NSMutableArray *allTopicArray;
+@property (nonatomic, strong, nullable) NSMutableArray *allTopicArray;
 
 //获取点赞图片
 - (NSArray *_Nullable)defaultLikeImages;
@@ -61,14 +62,14 @@
 - (NSArray * _Nullable)topicItems;
 
 /**
- *  @return CCPresentTypePresent == 0
+ *  @return EVPresentTypePresent == 0
  *
  */
 - (BOOL)prensentEnable;
 
 /**
  *
- *  @return CCPresentTypeEmoji 数量 == 0
+ *  @return EVPresentTypeEmoji 数量 == 0
  */
 - (BOOL)emojiPresentEnable;
 
@@ -80,7 +81,7 @@
  *
  *  @return 该种类的所有礼物
  */
-- (NSArray <EVStartGoodModel *>* _Nullable)presentsWithType:(CCPresentType)type;
+- (NSArray <EVStartGoodModel *>* _Nullable)presentsWithType:(EVPresentType)type;
 
 /**
  *
@@ -91,7 +92,7 @@
  *
  *  @return 礼物对象
  */
-- (EVStartGoodModel * _Nullable)goodModelWithID:(NSInteger)goodID forType:(CCPresentType)type;
+- (EVStartGoodModel * _Nullable)goodModelWithID:(NSInteger)goodID forType:(EVPresentType)type;
 
 /**
  *

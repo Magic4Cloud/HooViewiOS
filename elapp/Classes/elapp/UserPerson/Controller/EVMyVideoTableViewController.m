@@ -25,20 +25,34 @@
 #import "EVNullDataView.h"
 #import "EVAccountPhoneBindViewController.h"
 #import "EVBaseToolManager+EVUserCenterAPI.h"
+#import "NSString+Extension.h"
+#import "EVBaseToolManager+EVLiveAPI.h"
+#import "EVStreamer+Extension.h"
+#import "AFNetworking.h"
+#import "EVHVWatchViewController.h"
+#import "EVNullDataView.h"
+#import "EVHVCenterLiveView.h"
+#import "EVTextLiveModel.h"
+#import "EVHVWatchTextViewController.h"
+
 
 #define tabandNav 113
 #define cellsize 75
 
-#define kShareViewHeight 202
+typedef enum:NSInteger {
+    EVActionSheetTypeAll = 1001, //总的修改
+    EVActionSheetTypePhoto, //图片资源修改
+    EVActionSheetTypeDelete,
+}EVActionSheetType;
 
 static const NSString *const myVideoCellID = @"videoCell";
 
 
-@interface EVMyVideoTableViewController ()< UIActionSheetDelegate, UIImagePickerControllerDelegate, UzysImageCropperDelegate, CCLiveShareViewDelegate, UIAlertViewDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource,CCLiveViewControllerDelegate>
+@interface EVMyVideoTableViewController ()< UIActionSheetDelegate, UIImagePickerControllerDelegate, UzysImageCropperDelegate, CCLiveShareViewDelegate, UIAlertViewDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource,CCLiveViewControllerDelegate,EVMyVideoCellDelegate>
 
 /**< 数据列表视图 */
 @property (weak, nonatomic  ) UITableView                    *tableView;
-@property (strong, nonatomic) EVBaseToolManager                     *engine;
+@property (strong, nonatomic) EVBaseToolManager              *engine;
 @property (strong, nonatomic) NSMutableArray                 *videos;
 @property (strong, nonatomic) UIImagePickerController        *picker;
 @property (strong, nonatomic) UzysImageCropperViewController *imageCropperViewController;
@@ -54,16 +68,14 @@ static const NSString *const myVideoCellID = @"videoCell";
 /**< 动画加载页面 */
 @property (nonatomic, weak  ) EVLoadingView                  *loadingView;
 
-/**< 话题分类容器视图 */
-@property (weak, nonatomic  ) UIView                         *topicCategoryContainerView;
-
-
-/**< 话题列表网络请求返回数据 */
-@property (nonatomic,strong ) EVTopicResponse                *topicResponse;
-
 /**< 返回顶部小火箭 */
 @property (weak, nonatomic) UIButton *backTopBtn;
 
+@property (nonatomic, weak ) EVNullDataView *nullDataView;
+
+@property (nonatomic, weak ) EVNullDataView *liveDataView;
+
+@property (nonatomic, strong) EVHVCenterLiveView *hvCenterLiveView;
 @end
 
 @implementation EVMyVideoTableViewController
@@ -87,7 +99,8 @@ static const NSString *const myVideoCellID = @"videoCell";
     [super viewDidLoad];
     
     [self setUI];
-    [self getDataWithName:nil start:0 count:kCountNum];
+    [self loadIsHaveTextLive];
+//    [self getDataWithName:nil start:0 count:kCountNum];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -137,7 +150,7 @@ static const NSString *const myVideoCellID = @"videoCell";
 {
     EVMyVideoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:(NSString *)myVideoCellID forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
+    cell.delegate = self;
     if (self.videos.count > indexPath.row)
     {
         EVUserVideoModel *model = self.videos[indexPath.row];
@@ -171,20 +184,8 @@ static const NSString *const myVideoCellID = @"videoCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     EVMyVideoTableViewCell *cell = (EVMyVideoTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-    if ( cell.videoModel.status != 2 )
-    {
-        NSString *vid = cell.videoModel.vid;
-        EVWatchVideoInfo *videoInfo = [[EVWatchVideoInfo alloc] init];
-        videoInfo.vid = vid;
-        videoInfo.password = cell.videoModel.password;
-        videoInfo.play_url = cell.videoModel.play_url;
-        videoInfo.mode = cell.videoModel.mode;
-        videoInfo.thumb = cell.videoModel.thumb;
-        [self playVideoWithVideoInfo:videoInfo permission:cell.videoModel.permission];
-    }
+
 }
-
-
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
@@ -192,33 +193,36 @@ static const NSString *const myVideoCellID = @"videoCell";
     self.backTopBtn.alpha = (scrollView.contentOffset.y - ScreenWidth) / ScreenWidth;
 }
 
-
-
 #pragma mark - UzysImageCropperDelegate
-
-
-
 - (void)imageCropperDidCancel:(UzysImageCropperViewController *)cropper
 {
     [_imageCropperViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark - CCLiveShareViewDelegate
-- (void)liveShareViewDidClickButton:(CCLiveShareButtonType)type
+- (void)imageCropper:(UzysImageCropperViewController *)cropper didFinishCroppingWithImage:(UIImage *)image
+{
+    UIImage *videoUpdatingThumb = [UIImage scaleImage:image scaleSize:CGSizeMake(960, 540)];
+    // TO DO : upload picture
+    [self uploadImage:videoUpdatingThumb ForCell:self.currentOperationCell];
+    [_imageCropperViewController dismissViewControllerAnimated:YES completion:nil];
+    
+    // 更改by：mashuaiwei，释放照片剪切控制器，释放内存
+    _imageCropperViewController = nil;
+}
+
+#pragma mark - EVLiveShareViewDelegate
+- (void)liveShareViewDidClickButton:(EVLiveShareButtonType)type
 {
     NSString *nickName = [EVLoginInfo localObject].nickname;
     NSString *videoTitle = self.currentOperationCell.videoModel.title;
     NSString *shareUrlString = self.currentOperationCell.videoModel.share_url;
     UIImage *shareImage = self.currentOperationCell.videoShot.image;
-    if ( type == CCLiveShareSinaWeiBoButton )
+    if ( type == EVLiveShareSinaWeiBoButton )
     {
         shareImage = nil;
     }
-    [[EVShareManager shareInstance] shareContentWithPlatform:type shareType:ShareTypeMineVideo titleReplace:nickName descriptionReplaceName:videoTitle descriptionReplaceId:nil URLString:shareUrlString image:shareImage];
+    [[EVShareManager shareInstance] shareContentWithPlatform:type shareType:ShareTypeNewsWeb titleReplace:nickName descriptionReplaceName:videoTitle descriptionReplaceId:nil URLString:shareUrlString image:shareImage outImage:nil];
 }
-
-
-
 
 #pragma mark - event response
 
@@ -231,37 +235,347 @@ static const NSString *const myVideoCellID = @"videoCell";
 
 
 #pragma mark - private methods
+- (void)loadTextLiveData:(EVUserModel *)userModel
+{
+    WEAK(self)
+    [self.engine GETCreateTextLiveUserid:userModel.name nickName:userModel.nickname easemobid:userModel.name success:^(NSDictionary *retinfo) {
+        EVLog(@"LIVETEXT--------- %@",retinfo);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            EVTextLiveModel *textLiveModel = [EVTextLiveModel objectWithDictionary:retinfo[@"retinfo"][@"data"]];
+            [weakself pushLiveImageVCModel:textLiveModel userModel:userModel];
+        });
+    } error:^(NSError *error) {
+        [EVProgressHUD showMessage:@"创建失败"];
+    }];
+}
 
+
+- (void)loadIsHaveTextLive
+{
+    [self.engine GETIsHaveTextLiveOwnerid:[EVLoginInfo localObject].name streamid:nil success:^(NSDictionary *retinfo) {
+        
+    } error:^(NSError *error) {
+        
+    }];
+}
+
+- (void)pushLiveImageVCModel:(EVTextLiveModel *)model userModel:(EVUserModel *)usermodel
+{
+    EVHVWatchTextViewController *watchImageVC = [[EVHVWatchTextViewController alloc] init];
+    
+    EVWatchVideoInfo *watchVideoInfo = [[EVWatchVideoInfo alloc] init];
+    watchVideoInfo.liveID = model.streamid;
+    watchVideoInfo.name = model.name;
+    watchVideoInfo.viewcount = model.viewcount;
+    watchVideoInfo.nickname = usermodel.nickname;
+    watchImageVC.watchVideoInfo = watchVideoInfo;
+    watchImageVC.liveVideoInfo = watchVideoInfo;
+    UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:watchImageVC];
+    [self presentViewController:navigationVC animated:YES completion:nil];
+}
 - (void)setUI
 {
-    self.title = kE_GlobalZH(@"living_video");
+    self.title = kE_GlobalZH(@"我的直播");
    
-    self.view.backgroundColor = [UIColor evBackgroundColor];
-    // 添加tableview
-    UITableView *tableView = [[UITableView alloc] init];
-    [self.view addSubview:tableView];
-    [tableView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
-    self.tableView = tableView;
+    EVUserModel *WatchVideoInfo = [[EVUserModel alloc] init];
+    WatchVideoInfo.nickname = [EVLoginInfo localObject].nickname;
+    WatchVideoInfo.name = [EVLoginInfo localObject].imuser;
+    self.hvCenterLiveView.userModel = WatchVideoInfo;
+    [self.view addSubview:self.hvCenterLiveView];
+    WEAK(self)
+    _hvCenterLiveView.textLiveBlock = ^ (EVUserModel *watchVideoInfo) {
+        EVLog(@"图文直播间");
+        [weakself loadTextLiveData:watchVideoInfo];
+    };
+    _hvCenterLiveView.videoBlock = ^ (EVWatchVideoInfo *videoModel) {
+        EVHVWatchViewController *watchViewVC = [[EVHVWatchViewController alloc] init];
+        watchViewVC.watchVideoInfo = videoModel;
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:watchViewVC];
+        [weakself presentViewController:nav animated:YES completion:nil];
+    };
     
-    self.tableView.backgroundColor = [UIColor evBackgroundColor];
-    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    self.tableView.rowHeight = 96.0f;
-    self.tableView.separatorColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
-    [self.tableView registerNib:[UINib nibWithNibName:@"EVMyVideoTableViewCell_6" bundle:nil] forCellReuseIdentifier:(NSString *)myVideoCellID];
-    tableView.dataSource = self;
-    tableView.delegate = self;
-    __weak typeof(self) weakself = self;
-    [self.tableView addRefreshHeaderWithRefreshingBlock:^{
-        [weakself getDataWithName:nil start:0 count:kCountNum];
-    }];
-    [self.tableView addRefreshFooterWithRefreshingBlock:^{
-        [weakself getDataWithName:nil start:weakself.videos.count count:kCountNum];
-    }];
-    EVLiveShareView *shareViewContainView = [EVLiveShareView liveShareViewToTargetView:self.navigationController.view menuHeight:kShareViewHeight delegate:self];
-    self.shareViewContainView = shareViewContainView;
-    
-    [self.tableView hideFooter];
 }
+
+- (void)addVipUI
+{
+    EVNullDataView *nullDataView = [[EVNullDataView alloc] init];
+    [self.view addSubview:nullDataView];
+    self.nullDataView = nullDataView;
+    [nullDataView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
+    nullDataView.topImage = [UIImage imageNamed:@"ic_cry"];
+    nullDataView.title = @"您还不是主播噢";
+    nullDataView.buttonTitle = @"成为主播";
+    [nullDataView addButtonTarget:self action:@selector(nullDataClick) forControlEvents:(UIControlEventTouchUpInside)];
+}
+
+- (void)nullDataClick
+{
+    [EVProgressHUD showError:@"暂未实现 敬请期待"];
+}
+
+- (void)liveDataClick
+{
+    [EVProgressHUD showError:@"暂未实现 敬请期待"];
+}
+
+//上传封面
+- (void)uploadImage:(UIImage *)image ForCell:(EVMyVideoTableViewCell *)cell
+{
+    if(![EVBaseToolManager userHasLoginLogin])
+    {
+        return;
+    }
+    WEAK(self)
+    NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
+    NSString *fileName = [NSString stringWithFormat:@"file"];
+    postParams[kFile] = fileName;
+    [self.engine upLoadVideoThumbWithiImage:image vid:cell.videoModel.vid fileparams:postParams success:^(NSDictionary *dict) {
+        [EVProgressHUD showSuccess:@"更改成功"];
+        NSIndexPath *indexPath = [weakself.tableView indexPathForCell:cell];
+        NSString *newVideoShotURL  = [NSString stringWithFormat:@"%@",dict[@"retinfo"][@"videologo"]];
+        cell.videoModel.thumb = [newVideoShotURL copy];
+        
+        if (indexPath && indexPath.row < self.videos.count)
+        {
+            [weakself.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        }
+    } sessionExpire:^{
+        EVRelogin(self);
+    }];
+}
+
+- (void)videoTableViewButton:(UIButton *)button videoCell:(EVMyVideoTableViewCell *)videoCell
+{
+    EVLog(@"更改权限");
+    self.currentOperationCell = videoCell;
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                                  initWithTitle:nil
+                                  delegate:self
+                                  cancelButtonTitle:@"取消"
+                                  destructiveButtonTitle:nil
+                                  otherButtonTitles:@"修改标题", @"修改封面",@"分享",@"删除",nil];
+    actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+    actionSheet.tag = EVActionSheetTypeAll;
+    [actionSheet showInView:self.view];
+}
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (actionSheet.tag) {
+        case EVActionSheetTypeAll:
+            switch (buttonIndex) {
+                case 0:
+                {
+                    EVLog(@"标题修改");
+                    [self modifyVideoTitle];
+                }
+                    break;
+                case 1:
+                {
+                    EVLog(@"封面修改");
+                    [self motifyVideoCover];
+                }
+                
+                    break;
+                case 2:
+                {
+                    EVLog(@"分享");
+                    [self shareVideo];
+                }
+                    break;
+                case 3:
+                {
+                     EVLog(@"删除");
+                    [self deleteVideo];
+                }
+                    
+                    break;
+                default:
+                    break;
+            }
+            break;
+        case EVActionSheetTypePhoto:
+        {
+            switch (buttonIndex) {
+                case 0:
+                {
+                    [EVStreamer requestCameraAuthedUserAuthed:^{
+                        self.picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+                        [self.navigationController presentViewController:self.picker animated:YES completion:nil];
+                    } userDeny:nil];
+                }
+                    break;
+                case 1:
+                {
+                    self.picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+                    [self.navigationController presentViewController:self.picker animated:YES completion:nil];
+                    
+                }
+                    
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
+            break;
+        case EVActionSheetTypeDelete:
+        {
+            if (buttonIndex == 0) {
+                if (buttonIndex == 0)
+                {
+                   WEAK(self)
+                    [self.engine GETAppdevRemoveVideoWith:self.currentOperationCell.videoModel.vid start:^{
+                         [EVProgressHUD showMessage:@"正在删除，请稍侯！" toView:weakself.view];
+                    } fail:^(NSError *error) {
+                        NSString *errorStr = [error errorInfoWithPlacehold:@"对此视频操作失败"];
+                        [EVProgressHUD hideHUDForView:weakself.view];
+                        [EVProgressHUD showError:errorStr toView:self.view];
+                    } success:^{
+                        [EVProgressHUD hideHUDForView:weakself.view];
+                        [weakself.videos removeObject:weakself.currentOperationCell.videoModel];
+                        [weakself.tableView reloadData];
+                    } sessionExpire:^{
+                        
+                    }];
+                }
+            }
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+- (void)actionSheetCancel:(UIActionSheet *)actionSheet
+{
+    
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex)
+    {
+        case 0:     // cancel changing
+        {
+            self.cellVideoTitle = nil;
+            
+            break;
+        }
+            
+        case 1:     // confirm changing
+        {
+            UITextField *textField = [alertView textFieldAtIndex:0];
+            if ( [textField.text numOfWordWithLimit:20] > 20 )
+            {
+                [EVProgressHUD showError:@"不能超过20个字符！"];
+                return;
+            }
+            self.cellVideoTitle = textField.text;
+            
+            // 更新视频标题
+            [self updateVideoTitle];
+            
+            break;
+        }
+    }
+}
+
+
+
+#pragma mark - UIImagePickerDelegate
+
+- (void) imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    UIImage *image =  [info objectForKey:UIImagePickerControllerOriginalImage];
+    //    NSURL *assetURL = [info objectForKey:UIImagePickerControllerReferenceURL];
+    
+    if ( image == nil )
+    {
+        [EVProgressHUD showError:@"请检查该图片是否存在本机相册中"];
+        return;
+    }
+    
+    _imageCropperViewController = [[UzysImageCropperViewController alloc] initWithImage:image andframeSize:_picker.view.frame.size andcropSize:CGSizeMake(1280, 720)];
+    _imageCropperViewController.delegate = self;
+    [_picker pushViewController:_imageCropperViewController animated:YES];
+    [_picker setNavigationBarHidden:YES];
+}
+
+
+- (void)modifyVideoTitle
+{
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"请输入标题"
+                                                    message:@""
+                                                   delegate:self
+                                          cancelButtonTitle:@"取消"
+                                          otherButtonTitles:@"确定", nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    UITextField *textField = [alert textFieldAtIndex:0];
+    alert.delegate = self;
+    self.cellVideoTitle = [self.currentOperationCell.videoModel.title mutableCopy];
+    
+    textField.text = self.cellVideoTitle;
+    
+    [alert show];
+}
+
+- (void)motifyVideoCover
+{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                                  initWithTitle:nil
+                                  delegate:self
+                                  cancelButtonTitle:@"取消"
+                                  destructiveButtonTitle:nil
+                                  otherButtonTitles:@"拍照", @"相册",nil];
+    actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+    actionSheet.tag = EVActionSheetTypePhoto;
+    [actionSheet showInView:self.view];
+}
+
+- (void)shareVideo
+{
+    if (!self.shareViewContainView) {
+        EVLiveShareView *shareView = [[EVLiveShareView alloc] initWithParentView:self.view];
+        shareView.delegate = self;
+        [self.view addSubview:shareView];
+        self.shareViewContainView = shareView;
+    }
+    
+    [self.shareViewContainView show];
+}
+
+- (void)deleteVideo
+{
+    UIActionSheet *confirmMenu = [[UIActionSheet alloc] initWithTitle:@"确定要删除这个视频吗，亲？" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"确定" otherButtonTitles:nil, nil];
+    confirmMenu.tag = EVActionSheetTypeDelete;
+    [confirmMenu showInView:self.view];
+}
+
+
+
+- (void)updateVideoTitle
+{
+    WEAK(self)
+    [self.engine GETVideosettitleWithVid:self.currentOperationCell.videoModel.vid title:self.cellVideoTitle start:^{
+        
+    } fail:^(NSError *error) {
+        [EVProgressHUD showError:@"修改错误"];
+    } success:^{
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:weakself.currentOperationCell];
+        weakself.currentOperationCell.videoModel.title = weakself.cellVideoTitle;
+        
+        if (indexPath && indexPath.row < self.videos.count)
+        {
+            [weakself.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        }
+        [EVProgressHUD showSuccess:@"修改成功"];
+    } sessionExpire:^{
+        EVRelogin(self);
+    }];
+}
+
+
 
 - (void)getDataWithName:(NSString *)name start:(NSInteger)start count:(NSInteger)count
 {
@@ -273,11 +587,11 @@ static const NSString *const myVideoCellID = @"videoCell";
     times ++;
     
     NSString *type = @"video";
-  
+    
     
     __weak typeof(self) weakself = self;
     [self.engine GETUserVideoListWithName:name type:type start:start count:count startBlock:^{
-
+        
     } fail:^(NSError *error) {
         [weakself.tableView endHeaderRefreshing];
         [weakself.tableView endFooterRefreshing];
@@ -290,11 +604,11 @@ static const NSString *const myVideoCellID = @"videoCell";
         }
         
     } success:^(NSArray *videos) {
-        [CCProgressHUD hideHUDForView:weakself.view];
+        [EVProgressHUD hideHUDForView:weakself.view];
         
         if (start == 0)
         {
-            weakself.videos = nil;
+            [weakself.videos removeAllObjects];
         }
         [weakself.videos addObjectsFromArray:videos];
         [weakself.tableView reloadData];
@@ -304,7 +618,6 @@ static const NSString *const myVideoCellID = @"videoCell";
         if ( weakself.videos.count )
         {
             [weakself.tableView showFooter];
-//            [weakself addGestureGuideCoverviewWithImageNamed:@"cue_personal_video"];
         }
         else
         {
@@ -331,7 +644,7 @@ static const NSString *const myVideoCellID = @"videoCell";
             {
                 [weakself.tableView showFooter];
             }
-
+            
         }
         else
         {
@@ -341,56 +654,31 @@ static const NSString *const myVideoCellID = @"videoCell";
         [weakself.loadingView removeFromSuperview];
         weakself.loadingView = nil;
         
+        if (weakself.videos.count <= 0) {
+            if (self.userModel.vip == 1) {
+                self.tableView.hidden = YES;
+                self.liveDataView.hidden = NO;
+                self.nullDataView.hidden = YES;
+            }else {
+                self.tableView.hidden = YES;
+                self.liveDataView.hidden = YES;
+                self.nullDataView.hidden = NO;
+            }
+        }else {
+            self.tableView.hidden = NO;
+            self.liveDataView.hidden = YES;
+            self.nullDataView.hidden = YES;
+        }
+        
     } essionExpire:^{
-//        [CCProgressHUD hideHUDForView:weakself.view];
         [weakself.tableView endHeaderRefreshing];
         [weakself.tableView endFooterRefreshing];
-        CCRelogin(weakself);
+        EVRelogin(weakself);
     }];
-}
-
-/**
- * 更改封面，上传图片
- * 创建    马帅伟                  先获取上传路径，然后进行上传
- */
-- (void)uploadImage:(UIImage *)image ForCell:(EVMyVideoTableViewCell *)cell
-{
-    if(![EVBaseToolManager userHasLoginLogin])
-    {
-        return;
-    }
-}
-
-/**
- *  更新话题数据
- *
- *  @param response 新获取的数据
- */
-- (void)updateTopicResponse:(EVTopicResponse *)response
-{
-    if ( response.count < kCountNum )
-    {
-  
-        self.topicResponse.noMore = YES;
-    }
-    else
-    {
-    }
-    
-    if ( self.topicResponse == nil )
-    {
-        self.topicResponse = response;
-    }
-    else
-    {
-        [response.topics addObjectsFromArray:self.topicResponse.topics];
-        self.topicResponse = response;
-    }
 }
 
 
 #pragma mark - getters and setters
-
 - (EVBaseToolManager *)engine
 {
     if (!_engine)
@@ -431,10 +719,9 @@ static const NSString *const myVideoCellID = @"videoCell";
         [self.tableView addSubview:nulldataView];
         nulldataView.title = kE_GlobalZH(@"null_data");
         nulldataView.topImage = [UIImage imageNamed:@"home_pic_findempty"];
-        // delete by 佳南
-//        nulldataView.buttonTitle = kE_GlobalZH(@"send_go_living");
+        nulldataView.buttonTitle = kE_GlobalZH(@"send_go_living");
         self.noDataView = nulldataView;
-//        [nulldataView addButtonTarget:self action:@selector(noDataViewButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [nulldataView addButtonTarget:self action:@selector(noDataViewButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
     }
     
     return _noDataView;
@@ -446,6 +733,27 @@ static const NSString *const myVideoCellID = @"videoCell";
     [self requestNormalLivingPageForceImage:NO  allowList:nil audioOnly:NO delegate:self];
 }
 
+- (void)setUserModel:(EVUserModel *)userModel
+{
+    _userModel = userModel;
+    if (userModel.vip == 1) {
+        
+        self.nullDataView.hidden = YES;
+        self.liveDataView.hidden = NO;
+    }else {
+        self.nullDataView.hidden = NO;
+        self.liveDataView.hidden = YES;
+    }
+}
+
+- (EVHVCenterLiveView *)hvCenterLiveView
+{
+    if (_hvCenterLiveView == nil) {
+        _hvCenterLiveView = [[EVHVCenterLiveView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight) style:(UITableViewStyleGrouped)];
+        _hvCenterLiveView.backgroundColor = [UIColor evBackgroundColor];
+    }
+    return _hvCenterLiveView;
+}
 #pragma mark - 绑定手机号
 // 直播需要绑定手机, 请监听改回调
 - (void)liveNeedToBindPhone:(EVLiveViewController *)liveVC

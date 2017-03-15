@@ -46,7 +46,7 @@ typedef NS_ENUM(NSUInteger, EVMyEarningsCtrlBtnType)
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = CCBackgroundColor;
+    self.view.backgroundColor = [UIColor evBackgroundColor];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     
     [self navBar];
@@ -86,7 +86,7 @@ typedef NS_ENUM(NSUInteger, EVMyEarningsCtrlBtnType)
 {
     self.title = kE_GlobalZH(@"me_earnings");
     UIBarButtonItem *rightBarBtnItem = [[UIBarButtonItem alloc] initWithTitle:kE_GlobalZH(@"push_money_record") style:UIBarButtonItemStylePlain target:self action:@selector(buttonAction:)];
-    [rightBarBtnItem setTitleTextAttributes:@{UITextAttributeFont:[UIFont systemFontOfSize:15.0],UITextAttributeTextColor:[UIColor whiteColor]} forState:(UIControlStateNormal)];
+    [rightBarBtnItem setTitleTextAttributes:@{UITextAttributeFont:[UIFont systemFontOfSize:15.0],UITextAttributeTextColor:[UIColor evSecondColor]} forState:(UIControlStateNormal)];
     rightBarBtnItem.tag = EVMyEarningsCtrlBtnType_right;
     self.navigationItem.rightBarButtonItem = rightBarBtnItem;
 }
@@ -160,7 +160,7 @@ typedef NS_ENUM(NSUInteger, EVMyEarningsCtrlBtnType)
     UIButton *shadowBtn = [[UIButton alloc] init];
     shadowBtn.layer.cornerRadius = 4.f;
     [shadowBtn setTitle:kE_GlobalZH(@"wechat_money") forState:UIControlStateNormal];
-    shadowBtn.backgroundColor = CCColor(98, 45, 128);
+    shadowBtn.backgroundColor = [UIColor colorWithHexString:@"#9ac9ff"];
     [shadowBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     shadowBtn.tag = EVMyEarningsCtrlBtnType_withdraw;
     [shadowBtn addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -201,7 +201,7 @@ typedef NS_ENUM(NSUInteger, EVMyEarningsCtrlBtnType)
         case EVMyEarningsCtrlBtnType_withdraw:
         {
             if (self.userAsset.cashstatus == 0) {
-                [CCProgressHUD showError:kE_GlobalZH(@"account_money_frost")];
+                [EVProgressHUD showError:kE_GlobalZH(@"account_money_frost")];
                 return;
             } else if( self.userAsset.limitcash < 200){
                 [[EVAlertManager shareInstance] performComfirmTitle:kE_GlobalZH(@"once_not_two_money") message:nil comfirmTitle:kOK WithComfirm:nil];
@@ -223,7 +223,7 @@ typedef NS_ENUM(NSUInteger, EVMyEarningsCtrlBtnType)
             if ([[EVStartResourceTool shareInstance] payFAQUrl]) {
                 [self.navigationController pushViewController:webCtrl animated:YES];
             }else {
-                [CCProgressHUD showError:@"url为空"];
+                [EVProgressHUD showError:@"url为空"];
             }
             
         }

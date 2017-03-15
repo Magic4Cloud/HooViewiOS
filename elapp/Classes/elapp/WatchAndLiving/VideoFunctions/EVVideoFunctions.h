@@ -20,5 +20,7 @@
 /**< 给左下角、右下角加圆角 */
 + (void)setBottomLeftAndBottomRightCorner:(UIView *)view;
 
+/** "举报"操作 */
++ (void)handleReportAction;
 
 @end

@@ -15,11 +15,8 @@
 @property ( weak, nonatomic ) UITableView *tableView;
 @property ( strong, nonatomic ) EVProfileHeaderView *tableHeaderView;
 
-
-
-
 /**
- *  @author 杨尚彬
+
  *
  *  点击头像变大图
  *

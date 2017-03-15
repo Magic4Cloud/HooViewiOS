@@ -21,5 +21,5 @@
 
 @property (nonatomic, assign) BOOL isReedit;                // NO：注册 YES：更改个人信息
 
-
+@property (nonatomic, strong) NSArray *tagsAry;
 @end

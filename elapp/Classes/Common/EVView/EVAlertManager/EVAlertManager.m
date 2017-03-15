@@ -86,13 +86,6 @@ typedef void(^CancelBlock)(UIAlertView *alertView);
     return manager;
 }
 
-//- (UIAlertView *)performComfirmTitle:(NSString *)title message:(NSString *)message comfirmTitle:(NSString *)comfirmTitle WithComfirm:(void(^)())comfirmBlock {
-//    CCAlertView *alert = [[CCAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:comfirmTitle otherButtonTitles:nil];
-//    CCAlertUserInfo *userInfo = [CCAlertUserInfo alertUserInfoWithComfirm:nil cancel:comfirmBlock];
-//    alert.alertInfo = userInfo;
-//    [alert show];
-//    return alert;
-//}
 
 - (UIAlertView *)performComfirmTitle:(NSString *)title
                              message:(NSString *)message

@@ -9,22 +9,17 @@
 #import "EVBaseToolManager.h"
 
 
-typedef NS_ENUM(NSInteger, CCLiveState) {
-    CCLiveStateLiving = 0,          // 直播进行中
-    CCLiveStateHoldUp = 1,          // 直播应用退到后台，主播在忙
-    CCLiveStateSharing = 2,         // 直播播主正在分享
-    CCLiveStateEnd = 3,             // 直播已结束
-    CCLiveStateNetworkBad = 4,      // 网络不稳定
-    CCLiveStatePhoneCallComeIn = 5, // 电话来了
-    CCLiveStateNetworkWorse = 6,    // 卡的严重
-    CCLiveStateNetworkWorst = 7,    // 卡死了
+typedef NS_ENUM(NSInteger, EVLiveState) {
+    EVLiveStateLiving = 0,          // 直播进行中
+    EVLiveStateHoldUp = 1,          // 直播应用退到后台，主播在忙
+    EVLiveStateSharing = 2,         // 直播播主正在分享
+    EVLiveStateEnd = 3,             // 直播已结束
+    EVLiveStateNetworkBad = 4,      // 网络不稳定
+    EVLiveStatePhoneCallComeIn = 5, // 电话来了
+    EVLiveStateNetworkWorse = 6,    // 卡的严重
+    EVLiveStateNetworkWorst = 7,    // 卡死了
 };
 
-typedef NS_ENUM(NSInteger, CCVideoPermission) {
-    CCVideoPermissionSquare = 0,    // 发布到广场
-    CCVideoPermissionShare,         // 仅分享可见
-    CCVideoPermissionPrivate        // 仅自己可见
-};
 
 @interface EVBaseToolManager (EVLiveAPI)
 
@@ -32,18 +27,15 @@ typedef NS_ENUM(NSInteger, CCVideoPermission) {
 - (void)GETLivePayWithVid:(NSString *)vid start:(void(^)())startBlock fail:(void(^)(NSError *error))failBlock successBlock:(void(^)(NSDictionary *retinfo))successBlock sessionExpire:(void(^)())sessionExpireBlock;
 
 
-- (NSString *)GETLivePreStartParams:(NSDictionary *)param
+- (void)GETLivePreStartParams:(NSDictionary *)param
                               Start:(void(^)())startBlock
                                fail:(void(^)(NSError *error))failBlock
                             success:(void(^)(NSDictionary *info))successBlock
                       sessionExpire:(void(^)())sessionExpireBlock;
 
-- (NSString *)GETLivePreStartStart:(void(^)())startBlock
-                        fail:(void(^)(NSError *error))failBlock
-                     success:(void(^)(NSDictionary *info))successBlock
-               sessionExpire:(void(^)())sessionExpireBlock;
 
-- (void)upLoadVideoThumbWithiImage:(UIImage *)image vid:(NSString *)vid fileparams:(NSMutableDictionary *)fileparams sessionExpire:(void(^)())sessionExpireBlock;
+
+- (void)upLoadVideoThumbWithiImage:(UIImage *)image vid:(NSString *)vid fileparams:(NSMutableDictionary *)fileparams success:(void(^)(NSDictionary *dict))success sessionExpire:(void(^)())sessionExpireBlock;
 
 
 /** 直播修改标题 */
@@ -88,12 +80,11 @@ typedef NS_ENUM(NSInteger, CCVideoPermission) {
 
 
 /**
- *  @author shizhiang, 16-03-09 18:03:15
  *
  *  直播过程中主播发红包
  *
  *  @param vid                视频id
- *  @param ecoin              红包的云币数
+ *  @param ecoin              红包的火眼豆数
  *  @param count              多少人可以抢红包
  *  @param startBlock         开始
  *  @param failBlock          失败
@@ -130,7 +121,6 @@ typedef NS_ENUM(NSInteger, CCVideoPermission) {
 
 
 /**
- *  @author shizhiang, 15-12-15 10:12:59
  *
  *  购买商品
  *
@@ -155,7 +145,6 @@ typedef NS_ENUM(NSInteger, CCVideoPermission) {
                    sessionExpire:(void (^)())sessionExpireBlock;
 
 /**
- *  @author shizhiang, 15-12-14 19:12:57
  *
  *  使用sessionid获取用户资产
  *
@@ -195,4 +184,50 @@ typedef NS_ENUM(NSInteger, CCVideoPermission) {
                   success:(void(^)(NSDictionary *retinfo))successBlock
             sessionExpire:(void(^)())sessionExpireBlock;
 
+//用户禁言
+- (void)GETUserShutVid:(NSString *)vid
+              userName:(NSString *)userName
+                shutUp:(NSString *)shutup
+                 start:(void(^)())startBlock
+                  fail:(void(^)(NSError *error))failBlock
+               success:(void(^)(NSDictionary *retinfo))successBlock
+         sessionExpire:(void(^)())sessionExpireBlock;
+
+//设置管理员
+- (void)GetUserManagerVid:(NSString *)vid
+                 userName:(NSString *)userName
+                  manager:(NSString *)manager
+                    start:(void(^)())startBlock
+                     fail:(void(^)(NSError *error))failBlock
+                  success:(void(^)(NSDictionary *retinfo))successBlock
+            sessionExpire:(void(^)())sessionExpireBlock;
+
+
+- (void)GETKictUserVid:(NSString *)vid userName:(NSString *)username kick:(NSString *)kick fail:(void(^)(NSError *error))failBlock
+               success:(void(^)(NSDictionary *retinfo))successBlock
+         sessionExpire:(void(^)())sessionExpireBlock;
+
+- (void)GETRequestLinkUsername:(NSString *)username success:(void (^) (NSDictionary *retinfo))success error:(void (^)(NSError *error))error sessionExpire:(void(^)())sessionExpireBlock;
+
+- (void)GETAcceptLinkUsername:(NSString *)username success:(void (^) (NSDictionary *retinfo))success error:(void (^)(NSError *error))error sessionExpire:(void(^)())sessionExpireBlock;
+
+
+- (void)GETCancelLindCallid:(NSString *)callid vid:(NSString *)vid success:(void (^) (NSDictionary *retinfo))success error:(void (^)(NSError *error))error sessionExpire:(void(^)())sessionExpireBlock;
+
+- (void)GETEndLinkCallid:(NSString *)callid vid:(NSString *)vid success:(void (^) (NSDictionary *retinfo))success error:(void (^)(NSError *error))error sessionExpire:(void(^)())sessionExpireBlock;
+
+
+
+//图文直播
+//创建图文直播间
+- (void)GETCreateTextLiveUserid:(NSString *)userid nickName:(NSString *)nickname easemobid:(NSString *)easemobid success:(void (^) (NSDictionary *retinfo))success error:(void (^)(NSError *error))error;
+
+
+
+//创建图文直播间
+- (void)GETHistoryTextLiveStreamid:(NSString *)streamid  count:(NSString *)count stime:(NSString *)stime success:(void (^) (NSDictionary *retinfo))success error:(void (^)(NSError *error))error;
+- (void)POSTChatTextLiveID:(NSString *)streamid from:(NSString *)from nk:(NSString *)nk msgid:(NSString *)msgid msgtype:(NSString *)msgtype msg:(NSString *)msg tp:(NSString *)tp rct:(NSString *)rct rnk:(NSString *)rnk timestamp:(NSString *)timestamp img:(UIImage *)img success:(void (^) (NSDictionary *retinfo))success error:(void (^)(NSError *error))error;
+
+//直播间是否存在
+- (void)GETIsHaveTextLiveOwnerid:(NSString *)ownerid streamid:(NSString *)streamid success:(void (^) (NSDictionary *retinfo))success error:(void (^)(NSError *error))error;
 @end

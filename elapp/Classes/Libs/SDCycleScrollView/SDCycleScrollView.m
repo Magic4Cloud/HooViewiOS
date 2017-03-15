@@ -378,7 +378,6 @@ NSString * const ID = @"cycleCell";
     int indexOnPageControl = [self currentIndex] % self.imagePathsGroup.count;
     
     /**
-     *  add by 刘传瑞
      *  ** 修改 -setupPageControl ，为了避免‘刷新后 UIPageControl 出现漂移动画’**
      *  >> 没有必要每次 setup PageControl 都 remove 掉原本的 PageControl.
      *  >> 只需要确认当前 _pageControl 被创建，并且有内容，对当前 _pageControl 进行操作即可
@@ -395,7 +394,6 @@ NSString * const ID = @"cycleCell";
     }
     
     /**
-     *  move by 刘传瑞
      *  >> 如果进入如下 switch 判断，才需要 removeFromSuperview，因为如下判断中才会 addSubview.
      */
     if (_pageControl) [_pageControl removeFromSuperview]; // 重新加载数据时调整
@@ -520,7 +518,7 @@ NSString * const ID = @"cycleCell";
         [pageControl sizeToFit];
     }
     
-    /** add by 刘传瑞 
+    /**
      *  如果给了 pageOriginY ，应该使用自定义的数值
      */
     if (self.pageOriginY != 0.0f) {

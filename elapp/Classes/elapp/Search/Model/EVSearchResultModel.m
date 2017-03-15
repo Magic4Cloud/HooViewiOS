@@ -9,6 +9,8 @@
 #import "EVSearchResultModel.h"
 #import "EVFindUserInfo.h"
 #import "EVNowVideoItem.h"
+#import "EVBaseNewsModel.h"
+#import "EVStockBaseModel.h"
 
 @implementation EVSearchResultModel
 
@@ -18,7 +20,12 @@
 {
     return @{@"users" : [EVFindUserInfo class],
              @"lives" : [EVNowVideoItem class],
-             @"videos" : [EVNowVideoItem class]};
+             @"videos" : [EVNowVideoItem class],
+             @"news" : [EVBaseNewsModel class],
+             @"data": [EVStockBaseModel class]};
 }
+
+
+
 
 @end

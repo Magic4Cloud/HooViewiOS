@@ -78,11 +78,11 @@ static BOOL isShow;     /**< 判断当前视图是否已经展现 */
         }
         case EVLimitHeaderViewButtonComfirm: {
             if (self.sumTextField.text.length <= 0 || self.sumTextField.text.integerValue == 0) {
-                [CCProgressHUD showError:@"请先输入金额"];
+                [EVProgressHUD showError:@"请先输入金额"];
             } else if (![self isPositiveNumber:self.sumTextField.text]) {
-                [CCProgressHUD showError:@"输入金额格式错误"];
+                [EVProgressHUD showError:@"输入金额格式错误"];
             } else if (self.sumTextField.text.length > 8) {
-                [CCProgressHUD showError:@"输入金额过大"];
+                [EVProgressHUD showError:@"输入金额过大"];
             } else {
                 [self p_callBackWithCancel:NO];
             }
@@ -122,7 +122,7 @@ static BOOL isShow;     /**< 判断当前视图是否已经展现 */
 
 #pragma mark - build UI
 - (void)buildLivingPaySumViewUI {
-    self.backgroundColor = CCBackgroundColor;
+    self.backgroundColor = [UIColor evBackgroundColor];
     
     [self.navView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero excludingEdge:ALEdgeBottom];
     [self.navView autoSetDimension:ALDimensionHeight toSize:64];
@@ -178,7 +178,7 @@ static BOOL isShow;     /**< 判断当前视图是否已经展现 */
 - (UILabel *)sumSuffixLab {
     if (!_sumSuffixLab) {
         UILabel *sumSuffixLab = [[UILabel alloc] initWithFrame:CGRectZero];
-        sumSuffixLab.text = @"云币";
+        sumSuffixLab.text = @"火眼豆";
         sumSuffixLab.textColor = [UIColor colorWithHexString:@"403b37"];
         sumSuffixLab.font = [UIFont boldSystemFontOfSize:13];
         _sumSuffixLab = sumSuffixLab;
@@ -189,7 +189,7 @@ static BOOL isShow;     /**< 判断当前视图是否已经展现 */
 - (UILabel *)bottomDescriptionLab {
     if (!_bottomDescriptionLab) {
         UILabel *bottomLab = [[UILabel alloc] initWithFrame:CGRectZero];
-        bottomLab.text = @"本次直播收入将由易视云代扣个税后转为可提现金额";
+        bottomLab.text = @"本次直播收入将由火眼财经代扣个税后转为可提现金额";
         bottomLab.textColor = [UIColor colorWithHexString:@"403b37" alpha:.5];
         bottomLab.font = [UIFont systemFontOfSize:12];
         bottomLab.numberOfLines = 2;

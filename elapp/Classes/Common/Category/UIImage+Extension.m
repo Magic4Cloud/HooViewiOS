@@ -426,7 +426,7 @@
 
 + (instancetype)imageWithALogoWithSize:(CGSize)size isLiving:(BOOL)isLiving
 {
-//    CCLog(@"----size:%@", NSStringFromCGSize(size));
+//    EVLog(@"----size:%@", NSStringFromCGSize(size));
     CGSize tempSize = CGSizeMake(floor(size.width), floor(size.height));
     NSString *sizeStr = NSStringFromCGSize(tempSize);
     sizeStr = [sizeStr stringByAppendingString:@"imageSize"];
@@ -648,7 +648,7 @@ CGFloat RadiansToDegrees(CGFloat radians);
     
     if ( !scale && (srcSize.width < boundingSize.width) && (srcSize.height < boundingSize.height) )
     {
-        //CCLog(@"Image is smaller, and we asked not to scale it in this case (scaleIfSmaller:NO)");
+        //EVLog(@"Image is smaller, and we asked not to scale it in this case (scaleIfSmaller:NO)");
         dstSize = srcSize; // no resize (we could directly return 'self' here, but we draw the image anyway to take image orientation into account)
     }
     else
@@ -658,12 +658,12 @@ CGFloat RadiansToDegrees(CGFloat radians);
         
         if ( wRatio < hRatio )
         {
-            //CCLog(@"Width imposed, Height scaled ; ratio = %f",wRatio);
+            //EVLog(@"Width imposed, Height scaled ; ratio = %f",wRatio);
             dstSize = CGSizeMake(floorf(srcSize.width * hRatio), boundingSize.height);
         }
         else
         {
-            //CCLog(@"Height imposed, Width scaled ; ratio = %f",hRatio);
+            //EVLog(@"Height imposed, Width scaled ; ratio = %f",hRatio);
             dstSize = CGSizeMake(boundingSize.width, floorf(srcSize.height * wRatio));
             
         }
@@ -687,7 +687,7 @@ CGFloat RadiansToDegrees(CGFloat radians);
     
     // Create the bitmap context
 //    UIGraphicsBeginImageContextWithOptions(rotatedSize, NO, self.scale);
-//    CCLog(@"self.scale:%f", self.scale);
+//    EVLog(@"self.scale:%f", self.scale);
     // 让缩放值变小，解决太大，导致内存高企，导致crash
     CGFloat scale = 1 / self.scale > 0.7 ? 0.7 : 1 / self.scale;
     UIGraphicsBeginImageContextWithOptions(rotatedSize, NO, scale);

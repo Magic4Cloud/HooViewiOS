@@ -77,7 +77,7 @@ CGFloat const sendMessageAndAddBuddyBtnHeight = 60;
 {
     UIView *blurView = [[UIView alloc] init];
     [self addSubview:blurView];
-    blurView.backgroundColor = CCBackgroundColor;
+    blurView.backgroundColor = [UIColor evBackgroundColor];
     [blurView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
     blurView.userInteractionEnabled = YES;
     

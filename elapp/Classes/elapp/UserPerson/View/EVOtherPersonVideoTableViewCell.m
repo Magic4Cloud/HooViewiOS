@@ -48,10 +48,10 @@
 - (void)configUI
 {
     self.videoshot.contentMode = UIViewContentModeScaleAspectFill;
-    self.duration.font = [[CCAppSetting shareInstance] normalFontWithSize:12.0f];
-    self.stamp.font = [[CCAppSetting shareInstance] normalFontWithSize:14.0f];
+    self.duration.font = [[EVAppSetting shareInstance] normalFontWithSize:12.0f];
+    self.stamp.font = [[EVAppSetting shareInstance] normalFontWithSize:14.0f];
     self.stamp.textColor = [UIColor colorWithHexString:@"#666666"];
-    self.videoTitle.font = [[CCAppSetting shareInstance] normalFontWithSize:14.0f];
+    self.videoTitle.font = [[EVAppSetting shareInstance] normalFontWithSize:14.0f];
 }
 
 // 采用富文本的形式对label的内容进行展示
@@ -105,7 +105,7 @@
     [self setLabel:self.intro WithWatch:self.model.watch_count like:self.model.like_count comment:self.model.comment_count type:type];
     
     // 展示是否正在直播
-    if ([self.model.living boolValue]) {
+    if (self.model.living == 1) {
         self.duration.text =  kE_GlobalZH(@"living");
         self.duration.backgroundColor = [UIColor colorWithHexString:@"#aa3333"];
         

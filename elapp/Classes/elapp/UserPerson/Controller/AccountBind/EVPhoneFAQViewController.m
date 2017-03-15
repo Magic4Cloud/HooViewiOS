@@ -20,20 +20,22 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    self.title = kE_GlobalZH(@"appeal_about");
+    self.title = self.navTitle;
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:kE_GlobalZH(@"self_appeal") style:UIBarButtonItemStylePlain target:self action:@selector(clickAppealItem)];
-       [self.navigationItem.rightBarButtonItem setTitleTextAttributes:@{UITextAttributeFont:[UIFont systemFontOfSize:15],UITextAttributeTextColor:[UIColor whiteColor]} forState:(UIControlStateNormal)];
+    if (self.showAppealBtn) {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:kE_GlobalZH(@"self_appeal") style:UIBarButtonItemStylePlain target:self action:@selector(clickAppealItem)];
+        [self.navigationItem.rightBarButtonItem setTitleTextAttributes:@{UITextAttributeFont:[UIFont systemFontOfSize:15],UITextAttributeTextColor:[UIColor evSecondColor]} forState:(UIControlStateNormal)];
+    }
     
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"申诉说明.rtf" ofType:nil];
+    NSString *path = self.RTFFilePath ? : @"";
     UITextView *textView = [[UITextView alloc] init];
     [self.view addSubview:textView];
     [textView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
     NSMutableAttributedString *attriStr = [[NSMutableAttributedString alloc] initWithData:[NSData dataWithContentsOfFile:path] options:@{} documentAttributes:nil error:nil];
     textView.attributedText = attriStr;
     textView.textContainerInset = UIEdgeInsetsMake(10, 10, 10, 10);
-    textView.backgroundColor = CCBackgroundColor;
-    textView.tintColor = CCAppMainColor;
+    textView.backgroundColor = [UIColor evBackgroundColor];
+    textView.tintColor = [UIColor evMainColor];
     textView.editable = NO;
 }
 
@@ -41,7 +43,7 @@
 {
     if ( ![MFMailComposeViewController canSendMail] )
     {
-        [CCProgressHUD showError:kE_GlobalZH(@"your_device_not_send_mail")];
+        [EVProgressHUD showError:kE_GlobalZH(@"your_device_not_send_mail")];
         return;
     }
     MFMailComposeViewController *mailPicker = [[MFMailComposeViewController alloc] init];     //创建邮件controller
@@ -65,24 +67,24 @@
     switch (result){
             
         case MFMailComposeResultCancelled:
-            CCLog(@"Mail send canceled…");
+            EVLog(@"Mail send canceled…");
             
             break;
             
         case MFMailComposeResultSaved:
-            CCLog(@"Mail saved…");
+            EVLog(@"Mail saved…");
             
             break;
             
         case MFMailComposeResultSent:
-            CCLog(@"Mail sent…");
-            [CCProgressHUD showSuccess:kE_GlobalZH(@"success_send")];
+            EVLog(@"Mail sent…");
+            [EVProgressHUD showSuccess:kE_GlobalZH(@"success_send")];
             
             break;
             
         case MFMailComposeResultFailed:
-            CCLog(@"Mail send errored: %@…", [error localizedDescription]);
-            [CCProgressHUD showError:kE_GlobalZH(@"fail_send")];
+            EVLog(@"Mail send errored: %@…", [error localizedDescription]);
+            [EVProgressHUD showError:kE_GlobalZH(@"fail_send")];
             
             break;
             

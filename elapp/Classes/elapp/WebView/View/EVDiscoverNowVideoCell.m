@@ -21,7 +21,7 @@
 @interface EVDiscoverNowVideoCell ()
 
 @property (nonatomic,weak) UIView *containerView;
-@property (nonatomic,weak) CCHeaderImageView *icomImageView;
+@property (nonatomic,weak) EVHeaderImageView *icomImageView;
 @property (nonatomic,weak) UILabel *nickNameLabel;
 
 @property (nonatomic,weak) UILabel *timeLabel;
@@ -60,7 +60,7 @@
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     
     
-    self.contentView.backgroundColor = CCBackgroundColor;
+    self.contentView.backgroundColor = [UIColor evBackgroundColor];
     
     UIView *containerView = [[UIView alloc] init];
     containerView.backgroundColor = [UIColor whiteColor];
@@ -82,7 +82,7 @@
     [userInfoContainView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero excludingEdge:ALEdgeBottom];
     [userInfoContainView autoSetDimension:ALDimensionHeight toSize:50];
     
-    CCHeaderImageView *icomImageView = [[CCHeaderImageView alloc] init];
+    EVHeaderImageView *icomImageView = [[EVHeaderImageView alloc] init];
     icomImageView.userInteractionEnabled = YES;
     [userInfoContainView addSubview:icomImageView];
     [icomImageView autoSetDimensionsToSize:CGSizeMake(ICONWH, ICONWH)];
@@ -94,7 +94,7 @@
     [icomImageView addGestureRecognizer:tap];
     
     UILabel *nickNameLabel = [[UILabel alloc] init];
-    nickNameLabel.font = [[CCAppSetting shareInstance] normalFontWithSize:14];
+    nickNameLabel.font = [[EVAppSetting shareInstance] normalFontWithSize:14];
     nickNameLabel.textColor = [UIColor evTextColorH1];
     [userInfoContainView addSubview:nickNameLabel];
     self.nickNameLabel = nickNameLabel;
@@ -121,7 +121,7 @@
     
     UIView *line = [[UIView alloc] init];
     [videoContainView addSubview:line];
-    line.backgroundColor = CCBackgroundColor;
+    line.backgroundColor = [UIColor evBackgroundColor];
     [line autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(0, 10, 0, 0) excludingEdge:ALEdgeBottom];
     [line autoSetDimension:ALDimensionHeight toSize:0.5];
     
@@ -156,7 +156,7 @@
     livingBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 5);
     livingBtn.backgroundColor = [UIColor colorWithHexString:@"#f54444" alpha:0.5];
     [livingBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    livingBtn.titleLabel.font = [[CCAppSetting shareInstance] normalFontWithSize:12];
+    livingBtn.titleLabel.font = [[EVAppSetting shareInstance] normalFontWithSize:12];
     
     UIButton *videoTimeBtn = [[UIButton alloc] init];
     [videoTimeBtn setTitleColor:livingBtn.titleLabel.textColor forState:UIControlStateNormal];
@@ -171,7 +171,7 @@
     UILabel *videoTitleLabel = [[UILabel alloc] init];
     videoTitleLabel.text = kE_Loading;
     videoTitleLabel.textColor = [UIColor evTextColorH1];
-    videoTitleLabel.font = [[CCAppSetting shareInstance] normalFontWithSize:14];
+    videoTitleLabel.font = [[EVAppSetting shareInstance] normalFontWithSize:14];
     videoTitleLabel.numberOfLines = 2;
     videoTitleLabel.textAlignment = NSTextAlignmentLeft;
     [videoContainView addSubview:videoTitleLabel];
@@ -180,7 +180,7 @@
     [videoTitleLabel autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:27];
     self.videoTitleLabel = videoTitleLabel;
     
-    UIFont *bottomFont = [[CCAppSetting shareInstance] normalFontWithSize:11];
+    UIFont *bottomFont = [[EVAppSetting shareInstance] normalFontWithSize:11];
     
     CGFloat margin = 16;
     
@@ -190,7 +190,7 @@
     [likeCountButton setTitle:@"0" forState:UIControlStateNormal];
     likeCountButton.imageEdgeInsets = UIEdgeInsetsMake(0, -4, 0, 0);
     likeCountButton.titleLabel.font = bottomFont;
-    [likeCountButton setTitleColor:CCTextBlackColor forState:UIControlStateNormal];
+    [likeCountButton setTitleColor:[UIColor textBlackColor] forState:UIControlStateNormal];
     [videoContainView addSubview:likeCountButton];
     [likeCountButton autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:videoTitleLabel];
     [likeCountButton autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:4]; // 按产品要求修改
@@ -202,7 +202,7 @@
     [commontCountButton setTitle:@"0" forState:UIControlStateNormal];
     commontCountButton.imageEdgeInsets = UIEdgeInsetsMake(0, -4, 0, 0);
     commontCountButton.titleLabel.font = bottomFont;
-    [commontCountButton setTitleColor:CCTextBlackColor forState:UIControlStateNormal];
+    [commontCountButton setTitleColor:[UIColor textBlackColor] forState:UIControlStateNormal];
     [videoContainView addSubview:commontCountButton];
     self.commontCountButton = commontCountButton;
     [commontCountButton autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:likeCountButton withOffset:margin];
@@ -214,7 +214,7 @@
     [watchingCountButton setTitle:@"0" forState:UIControlStateNormal];
     watchingCountButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
     watchingCountButton.titleLabel.font = bottomFont;
-    [watchingCountButton setTitleColor:CCTextBlackColor forState:UIControlStateNormal];
+    [watchingCountButton setTitleColor:[UIColor textBlackColor] forState:UIControlStateNormal];
     [videoContainView addSubview:watchingCountButton];
     self.watchingCountButton = watchingCountButton;
     [watchingCountButton autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:commontCountButton withOffset:margin];
@@ -253,7 +253,7 @@
 {
     [self.icomImageView cc_setRoundImageWithDefaultPlaceHoderURLString:_videoItem.logourl];
     
-    [self.icomImageView cc_setImageWithURLString:_videoItem.logourl placeholderImageName:@"avatar" isVip:_videoItem.vid vipSizeType:CCVipMiddle];
+    [self.icomImageView cc_setImageWithURLString:_videoItem.logourl placeholderImageName:@"avatar" isVip:_videoItem.vid vipSizeType:EVVipMiddle];
     self.nickNameLabel.text = _videoItem.remarks;
 
     
@@ -300,18 +300,18 @@
     [self updateData];
 }
 
-- (void)setType:(CCDiscoverNowVideoCellTYPE)type
+- (void)setType:(EVDiscoverNowVideoCellTYPE)type
 {
     switch (type)
     {
-        case CCDiscoverNowVideoCell_NOW:
+        case EVDiscoverNowVideoCell_NOW:
         {
             self.topConstraint.constant = CCDiscoverNowVideoCellTopMargin;
             self.bottomConstraint.constant = .0f;
         }
             break;
             
-        case CCDiscoverNowVideoCell_SEARCH:
+        case EVDiscoverNowVideoCell_SEARCH:
         {
             self.topConstraint.constant = .0f;
             self.bottomConstraint.constant = -CCDiscoverNowVideoCellTopMargin;

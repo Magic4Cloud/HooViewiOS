@@ -59,7 +59,7 @@
 - (void)setUpUI
 {
     UILabel *contributesLbl = [UILabel labelWithDefaultTextColor:[UIColor evTextColorH2]
-                                                            font:CCNormalFont(13)];
+                                                            font:EVNormalFont(13)];
     contributesLbl.textAlignment = NSTextAlignmentCenter;
     [self addSubview:contributesLbl];
     self.contributesLbl = contributesLbl;
@@ -109,7 +109,7 @@
 {
     _model = model;
     
-    [self.logoBtn cc_setBackgroundImageURL:model.logourl placeholderImage:[UIImage imageNamed:@"avatar"] isVip:![model.vip isEqualToString:@"0"] vipSizeType:CCVipMiddle];
+    [self.logoBtn cc_setBackgroundImageURL:model.logourl placeholderImage:[UIImage imageNamed:@"avatar"] isVip:![model.vip isEqualToString:@"0"] vipSizeType:EVVipMiddle];
     self.nicknameLbl.nickName = model.nickname;
     self.nicknameLbl.gender = model.gender;
     self.contributesLbl.text = [NSString stringWithFormat:@"%@ %zd",kE_GlobalZH(@"e_devote"), model.riceroll];
@@ -118,7 +118,7 @@
 - (void)setType:(CCTopContributorType)type
 {
     CALayer * bottomBorder = [CALayer layer];
-    [bottomBorder setBackgroundColor:[UIColor colorWithHexString:kGlobalSeparatorColorStr].CGColor];
+    [bottomBorder setBackgroundColor:[UIColor evGlobalSeparatorColor].CGColor];
     [self.layer addSublayer:bottomBorder];
     switch ( type )
     {

@@ -36,7 +36,7 @@
 
 - (void)dealloc
 {
-    CCLog(@"phonelogin dealloc");
+    EVLog(@"phonelogin dealloc");
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -147,8 +147,8 @@
     [confirmBtn autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:passwordText withOffset:30];
     self.confirmBtn.layer.cornerRadius = 6;
     self.confirmBtn.layer.masksToBounds = YES;
-    self.confirmBtn.layer.borderColor = CCAppMainColor.CGColor;
-    self.confirmBtn.backgroundColor = CCAppMainColor;
+    self.confirmBtn.layer.borderColor = [UIColor evMainColor].CGColor;
+    self.confirmBtn.backgroundColor = [UIColor evMainColor];
     
     //忘记密码
     UIButton *forgotPassword = [[UIButton alloc] init];

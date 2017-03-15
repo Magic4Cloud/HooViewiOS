@@ -19,6 +19,9 @@
 #import "NSString+Extension.h"
 #import "TTTAttributedLabel.h"
 #import "EVBaseToolManager+EVUserCenterAPI.h"
+#import "NSString+Extension.h"
+#import "EVHVMoneyCollectionViewCell.h"
+#import "EVPhoneFAQViewController.h"
 
 typedef enum : NSUInteger {
     CCYibiSelectedWeixinPay = 100,
@@ -27,7 +30,7 @@ typedef enum : NSUInteger {
 
 #define CCYibiSelectedButtonColor [UIColor colorWithHexString:@"#fb6655"]
 
-@interface EVYunBiViewController ()<UITableViewDelegate, UITableViewDataSource,EVPayManagerDelegate, TTTAttributedLabelDelegate>
+@interface EVYunBiViewController ()<UITableViewDelegate, UITableViewDataSource,EVPayManagerDelegate, TTTAttributedLabelDelegate,UICollectionViewDelegate,UICollectionViewDataSource>
 
 @property (weak, nonatomic) UIImageView *headBgView;  /**< 余额显示容器 */
 @property (weak, nonatomic) UILabel *moneyLbl;  /**< 余额展示label */
@@ -46,12 +49,27 @@ typedef enum : NSUInteger {
 @property (strong, nonatomic) NSIndexPath *lastIndexPath;
 
 
-@property (weak, nonatomic) UIButton *countButton;
+@property (weak, nonatomic) UILabel *countLabel;
+
+@property (nonatomic, weak) UICollectionView *nCollectionView;
+
+@property (nonatomic, weak) UIButton *checkButton;
+
+@property (nonatomic, weak) UIButton *rechargeButton;
+
 
 @end
 
 @implementation EVYunBiViewController
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.hidesBottomBarWhenPushed = YES;
+    }
+    return self;
+}
 #pragma mark - life circle
 
 - (void)viewDidLoad {
@@ -67,33 +85,15 @@ typedef enum : NSUInteger {
 {
     [super viewWillAppear:animated];
     
-    self.title = kE_GlobalZH(@"ecoin_recharge");
-    // change by 佳南
+    self.title = @"充值";
 //    UIBarButtonItem *rightBarBtnItem = [[UIBarButtonItem alloc] initWithTitle:kE_GlobalZH(@"recharge_money_record") style:UIBarButtonItemStylePlain target:self action:@selector(rightBarBtnClick)];
-//    [rightBarBtnItem setTitleTextAttributes:@{UITextAttributeFont:[UIFont systemFontOfSize:15.0],UITextAttributeTextColor:[UIColor whiteColor]} forState:(UIControlStateNormal)];
+//    [rightBarBtnItem setTitleTextAttributes:@{UITextAttributeFont:[UIFont systemFontOfSize:15.0],UITextAttributeTextColor:[UIColor evMainColor]} forState:(UIControlStateNormal)];
 //    self.navigationItem.rightBarButtonItem = rightBarBtnItem;
-    UIButton *recordBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [recordBtn addTarget:self action:@selector(rightBarBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [recordBtn.titleLabel setFont:[[CCAppSetting shareInstance] normalFontWithSize:15.0f]];
-    recordBtn.frame = CGRectMake(10, 0, 60, 44);
-    [recordBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    UIBarButtonItem *recordItem = [[UIBarButtonItem alloc] initWithCustomView:recordBtn];
-    [recordBtn setTitle:kE_GlobalZH(@"recharge_money_record") forState:UIControlStateNormal];
-    self.navigationItem.rightBarButtonItem = recordItem;
-
     
     if (self.isPresented) {
-//        UIBarButtonItem *leftBarBtnItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(leftBarBtnClick)];
-//        [leftBarBtnItem setTitleTextAttributes:@{UITextAttributeFont:[UIFont systemFontOfSize:15.0]} forState:(UIControlStateNormal)];
-//        self.navigationItem.leftBarButtonItem = leftBarBtnItem;
-        UIButton *recordBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [recordBtn addTarget:self action:@selector(leftBarBtnClick) forControlEvents:UIControlEventTouchUpInside];
-        [recordBtn.titleLabel setFont:[[CCAppSetting shareInstance] normalFontWithSize:15.0f]];
-        recordBtn.frame = CGRectMake(10, 0, 60, 44);
-        [recordBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        UIBarButtonItem *recordItem = [[UIBarButtonItem alloc] initWithCustomView:recordBtn];
-        [recordBtn setTitle:@"返回" forState:UIControlStateNormal];
-        self.navigationItem.leftBarButtonItem = recordItem;
+        UIBarButtonItem *leftBarBtnItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(leftBarBtnClick)];
+        [leftBarBtnItem setTitleTextAttributes:@{UITextAttributeFont:[UIFont systemFontOfSize:15.0]} forState:(UIControlStateNormal)];
+        self.navigationItem.leftBarButtonItem = leftBarBtnItem;
     }
 }
 
@@ -109,6 +109,43 @@ typedef enum : NSUInteger {
     _engine = nil;
     _weixinPricesArrM = nil;
     _appPayPricesArrM = nil;
+}
+
+#pragma mark - collectionviewdelegate
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return self.appPayPricesArrM.count;
+}
+
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    return 1;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    EVHVMoneyCollectionViewCell *moneyCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"moneyCell" forIndexPath:indexPath];
+    moneyCell.productInfoModel = [self.appPayPricesArrM objectAtIndex:indexPath.row];
+    return moneyCell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSMutableArray  *appCount = [NSMutableArray arrayWithArray:self.appPayPricesArrM];
+    [self.appPayPricesArrM removeAllObjects];
+    for (NSInteger i = 0; i < appCount.count; i++) {
+        EVProductInfoModel *productInfoModel = appCount[i];
+        if (indexPath.row == i) {
+            productInfoModel.isSelected = YES;
+            self.lastSelectedProduct = productInfoModel;
+        }else {
+            productInfoModel.isSelected = NO;
+        }
+        [self.appPayPricesArrM addObject:productInfoModel];
+       
+    }
+    [self.nCollectionView reloadData];
 }
 
 #pragma mark - UITableView
@@ -138,9 +175,9 @@ typedef enum : NSUInteger {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
         cell.backgroundColor = [UIColor whiteColor];
         cell.textLabel.textColor = [UIColor colorWithHexString:@"#403b37"];
-        cell.textLabel.font = CCNormalFont(14);
+        cell.textLabel.font = EVNormalFont(14);
         cell.detailTextLabel.textColor = [UIColor colorWithHexString:@"#403b37" alpha:0.6];
-        cell.detailTextLabel.font = CCNormalFont(10);
+        cell.detailTextLabel.font = EVNormalFont(10);
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
@@ -151,10 +188,10 @@ typedef enum : NSUInteger {
     
     NSString* bgColor = @"#ffffff";
     NSString* borderColor = @"#ff8da8";
-    NSString * text = [NSString stringWithFormat:@"%zd%@", model.ecoin,kE_GlobalZH(@"e_Coin")];
+    NSString * text = [NSString stringWithFormat:@"%zd%@", model.ecoin,@"火眼豆"];
     cell.textLabel.text = text;
     cell.textLabel.textColor = [UIColor colorWithHexString:@"#403b37"];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@%zd%@",kE_GlobalZH(@"e_give"),model.free,kE_GlobalZH(@"e_Coin")];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@%zd%@",kE_GlobalZH(@"e_give"),model.free,@"火眼豆"];
     NSString *money = nil;
     if ( model.rmb % 100 )
     {
@@ -255,7 +292,7 @@ typedef enum : NSUInteger {
 - (void)weixinPayDidFailWithFailType:(EVPayFailedType)failType
                          failMessage:(NSString *)failMessage
 {
-    [CCProgressHUD hideHUDForView:self.view];
+    [EVProgressHUD hideHUDForView:self.view];
     switch ( failType )
     {
         case EVPayFailedTypeUnknown:
@@ -266,7 +303,7 @@ typedef enum : NSUInteger {
             
         case EVPayFailedTypeError:
         {
-            [CCProgressHUD showError:failMessage toView:self.view];
+            [EVProgressHUD showError:failMessage toView:self.view];
         }
             break;
             
@@ -281,7 +318,7 @@ typedef enum : NSUInteger {
 - (void)appPayDidSucceedWithEcoin:(NSInteger)ecoin
 {
     // 重新请求余额数据
-    CCLog(@"苹果支付成功，重新请求余额数据");
+    EVLog(@"苹果支付成功，重新请求余额数据");
     
     [self regetAssetsAfterWeixinPaySuccess];
 }
@@ -289,7 +326,7 @@ typedef enum : NSUInteger {
 - (void)appPayDidFailWithFailType:(EVPayFailedType)failType
                       failMessage:(NSString *)failMessage
 {
-    [CCProgressHUD hideHUDForView:self.view];
+    [EVProgressHUD hideHUDForView:self.view];
     switch ( failType )
     {
         case EVPayFailedTypeUnknown:
@@ -300,7 +337,7 @@ typedef enum : NSUInteger {
             
         case EVPayFailedTypeError:
         {
-            [CCProgressHUD showError:failMessage toView:self.view];
+            [EVProgressHUD showMessage:failMessage];
         }
             break;
             
@@ -342,11 +379,12 @@ typedef enum : NSUInteger {
 {
     if ( !self.lastSelectedProduct )
     {
+        [EVProgressHUD showMessage:@"选择充值金额"];
         return;
     }
     
     [EVPayManager sharedManager].delgate = self;
-    [CCProgressHUD showProgressMumWithClearColorToView:self.view];
+    [EVProgressHUD showProgressMumWithClearColorToView:self.view];
     // 购买
     switch ( self.payWay )
     {
@@ -363,9 +401,7 @@ typedef enum : NSUInteger {
                 return;
             }
             NSDictionary *moreInfoDict = @{CCProductID : self.lastSelectedProduct.productid};
-            [self.engine POSTPayLogWithType:@"product buy button"
-                                  state:@"clicked"
-                               moreInfo:moreInfoDict];
+     
             
             [[EVPayManager sharedManager] payByInAppPurchase:self.lastSelectedProduct];
         }
@@ -379,9 +415,9 @@ typedef enum : NSUInteger {
 //充值记录
 - (void)rightBarBtnClick
 {
-        EVConsumptionDetailsController *ctrl = [[EVConsumptionDetailsController alloc] init];
-        ctrl.type = EVDetailType_prepaid;
-        [self.navigationController pushViewController:ctrl animated:YES];
+    EVConsumptionDetailsController *ctrl = [[EVConsumptionDetailsController alloc] init];
+    ctrl.type = EVDetailType_prepaid;
+    [self.navigationController pushViewController:ctrl animated:YES];
 }
 
 
@@ -389,36 +425,35 @@ typedef enum : NSUInteger {
 
 - (void)regetAssetsAfterWeixinPaySuccess
 {
-    [CCProgressHUD hideHUDForView:self.view];
-    [CCProgressHUD showProgressMumWithClearColorToView:self.view
+    [EVProgressHUD hideHUDForView:self.view];
+    [EVProgressHUD showProgressMumWithClearColorToView:self.view
                                                message:kE_GlobalZH(@"pay_success_ecoin_gain")];
     __weak typeof(self) weakSelf = self;
     [self.engine GETUserAssetsWithStart:nil fail:^(NSError *error) {
-        [CCProgressHUD hideHUDForView:weakSelf.view];
-        [CCProgressHUD showError:kE_GlobalZH(@"please_see_asset") toView:weakSelf.view];
+        [EVProgressHUD hideHUDForView:weakSelf.view];
+        [EVProgressHUD showError:kE_GlobalZH(@"please_see_asset") toView:weakSelf.view];
      } success:^(NSDictionary *info) {
-         [CCProgressHUD hideHUDForView:weakSelf.view];
+         [EVProgressHUD hideHUDForView:weakSelf.view];
          NSString *buyEcoin = [NSString stringWithFormat:kE_GlobalZH(@"bug_ecoin"), weakSelf.lastSelectedProduct.ecoin];
-         [CCProgressHUD showSuccess:buyEcoin toView:weakSelf.view];
+         [EVProgressHUD showSuccess:buyEcoin toView:weakSelf.view];
          EVUserAsset *asset = [EVUserAsset objectWithDictionary:info];
          weakSelf.asset.ecoin = asset.ecoin;
-          NSString *moneyStr = [NSString stringWithFormat:@"%zd云币",self.asset.ecoin];
+         NSString *ecoinS = [NSString numFormatNumber:[info[@"ecoin"] integerValue]];
+         
+         self.countLabel.text = ecoinS;
          
          if (weakSelf.updateEcionBlock) {
-             weakSelf.updateEcionBlock([NSString stringWithFormat:@"%ld", weakSelf.asset.ecoin]);
+             weakSelf.updateEcionBlock([NSString stringWithFormat:@"%@", info[@"ecoin"]]);
          }
-         [_countButton setTitle:moneyStr forState:UIControlStateNormal];
-         NSMutableAttributedString *attStr = [[NSMutableAttributedString alloc] initWithString:moneyStr];
-         [attStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(moneyStr.length - 2, 2)];
-         [attStr addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, attStr.length)];
-          [_countButton setAttributedTitle:attStr forState:(UIControlStateNormal)];
+      
+
          if ( weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(buySuccessWithEcoin:)] )
          {
-             [weakSelf.delegate buySuccessWithEcoin:weakSelf.asset.ecoin];
+             [weakSelf.delegate buySuccessWithEcoin:[info[@"ecoin"] integerValue]];
          }
      } sessionExpire:^{
-         [CCProgressHUD hideHUDForView:weakSelf.view];
-         CCRelogin(weakSelf);
+         [EVProgressHUD hideHUDForView:weakSelf.view];
+         EVRelogin(weakSelf);
      }];
 }
 
@@ -426,75 +461,82 @@ typedef enum : NSUInteger {
 {
     self.view.backgroundColor = [UIColor evBackgroundColor];
     
-    CGFloat height = 160.f;
+    CGFloat height = 100.f;
     
 
     UIImageView *headBgView = [[UIImageView alloc] init];
-    headBgView.frame = CGRectMake(0, 10, ScreenWidth, height);
+    headBgView.frame = CGRectMake(0, 1, ScreenWidth, height);
     headBgView.backgroundColor = [UIColor whiteColor];
     headBgView.userInteractionEnabled = YES;
     [self.view addSubview:headBgView];
     _headBgView = headBgView;
     
-    // 添加余额显示
     // 余额展示label
-    UILabel *moneyLbl = [UILabel labelWithDefaultTextColor:[UIColor evTextColorH1] font:CCNormalFont(15.0f)];
+    UILabel *moneyLbl = [UILabel labelWithDefaultTextColor:[UIColor evEcoinColor] font:EVNormalFont(14.0f)];
     [headBgView addSubview:moneyLbl];
-//    moneyLbl.font = [UIFont systemFontOfSize:18.0];
     self.moneyLbl = moneyLbl;
-    [moneyLbl autoPinEdge:ALEdgeTop toEdge:ALEdgeTop ofView:headBgView withOffset:40];
+    [moneyLbl autoPinEdge:ALEdgeTop toEdge:ALEdgeTop ofView:headBgView withOffset:23];
     [moneyLbl autoAlignAxis:ALAxisVertical toSameAxisOfView:headBgView];
     [moneyLbl autoSetDimension:ALDimensionHeight toSize:20.0];
     moneyLbl.text = kE_GlobalZH(@"account_difference");
     
-    NSString *moneyStr = [NSString stringWithFormat:@"%zd%@",self.asset.ecoin,kE_Coin];
-    UIButton *countButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    countButton.backgroundColor = [UIColor clearColor];
-    countButton.userInteractionEnabled = NO;
-    [countButton setTitle:moneyStr forState:UIControlStateNormal];
-    NSMutableAttributedString *attStr = [[NSMutableAttributedString alloc] initWithString:moneyStr];
-    [attStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:NSMakeRange(moneyStr.length - 2, 2)];
-    [attStr addAttribute:NSForegroundColorAttributeName value:[UIColor evTextColorH1] range:NSMakeRange(0, attStr.length)];
-    countButton.titleLabel.font = [UIFont systemFontOfSize:34.0];
-    [countButton setAttributedTitle:attStr forState:(UIControlStateNormal)];
-    [countButton setImage:[UIImage imageNamed:@"personal_icon_myeasymoney_whitegold"] forState:UIControlStateNormal];
-    [countButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [countButton setImageEdgeInsets:UIEdgeInsetsMake(.0f, -2.0f, .0f, 2.0f)];
-    [countButton setTitleEdgeInsets:UIEdgeInsetsMake(.0f, 2.0f, .0f, -2.0f)];
-    [headBgView addSubview:countButton];
-    [countButton autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:moneyLbl withOffset:30];
-    [countButton autoAlignAxis:ALAxisVertical toSameAxisOfView:headBgView];
-    _countButton = countButton;
+    NSString *ecoinS = [NSString numFormatNumber:self.asset.ecoin];
+    UILabel *countLabel = [UILabel labelWithDefaultTextColor:[UIColor evEcoinColor] font:EVNormalFont(24.0f)];
+    [headBgView addSubview:countLabel];
+    self.countLabel = moneyLbl;
+    [countLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:moneyLbl withOffset:0];
+    [countLabel autoAlignAxis:ALAxisVertical toSameAxisOfView:headBgView];
+    [countLabel autoSetDimension:ALDimensionHeight toSize:33.f];
+    countLabel.text = ecoinS;
+    _countLabel = countLabel;
+    
+    [self loadAssetData];
 }
 
+- (void)loadAssetData
+{
+    [self.engine GETUserAssetsWithStart:nil fail:^(NSError *error) {
+        
+    } success:^(NSDictionary *videoInfo) {
+        EVLog(@"videoinfoasset-------  %@",videoInfo);
+    } sessionExpire:^{
+        
+    }];
+    
+}
 - (void)loadPayWaysData
 {
     // 根据返回数据判断是否展示除内购外的支付方式和对应数据：如果只支持内购，则不显示支付方式选项栏；如果支持多种方式支付，则显示支付方式选项栏，并且底部用多个view来展示不同支付方式
     __weak typeof(self) weakself = self;
     //选择all可能会有其他充值方式
-    [self.engine GETCashinOptionWith:CCPayPlatformAll start:^{
+    [self.engine GETCashinOptionWith:EVPayPlatformAll start:^{
         
     } fail:^(NSError *error) {
     } success:^(NSDictionary *info) {
-        CCLog(@"info:%@", info);
+        EVLog(@"info:%@", info);
         NSArray *optionListTemp = info[@"optionlist"];
         NSArray *optionList = [EVProductInfoModel objectWithDictionaryArray:optionListTemp];
         [weakself handleOptionList:optionList];
     } sessionExpired:^{
-        CCRelogin(weakself);
+        EVRelogin(weakself);
     }];
 }
 
 - (void)handleOptionList:(NSArray *)optionList
 {
-    for (EVProductInfoModel *product in optionList)
-    {
+    
+    for (NSInteger i = 0; i < optionList.count; i++) {
+        EVProductInfoModel *product = optionList[i];
         if ( product.platform == 1 )
         {
             [self.weixinPricesArrM addObject:product];
         }
         else if ( product.platform == 2 )
         {
+            if (i == 0) {
+                product.isSelected = YES;
+                self.lastSelectedProduct = product;
+            }
             [self.appPayPricesArrM addObject:product];
         }
     }
@@ -517,61 +559,173 @@ typedef enum : NSUInteger {
 - (void)addMoreUI
 {
 
-//    
-    // 展示支付钱数列表
-    UILabel *payMoneyTitleLbl = [UILabel labelWithDefaultTextColor:[UIColor evTextColorH2] font:CCNormalFont(13.0f)];
-    [self.view addSubview:payMoneyTitleLbl];
-    CGFloat payWayTitleLblY = CGRectGetMaxY(self.headBgView.frame);
-    if ( self.payWayContainer )
-    {
-        payWayTitleLblY = CGRectGetMaxY(self.payWayContainer.frame);
-    }
-    payMoneyTitleLbl.frame = CGRectMake(15.0f, payWayTitleLblY + 5, ScreenWidth, 25.0f);
-    payMoneyTitleLbl.text = kE_GlobalZH(@"please_change_ecoin");
+    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+    flowLayout.itemSize = CGSizeMake((ScreenWidth - 80) / 3, 60);
+    flowLayout.sectionInset = UIEdgeInsetsMake(20, 20, 0, 20);
+    UICollectionView *nCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.headBgView.frame)+1, ScreenWidth, 160) collectionViewLayout:flowLayout];
+    nCollectionView.delegate = self;
+    nCollectionView.dataSource = self;
+    [self.view addSubview:nCollectionView];
+    self.nCollectionView = nCollectionView;
+    nCollectionView.backgroundColor = [UIColor whiteColor];
+    [nCollectionView registerNib:[UINib nibWithNibName:@"EVHVMoneyCollectionViewCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:@"moneyCell"];
     
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-    tableView.frame = CGRectMake(0.f, CGRectGetMaxY(payMoneyTitleLbl.frame) + 5, ScreenWidth, self.view.frame.size.height - CGRectGetMaxY(payMoneyTitleLbl.frame));
-    [self.view addSubview:tableView];
-    self.tableView = tableView;
-    tableView.backgroundColor = [UIColor evBackgroundColor];
-    tableView.separatorColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
-    tableView.delegate = self;
-    tableView.bounces = NO;
-    tableView.dataSource = self;
+    [nCollectionView reloadData];
     
-    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 100)];
-    footerView.backgroundColor = [UIColor evBackgroundColor];
-    // 充值确认按钮
-    UIButton *commitBtn = [[UIButton alloc] init];
-    commitBtn.layer.cornerRadius = 3;
-    [commitBtn addTarget:self action:@selector(commitToPay:) forControlEvents:UIControlEventTouchUpInside];
-    commitBtn.titleLabel.font = [[CCAppSetting shareInstance] normalFontWithSize:16];
-    [commitBtn setTitle:kE_GlobalZH(@"affirm_recharge") forState:UIControlStateNormal];
-    [commitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    commitBtn.backgroundColor = [UIColor evMainColor];
-    [footerView addSubview:commitBtn];
-    [commitBtn autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:20.f];
-    [commitBtn autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:15.0f];
-    [commitBtn autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:15.0f];
-    [commitBtn autoSetDimension:ALDimensionHeight toSize:40.0f];
+    
+    
+    UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(nCollectionView.frame), ScreenWidth, ScreenHeight)];
+    bottomView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:bottomView];
+    
+    UIButton *checkButton = [[UIButton alloc] init];
+    checkButton.frame = CGRectMake(23, 20, 20, 20);
+    [checkButton addTarget:self action:@selector(checkClick:) forControlEvents:(UIControlEventTouchUpInside)];
+    [bottomView addSubview:checkButton];
+    [checkButton setImage:[UIImage imageNamed:@"ic_Check"] forState:(UIControlStateNormal)];
+    [checkButton setImage:[UIImage imageNamed:@"ic_Check_n"] forState:(UIControlStateSelected)];
+    self.checkButton = checkButton;
+    
+    UIButton *protocolButton  = [[UIButton alloc] init];
+    [bottomView addSubview:protocolButton];
+    protocolButton.frame = CGRectMake(CGRectGetMaxX(checkButton.frame), 20, 120, 20);
+    [protocolButton setTitleColor:[UIColor hvPurpleColor] forState:(UIControlStateNormal)];
+    protocolButton.titleLabel.font = [UIFont systemFontOfSize:14.f];
+    NSString *protocolStr = @"同意 用户充值协议";
+    NSMutableAttributedString *attStr = [[NSMutableAttributedString alloc ]initWithString:protocolStr];
+    [attStr addAttribute:NSForegroundColorAttributeName value:[UIColor evTextColorH2] range:NSMakeRange(0, 2)];
+     [attStr addAttribute:NSForegroundColorAttributeName value:[UIColor hvPurpleColor] range:NSMakeRange(2, protocolStr.length - 2)];
+    [protocolButton setAttributedTitle:attStr forState:(UIControlStateNormal)];
+    [protocolButton addTarget:self action:@selector(protocolClick:) forControlEvents:(UIControlEventTouchUpInside)];
+    
+    
+    
+    UIButton *rechargeButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    [bottomView addSubview:rechargeButton];
+    rechargeButton.frame = CGRectMake(58, CGRectGetMaxY(protocolButton.frame)+48, ScreenWidth - 116, 40);
+    rechargeButton.layer.cornerRadius = 20;
+    rechargeButton.clipsToBounds = YES;
+    rechargeButton.backgroundColor  = [UIColor hvPurpleColor];
+    [rechargeButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
+    rechargeButton.titleLabel.font = [UIFont systemFontOfSize:16.f];
+    [rechargeButton setTitle:@"立即充值" forState:(UIControlStateNormal)];
 
-    TTTAttributedLabel *noteLbl = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
-    [footerView addSubview:noteLbl];
-    [noteLbl autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:commitBtn withOffset:10];
-    [noteLbl autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:footerView withOffset:20];
-    [noteLbl autoSetDimension:ALDimensionWidth toSize:ScreenWidth - 40];
-    noteLbl.numberOfLines = 0;
-    noteLbl.textColor = [UIColor evTextColorH2];
-    noteLbl.textAlignment = NSTextAlignmentLeft;
-    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString: kE_GlobalZH(@"recharge_tip")];
-    NSMutableParagraphStyle *paragraghStyle = [[NSMutableParagraphStyle alloc]init];
-    [paragraghStyle setLineSpacing:6];
-    [attrStr addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],NSForegroundColorAttributeName:[UIColor evTextColorH2],NSParagraphStyleAttributeName:paragraghStyle} range:NSMakeRange(0, attrStr.length)];
-    noteLbl.attributedText = attrStr;
-    
-     tableView.tableFooterView = footerView;
+    [rechargeButton addTarget:self action:@selector(rechargeClick:) forControlEvents:(UIControlEventTouchUpInside)];
+    self.rechargeButton = rechargeButton;
+//    // 展示支付钱数列表
+//    UILabel *payMoneyTitleLbl = [UILabel labelWithDefaultTextColor:[UIColor evTextColorH2] font:EVNormalFont(13.0f)];
+//    [self.view addSubview:payMoneyTitleLbl];
+//    CGFloat payWayTitleLblY = CGRectGetMaxY(self.headBgView.frame);
+//    if ( self.payWayContainer )
+//    {
+//        payWayTitleLblY = CGRectGetMaxY(self.payWayContainer.frame);
+//    }
+//    payMoneyTitleLbl.frame = CGRectMake(15.0f, payWayTitleLblY + 5, ScreenWidth, 25.0f);
+//    payMoneyTitleLbl.text = kE_GlobalZH(@"please_change_ecoin");
+//    
+//    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+//    tableView.frame = CGRectMake(0.f, CGRectGetMaxY(payMoneyTitleLbl.frame) + 5, ScreenWidth, self.view.frame.size.height - CGRectGetMaxY(payMoneyTitleLbl.frame));
+//    [self.view addSubview:tableView];
+//    self.tableView = tableView;
+//    tableView.backgroundColor = [UIColor evBackgroundColor];
+//    tableView.separatorColor = [UIColor evGlobalSeparatorColor];
+//    tableView.delegate = self;
+//    tableView.bounces = NO;
+//    tableView.dataSource = self;
+//    
+//    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 100)];
+//    footerView.backgroundColor = [UIColor evBackgroundColor];
+//    // 充值确认按钮
+//    UIButton *commitBtn = [[UIButton alloc] init];
+//    commitBtn.layer.cornerRadius = 3;
+//    [commitBtn addTarget:self action:@selector(commitToPay:) forControlEvents:UIControlEventTouchUpInside];
+//    commitBtn.titleLabel.font = [[EVAppSetting shareInstance] normalFontWithSize:16];
+//    [commitBtn setTitle:kE_GlobalZH(@"affirm_recharge") forState:UIControlStateNormal];
+//    [commitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    commitBtn.backgroundColor = [UIColor evMainColor];
+//    [footerView addSubview:commitBtn];
+//    [commitBtn autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:20.f];
+//    [commitBtn autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:15.0f];
+//    [commitBtn autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:15.0f];
+//    [commitBtn autoSetDimension:ALDimensionHeight toSize:40.0f];
+//
+//    TTTAttributedLabel *noteLbl = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+//    [footerView addSubview:noteLbl];
+//    [noteLbl autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:commitBtn withOffset:10];
+//    [noteLbl autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:footerView withOffset:20];
+//    [noteLbl autoSetDimension:ALDimensionWidth toSize:ScreenWidth - 40];
+//    noteLbl.numberOfLines = 0;
+//    noteLbl.textColor = [UIColor evTextColorH2];
+//    noteLbl.textAlignment = NSTextAlignmentLeft;
+//    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString: kE_GlobalZH(@"recharge_tip")];
+//    NSMutableParagraphStyle *paragraghStyle = [[NSMutableParagraphStyle alloc]init];
+//    [paragraghStyle setLineSpacing:6];
+//    [attrStr addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],NSForegroundColorAttributeName:[UIColor evTextColorH2],NSParagraphStyleAttributeName:paragraghStyle} range:NSMakeRange(0, attrStr.length)];
+//    noteLbl.attributedText = attrStr;
+//    
+//     tableView.tableFooterView = footerView;
 }
 
+
+- (void)checkClick:(UIButton *)btn
+{
+    btn.selected = !btn.selected;
+    if (btn.selected) {
+        self.rechargeButton.userInteractionEnabled = NO;
+        [self.rechargeButton setBackgroundColor:[UIColor grayColor]];
+//        [self.rechargeButton setTitleColor:[UIColor whiteColor] forState:<#(UIControlState)#>]
+    }else {
+        self.rechargeButton.userInteractionEnabled = YES;
+         self.rechargeButton.backgroundColor  = [UIColor hvPurpleColor];
+    }
+}
+
+
+- (void)protocolClick:(UIButton *)btn
+{
+    EVLog(@"跳转充值协议");
+    EVPhoneFAQViewController *vc = [EVPhoneFAQViewController new];
+    vc.navTitle = @"用户充值协议";
+    vc.RTFFilePath = [[NSBundle mainBundle] pathForResource:@"用户充值协议.rtf" ofType:nil];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)rechargeClick:(UIButton *)btn
+{
+    if ( !self.lastSelectedProduct )
+    {
+        [EVProgressHUD showMessage:@"选择充值金额"];
+        return;
+    }
+    
+    [EVPayManager sharedManager].delgate = self;
+    [EVProgressHUD showProgressMumWithClearColorToView:self.view];
+    // 购买
+    switch ( self.payWay )
+    {
+        case CCYibiSelectedWeixinPay:
+        {
+            [[EVPayManager sharedManager] payByWeiXinWithOder:self.lastSelectedProduct];
+        }
+            break;
+            
+        case CCYibiSelectedAppPay:
+        {
+            if ( [NSString isBlankString:self.lastSelectedProduct.productid] )
+            {
+                return;
+            }
+            NSDictionary *moreInfoDict = @{CCProductID : self.lastSelectedProduct.productid};
+            
+            
+            [[EVPayManager sharedManager] payByInAppPurchase:self.lastSelectedProduct];
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
 #pragma mark - getters and setters
 
 - (EVBaseToolManager *)engine

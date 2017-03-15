@@ -16,7 +16,6 @@
 @property ( strong, nonatomic ) UIBarButtonItem *cc_leftBarButtonItem;
 
 /**
- *  @author shizhiang, 16-01-11 15:01:01
  *
  *  添加手势引导
  *
@@ -25,7 +24,6 @@
 - (void)addGestureGuideCoverviewWithImageNamed:(NSString *)imageNamed;
 
 /**
- *  @author shizhiang, 16-01-11 19:01:33
  *
  *  移除手势引导
  */
@@ -33,7 +31,6 @@
 
 
 /**
- *  @author shizhiang, 16-01-08 17:01:20
  *
  *  返回上一级
  */

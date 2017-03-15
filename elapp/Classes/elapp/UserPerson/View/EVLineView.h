@@ -24,4 +24,8 @@
  */
 + (void)addBottomLineToView:(UIView *)view;
 
+
++ (void)addCellBottomDefaultLineToView:(UIView *)view;
+
++ (void)addCellTopDefaultLineToView:(UIView *)view;
 @end

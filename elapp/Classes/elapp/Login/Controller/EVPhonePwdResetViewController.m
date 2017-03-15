@@ -54,8 +54,8 @@ typedef NS_ENUM(NSInteger, CCPhonePWDVCButtonType) {
 //}
 
 - (void)dealloc {
-    CCLog(@"%@ dealloc", [self class]);
-    [CCNotificationCenter removeObserver:self];
+    EVLog(@"%@ dealloc", [self class]);
+    [EVNotificationCenter removeObserver:self];
 }
 
 - (void)viewDidLoad {
@@ -75,7 +75,7 @@ typedef NS_ENUM(NSInteger, CCPhonePWDVCButtonType) {
 }
 
 - (void)setUpNotification {
-    [CCNotificationCenter addObserver:self selector:@selector(textChange) name:UITextFieldTextDidChangeNotification object:nil];
+    [EVNotificationCenter addObserver:self selector:@selector(textChange) name:UITextFieldTextDidChangeNotification object:nil];
 }
 
 //添加view
@@ -96,10 +96,10 @@ typedef NS_ENUM(NSInteger, CCPhonePWDVCButtonType) {
     self.getVerifyButton.layer.cornerRadius = 0.5 * self.getVerifyButton.bounds.size.height;
     self.getVerifyButton.layer.borderWidth = kGlobalSeparatorHeight;
     self.getVerifyButton.layer.borderColor = [UIColor colorWithHexString:@"#999999"].CGColor;
-    [self.getVerifyButton setTitleColor:[UIColor colorWithHexString:kLightGrayTextColor] forState:UIControlStateNormal];
+    [self.getVerifyButton setTitleColor:[UIColor evlightGrayTextColor] forState:UIControlStateNormal];
     
     self.comfirmButton.layer.cornerRadius = 0.5 * self.comfirmButton.bounds.size.height;
-    self.comfirmButton.backgroundColor = CCAppMainColor;
+    self.comfirmButton.backgroundColor = [UIColor evMainColor];
     
     self.cancelButton.tag = CCPhonePWDVCCancelButton;
     
@@ -173,20 +173,20 @@ typedef NS_ENUM(NSInteger, CCPhonePWDVCButtonType) {
     NSString *verfifyCode = self.verifyTextField.text;
     if ( verfifyCode.length == 0 )
     {
-        [CCProgressHUD showError:kNot_verify_num toView:self.view];
+        [EVProgressHUD showError:kNot_verify_num toView:self.view];
         [self.verifyTextField becomeFirstResponder];
         return;
     }
     if ( phone.length == 0 )
     {
-        [CCProgressHUD showError:kNot_pbone toView:self.view];
+        [EVProgressHUD showError:kNot_pbone toView:self.view];
         [self.phoneTextField becomeFirstResponder];
         return;
     }
 //    else if ( ![CCBaseTool checkPhoneNumByRegx:phone] )
     else if ( ![phone CC_isPhoneNumberNew] )
     {
-        [CCProgressHUD showError:kNot_format_phone toView:self.view];
+        [EVProgressHUD showError:kNot_format_phone toView:self.view];
         [self.phoneTextField becomeFirstResponder];
         return;
     }
@@ -198,7 +198,7 @@ typedef NS_ENUM(NSInteger, CCPhonePWDVCButtonType) {
         
     } fail:^(NSError *error) {
         NSString *message = [error errorInfoWithPlacehold:kFail_verify];
-        [CCProgressHUD showError:message toView:wself.view];
+        [EVProgressHUD showError:message toView:wself.view];
     } success:^{
         [wself gotoPwdResetVC];
     }];
@@ -214,14 +214,14 @@ typedef NS_ENUM(NSInteger, CCPhonePWDVCButtonType) {
     NSString *phone = self.phoneTextField.text;
     if ( phone.length == 0 )
     {
-        [CCProgressHUD showError:kNot_pbone toView:self.view];
+        [EVProgressHUD showError:kNot_pbone toView:self.view];
         return;
     }
 //    else if ( ![CCBaseTool checkPhoneNumByRegx:phone] )
     
     else if ( ![phone CC_isPhoneNumberNew] )
     {
-        [CCProgressHUD showError:kNot_format_phone toView:self.view];
+        [EVProgressHUD showError:kNot_format_phone toView:self.view];
         return;
     }
     [self startCountTimer];
@@ -235,15 +235,15 @@ typedef NS_ENUM(NSInteger, CCPhonePWDVCButtonType) {
     [self.engine GETSmssendWithAreaCode:nil Phone:phone type:RESETPWD phoneNumError:^(NSString *numError) {
         
     } start:^{
-        [CCProgressHUD showMessage:kSend_verify_num toView:wself.view];
+        [EVProgressHUD showMessage:kSend_verify_num toView:wself.view];
     } fail:^(NSError *error) {
-        [CCProgressHUD hideHUDForView:wself.view];
+        [EVProgressHUD hideHUDForView:wself.view];
         NSString *message = [error errorInfoWithPlacehold:kFail_verify_num];
-        [CCProgressHUD showError:message toView:wself.view];
+        [EVProgressHUD showError:message toView:wself.view];
         [wself stopFireVerifyCodeTime];
     } success:^(NSDictionary *info) {
-        [CCProgressHUD hideHUDForView:wself.view];
-        [CCProgressHUD showSuccess:kSend_verify_success toView:wself.view];
+        [EVProgressHUD hideHUDForView:wself.view];
+        [EVProgressHUD showSuccess:kSend_verify_success toView:wself.view];
         NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
         if ( info[kSms_id] != nil )
         {
@@ -292,7 +292,7 @@ typedef NS_ENUM(NSInteger, CCPhonePWDVCButtonType) {
     view.backgroundColor = [UIColor clearColor];
     UIView *line = [[UIView alloc] init];
     [view addSubview:line];
-    line.backgroundColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+    line.backgroundColor = [UIColor evGlobalSeparatorColor];
     [line autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero excludingEdge:ALEdgeTop];
     [line autoSetDimension:ALDimensionHeight toSize:kGlobalSeparatorHeight];
 }

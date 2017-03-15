@@ -31,7 +31,7 @@ static EVLocationViewController *defaultLocation = nil;
 
 - (void)dealloc
 {
-    CCLog(@"dealloc");
+    EVLog(@"dealloc");
     _mapView = nil;
     _annotation = nil;
     _locationManager = nil;
@@ -145,7 +145,7 @@ static EVLocationViewController *defaultLocation = nil;
 - (void)mapView:(MKMapView *)mapView didFailToLocateUserWithError:(NSError *)error
 {
     //    [self showHint:NSLocalizedString(@"location.fail", @"locate failure")];
-    [CCProgressHUD hideHUDForView:self.view];
+    [EVProgressHUD hideHUDForView:self.view];
     if (error.code == 0) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil
                                                             message:[error.userInfo objectForKey:NSLocalizedRecoverySuggestionErrorKey]
@@ -192,7 +192,7 @@ static EVLocationViewController *defaultLocation = nil;
         self.navigationItem.rightBarButtonItem.enabled = NO;
     }
     
-    [CCProgressHUD showMessage:kE_GlobalZH(@"e_loading") toView:self.view];
+    [EVProgressHUD showMessage:kE_GlobalZH(@"e_loading") toView:self.view];
 }
 
 -(void)createAnnotationWithCoords:(CLLocationCoordinate2D)coords
@@ -209,7 +209,7 @@ static EVLocationViewController *defaultLocation = nil;
 
 - (void)removeToLocation:(CLLocationCoordinate2D)locationCoordinate
 {
-    [CCProgressHUD hideHUDForView:self.view];
+    [EVProgressHUD hideHUDForView:self.view];
     
     _currentLocationCoordinate = locationCoordinate;
     float zoomLevel = 0.01;

@@ -28,7 +28,7 @@
 
 
     self.titleContainView.backgroundColor = [UIColor colorWithHexString:@"#fffcf9"];
-    self.seperateView.backgroundColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+    self.seperateView.backgroundColor = [UIColor evGlobalSeparatorColor];
 }
 
 - (void)configTitle:(NSString *)titleString {

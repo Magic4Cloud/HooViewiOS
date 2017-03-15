@@ -10,17 +10,17 @@
 #import <UIKit/UIKit.h>
 #import "EVRedEnvelopeModel.h"
 
-typedef NS_ENUM(NSInteger, CCButtonTag) {
-    CCButtonTag_Cancel = 1000,
-    CCButtonTag_Chai,
-    CCButtonTag_See
+typedef NS_ENUM(NSInteger, EVButtonTag) {
+    EVButtonTag_Cancel = 1000,
+    EVButtonTag_Chai,
+    EVButtonTag_See
 };
 
-typedef NS_ENUM(NSInteger, CCViewTransitionStyle) {
-    CCViewTransitionStyleSlideFromBottom = 0,
-    CCViewTransitionStyleSlideFromTop,
-    CCViewTransitionStyleFade,
-    CCViewTransitionStyleBounce
+typedef NS_ENUM(NSInteger, EVViewTransitionStyle) {
+    EVViewTransitionStyleSlideFromBottom = 0,
+    EVViewTransitionStyleSlideFromTop,
+    EVViewTransitionStyleFade,
+    EVViewTransitionStyleBounce
 };
 
 @class EVRedEnvelopeView;
@@ -31,7 +31,7 @@ typedef void(^CCRedEnvelopeViewHandler)(EVRedEnvelopeView *redEnvelopeView);
 @property (nonatomic, weak) UIImageView *avatarImg;
 @property (nonatomic, strong) EVRedEnvelopeItemModel *currentModel;//触发这个红包的model
 @property (nonatomic, copy)   NSString *vid;       //直播视频vid
-@property (nonatomic, assign) CCViewTransitionStyle transitionStyle;// default CCViewTransitionStyleSlideFromBottom
+@property (nonatomic, assign) EVViewTransitionStyle transitionStyle;// default CCViewTransitionStyleSlideFromBottom
 - (void)show;
 - (void)buttonShow;
 + (void)setAllRedEnvelope:(NSMutableDictionary *)redEnvelopeDic;

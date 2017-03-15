@@ -25,7 +25,7 @@
 {
     if ( self = [super initWithFrame:frame style:style] )
     {
-        [self addGradientLayer];
+//        [self addGradientLayer];
         [self addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
     }
     return self;
@@ -53,13 +53,13 @@
 - (void)addGradientLayer
 {
     // 透明度渐变
-    self.layer.mask = self.gradient;
+//    self.layer.mask = self.gradient;
 }
 
 - (void)dealloc
 {
     [self removeObserver:self forKeyPath:@"contentOffset"];
-//    CCLog(@"CCCommentTableView dealloc");
+//    EVLog(@"CCCommentTableView dealloc");
 }
 
 - (NSMutableArray *)cellPool
@@ -106,17 +106,17 @@
     return popCell;
 }
 
-- (CAGradientLayer *)gradient
-{
-    if ( !_gradient )
-    {
-        CAGradientLayer *gradient = [CAGradientLayer layer];
-        gradient.frame = CGRectMake(0, 0, ScreenWidth - 60, kDefaultTableHeight);
-        gradient.colors = @[(id)[UIColor blackColor].CGColor, (id)[UIColor blackColor].CGColor, (id)[UIColor clearColor].CGColor];
-        gradient.locations = @[@0, @0.8, @1];
-        _gradient = gradient;
-    }
-    return _gradient;
-}
+//- (CAGradientLayer *)gradient
+//{
+//    if ( !_gradient )
+//    {
+//        CAGradientLayer *gradient = [CAGradientLayer layer];
+//        gradient.frame = CGRectMake(0, 0, ScreenWidth - 60, kDefaultTableHeight);
+//        gradient.colors = @[(id)[UIColor blackColor].CGColor, (id)[UIColor blackColor].CGColor, (id)[UIColor clearColor].CGColor];
+//        gradient.locations = @[@0, @0.8, @1];
+//        _gradient = gradient;
+//    }
+//    return _gradient;
+//}
 
 @end

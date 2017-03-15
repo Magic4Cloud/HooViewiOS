@@ -74,7 +74,7 @@ singtonImplement(NotificationManager)
         [[UIApplication sharedApplication] registerUserNotificationSettings:setting];
     }
     if ( [[UIApplication sharedApplication] respondsToSelector:@selector(currentUserNotificationSettings)]) {
-        if ( [CCUserDefault boolForKey:CCHasLoginTag] ) {
+        if ( [CCUserDefault boolForKey:EVHasLoginTag] ) {
             [self checkCurrAuthorizeInfo];
         }
     }
@@ -83,12 +83,12 @@ singtonImplement(NotificationManager)
 - (void)checkCurrAuthorizeInfo{
     UIUserNotificationSettings *setting = [UIApplication sharedApplication].currentUserNotificationSettings;
     if ( !((setting.types & UIUserNotificationTypeBadge) && (setting.types & UIUserNotificationTypeSound)  && (setting.types & UIUserNotificationTypeAlert)) ) {
-        CCLog(@"没有注册权限");
-        if ( ![CCUserDefault boolForKey:CCNoNeedToAlertNotificationSettingTag] ) {
+        EVLog(@"没有注册权限");
+        if ( ![CCUserDefault boolForKey:EVNoNeedToAlertNotificationSettingTag] ) {
             [self alertToRegistNotification];
         }
     } else {
-        CCLog(@"有注册权限");
+        EVLog(@"有注册权限");
     }
 }
 
@@ -100,15 +100,15 @@ singtonImplement(NotificationManager)
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
     if ( buttonIndex == 0 ) {
-        CCLog(@"跳转到设置界面");
+        EVLog(@"跳转到设置界面");
         NSURL *url = [NSURL URLWithString:@"prefs:root=NOTIFICATIONS_ID"];
         if ( [[UIApplication sharedApplication] canOpenURL:url] ) {
             [[UIApplication sharedApplication] openURL:url];
         } else {
-            CCLog(@"不可以开启");
+            EVLog(@"不可以开启");
         }
     } else {
-        [CCUserDefault setBool:YES forKey:CCNoNeedToAlertNotificationSettingTag];
+        [CCUserDefault setBool:YES forKey:EVNoNeedToAlertNotificationSettingTag];
     }
 
 }

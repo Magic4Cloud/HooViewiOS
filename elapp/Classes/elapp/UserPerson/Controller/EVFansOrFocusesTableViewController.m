@@ -18,6 +18,8 @@
 #import "EVHomeViewController.h"
 #import "UIViewController+Extension.h"
 #import "EVBaseToolManager+EVUserCenterAPI.h"
+#import "EVVipCenterViewController.h"
+#import "EVBaseHeaderViewController.h"
 
 #define tabandNav 113;
 #define cellsize 64
@@ -97,13 +99,23 @@ static const NSString *const fansOrFocusCellID = @"fansOrFocus";
         return cell;
     }
     EVFanOrFollowerModel *fanOrFollower = self.fansOrFollowers[indexPath.row];
-    CCLog(@"[indexPath.row]:%@, model:%@", self.fansOrFollowers[indexPath.row], fanOrFollower);
+    EVLog(@"[indexPath.row]:%@, model:%@", self.fansOrFollowers[indexPath.row], fanOrFollower);
     cell.model = fanOrFollower;
     __weak typeof(self) weakself = self;
     cell.iconClick = ^(EVFanOrFollowerModel *model){
-        EVOtherPersonViewController *otherPersonVC = [EVOtherPersonViewController instanceWithName:model.name];
-        otherPersonVC.fromLivingRoom = NO;
-        [weakself.navigationController pushViewController:otherPersonVC animated:YES];
+//        EVOtherPersonViewController *otherPersonVC = [EVOtherPersonViewController instanceWithName:model.name];
+//        otherPersonVC.fromLivingRoom = NO;
+//        [weakself.navigationController pushViewController:otherPersonVC animated:YES];
+        NSMutableArray *fanModel = [NSMutableArray arrayWithArray:self.fansOrFollowers];
+        for (NSInteger i = 0; i < fanModel.count; i++) {
+            EVFanOrFollowerModel *fanOrFollModel = weakself.fansOrFollowers[i];
+            if ([fanOrFollModel.name isEqualToString:model.name]) {
+                [weakself.fansOrFollowers removeObjectAtIndex:i];
+                break;
+            }
+        }
+        [weakself.tableView reloadData];
+        
     };
     return cell;
 }
@@ -113,12 +125,33 @@ static const NSString *const fansOrFocusCellID = @"fansOrFocus";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    EVFansOrFocusTableViewCell *cell = (EVFansOrFocusTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-    EVOtherPersonViewController *otherPersonVC = [EVOtherPersonViewController instanceWithName:cell.model.name];
-    otherPersonVC.fromLivingRoom = NO;
-    [self.navigationController pushViewController:otherPersonVC animated:YES];
+    if ([self ev_beyondArray:self.fansOrFollowers index:indexPath.row]) {
+        return;
+    }
+    EVFanOrFollowerModel *model = self.fansOrFollowers[indexPath.row];
+    if (model.vip == 1) {
+        EVWatchVideoInfo *watchInfo = [EVWatchVideoInfo new];
+        watchInfo.name = model.name;
+        EVVipCenterViewController *vipVC = [EVVipCenterViewController new];
+        vipVC.watchVideoInfo = watchInfo;
+        vipVC.isFollow = model.followed;
+        [self.navigationController pushViewController:vipVC animated:YES];
+    }
+    else {
+        [EVProgressHUD showOnlyTextMessage:@"此用户不是大V" forView:self.view];
+    }
+//    EVFansOrFocusTableViewCell *cell = (EVFansOrFocusTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+//    EVOtherPersonViewController *otherPersonVC = [EVOtherPersonViewController instanceWithName:cell.model.name];
+//    otherPersonVC.fromLivingRoom = NO;
+//    [self.navigationController pushViewController:otherPersonVC animated:YES];
 }
 
+- (BOOL)ev_beyondArray:(NSArray *)array index:(NSInteger)index {
+    if (array.count - 1 < index && index < 0) {
+        return YES;
+    }
+    return NO;
+}
 
 #pragma mark - Notifications
 
@@ -166,9 +199,10 @@ static const NSString *const fansOrFocusCellID = @"fansOrFocus";
     self.tableView.tableHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 10)];
     self.view.backgroundColor = [UIColor evBackgroundColor];
     self.tableView.backgroundColor = [UIColor evBackgroundColor];
-    self.tableView.separatorColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
-    self.tableView.rowHeight = 67.0f;
+    self.tableView.separatorColor = [UIColor evGlobalSeparatorColor];
+    self.tableView.rowHeight = 88;
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView registerNib:[UINib nibWithNibName:@"EVFansOrFocusTableViewCell" bundle:nil] forCellReuseIdentifier:(NSString *)fansOrFocusCellID];
     __weak typeof(self) weakself = self;
     [self.tableView addRefreshHeaderWithRefreshingBlock:^{
@@ -188,7 +222,7 @@ static const NSString *const fansOrFocusCellID = @"fansOrFocus";
         {
             if (times < 1)
             {
-                //                    [CCProgressHUD showProgressMumWithClearColorToView:weakself.view];
+                //                    [EVProgressHUD showProgressMumWithClearColorToView:weakself.view];
                 [self.loadingView showLoadingView];
             }
             
@@ -252,13 +286,13 @@ static const NSString *const fansOrFocusCellID = @"fansOrFocus";
                     weakself.noDataView.hidden = NO;
                 }
             } essionExpire:^{
-//                [CCProgressHUD hideHUDForView:weakself.view];
+//                [EVProgressHUD hideHUDForView:weakself.view];
                 [weakself.loadingView showFailedViewWithClickBlock:^{
                     [weakself loadDataWithname:name Start:start count:count];
                 }];
                 [weakself.tableView endHeaderRefreshing];
                 [weakself.tableView endFooterRefreshing];
-                CCRelogin(weakself);
+                EVRelogin(weakself);
             }];
         }
             break;
@@ -266,7 +300,7 @@ static const NSString *const fansOrFocusCellID = @"fansOrFocus";
         case FOCUSES:{
             if (times < 1)
             {
-                //                    [CCProgressHUD showProgressMumWithClearColorToView:weakself.view];
+                //                    [EVProgressHUD showProgressMumWithClearColorToView:weakself.view];
                 [self.loadingView showLoadingView];
             }
             
@@ -276,14 +310,14 @@ static const NSString *const fansOrFocusCellID = @"fansOrFocus";
                 
                 
             } fail:^(NSError *error) {
-//                [CCProgressHUD hideHUDForView:weakself.view];
+//                [EVProgressHUD hideHUDForView:weakself.view];
                 [weakself.tableView endHeaderRefreshing];
                 [weakself.tableView endFooterRefreshing];
                 [weakself.loadingView showFailedViewWithClickBlock:^{
                     [weakself loadDataWithname:name Start:start count:count];
                 }];
             } success:^(NSArray *fans) {
-//                [CCProgressHUD hideHUDForView:weakself.view];
+//                [EVProgressHUD hideHUDForView:weakself.view];
                 [weakself.loadingView destroy];
                 
                 if (start == 0)
@@ -337,7 +371,7 @@ static const NSString *const fansOrFocusCellID = @"fansOrFocus";
                 }];
                 [weakself.tableView endHeaderRefreshing];
                 [weakself.tableView endFooterRefreshing];
-                CCRelogin(weakself);
+                EVRelogin(weakself);
             }];
         }
             break;
@@ -382,10 +416,9 @@ static const NSString *const fansOrFocusCellID = @"fansOrFocus";
         [self.tableView addSubview:nodataView];
         if ( [self.name isEqualToString:[EVLoginInfo localObject].name] || self.name == nil)
         {
-            nodataView.topImage = [UIImage imageNamed:@"home_pic_findempty"];
-            nodataView.title = self.type == FANS ? kE_GlobalZH(@"no_have_fans") :kE_GlobalZH(@"no_have_follow");
+            nodataView.topImage = [UIImage imageNamed:@"ic_cry"];
+            nodataView.title = self.type == FANS ? @"您还没有粉丝噢" :@"您还没有关注的人噢";
 //            nodataView.subtitle = self.type == FANS ?  nil : kE_GlobalZH(@"go_follow");
-            nodataView.subtitle = nil;
 //            nodataView.buttonTitle = self.type == FANS ? kE_GlobalZH(@"send_go_living") : kE_GlobalZH(@"select_living_see");
         }
         else
@@ -395,8 +428,7 @@ static const NSString *const fansOrFocusCellID = @"fansOrFocus";
             nodataView.subtitle = nil;
             nodataView.buttonTitle = nil;
         }
-        // delete by 佳南
-//        [nodataView addButtonTarget:self action:@selector(noDataViewButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [nodataView addButtonTarget:self action:@selector(noDataViewButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
         self.noDataView = nodataView;
     }
     return _noDataView;
@@ -414,11 +446,13 @@ static const NSString *const fansOrFocusCellID = @"fansOrFocus";
     UIViewController *rootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
     if ( [rootVC isKindOfClass:[EVHomeViewController class]] )
     {
-        EVHomeViewController *homeVC = (EVHomeViewController *)rootVC;
-        if ([button.titleLabel.text isEqualToString:kE_GlobalZH(@"select_living_see")])
-        {
-            homeVC.selectedIndex = 0;
-        }
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            EVHomeViewController *homeVC = (EVHomeViewController *)rootVC;
+            if ([button.titleLabel.text isEqualToString:kE_GlobalZH(@"select_living_see")])
+            {
+                homeVC.selectedIndex = 1;
+            }
+        });
     }
 }
 

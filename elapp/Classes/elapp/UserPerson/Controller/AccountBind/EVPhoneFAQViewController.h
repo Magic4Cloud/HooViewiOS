@@ -11,4 +11,8 @@
 
 @interface EVPhoneFAQViewController : EVViewController
 
+@property (nonatomic, copy) NSString *navTitle;
+@property (nonatomic, copy) NSString *RTFFilePath;
+@property (nonatomic, assign) BOOL showAppealBtn;
+
 @end

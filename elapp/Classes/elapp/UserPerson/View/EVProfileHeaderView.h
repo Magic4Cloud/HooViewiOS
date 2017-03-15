@@ -29,7 +29,7 @@ typedef enum : NSUInteger {
 @optional
 
 /**
- *  @author 杨尚彬
+
  *
  *  点击底部四个按钮的代理方法
  *
@@ -38,7 +38,7 @@ typedef enum : NSUInteger {
 - (void)clickProfileControl:(EVProfileControl *)control;
 
 /**
- *  @author 杨尚彬
+
  *
  *  点击头像的代理方法
  *
@@ -58,7 +58,6 @@ typedef enum : NSUInteger {
 @property ( weak, nonatomic ) id<EVProfileDelegate> delegate;
 @property (assign, nonatomic) EVProfileHeaderViewStyle style;
 @property (assign, nonatomic) CGFloat expectedHeight;
-@property (assign, nonatomic) BOOL otherContreIsLiving;     /**< 他人中心，显示正在直播  >>  add by 刘传瑞 */
-
+@property (assign, nonatomic) BOOL otherContreIsLiving;   
 - (void)hiddenEditMarkButton:(BOOL)YorN;
 @end

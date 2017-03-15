@@ -30,7 +30,7 @@
 
 - (void)setUp
 {
-    self.backgroundColor = CCAppMainColor;
+    self.backgroundColor = [UIColor evMainColor];
     self.textAlignment = NSTextAlignmentCenter;
     self.font = [UIFont systemFontOfSize:11];
 }
@@ -42,7 +42,7 @@
     {
         return;
     }
-    self.hidden = NO;
+    self.hidden = YES;
     CGRect  frame = self.frame;
     __weak typeof(self) wself = self;
     frame.origin.y = 0;

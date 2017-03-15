@@ -11,7 +11,7 @@
 
 #define CCMovingConvexView_HEIGHT  40
 
-@protocol CCMovingConvexViewDelegate <NSObject>
+@protocol EVMovingConvexViewDelegate <NSObject>
 
 - (void)movingConvexViewDidUpdatePercent:(CGFloat)percent;
 - (void)movingUpdateToIndex:(NSInteger)index;
@@ -20,7 +20,7 @@
 
 @interface EVMovingConvexView : UIView
 
-@property (nonatomic,weak) id<CCMovingConvexViewDelegate> delegate;
+@property (nonatomic,weak) id<EVMovingConvexViewDelegate> delegate;
 
 - (instancetype)initWithPointCount:(NSInteger)pointCount;
 

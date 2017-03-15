@@ -6,10 +6,10 @@
 //  Copyright (c) 2016 EasyVass. All rights reserved.
 //
 
-#import "CCBaseObject.h"
-#import "CCEnums.h"
+#import "EVBaseObject.h"
+#import "EVEnums.h"
 
-@interface EVUserVideoModel : CCBaseObject
+@interface EVUserVideoModel : EVBaseObject
 
 /** 视频 ID */
 @property (copy, nonatomic) NSString *vid;
@@ -30,7 +30,7 @@
 @property (copy, nonatomic) NSString *nickname;
 
 /** 视频是否是直播 0:录播 1:直播*/
-@property (strong, nonatomic) NSNumber *living;
+@property (assign, nonatomic) NSInteger living;
 
 /** 总观看数 */
 @property (assign, nonatomic) NSUInteger watch_count;

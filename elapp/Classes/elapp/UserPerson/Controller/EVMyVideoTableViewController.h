@@ -8,8 +8,11 @@
 
 
 #import "EVViewController.h"
+#import "EVUserModel.h"
+
 
 @interface EVMyVideoTableViewController : EVViewController
 
+@property (nonatomic, strong) EVUserModel *userModel;
 
 @end

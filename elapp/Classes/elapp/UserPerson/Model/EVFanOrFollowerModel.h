@@ -6,10 +6,10 @@
 //  Copyright (c) 2016 EasyVass. All rights reserved.
 //
 
-#import "CCBaseObject.h"
+#import "EVBaseObject.h"
 
 
-@interface EVFanOrFollowerModel : CCBaseObject
+@interface EVFanOrFollowerModel : EVBaseObject
 
 @property (copy, nonatomic) NSString *imuser;
 

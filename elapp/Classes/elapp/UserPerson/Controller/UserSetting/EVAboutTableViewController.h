@@ -6,10 +6,10 @@
 //  Copyright (c) 2016 EasyVass. All rights reserved.
 //
 
-#import "EVTableViewController.h"
+#import "EVViewController.h"
 @class EVUserModel;
 
-@interface EVAboutTableViewController : EVTableViewController
+@interface EVAboutTableViewController : EVViewController
 
 @property (nonatomic,strong) EVUserModel *userModel;
 

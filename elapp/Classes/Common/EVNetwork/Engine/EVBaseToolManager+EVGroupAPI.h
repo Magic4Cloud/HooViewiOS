@@ -10,9 +10,9 @@
 #import "EVBaseToolManager+EVUserCenterAPI.h"
 
 @interface EVBaseToolManager (EVGroupAPI)
-- (NSDictionary *)baseUserInfoUrlWithImuser:(NSString *)imuser;
+- (void)baseUserInfoUrlWithImuser:(NSString *)imuser success:(void(^)(NSDictionary *modelDict))successBlock;
 
-- (NSString *)GETBaseUserInfoWithUname:(NSString *)uname
+- (void)GETBaseUserInfoWithUname:(NSString *)uname
                            orImuser:(NSString *)imuser
                               start:(void(^)())startBlock
                                fail:(void(^)(NSError *error))failBlock
@@ -21,7 +21,7 @@
 
 
 /** 添加或者删除关注 */
-- (NSString *)GETFollowUserWithName:(NSString *)name
+- (void)GETFollowUserWithName:(NSString *)name
                       followType:(FollowType)type
                            start:(void(^)())startBlock
                             fail:(void(^)(NSError *error))failBlock
@@ -30,7 +30,7 @@
 
 - (void)logoUrlWithImuser:(NSString *)imuser completion:(void(^)(NSString *logourl,NSString *name))completion;
 
-- (NSString *)userbasicinfolistWithNameList:(NSArray *)names
+- (void)userbasicinfolistWithNameList:(NSArray *)names
                                orImuserList:(NSArray *)imusers
                                       start:(void(^)())startBlock
                                        fail:(void(^)(NSError *error))failBlock

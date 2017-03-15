@@ -48,7 +48,7 @@ static const NSString *const phoneType = @"phone";
     [self addConstraint];
     self.selectionStyle = UITableViewCellSelectionStyleNone;
 
-    self.authSwitch.onTintColor = [CCAppSetting shareInstance].appMainColor;
+    self.authSwitch.onTintColor = [UIColor evMainColor];
 }
 
 - (void)addConstraint
@@ -103,15 +103,15 @@ static const NSString *const phoneType = @"phone";
     [label autoCenterInSuperview];
     label.hidden = YES;
     self.midLabel = label;
-    label.font = CCNormalFont(15);
+    label.font = EVNormalFont(15);
     label.textColor = [UIColor colorWithHexString:@"#fb6655"];
     
     // 右侧文本
     UILabel *rightLabel = [[UILabel alloc] init];
     [self.contentView addSubview:rightLabel];
     self.rightLabel = rightLabel;
-    rightLabel.textColor = CCTextBlackColor;
-    rightLabel.font = CCNormalFont(13);
+    rightLabel.textColor = [UIColor textBlackColor];
+    rightLabel.font = EVNormalFont(13);
     [rightLabel autoPinEdge:ALEdgeRight toEdge:ALEdgeRight ofView:_indicatorImageView];
     [rightLabel autoAlignAxis:ALAxisHorizontal toSameAxisOfView:_indicatorImageView];
     rightLabel.hidden = YES;
@@ -162,7 +162,7 @@ static const NSString *const phoneType = @"phone";
     }
     else
     {
-        CCLog(@"####-----%d,----%s-----%zd---####",__LINE__,__FUNCTION__,_authModel.isOn);
+        EVLog(@"####-----%d,----%s-----%zd---####",__LINE__,__FUNCTION__,_authModel.isOn);
         self.authSwitch.on = _authModel.isOn;
     }
     self.cellNameLabel.text = _authModel.name;
@@ -183,8 +183,8 @@ static const NSString *const phoneType = @"phone";
     if ( !_cellNameLabel )
     {
         UILabel *cellNameLabel = [[UILabel alloc] init];
-        cellNameLabel.font = [[CCAppSetting shareInstance] normalFontWithSize:15];
-        cellNameLabel.textColor = CCTextBlackColor;
+        cellNameLabel.font = [[EVAppSetting shareInstance] normalFontWithSize:15];
+        cellNameLabel.textColor = [UIColor textBlackColor];
         [self.contentView addSubview:cellNameLabel];
         _cellNameLabel = cellNameLabel;
     }
@@ -222,7 +222,7 @@ static const NSString *const phoneType = @"phone";
     {
         UIView *seperatorViewTop = [[UIView alloc] init];
         seperatorViewTop.hidden = YES;
-        seperatorViewTop.backgroundColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+        seperatorViewTop.backgroundColor = [UIColor evGlobalSeparatorColor];
         [self.contentView addSubview:seperatorViewTop];
         _seperatorViewTop = seperatorViewTop;
     }
@@ -235,7 +235,7 @@ static const NSString *const phoneType = @"phone";
     {
         UIView *seperatorViewBottom = [[UIView alloc] init];
         seperatorViewBottom.hidden = YES;
-        seperatorViewBottom.backgroundColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+        seperatorViewBottom.backgroundColor = [UIColor evGlobalSeparatorColor];
         [self.contentView addSubview:seperatorViewBottom];
         _seperatorViewBottom = seperatorViewBottom;
     }

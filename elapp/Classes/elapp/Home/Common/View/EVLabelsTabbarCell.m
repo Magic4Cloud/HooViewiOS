@@ -32,11 +32,11 @@
     UIButton *titleButton = [[UIButton alloc] init];
     titleButton.userInteractionEnabled = NO;
     [self.contentView addSubview:titleButton];
-    titleButton.titleLabel.font = [[CCAppSetting shareInstance] normalFontWithSize:15];
+    titleButton.titleLabel.font = [[EVAppSetting shareInstance] normalFontWithSize:15];
     [titleButton autoCenterInSuperview];
     self.titleButton = titleButton;
     [titleButton setTitleColor:[UIColor colorWithHexString:@"#222222"] forState:UIControlStateNormal];
-    [titleButton setTitleColor:CCAppMainColor forState:UIControlStateSelected];
+    [titleButton setTitleColor:[UIColor evMainColor] forState:UIControlStateSelected];
 }
 
 - (void)setItem:(EVLabelsTabbarItem *)item

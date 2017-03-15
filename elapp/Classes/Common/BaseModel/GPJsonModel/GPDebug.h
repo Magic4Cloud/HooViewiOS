@@ -5,7 +5,7 @@
 //  http://www.easyvaas.com
 //  Copyright (c) 2016 EasyVass. All rights reserved.
 //
-#ifdef CCDEBUG
+#ifdef EVDEBUG
 #define GPLog(...) NSLog(__VA_ARGS__)
 #else
 #define GPLog(...)

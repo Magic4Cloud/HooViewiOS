@@ -5,59 +5,8 @@
   Created by 杨尚彬 on 16/7/27.
   Copyright © 2016年 yishiyun. All rights reserved.
 */
-//CFBundleDisplayName = "EasyVaas";
-//
-////network prompt
-//"noNetwork" = "Network unavailable,Check Network";
-//"failNetWork" = "Network unavailable,Loding Fail";
-//
-//
-//
-//
-//
-//
-////alertView
-//"cancel" = "Cancel";
-//"ok"     = "OK";
-//"tooltip" = "Tooltip";
-//"againLogin" = "AgainLogin";
-//"accountOtherLogin" = "Login your account on other devices, Again login please";
-//
-//
-////system
-//"feedback" = "Feedback coming,check out please!";
-//"lChatroom" = "Loading chatroom";
-//"failChat"  = "Account unusual,Can not connect messages";
-//"send"      = "Send";
-//"findLocation"  = "Find Location";
-//"skip"      = "Skip";
-//"appUpdate" = "APP Update,Download the new version";
-//"newVersion" = "New version";
-//"reply"      = "回复";
-//"copy"       = "复制";
-//"delete"       = "删除";
-//"forwarding"   = "转发";
-//"living"       = "233";
-//"watch"        = "在看";
-//"listen"       = "在听";
-//"videoLiving"    = "直播";
-//"videoPlayback"  = "回放";
-//"ePeople"        = "人";
-//"eLike"          = "赞";
-//"eChina"         = "中国";
-//
-////navigation
-//"navigationBarFollow" = "follow";
-//"navigationBarHot" = "hot";
-//"navigationBarRank" = "rank";
-//
-//
-//
-//
-//
-//
-//
-//"easyvaas_about" = "  易视云是一款专注于移动视频直播的互联网4.0最前沿社交APP。\r\n  实时的直播分享，时间没有上限，内容可共享至微信、微博、QQ等社交平台, 既可以公开给所有人，也可仅限你的好友们观看和互动。\r\n   云端保存，既不占你的本地空间，又不会丢失你任何一刻的精彩。还可以一键即焚，播后也可不留痕迹。\r\n   极限低码率的视频压缩，为流量环境下的直播和观看的最大限度的省钱。/\r\n   不论你是想炫耀、猎奇、交友，赚钱，需要生活消费还是资讯获取，都可以来这个多屏互动的社交直播平台。\r\n  在这里，所有人都公平的获得展现真实自我的机会，易视云，把你捧到世界面前。";
+CFBundleDisplayName = "EasyVaas";
+
 CFBundleDisplayName = "火眼财经";
 
 //network prompt
@@ -113,7 +62,7 @@ CFBundleDisplayName = "火眼财经";
 "e_User"         = "用户";
 "e_Clear"        = "清除";
 "e_RedPack"      = "红包";
-"e_Coin"         = "云币";
+"e_Coin"         = "火眼豆";
 "e_image"        = "图片";
 "e_Later"        = "请稍后...";
 "e_title"        = "标题";
@@ -173,7 +122,7 @@ CFBundleDisplayName = "火眼财经";
 "to_hot_see"                  = "去热门看看";
 "search_history"              = " 历史搜索";
 "search"                      = "搜索";
-
+"search_all_noData_title" = "很抱歉，没有相关信息";
 
 
 
@@ -186,9 +135,9 @@ CFBundleDisplayName = "火眼财经";
 //redPack
 "red_user" = "的红包";
 "grab_slow" = "手慢了，没抢到";
-"red_pack_coin_receive" = "红包金额%ld云币，等待对方领取";
+"red_pack_coin_receive" = "红包金额%ld火眼豆，等待对方领取";
 
-"already_coin"   = "已领取 %ld/%ld个，共%ld云币被领取";
+"already_coin"   = "已领取 %ld/%ld个，共%ld火眼豆被领取";
 "red_look_luck"  = "看大家手气";
 "already_red_pack" = "您已经抢过红包";
 "send_one_red_pack" = "发了一个红包，金额随机";
@@ -276,6 +225,8 @@ CFBundleDisplayName = "火眼财经";
 "again_fail_update_image" = "上传头像失败请稍后重试";
 "update_iamge_success" = "上传成功";
 "photo_gallery_change" = "从相册选取";
+"photo_album" = "相册";
+"photo_capture" = "拍照";
 "camera_shooting" = "摄像头拍摄";
 "e_regist" = "注册";
 "login_agree_user_protocol"= "登录即代表你同意用户协议";
@@ -302,6 +253,7 @@ CFBundleDisplayName = "火眼财经";
 "network_warn" = "网络环境提醒";
 "switch_mobile_network" = "当前网络已经切换为移动网络";
 "i_konw" = "我知道了";
+"e_kickuser" = "踢人";
 "setting_manager" = "您已经被设置为管理员";
 "fail_send_gift" = "礼物发送失败";
 "report_user" = "举报用户问题";
@@ -369,8 +321,8 @@ CFBundleDisplayName = "火眼财经";
 "@_user" = "@TA";
 "private_letter" = "私信";
 "add_follow" = "+关注";
-"nil_signature" = "TA太忙了,忘了自我介绍了";
-"send_coin" = "送出的云币";
+"nil_signature" = "火眼助你成为财经大师";
+"send_coin" = "送出的火眼豆";
 "e_fans" = "粉丝";
 "loading" = "加载中...";
 "e_cancel_follow" = "取消关注";
@@ -394,9 +346,9 @@ CFBundleDisplayName = "火眼财经";
 "e_devote" = "贡献";
 "congratulation_fortune_lucky" = "恭喜发财,大吉大利";
 "once_most_send_red_num" = "一次最多可发50个红包";
-"coin_num_most_red_num" = "云币数不能少于红包个数";
+"coin_num_most_red_num" = "火眼豆数不能少于红包个数";
 "blessing_most_ten_num" = "祝福语不能超过10个字符";
-"most_not_self_coin" = "不能超过自己的云币数";
+"most_not_self_coin" = "不能超过自己的火眼豆数";
 "send_red_pack" = "发红包";
 "red_pack_num" = "红包个数";
 "e_one" = "个";
@@ -417,8 +369,8 @@ CFBundleDisplayName = "火眼财经";
 
 
 "not_follow_self" = "不能关注自己";
-"nil_coin"  = "云币不足";
-"nil_ecoin_recharge" = "云币余额不足,请先充值";
+"nil_coin"  = "火眼豆不足";
+"nil_ecoin_recharge" = "火眼豆余额不足,请先充值";
 "e_recharge" = "充值";
 "pull_loading_more_comment" = "下拉加载更多评论";
 "loading_more_comment" = "正在加载更多评论";
@@ -550,10 +502,11 @@ CFBundleDisplayName = "火眼财经";
 "relation_me" = "联系我们";
 "clear_cache_space" = "清理缓存空间";
 "in_regard_to" = "关于";
+"blacklist"    = "拉黑";
 "push_out_login" = "退出登录";
 "e_setting" = "设置";
 "confirm_clear" = "确定清理吗?";
-"confirm_cancel_push_out" = "确定注销退出";
+"confirm_cancel_push_out" = "退出将清空本地自选股信息，确定要退出登录吗？";
 "e_notification" = "通知";
 "night_to_morning_nit_remind" = "晚上11点至早上8点不会接受提醒";
 "calculate" = "正在计算...";
@@ -585,7 +538,7 @@ CFBundleDisplayName = "火眼财经";
 "loading_data_please_trial" = "正在加载数据，请稍后再试!";
 "me_earnings" = "我的收益";
 "me_setting" = "我的设置";
-"ecoin_recharge" = "云币充值";
+"ecoin_recharge" = "火眼豆充值";
 "please_later" = "请稍后";
 "who_user_homepage" = "的火眼财经个人主页";
 "easyvaas_user_homepage" = "有温度的视频社交平台！这是%@个人主页，快来关注哦~";
@@ -634,10 +587,10 @@ CFBundleDisplayName = "火眼财经";
 "reality_to_money" = "实际到账金额";
 "put_forward_money_deposit_wechat_account" = "提现金额将存入微信的零钱账户中,24小时到账";
 "e_give" = "赠送";
-"pay_success_ecoin_gain" = "支付成功，云币获取中...";
+"pay_success_ecoin_gain" = "支付成功，火眼豆获取中...";
 "please_see_asset" = "请稍后重新查看资产变动";
-"bug_ecoin" = "您已经成功购买%zd云币";
-"account_difference" = "账户余额";
+"bug_ecoin" = "您已经成功购买%zd火眼豆";
+"account_difference" = "火眼豆";
 "please_change_ecoin" = "请选择充值金额";
 "affirm_recharge" = "确认充值";
 "recharge_tip" = "温馨提示:请在网络良好的情况下进行充值,为保证充值顺利请耐心等待充值返回,不要进行其他无关操作";
@@ -666,7 +619,7 @@ CFBundleDisplayName = "火眼财经";
 "video_check" = "视频审核中";
 
 "world_you_lazy" = "让世界知道你的懒";
-"send_ecoin" = "送出云币";
+"send_ecoin" = "送出火眼豆";
 "receive_gift" = "收到礼物";
 "edit_data" = "编辑资料";
 "motify_remark" = "修改备注";
@@ -727,7 +680,7 @@ CFBundleDisplayName = "火眼财经";
 "three_parameter_not_nil" = "这三个参数不能为空";
 "e_copy" = "已复制";
 "app_not_login" = "App未注册";
-"api_port_not_hold" = "API接口不支持";
+"api_port_not_hold" = "尚未安装QQ";
 
 "easyvaas_start_warrant" = "火眼财经请求访问您的麦克风,请到设置->隐私-> 麦克风 -> 火眼财经 进行相应的授权";
 "access_camera" = "火眼财经请求访问您的摄像头";
@@ -747,7 +700,7 @@ CFBundleDisplayName = "火眼财经";
 "me_force_easyvaas_living" = "我将于%@在火眼财经上与你不见不散";
 
 
-"easyvaas_main_slogan" = "火眼财经，有温度的视频社交平台，";
+"easyvaas_main_slogan" = "火眼财经 让赚钱变得更简单";
 
 "activity_start_come_join" = "%@活动开始喽，惊喜不容错过，快来参加吧！";
 "have_living_watch" = "有直播看";
@@ -846,10 +799,10 @@ CFBundleDisplayName = "火眼财经";
 "e_scorpio" = "天蝎座";
 "e_sagittarius" = "射手座";
 
-"easyvaas_about" = "  火眼财经为四川火眼财讯科技有限公司（简称“火眼财讯”）旗下产品。火眼财讯定位于泛财经领域第一垂直直播平台，是由四川星空奇迹科技有限公司（简称“星空奇迹”）和成都每日经济新闻报社有限公司（简称“每日经济新闻”）共同创办。火眼财讯依托于合作方星空奇迹在视频直播领域的丰富行业经验及背景资源，以及每日经济新闻强大的内容生产能力，专注于泛财经领域的视频直播。";
+"easyvaas_about" = "  火眼财经是一款专注于移动视频直播的互联网4.0最前沿社交APP。\r\n  实时的直播分享，时间没有上限，内容可共享至微信、微博、QQ等社交平台, 既可以公开给所有人，也可仅限你的好友们观看和互动。\r\n   云端保存，既不占你的本地空间，又不会丢失你任何一刻的精彩。还可以一键即焚，播后也可不留痕迹。\r\n   极限低码率的视频压缩，为流量环境下的直播和观看的最大限度的省钱。\r\n   不论你是想炫耀、猎奇、交友，赚钱，需要生活消费还是资讯获取，都可以来这个多屏互动的社交直播平台。\r\n  在这里，所有人都公平的获得展现真实自我的机会，火眼财经，把你捧到世界面前。";
 
 
-"copy_about_detail" = "   火眼财经为火眼财讯科技有限公司旗下的一款基于移动端的直播分享软件平台，在平台上会员或其发布有关直播信息均由会员自行提供，会员依法对其提供的任何信息承担全部责任。任何单位或个人认为火眼财经平台的内容可能涉嫌侵合法权益，应该及时书面通知本公司，并应对书面通知陈述之真实性负责。我们在收到相关信息后，将会依法尽快移除或限制相关涉嫌侵权的内容。  火眼财经平台尊重合法版权，反对侵权盗版。转发及分容并不意味本平台赞同其部分文字或作品等侵害了您的权益，请您立即与我们联系，我们将尽快予以解决。";
+"copy_about_detail" = "     火眼财经为易联视讯科技旗下的一款移动直播分享的软件平台，在平台上会员或其发布有关直播信息均由会员自行提供，会员依法对其提供的任何信息承担全部责任。\r\n  任何单位或个人认为火眼财经平台的内容可能涉嫌侵合法权益，应该及时书面通知本公司，并应对书面通知陈述之真实性负责。我们在收到相关信息后，将会依法尽快移除或限制相关涉嫌侵权的内容。\r\n  火眼财经平台尊重合法版权，反对侵权盗版。转发及分容并不意味火眼财经赞同其部分文字或作品等侵害了您的权益，请您立即与火眼财经联系，火眼财经将尽快予以解决。";
 
 
 "about_easyvaas_label" = "关于火眼财经";
@@ -862,7 +815,7 @@ CFBundleDisplayName = "火眼财经";
 //share
 "watch_temp_living_social" = "做真实的自己，看有温度的直播，火眼财经-有温度的视频社交平台。";
 
-"who_living_watch_temp_living" = "做真实的自己，看有温度的直播！%@正在直播，别错过哦~";
+"who_living_watch_temp_living" = "让赚钱变得更简单";
 
 "launch_group_chat" = "发起群聊";
 
@@ -871,3 +824,5 @@ CFBundleDisplayName = "火眼财经";
 "el_permission" = "权限";
 
 "el_topic" = "#热门#";
+
+

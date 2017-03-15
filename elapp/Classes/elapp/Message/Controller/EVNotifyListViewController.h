@@ -10,8 +10,11 @@
 #import "EVViewController.h"
 @class EVNotifyItem;
 
+typedef void(^readMessageBlock)(BOOL isRead);
+
 @interface EVNotifyListViewController : EVViewController
 
+@property (nonatomic, copy) readMessageBlock messageBlock;
 
 @property (nonatomic,strong) EVNotifyItem *notiItem;
 

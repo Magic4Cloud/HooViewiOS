@@ -98,8 +98,24 @@
         [self setupGestureRecognizer];
         
         self.clipsToBounds = YES;
+        
+        UIView *topCoverView = [self addCoverViewWithRect:CGRectMake(0, 0, ScreenWidth, _cropperView.frame.origin.y)];
+        UIView *leftCoverView = [self addCoverViewWithRect:CGRectMake(0, topCoverView.frame.size.height, _cropperView.frame.origin.x, _cropperView.frame.size.height)];
+        [self addCoverViewWithRect:CGRectMake(_cropperView.frame.origin.x + _cropperView.frame.size.width, leftCoverView.frame.origin.y, CGRectGetWidth(leftCoverView.frame), CGRectGetHeight(leftCoverView.frame))];
+        [self addCoverViewWithRect:CGRectMake(0, leftCoverView.frame.origin.y + CGRectGetHeight(leftCoverView.frame), ScreenWidth, CGRectGetHeight(topCoverView.frame))];
     }
     return self;
+}
+
+#pragma mark - 蒙层 helper
+- (UIView *)addCoverViewWithRect:(CGRect)rect {
+    UIView *coverView = [UIView new];
+    coverView.userInteractionEnabled = NO;
+    coverView.backgroundColor = [UIColor colorWithWhite:0 alpha:.5];
+    coverView.frame = rect;
+    [self addSubview:coverView];
+    
+    return coverView;
 }
 
 
@@ -157,7 +173,7 @@
             collideState = 4;
         }
         
-        //        CCLog(@"scale :%f",newScale);
+        //        EVLog(@"scale :%f",newScale);
         if(collideState >0)
         {
             
@@ -267,7 +283,7 @@
     if(sender.state == UIGestureRecognizerStateBegan || sender.state == UIGestureRecognizerStateChanged)
     {
         self.imgView.transform = CGAffineTransformRotate(self.imgView.transform, recognizer.rotation - rot);
-//        CCLog(@"imgViewFrame : %@",NSStringFromCGRect(self.imgView.frame));
+//        EVLog(@"imgViewFrame : %@",NSStringFromCGRect(self.imgView.frame));
         rot =recognizer.rotation;
         
     }
@@ -328,7 +344,7 @@
     
     CGRect CropinView = CGRectMake(cropperViewOrigin.x, cropperViewOrigin.y, cropperViewSize.width  , cropperViewSize.height);
     
-    CCLog(@"CropinView : %@",NSStringFromCGRect(CropinView));
+    EVLog(@"CropinView : %@",NSStringFromCGRect(CropinView));
     
     CGSize CropinViewSize = CGSizeMake((CropinView.size.width*(1/_imageScale)),(CropinView.size.height*(1/_imageScale)));
     

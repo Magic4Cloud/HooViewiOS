@@ -62,7 +62,7 @@
 #pragma mark - ***********    Notifications 📢    ***********
 
 #pragma mark - ***********      Actions 🌠        ***********
-#pragma mark 更新云币
+#pragma mark 更新火眼豆
 - (void)updateEcion:(NSString *)ecion {
     [self.payView updatePayViewEcion:ecion];
 }
@@ -101,25 +101,25 @@
     [self.engine GETUserstartwatchvideoWithParams:paramsDict Start:^{
         
     } fail:^(NSError *error) {
-         [CCProgressHUD showError:[error errorInfoWithPlacehold:@"获取付费直播信息失败"]];
+         [EVProgressHUD showError:[error errorInfoWithPlacehold:@"获取付费直播信息失败"]];
     } success:^(NSDictionary *videoInfo) {
         NSLog(@"video-------- %@",videoInfo);
          complete(videoInfo, nil);
     } sessionExpire:^{
         __strong __typeof(weakSelf)strongSelf = weakSelf;
-        CCRelogin(strongSelf);
+        EVRelogin(strongSelf);
     }];
 }
 
 - (void)postPayRequestWithComplete:(void(^)(BOOL success))callBackBlock {
     WEAK(self);
     [self.engine GETLivePayWithVid:self.vid start:^{
-        [CCProgressHUD showMessage:@"loading..." toView:weakself.view];
+        [EVProgressHUD showMessage:@"loading..." toView:weakself.view];
     } fail:^(NSError *error) {
-        [CCProgressHUD hideHUDForView:weakself.view];
-        [CCProgressHUD showError:[error errorInfoWithPlacehold:@"云币数目不足"]];
+        [EVProgressHUD hideHUDForView:weakself.view];
+        [EVProgressHUD showError:[error errorInfoWithPlacehold:@"火眼豆数目不足"]];
     } successBlock:^(NSDictionary *retinfo) {
-        [CCProgressHUD hideHUDForView:weakself.view];
+        [EVProgressHUD hideHUDForView:weakself.view];
         callBackBlock(YES);
     } sessionExpire:^{
         

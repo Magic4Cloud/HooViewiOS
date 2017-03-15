@@ -30,17 +30,4 @@
 @interface EVBaseToolManager (EVLogAPI)
 
 
-/**
- *  苹果上传支付日志
- *
- *  @param type     支付阶段类型
- *  @param state    阶段状态
- *  @param moreInfo 其他信息描述
- *
- *  @return 请求字符串
- */
-- (void)POSTPayLogWithType:(NSString *)type
-                     state:(NSString *)state
-                  moreInfo:(NSDictionary *)moreInfo;
-
 @end

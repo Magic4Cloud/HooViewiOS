@@ -7,9 +7,9 @@
 //
 
 
-#import "CCBaseObject.h"
+#import "EVBaseObject.h"
 #import "EVUserModel.h"
-@interface EVMngUserListModel : CCBaseObject
+@interface EVMngUserListModel : EVBaseObject
 @property (copy, nonatomic) NSString *name;  /**< 云播号，string */
 @property (copy, nonatomic) NSString *logourl;  /**< 用户头像链接地址，string */
 @property (copy, nonatomic) NSString *nickname;  /**< 昵称，string */

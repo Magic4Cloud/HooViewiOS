@@ -6,9 +6,8 @@
 //  Copyright (c) 2016 EasyVass. All rights reserved.
 //
 
-#import "CCBaseObject.h"
-#import "CCEnums.h"
-#import "EVAudioOnlyCollectionViewCellItem.h"
+#import "EVBaseObject.h"
+#import "EVEnums.h"
 #import "EVTopicItem.h"
 
 @class CCForeShowItem;
@@ -28,14 +27,14 @@ typedef NS_ENUM(NSInteger, CCLiveVideoStatus)
     CCliveVideoStatusStop
 };
 
-@interface EVLiveViedeoStatus : CCBaseObject
+@interface EVLiveViedeoStatus : EVBaseObject
 
 @property (nonatomic, assign) BOOL live;
 @property (nonatomic, assign) CCLiveVideoStatus status;
 
 @end
 
-@interface EVLiveVideoInfo : CCBaseObject
+@interface EVLiveVideoInfo : EVBaseObject
 
 @property (nonatomic, assign) NSUInteger watching_count;
 @property (nonatomic, assign) NSUInteger watch_count;
@@ -46,7 +45,7 @@ typedef NS_ENUM(NSInteger, CCLiveVideoStatus)
 
 @end
 
-@interface EVLiveUserInfo : CCBaseObject
+@interface EVLiveUserInfo : EVBaseObject
 
 @property (nonatomic, copy) NSString *username;
 @property (nonatomic, copy) NSString *nickname;
@@ -69,7 +68,7 @@ typedef NS_ENUM(NSInteger, CCLiveVideoStatus)
 
 @end
 
-@interface EVRecoderInfo : CCBaseObject
+@interface EVRecoderInfo : EVBaseObject
 
 /**
  *  直播密码，只在 permission = CCLivePermissionPassWord 生效
@@ -102,7 +101,6 @@ typedef NS_ENUM(NSInteger, CCLiveVideoStatus)
 
 @property (nonatomic, assign) int certification;
 
-@property (nonatomic, strong) EVAudioOnlyCollectionViewCellItem *audioBGItem;
 
 @property (nonatomic, assign) BOOL fontCamera;
 @property (nonatomic, assign) BOOL lighton;

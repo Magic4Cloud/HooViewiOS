@@ -107,7 +107,7 @@
     textField.keyboardType = UIKeyboardTypeNumberPad;
     textField.placeholder = kVerify_num;
     [textField setValue:[UIColor colorWithHexString:@"#ACACAC"]forKeyPath:@"_placeholderLabel.textColor"];
-    textField.tintColor = CCTextBlackColor;
+    textField.tintColor = [UIColor textBlackColor];
     [verificationView addSubview:textField];
     [textField autoPinEdge:ALEdgeTop toEdge:ALEdgeTop ofView:verificationView withOffset:0];
     [textField autoSetDimensionsToSize:CGSizeMake(ScreenWidth-108, 60)];
@@ -128,7 +128,7 @@
     [verifyCodeBtn autoSetDimension:ALDimensionHeight toSize:25.0f];
     verifyCodeBtn.backgroundColor = [UIColor colorWithHexString:@"#FF8DA8"];
     [verifyCodeBtn setTitle:kSend_verify_num forState:UIControlStateNormal];
-    [verifyCodeBtn.titleLabel setFont:CCNormalFont(13.0f)];
+    [verifyCodeBtn.titleLabel setFont:EVNormalFont(13.0f)];
     [verifyCodeBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     verifyCodeBtn.layer.borderColor = [UIColor colorWithHexString:@"#FF8DA8"].CGColor;
     verifyCodeBtn.layer.borderWidth = 1.f;
@@ -167,14 +167,13 @@
     [self addSubview:confirmButton];
     self.confirmButton = confirmButton;
     confirmButton.tag = CCConfimButton;
-    confirmButton.backgroundColor = CCAppMainColor;
+    confirmButton.backgroundColor = [UIColor evMainColor];
     confirmButton.layer.cornerRadius = 3;
     confirmButton.clipsToBounds = YES;
     [confirmButton autoSetDimensionsToSize:CGSizeMake(ScreenWidth - 40, 40)];
     [confirmButton autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:passwordText withOffset:20];
     [confirmButton autoAlignAxis:ALAxisVertical toSameAxisOfView:self];
     [confirmButton addTarget:self action:@selector(verificationbuttonClicked:) forControlEvents:(UIControlEventTouchDown)];
-    
     
     
     //服务条款与协议
@@ -189,7 +188,7 @@
     serviceagreement.attributedText = attrStr;
     serviceagreement.delegate = self;
     [serviceagreement setLinkAttributes:@{NSForegroundColorAttributeName:textColor}];
-    [serviceagreement setActiveLinkAttributes:@{NSForegroundColorAttributeName:CCAppMainColor}];
+    [serviceagreement setActiveLinkAttributes:@{NSForegroundColorAttributeName:[UIColor evMainColor]}];
     [serviceagreement addLinkToAddress:@{@"key":@"1"} withRange:NSMakeRange(8, 4)];
     
 }

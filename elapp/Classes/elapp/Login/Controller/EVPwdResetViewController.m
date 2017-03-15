@@ -44,8 +44,8 @@ typedef NS_ENUM(NSInteger, EVPhonePWDVCButtonType) {
 
 - (void)dealloc
 {
-    CCLog(@"%@ dealloc", [self class]);
-    [CCNotificationCenter removeObserver:self];
+    EVLog(@"%@ dealloc", [self class]);
+    [EVNotificationCenter removeObserver:self];
 }
 
 - (void)viewDidLoad
@@ -66,7 +66,7 @@ typedef NS_ENUM(NSInteger, EVPhonePWDVCButtonType) {
 }
 
 - (void)setUpNotification {
-    [CCNotificationCenter addObserver:self selector:@selector(textChange) name:UITextFieldTextDidChangeNotification object:nil];
+    [EVNotificationCenter addObserver:self selector:@selector(textChange) name:UITextFieldTextDidChangeNotification object:nil];
 }
 
 - (void)configView
@@ -77,7 +77,7 @@ typedef NS_ENUM(NSInteger, EVPhonePWDVCButtonType) {
     self.comfirmButton.tag = EVPhonePWDVCComfirm;
     
     self.comfirmButton.layer.cornerRadius = 0.5 * self.comfirmButton.bounds.size.height;
-    self.comfirmButton.backgroundColor = CCAppMainColor;
+    self.comfirmButton.backgroundColor = [UIColor evMainColor];
     
     [self.cancelButton addTarget:self action:@selector(buttonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.pwdCancelButton addTarget:self action:@selector(buttonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -132,32 +132,32 @@ typedef NS_ENUM(NSInteger, EVPhonePWDVCButtonType) {
     
     if ( password.length < 6 )
     {
-        [CCProgressHUD showError:kPassword_lessthan_six_num toView:self.view];
+        [EVProgressHUD showError:kPassword_lessthan_six_num toView:self.view];
         return;
     }
     
     if ( passwordrepy.length < 6 )
     {
-        [CCProgressHUD showError:kPassword_lessthan_six_num toView:self.view];
+        [EVProgressHUD showError:kPassword_lessthan_six_num toView:self.view];
         return;
     }
     
     if ( ![password isEqualToString:passwordrepy] )
     {
-        [CCProgressHUD showError:kEnter_two_same toView:self.view];
+        [EVProgressHUD showError:kEnter_two_same toView:self.view];
         return;
     }
     [self.view endEditing:YES];
     __weak typeof(self) wself = self;
-    [CCProgressHUD hideHUDForView:self.view];
+    [EVProgressHUD hideHUDForView:self.view];
     [self.engine GETUserResetPassword:password phone:self.phone start:^{
-        [CCProgressHUD showMessage:kSend_again toView:wself.view];
+        [EVProgressHUD showMessage:kSend_again toView:wself.view];
     } fail:^(NSError *error) {
-        [CCProgressHUD hideHUDForView:wself.view];
+        [EVProgressHUD hideHUDForView:wself.view];
         NSString *errorStr = [error errorInfoWithPlacehold:kFail_setting];
         [[EVAlertManager shareInstance] performComfirmTitle:kTooltip message:errorStr comfirmTitle:kOK WithComfirm:nil];
     } success:^(BOOL success) {
-        [CCProgressHUD hideHUDForView:wself.view];
+        [EVProgressHUD hideHUDForView:wself.view];
         [self gotoLoginVC];
     }];
 }
@@ -173,7 +173,7 @@ typedef NS_ENUM(NSInteger, EVPhonePWDVCButtonType) {
 {
     UIView *line = [[UIView alloc] init];
     [view addSubview:line];
-    line.backgroundColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+    line.backgroundColor = [UIColor evGlobalSeparatorColor];
     [line autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero excludingEdge:ALEdgeTop];
     [line autoSetDimension:ALDimensionHeight toSize:kGlobalSeparatorHeight];
 }

@@ -54,7 +54,8 @@
 {
     CGRect nickNameFrame = CGRectMake(self.comment.textOrigin, 0, self.comment.prefixNameAttributeString.size.width + self.comment.textOrigin, self.comment.prefixNameAttributeString.size.height + 5);
     
-    if ( [_comment.name integerValue] == 0 || _comment == nil || ![_delegate respondsToSelector:@selector(emojiLabelDidClicked:)] )
+    NSLog(@"_comment  name  %ld    %@",[_comment.name integerValue],_comment);
+    if ( _comment == nil || ![_delegate respondsToSelector:@selector(emojiLabelDidClicked:)] )
     {
         return;
     }
@@ -101,7 +102,7 @@
 static NSString *cellID = @"commentcell";
 - (void)dealloc
 {
-    CCLog(@"CCCommentCell dealloc");
+    EVLog(@"CCCommentCell dealloc");
 }
 
 + (NSString *)cellID
@@ -139,7 +140,7 @@ static NSString *cellID = @"commentcell";
     commentLabel.delegate = self;
     commentLabel.lineBreakMode = NSLineBreakByCharWrapping;
     commentLabel.numberOfLines = 0;
-    commentLabel.font = CCBoldFont(16);
+    commentLabel.font = EVBoldFont(16);
     commentLabel.textColor = [UIColor whiteColor];
     [containerView addSubview:commentLabel];
     self.commentLabel = commentLabel;
@@ -229,6 +230,7 @@ static NSString *cellID = @"commentcell";
 // 礼物提醒消息
 - (void)presentMessage:(EVComment *)comment
 {
+    
 }
 
 // 关注主播消息
@@ -256,10 +258,10 @@ static NSString *cellID = @"commentcell";
 #pragma mark - CCEmojiLabelDelegate
 - (void)emojiLabelDidClicked:(CCCommentClickType)type
 {
-    if ( [_delegate respondsToSelector:@selector(commentCell:didClicked:)] )
-    {
-        [_delegate commentCell:self didClicked:type];
-    }
+//    if ( [_delegate respondsToSelector:@selector(commentCell:didClicked:)] )
+//    {
+//        [_delegate commentCell:self didClicked:type];
+//    }
 }
 
 @end

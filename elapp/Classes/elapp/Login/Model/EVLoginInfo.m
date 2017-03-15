@@ -10,10 +10,11 @@
 #import "EVBaseToolManager.h"
 #import "EVRelationWith3rdAccoutModel.h"
 #import "NSString+Extension.h"
+#import "EVStockBaseModel.h"
 
 #define kLoginInfoPath [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"EVLoginInfo.arc"]
 
-@implementation CCLoginIMInfo
+@implementation EVLoginIMInfo
 
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
@@ -27,7 +28,7 @@
 
 - (id)initWithCoder:(NSCoder *)decoder
 {
-    CCLoginIMInfo *info = [[CCLoginIMInfo alloc] init];
+    EVLoginIMInfo *info = [[EVLoginIMInfo alloc] init];
     info.LastLoginTime = [decoder decodeInt64ForKey:@"LastLoginTime"];
     info.jid = [decoder decodeObjectForKey:@"jid"];
     info.password = [decoder decodeObjectForKey:@"password"];
@@ -85,7 +86,7 @@
     if ( [imuser isKindOfClass:[NSString class]] )
     {
         _imuser = imuser;
-//        [CCNotificationCenter postNotificationName:CCIMUserHasChanged object:@{kImuser : imuser}];
+//        [EVNotificationCenter postNotificationName:CCIMUserHasChanged object:@{kImuser : imuser}];
     }
 }
 
@@ -105,15 +106,6 @@
     _logourl = logourl;
 }
 
-+ (void)updateInviteURLString:(NSString *)invite_url
-{
-    if ( invite_url )
-    {
-        EVLoginInfo *loginInfo = [EVLoginInfo localObject];
-        loginInfo.invite_url = invite_url;
-        [loginInfo synchronized];
-    }
-}
 
 
 + (BOOL)checkCurrUserByName:(NSString *)name
@@ -169,7 +161,6 @@
 
 - (NSMutableDictionary *)userInfoParams
 {
-// fix by 马帅伟 想一个好方法可以永远避免 NSNull
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     if ( self.gender.length  )
     {
@@ -204,6 +195,11 @@
     {
         params[kUnionid] = self.unionid;
     }
+    
+    if (self.credentials.length) {
+        params[kCredentials] = self.credentials;
+    }
+    
     return params;
 }
 
@@ -212,7 +208,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     if ( ![self.loginTag isEqualToString:kCCPhoneLoginTag] )
     {
-#ifdef CCDEBUG
+#ifdef EVDEBUG
         assert(self.authtype.length);
         assert(self.nickname.length);
         assert(self.token.length);
@@ -296,15 +292,14 @@
     loginInfo.auth = [decoder decodeObjectForKey:@"auth"];
     loginInfo.sexStr = [decoder decodeObjectForKey:@"sexStr"];
     loginInfo.hasLogin = [decoder decodeBoolForKey:@"hasLogin"];
-    loginInfo.jurisdiction = [decoder decodeBoolForKey:@"jurisdiction"];
     loginInfo.name = [decoder decodeObjectForKey:@"name"];
     loginInfo.sessionid = [decoder decodeObjectForKey:@"sessionid"];
     loginInfo.gender = [decoder decodeObjectForKey:@"gender"];
     loginInfo.authtype = [decoder decodeObjectForKey:@"authtype"];
     loginInfo.birthday = [decoder decodeObjectForKey:@"birthday"];
     loginInfo.nickname = [decoder decodeObjectForKey:@"nickname"];
-    loginInfo.invite_url = [decoder decodeObjectForKey:@"invite_url"];
-    
+ 
+    loginInfo.vip = [decoder decodeIntegerForKey:@"vip"];
     loginInfo.location = [decoder decodeObjectForKey:@"location"];
     loginInfo.signature = [decoder decodeObjectForKey:@"signature"];
     loginInfo.logourl = [decoder decodeObjectForKey:@"logourl"];
@@ -316,13 +311,11 @@
     loginInfo.phone = [decoder decodeObjectForKey:@"phone"];
     loginInfo.imuser = [decoder decodeObjectForKey:@"imuser"];
     loginInfo.impwd = [decoder decodeObjectForKey:@"impwd"];
-    loginInfo.imLoginInfo = [decoder decodeObjectForKey:@"imLoginInfo"];
+//    loginInfo.imLoginInfo = [decoder decodeObjectForKey:@"imLoginInfo"];
     loginInfo.unionid = [decoder decodeObjectForKey:kUnionid];
     loginInfo.barley = [decoder decodeIntegerForKey:@"barley"];
     loginInfo.ecoin = [decoder decodeIntegerForKey:@"ecoin"];
-    loginInfo.level = [decoder decodeIntegerForKey:@"level"];
-    loginInfo.vip_level = [decoder decodeIntegerForKey:@"vip_level"];
-    loginInfo.anchor_level = [decoder decodeIntegerForKey:@"anchor_level"];
+
     
     loginInfo.registeredSuccess = [decoder decodeBoolForKey:@"registeredSuccess"];
     return loginInfo;
@@ -340,7 +333,6 @@
     [encoder encodeObject:self.signature forKey:@"signature"];
     [encoder encodeObject:self.location forKey:@"location"];
     [encoder encodeObject:self.nickname forKey:@"nickname"];
-    [encoder encodeObject:self.invite_url forKey:@"invite_url"];
     
     [encoder encodeObject:self.birthday forKey:@"birthday"];
     [encoder encodeObject:self.auth forKey:@"auth"];
@@ -349,43 +341,37 @@
     [encoder encodeObject:self.gender forKey:@"gender"];
     [encoder encodeObject:self.sessionid forKey:@"sessionid"];
     [encoder encodeObject:self.name forKey:@"name"];
-    [encoder encodeBool:self.jurisdiction forKey:@"jurisdiction"];
-
     
     [encoder encodeObject:self.sexStr forKey:@"sexStr"];
     [encoder encodeBool:self.hasLogin forKey:@"hasLogin"];
-    
+    [encoder encodeInteger:self.vip forKey:@"vip"];
     [encoder encodeObject:self.phone forKey:@"phone"];
     
     [encoder encodeObject:self.imuser forKey:@"imuser"];
     [encoder encodeObject:self.impwd forKey:@"impwd"];
     
-    [encoder encodeObject:self.imLoginInfo forKey:@"imLoginInfo"];
+//    [encoder encodeObject:self.imLoginInfo forKey:@"imLoginInfo"];
     [encoder encodeObject:self.unionid forKey:kUnionid];
     [encoder encodeBool:self.registeredSuccess forKey:@"registeredSuccess"];
     
     [encoder encodeInteger:self.barley forKey:@"barley"];
     [encoder encodeInteger:self.ecoin forKey:@"ecoin"];
     
-    [encoder encodeInteger:self.level forKey:@"level"];
-    [encoder encodeInteger:self.vip_level forKey:@"vip_level"];
-    [encoder encodeInteger:self.anchor_level forKey:@"anchor_level"];
-    
 }
 
 - (void)synchronized
 {
-    CCLog(@"%@",kLoginInfoPath);
+    EVLog(@"%@",kLoginInfoPath);
     if ([self.name isEqualToString:@""] || self.name == nil) {
         return;
     }
     if ( [NSKeyedArchiver archiveRootObject:self toFile:kLoginInfoPath] )
     {
-        CCLog(@"archieve success");
+        EVLog(@"archieve success");
     }
     else
     {
-        CCLog(@"archieve fail");
+        EVLog(@"archieve fail");
     }
 }
 
@@ -398,6 +384,15 @@
 + (void)cleanLoginInfo
 {
     [[NSFileManager defaultManager] removeItemAtPath:kLoginInfoPath error:NULL];
+    [EVStockBaseModel clearStock];
+}
+
++ (BOOL)hasLogged {
+    NSString *session = [[EVLoginInfo localObject] sessionid];
+    if (session && session.length > 0) {
+        return YES;
+    }
+    return NO;
 }
 
 @end

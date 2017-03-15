@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#include "CCEnums.h"
+#include "EVEnums.h"
 @class EVFanOrFollowerModel;
 
 typedef void(^ICONCLICK)(EVFanOrFollowerModel *model);

@@ -76,14 +76,14 @@ static CGFloat const remainingLabBottomPadding = 15.f;
 
 #pragma mark - private method
 - (void)p_makeUpNeedLabelText:(NSString *)numberString {
-    NSString *suffixString = @" 云币";
+    NSString *suffixString = @" 火眼豆";
   
     NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@%@", numberString, suffixString]];
     [attString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:17] range:NSMakeRange(numberString.length, suffixString.length)];
     self.needPayNumLab.attributedText = attString;
 }
 - (void)p_makeUpRemainingLabelText:(NSString *)numberString {
-    self.remainingLab.text = [NSString stringWithFormat:@"我的云币余额：%ld",  [numberString integerValue]];
+    self.remainingLab.text = [NSString stringWithFormat:@"我的火眼豆余额：%ld",  [numberString integerValue]];
 }
 
 
@@ -130,7 +130,7 @@ static CGFloat const remainingLabBottomPadding = 15.f;
     [self.topTitleLabe autoPinEdgeToSuperviewEdge:ALEdgeLeft];
     [self.topTitleLabe autoPinEdgeToSuperviewEdge:ALEdgeRight];
     
-    // 所需云币label
+    // 所需火眼豆label
     [self.needPayNumLab autoPinEdgeToSuperviewEdge:ALEdgeLeft];
     [self.needPayNumLab autoPinEdgeToSuperviewEdge:ALEdgeRight];
     [self.needPayNumLab autoAlignAxisToSuperviewAxis:ALAxisVertical];
@@ -146,7 +146,7 @@ static CGFloat const remainingLabBottomPadding = 15.f;
     [self.goToRechargeBtn autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:self.payBtn withOffset:-paddingBetweenBtn];
     [self.goToRechargeBtn autoAlignAxisToSuperviewAxis:ALAxisVertical];
     
-    // 剩余云币
+    // 剩余火眼豆
     [self.remainingLab autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:self.goToRechargeBtn withOffset:-remainingLabBottomPadding];
     [self.remainingLab autoAlignAxisToSuperviewAxis:ALAxisVertical];
     [self.remainingLab autoPinEdgeToSuperviewEdge:ALEdgeLeft];
@@ -200,7 +200,7 @@ static CGFloat const remainingLabBottomPadding = 15.f;
         needLab.textColor     = [UIColor whiteColor];
         needLab.font          = [UIFont boldSystemFontOfSize:40];
         needLab.textAlignment = NSTextAlignmentCenter;
-        needLab.text          = @"0云币";
+        needLab.text          = @"0火眼豆";
         [self addSubview:needLab];
         _needPayNumLab = needLab;
     }

@@ -11,12 +11,12 @@
 #import <PureLayout.h>
 
 /** 观看页底部按钮 */
-typedef NS_ENUM(NSInteger, CCWatchBottomItem) {
-    CCWatchBottomItemChat,      // 聊天
-    CCWatchBottomItemTimeLine,  // 回放
-    CCWatchBottomItemShare,     // 分享
-//    CCWatchBottomItemGif,       // 礼物
-    CCWatchBottomItemLike       // 点赞
+typedef NS_ENUM(NSInteger, EVWatchBottomItem) {
+    EVWatchBottomItemChat,      // 聊天
+    EVWatchBottomItemTimeLine,  // 回放
+    EVWatchBottomItemShare,     // 分享
+    EVWatchBottomItemGif,       // 礼物
+    EVWatchBottomItemLike       // 点赞
 };
 
 @implementation EVControlSlider
@@ -43,7 +43,6 @@ typedef NS_ENUM(NSInteger, CCWatchBottomItem) {
 
 - (void)drawRect:(CGRect)rect
 {
-    // fix by 施志昂 配合服务器测试 让服务器给一个超大的数
     if( isnan(_bufferProgress) || isinf(_bufferProgress) )
     {
         return;
@@ -84,7 +83,8 @@ typedef NS_ENUM(NSInteger, CCWatchBottomItem) {
 @property (nonatomic,weak) EVControlSlider *slider;
 @property (nonatomic,weak) UIButton *pauseOrPlayButton;
 @property (nonatomic, assign) BOOL sliderDrap;
-@property (weak, nonatomic) UILabel *processingTimeLbl;  /**< 显示当前播放时间进度及总时长 */
+@property (weak, nonatomic) UILabel *processingTimeLbl;  /**< 当前播放的时长 */
+@property (weak, nonatomic) UILabel *videoTimeLbl;  //播放的总时长
 
 @end
 
@@ -92,22 +92,14 @@ typedef NS_ENUM(NSInteger, CCWatchBottomItem) {
 
 - (void)setUp
 {
-    UIButton *pauseOrPlayButton = [[UIButton alloc] init];
-    pauseOrPlayButton.tag = RECORD_BTN_PALY_OR_PAUSE;
-    [pauseOrPlayButton setImage:[UIImage imageNamed:@"living_icon_pause"] forState:UIControlStateNormal];
-    [pauseOrPlayButton setImage:[UIImage imageNamed:@"living_icon_play"] forState:UIControlStateSelected];
-    [self addSubview:pauseOrPlayButton];
-    [pauseOrPlayButton autoPinEdgeToSuperviewEdge:ALEdgeLeft];
-    [pauseOrPlayButton autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:10];
-    self.pauseOrPlayButton = pauseOrPlayButton;
     
     EVControlSlider *slider = [[EVControlSlider alloc] init]	;
     [slider addTarget:self action:@selector(sliderTouchIn) forControlEvents:UIControlEventTouchDown];
     [slider addTarget:self action:@selector(sliderTouchOut) forControlEvents:UIControlEventTouchUpInside];
     [slider addTarget:self action:@selector(sliderTouchOut) forControlEvents:UIControlEventTouchUpOutside];
     [slider addTarget:self action:@selector(valueChage) forControlEvents:UIControlEventValueChanged];
-    slider.maximumTrackTintColor = [UIColor colorWithHexString:@"#ffffff" alpha:.6f];
-    slider.minimumTrackTintColor = [UIColor colorWithHexString:@"#0095ff"];
+    slider.maximumTrackTintColor = [UIColor colorWithHexString:@"#ffffff" alpha:.7f];
+    slider.minimumTrackTintColor = [UIColor evMainColor];
     [slider setThumbImage:[UIImage imageNamed:@"living_icon_timeline"] forState:UIControlStateNormal];
     slider.maximumValue = 1000000;
     [slider.layer setShadowColor:[UIColor blackColor].CGColor];
@@ -115,77 +107,59 @@ typedef NS_ENUM(NSInteger, CCWatchBottomItem) {
     [slider.layer setShadowOpacity:0.6];//不透明度。0为全透明。
     [slider.layer setShadowRadius:1];
     slider.layer.masksToBounds = YES;
-    [self insertSubview:slider belowSubview:self.pauseOrPlayButton];
-    [slider autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero excludingEdge:ALEdgeBottom];
+    [self insertSubview:slider belowSubview:self];
+    [slider autoPinEdgeToSuperviewEdge:ALEdgeBottom];
     [slider autoSetDimension:ALDimensionHeight toSize:43];
+    [slider autoAlignAxisToSuperviewAxis:ALAxisVertical];
+    [slider autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:100];
+    [slider autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:100];
     self.slider = slider;
     
-    for (UIButton *item in self.subviews)
-    {
-        if ( [item isKindOfClass:[UIButton class]] )
-        {
-            [item addTarget:self action:@selector(buttonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
-        }
-    }
-    
+
     
     // 当前播放时间进度显示
     CGFloat LblFontSize = 14.0f;
     UILabel *processingTimeLbl = [[UILabel alloc] init];
     processingTimeLbl.textColor = [UIColor whiteColor];
     processingTimeLbl.textAlignment = NSTextAlignmentLeft;
-    processingTimeLbl.font = [[CCAppSetting shareInstance] normalFontWithSize:LblFontSize];
+    processingTimeLbl.font = [[EVAppSetting shareInstance] normalFontWithSize:LblFontSize];
     processingTimeLbl.font = [UIFont systemFontOfSize:LblFontSize];
     [self addSubview:processingTimeLbl];
-    [processingTimeLbl autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:self.pauseOrPlayButton withOffset:10];
-    [processingTimeLbl autoAlignAxis:ALAxisHorizontal toSameAxisOfView:self.pauseOrPlayButton];
+    processingTimeLbl.text = @"--:--";
+    [processingTimeLbl autoPinEdge:ALEdgeRight toEdge:ALEdgeLeft ofView:slider withOffset:-10];
+    [processingTimeLbl autoAlignAxis:ALAxisHorizontal toSameAxisOfView:slider];
     [processingTimeLbl autoSetDimension:ALDimensionHeight toSize:LblFontSize relation:NSLayoutRelationGreaterThanOrEqual];
     [processingTimeLbl autoSetDimension:ALDimensionWidth toSize:LblFontSize relation:NSLayoutRelationGreaterThanOrEqual];
     self.processingTimeLbl = processingTimeLbl;
-    self.processingTimeLbl.hidden = YES;
+    self.processingTimeLbl.hidden = NO;
     
-    // adapt delete by 佳南
-    // 礼物
-//    UIButton *giftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [giftBtn setImage:[UIImage imageNamed:@"living_icon_gif_more"] forState:UIControlStateNormal];
-//    _giftButtton = giftBtn;
-//    [giftBtn addTarget:self action:@selector(watchBottomBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-//    giftBtn.tag = CCWatchBottomItemGif;
-//    [self addSubview:giftBtn];
-//    [giftBtn autoPinEdgeToSuperviewEdge:ALEdgeRight];
-//    [giftBtn autoAlignAxis:ALAxisHorizontal toSameAxisOfView:self.pauseOrPlayButton];
     
-    // 分享按钮
-    UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [shareBtn setImage:[UIImage imageNamed:@"living_icon_share"] forState:UIControlStateNormal];
-    _shareButton = shareBtn;
-    [shareBtn addTarget:self action:@selector(watchBottomBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    shareBtn.tag = CCWatchBottomItemShare;
-    [self addSubview:shareBtn];
-//    [shareBtn autoAlignAxis:ALAxisHorizontal toSameAxisOfView:self.pauseOrPlayButton];
-//    [shareBtn autoPinEdge:ALEdgeRight toEdge:ALEdgeLeft ofView:giftBtn withOffset:-10];
-    [shareBtn autoPinEdgeToSuperviewEdge:ALEdgeRight];
-    [shareBtn autoAlignAxis:ALAxisHorizontal toSameAxisOfView:self.pauseOrPlayButton];
+    // 当前播放视频的总时长
+    UILabel *videoTimeLbl = [[UILabel alloc] init];
+    videoTimeLbl.textColor = [UIColor whiteColor];
+    videoTimeLbl.textAlignment = NSTextAlignmentLeft;
+    videoTimeLbl.font = [[EVAppSetting shareInstance] normalFontWithSize:LblFontSize];
+    videoTimeLbl.font = [UIFont systemFontOfSize:LblFontSize];
+    [self addSubview:videoTimeLbl];
+    videoTimeLbl.text = @"--:--";
+    [videoTimeLbl autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:slider withOffset:10];
+    [videoTimeLbl autoAlignAxis:ALAxisHorizontal toSameAxisOfView:slider];
+    [videoTimeLbl autoSetDimension:ALDimensionHeight toSize:LblFontSize relation:NSLayoutRelationGreaterThanOrEqual];
+    [videoTimeLbl autoSetDimension:ALDimensionWidth toSize:LblFontSize relation:NSLayoutRelationGreaterThanOrEqual];
+    self.videoTimeLbl = videoTimeLbl;
+    self.videoTimeLbl.hidden = NO;
     
-}
-
-- (void)watchBottomBtnClick:(UIButton *)button
-{
-    if ( self.delegate && [self.delegate respondsToSelector:@selector(watchBottomViewBtnClick:)] )
-    {
-        [self.delegate watchBottomViewBtnClick:button];
-    }
+    
 }
 
 - (void)valueChage
 {
-    CCLog(@"valueChage -- %f",self.slider.value);
     [self updatingProcessingTime];
 }
 
 - (void)sliderTouchIn
 {
-    CCLog(@"sliderTouchIn");
+    EVLog(@"sliderTouchIn");
     self.sliderDrap = YES;
     if ( [self.delegate respondsToSelector:@selector(recordInfoViewDidBeginDrag:)] )
     {
@@ -204,13 +178,6 @@ typedef NS_ENUM(NSInteger, CCWatchBottomItem) {
     }
 }
 
-- (void)buttonDidClicked:(UIButton *)button
-{
-    if ( [self.delegate respondsToSelector:@selector(recordInfoView:didClickButton:)] )
-    {
-        [self.delegate recordInfoView:self didClickButton:button];
-    }
-}
 
 /**
  *  更新当前播放时间进度
@@ -228,7 +195,8 @@ typedef NS_ENUM(NSInteger, CCWatchBottomItem) {
     {
         NSString *processingStr = [self convertToMinuteString:processingTime];
         NSString *maxStr = [self convertToMinuteString:maxValue];
-        self.processingTimeLbl.text = [NSString stringWithFormat:@"%@/%@",processingStr,maxStr];
+        self.videoTimeLbl.text = [NSString stringWithFormat:@"%@",maxStr];
+        self.processingTimeLbl.text = [NSString stringWithFormat:@"%@",processingStr];
         self.processingTimeLbl.hidden = NO;
     }
 }
@@ -265,9 +233,8 @@ typedef NS_ENUM(NSInteger, CCWatchBottomItem) {
 - (void)setPause:(BOOL)pause
 {
     _pause = pause;
-    self.pauseOrPlayButton.userInteractionEnabled = YES;
     self.pauseOrPlayButton.selected = pause;
-    CCLog(@"play button did change state - %@", (pause ? @"pause": @"playing"));
+    EVLog(@"play button did change state - %@", (pause ? @"pause": @"playing"));
 }
 
 - (void)setBufferProgress:(CGFloat)bufferProgress
@@ -288,6 +255,13 @@ typedef NS_ENUM(NSInteger, CCWatchBottomItem) {
     
     self.slider.value = currProgress;
     [self updatingProcessingTime];
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    
+    [self layoutIfNeeded];
 }
 
 

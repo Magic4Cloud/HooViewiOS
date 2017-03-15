@@ -38,7 +38,6 @@ static NSString *const AccountBindCellID = @"AccountBindTableViewCell";
 + (instancetype)instanceWithAuth:(NSArray *)auth {
     EVAccountBindViewController *accountBindVC = [[EVAccountBindViewController alloc] init];
     accountBindVC.auth = auth;
-    
     return accountBindVC;
 }
 
@@ -179,8 +178,8 @@ static NSString *const AccountBindCellID = @"AccountBindTableViewCell";
         UIView *sectionHeader_1 = [[UIView alloc] initWithFrame:CGRectMake(.0f, .0f, ScreenWidth, 30.0f)];
         
         UILabel *title = [[UILabel alloc] init];
-        title.backgroundColor = CCBackgroundColor;
-        title.font = CCNormalFont(14.0f);
+        title.backgroundColor = [UIColor evBackgroundColor];
+        title.font = EVNormalFont(14.0f);
         title.textColor = [UIColor colorWithHexString:@"#8b847e"];
         title.text = kE_GlobalZH(@"social_account_binding");
         [sectionHeader_1 addSubview:title];
@@ -188,13 +187,13 @@ static NSString *const AccountBindCellID = @"AccountBindTableViewCell";
         
         UIView *topLine = [[UIView alloc] init];
         [sectionHeader_1 addSubview:topLine];
-        topLine.backgroundColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+        topLine.backgroundColor = [UIColor evGlobalSeparatorColor];
         [topLine autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero excludingEdge:ALEdgeBottom];
         [topLine autoSetDimension:ALDimensionHeight toSize:kGlobalSeparatorHeight];
         
         UIView *bottomLine = [[UIView alloc] init];
         [sectionHeader_1 addSubview:bottomLine];
-        bottomLine.backgroundColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+        bottomLine.backgroundColor = [UIColor evGlobalSeparatorColor];
         [bottomLine autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero excludingEdge:ALEdgeTop];
         [bottomLine autoSetDimension:ALDimensionHeight toSize:kGlobalSeparatorHeight];
         
@@ -286,12 +285,12 @@ static NSString *const AccountBindCellID = @"AccountBindTableViewCell";
     
     __weak typeof(self) weakself = self;
     [self.engine GETUserBindWithParams:params start:^{
-        [CCProgressHUD showMessage:note toView:weakself.view];
+        [EVProgressHUD showMessage:note toView:weakself.view];
     } fail:^(NSError *error) {
-        [CCProgressHUD hideHUDForView:weakself.view];
-        [CCProgressHUD showError:[error errorInfoWithPlacehold:kE_GlobalZH(@"fail_binding")] toView:weakself.view];
+        [EVProgressHUD hideHUDForView:weakself.view];
+        [EVProgressHUD showError:[error errorInfoWithPlacehold:kE_GlobalZH(@"fail_binding")] toView:weakself.view];
     } success:^{
-        [CCProgressHUD hideHUDForView:weakself.view];
+        [EVProgressHUD hideHUDForView:weakself.view];
         NSMutableArray *accoutsTemp = [NSMutableArray arrayWithArray:weakself.myAuthes];
         
         for (int i = 0; i < weakself.myAuthes.count; ++i)
@@ -312,9 +311,10 @@ static NSString *const AccountBindCellID = @"AccountBindTableViewCell";
         }
         weakself.myAuthes = accoutsTemp;
         [weakself.tableView reloadData];
+        [EVNotificationCenter postNotificationName:EVUpdateAuthStatusNotification object:type userInfo:userInfo];
     } sessionExpire:^{
-        [CCProgressHUD hideHUDForView:weakself.view];
-        CCRelogin(weakself);
+        [EVProgressHUD hideHUDForView:weakself.view];
+        EVRelogin(weakself);
     }];
 }
 
@@ -323,10 +323,10 @@ static NSString *const AccountBindCellID = @"AccountBindTableViewCell";
 - (void)setUpUI {
     UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
     tableView.separatorInset = UIEdgeInsetsMake(0, 61, 0, 0);
-    tableView.separatorColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+    tableView.separatorColor = [UIColor evGlobalSeparatorColor];
     tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     tableView.contentInset = UIEdgeInsetsMake(13.0f, .0f, .0f, .0f);
-    tableView.backgroundColor = CCBackgroundColor;
+    tableView.backgroundColor = [UIColor evBackgroundColor];
     tableView.rowHeight = 55.0f;
     tableView.dataSource = self;
     tableView.delegate = self;
@@ -411,29 +411,29 @@ static NSString *const AccountBindCellID = @"AccountBindTableViewCell";
     
     // 操作解绑
     cell.undoBindBlock = ^(NSString *type){
-        CCUnbundlingAuthtype unbindType = -1;
+        EVUnbundlingAuthtype unbindType = -1;
         
         if ([type isEqualToString:QQTYPE])
         {
-            unbindType = CCAccountQQ;
+            unbindType = EVAccountQQ;
         }
         else if ([type isEqualToString:WEIXINTYPE])
         {
-            unbindType = CCAccountWeixin;
+            unbindType = EVAccountWeixin;
         }
         else if ([type isEqualToString:WEIBOTYPE])
         {
-            unbindType = CCAccountSina;
+            unbindType = EVAccountSina;
         }
         
         [weakself.engine GETUnbundlingtype:unbindType start:^{
-            [CCProgressHUD showMessage:kE_GlobalZH(@"remove_binding") toView:weakself.view];
+            [EVProgressHUD showMessage:kE_GlobalZH(@"remove_binding") toView:weakself.view];
         } fail:^(NSError *error) {
-            [CCProgressHUD hideHUDForView:weakself.view];
-            [CCProgressHUD showError:[error errorInfoWithPlacehold:kE_GlobalZH(@"fail_remove_binding")] toView:weakself.view];
+            [EVProgressHUD hideHUDForView:weakself.view];
+            [EVProgressHUD showError:[error errorInfoWithPlacehold:kE_GlobalZH(@"fail_remove_binding")] toView:weakself.view];
         } success:^(id success) {
-            [CCProgressHUD hideHUDForView:weakself.view];
-            [CCProgressHUD showSuccess:kE_GlobalZH(@"unbinding_success") toView:weakself.view];
+            [EVProgressHUD hideHUDForView:weakself.view];
+            [EVProgressHUD showSuccess:kE_GlobalZH(@"unbinding_success") toView:weakself.view];
             weakcell.model.token = nil;
             if ( weakself.delegate && [weakself.delegate respondsToSelector:@selector(accoutBindChanged:)] )
             {
@@ -482,19 +482,19 @@ static NSString *const AccountBindCellID = @"AccountBindTableViewCell";
         [weakself handle3rdPart:QQTYPE LoginSuccessDic:callBackDic];
     }];
     [[EV3rdPartAPIManager sharedManager] setQqLoginFailure:^(NSDictionary *callBackDic) {
-        CCLog(@"%s %@", __FUNCTION__, callBackDic);
+        EVLog(@"%s %@", __FUNCTION__, callBackDic);
     }];
     [[EV3rdPartAPIManager sharedManager] setWechatLoginSuccess:^(NSDictionary *callBackDic) {
         [weakself handle3rdPart:WEIXINTYPE LoginSuccessDic:callBackDic];
     }];
     [[EV3rdPartAPIManager sharedManager] setWechatLoginFailure:^(NSDictionary *callBackDic) {
-        CCLog(@"%s %@", __FUNCTION__, callBackDic);
+        EVLog(@"%s %@", __FUNCTION__, callBackDic);
     }];
     [[EV3rdPartAPIManager sharedManager] setSinaLoginSuccess:^(NSDictionary *callBackDic) {
         [weakself handle3rdPart:WEIBOTYPE LoginSuccessDic:callBackDic];
     }];
     [[EV3rdPartAPIManager sharedManager] setSinaLoginFailure:^(NSDictionary *callBackDic) {
-        CCLog(@"%s %@", __FUNCTION__, callBackDic);
+        EVLog(@"%s %@", __FUNCTION__, callBackDic);
     }];
 }
 

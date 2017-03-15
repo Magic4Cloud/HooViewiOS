@@ -101,7 +101,12 @@
                     // 遍历该数组
                     NSMutableArray *propertyArray = [NSMutableArray arrayWithCapacity:[value count]];
                     for (NSDictionary *item in value) {
-                        [propertyArray addObject:[cls gp_objectWithDictionary:item]];
+                        id _obj = [cls gp_objectWithDictionary:item];
+                        if ([_obj isKindOfClass:[NSNull class]] ||
+                            _obj == nil) {
+                            continue;
+                        }
+                        [propertyArray addObject:_obj];
                     }
                     propertyValue = propertyArray;
                 }

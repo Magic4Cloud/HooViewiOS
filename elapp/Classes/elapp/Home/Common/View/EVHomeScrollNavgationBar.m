@@ -13,10 +13,11 @@
 #import "EVVideoTopicItem.h"
 
 #define MENU_STAR_TAG           200
+#define Prompt_TAG              300
 
 #define K_ANIMATION_TIME        0.3
 
-@interface EVHomeScrollNavgationBar () <CCMovingConvexViewDelegate>
+@interface EVHomeScrollNavgationBar () <EVMovingConvexViewDelegate>
 
 @property (nonatomic,weak) EVMovingConvexView *convexView;
 @property (nonatomic,weak) UILabel *titleLabel;
@@ -26,6 +27,10 @@
 @property (nonatomic, assign) BOOL navigationBarShow;
 @property (nonatomic,copy) NSString *logourl;
 @property (nonatomic, weak) UIButton *centerBtn;
+@property (nonatomic, weak) UIImageView *leftImageView;
+@property (nonatomic, weak) UIButton *editButton;
+@property (nonatomic, weak) UIImageView *promptView;
+@property (nonatomic, strong) NSArray *promptViewArray;
 
 @end
 
@@ -44,41 +49,46 @@
 
 - (void)dealloc
 {
-    [CCNotificationCenter removeObserver:self];
+    [EVNotificationCenter removeObserver:self];
 }
 
 - (void)setUP
 {
-    // change by 佳南
-
-    self.backgroundColor = CCColor(98, 45, 128);
-    self.layer.shadowColor = CCColor(1, 1, 1).CGColor;
-    self.layer.shadowOffset = CGSizeMake(3, 3);
-    self.layer.shadowOpacity = 0.2;
-
-    CGFloat margin = 10.f;
-    EVHeaderButton *personalButton = [[EVHeaderButton alloc] init];
-    personalButton.tag = CCHomeScrollNavgationBarIconButton;
-    [self addSubview:personalButton];
+    self.backgroundColor = [UIColor whiteColor];
     
-    [personalButton setImage:[UIImage imageNamed:@"home_nav_account"] forState:UIControlStateNormal];
-    [personalButton setImage:[UIImage imageNamed:@"home_nav_account_pre"] forState:UIControlStateHighlighted];
-    [personalButton autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:margin];
-    [personalButton autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:27];
-    [personalButton autoSetDimensionsToSize:CGSizeMake(30.f, 30.f)];
-    [personalButton addTarget:self action:@selector(buttonDidClicked:) forControlEvents:UIControlEventTouchDown];
-//    self.personalButton = personalButton;
-   
+    CGFloat margin = 16.f;
+    UIImageView *leftImageView = [[UIImageView alloc] init];
+    [leftImageView setImage:[UIImage imageNamed:@"huoyan_logo"]];
+    [self addSubview:leftImageView];
+    leftImageView.backgroundColor = [UIColor clearColor];
+     
+    [leftImageView autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:margin];
+    [leftImageView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:32.6];
+    [leftImageView autoSetDimensionsToSize:leftImageView.image.size];
+    self.leftImageView = leftImageView;
+    
+    
+ 
     UIButton *searchButton = [[UIButton alloc] init];
-    searchButton.tag = CCHomeScrollNavgationBarSearchButton;
+    searchButton.tag = EVHomeScrollNavgationBarSearchButton;
     [self addSubview:searchButton];
-//    [searchButton setImage:[UIImage imageNamed:@"home_icon_navigation_search"] forState:UIControlStateNormal];
-    [searchButton setImage:[UIImage imageNamed:@"home_nav_search"] forState:UIControlStateNormal];
-    [searchButton setImage:[UIImage imageNamed:@"home_nav_search_pre"] forState:UIControlStateHighlighted];
+    [searchButton setImage:[UIImage imageNamed:@"Huoyan_market_search"] forState:UIControlStateNormal];
     [searchButton autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:margin];
-    [searchButton autoAlignAxis:ALAxisHorizontal toSameAxisOfView:personalButton];
+    [searchButton autoAlignAxis:ALAxisHorizontal toSameAxisOfView:leftImageView];
     
     [searchButton addTarget:self action:@selector(buttonDidClicked:) forControlEvents:UIControlEventTouchDown];
+    
+    
+    UIButton *editButton = [[UIButton alloc] init];
+    editButton.tag = EVHomeScrollNavgationBarEditButton;
+    [self addSubview:editButton];
+    self.editButton = editButton;
+    editButton.hidden = YES;
+    [editButton setImage:[UIImage imageNamed:@"huoyan_edit"] forState:UIControlStateNormal];
+    [editButton autoPinEdge:ALEdgeRight toEdge:ALEdgeLeft ofView:searchButton withOffset:-20];
+    [editButton autoAlignAxis:ALAxisHorizontal toSameAxisOfView:leftImageView];
+    
+    [editButton addTarget:self action:@selector(buttonDidClicked:) forControlEvents:UIControlEventTouchDown];
     
     if ( self.subTitles.count )
     {
@@ -108,79 +118,39 @@
     UIView *titleContentView = [[UIView alloc] init];
     titleContentView.backgroundColor = [UIColor clearColor];
     [self addSubview:titleContentView];
-    [titleContentView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:30];
-    [titleContentView autoAlignAxisToSuperviewAxis:ALAxisVertical];
+    [titleContentView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:20];
+    [titleContentView autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:52];
     [titleContentView autoSetDimension:ALDimensionWidth toSize:240.0f];
-    [titleContentView autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:.0f];
+    [titleContentView autoSetDimension:ALDimensionHeight toSize:44];
     
     NSMutableArray *buttons = [NSMutableArray arrayWithCapacity:self.subTitles.count];
-    for (NSInteger i = 0 ; i < self.subTitles.count; i++)
-    {
+    NSMutableArray *promptViews = [NSMutableArray arrayWithCapacity:self.subTitles.count];
+    for (NSInteger i = 0; i < self.subTitles.count; i++) {
         NSString *item = self.subTitles[i];
         UIButton *btn = [self titleButtonWithTitle:item];
+        btn.frame = CGRectMake((i * 60), 11, 36, 22);
+        btn.backgroundColor = [UIColor clearColor];
         [titleContentView addSubview:btn];
         [buttons addObject:btn];
         btn.tag = MENU_STAR_TAG + i;
+        [btn addTarget:self action:@selector(buttonDidClicked:) forControlEvents:(UIControlEventTouchUpInside)];
         
-//        [btn addTarget:self action:@selector(buttonDidClicked:) forControlEvents:UIControlEventTouchDown];
-        
-        if ( i == 0 )
-        {   //  change by 佳南
-//            [btn autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:[UIScreen mainScreen].bounds.size.width / 4];
-            [btn autoCenterInSuperview];
+        UIImageView *promptView = [[UIImageView alloc]init];
+        [titleContentView addSubview:promptView];
+        promptView.frame = CGRectMake((11)+(i * 60), 33, 13, 8);
+        promptView.image = [UIImage imageNamed:@"Huoyan_Topbar_Tip"];
+        promptView.tag = Prompt_TAG + i;
+        self.promptView = promptView;
+        [promptViews addObject:promptView];
+        if (i != 0) {
+            promptView.hidden = YES;
         }
-        else if ( i == ( (NSInteger)self.subTitles.count - 1 )  )
-        {
-            [btn autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:0];
-        }
-        if ([btn.titleLabel.text isEqualToString:@"热门"]) {
-            btn.backgroundColor = [UIColor clearColor];
-            [btn setImage:[UIImage imageNamed:@"homepage_classify_more"] forState:(UIControlStateSelected)];
-            [btn setImage:[UIImage imageNamed:@"homepage_classify_more_nor"] forState:(UIControlStateNormal)];
-        }
-        
-        [btn autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:-10];
-        
-        [btn autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:0];
     }
-    
     self.titleButtons = buttons;
-  // delete by 佳南
-//    for ( NSInteger i = 0; i <= (NSInteger)buttons.count - 1; i++ )
-//    {
-//        UIButton *btn = buttons[i];
-//        
-//        if ( i == 0 )
-//        {
-//            [btn autoPinEdge:ALEdgeRight toEdge:ALEdgeLeft ofView:buttons[i + 1]];
-//        }
-//        else if ( i == (NSInteger)buttons.count - 1 )
-//        {
-//            [btn autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:buttons[i - 1]];
-//        }
-//        else
-//        {
-//            [btn autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:buttons[i - 1]];
-//            [btn autoPinEdge:ALEdgeRight toEdge:ALEdgeLeft ofView:buttons[i + 1]];
-//        }
-//        
-//        if ( i != (NSInteger)buttons.count - 1 )
-//        {
-//            [btn autoMatchDimension:ALDimensionWidth toDimension:ALDimensionWidth ofView:buttons[i + 1]];
-//        }
-//    }
-//    
-//    for ( NSInteger i = (NSInteger)buttons.count - 1; i >= 0; i-- )
-//    {
-//         UIButton *btn = buttons[i];
-//        if ( i != 0 )
-//        {
-//            [btn autoMatchDimension:ALDimensionWidth toDimension:ALDimensionWidth ofView:buttons[i - 1]];
-//        }
-//    }
+    self.promptViewArray = promptViews;
     
     UIView *line = [[UIView alloc] init];
-    line.backgroundColor = CCColor(98, 45, 128);
+    line.backgroundColor = [UIColor colorWithHexString:@"#eaeaea"];
     [self addSubview:line];
     [line autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero excludingEdge:ALEdgeTop];
     [line autoSetDimension:ALDimensionHeight toSize:0.5];
@@ -189,8 +159,7 @@
 
 - (void)setUpNotification
 {
-    [CCNotificationCenter addObserver:self selector:@selector(updateLogo:) name:CCUpdateLogolURLNotification object:nil];
-    [CCNotificationCenter addObserver:self selector:@selector(postTopic:) name:@"postTopicItem" object:nil];
+    [EVNotificationCenter addObserver:self selector:@selector(postTopic:) name:@"postTopicItem" object:nil];
 }
 
 - (void)postTopic:(NSNotification *)center
@@ -201,36 +170,12 @@
     [button setTitle:item.title forState:(UIControlStateNormal)];
 }
 
-- (void)setLogourl:(NSString *)logourl
-{
-    // change by 佳南
-    _logourl = logourl;
-    
-    [self.personalButton setImage:[UIImage imageNamed:@"home_nav_account"] forState:UIControlStateNormal];
-    [self.personalButton setImage:[UIImage imageNamed:@"home_nav_account_pre"] forState:UIControlStateHighlighted];
-
-    if ( ![logourl isKindOfClass:[NSString class]] || ![_logourl isEqualToString:logourl] )
-    {
-        return;
-    }
-    _logourl = logourl;
-    
-//    [self.personalButton cc_setBackgroundImageURL:logourl placeholderImageStr:@"avatar" isVip:0 vipSizeType:CCVipMini];
-}
-
-- (void)updateLogo:(NSNotification *)notification
-{
-    self.logourl = notification.userInfo[kLogourl];
-}
-
 - (UIButton *)titleButtonWithTitle:(NSString *)title
 {
     UIButton *button = [[UIButton alloc] init];
     [button setTitle:title forState:UIControlStateNormal];
-    // change by 佳南
-//    [button setTitleColor:[UIColor evSecondColor] forState:UIControlStateSelected];
-    [button setTitleColor:[UIColor colorWithHexString:@"#d4d4d4"] forState:UIControlStateSelected];
-    [button setTitleColor:[UIColor colorWithHexString:@"#d4d4d4"] forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor evMainColor] forState:UIControlStateSelected];
+    [button setTitleColor:[UIColor evTextColorH2] forState:UIControlStateNormal];
     button.titleLabel.font = [UIFont boldSystemFontOfSize:16];
     return button;
 }
@@ -238,25 +183,35 @@
 - (void)setSelectedIndex:(NSInteger)selectedIndex
 {
     _selectedIndex = selectedIndex;
-    UIButton *btn = self.titleButtons[0];
+    UIButton *btn = self.titleButtons[selectedIndex];
+    UIImageView *imgV = self.promptViewArray[selectedIndex];
     self.selectedButton.selected = NO;
     btn.selected = YES;
     self.selectedButton = btn;
+    if (btn.tag == 201) {
+        self.editButton.hidden = NO;
+    }else {
+        self.editButton.hidden = YES;
+    }
+    
+    if (imgV != self.promptView) {
+        imgV.hidden = NO;
+        self.promptView.hidden = YES;
+    }
+    self.promptView = imgV;
+    
 }
 
 - (void)buttonDidClicked:(UIButton *)btn
 {
-    if ( btn.tag >= CCHomeScrollNavgationBarIconButton && btn.tag <= CCHomeScrollNavgationBarSearchButton )
-    {
-        if ( [self.delegate respondsToSelector:@selector(homeScrollNavgationBarDidClicked:)] )
-        {
+    if ( btn.tag >= EVHomeScrollNavgationBarEditButton && btn.tag <= EVHomeScrollNavgationBarSearchButton ) {
+        if ( [self.delegate respondsToSelector:@selector(homeScrollNavgationBarDidClicked:)] ) {
             [self.delegate homeScrollNavgationBarDidClicked:btn.tag];
         }
         return;
     }
     
-    if ( [self.delegate respondsToSelector:@selector(homeScrollNavgationBarDidSeleceIndex:)] )
-    {
+    if ( [self.delegate respondsToSelector:@selector(homeScrollNavgationBarDidSeleceIndex:)] ) {
         [self.delegate homeScrollNavgationBarDidSeleceIndex:btn.tag - MENU_STAR_TAG];
     }
 }
@@ -269,13 +224,12 @@
     }
     
     self.navigationBarShow = NO;
-    // change by 佳南
-//    self.topConstraint.constant = -CCHOMENAV_HEIGHT;
-//    [self setNeedsLayout];
-//    
-//    [UIView animateWithDuration:K_ANIMATION_TIME animations:^{
-//        [self layoutIfNeeded];
-//    }];
+    self.topConstraint.constant = -CCHOMENAV_HEIGHT;
+    [self setNeedsLayout];
+    
+    [UIView animateWithDuration:K_ANIMATION_TIME animations:^{
+        [self layoutIfNeeded];
+    }];
 }
 
 - (void)showHomeNavigationBar
@@ -286,16 +240,16 @@
     }
     
     self.navigationBarShow = YES;
-    // change by 佳南
-//    self.topConstraint.constant = 0;
-//    [self setNeedsLayout];
-//    
-//    [UIView animateWithDuration:K_ANIMATION_TIME animations:^{
-//        [self layoutIfNeeded];
-//    }];
+    
+    self.topConstraint.constant = 0;
+    [self setNeedsLayout];
+    
+    [UIView animateWithDuration:K_ANIMATION_TIME animations:^{
+        [self layoutIfNeeded];
+    }];
 }
 
-#pragma mark - CCMovingConvexViewDelegate
+#pragma mark - EVMovingConvexViewDelegate
 - (void)movingConvexViewDidUpdatePercent:(CGFloat)percent
 {
     if ( [_delegate respondsToSelector:@selector(homeScrollViewUserDidMoveToPercent:)] )
@@ -312,5 +266,4 @@
     }
     self.selectedIndex = index;
 }
-
 @end

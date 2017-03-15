@@ -21,12 +21,10 @@ typedef NS_ENUM(NSUInteger, EVLevelModeType) {
 /** 昵称 */
 @property ( nonatomic, copy ) NSString *nickName;
 
-
 /** 性别 */
 @property ( nonatomic, copy ) NSString *gender;
 
-/** 生日 */
-@property (nonatomic ,copy) NSString *birth;
+
 
 @property (nonatomic, assign) EVLevelModeType levelModeType;
 

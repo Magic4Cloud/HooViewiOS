@@ -10,7 +10,7 @@
 #import "EVUserModel.h"
 #import "EVRelationWith3rdAccoutModel.h"
 #import "EVLoginInfo.h"
-
+#import "EVUserTagsModel.h"
 @implementation EVUserModel
 
 
@@ -18,7 +18,8 @@
 
 + (NSDictionary *)gp_objectClassesInArryProperties
 {
-    return @{@"auth" : [EVRelationWith3rdAccoutModel class]};
+    return @{@"auth" : [EVRelationWith3rdAccoutModel class],
+             @"tags" : [EVUserTagsModel class]};
 }
 
 + (NSDictionary *)gp_dictionaryKeysMatchToPropertyNames
@@ -39,7 +40,7 @@
 
 + (NSInteger)tableVersion
 {
-    return 11;
+    return 12;
 }
 
 + (NSDictionary *)ignoreProperties
@@ -52,7 +53,7 @@
     [self getUserInfoModelWithName:name complete:^(EVUserModel *model) {
         if ( model )
         {
-            CCQueryObject *obj = [[CCQueryObject alloc] init];
+            EVQueryObject *obj = [[EVQueryObject alloc] init];
             obj.clazz = [self class];
             model.followed = follow;
             obj.to_update_property_name = @[@"followed"];
@@ -76,19 +77,19 @@
 
 - (void)updateToLocalCacheComplete:(void (^)())complete
 {
-    [super updateToLocalCacheComplete:^{
-        if ( complete )
-        {
-            complete();
-        }
-        [[self class] userModelUpdateToLocalNotification:self];
-    }];
+//    [super updateToLocalCacheComplete:^{
+//        if ( complete )
+//        {
+//            complete();
+//        }
+//        [[self class] userModelUpdateToLocalNotification:self];
+//    }];
 }
 
 #pragma mark - private methods
 + (void)getUserInfoModelWithName:(NSString *)name complete:(void(^)(EVUserModel *model))complete
 {
-    CCQueryObject *query = [[CCQueryObject alloc] init];
+    EVQueryObject *query = [[EVQueryObject alloc] init];
     query.clazz = [self class];
     query.properties = @[@"name"];
     query.properties_condition_values = @[name];
@@ -107,7 +108,7 @@
     if (imuser == nil) {
         return;
     }
-    CCQueryObject *query = [[CCQueryObject alloc] init];
+    EVQueryObject *query = [[EVQueryObject alloc] init];
     query.clazz = [self class];
     query.properties = @[@"imuser"];
     query.properties_condition_values = @[imuser];
@@ -132,7 +133,7 @@
 
 + (void)userModelUpdateToLocalNotification:(EVUserModel *)userModel
 {
-    [CCNotificationCenter postNotificationName:CCUserModelUpdateToLocalNotification object:nil userInfo:@{CCUpdateUserModel : userModel}];
+    [EVNotificationCenter postNotificationName:CCUserModelUpdateToLocalNotification object:nil userInfo:@{CCUpdateUserModel : userModel}];
 }
 
 + (instancetype)getUserInfoModelFromLoginInfo:(EVLoginInfo *)loginInfo

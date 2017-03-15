@@ -14,6 +14,8 @@
 #import "EVMineViewController.h"
 #import "EVSearchAllViewController.h"
 #import "EVLoginInfo.h"
+#import "EVEditSelfStockViewController.h"
+#import "EVLoginViewController.h"
 
 
 
@@ -38,6 +40,7 @@
     scrollView.delegate = self;
     [scrollView setNeedsLayout];
     [scrollView layoutIfNeeded];
+    scrollView.scrollEnabled = NO;
     
     NSArray *childrenControllers = [self currChildrenViewControllers];
     NSMutableArray *titles = [NSMutableArray arrayWithCapacity:childrenControllers.count];
@@ -85,7 +88,6 @@
         [navBar autoSetDimension:ALDimensionHeight toSize:CCHOMENAV_HEIGHT];
         self.navBar = navBar;
         navBar.title = [self showTitle];
-        // change by 佳南
         navBar.selectedIndex = 1;
     }
     return _navBar;
@@ -94,17 +96,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-   
-    [self setUpUserImage];
-}
-
-- (void)setUpUserImage
-{
-    EVLoginInfo *loginInfo = [EVLoginInfo localObject];
-    //    self.logourl = loginInfo.logourl;
-    [self.navBar.personalButton cc_setImageURL:loginInfo.logourl forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"avatar"]];
-    self.navBar.personalButton.imageView.layer.cornerRadius = CGRectGetHeight(self.navBar.personalButton.imageView.bounds) * 0.5;
-    self.navBar.personalButton.imageView.clipsToBounds = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -215,18 +206,21 @@
     [_scrollView setContentOffset:CGPointMake(contentOffsetX, 0)];
 }
 
-- (void)homeScrollNavgationBarDidClicked:(CCHomeScrollNavgationBarButton)btn
+- (void)homeScrollNavgationBarDidClicked:(EVHomeScrollNavgationBarButton)btn
 {
     switch ( btn )
     {
-        case CCHomeScrollNavgationBarIconButton:
+        case EVHomeScrollNavgationBarEditButton:
         {
-            EVMineViewController *mineVC = [[EVMineViewController alloc] init];
+            EVEditSelfStockViewController *mineVC = [[EVEditSelfStockViewController alloc] init];
+            mineVC.commitBlock = ^(){
+                
+            };
             [self.navigationController pushViewController:mineVC animated:YES];
         }
             break;
             
-        case CCHomeScrollNavgationBarSearchButton:
+        case EVHomeScrollNavgationBarSearchButton:
         {
             EVSearchAllViewController *searchAllVC = [[EVSearchAllViewController alloc] init];
             [self.navigationController pushViewController:searchAllVC animated:YES];

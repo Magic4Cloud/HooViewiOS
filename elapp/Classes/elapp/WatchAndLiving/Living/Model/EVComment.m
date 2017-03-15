@@ -107,11 +107,6 @@ static UIColor *_replyNameColor;
     return @{@"id" : @"comment_id"};
 }
 
-+ (NSDictionary *)gp_dictionaryKeysMatchToPropertyName
-{
-    return @{@"nm": @"name"};
-}
-
 + (NSDictionary *)gp_dictionaryKeysMatchToPropertyNickName
 {
     return @{@"nk": @"nickname"};
@@ -181,51 +176,7 @@ static UIColor *_replyNameColor;
     NSMutableAttributedString *result = [[NSMutableAttributedString alloc] init];
     
     NSMutableString *mStr = [NSMutableString string];
-//    if ( self.level > 0 )
-//    {
-//        if ( self.level > 0 && self.level < 10 )
-//        {
-//            if (ScreenWidth > 325) {
-//                [mStr appendString:@"       "];
-//            }else{
-//                [mStr appendString:@"      "];
-//            }
-//        }
-//        else if ( self.level >= 10 && self.level < 99 )
-//        {
-//            if (ScreenWidth > 325) {
-//                [mStr appendString:@"        "];
-//            }else{
-//               [mStr appendString:@"       "];
-//            }
-//            
-//        }
-//        else
-//        {
-//            
-//            if (ScreenWidth > 325) {
-//                [mStr appendString:@"         "];
-//            }else{
-//                [mStr appendString:@"        "];
-//            }
-//            
-//        }
-//    }
-//
-//    if ( self.vipLevel > 0 )
-//    {
-//        if (ScreenWidth > 325) {
-//            
-//            [mStr appendString:@"     "];
-//            
-//        }else{
-//            if (IOS8_OR_LATER) {
-//                [mStr appendString:@"      "];
-//            }else{
-//                 [mStr appendString:@"    "];
-//            }
-//        }
-//    }
+
     NSMutableAttributedString *mAttStr = [[NSMutableAttributedString alloc] initWithString:mStr];
     [result appendAttributedString:mAttStr];
     
@@ -249,9 +200,9 @@ static UIColor *_replyNameColor;
         self.content = @"";
     }
     
-    NSMutableAttributedString *contentAtt = [content cc_attributStringWithLineHeight:CCBoldFont(16).lineHeight];
+    NSMutableAttributedString *contentAtt = [content cc_attributStringWithLineHeight:EVBoldFont(16).lineHeight];
     [result appendAttributedString:contentAtt];
-    [result addAttributes:@{NSFontAttributeName: CCBoldFont(16)} range:NSMakeRange(0, result.length)];
+    [result addAttributes:@{NSFontAttributeName: EVBoldFont(16)} range:NSMakeRange(0, result.length)];
     self.textOrigin = mAttStr.size.width;
     return result;
 }
@@ -262,14 +213,14 @@ static UIColor *_replyNameColor;
     NSMutableAttributedString *sysMsgAttributeString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", self.nickname, self.content]];
     [sysMsgAttributeString addAttributes:@{NSForegroundColorAttributeName: [UIColor evPurpleColor]} range:NSMakeRange(0, self.nickname.length)];
     [sysMsgAttributeString addAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]} range:NSMakeRange(self.nickname.length + 1, self.content.length)];
-    [sysMsgAttributeString addAttribute:NSFontAttributeName value:CCBoldFont(16) range:NSMakeRange(0, sysMsgAttributeString.length)];
+    [sysMsgAttributeString addAttribute:NSFontAttributeName value:EVBoldFont(16) range:NSMakeRange(0, sysMsgAttributeString.length)];
     return sysMsgAttributeString;
 }
 
 // 红包消息
 - (NSMutableAttributedString *)sysMsgRedEvelopeAttributeString
 {
-    NSMutableAttributedString *sysMsgRedEvelopeAttributeString = [[NSMutableAttributedString alloc] initWithString:defaultSysRedEnvelop attributes:@{NSForegroundColorAttributeName: kCommentRedEnvelopLaterTextColor, NSFontAttributeName: CCBoldFont(15)}];
+    NSMutableAttributedString *sysMsgRedEvelopeAttributeString = [[NSMutableAttributedString alloc] initWithString:defaultSysRedEnvelop attributes:@{NSForegroundColorAttributeName: kCommentRedEnvelopLaterTextColor, NSFontAttributeName: EVBoldFont(15)}];
     
     return sysMsgRedEvelopeAttributeString;
 }
@@ -278,7 +229,7 @@ static UIColor *_replyNameColor;
 - (NSMutableAttributedString *)presentMsgCommentAttributeString
 {
     NSString *presentStr = [NSString stringWithFormat:@"%@ %@%@ ×%d", self.nickname,kE_GlobalZH(@"send_num_gift"), self.reply_nickname, [self.content intValue]];
-    NSMutableAttributedString *presentStrAtt = [[NSMutableAttributedString alloc] initWithString:presentStr attributes:@{NSFontAttributeName: CCBoldFont(16), NSForegroundColorAttributeName: [UIColor colorWithHexString:@"ff809e"]}];
+    NSMutableAttributedString *presentStrAtt = [[NSMutableAttributedString alloc] initWithString:presentStr attributes:@{NSFontAttributeName: EVBoldFont(16), NSForegroundColorAttributeName: [UIColor colorWithHexString:@"ff809e"]}];
     return presentStrAtt;
 }
 
@@ -286,18 +237,18 @@ static UIColor *_replyNameColor;
 - (NSMutableAttributedString *)emojiMsgCommentAttributeString
 {
     NSString *presentStr = [NSString stringWithFormat:@"%@ %@%@%@ ×%d", self.nickname,kE_GlobalZH(@"send_num_gift"), self.reply_name, self.reply_nickname, [self.content intValue]];
-    NSMutableAttributedString *presentStrAtt = [[NSMutableAttributedString alloc] initWithString:presentStr attributes:@{NSFontAttributeName: CCBoldFont(16), NSForegroundColorAttributeName: kCommentSysMsgColor}];
+    NSMutableAttributedString *presentStrAtt = [[NSMutableAttributedString alloc] initWithString:presentStr attributes:@{NSFontAttributeName: EVBoldFont(16), NSForegroundColorAttributeName: kCommentSysMsgColor}];
     return presentStrAtt;
 }
 
 // 关注消息
 - (NSMutableAttributedString *)focusMsgCommentAttributeString
 {
-    NSMutableAttributedString *focusMsgAttributeString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@", self.content] attributes:@{NSForegroundColorAttributeName: kCommentFocusColor, NSFontAttributeName: CCBoldFont(16)}];
+    NSMutableAttributedString *focusMsgAttributeString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@%@",self.nickname, self.content] attributes:@{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: EVBoldFont(16)}];
     return focusMsgAttributeString;
 }
 
-- (void)updateWithCommentInfo:(NSDictionary *)info contextInfo:(NSString *)contextInfo commentType:(CCCommentType)commentType
+- (void)updateWithCommentInfo:(NSDictionary *)info contextInfo:(NSString *)contextInfo userid:(NSString *)userid commentType:(CCCommentType)commentType
 {
     self.cellheigt = 0;
     self.content = nil;
@@ -314,7 +265,7 @@ static UIColor *_replyNameColor;
     self.content = [NSString stringWithFormat:@"%@",contextInfo];
     self.comment_id = [[info cc_objectWithKey:EVMessageKeyID] integerValue];
     
-    self.name = [NSString stringWithFormat:@"%@",[info cc_objectWithKey:EVMessageKeyNm]];
+    self.name = [NSString stringWithFormat:@"%@",userid];
     self.nickname = [info cc_objectWithKey:EVMessageKeyNk];
     self.reply_nickname = [info cc_objectWithKey:EVMessageKeyRnk];
     self.reply_name = [info cc_objectWithKey:EVMessageKeyRnm];
@@ -323,11 +274,14 @@ static UIColor *_replyNameColor;
         self.reply_nickname = info[@"gnm"];
         self.content = info[@"gct"];
     }
+    if (commentType == CCCommentFocus) {
+        self.nickname = info[@"nickname"];
+    }
 
     self.commentType = commentType;
     [self checkReplyComment];
     
-    self.cellheigt = [self.commentAttributeString boundingRectWithSize:CGSizeMake(ScreenWidth - 60, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin context:nil].size.height + 6;
+    self.cellheigt = [self.commentAttributeString boundingRectWithSize:CGSizeMake(190, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin context:nil].size.height + 6;
 }
 
 @end

@@ -38,10 +38,10 @@ NSString *const WEIBOTYPE = @"sina";
 
 - (IBAction)bindOrUndoBind:(id)sender
 {
-    CCLog(@"bind");
+    EVLog(@"bind");
     if (!self.model.token && self.bindBlock)
     { // 未绑定情况下去解绑
-        CCLog(@"绑定");
+        EVLog(@"绑定");
         self.bindBlock(self.model.type);
     }
     else if (self.model.token && self.bindBlock)
@@ -62,7 +62,7 @@ NSString *const WEIBOTYPE = @"sina";
             // 添加绑定按钮的逻辑
             // 如果没有绑定，设置绑定按钮显示，绑定成功后，绑定按钮隐藏
             [self.bind setTitle:kE_GlobalZH(@"e_binding") forState:UIControlStateNormal];
-            self.bind.backgroundColor = [UIColor colorWithHexString:kGlobalGreenColor];
+            self.bind.backgroundColor = [UIColor evMainColor];
             if ( _model.token )
             {
                 self.bind.hidden = YES;

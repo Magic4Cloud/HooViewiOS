@@ -3,44 +3,11 @@
 //  EVMessage
 //
 //  Created by mashuaiwei on 16/8/9.
-//  Copyright © 2016年 easyvaas. All rights reserved.
+//  Copyright © 2016年 cloudfocous. All rights reserved.
 //
 
-//#ifndef EVMessageConfig_h
-//#define EVMessageConfig_h
-/*
- #define EV_WEBSOCKET_OK                            200
- #define EV_WEBSOCKET_ERROR_DBSERVER                501
- #define EV_WEBSOCKET_ERROR_NOT_JSON                601
- #define EV_WEBSOCKET_ERROR_CODE_EMPTY              602
- #define EV_WEBSOCKET_ERROR_CODE_ERROR              603
- #define EV_WEBSOCKET_ERROR_REG_USER                604
- #define EV_WEBSOCKET_ERROR_BODY_LEN16              605
- #define EV_WEBSOCKET_ERROR_USER_EXIST              606
- #define EV_WEBSOCKET_ERROR_USER_NOT_EXIST          607
- #define EV_WEBSOCKET_ERROR_PERMISSION_DENIED       608
- #define EV_WEBSOCKET_ERROR_APPLICATION_NAME        610
- #define EV_WEBSOCKET_ERROR_APPLICATION_ID          611
- #define EV_WEBSOCKET_ERROR_DEL_APPLICATION         612
- #define EV_WEBSOCKET_ERROR_REG_APPLICATION         613
- #define EV_WEBSOCKET_ERROR_GET_APPLICATION         614
- #define EV_WEBSOCKET_ERROR_TOPIC_NAME              620
- #define EV_WEBSOCKET_ERROR_REG_TOPIC               621
- #define EV_WEBSOCKET_ERROR_DEL_TOPIC               622
- #define EV_WEBSOCKET_ERROR_JOIN_TOPIC              623
- #define EV_WEBSOCKET_ERROR_TOPIC_NOT_EXIST         624
- #define EV_WEBSOCKET_ERROR_TOPIC_JOINED            625
- #define EV_WEBSOCKET_ERROR_TOPIC_NOT_JOIN          626
- #define EV_WEBSOCKET_ERROR_JSON_FORM               630
- #define EV_WEBSOCKET_ERROR_TRIEFILTER              631
- #define EV_WEBSOCKET_ERROR_SENDTOPIC               632
- #define EV_WEBSOCKET_ERROR_SHUTUPED                633
- #define EV_WEBSOCKET_ERROR_CMD                     700
- #define EV_WEBSOCKET_ERROR_PARAM                   701
- #define EV_WEBSOCKET_ERROR_UID                     702
- #define EV_WEBSOCKET_ERROR_APPID                   703
- #define EV_WEBSOCKET_ERROR_UNKNOW                  1000
-*/
+#ifndef EVMessageConfig_h
+#define EVMessageConfig_h
 /**
  *  消息模块错误码
  */
@@ -59,7 +26,22 @@ typedef NS_ENUM(NSInteger, EVMessageErrorCode) {
     EVMessageErrorJoinTopic = -3003,            /**< 加入 topic 失败 */
     EVMessageErrorSend = -3004,                 /**< 发送失败 */
     EVMessageErrorShutuped = -3005,             /**< 被禁言 */
+    
+    EVMessageInternalError = -4001,             /**< 内部错误 */
+};
+
+typedef NS_ENUM(NSUInteger, EVMessageOperationCode) {
+    EVMessageOperationNone = 0,
+    EVMessageOperationSet,
+    EVMessageOperationDelete,
+};
+
+typedef NS_ENUM(NSUInteger, EVMessageType) {
+    EVMessageTypeAll = 0,
+    EVMessageTypeSystem = 1 << 0,
+    EVMessageTypeMessage = 1 << 1,
+    EVMessageTypeGift = 1 << 2,
 };
 
 
-//#endif /* EVMessageConfig_h */
+#endif /* EVMessageConfig_h */

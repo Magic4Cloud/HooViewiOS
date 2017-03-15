@@ -82,11 +82,11 @@ static NSInteger span = 0;
     if ( fontSize <= 0 )
     {
         // 给他一个默认字体
-        font = [[CCAppSetting shareInstance] normalFontWithSize:11.0f];
+        font = [[EVAppSetting shareInstance] normalFontWithSize:11.0f];
     }
     else
     {
-        font = [[CCAppSetting shareInstance] normalFontWithSize:fontSize];
+        font = [[EVAppSetting shareInstance] normalFontWithSize:fontSize];
     }
     // "看"是用来替换成图片的字，空格是图片与数字的间距
     NSMutableString *spaces = [NSMutableString stringWithFormat:@""];

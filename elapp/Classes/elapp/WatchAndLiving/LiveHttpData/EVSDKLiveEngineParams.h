@@ -52,12 +52,14 @@
 #define EVMessageKeyExct                @"exct"
 #define EVMessageKeyExbr                @"exbr"
 #define EVMessageKeyLvst                @"lvst"
+#define EVMessageKeyVclt                @"vclt"
 #define EVMessageKeySt                  @"st"
 #define EVMessageKeyFl                  @"fl"
 #define EVMessageKeyID                  @"id"
-#define EVMeaagaeKeyCt                  @"ct"
+#define EVMessgaeKeyCt                  @"ct"
+#define EVMessageKeyVer                 @"ver"
 
-
+#define EVMessageKeyUsers               @"users"
 #define EVMessageKeyExgf                @"exgf"
 
 #define EVMessageKeyExrp               @"exrp"//红包类型

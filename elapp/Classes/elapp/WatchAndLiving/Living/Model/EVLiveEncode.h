@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
+#import "EVStreamerConfig.h"
 @class EVStreamer;
 typedef NS_ENUM (NSInteger, EVEncodedState)
 {
@@ -37,6 +38,8 @@ typedef NS_ENUM (NSInteger, EVEncodedState)
 - (void)enterBackground;
 
 - (void)EVRecordAudioBufferList:(AudioBufferList *)audioBufferList;
+
+- (void)LinkStatus:(EVInteractiveLiveStatus)status;
 
 //直播状态
 
@@ -87,6 +90,10 @@ typedef NS_ENUM (NSInteger, EVEncodedState)
  */
 - (void)initWithLiveEncodeView:(UIView *)view;
 
+
+
+- (void)startLinkChannelid:(NSString *)channel;
+- (void)endLink;
 /**
  *  开始编码
  */

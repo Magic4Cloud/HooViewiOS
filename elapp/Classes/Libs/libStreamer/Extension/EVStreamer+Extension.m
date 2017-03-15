@@ -10,7 +10,7 @@
 #import "NSObject+Extension.h"
 #import <DeviceUtil.h>
 
-#define CCRECORD_PREPARE_PLIST  [CCAppCacheFilePath stringByAppendingPathComponent:@"live_prepare_plist"]
+#define CCRECORD_PREPARE_PLIST  [EVAppCacheFilePath stringByAppendingPathComponent:@"live_prepare_plist"]
 
 #define ENCODER_SIGNATURE_HIGH                      @"V0_P2_S0_E1_R1_B0_A0_C0_M0"
 #define ENCODER_SIGNATURE_BASELINE                  @"V0_P0_S0_E0_R1_B0_A0_C0_M0"

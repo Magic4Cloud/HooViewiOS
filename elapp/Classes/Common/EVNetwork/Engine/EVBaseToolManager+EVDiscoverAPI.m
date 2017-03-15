@@ -10,6 +10,7 @@
 #import "constants.h"
 #import "EVHttpURLManager.h"
 
+
 @implementation EVBaseToolManager (EVDiscoverAPI)
 
 - (void)GETObtainAssetsranklist:(NSInteger)start
@@ -33,37 +34,9 @@
     [params setValue:@(count) forKey:kCount];
     
     NSString *urlString = [EVHttpURLManager fullURLStringWithURI:EVAssetsranklistAPI
-                                              params:params];
-    [self requestWithURLString:urlString
-                         start:startBlock
-                          fail:failBlock
-                       success:^(NSData *data)
-     {
-         NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                              options:0
-                                                                error:NULL];
-         CCLog(@"%@",info);
-         if ( [info[kRetvalKye] isEqualToString:kRequestOK] )
-         {
-             if ( successBlock )
-             {
-                 successBlock(info[kRetinfoKey]);
-             }
-         }
-         else if ( [info[kRetvalKye] isEqualToString:kSessionIdExpireValue] )
-         {
-             if ( sessionExpireBlock )
-             {
-                 sessionExpireBlock();
-             }
-         }
-         else if ( failBlock )
-         {
-             failBlock([NSError errorWithDomain:kBaseToolDomain
-                                           code:-1
-                                       userInfo:@{kCustomErrorKey: k_REQUST_FAIL}]);
-         }
-     }];
+                                              params:nil];
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+
 }
 
 @end

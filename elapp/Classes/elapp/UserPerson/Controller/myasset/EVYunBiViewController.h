@@ -12,9 +12,9 @@
 @protocol EVYiBiViewControllerDelegate <NSObject>
 
 /**
- *  成功购买云币
+ *  成功购买火眼豆
  *
- *  @param ecoin 用户的云币总数
+ *  @param ecoin 用户的火眼豆总数
  */
 - (void)buySuccessWithEcoin:(NSInteger)ecoin;
 
@@ -27,5 +27,5 @@
 @property (weak, nonatomic) id<EVYiBiViewControllerDelegate> delegate;  /**< 代理 */
 
 @property (nonatomic, assign) BOOL isPresented;   //是否是模态出来的
-@property (nonatomic, copy  ) void(^updateEcionBlock)(NSString *ecion);     /**< 更新云币的回调 */
+@property (nonatomic, copy  ) void(^updateEcionBlock)(NSString *ecion);     /**< 更新火眼豆的回调 */
 @end

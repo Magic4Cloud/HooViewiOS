@@ -10,11 +10,11 @@
 #import "PureLayout.h"
 #import "UIView+Extension.h"
 
-@interface CCLogoImageView : UIImageView
+@interface EVLogoImageView : UIImageView
 
 @end
 
-@implementation CCLogoImageView
+@implementation EVLogoImageView
 
 - (void)layoutSubviews
 {
@@ -24,14 +24,14 @@
 
 @end
 
-@interface CCHeaderImageView ()
+@interface EVHeaderImageView ()
 
-@property (nonatomic, weak) CCLogoImageView *smallLogoImageView;
+@property (nonatomic, weak) EVLogoImageView *smallLogoImageView;
 @property (nonatomic, weak) UIImageView *vipImageView;
 
 @end
 
-@implementation CCHeaderImageView
+@implementation EVHeaderImageView
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -53,7 +53,7 @@
 
 - (void)initialSelf
 {
-    CCLogoImageView *logo = [[CCLogoImageView alloc] init];
+    EVLogoImageView *logo = [[EVLogoImageView alloc] init];
     [self addSubview:logo];
     
     self.smallLogoImageView = logo;
@@ -80,11 +80,11 @@
     self.smallLogoImageView.frame = self.bounds;
     
     CGFloat vipWidth, vipHieght = 0;
-    if (self.vipSizeType == CCVipMini)
+    if (self.vipSizeType == EVVipMini)
     {
         vipWidth = vipHieght = 10;
     }
-    else if (self.vipSizeType == CCVipMiddle)
+    else if (self.vipSizeType == EVVipMiddle)
     {
         vipWidth = vipHieght = 14;
     }
@@ -121,12 +121,12 @@
     [self.smallLogoImageView cc_setImageWithURLString:urlString placeholderImageName:placeHolderImageName];
 }
 
-- (void)cc_setImageWithURLString:(NSString *)urlString isVip:(BOOL)vip vipSizeType:(CCVipSizeType)type
+- (void)cc_setImageWithURLString:(NSString *)urlString isVip:(BOOL)vip vipSizeType:(EVVipSizeType)type
 {
     [self cc_setImageWithURLString:urlString placeholderImageName:@"avatar" isVip:vip vipSizeType:type];
 }
 
-- (void)cc_setImageWithURLString:(NSString *)urlString placeholderImageName:(NSString *)placeHolderImageName isVip:(NSInteger)vip vipSizeType:(CCVipSizeType)type;
+- (void)cc_setImageWithURLString:(NSString *)urlString placeholderImageName:(NSString *)placeHolderImageName isVip:(NSInteger)vip vipSizeType:(EVVipSizeType)type;
 {
     [self cc_setImageWithURLString:urlString placeholderImageName:placeHolderImageName];
     self.vip = vip;
@@ -138,7 +138,6 @@
     self.smallLogoImageView.image = image;
 }
 
-//是否显示大v
 - (void)setVip:(NSInteger)vip
 {
     _vip = vip;
@@ -149,7 +148,7 @@
 
 @interface EVHeaderButton ()
 
-@property (nonatomic, weak) CCLogoImageView *smallLogoImageView;
+@property (nonatomic, weak) EVLogoImageView *smallLogoImageView;
 @property (nonatomic, weak) UIImageView *vipImageView;
 
 @property (nonatomic,weak) NSLayoutConstraint *vipBottomConstraint;
@@ -165,7 +164,7 @@
 {
     if ( self = [super initWithCoder:aDecoder] )
     {
-        CCLogoImageView *logo = [[CCLogoImageView alloc] init];
+        EVLogoImageView *logo = [[EVLogoImageView alloc] init];
         [self addSubview:logo];
         self.smallLogoImageView = logo;
         
@@ -181,7 +180,7 @@
 {
     EVHeaderButton *btn = [[EVHeaderButton alloc] init];
     
-    CCLogoImageView *logo = [[CCLogoImageView alloc] init];
+    EVLogoImageView *logo = [[EVLogoImageView alloc] init];
     [btn addSubview:logo];
     btn.smallLogoImageView = logo;
     
@@ -197,7 +196,7 @@
 {
     if ( self = [super init] )
     {
-        CCLogoImageView *logo = [[CCLogoImageView alloc] init];
+        EVLogoImageView *logo = [[EVLogoImageView alloc] init];
         [self addSubview:logo];
         self.smallLogoImageView = logo;
         
@@ -209,31 +208,30 @@
     return self;
 }
 
-- (void)cc_setBackgroundImageURL:(NSString *)urlString placeholderImageStr:(NSString *)placeHolderImageName isVip:(NSInteger)vip  vipSizeType:(CCVipSizeType)type complete:(void(^)(UIImage *image))complete
+- (void)cc_setBackgroundImageURL:(NSString *)urlString placeholderImageStr:(NSString *)placeHolderImageName isVip:(NSInteger)vip  vipSizeType:(EVVipSizeType)type complete:(void(^)(UIImage *image))complete
 {
     [self.smallLogoImageView cc_setImageWithURLString:urlString placeholderImageName:placeHolderImageName complete:complete];
     self.vipSizeType = type;
 }
 
-- (void)cc_setBackgroundImageURL:(NSString *)urlString placeholderImageStr:(NSString *)placeHolderImageName isVip:(NSInteger)vip  vipSizeType:(CCVipSizeType)type
+- (void)cc_setBackgroundImageURL:(NSString *)urlString placeholderImageStr:(NSString *)placeHolderImageName isVip:(NSInteger)vip  vipSizeType:(EVVipSizeType)type
 {
     [self cc_setBackgroundImageURL:urlString placeholderImageStr:placeHolderImageName isVip:vip vipSizeType:type complete:^(UIImage *image) {
         
     }];
 }
 
-- (void)cc_setBackgroundImageURL:(NSString *)urlString placeholderImage:(UIImage *)placeHolderImage isVip:(BOOL)vip vipSizeType:(CCVipSizeType)type
+- (void)cc_setBackgroundImageURL:(NSString *)urlString placeholderImage:(UIImage *)placeHolderImage isVip:(BOOL)vip vipSizeType:(EVVipSizeType)type
 {
     [self.smallLogoImageView cc_setImageWithURLString:urlString placeholderImage:[UIImage imageNamed:@"avatar"]];
     self.vipSizeType = type;
 }
 
-- (void)setVipSizeType:(CCVipSizeType)vipSizeType
+- (void)setVipSizeType:(EVVipSizeType)vipSizeType
 {
     _vipSizeType = vipSizeType;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self setNeedsLayout];
-//        [self layoutIfNeeded];
     });
 }
 
@@ -243,11 +241,11 @@
     self.smallLogoImageView.frame = self.bounds;
     
     CGFloat vipWidth, vipHieght = 0;
-    if (self.vipSizeType == CCVipMini)
+    if (self.vipSizeType == EVVipMini)
     {
         vipWidth = vipHieght = 10;
     }
-    else if (self.vipSizeType == CCVipMiddle)
+    else if (self.vipSizeType == EVVipMiddle)
     {
         vipWidth = vipHieght = 14;
     }

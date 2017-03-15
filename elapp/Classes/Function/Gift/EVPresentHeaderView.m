@@ -11,6 +11,10 @@
 #import "EVHeaderView.h"
 #import <PureLayout.h>
 
+@interface EVPresentHeaderView ()<CAAnimationDelegate>
+
+@end
+
 @implementation EVPresentHeaderView
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -26,7 +30,7 @@
 - (void)setUpView
 {
     // 头像
-    CCHeaderImageView *logoImageView = [[CCHeaderImageView alloc] init];
+    EVHeaderImageView *logoImageView = [[EVHeaderImageView alloc] init];
     [self addSubview:logoImageView];
     [logoImageView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero excludingEdge:ALEdgeRight];
     [logoImageView autoMatchDimension:ALDimensionWidth toDimension:ALDimensionHeight ofView:logoImageView];
@@ -35,7 +39,7 @@
     
     // 昵称
     UILabel *nickNameLabel = [[UILabel alloc ] init];
-    nickNameLabel.font = [[CCAppSetting shareInstance] normalFontWithSize:14];
+    nickNameLabel.font = [[EVAppSetting shareInstance] normalFontWithSize:14];
     nickNameLabel.textColor = [UIColor evAssistColor];
     nickNameLabel.backgroundColor = [UIColor clearColor];
     nickNameLabel.textAlignment = NSTextAlignmentLeft;
@@ -46,7 +50,7 @@
     
     // 内容
     UILabel *contentLable = [[UILabel alloc] init];
-    contentLable.font = [[CCAppSetting shareInstance] normalFontWithSize:12];
+    contentLable.font = [[EVAppSetting shareInstance] normalFontWithSize:12];
     contentLable.textAlignment = NSTextAlignmentLeft;
     contentLable.text = kE_GlobalZH(@"send_num_gift");
     contentLable.textColor = [UIColor whiteColor];
@@ -76,7 +80,6 @@
     numLabel.font = [UIFont boldSystemFontOfSize:17];
     numLabel.textColor = [UIColor whiteColor];
     numLabel.text = [NSString stringWithFormat:@"×1"];
-    
     [self addSubview:numLabel];
     [numLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:self withOffset:-5];
     [numLabel autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:-10];

@@ -135,10 +135,13 @@
         }
         else
         {
+            NSLog(@"------ %.1f",count / 100000000.0f);
             return [NSString stringWithFormat:@"%.1f 亿", count / 100000000.0f];
         }
     }
 }
+
+
 
 + (NSString *)timeStampWithStopSpan:(NSUInteger)stopSpan stopTime:(NSString *)stopTime {
     NSString *stamp = nil;
@@ -180,7 +183,6 @@
 
 - (NSString *)translateDateToForm:(NSString *)dateFormat {
     NSString *outputDateString = nil;
-    
     // 服务器格式："2015-06-26 21:49:21"
     if (self) {
         NSString *originalFormat = @"YYYY-MM-dd HH:mm:ss";
@@ -317,6 +319,23 @@
     [formatter setDateFormat:@"mm:ss"];
     NSString *timeStr = [formatter stringFromDate:date];
     return timeStr;
+}
+
+- (NSString *)convertToMinuteString:(NSInteger)sec {
+    if (sec <= 0) {
+        return @"00:00";
+    } else {
+        NSInteger seconds;
+        NSInteger minutes;
+        if (sec < 3600) {
+            seconds = sec % 60;
+            minutes = (sec / 60) % 60;
+        } else {
+            seconds = sec % 60;
+            minutes = sec / 60;
+        }
+        return [NSString stringWithFormat:@"%02ld:%02ld", minutes, seconds];
+    }
 }
 
 + (NSString *)stringFormattedTimeFromDuration:(NSNumber *)duration
@@ -856,4 +875,68 @@
 }
 
 
+// 正则判断手机号码地址格式
++ (BOOL)isMobileNumber:(NSString *)mobileNum {
+    
+    //    电信号段:133/153/180/181/189/177
+    //    联通号段:130/131/132/155/156/185/186/145/176
+    //    移动号段:134/135/136/137/138/139/150/151/152/157/158/159/182/183/184/187/188/147/178
+    //    虚拟运营商:170
+    
+    NSString *MOBILE = @"^1(3[0-9]|4[57]|5[0-35-9]|8[0-9]|7[06-8])\\d{8}$";
+    
+    NSPredicate *regextestmobile = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", MOBILE];
+    
+    return [regextestmobile evaluateWithObject:mobileNum];
+}
+
+
++ (NSString *)compareCurrentTime:(NSString *)str
+{
+    //把字符串转为NSdate
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSDate *timeDate = [dateFormatter dateFromString:str];
+    
+    //得到与当前时间差
+    NSTimeInterval  timeInterval = [timeDate timeIntervalSinceNow];
+    timeInterval = - timeInterval;
+    //标准时间和北京时间差8个小时
+    //    timeInterval = timeInterval - 8*60*60;
+    long temp = 0;
+    NSString *result;
+    if (timeInterval < 60) {
+        result = [NSString stringWithFormat:@"刚刚"];
+    }
+    else if((temp = timeInterval/60) < 60){
+        result = [NSString stringWithFormat:@"%ld分钟前",temp];
+    }
+    
+    else if((temp = temp/60) < 24){
+        result = [NSString stringWithFormat:@"%ld小时前",temp];
+    }
+    else {
+        result = [NSString stringWithFormat:@"%@/%@ %@",[str substringWithRange:NSMakeRange(5, 2)],[str substringWithRange:NSMakeRange(8, 2)],[str substringWithRange:NSMakeRange(11, 5)]];
+    }
+    
+    return  result;
+}
++ (NSString *)numFormatNumber:(NSInteger)count
+{
+    NSString *string;
+    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+    [numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
+    [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    return [numberFormatter stringFromNumber:[NSNumber numberWithInteger:count]];
+//    if (count.length <= 3) {
+//        string = count;
+//    }else {
+//        NSNumberFormatter
+//        for (NSInteger i = 0; i < (count.length / 3); i++) {
+//            
+//        }
+//    }
+//    
+    return string;
+}
 @end

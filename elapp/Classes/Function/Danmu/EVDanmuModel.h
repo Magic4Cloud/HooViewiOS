@@ -27,7 +27,7 @@
 
 @property (assign, nonatomic) NSInteger vip_level;
 
-//用易视云的API直接可以用
+//用火眼财经的API直接可以用
 + (EVDanmuModel *)modelFromDictionary:(NSDictionary *)dic comment:(NSString *)comment;
 
 @end

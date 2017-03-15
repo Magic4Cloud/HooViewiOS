@@ -16,7 +16,7 @@
 
 - (void)updateForecastTime:(NSTimer *)timer
 {
-    [CCNotificationCenter postNotificationName:CCUpdateForecastTime object:timer];
+    [EVNotificationCenter postNotificationName:EVUpdateTime object:timer];
 }
 
 //定义一个定时器

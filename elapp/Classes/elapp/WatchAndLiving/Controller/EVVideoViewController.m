@@ -12,7 +12,6 @@
 #import "EVLiveViewController.h"
 #import "EVLoginInfo.h"
 #import "EVBaseToolManager.h"
-#import "EVChatViewController.h"
 #import "EVNotifyConversationItem.h"
 #import "EVOtherPersonViewController.h"
 #import "EVAudienceCollectionView.h"
@@ -35,17 +34,21 @@
 #import "EVYunBiViewController.h"
 #import "EVUserAsset.h"
 #import "EVBaseToolManager+EVUserCenterAPI.h"
-#import "EVMessage.h"
+#import "EVMessageManager.h"
 #import "EVSDKLiveMessageEngine.h"
 #import "EVDanmuManager.h"
 #import "EVSDKLiveEngineParams.h"
 #import "EVLiveEvents.h"
+#import "EVLiveWatchManager.h"
+#import "EVVideoViewProtocol.h"
+#import "EVWatchBottomItemView.h"
 
 
+
+#define EVAudienceInfoVIEW_HEIGHT 37
 #define kDefaultAudienceCellMarign 8
-#define kShareViewHeight 202
 
-@implementation CCContentView
+@implementation EVContentView
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
 {
@@ -64,10 +67,7 @@
 
 @end
 
-@interface EVVideoViewController () <CCAudienceChatTextViewDelegate, CCAudiencceInfoViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITableViewDataSource, UITableViewDelegate,CCCommentCellDelegate, CCRiceAmountViewDelegate, CCPresentViewDelegate, CCReportResonViewDelegate,CCPromptRedPacktViewDelegate,AlertDelegate,CCMagicEmojiViewDelegate,EVYiBiViewControllerDelegate, MngUserListDelegate,EVSDKMessageDelegate,EVDanmuDelegate,EVOtherPersonViewControllerDelegate>
-{
-    EVSDKLiveMessageEngine *engine;
-}
+@interface EVVideoViewController () <CCAudienceChatTextViewDelegate, CCAudiencceInfoViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITableViewDataSource, UITableViewDelegate,CCCommentCellDelegate, CCRiceAmountViewDelegate, CCPresentViewDelegate, EVReportResonViewDelegate,CCPromptRedPacktViewDelegate,AlertDelegate,CCMagicEmojiViewDelegate,EVYiBiViewControllerDelegate, MngUserListDelegate,EVSDKMessageDelegate,EVDanmuDelegate,EVOtherPersonViewControllerDelegate,EVVideoViewProtocol,EVHVLiveTopViewDelegate>
 
 /** 所有的红包 */
 @property (nonatomic,strong) NSMutableDictionary *allRedEnvelope;
@@ -98,7 +98,7 @@
 
 // MARK: subviews
 /** 显示内容的view */
-@property ( nonatomic, weak ) CCContentView *contentView;
+@property ( nonatomic, weak ) EVContentView *contentView;
 
 /** 滑屏 */
 @property ( nonatomic, weak ) UIScrollView *slidScrollView;
@@ -137,11 +137,6 @@
 /** 观众信息浮动窗口 */
 @property ( weak, nonatomic ) EVFloatingView *floatView;
 
-/** 显示点赞 */
-@property ( nonatomic, weak ) EVAudienceLoveView *loveView;
-
-/** 进场动画 */
-@property ( nonatomic, strong ) EVEnterAnimationView *enterAnimationView;
 
 /** 云票下面显示红包 */
 @property ( nonatomic, weak ) EVPromptRedPacketView *promptRedPacketView;
@@ -158,6 +153,9 @@
 
 @property (nonatomic, copy) NSString *oldHid;
 
+
+
+@property (nonatomic, weak) UILabel *watchNumL;
 @end
 
 @implementation EVVideoViewController
@@ -184,19 +182,22 @@
     self.sendComment = YES;
     self.firstLoadComment = YES;
     [self setUpViews];
-    
     [self addNotificationCenter];
+    self.allGiftArray = [NSMutableArray arrayWithArray:[[EVStartResourceTool shareInstance] presentsWithType:EVPresentTypePresent]];
     
-    [self addUpEnterAnimationView];
-    self.allGiftArray = [NSMutableArray arrayWithArray:[[EVStartResourceTool shareInstance] presentsWithType:CCPresentTypePresent]];
+
 }
+
+
+
 
 - (void)dealloc
 {
-    [[EVManagerUserView shareSheet]hideActionWindow];
-    [[EVManagerUserView shareSheet]removeFromSuperview];
+    EVLog(@"EVVideoViewController is dealloc");
+    [[EVManagerUserView shareSheet] hideActionWindow];
+    [[EVManagerUserView shareSheet] removeFromSuperview];
     [EVRedEnvelopeView clearData];
-    [[EVMessageManager shareManager]close];
+    [[EVMessageManager shareManager] close];
     [_allRedEnvelope removeAllObjects];
     _allRedEnvelope = nil;
     [self.commentTableView removeObserver:self forKeyPath:@"contentOffset"];
@@ -218,34 +219,20 @@
 {
     self.view.backgroundColor = [UIColor blackColor];
 
-    [self addScrollView];
+    [self addContentView];
     [self addBottomChatView];
-    [self addLoveView];
     [self addPresentCenterView];
     [self addTopVideoInfoView];
     [self addAudienceListView];
     [self addRiceAmountView];
     [self setUpLoadMoreComment];
     [self commentTableViewAndUserJoinView];
-    [self addUpManagerUserData];
     [self addLiveStatusAlertView];
     [self addPresentView];
     [self addDanmuView];
     /** 礼物列表 */
     [self addPresentListView];
-    
     [self addKeyBoardNotificationCenter];
-}
-
-// 点赞
-- (void)addLoveView
-{
-    EVAudienceLoveView *loveView = [[EVAudienceLoveView alloc] init];
-    loveView.hidden = YES;
-    [self.contentView insertSubview:loveView atIndex:0];
-    //    [self.contentView sendSubviewToBack:loveView];
-    self.loveView = loveView;
-    [loveView autoSetDimensionsToSize:CGSizeMake(CCAudienceLoveViewWidth, CCAudienceLoveViewHeight)];
 }
 
 // 中间展示动画
@@ -258,6 +245,7 @@
     [presentAnimatingView autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:0];
     [presentAnimatingView autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:380];
     self.presentAnimatingView = presentAnimatingView;
+    self.presentAnimatingView.hidden = YES;
 }
 
 // 提示观众发礼物
@@ -271,6 +259,7 @@
     [presentView autoSetDimension:ALDimensionHeight toSize:42];
     [presentView autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:80 relation:NSLayoutRelationGreaterThanOrEqual];
     self.presentView = presentView;
+    presentView.hidden = YES;
 }
 
 - (void)addDanmuView
@@ -278,6 +267,7 @@
     EVDanmuManager *danmuManager = [[EVDanmuManager alloc]init];
     danmuManager.delegate = self;
     [self.contentView addSubview:danmuManager];
+    danmuManager.hidden = YES;
     [danmuManager autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:300];
     [danmuManager autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:10];
     [danmuManager autoSetDimension:ALDimensionHeight toSize:42];
@@ -290,12 +280,13 @@
 - (void)commentTableViewAndUserJoinView
 {
     // 容器
-    UIView *commentAndUserJoinContainerView = [[UIView alloc] init];
-    [self.contentView addSubview:commentAndUserJoinContainerView];
-    self.commentAndUserJoinContainerViewConstraint = [commentAndUserJoinContainerView autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:45];
-    [commentAndUserJoinContainerView autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:10];
-    [commentAndUserJoinContainerView autoSetDimension:ALDimensionHeight toSize:190];
-    [commentAndUserJoinContainerView autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:50];
+//    UIView *commentAndUserJoinContainerView = [[UIView alloc] init];
+//    [self.contentView addSubview:commentAndUserJoinContainerView];
+//    commentAndUserJoinContainerView.backgroundColor  = [UIColor clearColor];
+//    [commentAndUserJoinContainerView autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:10];
+//    [commentAndUserJoinContainerView autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:10];
+//    [commentAndUserJoinContainerView autoSetDimension:ALDimensionHeight toSize:190];
+//    [commentAndUserJoinContainerView autoSetDimension:ALDimensionWidth toSize:ScreenHeight/2];
     // 评论列表
     EVCommentTableView *commentTableView = [[EVCommentTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     if ( IOS8_OR_LATER )
@@ -310,25 +301,18 @@
     commentTableView.showsVerticalScrollIndicator = NO;
     commentTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     commentTableView.backgroundColor = [UIColor clearColor];
-    [commentAndUserJoinContainerView addSubview:commentTableView];
+    [self.contentView addSubview:commentTableView];
     self.commentTableView = commentTableView;
-    self.commentTableHeightConstraint = [commentTableView autoSetDimension:ALDimensionHeight toSize:kDefaultTableHeight];
-    [commentTableView autoPinEdgeToSuperviewEdge:ALEdgeRight];
-    [commentTableView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
-    self.commentTableBottomConstraint = [commentTableView autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:self.chatTextView withOffset:-10];
+    commentTableView.backgroundColor  = [UIColor clearColor];
+    [commentTableView autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:10];
+    [commentTableView autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:20];
+    [commentTableView autoSetDimension:ALDimensionHeight toSize:190];
+    [commentTableView autoSetDimension:ALDimensionWidth toSize:ScreenHeight/2];
     [commentTableView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
-    
-    // UserJoinLable
-    EVAudienceUserJoinView *joinView = [[EVAudienceUserJoinView alloc] init];
-    [commentAndUserJoinContainerView addSubview:joinView];
-    joinView.alpha = 0;
-    _joinView = joinView;
-    [joinView autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:commentTableView withOffset:-5];
-    [joinView autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:commentTableView];
     
     // 未读消息提醒
     EVAudienceCommentUnreadButton *unreadBtn = [EVAudienceCommentUnreadButton buttonWithType:UIButtonTypeCustom];
-    [commentAndUserJoinContainerView addSubview:unreadBtn];
+    [self.contentView addSubview:unreadBtn];
     [unreadBtn autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:commentTableView];
     [unreadBtn autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:5];
     unreadBtn.backgroundColor = [UIColor colorWithHexString:@"#ffffff" alpha:0.9];
@@ -352,6 +336,7 @@
     audiencesList.dataSource = self;
     audiencesList.delegate = self;
     audiencesList.showsHorizontalScrollIndicator = NO;
+    audiencesList.hidden = YES;
     [audiencesList registerClass:[EVAudienceCell class] forCellWithReuseIdentifier:[EVAudienceCell audienceCellID]];
     [self.contentView addSubview:audiencesList];
     self.AudienceViewConstraint = [audiencesList autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:self.contentView withOffset:143.0];
@@ -365,7 +350,7 @@
 - (void)addRiceAmountView
 {
     EVRiceAmountView *riceAmountView = [[EVRiceAmountView alloc] init];
-    riceAmountView.hidden = NO;
+    riceAmountView.hidden = YES;
     riceAmountView.backgroundColor = [UIColor colorWithHexString:@"#000000" alpha:0.2];
     [self.contentView addSubview:riceAmountView];
     [riceAmountView autoSetDimension:ALDimensionHeight toSize:25];
@@ -380,38 +365,48 @@
 // 视频和主播信息
 - (void)addTopVideoInfoView
 {
-    EVVideoTopView *videoInfoView = [[EVVideoTopView alloc] init];
-    videoInfoView.item.currUserName = self.name;
+    EVHVLiveTopView *videoInfoView = [[EVHVLiveTopView alloc] init];
     videoInfoView.delegate = self;
     videoInfoView.backgroundColor = [UIColor clearColor];
+    videoInfoView.frame = CGRectMake(0, 30, ScreenHeight, 30);
     [self.contentView addSubview:videoInfoView];
-    [videoInfoView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(24, 10, 0, 0) excludingEdge:ALEdgeBottom];
-    [videoInfoView autoSetDimension:ALDimensionHeight toSize:CCAUDIENCEINFOVIEW_HEIGHT];
-    videoInfoView.engine = self.engine;
     _videoInfoView = videoInfoView;
+    
+    
+    UILabel *hvBeanLabel = [[UILabel alloc] init];
+    hvBeanLabel.frame = CGRectMake((ScreenHeight -115)/2, 30, 115, 26);
+    [self.contentView addSubview:hvBeanLabel];
+    self.hvBeanLabel = hvBeanLabel;
+    hvBeanLabel.backgroundColor = [UIColor colorWithHexString:@"#F87A2A"];
+    hvBeanLabel.layer.cornerRadius = 13;
+    hvBeanLabel.layer.masksToBounds = YES;
+    hvBeanLabel.text = @"火眼币0";
+    hvBeanLabel.textColor = [UIColor whiteColor];
+    hvBeanLabel.textAlignment = NSTextAlignmentCenter;
+    hvBeanLabel.font = [UIFont textFontB2];
+    
+    
+    UILabel *watchNumL = [[UILabel alloc] init];
+    [self.contentView addSubview:watchNumL];
+    self.watchNumL = watchNumL;
+    watchNumL.frame = CGRectMake((ScreenHeight - 100)/2,CGRectGetMaxY(hvBeanLabel.frame) + 2,100, 22);
+    watchNumL.textAlignment = NSTextAlignmentCenter;
+    watchNumL.textColor = [UIColor whiteColor];
+    watchNumL.backgroundColor = [UIColor clearColor];
+    watchNumL.text = @"0人观看";
+    watchNumL.font = [UIFont textFontB2];
 }
 
 // 滑屏
-- (void)addScrollView
+- (void)addContentView
 {
-    /** 侧滑 */
-    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
-    scrollView.delaysContentTouches = NO;
-    scrollView.delegate = self;
-    scrollView.contentSize = CGSizeMake(self.view.bounds.size.width * 2, 0);
-    scrollView.showsHorizontalScrollIndicator = NO;
-    scrollView.pagingEnabled = YES;
-    scrollView.bounces = NO;
-    scrollView.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:scrollView];
-    _slidScrollView = scrollView;
-    
     /** 有内容的页面 */
-    CCContentView *contentView = [[CCContentView alloc] initWithFrame:self.view.bounds];
+    EVContentView *contentView = [[EVContentView alloc] initWithFrame:CGRectMake(0, 0,ScreenHeight, ScreenWidth)];
     contentView.backgroundColor = [UIColor clearColor];
     contentView.clipsToBounds = YES;
-    [scrollView addSubview:contentView];
+    [self.view addSubview:contentView];
     _contentView = contentView;
+
 }
 
 // 评论输入发送
@@ -451,8 +446,8 @@
     [sendBtn setTitle:kSend forState:UIControlStateNormal];
     [sendBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [sendBtn addTarget:self action:@selector(sendChat) forControlEvents:UIControlEventTouchUpInside];
-    sendBtn.titleLabel.font = CCNormalFont(16);
-    sendBtn.backgroundColor = CCAppMainColor;
+    sendBtn.titleLabel.font = EVNormalFont(16);
+    sendBtn.backgroundColor = [UIColor evMainColor];
     [bottomContainerView addSubview:sendBtn];
     [sendBtn autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:0];
     [sendBtn autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:textView withOffset:5];
@@ -463,16 +458,23 @@
     sendBtn.layer.masksToBounds = YES;
 }
 
-#pragma mark - event response
 
-- (void)showShareView
+#pragma mark - event response
+- (void)showliveShareViewDidClickButtonView:(BOOL)YorN
 {
-    // 分享按钮出来的时候键盘必须退下
-    self.shareView.hidden = NO;
-    [self.view bringSubviewToFront:self.shareView];
-    self.commentTableView.hidden = YES;
+    if (YorN) {
+        if (!self.shareView) {
+            EVLiveShareView *shareView = [[EVLiveShareView alloc] initWithParentView:self.view];
+            shareView.delegate = self;
+            [self.view addSubview:shareView];
+            self.shareView = shareView;
+        }
+        [self.shareView show];
+    }
+    self.commentTableView.hidden = NO;
     self.bottomBtnContainerView.hidden = YES;
-    [self.contacter boardCastEvent:AUDIENCE_SHAREVIEW_STATECHANGE withParams:@{AUDIENCE_SHAREVIEW_STATECHANGE : @NO}];
+    self.recordControlView.hidden      = YorN;
+    [self.contacter boardCastEvent:AUDIENCE_SHAREVIEW_STATECHANGE withParams:@{AUDIENCE_SHAREVIEW_STATECHANGE : @(!YorN)}];
 }
 
 - (EVReportReasonView *)reportReasonView
@@ -489,20 +491,13 @@
     return _reportReasonView;
 }
 
-- (void)addUpEnterAnimationView
-{
-    EVEnterAnimationView *enterAnimationView = [[EVEnterAnimationView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
-    [self.contentView addSubview:enterAnimationView];
-    self.enterAnimationView = enterAnimationView;
-}
-
-
 - (EVPromptRedPacketView *)promptRedPacketView
 {
     if ( !_promptRedPacketView )
     {
         EVPromptRedPacketView *promptRedPacketView = [[EVPromptRedPacketView alloc] init];
         [self.contentView addSubview:promptRedPacketView];
+        promptRedPacketView.hidden = YES;
         [promptRedPacketView autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:self.riceAmountView];
         [promptRedPacketView autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:self.riceAmountView withOffset:8];
         promptRedPacketView.delegate = self;
@@ -510,26 +505,25 @@
     }
     return _promptRedPacketView;
 }
-
-
 #pragma mark - ***********    Notifications 📢    ***********
 - (void)addNotificationCenter
 {
-    [CCNotificationCenter addObserver:self selector:@selector(followStateChanged:) name:CCFollowedStateChangedNotification object:nil];
-    [CCNotificationCenter addObserver:self
+    [EVNotificationCenter addObserver:self selector:@selector(followStateChanged:) name:EVFollowedStateChangedNotification object:nil];
+    
+    [EVNotificationCenter addObserver:self
                              selector:@selector(didEnterForeground)
                                  name:UIApplicationWillEnterForegroundNotification
                                object:nil];
     
-    [CCNotificationCenter addObserver:self
+    [EVNotificationCenter addObserver:self
                              selector:@selector(didEnterBackground)
                                  name:UIApplicationDidEnterBackgroundNotification object:nil];
 }
 
 - (void)addKeyBoardNotificationCenter
 {
-    [CCNotificationCenter addObserver:self selector:@selector(keyBoardShow) name:UIKeyboardWillShowNotification object:nil];
-    [CCNotificationCenter addObserver:self selector:@selector(keyBoardHide) name:UIKeyboardWillHideNotification object:nil];
+    [EVNotificationCenter addObserver:self selector:@selector(keyBoardShow) name:UIKeyboardWillShowNotification object:nil];
+    [EVNotificationCenter addObserver:self selector:@selector(keyBoardHide) name:UIKeyboardWillHideNotification object:nil];
 }
 
 
@@ -547,10 +541,7 @@
 
 - (void)followStateChanged:(NSNotification *)notify
 {
-    if ( [[notify.userInfo objectForKey:kNameKey] isEqualToString:self.videoInfoView.item.name ])
-    {
-        self.videoInfoView.item.followed = [[notify.userInfo objectForKey:kFollow] boolValue];
-    }
+    
 }
 
 #pragma mark - keyboard change
@@ -574,7 +565,7 @@
     }
     if ( livePrepareView.hidden || !livePrepareView )
     {
-        self.bottomBtnContainerView.hidden = NO;
+        self.bottomBtnContainerView.hidden =YES;
     }
 }
 
@@ -602,17 +593,17 @@
 {
     if ( userModel.imuser == nil )
     {
-        [CCProgressHUD showError:kE_GlobalZH(@"failChat")];
+        [EVProgressHUD showError:kE_GlobalZH(@"failChat")];
         return;
     }
-    [CCAppSetting shareInstance].appstate = CCEasyvaasAppStateLiving;
-    EVChatViewController *chatVC = [[EVChatViewController alloc] init];
-    EVNotifyConversationItem *conversationItem = [[EVNotifyConversationItem alloc] init];
-    conversationItem.userModel = userModel;
-    conversationItem.conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:userModel.imuser conversationType:eConversationTypeChat];
-    chatVC.conversationItem = conversationItem;
-    [self configurationNavigationBar];
-    [self.navigationController pushViewController:chatVC animated:YES];
+//    [EVAppSetting shareInstance].appstate = EVEasyvaasAppStateLiving;
+//    EVChatViewController *chatVC = [[EVChatViewController alloc] init];
+//    EVNotifyConversationItem *conversationItem = [[EVNotifyConversationItem alloc] init];
+//    conversationItem.userModel = userModel;
+//    conversationItem.conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:userModel.imuser conversationType:eConversationTypeChat];
+//    chatVC.conversationItem = conversationItem;
+//    [self configurationNavigationBar];
+//    [self.navigationController pushViewController:chatVC animated:YES];
 }
 
 // 跳转个人中心
@@ -628,18 +619,11 @@
 - (void)configurationNavigationBar
 {
     UINavigationBar *navigationBar = self.navigationController.navigationBar;
-    [navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[CCAppSetting shareInstance].titleColor}];
-    navigationBar.tintColor = [CCAppSetting shareInstance].titleColor;
-    navigationBar.barTintColor = [UIColor colorWithHexString:kGlobalNaviBarBgColorStr];
+    [navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor evMainColor]}];
+    navigationBar.tintColor = [UIColor evMainColor];
+    navigationBar.barTintColor = [UIColor evNaviBarBgColor];
 }
 
-
-#pragma mark - ***********      Networks 🌐       ***********
-//获取管理员列表
-- (void)addUpManagerUserData
-{
-   
-}
 
 #pragma mark - private method
 
@@ -647,7 +631,7 @@
 {
     if ( [self.name isEqualToString:userModel.name] )
     {
-        [CCProgressHUD showError:kE_GlobalZH(@"not_follow_self") toView:self.view];
+        [EVProgressHUD showError:kE_GlobalZH(@"not_follow_self") toView:self.view];
         return;
     }
     FollowType type = userModel.followed ? unfollow : follow;
@@ -693,11 +677,6 @@
 // 加载更多评论
 - (void)loadMoreComments
 {
-//    if ( self.dataVC.chatServer.loadingMoreComments )
-//    {
-//        return;
-//    }
-    
     NSInteger commentid = 0; // 开始下一项的评论
     if ( commentid == 0 )
     {
@@ -709,15 +688,13 @@
 // 展示用户信息
 - (void)showUserInfoWithName:(NSString *)name
 {
-    [_videoInfoView close];
     if ( self.floatView.hidden == NO )
     {
         return;
     }
     if ( [self.name isEqualToString:name] )
     {
-        // delete by 佳南
-//        [CCProgressHUD showError:kE_GlobalZH(@"is_self") toView:self.view];
+        [EVProgressHUD showError:kE_GlobalZH(@"is_self") toView:self.view];
         return;
     }
     
@@ -728,16 +705,16 @@
     
     [self.engine GETBaseUserInfoWithUname:name start:nil fail:^(NSError *error) {
         NSString *message = nil;
-        message = k_REQUST_FAIL;
-        [CCProgressHUD showError:message toView:wself.view];
+        message = kE_GlobalZH(@"request_fail_again");
+        [EVProgressHUD showError:message toView:wself.view];
     } success:^(NSDictionary *modelDict) {
-        CCLog(@"%@", modelDict);
-        [CCProgressHUD hideHUDForView:wself.view];
+        EVLog(@"%@", modelDict);
+        [EVProgressHUD hideHUDForView:wself.view];
         EVUserModel *model = [EVUserModel objectWithDictionary:modelDict];
         model.is_current_user = [model.name isEqualToString:wself.name];
         wself.floatView.userModel = model;
     } sessionExpire:^{
-        [CCProgressHUD hideHUDForView:wself.view];
+        [EVProgressHUD hideHUDForView:wself.view];
         [wself sessionExpireAndRelogin];
     }];
 }
@@ -747,117 +724,43 @@
 - (void)liveShareViewDidHidden
 {
     self.commentTableView.hidden = NO;
-    self.bottomBtnContainerView.hidden = NO;
+    self.bottomBtnContainerView.hidden = YES;
     self.recordControlView.hidden = NO;
     [self.contacter boardCastEvent:AUDIENCE_SHAREVIEW_STATECHANGE withParams:@{AUDIENCE_SHAREVIEW_STATECHANGE : @YES}];
 }
 
 #pragma mark - CCAudienceViewDelegate
 - (void)audienceInfoView:(EVVideoTopView *)view
-              didClicked:(CCAudienceInfoViewButtonType)buttonType
+              didClicked:(EVAudienceInfoViewButtonType)buttonType
 {
     [self audienceDidClicked:buttonType];
+}
+
+- (void)liveTopViewButtonType:(EVHVLiveTopViewType)type button:(UIButton *)button
+{
+    [self topViewButtonType:type button:button];
+}
+
+- (void)topViewButtonType:(EVHVLiveTopViewType)type button:(UIButton *)button
+{
+    
 }
 
 #pragma mark - CCAudienceChatTextViewDelegate
 - (void)audienceChatTextViewDidClickSendButton:(EVAudienceChatTextView *)textView
 {
-    EVLoginInfo *loginInfo = [EVLoginInfo localObject];
-    NSString *commentString = [textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    if (self.danmuSwitch.selected) {
-        if ( commentString.length == 0 )
-        {
-            [CCProgressHUD showError:kE_GlobalZH(@"not_danmu_content")];
-            return;
-        }
-        
-        if (textView.textView.emojiStringLength > 30)
-        {
-            [CCProgressHUD showError:kE_GlobalZH(@"not_length_danmu_content")];
-            return;
-        }
-        [textView emptyText];
-        self.bottomBtnContainerView.hidden = NO;
-        self.chatTextView.bottomView.hidden = NO;
-
-        
-        NSDictionary *commentFormat = [NSDictionary dictionaryWithObjectsAndKeys:loginInfo.nickname,EVMessageKeyNk,loginInfo.logourl,EVMessageKeyLg,loginInfo.name,EVMessageKeyNm, nil];
-        NSMutableDictionary *commentJoin = [NSMutableDictionary dictionaryWithObjectsAndKeys:commentFormat,EVMessageKeyExbr, nil];
-        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:commentJoin options:NSJSONWritingPrettyPrinted error:nil];
-        NSString *jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-        
-        [[EVMessageManager shareManager] sendMessage:commentString userData:jsonString toTopic:self.topicVid result:^(BOOL isSuccess, EVMessageErrorCode errorCode) {
-            if (isSuccess) {
-                
-                CCLog(@"sendmessagesuccess ------------");
-            }else{
-                
-                CCLog(@"errorCode ------------------ %ld",errorCode);
-            }
-        }];
    
-        
-    } else {
-        if ( commentString.length == 0 )
-        {
-            [CCProgressHUD showError:kE_GlobalZH(@"comment_not_nil")];
-            return;
-        }
-        
-        if (textView.textView.emojiStringLength > 60)
-        {
-            [CCProgressHUD showError:kE_GlobalZH(@"comment_not_nil_length")];
-            return;
-        }
-        [textView emptyText];
-        self.bottomBtnContainerView.hidden = NO;
-        self.chatTextView.bottomView.hidden = NO;
-        if ( commentString && self.replayComment.reply_nickname)
-        {
-            if ( [commentString cc_containString:self.replayComment.reply_nickname] )
-            {
-                NSString *replacyStr  = [NSString stringWithFormat:@"@%@",self.replayComment.reply_nickname];
-                commentString = [commentString stringByReplacingOccurrencesOfString:replacyStr withString:@""];
-            }
-          
-            if ( [commentString isEqualToString:@""] || commentString == nil)
-            {
-                 self.replayComment.reply_nickname = nil;
-                [CCProgressHUD showError:@"回复内容不能为空"];
-                return;
-            }
-        }
-        
-        
-        NSDictionary *commentFormat = [NSDictionary dictionaryWithObjectsAndKeys:loginInfo.nickname,EVMessageKeyNk,self.replayComment.reply_name,EVMessageKeyRnm,self.replayComment.reply_nickname,EVMessageKeyRnk, nil];
-        NSMutableDictionary *commentJoin = [NSMutableDictionary dictionaryWithObjectsAndKeys:commentFormat,EVMessageKeyExct, nil];
-        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:commentJoin options:NSJSONWritingPrettyPrinted error:nil];
-        NSString *jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-        
-        [[EVMessageManager shareManager] sendMessage:commentString userData:jsonString toTopic:self.topicVid result:^(BOOL isSuccess, EVMessageErrorCode errorCode) {
-            if (isSuccess) {
-                self.replayComment.reply_nickname = nil;
-                CCLog(@"sendmessagesuccess ------------");
-            }else{
-                
-                CCLog(@"errorCode ------------------ %ld",errorCode);
-            }
-        }];
-        
-       
-//        [self.dataVC sendCommentWithCommentString:commentString];
-        
-    }
 }
 
-- (void)modifyUserModel:(EVUserModel *)userModel
+- (void)modifyFollowUser:(BOOL)follow
 {
-    if (userModel.followed == NO) {
-        self.AudienceViewConstraint.constant = 143;
-    } else {
+    if (follow == NO) {
+       self.AudienceViewConstraint.constant = 143;
+    }else {
         self.AudienceViewConstraint.constant = 100;
     }
 }
+
 #pragma mark - floating view delegate
 //这块在修改 添加管理员
 - (void)floatingView:(EVFloatingView *)floatingView clickButton:(UIButton *)button
@@ -865,7 +768,7 @@
     NSString *vid = self.vid;
     if ( vid == nil )
     {
-        [CCProgressHUD showError:kE_GlobalZH(@"living_data_loading") toView:self.view];
+        [EVProgressHUD showError:kE_GlobalZH(@"living_data_loading") toView:self.view];
         return;
     }
     NSInteger tag = button.tag;
@@ -877,13 +780,13 @@
             
             if ( userModel.name.length == 0 )
             {
-                [CCProgressHUD showError:kE_GlobalZH(@"user_data_loading") toView:self.view];
+                [EVProgressHUD showError:kE_GlobalZH(@"user_data_loading") toView:self.view];
                 return;
             }
             [floatingView dismiss];
             self.reportedUser = userModel;
             if ([button.titleLabel.text isEqualToString:kE_GlobalZH(@"e_manager")]) {
-                NSArray *arrayCon = [self isManagerUserAndShutup:floatingView];
+                NSArray *arrayCon = [EVLiveWatchManager isManagerUserAndShutupName:self.floatView.userModel.name shutUsers:self.shutupUsers mngUsers:self.managerUser];
                 [[EVManagerUserView shareSheet]showAnimationViewArray:arrayCon reportTitle:kE_GlobalZH(@"e_manager") delegate:self];
             }else{
                 [self reportUserTitle:kE_GlobalZH(@"report_user")];
@@ -900,7 +803,7 @@
             comment.reply_name = userModel.name;
             if ( [EVLoginInfo checkCurrUserByName:comment.name] )
             {
-                [CCProgressHUD showError:kE_GlobalZH(@"not_give_me_send_comment") toView:self.view];
+                [EVProgressHUD showError:kE_GlobalZH(@"not_give_me_send_comment") toView:self.view];
                 return;
             }
             self.replayComment = comment;
@@ -950,39 +853,39 @@
     }
     [self.engine GETBaseUserInfoWithUname:model.name start:nil fail:^(NSError *error) {
         NSString *message = nil;
-        message = k_REQUST_FAIL;
-        [CCProgressHUD showError:message toView:wself.view];
+        message = kE_GlobalZH(@"request_fail_again");
+        [EVProgressHUD showError:message toView:wself.view];
     } success:^(NSDictionary *modelDict) {
-        CCLog(@"%@", modelDict);
-        [CCProgressHUD hideHUDForView:wself.view];
+        EVLog(@"%@", modelDict);
+        [EVProgressHUD hideHUDForView:wself.view];
         EVUserModel *model = [EVUserModel objectWithDictionary:modelDict];
         model.is_current_user = [model.name isEqualToString:wself.name];
         wself.floatView.userModel = model;
     } sessionExpire:^{
-        [CCProgressHUD hideHUDForView:wself.view];
+        [EVProgressHUD hideHUDForView:wself.view];
         [wself sessionExpireAndRelogin];
     }];
     [self.floatView show];
 }
 
 
-#pragma mark - CCPresentView delegate
+#pragma mark - EVPresentView delegate
 - (void)animationWithPresent:(EVStartGoodModel *)present time:(NSInteger)time mine:(BOOL)mine nickName:(NSString *)nickName
 {
     switch ( present.anitype )
     {
-        case CCPresentAniTypeStaticImage:
+        case EVPresentAniTypeStaticImage:
         {
             [self.presentAnimatingView startAnimationWithPresent:present];
             break;
         }
-        case CCPresentAniTypeZip:
+        case EVPresentAniTypeZip:
         {
             if ( mine )
             {
                 break;
             }
-            NSString *aniDir = [self presentAniDirectoryWithPath:PRESENTFILEPATH(present.ani)];
+//            NSString *aniDir = [self presentAniDirectoryWithPath:PRESENTFILEPATH(present.ani)];
             break;
         }
         default:
@@ -994,7 +897,7 @@
 - (void)riceAmoutViewDidSelect
 {
     EVFantuanContributionListVC *fantuanVC = [[EVFantuanContributionListVC alloc] init];
-    fantuanVC.name = self.videoInfoView.item.name;
+//    fantuanVC.name = self.videoInfoView.item.name;
     [self.navigationController pushViewController:fantuanVC animated:YES];
 }
 #pragma mark - CCCommentCellDelegate
@@ -1049,7 +952,6 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSInteger commentCount = self.comments.count;
-    CCLog(@"comment count = %zd", commentCount);
     return commentCount;
 }
 
@@ -1073,11 +975,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath
                                                                     *)indexPath
 {
-    EVComment *comment = self.comments[indexPath.row];
-    if ( [comment.commentflag isEqualToString:kE_GlobalZH(@"e_RedPack")] )
-    {
-        [self showRedEnvelopeViewWithComment:comment];
-    }
+//    EVComment *comment = self.comments[indexPath.row];
+//    if ( [comment.commentflag isEqualToString:kE_GlobalZH(@"e_RedPack")] )
+//    {
+//        [self showRedEnvelopeViewWithComment:comment];
+//    }
 }
 
 - (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath*)indexPath
@@ -1100,7 +1002,7 @@
     return comment.cellheigt;
 }
 
-#pragma mark - UICollection view
+#pragma mark - UICollection view delegete
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return self.audiences.count;
@@ -1124,7 +1026,7 @@
     EVAudience *audience = self.audiences[indexPath.item];
     if ( audience.guest )
     {
-        [CCProgressHUD showError:kE_GlobalZH(@"is_one_tourist") toView:self.view];
+        [EVProgressHUD showError:kE_GlobalZH(@"is_one_tourist") toView:self.view];
         return;
     }
     [self showUserInfoWithName:audience.name];
@@ -1155,7 +1057,6 @@
 {
     EVComment *newComments = [data firstObject];
     [self.comments insertObject:newComments atIndex:0];
-    NSLog(@"%ld----------------- commmet ",self.comments.count);
     [self.commentTableView reloadData];
     
     // 如果正处在底部，则继续滚动到底部
@@ -1206,7 +1107,6 @@
 
 - (void)sessionExpireAndRelogin
 {
-    [self.videoInfoView close];
     [[EVAlertManager shareInstance] performComfirmTitle:kTooltip message:kE_GlobalZH(@"fail_account_again_login") comfirmTitle:kOK WithComfirm:^{
         if ( self.navigationController.childViewControllers.count > 1 )
         {
@@ -1222,7 +1122,6 @@
 
 - (void)logoutVideoAndChatWithName:(NSString *)name
 {
-    [self.videoInfoView close];
     if ( self.navigationController.childViewControllers.count > 1 )
     {
         [self.navigationController popViewControllerAnimated:YES];
@@ -1237,11 +1136,6 @@
 - (void)danmuSwitchClick:(EVDanmuSwitch *)sender
 {
     sender.selected = !sender.selected;
-    if (sender.selected) {
-        self.chatTextView.textView.placeHoder = kE_GlobalZH(@"send_danmu");
-    } else {
-        self.chatTextView.textView.placeHoder = kE_GlobalZH(@"say_what");
-    }
 }
 
 - (void)sendChat
@@ -1249,57 +1143,6 @@
     [self audienceChatTextViewDidClickSendButton:self.chatTextView];
 }
 
-- (NSArray *)isManagerUserAndShutup:(EVFloatingView *)floatingView
-{
-    NSArray *arrayCon = [NSArray array];
-    
-    if (self.managerUser.count == 0) {
-        if (self.shutupUsers.count == 0) {
-            arrayCon =  @[kE_GlobalZH(@"setting_manager"),kE_GlobalZH(@"manager_list"),kE_GlobalZH(@"e_gag"),kE_GlobalZH(@"e_report")];
-        }else{
-            for (NSString *users in self.shutupUsers) {
-                if ([users isEqualToString:floatingView.userModel.name]) {
-                    arrayCon = @[kE_GlobalZH(@"setting_manager"),kE_GlobalZH(@"manager_list"),kE_GlobalZH(@"e_gag"),kE_GlobalZH(@"e_report")];
-                    break;
-                } else {
-                    arrayCon =  @[kE_GlobalZH(@"setting_manager"),kE_GlobalZH(@"manager_list"),kE_GlobalZH(@"e_gag"),kE_GlobalZH(@"e_report")];
-                }
-            }
-        }
-    }else{
-        for (NSString *managerUser in self.managerUser) {
-            if ([managerUser isEqualToString:floatingView.userModel.name]) {
-                if (self.shutupUsers.count == 0) {
-                    arrayCon =  @[kE_GlobalZH(@"cancel_manager"),kE_GlobalZH(@"manager_list"),kE_GlobalZH(@"e_gag"),kE_GlobalZH(@"e_report")];
-                    break;
-                }else {
-                    for (NSString *users in self.shutupUsers) {
-                        if ([users isEqualToString:floatingView.userModel.name]) {
-                            arrayCon = @[kE_GlobalZH(@"cancel_manager"),kE_GlobalZH(@"manager_list"),kE_GlobalZH(@"complete_gag"),kE_GlobalZH(@"e_report")];
-                            break;
-                        } else {
-                            arrayCon =  @[kE_GlobalZH(@"cancel_manager"),kE_GlobalZH(@"manager_list"),kE_GlobalZH(@"e_gag"),kE_GlobalZH(@"e_report")];
-                        }
-                    }
-                }
-            }else{
-                if (self.shutupUsers.count == 0) {
-                    arrayCon =  @[kE_GlobalZH(@"setting_manager"),kE_GlobalZH(@"manager_list"),kE_GlobalZH(@"e_gag"),kE_GlobalZH(@"e_report")];
-                }else {
-                    for (NSString *users in self.shutupUsers) {
-                        if ([users isEqualToString:floatingView.userModel.name]) {
-                            arrayCon = @[kE_GlobalZH(@"cancel_manager"),kE_GlobalZH(@"manager_list"),kE_GlobalZH(@"complete_gag"),kE_GlobalZH(@"e_report")];
-                            break;
-                        } else {
-                            arrayCon =  @[kE_GlobalZH(@"cancel_manager"),kE_GlobalZH(@"manager_list"),kE_GlobalZH(@"e_gag"),kE_GlobalZH(@"e_report")];
-                        }
-                    }
-                }
-            }
-        }
-    }
-    return arrayCon;
-}
 
 //举报用户
 - (void)reportWithReason:(UIButton *)reason reportTitle:(NSString *)reportTitle
@@ -1308,7 +1151,7 @@
         __weak typeof(self) weakself = self;
         if ( self.reportedUser )
         {
-            [CCProgressHUD showSuccess:kE_GlobalZH(@"process_report") toView:weakself.view];
+            [EVProgressHUD showSuccess:kE_GlobalZH(@"process_report") toView:weakself.view];
             [self.engine GETUserInformWithName:[self.reportedUser.name mutableCopy]
                                 description:[reason.currentTitle mutableCopy]
                                       start:nil
@@ -1321,7 +1164,7 @@
         
         
     }else if([reportTitle isEqualToString:kE_GlobalZH(@"report_video")]){
-        [CCProgressHUD showSuccess:kE_GlobalZH(@"process_report_video") toView:self.view];
+        [EVProgressHUD showSuccess:kE_GlobalZH(@"process_report_video") toView:self.view];
         [self.engine GETUserInformWithName:[self.reportedUser.name mutableCopy]
                                description:[reason.currentTitle mutableCopy]
                                      start:nil
@@ -1331,53 +1174,47 @@
     }else{
         
         if ([reason.currentTitle isEqualToString:kE_GlobalZH(@"setting_manager")]) {
-//            [self.engine GETUserManagerSetVid:self.vid name:self.reportedUser.name action:@"add" start:nil fail:^(NSError *error) {
-//                
-//            } success:^{
-//                [self.managerUser addObject:self.reportedUser.name];
-//                [self.tipsLabel showWithAnimationText:kE_GlobalZH(@"setting_success_manager")];
-//                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//                    [self.tipsLabel hiddenWithAnimation];
-//                });
-//            } sessionExpire:^(NSString *sessionStr) {
-//                if ([sessionStr isEqualToString:kE_GlobalZH(@"exceed_manager")]) {
-//                    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:kE_GlobalZH(@"manager_most") message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:kOK, nil];
-//                    [alertView show];
-//                }
-//            }];
+
+            [self.liveWatchManager settingManagerWithName:self.reportedUser.name vid:self.topicVid state:1];
+            
         }else if([reason.currentTitle isEqualToString:kE_GlobalZH(@"manager_list")]){
             EVMngUserListController *mngUserListV = [[EVMngUserListController alloc]init];
             mngUserListV.vid = self.vid;
+            mngUserListV.managerArray = self.managerUser;
             mngUserListV.delegate = self;
             [self.navigationController pushViewController:mngUserListV animated:YES];
         }else if ([reason.currentTitle isEqualToString:kE_GlobalZH(@"e_gag")]){
             for (NSString *users in self.managerUser) {
                 if ([users isEqualToString:self.reportedUser.name]) {
-                    [CCProgressHUD showError:kE_GlobalZH(@"not_limit")];
+                    [EVProgressHUD showError:kE_GlobalZH(@"not_limit")];
                     break;
                 }else{
                     [self.shutupUsers  addObject:self.reportedUser.name];
-                    [self  shutupAudienceWithAudienceName:self.reportedUser.name shutupState:1];
+                  
                 }
             }
-           
+            [self  shutupAudienceWithAudienceName:self.reportedUser.name shutupState:1];
         }else if ([reason.currentTitle isEqualToString:kE_GlobalZH(@"e_report")]){
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self reportUserTitle:kE_GlobalZH(@"report_user")];
             });
         }else if ([reason.currentTitle isEqualToString:kE_GlobalZH(@"cancel_manager")]){
-//            [self.engine GETUserManagerSetVid:self.vid name:self.reportedUser.name action:@"del" start:nil fail:nil success:^{
-//                [self.managerUser removeObject:self.reportedUser.name];
-//                [CCProgressHUD showSuccess:kE_GlobalZH(@"success_cancel")];
-//            } sessionExpire:^(NSString *sessionStr) {
-//                [CCProgressHUD showError:kE_GlobalZH(@"fail_cancel")];
-//            }];
+
+            [self.liveWatchManager settingManagerWithName:self.reportedUser.name vid:self.topicVid state:0];
         }else if([reason.currentTitle isEqualToString:kE_GlobalZH(@"complete_gag")]){
+             [self shutupAudienceWithAudienceName:self.reportedUser.name shutupState:0];
+        }else if([reason.currentTitle isEqualToString:kE_GlobalZH(@"e_kickuser")]){
             
-        }else{
+            [self.liveWatchManager kickUserWithName:self.reportedUser.name vid:self.topicVid state:1];
+        }else {
             
         }
     }
+}
+
+- (void)shutupAudienceWithAudienceName:(NSString *)name shutupState:(BOOL)shutup
+{
+    [self.liveWatchManager shutupAudienceWithAudienceName:name vid:self.topicVid shutupState:shutup];
 }
 
 - (NSString *)presentAniDirectoryWithPath:(NSString *)path
@@ -1401,7 +1238,7 @@
     EVLoginInfo *info = [EVLoginInfo localObject];
     if ( [comment.name isEqualToString:info.name] )
     {
-        [CCProgressHUD showError:kE_GlobalZH(@"not_reply_self_comment") toView:self.view];
+        [EVProgressHUD showError:kE_GlobalZH(@"not_reply_self_comment") toView:self.view];
         return;
     }
     self.sendComment = YES;
@@ -1411,7 +1248,7 @@
     replyComment.comment_id = comment.comment_id;
     replyComment.commentType = comment.commentType;
     replyComment.name = comment.name;
-    replyComment.reply_name = comment.reply_name;
+    replyComment.reply_name = comment.nickname;
     replyComment.nickname = comment.nickname;
     replyComment.content = comment.content;
     replyComment.prefixNameAttributeString = comment.prefixNameAttributeString;
@@ -1424,41 +1261,46 @@
     replyComment.reply_name = [comment.name mutableCopy];
     replyComment.replyNickNameString = [NSString stringWithFormat:@"@%@ ",comment.nickname];
     
+    self.replayComment = comment;
     [self.chatTextView setReplyString:replyComment.replyNickNameString];
     [self.chatTextView beginEdit];
 }
 
-- (void)audienceDidClicked:(CCAudienceInfoViewButtonType)btn
+- (void)audienceDidClicked:(EVAudienceInfoViewButtonType)btn
 {
     switch ( btn )
     {
-        case CCAudienceInfoFocus:
+        case EVAudienceInfoFocus:
             [self livingWatchFollowAnchor];
             break;
             
-        case CCAudienceInfoComment:
+        case EVAudienceInfoComment:
         {
             [self atAnchor];
             
-            [self.videoInfoView close];
+            
         }
             break;
 
-        case CCAudienceInfoMessage:
-            [self.videoInfoView close];
-            [self gotoLetterPageWithUserModel:self.videoInfoView.item.userModel];
+        case EVAudienceInfoMessage:
+//            [self gotoLetterPageWithUserModel:self.videoInfoView.item.userModel];
             break;
             
-        case CCAudienceInfoIndexPage:
-            [self.videoInfoView close];
-            [self showUserCenterWithName:self.videoInfoView.item.name fromLivingRoom:YES];
+        case EVAudienceInfoIndexPage:
+            
+//            [self showUserCenterWithName:self.videoInfoView.item.name fromLivingRoom:YES];
             break;
-        case CCAudienceInfoFollow:
+        case EVAudienceInfoFollow:
             [self livingWatchFollowAnchor];
             break;
         default:
             break;
     }
+}
+
+
+- (void)liveShareViewWillHided {
+    [self showShareView:NO];
 }
 
 - (void)sendDanmuSuccess
@@ -1467,12 +1309,12 @@
     [self.engine GETUserAssetsWithStart:^{
         
     } fail:^(NSError *error) {
-        CCLog(@"get asset fail");
+        EVLog(@"get asset fail");
     } success:^(NSDictionary *videoInfo) {
-        CCLog(@"get asset success");
+        EVLog(@"get asset success");
         [wself updateAssetWithInfo:videoInfo];
     } sessionExpire:^{
-        CCRelogin(wself);
+        EVRelogin(wself);
     }];
 }
 
@@ -1509,7 +1351,6 @@
 - (void)buySuccessWithEcoin:(NSInteger)ecoin
 {
     self.magicEmojiView.ecoin = ecoin;
-    
     // 存放到本地
     EVLoginInfo *info = [EVLoginInfo localObject];
     info.ecoin = ecoin;
@@ -1555,12 +1396,6 @@
 }
 
 #pragma mark - video view protocol
-- (void)updatePresents:(NSArray *)presents
-{
-    [self.presentView pushPresents:presents];
-}
-
-
 
 - (void)showRedEnvelopBottomRiceWithModel:(EVRedEnvelopeItemModel *)model
 {
@@ -1581,30 +1416,48 @@
 }
 
 
+- (void)audienceShutedupSuccess
+{
+    [EVProgressHUD showSuccess:@"设置成功"];
+}
+
+- (void)audienceShutedupFail
+{
+     [EVProgressHUD showSuccess:@"设置失败"];
+}
+
+
+//设置管理员成功
+- (void)settingManagerSuccess
+{
+      [EVProgressHUD showSuccess:@"设置成功"];
+}
+
+//设置管理员失败
+- (void)settingManagerFail
+{
+      [EVProgressHUD showSuccess:@"设置失败"];
+}
+
 #pragma mark - old chat server -------------------
 #pragma mark - xintiao
 
-- (void)updateMoreCommentFail
-{
-    [CCProgressHUD showError:kE_GlobalZH(@"fail_content_again") toView:self.view];
-    [self.commentTableView endFooterRefreshing];
-}
-
 - (void)audienceShutedup
 {
-    [CCProgressHUD showError:kE_GlobalZH(@"self_gag") toView:self.view];
+    [EVProgressHUD showError:kE_GlobalZH(@"self_gag") toView:self.view];
 }
 
-- (void)audienceShutedupDenied
+- (void)dismissShareView
 {
-    [CCProgressHUD showError:kE_GlobalZH(@"not_limit") toView:self.view];
+    [self.shareView dissmiss];
 }
+
 // 更新视频信息
 - (void)updateVideoInfo:(NSDictionary *)videoInfo
 {
     if ( videoInfo[AUDIENCE_UPDATE_PLAY_TIME] )
     {
-        self.videoInfoView.item.time = videoInfo[AUDIENCE_UPDATE_PLAY_TIME];
+//        self.videoInfoView.item.time = videoInfo[AUDIENCE_UPDATE_PLAY_TIME];
     }
     
 }
@@ -1669,16 +1522,6 @@
     return _comments;
 }
 
-- (UIView *)shareView
-{
-    if ( _shareView == nil )
-    {
-        _shareView = [EVLiveShareView liveShareViewToTargetView:self.view menuHeight:kShareViewHeight delegate:self];
-        [self.contentView bringSubviewToFront:_shareView];
-    }
-    return _shareView;
-}
-
 - (EVFloatingView *)floatView
 {
     if ( !_floatView )
@@ -1706,11 +1549,28 @@
     return _audiences;
 }
 
+- (EVLiveWatchManager *)liveWatchManager
+{
+    if (!_liveWatchManager) {
+        _liveWatchManager = [[EVLiveWatchManager alloc]init];
+        _liveWatchManager.protocol = self;
+        
+    }
+    return _liveWatchManager;
+}
+
+- (NSMutableArray *)linkArray
+{
+    if (!_linkArray) {
+        _linkArray = [NSMutableArray array];
+    }
+    return _linkArray;
+}
+
 - (void)setTopicVid:(NSString *)topicVid
 {
     _topicVid = topicVid;
     if (![topicVid isEqualToString:@""] &&  topicVid != nil && ![_anchorName isEqualToString:@""] && _anchorName != nil) {
-        NSLog(@"--------------------------- 获取直播的vid  %@",topicVid);
         [self connectMessageInVC:topicVid];
     }
 }
@@ -1722,201 +1582,210 @@
         [self connectMessageInVC:_topicVid];
     }
 }
-
+- (void)receiveRedDic:(NSDictionary *)dict
+{
+    @synchronized(self)
+    {
+        __weak typeof(self) wself = self;
+        
+        EVRedEnvelopeItemModel *model = [EVRedEnvelopeItemModel objectWithDictionary:dict];
+        model.htm = 10;
+        model.open = 1;
+        NSArray *tmp = [NSMutableArray arrayWithArray:wself.allRedEnvelope[model.hid]];
+        NSMutableArray *temp = [NSMutableArray array];
+        [temp addObjectsFromArray:tmp];
+        
+        if ( ![temp containsObject:model] )
+        {
+            if ( model.open == 0 )
+            {
+                [temp addObject:model];
+                [wself.allRedEnvelope setObject:temp forKey:model.hid];
+            }
+            else if ( model.open == 1 )
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    EVRedEnvelopeView *redEnvelopeView = [[EVRedEnvelopeView alloc] init];
+                    redEnvelopeView.currentModel = model;
+                    redEnvelopeView.transitionStyle = arc4random() % 4;
+                    redEnvelopeView.vid = wself.vid;
+                    // 红包提醒
+                    [wself showRedEnvelopBottomRiceWithModel:redEnvelopeView.currentModel];
+                    redEnvelopeView.grabRedEnveloCompleteHandler = ^(EVRedEnvelopeView *redEnvelopView, NSInteger ecoin) {
+                        [wself updateEcoinAfterGrabRedEnvelop:ecoin];
+                    };
+                
+                });
+            }
+        }
+        
+        [EVRedEnvelopeView setAllRedEnvelope:self.allRedEnvelope];
+    }
+}
 #pragma mark - 新的连接聊天服务器
 - (void)connectMessageInVC:(NSString *)topicVid
 {
-    engine = [[EVSDKLiveMessageEngine alloc]init];
-    engine.delegate = self;
-    engine.topicVid = topicVid;
+    
+}
+
+- (void)setMessageSDKEngine:(EVSDKLiveMessageEngine *)messageSDKEngine
+{
+    _messageSDKEngine = messageSDKEngine;
+    EVLog(@"connect message server --------  %@",self.vid);
+    _messageSDKEngine = [[EVSDKLiveMessageEngine alloc]init];
+    _messageSDKEngine.topicVid = self.vid;
+    _messageSDKEngine.delegate = self;
     EVLoginInfo *loginInfo = [EVLoginInfo localObject];
-    engine.userData = loginInfo.name;
-    [engine connectMessage];
-    engine.anchorName = _anchorName;
+    _messageSDKEngine.userData = loginInfo.name;
+    [_messageSDKEngine connectMessage];
+    _messageSDKEngine.anchorName = _anchorName;
 }
 
 - (void)successJoinTopic
 {
-    CCLog(@"加入话题成功");
+    EVLog(@"加入话题成功");
+    NSString *commentString = [NSString stringWithFormat:@"温馨提示：绿色直播。涉及色情，低俗，暴力等内容将被封停账号，文明直播，从我做起！"];
+    NSDictionary *commentFormat = [NSDictionary dictionaryWithObjectsAndKeys:@"",EVMessageKeyNk, nil];
+    NSMutableDictionary *commentJoin = [NSMutableDictionary dictionaryWithObjectsAndKeys:commentFormat,EVMessageKeyExbr, nil];
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:commentJoin options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+    
+    [[EVMessageManager shareManager] sendMessage:commentString userData:jsonString toTopic:self.topicVid result:^(BOOL isSuccess, EVMessageErrorCode errorCode) {
+        if (isSuccess) {
+            EVLog(@"sendmessagesuccess ------------");
+        }else{
+            EVLog(@"errorCode ------------------");
+        }
+    }];
 }
 
 - (void)joinTopicIDNil
 {
-    CCLog(@"topicidnil");
+    EVLog(@"topicidnil");
 }
 
-- (void)updateLiveMessageType:(EVSDKNewMessageType)type data:(NSMutableArray *)data
+- (void)updateMessageJoinUserData:(NSMutableArray *)data
 {
-    switch (type) {
-        case EVSDKNewMessageTypeNone: {
-            
-            break;
-        }
-        case EVSDKNewMessageTypeJoinUser: {
-            {
-                // 新进入的用户数组
-                NSArray <EVAudience *> *newAudiences = data;
-                self.joinView.nickName = [newAudiences.firstObject valueForKey:@"nickname"];
-                [self.enterAnimationView enterAnimation:newAudiences];
-            }
-            break;
-        }
-        case EVSDKNewMessageTypeLevelUser: {
-            {
-                CCLog(@"离开的数组");
-            }
-            break;
-        }
-        case EVSDKNewMessageTypeAllUser: {
-            {
-                self.audiencesList.userInteractionEnabled = NO;
-                self.audiences = data;
-                [self.audiencesList reloadData];
-                self.audiencesList.userInteractionEnabled = YES;
-                 self.videoInfoView.item.watchingCount = (NSInteger)(data.count);
-            }
-            break;
-        }
-        case EVSDKNewMessageTypeNewComment: {
-            {
-                [self handelCommnetsWithNewComment:data];
-            }
-            break;
-        }
-            
-        default: {
-        
-            break;
-        }
-            
-    }
-}
-- (void)updateLiveSpecialMessageType:(EVSDKSpecialMessageType)type dict:(NSDictionary *)dict comment:(NSString *)comment
-{
-    switch (type) {
-        case EVSDKSpecialMessageTypeNone: {
-            
-            break;
-        }
-        case EVSDKSpecialMessageTypeDanmu: {
-            
-            EVDanmuModel * model = [EVDanmuModel modelFromDictionary:dict comment:comment];
-            [self.contentView bringSubviewToFront:self.presentView];
-            [self.danmuManager receiveDanmu:model];
-            
-            break;
-        }
-        case EVSDKSpecialMessageTypeGift:
-        {
-            if (self.isSelfBrush == YES) {
-                self.isSelfBrush = NO;
-                break;
-            }
-            NSMutableDictionary *giftDict = [NSMutableDictionary dictionaryWithDictionary:dict];
-            NSMutableArray *array = [NSMutableArray arrayWithObject:giftDict];
-            EVStartGoodModel *startGoodM = [EVStartGoodModel modelWithDict:dict];
-            [self.presentView pushPresents:array];
-            [self.presentAnimatingView startAnimationWithPresent:startGoodM];
-        }
-            break;
-        case EVSDKSpecialMessageTypeRedPacket:
-        {
-            
-            @synchronized(self)
-            {
-                __weak typeof(self) wself = self;
+    [self handelCommnetsWithNewComment:data];
     
-                EVRedEnvelopeItemModel *model = [EVRedEnvelopeItemModel objectWithDictionary:dict];
-                model.htm = 10;
-                model.flag = 1;
-                    NSArray *tmp = [NSMutableArray arrayWithArray:wself.allRedEnvelope[model.hid]];
-                    NSMutableArray *temp = [NSMutableArray array];
-                    [temp addObjectsFromArray:tmp];
-                    
-                    if ( ![temp containsObject:model] )
-                    {
-                        if ( model.flag == 0 )
-                        {
-                            [temp addObject:model];
-                            [wself.allRedEnvelope setObject:temp forKey:model.hid];
-                        }
-                        else if ( model.flag == 1 )
-                        {
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                
-                                EVRedEnvelopeView *redEnvelopeView = [[EVRedEnvelopeView alloc] init];
-                                redEnvelopeView.currentModel = model;
-                                redEnvelopeView.transitionStyle = arc4random() % 4;
-                                redEnvelopeView.vid = wself.vid;
-                                redEnvelopeView.willShowHandler = ^(EVRedEnvelopeView *redEnvelopeView) {
-                                    // 红包提醒
-                                    [wself showRedEnvelopBottomRiceWithModel:redEnvelopeView.currentModel];
-                                };
-                                redEnvelopeView.grabRedEnveloCompleteHandler = ^(EVRedEnvelopeView *redEnvelopView, NSInteger ecoin) {
-                                    [wself updateEcoinAfterGrabRedEnvelop:ecoin];
-                                };
-                                
-                                [redEnvelopeView show];
-                            });
-                        }
-                    }
-                
-                [EVRedEnvelopeView setAllRedEnvelope:self.allRedEnvelope];
-            }
-        }
-            break;
-        default: {
-            break;
+}
+
+- (void)updateMessageAllUserData:(NSMutableArray *)data
+{
+    self.audiencesList.userInteractionEnabled = NO;
+    self.audiences = data;
+    [self.audiencesList reloadData];
+    self.audiencesList.userInteractionEnabled = YES;
+    self.watchNumL.text = [NSString stringWithFormat:@"%ld人观看",data.count];
+//    self.videoInfoView.itenm.watchingCount = (NSInteger)(data.count);
+}
+
+- (void)updateMessageNewCommentData:(NSMutableArray *)data
+{
+      [self handelCommnetsWithNewComment:data];
+}
+
+- (void)updateMessageShutUserData:(NSMutableArray *)data
+{
+    self.shutupUsers = [NSMutableArray arrayWithArray:data];
+    for (NSString *userName in data) {
+        if ([userName isEqualToString:[EVLoginInfo localObject].name]) {
+            [EVProgressHUD showSuccess:@"禁言成功"];
         }
     }
 }
+
+- (void)updateMessageKickUserData:(NSMutableArray *)data
+{
+    for (NSString *userName in data) {
+        if ([userName isEqualToString:[EVLoginInfo localObject].name]) {
+            self.isKickSelf = YES;
+        }
+    }
+}
+
+- (void)updateMessageMngUserData:(NSMutableArray *)data
+{
+    self.managerUser = [NSMutableArray arrayWithArray:data];
+    
+    for (NSString *userName in data) {
+        if ([userName isEqualToString:[EVLoginInfo localObject].name]) {
+            [EVProgressHUD showSuccess:@"设置成功"];
+            self.floatView.isMng = YES;
+        }
+    }
+}
+
+- (void)updateMessageLinkDict:(NSDictionary *)dict comment:(NSString *)comment
+{
+
+}
+
+- (void)updateMessageRedPacketDict:(NSDictionary *)dict
+{
+     [self receiveRedDic:dict];
+}
+
+- (void)updateMessageGiftDict:(NSDictionary *)dict
+{
+    NSMutableDictionary *giftDict = [NSMutableDictionary dictionaryWithDictionary:dict];
+    NSMutableArray *array = [NSMutableArray arrayWithObject:giftDict];
+    EVStartGoodModel *startGoodM = [EVStartGoodModel modelWithDict:dict];
+    [self.giftAniView addStartGoodModel:startGoodM];
+    [self.presentView pushPresents:array];
+    [self.presentAnimatingView startAnimationWithPresent:startGoodM];
+}
+
+- (void)updateMessasgeDanmuDict:(NSDictionary *)dict comment:(NSString *)comment
+{
+    EVDanmuModel * model = [EVDanmuModel modelFromDictionary:dict comment:comment];
+    [self.contentView bringSubviewToFront:self.presentView];
+    [self.danmuManager receiveDanmu:model];
+}
+
 
 - (void)updateLiveStatus:(BOOL)status
 {
-    NSLog(@"--------------------------------------end  ---------------------------");
     self.livingStatus = status;
 }
 
-- (void)updateLiveDataType:(EVSDKLiveDataType)type count:(long long)count
+
+- (void)updateMessageLoveCount:(long long)loveCount
 {
-    switch (type) {
-        case EVSDKLiveDataTypeNone: {
-            
-            break;
-        }
-        case EVSDKLiveDataTypeLoveCount: {
-            self.like_count = count;
-                if ( count > MAX_IMAGE_COUNT )
-                {
-                    count = MAX_IMAGE_COUNT;
-                }
-            
-                __weak typeof(self) wself = self;
-                NSTimeInterval time = 0.5;
-                for (NSInteger i = 0; i < count; i++)
-                {
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(time * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                        [wself.loveView starAnimation];
-                    });
-                    time += 0.1;
-                }
-            break;
-        }
-        case EVSDKLiveDataTypeWatchingCount: {
-            
-            break;
-        }
-        case EVSDKLiveDataTypeWatchedCount: {
-            self.watch_count = count;
-            break;
-        }
-        default: {
-        
-        
-            break;
-        }
-    }
 }
 
 
+- (void)updateMessageWatchingCount:(long long)watchingCount
+{
+    EVLog(@"----- watchingcount -------  %lld",watchingCount);
+    if (self.watching_count > 0) {
+        long long upRice = watchingCount - self.watch_count;
+        self.growwatching_count = upRice+self.growwatching_count;
+    }
+    self.watchNumL.text = [NSString stringWithFormat:@"%lld人观看",watchingCount];
+    self.watching_count = watchingCount;
+}
+
+- (void)updateMessageRiceRoll:(long long)riceRoll
+{
+    if (riceRoll > self.huoyanbi && self.huoyanbi > 0) {
+         long long upRice = riceRoll - self.huoyanbi;
+        self.growHuoyanbi = upRice+self.growHuoyanbi;
+        EVLog(@"huoyan  ----  %lld",self.growHuoyanbi);
+    }
+    self.huoyanbi = riceRoll;
+    EVLog(@"000=----- huoyanbi -------  %lld",riceRoll);
+    self.hvBeanLabel.text = [NSString stringWithFormat:@"火眼币 %lld",riceRoll];
+}
+
+- (void)updateMessageWatchedCount:(long long)watchedCount
+{
+    EVLog(@"watchcount-----------------  %lld",watchedCount);
+    if (self.huoyanbi > 0) {
+        long long upRice = watchedCount - self.watch_count;
+        self.growwatch_count = upRice+self.growwatch_count;
+    }
+    self.watch_count = watchedCount;
+}
 @end

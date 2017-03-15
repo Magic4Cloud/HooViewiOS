@@ -30,7 +30,7 @@
     EVNetWorkRequest *request = [EVNetWorkRequest netWorkRequestURLString:urlString];
     request.getParams = params;
     urlString = request.urlString;
-#ifdef CCDEBUG
+#ifdef EVDEBUG
     if ( [urlString hasPrefix:@"https"] )
     {
     
@@ -48,7 +48,7 @@
 + (NSString *)fullURLStringWithURI:(NSString *)uriString
                             params:(NSMutableDictionary *)params
 {
-    return [self urlStringWithHost:CCVideoBaseURL
+    return [self urlStringWithHost:EVVideoBaseURL
                          uriString:uriString
                             params:params];
 }
@@ -58,7 +58,7 @@
 + (NSString *)httpsFullURLStringWithURI:(NSString *)uriString
                                  params:(NSMutableDictionary *)params
 {
-    return [self urlStringWithHost:CCVideoBaseHTTPSURL
+    return [self urlStringWithHost:EVVideoBaseHTTPSURL
                          uriString:uriString
                             params:params];
 }

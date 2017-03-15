@@ -21,7 +21,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *introduction;
 @property (weak, nonatomic) IBOutlet UIButton *changeState;
 @property (strong, nonatomic) EVBaseToolManager *engine;
-@property (weak, nonatomic) UIImageView *vipImageView;
+
+
+@property (weak, nonatomic) IBOutlet UIImageView *vipImageView;
 
 @end
 
@@ -32,8 +34,13 @@
 - (void)awakeFromNib
 {
     [self handleButtonstyle:_avatar];
-    [_changeState setBackgroundImage:[UIImage imageNamed:@"home_person_icon_add"] forState:UIControlStateNormal];
-    [self addVipImageView];
+//    [_changeState setBackgroundImage:[UIImage imageNamed:@"home_person_icon_add"] forState:UIControlStateNormal];
+//    [self addVipImageView];
+    self.changeState.layer.cornerRadius = 12.5;
+    self.changeState.layer.masksToBounds = YES;
+    self.changeState.backgroundColor = [UIColor  evMainColor];
+    
+    
 }
 
 - (void)dealloc
@@ -48,15 +55,6 @@
 {
     if (buttonIndex == 0)
     {
-        __weak typeof(self) weakself = self;
-        [self.engine GETFollowUserWithName:self.model.name followType:!self.model.followed start:nil fail:^(NSError *error) {
-            
-        } success:^{
-            weakself.model.followed = !weakself.model.followed;
-            self.changeState.selected = weakself.model.followed;
-        } essionExpire:^{
-            
-        }];
     }
 }
 
@@ -64,30 +62,44 @@
 
 - (IBAction)avatarClick:(UIButton *)sender
 {
-    if (self.iconClick)
-    {
-        self.iconClick(self.model);
-    }
+//    if (self.iconClick)
+//    {
+//        self.iconClick(self.model);
+//    }
 }
 
 - (IBAction)changeState:(UIButton *)sender
 {
-    if (self.model.followed)
+    if (self.iconClick)
     {
-        UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:kE_GlobalZH(@"provoke_unhappy_cancel_follow") delegate:self cancelButtonTitle:kCancel destructiveButtonTitle:kOK otherButtonTitles:nil, nil];
-        [sheet showInView:self.superview];
+        self.iconClick(self.model);
     }
-    else
-    {
-        __weak typeof(self) weakself = self;
-        [self.engine GETFollowUserWithName:self.model.name followType:!self.model.followed start:nil fail:^(NSError *error) {
-        } success:^{
-            weakself.model.followed = !weakself.model.followed;
-            self.changeState.selected = weakself.model.followed;
-        } essionExpire:^{
-            
-        }];
-    }
+    __weak typeof(self) weakself = self;
+    [self.engine GETFollowUserWithName:self.model.name followType:!self.model.followed start:nil fail:^(NSError *error) {
+        
+    } success:^{
+        weakself.model.followed = !weakself.model.followed;
+        self.changeState.selected = weakself.model.followed;
+        [EVProgressHUD showSuccess:@"已取消关注"];
+    } essionExpire:^{
+        
+    }];
+//    if (self.model.followed)
+//    {
+//        UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:kE_GlobalZH(@"provoke_unhappy_cancel_follow") delegate:self cancelButtonTitle:kCancel destructiveButtonTitle:kOK otherButtonTitles:nil, nil];
+//        [sheet showInView:self.superview];
+//    }
+//    else
+//    {
+//        __weak typeof(self) weakself = self;
+//        [self.engine GETFollowUserWithName:self.model.name followType:!self.model.followed start:nil fail:^(NSError *error) {
+//        } success:^{
+//            weakself.model.followed = !weakself.model.followed;
+//            self.changeState.selected = weakself.model.followed;
+//        } essionExpire:^{
+//            
+//        }];
+//    }
 }
 
 #pragma mark - private methods
@@ -114,7 +126,9 @@
 - (void)setModel:(EVFanOrFollowerModel *)model{
         _model = model;
         [self.avatar cc_setBackgroundImageURL:self.model.logourl forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:kUserLogoPlaceHolder]];
+    
         self.vipImageView.hidden = !self.model.vip;
+    
         if ( ![self.model.remarks isEqualToString:@""] && self.model.remarks )
         {
             self.name.text = self.model.remarks;
@@ -124,20 +138,9 @@
             self.name.text = self.model.nickname;
         }
         self.introduction.text = self.model.signature && ![self.model.signature isEqualToString:@""] ? self.model.signature : kDefaultSignature_other;
-        self.changeState.selected = self.model.followed;
+        self.changeState.hidden =    self.type == FOCUSES ? NO : YES;
     
-        NSString *selectedImageName = nil;
-        if (self.model.faned) {
-            selectedImageName = @"home_person_icon__add_eachother";
-        } else {
-            selectedImageName = @"home_person_icon__add_success";
-        }
-        [_changeState setBackgroundImage:[UIImage imageNamed:selectedImageName] forState:UIControlStateSelected];
-        if ([EVLoginInfo checkCurrUserByName:self.model.name]) {
-            _changeState.hidden = YES;
-        } else {
-            _changeState.hidden = NO;
-        }
+    
 }
 
 - (EVBaseToolManager *)engine

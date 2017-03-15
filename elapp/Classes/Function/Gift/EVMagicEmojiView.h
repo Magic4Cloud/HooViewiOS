@@ -12,34 +12,22 @@
 @protocol CCMagicEmojiViewDelegate <NSObject>
 
 @optional
-/**
- *  切换魔法表情的种类
- *
- *  @param type 表情种类
- */
-- (void)switchMagicEmojiKindMagicEmojiView:(EVMagicEmojiView *)magicEmojiView type:(CCPresentType)type;
+/** 切换魔法表情的种类 */
+- (void)switchMagicEmojiKindMagicEmojiView:(EVMagicEmojiView *)magicEmojiView type:(EVPresentType)type;
 
-/**
- *  发送魔法表情
- *
- *  @param magicEmoji 被发送的表情
- */
+/** 发送魔法表情 */
 - (void)sendMagicEmojiWithEmoji:(EVStartGoodModel *)magicEmoji num:(NSInteger)numOfEmoji;
 
 /** 薏米数不足 */
 - (void)yimiNotEnough;
 
-/** 云币数不足 */
+/** 火眼豆数不足 */
 - (void)yibiNotEnough;
 
-/** 充值云币 */
+/** 充值火眼豆 */
 - (void)rechargeYibi;
 
-/**
- *  连发时候，发送礼物数量改变
- *
- *  @param number 礼物的连发数量
- */
+/** 连发时候 发送礼物数量改 */
 - (void)changeSendAmountOfPresentsWithNumber:(NSInteger)number present:(EVStartGoodModel *)present;
 
 /** 礼物视图隐藏 */
@@ -66,7 +54,7 @@
 /** 薏米数 */
 @property (nonatomic, assign) NSInteger barley;
 
-/** 云币数 */
+/** 火眼豆数 */
 @property (nonatomic, assign) NSInteger ecoin;
 
 /** 展示本视图 */

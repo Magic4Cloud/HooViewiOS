@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "EVAudioOnlyBackGroundView.h"
 
-@class EVLivePrePareView;
+@class EVLivePrePareView,EVLiveTitleTextView;
 
 // 按钮的类型 －> tag
 typedef NS_ENUM(NSInteger, EVLivePrePareViewButtonType)
@@ -19,7 +18,6 @@ typedef NS_ENUM(NSInteger, EVLivePrePareViewButtonType)
     EVLivePrePareViewButtonLiveStart,
     EVLivePrePareViewButtonToggleCamera,
     EVLivePrePareViewButtonCaptureAnImage,
-    EVLivePrePareViewButtonBeauty,
     EVLivePrePareViewButtonPermission,
     EVLivePrePareViewButtonCategory,
 };
@@ -30,12 +28,13 @@ typedef NS_ENUM(NSInteger, EVLivePrePareViewShareType) {
     EVLivePrePareViewShareSina,
     EVLivePrePareViewShareWeixin,
     EVLivePrePareViewShareFriendCircle,
-    EVLivePrePareViewShareQQ
+    EVLivePrePareViewShareQQ,
+    EVLivePrePareViewShareQQZone
 };
 
 
 
-@protocol CCLivePrePareViewDelegate <NSObject>
+@protocol EVLivePrePareViewDelegate <NSObject>
 
 @optional
 - (void)livePrePareView:(EVLivePrePareView *)view didClickButton:(EVLivePrePareViewButtonType)type;
@@ -45,9 +44,12 @@ typedef NS_ENUM(NSInteger, EVLivePrePareViewShareType) {
 
 // 准备界面
 @interface EVLivePrePareView : UIView
+@property (nonatomic,weak) EVLiveTitleTextView *editView;
 
 @property (nonatomic, weak) UIButton *categoryButton;
+@property (nonatomic,weak) UIButton *startLiveButton;
 
+@property (nonatomic, weak) UITextField *editTextFiled;
 /** 分享类型 */
 @property (nonatomic,assign) EVLivePrePareViewShareType currShareTye;
 
@@ -60,6 +62,7 @@ typedef NS_ENUM(NSInteger, EVLivePrePareViewShareType) {
 @property (nonatomic,copy) NSString *title;
 @property ( strong, nonatomic ) UIImage *coverImage; /**< 封面图片 */
 
+
 - (void)startCaptureImage;
 - (void)endCaptureImage;
 
@@ -69,6 +72,6 @@ typedef NS_ENUM(NSInteger, EVLivePrePareViewShareType) {
 - (void)disMiss;
 
 /** 代理 */
-@property (nonatomic, weak) id<CCLivePrePareViewDelegate>delegate;
+@property (nonatomic, weak) id<EVLivePrePareViewDelegate>delegate;
 
 @end

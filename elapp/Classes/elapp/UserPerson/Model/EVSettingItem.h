@@ -7,7 +7,7 @@
 //
 
 
-#import "CCBaseObject.h"
+#import "EVBaseObject.h"
 
 typedef enum : NSUInteger {
     EVSettingItemTypeDefault = 0,                    /**< show a cell with nothing */
@@ -22,7 +22,7 @@ typedef enum : NSUInteger {
     EVSettingItemTypeScore,                          /**< 积分 */
 } EVSettingItemType;
 
-@interface EVSettingItem : CCBaseObject
+@interface EVSettingItem : EVBaseObject
 
 @property (copy, nonatomic) NSString *iconName;         /**< 图标名称 */
 @property (copy, nonatomic) NSString *title;            /**< 名称 */

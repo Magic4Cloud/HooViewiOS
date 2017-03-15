@@ -8,7 +8,7 @@
 
 #import <AFNetworking.h>
 
-typedef NS_ENUM(NSInteger, CCNetworkStatus) {
+typedef NS_ENUM(NSInteger, EVNetworkStatus) {
     UnknowNetwork = -1,//不知名网络
     WithoutNetwork = 0,//没有网络
     WifiNetwork = 1,   //WIFI网络
@@ -30,7 +30,7 @@ typedef NS_ENUM(NSInteger, CCNetworkStatus) {
 
 @interface EVNetWorkStateManger : AFNetworkReachabilityManager
 
-@property (nonatomic, assign) CCNetworkStatus currNetWorkState;
+@property (nonatomic, assign) EVNetworkStatus currNetWorkState;
 
 @property (nonatomic,copy, readonly) NSString *netStateWorkDes;
 

@@ -101,7 +101,7 @@
     [textFieldButton addTarget:self action:@selector(buttonDidClicked) forControlEvents:UIControlEventTouchUpInside];
     
 //    UIView *bottomLine = [[UIView alloc] init];
-//    bottomLine.backgroundColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+//    bottomLine.backgroundColor = [UIColor evGlobalSeparatorColor];
 //    [self.contentView addSubview:bottomLine];
 //    self.bottomLine = bottomLine;
     
@@ -116,12 +116,12 @@
 
 - (void)setUpNotification
 {
-    [CCNotificationCenter addObserver:self selector:@selector(textChanged) name:UITextFieldTextDidChangeNotification object:nil];
+    [EVNotificationCenter addObserver:self selector:@selector(textChanged) name:UITextFieldTextDidChangeNotification object:nil];
 }
 
 - (void)removeNotification
 {
-    [CCNotificationCenter removeObserver:self];
+    [EVNotificationCenter removeObserver:self];
 }
 
 - (void)textChanged
@@ -233,7 +233,7 @@
         self.assistTextField.text = @"";
     }
     [self textChanged];
-    CCLog(@"backspace pressed!");
+    EVLog(@"backspace pressed!");
 }
 
 - (void)setPlaceHolder:(NSString *)placeHolder

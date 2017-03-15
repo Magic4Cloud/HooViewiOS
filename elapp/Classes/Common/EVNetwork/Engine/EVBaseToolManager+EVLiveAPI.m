@@ -14,6 +14,7 @@
 #import "EVHttpURLManager.h"
 
 
+
 @implementation EVBaseToolManager (EVLiveAPI)
 /* 支付付费的直播 */
 - (void)GETLivePayWithVid:(NSString *)vid start:(void(^)())startBlock fail:(void(^)(NSError *error))failBlock successBlock:(void(^)(NSDictionary *retinfo))successBlock sessionExpire:(void(^)())sessionExpireBlock {
@@ -32,46 +33,12 @@
     params[@"vid"] = vid;
     
     NSString *urlString = [EVHttpURLManager httpsFullURLStringWithURI:EVVideoLivePayAPI
-                                                               params:params];
+                                                               params:nil];
     
-    [self requestWithURLString:urlString
-                         start:startBlock
-                          fail:failBlock
-                       success:^(NSData *data)
-     {
-         if ( data )
-         {
-             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:0
-                                                                    error:NULL];
-             if ( [info[kRetvalKye] isEqualToString:kSessionIdExpireValue] )
-             {
-                 if ( sessionExpireBlock )
-                 {
-                     sessionExpireBlock();
-                 }
-             }
-             else if ( [info[kRetvalKye] isEqualToString:kRequestOK] )
-             {
-                 if ( successBlock )
-                 {
-                     NSDictionary *videoInfo = info[kRetinfoKey];
-                     successBlock(videoInfo);
-                 }
-             }
-             else if ( failBlock )
-             {
-                 NSError *error = [[NSError alloc] initWithDomain:kBaseToolDomain
-                                                             code:-1
-                                                         userInfo:@{kCustomErrorKey: kE_GlobalZH(@"request_fail_again")}];
-                 failBlock(error);
-             }
-         }
-         else if (failBlock)
-         {
-             failBlock(nil);
-         }
-     }];
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+    
+    
+
 }
 
 
@@ -92,48 +59,12 @@
     params[kSessionIdKey] = sessionID;
     params[kVid] = vid;
     
-    //    NSString *urlString = [self fullURLStringWithURI:CCVideoDeletePastVideoAPI params:params];
-    
     NSString *urlString = [EVHttpURLManager httpsFullURLStringWithURI:EVVideoDeletePastVideoAPI
-                                                   params:params];
+                                                   params:nil];
     
-    [self requestWithURLString:urlString
-                         start:startBlock
-                          fail:failBlock
-                       success:^(NSData *data)
-     {
-         if ( data )
-         {
-             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:0
-                                                                    error:NULL];
-             if ( [info[kRetvalKye] isEqualToString:kSessionIdExpireValue] )
-             {
-                 if ( sessionExpireBlock )
-                 {
-                     sessionExpireBlock();
-                 }
-             }
-             else if ( [info[kRetvalKye] isEqualToString:kRequestOK] )
-             {
-                 if ( successBlock )
-                 {
-                     successBlock();
-                 }
-             }
-             else if ( failBlock )
-             {
-                 NSError *error = [[NSError alloc] initWithDomain:kBaseToolDomain
-                                                             code:-1
-                                                         userInfo:@{kCustomErrorKey: kE_GlobalZH(@"request_fail_again")}];
-                 failBlock(error);
-             }
-         }
-         else if (failBlock)
-         {
-             failBlock(nil);
-         }
-     }];
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+    
+
 }
 
 // 用于结束一个正在直播的接口http://115.29.109.121/mediawiki/index.php?title=Appdevstoplive
@@ -154,46 +85,10 @@
 
     
     NSString *urlString = [EVHttpURLManager fullURLStringWithURI:EVVideoStopLiveAPI
-                                              params:params];
+                                              params:nil];
     
-    [self requestWithURLString:urlString
-                         start:startBlock
-                          fail:failBlock
-                       success:^(NSData *data)
-     {
-         if ( data )
-         {
-             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:0
-                                                                    error:NULL];
-             if ( [info[kRetvalKye] isEqualToString:kSessionIdExpireValue] )
-             {
-                 if ( sessionExpireBlock )
-                 {
-                     sessionExpireBlock();
-                 }
-             }
-             else if ( [info[kRetvalKye] isEqualToString:kRequestOK] )
-             {
-                 if ( successBlock )
-                 {
-                     NSDictionary *videoInfo = info[kRetinfoKey];
-                     successBlock(videoInfo);
-                 }
-             }
-             else if ( failBlock )
-             {
-                 NSError *error = [[NSError alloc] initWithDomain:kBaseToolDomain
-                                                             code:-1
-                                                         userInfo:@{kCustomErrorKey:kE_GlobalZH(@"request_fail_again")}];
-                 failBlock(error);
-             }
-         }
-         else if (failBlock)
-         {
-             failBlock(nil);
-         }
-     }];
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+    
 }
 
 
@@ -220,50 +115,15 @@
         params[kSessionIdKey] = sessionID;
     }
     params[kNameKey] = name;
-    params[kDescription] = descp;
+    params[kDescriptionKey] = descp;
     
     NSString *urlString = [EVHttpURLManager fullURLStringWithURI:EVUserInformAPI
-                                              params:params];
+                                              params:nil];
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    CCLog(@"%@",urlString);
-    [self requestWithURLString:urlString
-                         start:startBlock
-                          fail:failBlock
-                       success:^(NSData *data)
-     {
-         if ( data )
-         {
-             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:0
-                                                                    error:NULL];
-             if ( [info[kRetvalKye] isEqualToString:kSessionIdExpireValue] )
-             {
-                 if ( sessionExpireBlock )
-                 {
-                     sessionExpireBlock();
-                 }
-             }
-             else if ( [info[kRetvalKye] isEqualToString:kRequestOK] )
-             {
-                 if ( successBlock )
-                 {
-                     successBlock();
-                 }
-             }
-             else if ( failBlock )
-             {
-                 failBlock(nil);
-             }
-         }
-         else if (failBlock)
-         {
-             failBlock(nil);
-         }
-     }];
+    EVLog(@"%@",urlString);
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+
 }
-
-
-
 
 - (void)GETLiveSendRedPacketWithVid:(NSString *)vid
                               ecoin:(NSInteger)ecoin
@@ -286,39 +146,13 @@
     params[@"amount"] = [NSString stringWithFormat:@"%zd", ecoin];
     params[kTitle] = greeting;
     NSString *urlString = [EVHttpURLManager httpsFullURLStringWithURI:EVAnchorSendPacket
-                                                   params:params];
-    
-    [self requestWithURLString:urlString
-                         start:startBlock
-                          fail:failBlock
-                       success:^(NSData *data)
-     {
-         if ( data )
-         {
-             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:0
-                                                                    error:NULL];
-             
-             if ( [info[kRetvalKye] isEqualToString:kRequestOK] )
-             {
-                 if ( successBlock )
-                 {
-                     successBlock(info[kRetinfoKey]);
-                 }
-             }
-             else if ( failBlock )
-             {
-                 failBlock([NSError cc_errorWithDictionary:info]);
-             }
-         }
-         else if (failBlock)
-         {
-             failBlock(nil);
-         }
-     }];
+                                                   params:nil];
+
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+
 }
 
-- (void)upLoadVideoThumbWithiImage:(UIImage *)image vid:(NSString *)vid fileparams:(NSMutableDictionary *)fileparams sessionExpire:(void(^)())sessionExpireBlock
+- (void)upLoadVideoThumbWithiImage:(UIImage *)image vid:(NSString *)vid fileparams:(NSMutableDictionary *)fileparams success:(void(^)(NSDictionary *dict))success sessionExpire:(void(^)())sessionExpireBlock
 {
     NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
     if ( sessionID == nil ) {
@@ -328,24 +162,19 @@
     params[kSessionIdKey] = sessionID;
     params[kVid] = vid;
     NSString *urlString = [EVHttpURLManager fullURLStringWithURI:EVVideoLogo
-                                                          params:params];
+                                                          params:nil];
     NSData *imgData = UIImageJPEGRepresentation(image, 0.5);
-    NSString *contentType = @"form/multipart";
+//    NSString *contentType = @"form/multipart";
     NSString *fileMineType = @"image/jpeg";
-    [self postWithURLString:urlString contentType:contentType params:fileparams fileData:imgData fileMineType:fileMineType fileName:vid start:^{
-        
-    } fail:^(NSError *error) {
-        
-    } success:^(NSData *data) {
-        NSJSONSerialization *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-        CCLog(@"upload thumb success%@",json);
-    }];
+    
+    [EVBaseToolManager POSTRequestWithUrl:urlString params:params fileData:imgData fileMineType:fileMineType fileName:@"file" success:success sessionExpireBlock:sessionExpireBlock failError:nil];
+    
 }
 
 
 
 
-- (NSString *)GETLivePreStartParams:(NSDictionary *)param
+- (void)GETLivePreStartParams:(NSDictionary *)param
                               Start:(void(^)())startBlock
                               fail:(void(^)(NSError *error))failBlock
                            success:(void(^)(NSDictionary *info))successBlock
@@ -354,147 +183,19 @@
     NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
     if ( sessionID == nil )
     {
-        return nil;
+        return;
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:param];
     params[kSessionIdKey] = sessionID;
     
     NSString *urlString = [EVHttpURLManager fullURLStringWithURI:EVLiveStartAPI
-                                                          params:params];
-    return  [self requestWithURLString:urlString
-                                 start:startBlock
-                                  fail:failBlock
-                               success:^(NSData *data)
-             {
-                 if ( data )
-                 {
-                     NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                          options:0
-                                                                            error:NULL];
-                     
-                     
-                     NSLog(@"infoo===============================  %@",info);
-                     if ( [info[kRetvalKye] isEqualToString:kRequestOK] )
-                     {
-                         NSString *extra = @"NULL";
-                         if ( info[kExtra] )
-                         {
-                             extra = info[kExtra];
-                         }
-                         
-                         if ( successBlock )
-                         {
-                             successBlock(info[kRetinfoKey]);
-                         }
-                     }
-                     else
-                     {
-                         NSString *message = kE_GlobalZH(@"noNetwork");
-                         if ( [info[kRetvalKye] isEqualToString:kSessionIdExpireValue] )
-                         {
-                             if ( sessionExpireBlock )
-                             {
-                                 sessionExpireBlock();
-                             }
-                         }
-                         else
-                         {
-                             if ( [info[kRetvalKye] isEqualToString:kE_USER_PHONE_NOT_EXISTS] )
-                             {
-                                 message = kE_USER_PHONE_NOT_EXISTS;
-                             }
-                             
-                             if ( failBlock )
-                             {
-                                 NSError *error = [NSError errorWithDomain:kBaseToolDomain
-                                                                      code:-1
-                                                                  userInfo:@{kCustomErrorKey : message}];
-                                 failBlock(error);
-                             }
-                         }
-                     }
-                 }
-                 else if ( failBlock )
-                 {
-                     failBlock(nil);
-                 }
-                 
-             }];
+                                                          params:nil];
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+
 }
 
 
-- (NSString *)GETLivePreStartStart:(void(^)())startBlock
-                       fail:(void(^)(NSError *error))failBlock
-                    success:(void(^)(NSDictionary *info))successBlock
-              sessionExpire:(void(^)())sessionExpireBlock
-{
-    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
-    if ( sessionID == nil )
-    {
-        return nil;
-    }
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[kSessionIdKey] = sessionID;
-    
-    NSString *urlString = [EVHttpURLManager fullURLStringWithURI:EVLiveStartAPI
-                                                          params:params];
-  return  [self requestWithURLString:urlString
-                         start:startBlock
-                          fail:failBlock
-                       success:^(NSData *data)
-     {
-         if ( data )
-         {
-             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:0
-                                                                    error:NULL];
-             if ( [info[kRetvalKye] isEqualToString:kRequestOK] )
-             {
-                 NSString *extra = @"NULL";
-                 if ( info[kExtra] )
-                 {
-                     extra = info[kExtra];
-                 }
-                
-                 if ( successBlock )
-                 {
-                     successBlock(info[kRetinfoKey]);
-                 }
-             }
-             else
-             {
-                 NSString *message = kE_GlobalZH(@"noNetwork");
-                 if ( [info[kRetvalKye] isEqualToString:kSessionIdExpireValue] )
-                 {
-                     if ( sessionExpireBlock )
-                     {
-                         sessionExpireBlock();
-                     }
-                 }
-                 else
-                 {
-                     if ( [info[kRetvalKye] isEqualToString:kE_USER_PHONE_NOT_EXISTS] )
-                     {
-                         message = kE_USER_PHONE_NOT_EXISTS;
-                     }
-                     
-                     if ( failBlock )
-                     {
-                         NSError *error = [NSError errorWithDomain:kBaseToolDomain
-                                                              code:-1
-                                                          userInfo:@{kCustomErrorKey : message}];
-                         failBlock(error);
-                     }
-                 }
-             }
-         }
-         else if ( failBlock )
-         {
-             failBlock(nil);
-         }
-         
-     }];
-}
+
 
 // http://115.29.109.121/mediawiki/index.php?title=Videosettitle
 - (void)GETVideosettitleWithVid:(NSString *)vid
@@ -515,46 +216,10 @@
     params[kTitle] = title;
     
     NSString *urlString = [EVHttpURLManager fullURLStringWithURI:EVLiveVideosettitleAPI
-                                              params:params];
-    //    urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    [self requestWithURLString:urlString
-                         start:startBlock
-                          fail:failBlock
-                       success:^(NSData *data)
-     {
-         if ( data )
-         {
-             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:0
-                                                                    error:NULL];
-             NSString *returnValue = info[kRetvalKye];
-             if ( [returnValue isEqualToString:kRequestOK] )
-             {
-                 if ( successBlock )
-                 {
-                     successBlock();
-                 }
-             }
-             else if ( [returnValue isEqualToString:kSessionIdExpireValue] )
-             {
-                 if ( sessionExpireBlock )
-                 {
-                     sessionExpireBlock();
-                 }
-             }
-             else if ( failBlock )
-             {
-                 NSError *error = [NSError errorWithDomain:kBaseToolDomain
-                                                      code:-1
-                                                  userInfo:@{kCustomErrorKey : [NSString stringWithFormat:@"更新视频标题失败,请稍后重试%@",returnValue]}];
-                 failBlock(error);
-             }
-         }
-         else if (failBlock)
-         {
-             failBlock(nil);
-         }
-     }];
+                                              params:nil];
+ 
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+
 }
 
 
@@ -564,69 +229,31 @@
                                  success:(void(^)(NSDictionary *videoInfo))successBlock
                            sessionExpire:(void(^)())sessionExpireBlock
 {
-    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    if ( sessionID )
-    {
-        params[kSessionIdKey] = sessionID;
-    }
-    
+//    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
+   
+//    if ( sessionID )
+//    {
+//        params[kSessionIdKey] = sessionID;
+//    }
+     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     if ( videoparams[kVid] )
     {
         params[kVid] = videoparams[kVid];
     }
-    if (videoparams[kPassword]) {
-        params[kPassword] = videoparams[kPassword];
-    }
-
-    
-    if (videoparams[kPermissionKey]) {
-        params[kPermissionKey] = videoparams[kPermissionKey];
-    }
-    
+//    if (videoparams[kPassword]) {
+//        params[kPassword] = videoparams[kPassword];
+//    }
+//
+//    
+//    if (videoparams[kPermissionKey]) {
+//        params[kPermissionKey] = videoparams[kPermissionKey];
+//    }
+//    
     NSString *urlString = [EVHttpURLManager fullURLStringWithURI:EVWatchUserstartwatchvideo
-                                              params:params];
-    [self requestWithURLString:urlString
-                         start:startBlock
-                          fail:failBlock
-                       success:^(NSData *data)
-     {
-         if ( data )
-         {
-             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:0
-                                                                    error:NULL];
-             CCLog(@"userstartwatchvideo - %@",info);
-             NSString *retval = info[kRetvalKye];
-             if ( [retval isEqualToString:kRequestOK] )
-             {
-                 if ( successBlock )
-                 {
-                     successBlock(info[kRetinfoKey]);
-                 }
-             }
-             else if ( [retval isEqualToString:kSessionIdExpireValue] )
-             {
-                 if ( sessionExpireBlock )
-                 {
-                     sessionExpireBlock();
-                 }
-             }
-             
-             else if ( failBlock )
-             {
-                 
-                 failBlock([NSError cc_errorWithDictionary:info]);
-             }
-         }
-         else if (failBlock)
-         {
-             failBlock(nil);
-         }
-         
-     }];
-}
+                                              params:nil];
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:nil fail:failBlock];
 
+}
 
 // 购买物品
 - (void)GETBuyPresentWithGoodsID:(NSString *)goodsid
@@ -653,52 +280,19 @@
               forKey:kGoodsid];
     [params setValue:name
               forKey:@"touser"];
-    [params setValue:vid
-              forKey:kVid];
+  
+    if (vid.length >0 ) {
+        [params setValue:vid
+                  forKey:kVid];
+    }
     
     [params setValue:[NSNumber numberWithInteger:number]
               forKey:@"count"];
     NSString *urlString = [EVHttpURLManager httpsFullURLStringWithURI:EVBuyPresent
-                                                   params:params];
-    NSLog(@"liwudeanimation------------  %@",urlString);
-    [self requestWithURLString:urlString
-                         start:startBlock
-                          fail:failBlock
-                       success:^(NSData *data)
-     {
-         if ( data )
-         {
-             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:0
-                                                                    error:NULL];
-             CCLog(@"%@", info);
-             NSString *retval = info[kRetvalKye];
-             if ( [retval isEqualToString:kRequestOK] )
-             {
-                 if ( successBlock )
-                 {
-                     successBlock(info[kRetinfoKey]);
-                 }
-             }
-             else if ( [retval isEqualToString:kSessionIdExpireValue] )
-             {
-                 if ( sessionExpireBlock )
-                 {
-                     sessionExpireBlock();
-                 }
-                 return ;
-             }
-             else if ( failBlock )
-             {
-                 failBlock([NSError cc_errorWithDictionary:info]);
-             }
-         }
-         else if (failBlock)
-         {
-         
-             failBlock(nil);
-         }
-     }];
+                                                   params:nil];
+    EVLog(@"liwudeanimation------------  %@",urlString);
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+
 }
 
 // 用户资产
@@ -720,65 +314,9 @@
     }
     
     NSString *urlString = [EVHttpURLManager httpsFullURLStringWithURI:EVUserAssets
-                                                   params:params];
-    [self requestWithURLString:urlString
-                         start:startBlock
-                          fail:failBlock
-                       success:^(NSData *data)
-     {
-         if ( data )
-         {
-             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:0
-                                                                    error:NULL];
-             NSString *retval = info[kRetvalKye];
-             CCLog(@"%@",info);
-             if ( [retval isEqualToString:kRequestOK] )
-             {
-                 if ( successBlock )
-                 {
-                     successBlock(info[kRetinfoKey]);
-                 }
-             }
-             else if ( [retval isEqualToString:kSessionIdExpireValue] )
-             {
-                 if ( sessionExpireBlock )
-                 {
-                     sessionExpireBlock();
-                 }
-             }
-             else if ( failBlock )
-             {
-                 failBlock([NSError cc_errorWithDictionary:info]);
-             }
-         }
-         else if (failBlock)
-         {
-             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:0
-                                                                    error:NULL];
-             NSString *retval = info[kRetvalKye];
-             CCLog(@"%@",info);
-             if ( [retval isEqualToString:kRequestOK] )
-             {
-                 if ( successBlock )
-                 {
-                     successBlock(info[kRetinfoKey]);
-                 }
-             }
-             else if ( [retval isEqualToString:kSessionIdExpireValue] )
-             {
-                 if ( sessionExpireBlock )
-                 {
-                     sessionExpireBlock();
-                 }
-             }
-             else if ( failBlock )
-             {
-                 failBlock([NSError cc_errorWithDictionary:info]);
-             }
-         }
-     }];
+                                                   params:nil];
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+
 }
 
 - (void)GETContributorWithUserName:(NSString *)name
@@ -807,44 +345,10 @@
     [params setValue:@(startNum)
               forKey:kStart];
     NSString *urlString = [EVHttpURLManager fullURLStringWithURI:EVGetContributorAPI
-                                              params:params];
-    [self requestWithURLString:urlString
-                         start:startBlock
-                          fail:failBlock
-                       success:^(NSData *data)
-     {
-         if ( data )
-         {
-             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:0
-                                                                    error:NULL];
-             CCLog(@"%@", info);
-             NSString *retval = info[kRetvalKye];
-             if ( [retval isEqualToString:kRequestOK] )
-             {
-                 if ( successBlock )
-                 {
-                     successBlock(info[kRetinfoKey]);
-                 }
-             }
-             else if ( [retval isEqualToString:kSessionIdExpireValue] )
-             {
-                 if ( sessionExpireBlock )
-                 {
-                     sessionExpireBlock();
-                 }
-             }
-             
-             else if ( failBlock )
-             {
-                 failBlock([NSError cc_errorWithDictionary:info]);
-             }
-         }
-         else if (failBlock)
-         {
-             failBlock(nil);
-         }
-     }];
+                                              params:nil];
+    
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+
 }
 
 
@@ -874,42 +378,199 @@
 //    params[kVid] = vid;
     params[@"redpackid"] = code;
     NSString *urlString = [EVHttpURLManager httpsFullURLStringWithURI:EVVideoUserRedpack params:params];
-    CCLog(@"urlstring-------  %@",urlString);
-    [self requestWithURLString:urlString
-                         start:startBlock
-                          fail:failBlock
-                       success:^(NSData *data)
-     {
-         if ( data )
-         {
-             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:0
-                                                                    error:NULL];
-             if ( [info[kRetvalKye] isEqualToString:kSessionIdExpireValue]
-                 && sessionExpireBlock )
-             {
-                 sessionExpireBlock();
-             }
-             
-             if ( [info[kRetvalKye] isEqualToString:kRequestOK] )
-             {
-                 if (successBlock) {
-                     successBlock(info[kRetinfoKey]);
-                 }
-             }
-             else
-             {
-                 failBlock([NSError cc_errorWithDictionary:info]);
-             }
-         }
-         else if (failBlock)
-         {
-             failBlock(nil);
-         }
-     }];
+    EVLog(@"urlstring-------  %@",urlString);
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+
 }
 
 
+- (void)GETUserShutVid:(NSString *)vid
+              userName:(NSString *)userName
+                shutUp:(NSString *)shutup
+                 start:(void(^)())startBlock
+                  fail:(void(^)(NSError *error))failBlock
+               success:(void(^)(NSDictionary *retinfo))successBlock
+         sessionExpire:(void(^)())sessionExpireBlock
+{
+    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
+    if ( !sessionID )
+    {
+        return ;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[kSessionIdKey] = sessionID;
+    params[kNameKey]   = userName;
+    params[kVid]  = vid;
+    params[@"shutup"] = shutup;
+    NSString *urlString = [EVHttpURLManager httpsFullURLStringWithURI:EVVideoShutupAPI params:nil];
+    EVLog(@"urlstring-------  %@",urlString);
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+
+    
+}
+
+- (void)GetUserManagerVid:(NSString *)vid
+                 userName:(NSString *)userName
+                  manager:(NSString *)manager
+                    start:(void(^)())startBlock
+                     fail:(void(^)(NSError *error))failBlock
+                  success:(void(^)(NSDictionary *retinfo))successBlock
+            sessionExpire:(void(^)())sessionExpireBlock
+{
+    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
+    if ( !sessionID )
+    {
+        return ;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[kSessionIdKey] = sessionID;
+    params[kNameKey]   = userName;
+    params[kVid]  = vid;
+    params[@"manager"] = manager;
+    NSString *urlString = [EVHttpURLManager httpsFullURLStringWithURI:EVVideoManagerAPI params:nil];
+    EVLog(@"urlstring-------  %@",urlString);
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+
+}
+
+- (void)GETKictUserVid:(NSString *)vid userName:(NSString *)username kick:(NSString *)kick fail:(void(^)(NSError *error))failBlock
+               success:(void(^)(NSDictionary *retinfo))successBlock
+         sessionExpire:(void(^)())sessionExpireBlock
+{
+    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
+    if ( !sessionID )
+    {
+        return ;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[kSessionIdKey] = sessionID;
+    params[kNameKey]   = username;
+    params[kVid]  = vid;
+    params[@"kick"] = kick;
+    NSString *urlString = [EVHttpURLManager httpsFullURLStringWithURI:EVVideoKickUserAPI params:nil];
+    EVLog(@"urlstring-------  %@",urlString);
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+
+}
+
+- (void)GETRequestLinkUsername:(NSString *)username success:(void (^) (NSDictionary *retinfo))success error:(void (^)(NSError *error))error sessionExpire:(void(^)())sessionExpireBlock
+{
+    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
+    if ( !sessionID )
+    {
+        return ;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[kSessionIdKey] = sessionID;
+    params[kOwnername]   = username;
+    NSString *urlString = [EVHttpURLManager httpsFullURLStringWithURI:EVRequestLinkAPI params:nil];
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:success sessionExpireBlock:sessionExpireBlock fail:error];
+}
+
+- (void)GETAcceptLinkUsername:(NSString *)username success:(void (^) (NSDictionary *retinfo))success error:(void (^)(NSError *error))error sessionExpire:(void(^)())sessionExpireBlock
+{
+    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
+    if (!sessionID) {
+        return;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[kSessionIdKey] = sessionID;
+    params[kRequestname]   = username;
+    NSString *urlString = [EVHttpURLManager httpsFullURLStringWithURI:EVAcceptLinkAPI params:nil];
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:success sessionExpireBlock:sessionExpireBlock fail:error];
+    
+}
+
+- (void)GETEndLinkCallid:(NSString *)callid vid:(NSString *)vid success:(void (^) (NSDictionary *retinfo))success error:(void (^)(NSError *error))error sessionExpire:(void(^)())sessionExpireBlock
+{
+    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
+    if (!sessionID) {
+        return;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[kSessionIdKey] = sessionID;
+    params[@"callid"]   = callid;
+    params[kVid] = vid;
+//    params[kType]  = @(type);
+    NSString *urlString = [EVHttpURLManager httpsFullURLStringWithURI:EVEndLinkAPI params:nil];
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:success sessionExpireBlock:sessionExpireBlock fail:error];
+}
+
+- (void)GETCancelLindCallid:(NSString *)callid vid:(NSString *)vid success:(void (^) (NSDictionary *retinfo))success error:(void (^)(NSError *error))error sessionExpire:(void(^)())sessionExpireBlock
+{
+    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
+    if (!sessionID) {
+        return;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[kSessionIdKey] = sessionID;
+    params[@"callid"]   = callid;
+    params[kVid]  = vid;
+    NSString *urlString = [EVHttpURLManager httpsFullURLStringWithURI:EVCancelLinkAPI params:nil];
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:success sessionExpireBlock:sessionExpireBlock fail:error];
+}
+
+
+//创建图文直播间
+- (void)GETCreateTextLiveUserid:(NSString *)userid nickName:(NSString *)nickname easemobid:(NSString *)easemobid success:(void (^) (NSDictionary *retinfo))success error:(void (^)(NSError *error))error
+{
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    param[@"userid"] = userid;
+    param[@"nickname"] = nickname;
+    param[@"easemobid"] = easemobid;
+    NSString *url = [NSString stringWithFormat:EVCreatTextLiveAPI];
+    [EVBaseToolManager GETNoSessionWithUrl:url parameters:param success:success fail:error];
+    
+}
+
+
+
+//创建图文直播间
+- (void)GETHistoryTextLiveStreamid:(NSString *)streamid  count:(NSString *)count stime:(NSString *)stime success:(void (^) (NSDictionary *retinfo))success error:(void (^)(NSError *error))error
+{
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    param[@"streamid"] = streamid;
+    param[@"count"] = count;
+    param[@"etime"] = stime;
+    NSString *url = [NSString stringWithFormat:EVTextLiveHistiryAPI];
+    [EVBaseToolManager GETNoSessionWithUrl:url parameters:param success:success fail:error];
+    
+}
+
+
+- (void)POSTChatTextLiveID:(NSString *)streamid from:(NSString *)from nk:(NSString *)nk msgid:(NSString *)msgid msgtype:(NSString *)msgtype msg:(NSString *)msg tp:(NSString *)tp rct:(NSString *)rct rnk:(NSString *)rnk timestamp:(NSString *)timestamp img:(UIImage *)img success:(void (^) (NSDictionary *retinfo))success error:(void (^)(NSError *error))error
+{
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setValue:streamid forKey:@"to"];
+    [param setValue:from forKey:@"from"];
+    [param setValue:nk forKey:@"nk"];
+    [param setValue:msgid forKey:@"msgid"];
+    [param setValue:msgtype forKey:@"msgtype"];
+    [param setValue:tp forKey:@"tp"];
+    [param setValue:rct forKey:@"rct"];
+    [param setValue:rnk forKey:@"rnk"];
+    [param setValue:timestamp forKey:@"timestamp"];
+    if (msg.length > 0) {
+        [param setValue:msg forKey:@"msg"];
+    }
+    NSData *imageData = UIImagePNGRepresentation(img);
+    NSString *url = [NSString stringWithFormat:EVTextLiveChatUploadAPI];
+    [EVBaseToolManager POSTNotSessionWithUrl:url params:param fileData:imageData fileMineType:nil fileName:nil success:success failError:error];
+}
+
+- (void)GETIsHaveTextLiveOwnerid:(NSString *)ownerid streamid:(NSString *)streamid success:(void (^) (NSDictionary *retinfo))success error:(void (^)(NSError *error))error
+{
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    if (ownerid.length > 0) {
+        [param setValue:ownerid forKey:@"ownerid"];
+    }
+    if (streamid.length > 0) {
+        [param setValue:streamid forKey:@"streamid"];
+    }
+   NSString *url = [NSString stringWithFormat:EVTextLiveHaveAPI];
+ [EVBaseToolManager GETNoSessionWithUrl:url parameters:param success:success fail:error];
+    
+}
 
 
 @end

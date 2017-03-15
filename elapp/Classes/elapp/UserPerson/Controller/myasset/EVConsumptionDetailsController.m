@@ -15,6 +15,7 @@
 #import "EVBaseToolManager+EVUserCenterAPI.h"
 #import "PureLayout.h"
 #import "EVNullDataView.h"
+#import "EVConsumptionDetailsViewCell.h"
 
 
 @interface EVConsumptionDetailsController ()<UITableViewDataSource,UITableViewDelegate>
@@ -68,9 +69,11 @@
     [super viewDidLoad];
     _consumptionArray = [NSMutableArray array];
     self.navigationController.navigationBarHidden = NO;
-    self.title = kE_GlobalZH(@"consume_detail");
+//    self.title = kE_GlobalZH(@"consume_detail");
     [self setUpUI];
     [self getDataStart:0];
+   
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -84,16 +87,18 @@
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
     switch (self.type) {
          case EVDetailType_withdrawal:
-            self.title = kE_GlobalZH(@"push_money_record");
+//            self.title = kE_GlobalZH(@"push_money_record");
             break;
-          case EVDetailType_prepaid:
-            self.title = kE_GlobalZH(@"recharge_money_record");
+        case EVDetailType_prepaid:
+//            self.title = kE_GlobalZH(@"recharge_money_record");
+            break;
+        case EVDetailType_consume:
             break;
         default:
             break;
     }
-    tableView.backgroundColor = CCBackgroundColor;
-    tableView.separatorColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+    tableView.backgroundColor = [UIColor evBackgroundColor];
+    tableView.separatorColor = [UIColor evGlobalSeparatorColor];
     tableView.delegate = self;
     tableView.dataSource = self;
     [self.view addSubview:tableView];
@@ -122,15 +127,17 @@
     }];
     
     EVNullDataView *nullDataView = [[EVNullDataView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 64.f)];
-    nullDataView.topImage = [UIImage imageNamed:@"home_pic_findempty"];
+    nullDataView.topImage = [UIImage imageNamed:@"ic_smile"];
     switch (self.type) {
 
         case EVDetailType_withdrawal:
-            nullDataView.title = kE_GlobalZH(@"not_money_record");
+            nullDataView.title = @"您还没有提现记录噢";
             break;
         case EVDetailType_prepaid:
-            nullDataView.title = kE_GlobalZH(@"not_recharge_money_record");
+            nullDataView.title = @"您还没有充值记录噢";
             break;
+        case EVDetailType_consume:
+            nullDataView.title = @"您还没有消费记录噢";
         default:
             break;
     }
@@ -141,83 +148,81 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0) {
-        return 1;
-    }
     return self.consumptionArray.count;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *cellIdentifier = @"cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    EVConsumptionDetailsViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"consuptionCell"];
     if ( !cell )
     {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
+        cell = [[NSBundle mainBundle] loadNibNamed:@"EVConsumptionDetailsViewCell" owner:nil options:nil].firstObject;
         cell.backgroundColor = [UIColor whiteColor];
         cell.detailTextLabel.textColor = [UIColor evTextColorH3];
-        cell.detailTextLabel.font = CCNormalFont(13);
+        cell.detailTextLabel.font = EVNormalFont(13);
         cell.textLabel.textColor = [UIColor evTextColorH1];
-        cell.textLabel.font = CCNormalFont(15);
+        cell.textLabel.font = EVNormalFont(15);
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
-    if (indexPath.section == 0) {
-        switch (self.type)
-        {
-            case EVDetailType_withdrawal://提现记录
-            {
-                NSString *totalStr = [NSString stringWithFormat:@"%@ %.2f元",kE_GlobalZH(@"all_money"),self.totalMoney/100.];
-                cell.textLabel.text = totalStr;
-            }
-                break;
-            case EVDetailType_prepaid://充值记录
-            {
-                NSString *totalStr = [NSString stringWithFormat:@"%@ %.2f元",kE_GlobalZH(@"all_recharge_money"),self.totalMoney/100.];
-                cell.textLabel.text = totalStr;
-                cell.accessoryView = [[UIView alloc]init];
-                cell.detailTextLabel.text = nil;
-            }
-                break;
-            default:
-                self.refreshing = NO;
-                break;
-        }
-    }
-    if (indexPath.section == 1) {
-        EVRecordlistItemModel *model = self.consumptionArray[indexPath.row];
-        switch (self.type)
-        {
-            case  EVDetailType_withdrawal://提现记录
-            {
-                cell.textLabel.text = model.descriptionss;
-                cell.detailTextLabel.text = model.time;
-            }
-                break;
-            case  EVDetailType_prepaid://充值记录
-            {
-                cell.textLabel.text = model.descriptionss;
-                cell.detailTextLabel.text = model.time;
-                cell.accessoryView = [self createAccessoryView:model.ecoin];
-            }
-                break;
-                
-            default:
-                break;
-        }
-    }
+    cell.listItemModel = self.consumptionArray[indexPath.row];
+    cell.type = self.type;
+//    if (indexPath.section == 0) {
+//        switch (self.type)
+//        {
+//            case EVDetailType_withdrawal://提现记录
+//            {
+//                NSString *totalStr = [NSString stringWithFormat:@"%@ %.2f元",kE_GlobalZH(@"all_money"),self.totalMoney/100.];
+//                cell.textLabel.text = totalStr;
+//            }
+//                break;
+//            case EVDetailType_prepaid://充值记录
+//            {
+//                NSString *totalStr = [NSString stringWithFormat:@"%@ %.2f元",kE_GlobalZH(@"all_recharge_money"),self.totalMoney/100.];
+//                cell.textLabel.text = totalStr;
+//                cell.accessoryView = [[UIView alloc]init];
+//                cell.detailTextLabel.text = nil;
+//            }
+//                break;
+//            default:
+//                self.refreshing = NO;
+//                break;
+//        }
+//    }
+//    if (indexPath.section == 1) {
+//        EVRecordlistItemModel *model = self.consumptionArray[indexPath.row];
+//        switch (self.type)
+//        {
+//            case  EVDetailType_withdrawal://提现记录
+//            {
+//                cell.textLabel.text = model.descriptionss;
+//                cell.detailTextLabel.text = model.time;
+//            }
+//                break;
+//            case  EVDetailType_prepaid://充值记录
+//            {
+//                cell.textLabel.text = model.descriptionss;
+//                cell.detailTextLabel.text = model.time;
+//                cell.accessoryView = [self createAccessoryView:model.ecoin];
+//            }
+//                break;
+//                
+//            default:
+//                break;
+//        }
+//    }
    
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 55.f;
+    return 64;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -244,6 +249,8 @@
             [self prepaidrecordsStart:start count:kCountNum];
             [self totalConsumptionData];
             break;
+        case EVDetailType_consume:
+            [self withdrawalStart:start count:kCountNum];
         default:
             self.refreshing = NO;
             break;
@@ -296,6 +303,11 @@
 //    }];
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+}
+
 //吧请求成功的处理写在一个方法里
 - (void)requestSuccessWithIndex:(NSInteger)start
                          result:(NSDictionary *)info
@@ -323,6 +335,7 @@
 //获取充值记录
 - (void)prepaidrecordsStart:(NSInteger)start count:(NSInteger)count
 {
+    
     __weak typeof(self) wself = self;
     [self.engine  GETPrepaidRecordslistWithStart:start count:count start:^{
         
@@ -355,6 +368,26 @@
         }
     } success:^(NSDictionary *info) {
         [wself requestSuccessWithIndex:start result:info];
+    } sessionExpired:^{
+        [wself endRefrenshing];
+    }];
+}
+
+
+- (void)consumeStart:(NSInteger)start count:(NSInteger)count
+{
+    __weak typeof(self) wself = self;
+    [self.engine GETConsumeListWithStart:start count:count start:^{
+        
+    } fail:^(NSError *error) {
+        [wself endRefrenshing];
+        if(wself.loadingView)
+        {
+            [wself.loadingView showFailedViewWithClickBlock:^{
+            }];
+        }
+    } success:^(NSDictionary *info) {
+         [wself requestSuccessWithIndex:start result:info];
     } sessionExpired:^{
         [wself endRefrenshing];
     }];
@@ -403,7 +436,7 @@
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 0.f, 110.f, 55.f)];
     label.text = string;
     label.textColor = [UIColor evMainColor];
-    label.font = CCNormalFont(22);
+    label.font = EVNormalFont(22);
     label.textAlignment = NSTextAlignmentRight;
     NSMutableAttributedString *attStr = [[NSMutableAttributedString alloc] initWithString:string];
     [attStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange(string.length - 2, 2)];

@@ -15,6 +15,7 @@
 @interface EVAboutTableViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 
+
 @property (weak, nonatomic) IBOutlet UILabel *abouteasyvaas;
 
 @property (weak, nonatomic) IBOutlet UILabel *copyrightAboutLabel;
@@ -42,16 +43,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UIView *headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 1)];
-    headView.backgroundColor = [UIColor clearColor];
-    self.tableView.tableHeaderView = headView;
-    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-    self.title = kE_GlobalZH(@"in_regard_to");
-    self.versionLabel.textColor = [UIColor evMainColor];
-    self.versionLabel.text = [NSString stringWithFormat:@"v%@", CCAppVersion];
-    
-    [self addCellLabel];
+//    UIView *headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 1)];
+//    headView.backgroundColor = [UIColor clearColor];
+//    self.tableView.tableHeaderView = headView;
+//    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+//    [self.navigationController setNavigationBarHidden:NO animated:YES];
+//    self.title = kE_GlobalZH(@"in_regard_to");
+//    self.versionLabel.textColor = [UIColor evSecondColor];
+    self.versionLabel.text = EVAppVersion;
+//    [self addCellLabel];
     
 }
 
@@ -67,31 +67,31 @@
 }
 
 #pragma mark - UITableViewDelegate
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (IOS8_OR_LATER)
-    {
-        cell.preservesSuperviewLayoutMargins = NO;
-    }
-
-    if ([cell respondsToSelector:@selector(setSeparatorInset:)])
-    {
-        [cell setSeparatorInset:UIEdgeInsetsZero];
-    }
-    
-    if ([cell respondsToSelector:@selector(setLayoutMargins:)])
-    {
-        [cell setLayoutMargins:UIEdgeInsetsZero];
-    }
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 4;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath                                                                                                                                            
-{
-
+//
+//- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+//    if (IOS8_OR_LATER)
+//    {
+//        cell.preservesSuperviewLayoutMargins = NO;
+//    }
+//
+//    if ([cell respondsToSelector:@selector(setSeparatorInset:)])
+//    {
+//        [cell setSeparatorInset:UIEdgeInsetsZero];
+//    }
+//    
+//    if ([cell respondsToSelector:@selector(setLayoutMargins:)])
+//    {
+//        [cell setLayoutMargins:UIEdgeInsetsZero];
+//    }
+//}
+//
+//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+//    return 4;
+//}
+//
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath                                                                                                                                            
+//{
+//
 //    if ( indexPath.row == 3)
 //    {
 //        EVWebViewCtrl * webCtrl = [[EVWebViewCtrl alloc] init];
@@ -99,8 +99,9 @@
 //        webCtrl.requestUrl = [[EVStartResourceTool shareInstance] freeuserinfoUrl];
 //        [self.navigationController pushViewController:webCtrl animated:YES];
 //    }
-}
+//}
 
-#pragma mark - segue
 
 @end
+
+

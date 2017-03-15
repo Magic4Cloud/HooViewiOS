@@ -133,7 +133,6 @@ typedef enum {
 /** 分页控件位置 */
 @property (nonatomic, assign) SDCycleScrollViewPageContolAliment pageControlAliment;
 
-/** 分页控件原点y坐标 origin.y */ /* by 刘传瑞 */
 @property (nonatomic, assign) CGFloat pageOriginY;
 
 /** 分页控件小圆标大小 */

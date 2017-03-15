@@ -17,7 +17,7 @@
 
 - (void)dealloc
 {
-//    CCLog(@"CCAudience dealloc");
+//    EVLog(@"CCAudience dealloc");
 }
 
 + (instancetype)audienceWithJSONString:(NSString *)jsonString

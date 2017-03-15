@@ -17,15 +17,12 @@
     rightButton.frame = CGRectMake(0, 0, 60, 40);
     [rightButton setTitle:title forState:UIControlStateNormal];
     [rightButton addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
-    rightButton.titleLabel.font = CCNormalFont(15);
+    rightButton.titleLabel.font = EVNormalFont(15);
     rightButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     UIColor *textColor = nil;
     if ( color == nil )
     {
-        // change by 佳南
-        textColor = [UIColor whiteColor];
-    }else {
-        textColor = color;
+        textColor = [UIColor textBlackColor];
     }
     [rightButton setTitleColor:textColor forState:UIControlStateNormal];
     UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
@@ -39,15 +36,12 @@
     rightButton.frame = CGRectMake(0, 0, 60, 40);
     [rightButton setTitle:title forState:UIControlStateNormal];
     [rightButton addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
-    rightButton.titleLabel.font = CCNormalFont(15);
+    rightButton.titleLabel.font = EVNormalFont(15);
     rightButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     UIColor *textColor = nil;
     if ( color == nil )
     {
-        // change by 佳南
-        textColor = [UIColor whiteColor];
-    }else {
-        textColor = color;
+        textColor = [UIColor textBlackColor];
     }
     [rightButton setTitleColor:textColor forState:UIControlStateNormal];
     UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];

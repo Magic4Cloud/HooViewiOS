@@ -7,7 +7,7 @@
 //
 
 #import "EVDB.h"
-#import "CCBaseObject.h"
+#import "EVBaseObject.h"
 #import "GPJSonModel.h"
 #import "NSArray+JSON.h"
 #import "NSDictionary+JSON.h"
@@ -58,7 +58,7 @@ static NSMutableDictionary *_sqliteDictionary = nil;
     [self _updateToLocalOnCurrentThreadWithUpdateObject:obj];
 }
 
-- (void)updateCachWithObject:(CCBaseObject *)obj condition:(CCQueryObject *)condition complete:(void (^)())complete
+- (void)updateCachWithObject:(EVBaseObject *)obj condition:(CCQueryObject *)condition complete:(void (^)())complete
 {
     dispatch_async(_db_queue, ^{
         [self updateCachWithObject:obj condition:condition];
@@ -82,13 +82,13 @@ static NSMutableDictionary *_sqliteDictionary = nil;
     });
 }
 
-- (void)updateCachWithObject:(CCBaseObject *)obj condition:(CCQueryObject *)condition
+- (void)updateCachWithObject:(EVBaseObject *)obj condition:(CCQueryObject *)condition
 {
     [self checkObject:obj];
     [self _updateWithObject:obj condition:condition];
 }
 
-- (void)updateCachWithObject:(CCBaseObject *)obj withProperties:(NSArray *)properties complete:(void (^)())complete
+- (void)updateCachWithObject:(EVBaseObject *)obj withProperties:(NSArray *)properties complete:(void (^)())complete
 {
     dispatch_async(_db_queue, ^{
         [self updateToTableWithObject:obj withProperties:properties];
@@ -111,14 +111,14 @@ static NSMutableDictionary *_sqliteDictionary = nil;
     [_db commit];
 }
 
-- (void)updateCachOnCurrThreadWithObject:(CCBaseObject *)obj withProperties:(NSArray *)properties
+- (void)updateCachOnCurrThreadWithObject:(EVBaseObject *)obj withProperties:(NSArray *)properties
 {
     [self checkObject:obj];
     [self updateToTableWithObject:obj withProperties:properties];
 }
 
 #pragma mark - public method
-- (void)updateCachWithObject:(CCBaseObject *)obj complete:(void(^)())complete
+- (void)updateCachWithObject:(EVBaseObject *)obj complete:(void(^)())complete
 {
     dispatch_async(_db_queue, ^{
         [self _updateCachWithObject:obj];
@@ -131,7 +131,7 @@ static NSMutableDictionary *_sqliteDictionary = nil;
     });
 }
 
-- (void)updateCachOnCurrThreadWithObject:(CCBaseObject *)obj
+- (void)updateCachOnCurrThreadWithObject:(EVBaseObject *)obj
 {
     [self _updateCachWithObject:obj];
 }
@@ -143,7 +143,7 @@ static NSMutableDictionary *_sqliteDictionary = nil;
     });
 }
 
-- (void)deleteCacheWithObject:(CCBaseObject *)obj complete:(void (^)(CCBaseObject *))complete
+- (void)deleteCacheWithObject:(EVBaseObject *)obj complete:(void (^)(EVBaseObject *))complete
 {
     dispatch_async(_db_queue, ^{
         [self _deleteCacheWithObject:obj];
@@ -190,8 +190,8 @@ static NSMutableDictionary *_sqliteDictionary = nil;
     {
         return;
     }
-#ifdef CCDEBUG
-    assert([clazz isSubclassOfClass:[CCBaseObject class]]);
+#ifdef EVDEBUG
+    assert([clazz isSubclassOfClass:[EVBaseObject class]]);
 #endif
     
     dispatch_async(_db_queue, ^{
@@ -210,12 +210,12 @@ static NSMutableDictionary *_sqliteDictionary = nil;
 
 // SELECT * FROM t_CCNowVideoItem LIMIT 10, 100
 #pragma mark - private
-- (void)_updateToLocalOnCurrentThreadWithUpdateObject:(CCUpdateSQLObject *)obj
+- (void)_updateToLocalOnCurrentThreadWithUpdateObject:(EVUpdateSQLObject *)obj
 {
     NSString *tableName = [self tableNameWithClass:obj.clazz];
     NSMutableString *fmdbSql = [NSMutableString string];
     [fmdbSql appendFormat:@"UPDATE %@ SET \n", tableName];
-#ifdef CCDEBUG
+#ifdef EVDEBUG
     assert(obj.propertyKeyValues.count);
     
     if ( obj.properties.count )
@@ -275,19 +275,19 @@ static NSMutableDictionary *_sqliteDictionary = nil;
         [fmdbSql appendString:obj.tailSql];   
     }
     
-    CCLog(@"---%@", fmdbSql);
+    EVLog(@"---%@", fmdbSql);
     if ( ![_db executeUpdate:fmdbSql withArgumentsInArray:values] )
     {
-#ifdef CCDEBUG
+#ifdef EVDEBUG
         assert(0);
 #endif
     }
     
 }
 
-- (void)_updateWithObject:(CCBaseObject *)obj condition:(CCQueryObject *)queryObj
+- (void)_updateWithObject:(EVBaseObject *)obj condition:(EVQueryObject *)queryObj
 {
-#ifdef CCDEBUG
+#ifdef EVDEBUG
     assert(queryObj.properties.count == queryObj.properties_condition_values.count);
     assert(queryObj.properties.count == queryObj.properties_condition_symbol.count);
     assert((NSInteger)queryObj.properties.count -1 == queryObj.condition_seperator.count);
@@ -364,12 +364,12 @@ static NSMutableDictionary *_sqliteDictionary = nil;
     }
     
     if ( ![_db executeUpdate:fmdbSql withArgumentsInArray:values] ) {
-#ifdef CCDEBUG
+#ifdef EVDEBUG
         assert(0);
 #endif
     }
     
-    CCLog(@"update to table - \n %@ \n %@", queryObj.properties ,fmdbSql);
+    EVLog(@"update to table - \n %@ \n %@", queryObj.properties ,fmdbSql);
 }
 
 - (void)_executeSql:(NSString *)sql
@@ -383,7 +383,7 @@ static NSMutableDictionary *_sqliteDictionary = nil;
     NSMutableString *sql = [NSMutableString string];
     [sql appendFormat:@"SELECT count(*) FROM %@", tableName];
     FMResultSet *rs = [_db executeQuery:sql];
-    CCLog(@"query - \n %@",sql);
+    EVLog(@"query - \n %@",sql);
     
     if ( ![rs next] )
     {
@@ -403,11 +403,11 @@ static NSMutableDictionary *_sqliteDictionary = nil;
     [sql appendFormat:@"%@ \n", tableName];
     [sql appendFormat:@"LIMIT %ld, %ld", start, start + count];
     
-    CCLog(@"-------%lf",[[NSDate date] timeIntervalSince1970]);
+    EVLog(@"-------%lf",[[NSDate date] timeIntervalSince1970]);
     rs = [_db executeQuery:sql];
     
     NSMutableArray *result = [NSMutableArray array];
-    CCBaseObject *obj = nil;
+    EVBaseObject *obj = nil;
     while ( [rs next] )
     {
         if ( (obj = [self _objectDictionarWithResultSet:rs fromClass:clazz]) )
@@ -416,11 +416,11 @@ static NSMutableDictionary *_sqliteDictionary = nil;
         }
         obj = nil;
     }
-    CCLog(@"-------%lf",[[NSDate date] timeIntervalSince1970]);
+    EVLog(@"-------%lf",[[NSDate date] timeIntervalSince1970]);
     return result;
 }
 
-- (NSArray *)_queryWithQueryObject:(CCQueryObject *)queryObj
+- (NSArray *)_queryWithQueryObject:(EVQueryObject *)queryObj
 {
     NSString *tableName = [self tableNameWithClass:queryObj.clazz];
     if ( ![[self currentTable] containsObject:tableName] )
@@ -455,7 +455,7 @@ static NSMutableDictionary *_sqliteDictionary = nil;
         fmdbSql = [NSString stringWithFormat:@"%@ \n LIMIT %ld ,%ld", fmdbSql, queryObj.start, queryObj.count];
     }
     
-    CCLog(@"fmdbsql - %@", fmdbSql);
+    EVLog(@"fmdbsql - %@", fmdbSql);
     FMResultSet *rs = nil;
     if ( dictionaryArgs ) {
         rs = [_db executeQuery:fmdbSql withParameterDictionary:dictionaryArgs];
@@ -470,7 +470,7 @@ static NSMutableDictionary *_sqliteDictionary = nil;
     NSMutableArray *resulstDicts = [NSMutableArray array];
     if ( queryObj.notUseDictionaryToModel )
     {
-#ifdef CCDEBUG
+#ifdef EVDEBUG
         assert(queryObj.queryColumns.count);
 #endif
         for (NSString *column in queryObj.queryColumns)
@@ -504,7 +504,7 @@ static NSMutableDictionary *_sqliteDictionary = nil;
     return result.count ? result : resulstDicts;
 }
 
-- (CCBaseObject *)_queryWithClass:(Class)clazz withKeyValues:(NSDictionary *)keyValues condictions:(NSDictionary *)condictions
+- (EVBaseObject *)_queryWithClass:(Class)clazz withKeyValues:(NSDictionary *)keyValues condictions:(NSDictionary *)condictions
 {
 //    [db executeQuery:@"select * from namedparamcounttest where a = :a" withParameterDictionary:dictionaryArgs];
     NSString *tableName = [self tableNameWithClass:clazz];
@@ -516,16 +516,16 @@ static NSMutableDictionary *_sqliteDictionary = nil;
     
     [_db executeQuery:sql withParameterDictionary:keyValues];
     
-    CCLog(@"query - \n %@", sql);
+    EVLog(@"query - \n %@", sql);
     return [self objectDictionarWithResultSet:[_db executeQuery:sql] fromClass:clazz];
 }
 
-- (CCBaseObject *)_queryWithClass:(Class)clazz withKeyColumnValue:(id)value
+- (EVBaseObject *)_queryWithClass:(Class)clazz withKeyColumnValue:(id)value
 {
     NSString *keyColumn = [clazz keyColumn];
     NSString *keyColumnType = [clazz keyColumnType];
     NSString *tableName = [self tableNameWithClass:clazz];
-#ifdef CCDEBUG
+#ifdef EVDEBUG
     assert(keyColumn);
     assert(keyColumnType);
     assert(value);
@@ -547,7 +547,7 @@ static NSMutableDictionary *_sqliteDictionary = nil;
     }
     else
     {
-#ifdef CCDEBUG
+#ifdef EVDEBUG
         assert(0);
 #endif
         return nil;
@@ -555,7 +555,7 @@ static NSMutableDictionary *_sqliteDictionary = nil;
     [sql appendString:[NSString stringWithFormat:@"WHERE \n"]];
     [sql appendString:condiction];
     
-    CCLog(@"query - \n %@", sql);
+    EVLog(@"query - \n %@", sql);
     
     return [self objectDictionarWithResultSet:[_db executeQuery:sql] fromClass:clazz];
 }
@@ -566,14 +566,14 @@ static NSMutableDictionary *_sqliteDictionary = nil;
     NSMutableString *string = [NSMutableString string];
     [string appendFormat:@"DELETE FROM %@ \n", tableName];
     if ( ![_db executeUpdate:string] ) {
-//#ifdef CCDEBUG
+//#ifdef EVDEBUG
 //        assert(0);
 //#endif
     }
-    CCLog(@"%@", string);
+    EVLog(@"%@", string);
 }
 
-- (void)_deleteCacheWithObject:(CCBaseObject *)obj
+- (void)_deleteCacheWithObject:(EVBaseObject *)obj
 {
     NSString *keyColumn = [[obj class] keyColumn];
     NSString *keyColumnType = [[obj class] keyColumnType];
@@ -584,7 +584,7 @@ static NSMutableDictionary *_sqliteDictionary = nil;
         return;
     }
     
-#ifdef CCDEBUG
+#ifdef EVDEBUG
     assert(keyColumn);
     assert(keyColumnType);
     assert(value);
@@ -601,7 +601,7 @@ static NSMutableDictionary *_sqliteDictionary = nil;
     }
     else if ( [keyColumnType isEqualToString:COLUMN_TYPE_FLOAT] )
     {
-#ifdef CCDEBUG
+#ifdef EVDEBUG
         assert(0);
 #endif
     }
@@ -610,7 +610,7 @@ static NSMutableDictionary *_sqliteDictionary = nil;
         condition = [NSString stringWithFormat:@"WHERE %@ = %ld", keyColumn, [value integerValue]];
     }
     
-#ifdef CCDEBUG
+#ifdef EVDEBUG
          assert(condition);
 #endif
     if ( condition )
@@ -620,26 +620,26 @@ static NSMutableDictionary *_sqliteDictionary = nil;
          
     if ( ![_db executeUpdate:sql] )
     {
-#ifdef CCDEBUG
+#ifdef EVDEBUG
         assert(0);
 #endif
     }
-    CCLog(@"delete cache - \n%@",sql);
+    EVLog(@"delete cache - \n%@",sql);
 }
 
-- (void)_updateCachWithObject:(CCBaseObject *)obj andProperties:(NSArray *)properties
+- (void)_updateCachWithObject:(EVBaseObject *)obj andProperties:(NSArray *)properties
 {
     [self checkObject:obj];
     [self updateToTableWithObject:obj withProperties:properties];
 }
 
-- (void)_updateCachWithObject:(CCBaseObject *)obj
+- (void)_updateCachWithObject:(EVBaseObject *)obj
 {
     [self checkObject:obj];
     [self updateToTableWithObject:obj];
 }
 
-- (void)updateToTableWithObject:(CCBaseObject *)obj withProperties:(NSArray *)properties
+- (void)updateToTableWithObject:(EVBaseObject *)obj withProperties:(NSArray *)properties
 {
     NSString *tableName = [self tableNameWithClass:[obj class]];
     NSString *keyColumn = [[obj class] keyColumn];
@@ -668,7 +668,7 @@ static NSMutableDictionary *_sqliteDictionary = nil;
             {
                 if ( [item isEqualToString:keyColumn]  )
                 {
-#ifdef CCDEBUG
+#ifdef EVDEBUG
                     assert(0);
 #endif
                 }
@@ -708,21 +708,21 @@ static NSMutableDictionary *_sqliteDictionary = nil;
     [fmdbSql appendString:@" VALUES "];
     [fmdbSql appendFormat:@"%@ ", tailSql];
     if ( ![_db executeUpdate:fmdbSql withArgumentsInArray:values] ) {
-#ifdef CCDEBUG
+#ifdef EVDEBUG
         assert(0);
 #endif
     }
     
-    CCLog(@"update to table - \n %@ \n %@", properties ,fmdbSql);
+    EVLog(@"update to table - \n %@ \n %@", properties ,fmdbSql);
 }
 
-- (void)updateToTableWithObject:(CCBaseObject *)obj
+- (void)updateToTableWithObject:(EVBaseObject *)obj
 {
     NSString *className = NSStringFromClass([obj class]);
     NSString *tableName = [self tableNameWithClass:[obj class]];
     
     if ( ![self.tables containsObject:tableName] ) {
-#ifdef CCDEBUG
+#ifdef EVDEBUG
         assert(0);
 #endif
     }
@@ -737,7 +737,7 @@ static NSMutableDictionary *_sqliteDictionary = nil;
     NSMutableString *values = [NSMutableString string];
     NSString *keyColumn = [[obj class] keyColumn];
     NSString *keyColumnType = [[obj class] keyColumnType];
-#ifdef CCDEBUG
+#ifdef EVDEBUG
     NSAssert(keyColumn && keyColumnType, @"必须指定 keyColumn keyColumnType");
 #endif
     NSMutableString *sql = [NSMutableString string];
@@ -756,7 +756,7 @@ static NSMutableDictionary *_sqliteDictionary = nil;
         }
         if ( [property_type_in_table isEqualToString:COLUMN_TYPE_PRIMARY_KEY] )
         {
-#ifdef CCDEBUG
+#ifdef EVDEBUG
             NSAssert(value && ![value isKindOfClass:[NSNull class]], @"主键不能为空值");
 #endif
             [self updateTableColumn:keyColumnType propertyValue:value toValues:values];
@@ -764,7 +764,7 @@ static NSMutableDictionary *_sqliteDictionary = nil;
         else if ( [property_type_in_table isEqualToString:COLUMN_TYPE_JSON] && classArrayPropertyMap[propertyName] != nil && [value isKindOfClass:[NSArray class]] )
         {
             NSMutableArray *result = [NSMutableArray array];
-            for (CCBaseObject *item in value) {
+            for (EVBaseObject *item in value) {
                 if ( [item isKindOfClass:[NSDictionary class]] )
                 {
                     [result addObject:item];
@@ -798,12 +798,12 @@ static NSMutableDictionary *_sqliteDictionary = nil;
     [sql appendString:@")\n"];
     if ( ![_db executeUpdate:sql] )
     {
-#ifdef CCDEBUG
+#ifdef EVDEBUG
         assert(0);
 #endif
     }
     
-    CCLog(@"UPDATE TABLE -- \n%@",sql);
+    EVLog(@"UPDATE TABLE -- \n%@",sql);
 }
 
 
@@ -860,7 +860,7 @@ static NSMutableDictionary *_sqliteDictionary = nil;
         }
         else
         {
-#ifdef CCDEBUG
+#ifdef EVDEBUG
             NSAssert([value isKindOfClass:[NSArray class]] || [value isKindOfClass:[NSDictionary class]], @"请检查该属性的类型");
 #endif
             
@@ -870,13 +870,13 @@ static NSMutableDictionary *_sqliteDictionary = nil;
     else
     {
         [values appendString:@"'0'"];
-#ifdef CCDEBUG
+#ifdef EVDEBUG
         assert(0);
 #endif
     }
 }
 
-- (void)checkObject:(CCBaseObject *)obj
+- (void)checkObject:(EVBaseObject *)obj
 {
     NSString *tableName = [self tableNameWithClass:[obj class]];
     [self registToMemoryWithObject:obj];
@@ -886,7 +886,7 @@ static NSMutableDictionary *_sqliteDictionary = nil;
     }
 }
 
-- (void)createTableWithObj:(CCBaseObject *)obj
+- (void)createTableWithObj:(EVBaseObject *)obj
 {
     NSString *className = NSStringFromClass([obj class]);
     NSDictionary *classInfo = _sqliteDictionary[className];
@@ -894,15 +894,15 @@ static NSMutableDictionary *_sqliteDictionary = nil;
     NSString *keyColumn = [[obj class] keyColumn];
     NSString *keyColumnType = [[obj class] keyColumnType];
     
-#ifdef CCDEBUG
+#ifdef EVDEBUG
     NSAssert(keyColumn && keyColumnType, @"keyColumn & keyColumnType CANOT BO BE NIL ");
 #endif
     
 //    NSString *sql = [NSString stringWithFormat:@"DROP TABLE IF EXISTS %@",tableName];
-//    CCLog(@"DROP TABLE -- \n%@",sql);
+//    EVLog(@"DROP TABLE -- \n%@",sql);
 //    if ( ![_db executeUpdate:sql] )
 //    {
-//#ifdef CCDEBUG
+//#ifdef EVDEBUG
 //        assert(0);
 //#endif
 //    }
@@ -913,7 +913,7 @@ static NSMutableDictionary *_sqliteDictionary = nil;
     [createTableSql appendString:@"IF NOT EXISTS \n"];
     [createTableSql appendString:[NSString stringWithFormat:@"%@ (\n",tableName]];
     [classInfo enumerateKeysAndObjectsUsingBlock:^(NSString *property_name, NSString *column_type, BOOL *stop) {
-        CCLog(@"-------------%@",property_name);
+        EVLog(@"-------------%@",property_name);
         if ( [column_type isEqualToString:COLUMN_TYPE_JSON] )
         {
             column_type = COLUMN_TYPE_STRING;
@@ -935,16 +935,16 @@ static NSMutableDictionary *_sqliteDictionary = nil;
     
     if ( ![_db executeUpdate:createTableSql] )
     {
-#ifdef CCDEBUG
+#ifdef EVDEBUG
         assert(0);
 #endif
     }
     // inserti into manager table
-    CCLog(@"CREATA TABLE - \n%@", createTableSql);
+    EVLog(@"CREATA TABLE - \n%@", createTableSql);
     [self insertIntoManagerTable:tableName obj:obj];
 }
 
-- (void)insertIntoManagerTable:(NSString *)tableName obj:(CCBaseObject *)instance
+- (void)insertIntoManagerTable:(NSString *)tableName obj:(EVBaseObject *)instance
 {
     NSString *className = NSStringFromClass([instance class]);
     id clz = [instance class];
@@ -956,13 +956,13 @@ static NSMutableDictionary *_sqliteDictionary = nil;
     [sql appendString:[NSString stringWithFormat:@"('%@', '%@', %ld)\n",tableName, className, version]];
     if ( ![_db executeUpdate:sql] )
     {
-#ifdef CCDEBUG
+#ifdef EVDEBUG
         assert(0);
 #endif
     }
     [self.tables addObject:tableName];
     // inserti into manager table
-    CCLog(@"inserti into manager table - \n%@", sql);
+    EVLog(@"inserti into manager table - \n%@", sql);
 }
 
 + (instancetype)shareInstance
@@ -987,12 +987,12 @@ static NSMutableDictionary *_sqliteDictionary = nil;
 - (void)_prepare
 {
     NSString *db_path = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"test.png"];
-    CCLog(@"db_path - %@",db_path);
+    EVLog(@"db_path - %@",db_path);
     FMDatabase *db = [FMDatabase databaseWithPath:db_path];
     
     if ( !(self.open = [db open]))
     {
-        CCLog(@"Could not open db.!!!!!!!!!!!!!!!!");
+        EVLog(@"Could not open db.!!!!!!!!!!!!!!!!");
         return;
     }
     _db = db;
@@ -1026,10 +1026,10 @@ static NSMutableDictionary *_sqliteDictionary = nil;
     [sql appendString:@"version INTEGER NOT NULL DEFAULT 0\n"];
     [sql appendString:@")"];
     
-    CCLog(@"CREATE MANAGER TABLE - \n%@",sql);
+    EVLog(@"CREATE MANAGER TABLE - \n%@",sql);
     if ( ![_db executeUpdate:sql] )
     {
-#ifdef CCDEBUG
+#ifdef EVDEBUG
         assert(0);
 #endif
     }
@@ -1067,7 +1067,7 @@ static NSMutableDictionary *_sqliteDictionary = nil;
 - (BOOL)needToDropClassTable:(NSString *)class_name version:(NSInteger)version
 {
     id clz = NSClassFromString(class_name);
-    if ( [clz isSubclassOfClass:[CCBaseObject class]] )
+    if ( [clz isSubclassOfClass:[EVBaseObject class]] )
     {
         NSInteger curr_version = [clz tableVersion];
         if ( curr_version != version )
@@ -1099,18 +1099,18 @@ static NSMutableDictionary *_sqliteDictionary = nil;
     sql = [NSString stringWithFormat:@"DROP TABLE IF EXISTS %@", table_name];
     if ( ![_db executeUpdate:sql] )
     {
-#ifdef CCDEBUG
+#ifdef EVDEBUG
         assert(0);
 #endif
     }
     sql_t_manage_table = [NSString stringWithFormat:@"DELETE FROM t_manage_table WHERE table_name = '%@'", table_name];
     if ( ![_db executeUpdate:sql_t_manage_table] )
     {
-#ifdef CCDEBUG
+#ifdef EVDEBUG
         assert(0);
 #endif
     }
-    CCLog(@"drop table - %@",sql);
+    EVLog(@"drop table - %@",sql);
 }
 
 - (void)verifyTables:(NSArray *)tables
@@ -1123,7 +1123,7 @@ static NSMutableDictionary *_sqliteDictionary = nil;
         sql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ < %lf",table, CLUMN_UPDATE_TIME, time];
         if ( ![_db executeUpdate:sql] )
         {
-#ifdef CCDEBUG
+#ifdef EVDEBUG
             assert(0);
 #endif
         }
@@ -1154,20 +1154,20 @@ static NSMutableDictionary *_sqliteDictionary = nil;
 
 - (NSString *)tableNameWithClass:(Class)clazz
 {
-#ifdef CCDEBUG
-    assert([clazz isSubclassOfClass:[CCBaseObject class]]);
+#ifdef EVDEBUG
+    assert([clazz isSubclassOfClass:[EVBaseObject class]]);
 #endif
     return [NSString stringWithFormat:@"t_%@",NSStringFromClass(clazz)];
 }
 
-- (NSDictionary *)registToMemoryWithObject:(CCBaseObject *)obj
+- (NSDictionary *)registToMemoryWithObject:(EVBaseObject *)obj
 {
     NSString *className = NSStringFromClass([obj class]);
     NSMutableDictionary *class_table_info = _sqliteDictionary[className];
     NSDictionary *ignoreProperties = [[obj class] ignoreProperties];
     NSString *keyColumn = [[obj class] keyColumn];
     
-#ifdef CCDEBUG
+#ifdef EVDEBUG
     NSAssert(keyColumn != nil, @"必须指定 keyColumn");
     NSAssert(ignoreProperties[keyColumn] == nil, @"不能忽略主键");
 #endif
@@ -1231,10 +1231,10 @@ static NSMutableDictionary *_sqliteDictionary = nil;
     return class_table_info;
 }
 
-- (CCBaseObject *)objectDictionarWithResultSet:(FMResultSet *)resultSet fromClass:(Class)clazz
+- (EVBaseObject *)objectDictionarWithResultSet:(FMResultSet *)resultSet fromClass:(Class)clazz
 {
-#ifdef CCDEBUG
-    assert([clazz isSubclassOfClass:[CCBaseObject class]]);
+#ifdef EVDEBUG
+    assert([clazz isSubclassOfClass:[EVBaseObject class]]);
 #endif
     
     if ( ![resultSet next] )
@@ -1245,13 +1245,13 @@ static NSMutableDictionary *_sqliteDictionary = nil;
     return [self _objectDictionarWithResultSet:resultSet fromClass:clazz];
 }
 
-- (CCBaseObject *)_objectDictionarWithResultSet:(FMResultSet *)resultSet fromClass:(Class)clazz
+- (EVBaseObject *)_objectDictionarWithResultSet:(FMResultSet *)resultSet fromClass:(Class)clazz
 {
-#ifdef CCDEBUG
-    assert([clazz isSubclassOfClass:[CCBaseObject class]]);
+#ifdef EVDEBUG
+    assert([clazz isSubclassOfClass:[EVBaseObject class]]);
 #endif
     
-    CCBaseObject *obj = [[clazz alloc] init];
+    EVBaseObject *obj = [[clazz alloc] init];
     NSDictionary *class_table_info = [self registToMemoryWithObject:obj];
     
     NSMutableDictionary *result = [NSMutableDictionary dictionary];

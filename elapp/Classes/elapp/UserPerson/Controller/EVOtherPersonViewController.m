@@ -14,11 +14,9 @@
 #import "UIScrollView+GifRefresh.h"
 #import "UIViewController+Extension.h"
 #import "EVUserVideoModel.h"
-#import "EVLiveShareView.h"
 #import "EVShareManager.h"
 #import "EVLoginInfo.h"
 #import "EVNotifyConversationItem.h"
-#import "EVChatViewController.h"
 #import "EVWatchVideoInfo.h"
 #import "EVProfileHeaderView.h"
 #import "EVProfileControl.h"
@@ -39,12 +37,11 @@ static CGFloat const profileCellHeight       = 381.0f;
 static CGFloat const messageButtonHeight     = 45.0f;
 static CGFloat const backToTopButtonHeight   = 40.0f;
 
-@interface EVOtherPersonViewController ()<UITableViewDataSource, UITableViewDelegate, CCLiveShareViewDelegate,EVProfileDelegate,EVButtonDelegete>
+@interface EVOtherPersonViewController ()<UITableViewDataSource, UITableViewDelegate,EVProfileDelegate,EVButtonDelegete>
 
 @property (nonatomic, strong) EVBaseToolManager *engine;
 @property (nonatomic, strong) EVUserModel *userModel;
 
-@property (nonatomic, weak  ) EVLiveShareView *shareCoverView;
 @property (nonatomic, strong) EVOtherPersonBottomView *bottomView;  /**< 底部关注、私信、拉黑视图 */
 @property (nonatomic, weak  ) UIView *background;                   /**< 背景图片容器 */
 @property (nonatomic, weak  ) UIView *navBottomLine;                /**< 导航条下的黑线 */
@@ -163,11 +160,11 @@ static CGFloat const backToTopButtonHeight   = 40.0f;
     [self.tableView hideFooter];
     
     [self.view addSubview:self.bottomView];
-    [[EVEaseMob sharedInstance].chatManager asyncFetchBlockedListWithCompletion:^(NSArray *blockedList, EMError *error) {
-        if (!error) {
-            self.bottomView.pullBlackButton.selected = [blockedList containsObject:self.userModel.imuser];
-        }
-    } onQueue:nil];
+//    [[EVEaseMob sharedInstance].chatManager asyncFetchBlockedListWithCompletion:^(NSArray *blockedList, EMError *error) {
+//        if (!error) {
+//            self.bottomView.pullBlackButton.selected = [blockedList containsObject:self.userModel.imuser];
+//        }
+//    } onQueue:nil];
 }
 
 /**
@@ -264,7 +261,7 @@ static CGFloat const backToTopButtonHeight   = 40.0f;
      }
                      sessionExpire:^
      {
-         CCRelogin(weakSelf);
+         EVRelogin(weakSelf);
      }];
 }
 
@@ -292,8 +289,7 @@ static CGFloat const backToTopButtonHeight   = 40.0f;
         }
         [weakself.videos addObjectsFromArray:videos];
         if (weakself.videos.count > 0) {
-            BOOL YorN = [[(EVUserVideoModel *)weakself.videos[0] living] boolValue];
-//            BOOL isAllPermisson = videoModel.permission == EVLivePermissionSquare;
+            BOOL YorN = [(EVUserVideoModel *)weakself.videos[0] living];
             [weakself.tableHeaderView setOtherContreIsLiving:YorN];
         }
         [weakself.tableView endFooterRefreshing];
@@ -326,7 +322,7 @@ static CGFloat const backToTopButtonHeight   = 40.0f;
     } essionExpire:^{
         [weakself.tableView endFooterRefreshing];
         
-        CCRelogin(weakself);
+        EVRelogin(weakself);
     }];
 }
 
@@ -356,39 +352,39 @@ static CGFloat const backToTopButtonHeight   = 40.0f;
     button.enabled = NO;
     if ( button.selected == YES )
     {
-        [[EVEaseMob sharedInstance].chatManager asyncUnblockBuddy:self.userModel.imuser withCompletion:^(NSString *username, EMError *error) {
-            if ( !error )
-            {
-                [CCProgressHUD showSuccess:kE_GlobalZH(@"relieve_blacklist_success")];
-                button.selected = NO;
-            }
-            else
-            {
-                [CCProgressHUD showError:kE_GlobalZH(@"relieve_blacklist_fail")];
-            }
-            button.enabled = YES;
-            
-        } onQueue:nil];
+//        [[EVEaseMob sharedInstance].chatManager asyncUnblockBuddy:self.userModel.imuser withCompletion:^(NSString *username, EMError *error) {
+//            if ( !error )
+//            {
+//                [EVProgressHUD showSuccess:kE_GlobalZH(@"relieve_blacklist_success")];
+//                button.selected = NO;
+//            }
+//            else
+//            {
+//                [EVProgressHUD showError:kE_GlobalZH(@"relieve_blacklist_fail")];
+//            }
+//            button.enabled = YES;
+//            
+//        } onQueue:nil];
     }
     else
     {
         NSString *title = kE_GlobalZH(@"to_blacklist_not_receive_message");
         [[EVAlertManager shareInstance] performComfirmTitle:kTooltip message:title cancelButtonTitle:kCancel comfirmTitle:kOK WithComfirm:^{
             
-            [[EVEaseMob sharedInstance].chatManager asyncBlockBuddy:self.userModel.imuser relationship:eRelationshipFrom withCompletion:^(NSString *username, EMError *error) {
-                if ( !error )
-                {
-                    //                     NSString *remarks = [[CCUserRemarks shareInstance] remarksForName:self.userModel.name nickName:self.userModel.nickname];
-                    //                    NSString *msg = [NSString stringWithFormat:@"%@已经列入黑名单,可以在\"个人中心-设置-黑名单\"中解除.",remarks];
-                    [CCProgressHUD showSuccess:kE_GlobalZH(@"add_blacklist_success")];
-                    button.selected = YES;
-                }
-                else
-                {
-                    [CCProgressHUD showError:kE_GlobalZH(@"add_blacklist_fail")];
-                }
-                button.enabled = YES;
-            } onQueue:nil];
+//            [[EVEaseMob sharedInstance].chatManager asyncBlockBuddy:self.userModel.imuser relationship:eRelationshipFrom withCompletion:^(NSString *username, EMError *error) {
+//                if ( !error )
+//                {
+//                    //                     NSString *remarks = [[CCUserRemarks shareInstance] remarksForName:self.userModel.name nickName:self.userModel.nickname];
+//                    //                    NSString *msg = [NSString stringWithFormat:@"%@已经列入黑名单,可以在\"个人中心-设置-黑名单\"中解除.",remarks];
+//                    [EVProgressHUD showSuccess:kE_GlobalZH(@"add_blacklist_success")];
+//                    button.selected = YES;
+//                }
+//                else
+//                {
+//                    [EVProgressHUD showError:kE_GlobalZH(@"add_blacklist_fail")];
+//                }
+//                button.enabled = YES;
+//            } onQueue:nil];
             
         } cancel:^{
             button.enabled = YES;
@@ -409,12 +405,12 @@ static CGFloat const backToTopButtonHeight   = 40.0f;
         dispatch_async(dispatch_get_main_queue(), ^{
             if (weakself.userModel.followed)
             {
-                [CCProgressHUD showSuccess:kE_GlobalZH(@"follow_success")];
+                [EVProgressHUD showSuccess:kE_GlobalZH(@"follow_success")];
                 button.selected = NO;
             }
             else
             {
-                [CCProgressHUD showSuccess:kE_GlobalZH(@"e_cancel_follow")];
+                [EVProgressHUD showSuccess:kE_GlobalZH(@"e_cancel_follow")];
                 button.selected = YES;
             }
             
@@ -422,13 +418,13 @@ static CGFloat const backToTopButtonHeight   = 40.0f;
             [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshInterestingGuys" object:nil];
         });
     } essionExpire:^{
-        CCRelogin(weakself);
+        EVRelogin(weakself);
     }];
 }
 /**< 发送私信 */
 - (void)sendMessageToOtherPerson
 {
-    CCLog(@"向别人发消息！");
+    EVLog(@"向别人发消息！");
     // 如果是私信聊天页面过来的，则退回聊天页面
     if ( self.dismissMsgBtn )
     {
@@ -440,15 +436,15 @@ static CGFloat const backToTopButtonHeight   = 40.0f;
     {
         if ( self.userModel.imuser == nil || [self.userModel.imuser isEqualToString:@""])
         {
-            [CCProgressHUD showError:kE_GlobalZH(@"failChat")];
+            [EVProgressHUD showError:kE_GlobalZH(@"failChat")];
             return;
         }
-        EVNotifyConversationItem *conversationItem = [[EVNotifyConversationItem alloc] init];
-        conversationItem.userModel = self.userModel;
-        conversationItem.conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:self.userModel.imuser conversationType:eConversationTypeChat];
-        EVChatViewController *chatVC = [[EVChatViewController alloc] init];
-        chatVC.conversationItem = conversationItem;
-        [self.navigationController pushViewController:chatVC animated:YES];
+//        EVNotifyConversationItem *conversationItem = [[EVNotifyConversationItem alloc] init];
+//        conversationItem.userModel = self.userModel;
+//        conversationItem.conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:self.userModel.imuser conversationType:eConversationTypeChat];
+//        EVChatViewController *chatVC = [[EVChatViewController alloc] init];
+//        chatVC.conversationItem = conversationItem;
+//        [self.navigationController pushViewController:chatVC animated:YES];
     }
 }
 
@@ -475,18 +471,6 @@ static CGFloat const backToTopButtonHeight   = 40.0f;
     [wself requestForecastLivingWithForecastItem:forecastMdoel delegate:wself];
 }
 
-#pragma makr - CCLiveShareViewDelegate
-- (void)liveShareViewDidClickButton:(CCLiveShareButtonType)type
-{
-    WEAK(self);
-    EVUserModel *userModel = self.tableHeaderView.userModel;
-
-    [CCProgressHUD showMessage:kE_GlobalZH(@"prepare_share") toView:self.view];
-    [UIImage gp_imageWithURlString:userModel.logourl comolete:^(UIImage *image) {
-        [CCProgressHUD hideHUDForView:self.view];
-        [[EVShareManager shareInstance] shareContentWithPlatform:type shareType:ShareTypeOtherCentre titleReplace:userModel.nickname descriptionReplaceName:userModel.nickname descriptionReplaceId:nil URLString:weakself.shareUrl image:image];
-    }];
-}
 
 
 #pragma mark - CCProfileDelegate
@@ -719,15 +703,6 @@ static CGFloat const backToTopButtonHeight   = 40.0f;
     {
         self.bottomView.hidden = NO;
     }
-}
-
-- (EVLiveShareView *)shareCoverView
-{
-    if ( _shareCoverView == nil ) {
-        EVLiveShareView *shareCoverView = [EVLiveShareView liveShareViewToTargetView:self.view menuHeight:202 delegate:self];
-        _shareCoverView = shareCoverView;
-    }
-    return _shareCoverView;
 }
 
 - (EVOtherPersonBottomView *)bottomView {

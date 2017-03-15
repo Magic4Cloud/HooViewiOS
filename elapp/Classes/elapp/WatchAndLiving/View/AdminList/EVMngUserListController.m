@@ -9,9 +9,11 @@
 
 #import "EVMngUserListController.h"
 #import "EVFantuanContributorTableViewCell.h"
-#import "EVBaseToolManager+EVLiveAPI.h"
+#import "EVBaseToolManager+EVSDKMessage.h"
 #import "EVMngUserListModel.h"
 #import "EVNullDataView.h"
+#import "NSString+Extension.h"
+#import "EVLiveWatchManager.h"
 
 @interface EVMngUserListController ()<UITableViewDataSource,UITableViewDelegate>
 @property (strong, nonatomic) EVBaseToolManager *engine; /**< 网络请求管理模块 */
@@ -20,6 +22,8 @@
 @property (nonatomic,strong)UITableView *tableView;
 @property (nonatomic,strong)NSMutableArray *adminListArray;
 @property (nonatomic,strong)NSMutableArray *adminLissNameArray;
+
+@property (nonatomic,strong)EVLiveWatchManager *liveWatchManager;
 
 @end
 
@@ -50,7 +54,7 @@
         _tableView.delegate = self;
         _tableView.rowHeight = 65.0;
         _tableView.sectionHeaderHeight = 30;
-        _tableView.backgroundColor = CCBackgroundColor;
+        _tableView.backgroundColor = [UIColor evBackgroundColor];
     }
     return _tableView;
 }
@@ -82,7 +86,7 @@
 
     // Do any additional setup after loading the vie
     
-     self.view.backgroundColor = CCBackgroundColor;
+     self.view.backgroundColor = [UIColor evBackgroundColor];
   
     [self addUpData];
     [self addUpTableView];
@@ -103,7 +107,25 @@
 
 - (void)addUpData
 {
-
+    NSString * userNames = [NSString stringWithArray:self.managerArray];
+    if (self.managerArray.count <= 0) {
+        return;
+    }
+    WEAK(self)
+    [self.engine GETBaseUserInfoListWithUname:userNames start:nil fail:^(NSError *error) {
+        [EVProgressHUD showError:@"加载失败"];
+    } success:^(NSDictionary *modelDict) {
+        NSArray *users = modelDict[@"users"];
+        for (NSDictionary *dict in users) {
+            EVMngUserListModel *usermodel = [EVMngUserListModel objectWithDictionary:dict];
+            [weakself.adminListArray addObject:usermodel];
+        }
+        
+        [weakself.tableView reloadData];
+        
+    } sessionExpire:^{
+        
+    }];
     
 }
 
@@ -142,6 +164,10 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         EVMngUserListModel *listModel = self.adminListArray[indexPath.row];
         WEAK(self)
+        [self.liveWatchManager settingManagerWithName:listModel.name vid:self.vid state:0];
+        
+        [self.adminListArray removeObject:listModel];
+        [self.tableView reloadData];
         
     }
 }
@@ -149,7 +175,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0,ScreenWidth, ScreenHeight)];
-    view.backgroundColor = CCBackgroundColor;
+    view.backgroundColor = [UIColor evBackgroundColor];
     
     UILabel *labelNum = [[UILabel alloc]init];
     labelNum.frame = CGRectMake(20,0,ScreenWidth,30);
@@ -168,7 +194,7 @@
         Cell = [[EVFantuanContributorTableViewCell
                  alloc]initWithStyle:(UITableViewCellStyleSubtitle) reuseIdentifier:@"cellIndentifier"];
     }
-   Cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    Cell.selectionStyle = UITableViewCellSelectionStyleNone;
     Cell.backgroundColor = [UIColor whiteColor];
     Cell.listModel =  self.adminListArray[indexPath.row];
     
@@ -192,6 +218,24 @@
     _tableView = nil;
 }
 
+- (NSMutableArray *)managerArray
+{
+    if (!_managerArray) {
+        _managerArray = [NSMutableArray array];
+    }
+    
+    return _managerArray;
+}
+
+- (EVLiveWatchManager *)liveWatchManager
+{
+    if (!_liveWatchManager) {
+        _liveWatchManager = [[EVLiveWatchManager alloc]init];
+        _liveWatchManager.protocol = self;
+        
+    }
+    return _liveWatchManager;
+}
 /*
 #pragma mark - Navigation
 

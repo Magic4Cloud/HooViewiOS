@@ -8,6 +8,12 @@
 
 #import "EVBaseToolManager.h"
 
+
+typedef NS_ENUM(NSInteger ,EVSearchType){
+    EVSearchTypeNews = 0,
+    EVSearchTypeLive,
+    EVSearchTypeStock,
+};
 @interface EVBaseToolManager (EVSearchAPI)
 
 /**
@@ -20,7 +26,7 @@
  *
  */
 - (void)getSearchInfosWith:(NSString *)keyword
-                      type:(NSString *)type
+                      type:(EVSearchType)type
                      start:(NSInteger)start
                      count:(NSInteger)count
                 startBlock:(void(^)())startBlock

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 @class EVControllerContacter;
 
-@protocol CCControllerContacterProtocol <NSObject>
+@protocol EVControllerContacterProtocol <NSObject>
 
 @optional
 - (void)receiveEvents:(NSString *)event withParams:(NSDictionary *)params;
@@ -18,7 +18,7 @@
 
 @interface EVControllerItem : NSObject
 
-@property (nonatomic,weak) id<CCControllerContacterProtocol> delegate;
+@property (nonatomic,weak) id<EVControllerContacterProtocol> delegate;
 
 @property (nonatomic,strong) NSMutableArray *events;
 

@@ -65,6 +65,12 @@
     UIImageView *imageView = [[UIImageView alloc] init];
     _imageView = imageView;
     [self.contentView addSubview:imageView];
+    
+    UIImageView *bgImageView = [[UIImageView alloc] init];
+    _bgImageView = bgImageView;
+    bgImageView.image = [UIImage imageNamed:@"banner_mengceng"];
+    [self.contentView addSubview:bgImageView];
+    
 }
 
 - (void)setupTitleLabel
@@ -73,6 +79,7 @@
     _titleLabel = titleLabel;
     _titleLabel.hidden = YES;
     [self.contentView addSubview:titleLabel];
+    
 }
 
 - (void)setTitle:(NSString *)title
@@ -93,11 +100,12 @@
         _titleLabel.frame = self.bounds;
     } else {
         _imageView.frame = self.bounds;
+        _bgImageView.frame = self.bounds;
         CGFloat titleLabelW = self.sd_width;
         CGFloat titleLabelH = _titleLabelHeight;
-        CGFloat titleLabelX = 0;
-        CGFloat titleLabelY = self.sd_height - titleLabelH;
-        _titleLabel.frame = CGRectMake(titleLabelX, titleLabelY, titleLabelW, titleLabelH);
+        CGFloat titleLabelX = 10;
+        CGFloat titleLabelY = self.sd_height - titleLabelH - 20;
+        _titleLabel.frame = CGRectMake(titleLabelX, titleLabelY, titleLabelW - 20, titleLabelH);
     }
 }
 

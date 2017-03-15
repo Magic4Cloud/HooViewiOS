@@ -6,12 +6,6 @@
 //  Copyright (c) 2016 EasyVass. All rights reserved.
 //
 
-//
-//  EVBaseToolManager+EVStartAppAPI.m
-//
-//  Created by 杨尚彬 on 16/7/18.
-//  Copyright © 2016年 easyvaas. All rights reserved.
-//
 
 #import "EVBaseToolManager+EVStartAppAPI.h"
 #import "NSString+Extension.h"
@@ -19,10 +13,11 @@
 #import "EVHttpURLManager.h"
 
 
+
 @implementation EVBaseToolManager (EVStartAppAPI)
 
 //分类接口
-- (NSString *)GETNewtopicWithStart:(void(^)())startBlock
+- (void)GETNewtopicWithStart:(void(^)())startBlock
                               fail:(void(^)(NSError *error))failBlock
                            success:(void(^)(NSDictionary *info))successBlock
                     sessionExpired:(void(^)())sessionExpiredBlock
@@ -36,44 +31,14 @@
     
     
     NSString *urlString = [EVHttpURLManager fullURLStringWithURI:EVVideoTopiclistAPI
-                                                          params:params];
+                                                          params:nil];
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:sessionExpiredBlock fail:failBlock];
     
-    return  [self  requestWithURLString:urlString start:startBlock fail:failBlock success:^(NSData *data) {
-        if ( data )
-        {
-            NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                 options:NSJSONReadingMutableContainers
-                                                                   error:NULL];
-            CCLog(@"%@", info);
-            if ( [info[kRetvalKye] isEqualToString:kRequestOK] )
-            {
-                if ( successBlock )
-                {
-                    successBlock(info[kRetinfoKey]);
-                }
-            }
-            else if ( [info[kRetvalKye] isEqualToString:kSessionIdExpireValue] )
-            {
-                if ( sessionExpiredBlock )
-                {
-                    sessionExpiredBlock();
-                }
-            }
-            else if (failBlock)
-            {
-                failBlock([NSError cc_errorWithDictionary:info]);
-            }
-        }
-        else if (failBlock)
-        {
-            NSError *err = nil;
-            failBlock(err);
-        }
-    }];
+
 }
 
 //分类接口
-- (NSString *)GETGoodsListWithStart:(void(^)())startBlock
+- (void)GETGoodsListWithStart:(void(^)())startBlock
                               fail:(void(^)(NSError *error))failBlock
                            success:(void(^)(NSDictionary *info))successBlock
                     sessionExpired:(void(^)())sessionExpiredBlock
@@ -87,40 +52,11 @@
     
     
     NSString *urlString = [EVHttpURLManager fullURLStringWithURI:EVGoodsListAPI
-                                                          params:params];
+                                                          params:nil];
     
-    return  [self  requestWithURLString:urlString start:startBlock fail:failBlock success:^(NSData *data) {
-        if ( data )
-        {
-            NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                 options:NSJSONReadingMutableContainers
-                                                                   error:NULL];
-            CCLog(@"%@", info);
-            if ( [info[kRetvalKye] isEqualToString:kRequestOK] )
-            {
-                if ( successBlock )
-                {
-                    successBlock(info[kRetinfoKey]);
-                }
-            }
-            else if ( [info[kRetvalKye] isEqualToString:kSessionIdExpireValue] )
-            {
-                if ( sessionExpiredBlock )
-                {
-                    sessionExpiredBlock();
-                }
-            }
-            else if (failBlock)
-            {
-                failBlock([NSError cc_errorWithDictionary:info]);
-            }
-        }
-        else if (failBlock)
-        {
-            NSError *err = nil;
-            failBlock(err);
-        }
-    }];
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:sessionExpiredBlock fail:failBlock];
+    
+
 }
 
 - (void)GETParamsWithDevType:(NSString *)devtype
@@ -140,35 +76,10 @@
         [params setObject:devtype forKey:kDeviceType];
     }
     NSString *url = [EVHttpURLManager fullURLStringWithURI:EVGetParamNewAPI
-                                        params:params];
-    [self requestWithURLString:url
-                         start:startBlock
-                          fail:failBlock
-                       success:^(NSData *data)
-     {
-         if ( data )
-         {
-             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:NSJSONReadingMutableContainers
-                                                                    error:NULL];
-             //                    CCLog(@"%@", info);
-             if ( [info[kRetvalKye] isEqualToString:kRequestOK] )
-             {
-                 if ( successBlock )
-                 {
-                     successBlock(info[kRetinfoKey]);
-                 }
-             }
-             else if (failBlock)
-             {
-                 failBlock(nil);
-             }
-         }
-         else if (failBlock)
-         {
-             failBlock(nil);
-         }
-     }];
+                                        params:nil];
+    
+    [EVBaseToolManager GETRequestWithUrl:url parameters:params success:successBlock sessionExpireBlock:nil fail:failBlock];
+
 }
 
 

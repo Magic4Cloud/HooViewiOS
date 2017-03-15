@@ -12,20 +12,21 @@
 #import "EVTableNotifListViewCell.h"
 #import "EVNotifyItem.h"
 #import "SRRefreshView.h"
-#import "EVChooseChatterViewController.h"
 #import "EVBaseToolManager+EVMessageAPI.h"
+#import "EVNullDataView.h"
 
 #define kNotifyListRequstCount 10
 
 const NSString *const notifyListCellID = @"notifyList";
 
-@interface EVNotifyListViewController ()<UITableViewDataSource,UITableViewDelegate,SRRefreshDelegate,CCChooseChatterDelegate>
+@interface EVNotifyListViewController ()<UITableViewDataSource,UITableViewDelegate,SRRefreshDelegate>
 
 @property (nonatomic,weak) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *notifmessages;//所有消息列表
 @property (nonatomic, strong) EVBaseToolManager *engine;
 @property (strong, nonatomic) SRRefreshView *slimeView;
 @property (assign, nonatomic) BOOL isLoading;
+@property (nonatomic, strong) EVNullDataView *nullView;
 
 
 @end
@@ -55,7 +56,7 @@ const NSString *const notifyListCellID = @"notifyList";
 
 - (void)dealloc
 {
-    CCLog(@"----===是否===----");
+    EVLog(@"----===是否===----");
     [_engine cancelAllOperation];
     _engine = nil;
     _notifmessages = nil;
@@ -132,9 +133,11 @@ const NSString *const notifyListCellID = @"notifyList";
     self.tableView.delegate = self;
     self.title = self.notiItem.title;
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    tableView.backgroundColor = CCBackgroundColor;
+    tableView.backgroundColor = [UIColor evBackgroundColor];
     tableView.contentInset = UIEdgeInsetsMake(0, 0, 64, 0);
     [tableView addSubview:self.slimeView];
+    
+    [self.view addSubview:self.nullView];
     
     //加载xib
     [tableView registerNib:[UINib nibWithNibName:@"EVTableNotifListViewCell" bundle:nil] forCellReuseIdentifier:(NSString *)notifyListCellID];
@@ -151,38 +154,25 @@ const NSString *const notifyListCellID = @"notifyList";
     __weak typeof(self) weakSelf = self;
     [self.engine GETMessageitemlistStart:start count:count
                               groupid:self.notiItem.groupid
-                                start:^
-    {
+                                start:^ {
         self.isLoading = YES;
         
-    }
-                                 fail:^(NSError *error)
-    {
+    }fail:^(NSError *error) {
         [weakSelf.slimeView endRefresh];
         self.isLoading = NO;
-        [CCProgressHUD showError:@""toView:weakSelf.view];
-        if ( error.userInfo[kCustomErrorKey] )
-        {
-            
-        }
-        else
-        {
-    
-        }
-    }
-                              success:^(id messageData)
-    {
+        [EVProgressHUD showError:@"" toView:weakSelf.view];
+    } success:^(id messageData) {
         [weakSelf.slimeView endRefresh];
         self.isLoading = NO;
         NSArray *messageGroupslist= messageData[@"items"];
         if ( messageGroupslist.count < count )
         {
-// fix by 杨尚彬  测试
+
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [weakSelf.slimeView removeFromSuperview];
             });
-            CCLog(@"消失");
         }
+        
         for (NSInteger i = 0; i < messageGroupslist.count; i ++)
         {
             NSDictionary *dic = [messageGroupslist objectAtIndex:i];
@@ -206,11 +196,24 @@ const NSString *const notifyListCellID = @"notifyList";
     }];
 }
 
+- (void)popBack
+{
+    if (self.messageBlock) {
+        self.messageBlock(YES);
+    }
+    [EVNotificationCenter postNotificationName:EVShouldUpdateNotifyUnread object:nil];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)scrollViewToBottom
 {
     if ( self.notifmessages.count > 1 )
     {
+        self.nullView.hidden = YES;
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:(NSInteger)self.notifmessages.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+    }
+    else {
+        self.nullView.hidden = NO;
     }
 }
 
@@ -238,5 +241,17 @@ const NSString *const notifyListCellID = @"notifyList";
     }
 }
 
+
+- (EVNullDataView *)nullView {
+    if (!_nullView) {
+        _nullView = [[EVNullDataView alloc] initWithFrame:self.view.frame];
+        _nullView.title = @"暂无系统消息提醒";
+        _nullView.hidden = YES;
+        _nullView.topImage = [UIImage imageNamed:@"ic_cry"];
+        _nullView.subtitle = nil;
+        _nullView.buttonTitle = nil;
+    }
+    return _nullView;
+}
 
 @end

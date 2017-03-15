@@ -11,6 +11,7 @@
 #import "EVHttpURLManager.h"
 #import "NSString+Extension.h"
 
+
 @implementation EVBaseToolManager (EVAccountChangeAPI)
 
 
@@ -43,44 +44,11 @@
     [params setValue:[oldPwd md5String]forKey:kOldPwdKey];
     [params setValue:[newPwd md5String]forKey:KNewPwdKey];
     NSString *url = [EVHttpURLManager httpsFullURLStringWithURI:EVModifyPasswordAPI
-                                             params:params];
+                                             params:nil];
     url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    [self jsonPostWithURLString:url
-                         params:nil
-                          start:startBlock
-                           fail:failBlock
-                        success:^(NSData *data)
-     {
-         if ( data )
-         {
-             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:NSJSONReadingMutableContainers
-                                                                    error:NULL];
-             CCLog(@"%@", info);
-             if ( [info[kRetvalKye] isEqualToString:kRequestOK] )
-             {
-                 if ( successBlock )
-                 {
-                     successBlock(info[kRetinfoKey]);
-                 }
-             }
-             else if ( [info[kRetvalKye] isEqualToString:kSessionIdExpireValue] )
-             {
-                 if ( sessionExpireBlock )
-                 {
-                     sessionExpireBlock();
-                 }
-             }
-             else if (failBlock)
-             {
-                 failBlock([NSError cc_errorWithDictionary:info]);
-             }
-         }
-         else if (failBlock)
-         {
-             failBlock(nil);
-         }
-     }];
+    
+    [EVBaseToolManager GETRequestWithUrl:url parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+
 }
 
 - (void)GETAuthPhoneChangeWithPhone:(NSString *)phone
@@ -101,41 +69,8 @@
               forKey:kToken];
     
     NSString *url = [EVHttpURLManager httpsFullURLStringWithURI:EVAuthPhoneChangeAPI
-                                             params:params];
-    [self requestWithURLString:url
-                         start:startBlock
-                          fail:failBlock
-                       success:^(NSData *data)
-     {
-         if ( data )
-         {
-             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:NSJSONReadingMutableContainers
-                                                                    error:NULL];
-             CCLog(@"%@", info);
-             if ( [info[kRetvalKye] isEqualToString:kRequestOK] )
-             {
-                 if ( successBlock )
-                 {
-                     successBlock(info[kRetinfoKey]);
-                 }
-             }
-             else if ( [info[kRetvalKye] isEqualToString:kSessionIdExpireValue] )
-             {
-                 if ( sessionExpireBlock )
-                 {
-                     sessionExpireBlock();
-                 }
-             }
-             else if (failBlock)
-             {
-                 failBlock([NSError cc_errorWithDictionary:info]);
-             }
-         }
-         else if (failBlock)
-         {
-             failBlock(nil);
-         }
-     }];
+                                             params:nil];
+    [EVBaseToolManager GETRequestWithUrl:url parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+
 }
 @end

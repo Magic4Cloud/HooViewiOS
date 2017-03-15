@@ -11,7 +11,7 @@
 @implementation UIView (Extension)
 
 - (void)setNormalFontAffectSubviews:(BOOL)affectSubviews {
-    NSString *fontFamlyName = [CCAppSetting shareInstance].normalFontFamilyName;
+    NSString *fontFamlyName = [EVAppSetting shareInstance].normalFontFamilyName;
     [self setFontFamily:fontFamlyName affectSubviews:affectSubviews];
 }
 
@@ -56,18 +56,18 @@
 }
 
 - (void)backGroundColor_addAppAppearanceNotification{
-    [CCNotificationCenter addObserver:self selector:@selector(backGroundColorChange:) name:CCAppSettingVersionDidChangedNotification object:nil];
+    [EVNotificationCenter addObserver:self selector:@selector(backGroundColorChange:) name:EVAppSettingVersionDidChangedNotification object:nil];
 }
 
 - (void)removeAppAppearanceNotification{
-    [CCNotificationCenter removeObserver:self];
+    [EVNotificationCenter removeObserver:self];
 }
 
 - (void)backGroundColorChange:(NSNotification *)notification{
-    switch ( [notification.userInfo[CCAppSettingChangeKey] integerValue] )
+    switch ( [notification.userInfo[EVAppSettingChangeKey] integerValue] )
     {
-        case CCAppStyleChangeMainColor:
-            self.backgroundColor = CCAppMainColor;
+        case EVAppStyleChangeMainColor:
+            self.backgroundColor = [UIColor evMainColor];
             break;
             
         default:

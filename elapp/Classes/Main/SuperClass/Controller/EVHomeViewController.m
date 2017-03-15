@@ -13,9 +13,7 @@
 #import "EVAlertManager.h"
 #import "EVLoginViewController.h"
 #import "EVAccountPhoneBindViewController.h"
-#import "EVEaseMob.h"
 #import "AppDelegate.h"
-#import "EVChatViewController.h"
 #import "EVNotifyConversationItem.h"
 #import "EVStreamer.h"
 #import "UIViewController+Extension.h"
@@ -24,11 +22,13 @@
 #import "EVLoginInfo.h"
 #import "EVBaseToolManager+EVUserCenterAPI.h"
 #import "EVBaseToolManager+EVMessageAPI.h"
-
+#import "AppDelegate.h"
+#import "EVEaseMob.h"
+#import "EVSDKInitManager.h"
 
 #define kPushHotController  @"pushHotController"
 
-@interface EVHomeViewController () <CCHomeTabbarDelegate ,CCLiveViewControllerDelegate, EMChatManagerDelegate>
+@interface EVHomeViewController () <EVHomeTabbarDelegate ,CCLiveViewControllerDelegate, EMClientDelegate>
 
 @property (nonatomic, strong) NSArray *items;
 
@@ -39,7 +39,7 @@
 
 @property (nonatomic, assign) BOOL viewHasAppear;
 
-@property (nonatomic,weak) CCHomeTabbarContainer *homeTabbar;
+@property (nonatomic,weak) EVHomeTabbarContainer *homeTabbar;
 
 @property (nonatomic, assign) BOOL foreground;
 
@@ -54,8 +54,8 @@
 
 - (void)dealloc
 {
-    CCLog(@"CCHomeViewController dealloc");
-    [CCNotificationCenter removeObserver:self];
+    EVLog(@"CCHomeViewController dealloc");
+    [EVNotificationCenter removeObserver:self];
     [_engine cancelAllOperation];
 }
 
@@ -73,7 +73,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    self.modalPresentationStyle = UIModalPresentationCurrentContext;//关键语句，必须有
+    
     [self configView];
     [self setUpNotification];
     [self setUpIM];
@@ -82,39 +83,73 @@
 
 - (void)getStartResourceTool
 {
-    // 下载点赞图片
     [[EVStartResourceTool shareInstance] loadData];
 }
 
 - (void)setUpIM
 {
-    [EVEaseMob setChatManagerDelegate:self];
+    [[EMClient sharedClient] addDelegate:self delegateQueue:nil];
+//    [EVEaseMob setChatManagerDelegate:self];
 }
 
+- (void)connectionStateDidChange:(EMConnectionState)aConnectionState {
+    EVLog(@"EMConnectionState %ld", (NSUInteger)aConnectionState);
+}
+
+- (void)userAccountDidLoginFromOtherDevice {
+    [[EVAlertManager shareInstance] performComfirmTitle:kTooltip message:kAccountOtherDeviceLogin cancelButtonTitle:kCancel comfirmTitle:kAgainLogin WithComfirm:^{
+        [self handleLogoutAction];
+        
+        if (![EVLoginInfo hasLogged]) {
+            UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
+            [self presentViewController:navighaVC animated:YES completion:nil];
+        }
+    } cancel:^{
+        [self handleLogoutAction];
+    }];
+}
+
+- (void)handleLogoutAction {
+    [EVNotificationCenter postNotificationName:@"userLogoutSuccess" object:nil];
+    [_engine cancelAllOperation];
+    [_engine GETLogoutWithFail:^(NSError *error) {
+    } success:^{
+        EVLog(@"logout success");
+    } essionExpire:^{
+        
+    }];
+    [EVEaseMob logoutIMLoginFail:^(EMError *error) {
+        EVLog(@"EMlogouterror-----  %@",error);
+    }];
+    [EVLoginInfo cleanLoginInfo];
+    [EVBaseToolManager resetSession];
+    [EVSDKInitManager initMessageSDKUserData:nil];
+    [EVNotificationCenter postNotificationName:NotifyOfLogout object:nil];
+}
 
 #pragma mark - EMChatManagerDelegate
-- (void)didReceiveMessage:(EMMessage *)message
-{
-    [EVEaseMob checkApplicationStateWithMessage:message];
-    [self.allMessages addObject:message];
-    // 判断是否需要显示小红点
-    if ( self.allMessages.count > 0 )
-    {
-        self.homeTabbar.showRedPoint = YES;
-    }
-}
+//- (void)didReceiveMessage:(EMMessage *)message
+//{
+//    [EVEaseMob checkApplicationStateWithMessage:message];
+//    [self.allMessages addObject:message];
+//    // 判断是否需要显示小红点
+//    if ( self.allMessages.count > 0 )
+//    {
+//        self.homeTabbar.showRedPoint = YES;
+//    }
+//}
 
-- (void)didReceiveOfflineMessages:(NSArray *)offlineMessages
-{
-    for (EMMessage *message in offlineMessages) {
-        [self.allMessages addObject:message];
-    }
-    // 判断是否需要显示小红点
-    if ( self.allMessages.count > 0 )
-    {
-        self.homeTabbar.showRedPoint = YES;
-    }
-}
+//- (void)didReceiveOfflineMessages:(NSArray *)offlineMessages
+//{
+//    for (EMMessage *message in offlineMessages) {
+//        [self.allMessages addObject:message];
+//    }
+//    // 判断是否需要显示小红点
+//    if ( self.allMessages.count > 0 )
+//    {
+//        self.homeTabbar.showRedPoint = YES;
+//    }
+//}
 
 - (NSMutableArray *)allMessages
 {
@@ -128,10 +163,10 @@
 - (void)setUpNotification
 {
     _foreground = NO;
-    [CCNotificationCenter addObserver:self selector:@selector(shouldShowRedPointOnTabBar:) name:CCScretLetterRedPointShowNotification object:nil];
-    [CCNotificationCenter addObserver:self selector:@selector(receiveTimeUpdate:) name:CCUpdateForecastTime object:nil];
-    [CCNotificationCenter addObserver:self selector:@selector(enterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
-    [CCNotificationCenter addObserver:self selector:@selector(enterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [EVNotificationCenter addObserver:self selector:@selector(shouldShowRedPointOnTabBar:) name:CCScretLetterRedPointShowNotification object:nil];
+    [EVNotificationCenter addObserver:self selector:@selector(receiveTimeUpdate:) name:EVUpdateTime object:nil];
+    [EVNotificationCenter addObserver:self selector:@selector(enterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
+    [EVNotificationCenter addObserver:self selector:@selector(enterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
  
 }
 
@@ -180,19 +215,17 @@
         } fail:^(NSError *error) {
             
         } success:^(id messageData) {
-// fix by 杨尚彬 id 类型不明确
             NSDictionary *dic = nil;
             if ([messageData isKindOfClass:[NSDictionary class]]) {
                 dic = (NSDictionary *)messageData;
             }
             NSInteger unread = [[dic objectForKey:@"unread"] integerValue];
             
-            self.homeTabbar.showRedPoint = unread != 0;
-            
+            NSString *unreadStr = [NSString stringWithFormat:@"%ld",unread];
             // 当此次未读数跟上次未读数不一样时,发送刷新列表的通知
             if ( unread != lastUnread ) {
 
-                [CCNotificationCenter postNotificationName:CCShouldUpdateNotifyUnread object:nil];
+                [EVNotificationCenter postNotificationName:EVShouldUpdateNotifyUnread object:unreadStr];
             }
             lastUnread = unread;
         }];
@@ -212,38 +245,38 @@
 {
     __weak typeof(self) wself = self;
     [self.engine GETBaseUserInfoWithUname:name orImuser:nil start:^{
-        [CCProgressHUD showMessage:kLChatRoom toView:wself.view];
+        [EVProgressHUD showMessage:kLChatRoom toView:wself.view];
     } fail:^(NSError *error) {
-        [CCProgressHUD hideHUDForView:wself.view];
-        [CCProgressHUD showError:kFailNetworking toView:wself.view];
+        [EVProgressHUD hideHUDForView:wself.view];
+        [EVProgressHUD showError:kFailNetworking toView:wself.view];
     } success:^(NSDictionary *modelDict) {
-        [CCProgressHUD hideHUDForView:wself.view];
-        [wself startChatWithUserModel:[EVUserModel objectWithDictionary:modelDict]];
+        [EVProgressHUD hideHUDForView:wself.view];
+//        [wself startChatWithUserModel:[EVUserModel objectWithDictionary:modelDict]];
     } sessionExpire:^{
-        [CCProgressHUD hideHUDForView:wself.view];
-        CCRelogin(wself);
+        [EVProgressHUD hideHUDForView:wself.view];
+        EVRelogin(wself);
     }];
 }
 
-- (void)startChatWithUserModel:(EVUserModel *)userModel
-{
-    if ( userModel.imuser == nil )
-    {
-        [CCProgressHUD showError:kFailChat];
-        return;
-    }
-    EVNotifyConversationItem *conversationItem = [[EVNotifyConversationItem alloc] init];
-    conversationItem.userModel = userModel;
-    conversationItem.conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:userModel.imuser conversationType:eConversationTypeChat];
-    EVChatViewController *chatVC = [[EVChatViewController alloc] init];
-    chatVC.conversationItem = conversationItem;
-    UINavigationController *nav = self.selectedViewController;
-    [nav pushViewController:chatVC animated:YES];
-}
+//- (void)startChatWithUserModel:(EVUserModel *)userModel
+//{
+//    if ( userModel.imuser == nil )
+//    {
+//        [EVProgressHUD showError:kFailChat];
+//        return;
+//    }
+//    EVNotifyConversationItem *conversationItem = [[EVNotifyConversationItem alloc] init];
+//    conversationItem.userModel = userModel;
+//    conversationItem.conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:userModel.imuser conversationType:eConversationTypeChat];
+//    EVChatViewController *chatVC = [[EVChatViewController alloc] init];
+//    chatVC.conversationItem = conversationItem;
+//    UINavigationController *nav = self.selectedViewController;
+//    [nav pushViewController:chatVC animated:YES];
+//}
 
 - (void)configView
 {
-    CCHomeTabbarContainer *containerView = [[CCHomeTabbarContainer alloc] init];
+    EVHomeTabbarContainer *containerView = [[EVHomeTabbarContainer alloc] init];
     [self setValue:containerView forKey:@"tabBar"];
     containerView.tabbar.delegate = self;
     self.homeTabbar = containerView;
@@ -265,7 +298,7 @@
 }
 
 #pragma mark - CCHomeTabbarDelegate
-- (void)homeTabbarDidClicked:(CCHomeTabbarButtonType)btn
+- (void)homeTabbarDidClicked:(EVHomeTabbarButtonType)btn
 {
     self.selectedIndex = btn;
 }
@@ -287,10 +320,10 @@
 {
     if ( ![EVBaseToolManager userHasLoginLogin] )
     {
-        if ([CCAppSetting shareInstance].isLogining)  return;
+        if ([EVAppSetting shareInstance].isLogining)  return;
         
-        UINavigationController *navCon = [EVLoginViewController loginViewControllerWithNavigationController];
-        [self presentViewController:navCon animated:YES completion:nil];
+        EVLoginViewController *loginVC = [EVLoginViewController loginViewControllerWithNavigationController];
+        [self presentViewController:loginVC animated:YES completion:nil];
         return;
     }
 
@@ -302,22 +335,27 @@
     [super viewWillAppear:animated];
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
 }
-
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    CGFloat height = tabBarRealHeight;
-    CGRect frame = self.tabBar.frame;
-    frame.size.height = height;
-    frame.origin.y = self.view.frame.size.height - height;
-    self.tabBar.frame = frame;
+//    CGFloat height = 50;
+//    CGRect frame = self.tabBar.frame;
+//    frame.size.height = height;
+//    frame.origin.y = self.view.frame.size.height - height;
+//    self.tabBar.frame = frame;
 }
+
+- (BOOL)shouldAutorotate
+{
+    return NO;
+}
+
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     self.viewHasAppear = YES;
-    [CCAppSetting shareInstance].appstate = CCEasyvaasAppStateDefault;
+    [EVAppSetting shareInstance].appstate = EVEasyvaasAppStateDefault;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -354,36 +392,26 @@
 
 - (void)liveNeedToRelogin:(EVLiveViewController *)liveVC
 {
-    CCRelogin(self);
+    EVRelogin(self);
 }
 
 - (void)liveDidStart:(EVLiveViewController *)liveVC info:(NSDictionary *)info
 {
-    [CCNotificationCenter postNotificationName:CCRequestStartLiveFinishNotification object:nil userInfo:info];
+    
 }
 
-- (void)didLoginFromOtherDevice
-{
-    [[EVAlertManager shareInstance] performComfirmTitle:kTooltip message:kAccountOtherDeviceLogin cancelButtonTitle:kCancel comfirmTitle:kAgainLogin WithComfirm:^{
-        [EVLoginInfo cleanLoginInfo];
-        [EVBaseToolManager resetSession];
-        [self reLogin];
-    } cancel:^{
-        [EVLoginInfo cleanLoginInfo];
-        [EVBaseToolManager resetSession];
-    }];
-}
 
 - (void)reLogin
 {
     __weak typeof(self) wself = self;
+    [CCUserDefault removeObjectForKey:SESSION_ID_STR];
     [EVBaseToolManager checkSession:^{
-        [CCProgressHUD showMessage:@"" toView:wself.view];
+        [EVProgressHUD showMessage:@"" toView:wself.view];
     } completet:^(BOOL expire) {
-        [CCProgressHUD hideHUDForView:wself.view];
+        [EVProgressHUD hideHUDForView:wself.view];
         if ( expire )
         {
-            CCRelogin(wself);
+            EVRelogin(wself);
         }
         else
         {
@@ -391,23 +419,23 @@
         }
         [EVBaseToolManager resetSession];
     } fail:^(NSError *error) {
-        [CCProgressHUD hideHUDForView:wself.view];
-        [CCProgressHUD showError:kNoNetworking toView:wself.view];
+        [EVProgressHUD hideHUDForView:wself.view];
+        [EVProgressHUD showError:kNoNetworking toView:wself.view];
     }];
 }
 
 - (void)reloginIm
 {
     __weak typeof(self) wself = self;
-    [EVEaseMob checkAndAutoReloginWithLoginInfo:nil imHasLogin:^(EVLoginInfo *loginInfo) {
-    } loginSuccess:^(EVLoginInfo *login) {
-    } loginFail:^(EMError *error) {
-        [CCProgressHUD showError:[NSString stringWithFormat:@"%@%ld",kNoNetworking, error.errorCode] toView:wself.view];
-    } sessionExpire:^{
-        [CCProgressHUD showError:kNoNetworking toView:wself.view];
-    } needRegistIM:^{
-        [CCProgressHUD showError:kNoNetworking toView:wself.view];
-    }];
+//    [EVEaseMob checkAndAutoReloginWithLoginInfo:nil imHasLogin:^(EVLoginInfo *loginInfo) {
+//    } loginSuccess:^(EVLoginInfo *login) {
+//    } loginFail:^(EMError *error) {
+//        [EVProgressHUD showError:[NSString stringWithFormat:@"%@%ld",kNoNetworking, error.errorCode] toView:wself.view];
+//    } sessionExpire:^{
+//        [EVProgressHUD showError:kNoNetworking toView:wself.view];
+//    } needRegistIM:^{
+//        [EVProgressHUD showError:kNoNetworking toView:wself.view];
+//    }];
 }
 
 - (void)showHomeTabbarWithAnimation

@@ -6,8 +6,6 @@
 //  Copyright (c) 2016 EasyVass. All rights reserved.
 //
 
-//
-
 #import "EVLiveViewController.h"
 #import <PureLayout.h>
 #import "EVShareManager.h"
@@ -32,30 +30,37 @@
 #import "EVMessageManager.h"
 #import "EVLiveEndView.h"
 #import "EVLimitViewController.h"
-#import "EVCategoryViewController.h"
 #import "EVAudioPlayer.h"
+#import "EVMusicView.h"
+#import "EVLiveMessage.h"
+#import "EVLiveMessage.h"
+#import "EVHVPrePareController.h"
+#import "EVHVLiveShareView.h"
+#import "EVHVGiftAniView.h"
+#import "EVSDKLiveEngineParams.h"
+
 
 #define kDefaultErrorStateTitle             kNoNetworking
 #define kLoadTitleNoNetWork                 kFailNetworking
 #define kDismissAnimationTime               0.3
 #define kMaxTitleLegth                      20
-#define kCropImageSize                      CGSizeMake(640, 640)
+#define kCropImageSize                      CGSizeMake(ScreenWidth, (9*ScreenWidth)/16)
 #define FOCUS_BUTTON_NORMAL_WH 100
 #define FOCUS_BUTTON_FOCUS_WH 60
 #define kLiveUpdateStateTimeInterval        5
 
-typedef NS_ENUM(NSInteger, CCLiveShareType)
+typedef NS_ENUM(NSInteger, EVLiveShareType)
 {
-    CCLiveShareSina,
-    CCLiveShareQQ,
-    CCLiveShareWeiXin,
-    CCLiveShareFriendCircle
+    EVLiveShareSina,
+    EVLiveShareQQ,
+    EVLiveShareWeiXin,
+    EVLiveShareFriendCircle
 };
 
-typedef NS_ENUM(NSInteger, CCToggleCameraType)
+typedef NS_ENUM(NSInteger, EVToggleCameraType)
 {
-    CCToggleCameraPrepare,
-    CCToggleCameraLiving
+    EVToggleCameraPrepare,
+    EVToggleCameraLiving
 };
 
 static inline long long getcurrsecond()
@@ -66,9 +71,9 @@ static inline long long getcurrsecond()
     return seconds;
 }
 
-@interface EVLiveViewController () < UIActionSheetDelegate, UIImagePickerControllerDelegate,UINavigationControllerDelegate,CCControllerContacterProtocol, UzysImageCropperDelegate, CCVideoViewProtocol, CCLiveBottomItemViewDelegate, EVLiveEndViewDelegate, CCLiveSliderDelegate, CCLiveAnchorSendRedPacketViewDelegate,CCLivePrePareViewDelegate,EVVideoCodingDelegate,CCLivePrePareViewDelegate,EVLimitViewControllerDelegate,EVCategoryViewControllerDelegate>
+@interface EVLiveViewController () < UIActionSheetDelegate, UIImagePickerControllerDelegate,UINavigationControllerDelegate,EVControllerContacterProtocol, UzysImageCropperDelegate, EVLiveBottomItemViewDelegate, EVLiveEndViewDelegate, EVLiveSliderDelegate, CCLiveAnchorSendRedPacketViewDelegate,EVLivePrePareViewDelegate,EVVideoCodingDelegate,EVLivePrePareViewDelegate,EVLimitViewControllerDelegate,EVMusicViewDelegate,EVSDKMessageDelegate,UIGestureRecognizerDelegate,UITextFieldDelegate>
 
-
+@property (strong, nonatomic) UzysImageCropperViewController *imageCropperViewController;   /**< 图片剪切器 */
 @property (nonatomic, assign) BOOL focusing;//判断是否正在对焦
 
 @property ( nonatomic, strong ) UITapGestureRecognizer *focusTap;//对焦的手势
@@ -91,7 +96,6 @@ static inline long long getcurrsecond()
 
 @property ( nonatomic, weak ) UIButton *muteItem;//静音按钮
 
-
 @property (nonatomic,weak) EVLiveEndView *liveEndView;//直播停止视图
 
 @property (nonatomic,weak) EVLiveSlider *slider;//花动调大小
@@ -103,13 +107,9 @@ static inline long long getcurrsecond()
 @property (assign, nonatomic) BOOL isStartBtnClicked; /**< 是否点击了开始按钮，如果已经点击了开始按钮，那么从后台回来则开始直播 */
 
 @property (assign, nonatomic) BOOL isBeautyOn; /**< 是否开启美颜，默认0不开启 */
-
-@property (assign, nonatomic) BOOL isPlayMp3;
-
-
 @property (assign, nonatomic) BOOL isSharing; /**< 是否处于分享状态 */
 @property (copy, nonatomic) NSString *getLiveUrl; /**< 二次获取直播url的请求地址 */
-@property (assign, nonatomic) CCLiveState liveState; /**< 直播状态 */
+@property (assign, nonatomic) EVLiveState liveState; /**< 直播状态 */
 @property (assign, nonatomic) BOOL isBadNetworkAlertingToClose; /**< 当前是否正在提示网络差到不能直播（控制提示只出现一次） */
 @property (assign, nonatomic) long long lastNotitionTime; /**< 上次提示用户关闭的时间 */
 
@@ -117,12 +117,26 @@ static inline long long getcurrsecond()
 
 @property (nonatomic, strong) EVLiveEncode *liveEncode;
 
-
 @property (nonatomic,strong) dispatch_queue_t countTimeQueue;
 
 @property ( nonatomic, strong ) NSDateFormatter *formatter;
 
 @property (nonatomic,strong) EVLimitViewController *limitVC;
+
+@property (nonatomic, strong) EVMusicView *musicView;
+
+
+@property (nonatomic, copy) NSString *callid;
+
+@property (nonatomic, assign) BOOL isEndLink;
+
+@property (nonatomic, weak) EVHVLiveShareView *liveShareView;
+
+@property (nonatomic, weak) UIImageView *startAniImageView;
+
+
+@property (nonatomic, assign) NSInteger isVideoTimer;
+
 
 @end
 
@@ -155,7 +169,7 @@ static inline long long getcurrsecond()
     [self.contacter addListener:self.controllerItem];
 }
 
-#pragma CCControllerContacterProtocol
+#pragma EVControllerContacterProtocol
 - (void)receiveEvents:(NSString *)event withParams:(NSDictionary *)params
 {
     if ( [event isEqualToString:CCLiveStop] )
@@ -186,10 +200,10 @@ static inline long long getcurrsecond()
 //相机聚焦失败
 - (void)cameraFocusFail:(NSString *)fail
 {
-    [CCProgressHUD showError:fail];
+    [EVProgressHUD showError:fail];
 }
 
-#pragma mark - CCLiveSliderDelegate
+#pragma mark - EVLiveSliderDelegate
 - (void)liveSlider:(EVLiveSlider *)slider valueChanged:(CGFloat)value
 {
     self.recoderInfo.scale = value;
@@ -220,10 +234,9 @@ static inline long long getcurrsecond()
 }
 
 
-#pragma mark - CCLiveShareViewDelegate
-- (void)liveShareViewDidClickButton:(CCLiveShareButtonType)type
+#pragma mark - EVLiveShareViewDelegate
+- (void)liveShareViewDidClickButton:(EVLiveShareButtonType)type
 {
-    NSLog(@"----- %@",[EVLoginInfo localObject].nickname);
     NSString *nickName = [EVLoginInfo localObject].nickname;
     NSString *videoTitle = self.recoderInfo.title;
     NSString *shareUrlString = self.recoderInfo.share_url;
@@ -236,34 +249,28 @@ static inline long long getcurrsecond()
     }
     
     self.isSharing = YES;
-    ShareType shareType;
-    if (self.isStartBtnClicked) {
-        // 主播端直播
-        shareType = ShareTypeLiveAnchor;
-    } else {
-        // 主播端开播分享
-        shareType = ShareTypeAnchorBeginLive;
-    }
+    ShareType shareType = ShareTypeLiveAnchor;
+
     [UIImage gp_imageWithURlString:[EVLoginInfo localObject].logourl comoleteOrLoadFromCache:^(UIImage *image, BOOL loadFromLocal) {
-        [[EVShareManager shareInstance] shareContentWithPlatform:type shareType:shareType titleReplace:nickName descriptionReplaceName:videoTitle descriptionReplaceId:nil URLString:shareUrlString image:image];
+        [[EVShareManager shareInstance] shareContentWithPlatform:type shareType:shareType titleReplace:nickName descriptionReplaceName:videoTitle descriptionReplaceId:nil URLString:shareUrlString image:image  outImage:nil];
     }];
     
 }
 
 #pragma mark - ***********      Networks 🌐       ***********
-//用户资产信息得到云币
+//用户资产信息得到火眼豆
 - (void)getMyAssets
 {
     __weak typeof(self) wself = self;
     [self.engine GETUserAssetsWithStart:^{
         
     } fail:^(NSError *error) {
-        CCLog(@"get asset fail");
+        EVLog(@"get asset fail");
     } success:^(NSDictionary *videoInfo) {
-        CCLog(@"get asset success");
+        EVLog(@"get asset suEVess");
         [wself updateAssetWithInfo:videoInfo];
     } sessionExpire:^{
-        CCRelogin(wself);
+        EVRelogin(wself);
     }];
 }
 #pragma mark - ***********     Life Cycle ♻️      ***********
@@ -272,6 +279,38 @@ static inline long long getcurrsecond()
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+  
+}
+
+- (void)setNewOrientation:(BOOL)fullscreen
+{
+    if (fullscreen) {
+        NSNumber *resetOrientationTarget = [NSNumber numberWithInt:UIInterfaceOrientationUnknown];
+        
+        [[UIDevice currentDevice] setValue:resetOrientationTarget forKey:@"orientation"];
+    
+        NSNumber *orientationTarget = [NSNumber numberWithInt:UIInterfaceOrientationLandscapeLeft];
+        
+        [[UIDevice currentDevice] setValue:orientationTarget forKey:@"orientation"];
+        
+    }else{
+        
+        NSNumber *resetOrientationTarget = [NSNumber numberWithInt:UIInterfaceOrientationUnknown];
+        
+        [[UIDevice currentDevice] setValue:resetOrientationTarget forKey:@"orientation"];
+        
+        NSNumber *orientationTarget = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
+        
+        [[UIDevice currentDevice] setValue:orientationTarget forKey:@"orientation"];
+        
+    }
+    
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -280,54 +319,122 @@ static inline long long getcurrsecond()
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
     [self setUpView];
+
     _isBeautyOn = YES;
     
+    
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+    
+    EVLog(@"-------------  %d",[UIApplication sharedApplication].idleTimerDisabled);
+//    if ([UIApplication sharedApplication].idleTimerDisabled == YES) {
+//        [[EVAlertManager shareInstance] configAlertViewWithTitle:@"123" message:@"123" cancelTitle:@"123" WithCancelBlock:^(UIAlertView *alertView) {
+//            
+//        }];
+//    }
+  
     [self initContacterListener];
-    self.liveEncode = [[EVLiveEncode alloc]init];
-    self.liveEncode.delegate = self;
-    [self.liveEncode initWithLiveEncodeView:self.livingView];
-    [self.liveEncode enableFaceBeauty:self.isBeautyOn];
+
     [self setUpNotification];
+
     [self getMyAssets];
     
     [self updateAnchorInfo];
-    self.videoInfoView.item.mode = CCAudienceInfoItemLiving;
     
-    self.countTimeQueue = dispatch_queue_create("live count queue", DISPATCH_QUEUE_SERIAL);
-    [self setUpAudioPlayer];
+//    self.videoInfoView.item.mode = EVAudienceInfoItemLiving;
+
+//    self.countTimeQueue = dispatch_queue_create("live count queue", DISPATCH_QUEUE_SERIAL);
+    
+//    [self setUpAudioPlayer];
+    
+//    self.linkManager.delegate = self;
+
+    UIImageView *startAniImageView = [[UIImageView alloc] init];
+    [self.contentView addSubview:startAniImageView];
+    self.startAniImageView = startAniImageView;
+    self.startAniImageView.frame = CGRectMake((ScreenHeight - 80)/2, (ScreenWidth - 80)/2, 80, 80);
+    self.startAniImageView.hidden  = NO;
+    NSArray *arrayImage = @[@"ic_countdown3",@"ic_countdown2",@"ic_countdown1"];
+    NSMutableArray *aniImages = [NSMutableArray array];
+    for (NSInteger i = 0; i < arrayImage.count; i++) {
+        UIImage *image = [UIImage imageNamed:arrayImage[i]];
+        [aniImages addObject:image];
+    }
+    self.startAniImageView.animationImages  = aniImages;
+    self.startAniImageView.animationDuration = 3;
+    self.startAniImageView.animationRepeatCount = 0;
+
+    EVHVGiftAniView *giftAniView = [[EVHVGiftAniView alloc] initWithFrame:CGRectMake(ScreenHeight - 100, ScreenWidth - 200, 80, 190)];
+    giftAniView.backgroundColor = [UIColor clearColor];
+    [self.contentView addSubview:giftAniView];
+    self.giftAniView = giftAniView;
+    
+}
+
+- (void)receiveTimeUpdate:(NSNotification *)notification
+{
+    EVLog(@"==============================  %ld",self.isVideoTimer);
+    self.isVideoTimer ++;
+}
+
+- (void)onFrameAnimationFinished:(NSTimer *)timer{
+    UIImageView * imageView = (UIImageView *)[timer userInfo];
+    [imageView removeFromSuperview];
+}
+
+
+- (void)setInitLiveEncode
+{
+    self.liveEncode = [[EVLiveEncode alloc]init];
+    self.liveEncode.delegate = self;
+    [self.liveEncode initWithLiveEncodeView:self.livingView];
+    [self toggleCameraWithType:EVToggleCameraLiving];
 }
 
 - (void)setUpAudioPlayer
 {
-    NSString *pathFile = [[NSBundle mainBundle]pathForResource:@"殷承宗 - 苏三起解.mp3" ofType:nil];
+    NSString *pathFile = [[NSBundle mainBundle]pathForResource:@"Eagles - 加州旅馆.mp3" ofType:nil];
     
-    [[EVAudioPlayer sharePlayer]setFilePath:pathFile];
+    [[EVAudioPlayer sharePlayer] setFilePath:pathFile];
 
     [[EVAudioPlayer sharePlayer] setSupportLoop:YES];
     
 }
 
+
+- (void)EVRecordAudioBufferList:(AudioBufferList *)audioBufferList
+{
+    [[EVAudioPlayer sharePlayer] mixWithRecordedBuffer:audioBufferList];
+}
+
+
 - (void)dealloc
 {
-    CCLog(@"CCLiveViewController is dealloc");
+    EVLog(@"EVLiveViewController is dealloc");
     _recoderInfo.needToReconnect = NO;
     [self removeObserver];
-    [CCNotificationCenter removeObserver:self];
+    [EVNotificationCenter removeObserver:self];
     [_engine cancelAllOperation];
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
     [self.liveEncode shutDownEncoding];
     _controllerItem.delegate = nil;
     _observerKeyPaths = nil;
+    _imageCropperViewController = nil;
 }
 
 - (void)riceAmoutViewDidSelect
 {
     EVFantuanContributionListVC *fantuanVC = [[EVFantuanContributionListVC alloc] init];
-    fantuanVC.name = self.videoInfoView.item.name;
+//    fantuanVC.name = self.videoInfoView.item.name;
     fantuanVC.isAnchor = YES;
     [self.navigationController pushViewController:fantuanVC animated:YES];
 }
@@ -336,36 +443,33 @@ static inline long long getcurrsecond()
 - (void)updateAnchorInfo
 {
     EVLoginInfo *loginInfo = [EVLoginInfo localObject];
-    self.videoInfoView.item.nickname = loginInfo.nickname;
-    self.videoInfoView.item.gender = loginInfo.gender;
-    self.videoInfoView.item.watchSide = YES;
-    self.videoInfoView.item.location = loginInfo.location;
-    self.videoInfoView.item.name = loginInfo.name;
+//    self.videoInfoView.item.nickname = loginInfo.nickname;
+//    self.videoInfoView.item.gender = loginInfo.gender;
+//    self.videoInfoView.item.watchSide = YES;
+//    self.videoInfoView.item.location = loginInfo.location;
+//    self.videoInfoView.item.name = loginInfo.name;
     self.anchorName = loginInfo.name;
 }
 
 // 更新资产信息
 - (void)updateAssetWithInfo:(NSDictionary *)Info
 {
-    //主播的总云币
    self.anchorEcoinCount = [Info[kEcoin] longLongValue];
 }
 
 - (void)forceToShutDown:(void (^)())complete
 {
     // 如果还在直播设置页 就直接关掉
-    if ( self.prepareView )
-    {
+    if ( self.prepareView ) {
         [self finishLivePage];
-    }
-    else
-    {
+    } else {
         [self sessionExpireAndRelogin];
     }
 }
 
 - (void)codingStateChanged:(EVEncodedState)state
 {
+    NSLog(@"----------------------   %ld",state);
     switch ( state )
     {
         case EVEncodedStateEncoderError:
@@ -373,18 +477,25 @@ static inline long long getcurrsecond()
             // 编码器初始化失败
             [_liveEncode shutDownEncoding];
             [[EVAlertManager shareInstance] performComfirmTitle:kTooltip message:kE_GlobalZH(@"device_fail_living") comfirmTitle:kOK WithComfirm:^{
-                [self liveViewControllerDismissComplete:nil];
+                AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                appDelegate.allowRotation = NO;//(以上2行代码,可以理解为打开横屏开关)
+                [self setNewOrientation:NO];//调用转屏代码90
+                self.recoderInfo.userRequestStop = YES;
+                [self requestLiveStop];
+                [[EVAudioPlayer sharePlayer] stop];
             }];
         }
             break;
             
         case EVEncodedStateConnecting:
+        {
             [self.tipsLabel showWithAnimationText:kE_GlobalZH(@"connection_server")];
+        }
             break;
             
         case EVEncodedStateConnected:
         {
-            self.liveState = CCLiveStateLiving;
+            self.liveState = EVLiveStateLiving;
             [self.tipsLabel hiddenWithAnimation];
         }
             break;
@@ -394,12 +505,12 @@ static inline long long getcurrsecond()
             break;
             
         case EVEncodedStateStreamOptimizComplete:
-            self.liveState = CCLiveStateLiving;
+            self.liveState = EVLiveStateLiving;
             [self.tipsLabel hiddenWithAnimation];
             break;
             
         case EVEncodedStateStreamOptimizing:
-            self.liveState = CCLiveStateNetworkBad;
+            self.liveState = EVLiveStateNetworkBad;
             [self.tipsLabel showWithAnimationText:kE_GlobalZH(@"network_poor_optimization")];
             break;
             
@@ -412,28 +523,30 @@ static inline long long getcurrsecond()
             
         case EVEncodedStatePhoneCallComeIn:
         {
-            self.liveState = CCLiveStatePhoneCallComeIn;
+            self.liveState = EVLiveStatePhoneCallComeIn;
         }
             break;
             
         case EVEncodedStateLivingIsInterruptedByOther:
         {
-            self.liveState = CCLiveStateHoldUp;
-            CCLog(@"-----interrupt-------recorder");
-       
-            
+            self.liveState = EVLiveStateHoldUp;
             __weak typeof(self) wself = self;
             [[EVAlertManager shareInstance] performComfirmTitle:kTooltip message:kE_GlobalZH(@"living_end_again") comfirmTitle:kOK WithComfirm:^{
-                wself.recoderInfo.userRequestStop = YES;
-                [wself requestLiveStop];
-                wself.liveState = CCLiveStateEnd;
+                AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                
+                appDelegate.allowRotation = NO;//(以上2行代码,可以理解为打开横屏开关)
+                
+                [self setNewOrientation:NO];//调用转屏代码90
+                self.recoderInfo.userRequestStop = YES;
+                [self requestLiveStop];
+                [[EVAudioPlayer sharePlayer] stop];
             }];
         }
             break;
             
         case EVEncodedStateNetWorkStateUnSuitForStreaming_lv1:
         {
-            self.liveState = CCLiveStateNetworkWorse;
+            self.liveState = EVLiveStateNetworkWorse;
             if ( self.isBadNetworkAlertingToClose )
                 return;
             
@@ -441,22 +554,12 @@ static inline long long getcurrsecond()
             if ( interval < kLiveUpdateStateTimeInterval )
                 return;
             self.isBadNetworkAlertingToClose = YES;
-            __weak typeof(self) wself = self;
-            [[EVAlertManager shareInstance] performComfirmTitle:kTooltip message:kE_GlobalZH(@"network_very_weak_change") cancelButtonTitle:kCancel comfirmTitle:kOK WithComfirm:^{
-                [[EVMessageManager shareManager]close];
-                [wself forceToRequestLiveStop];
-                [CCNotificationCenter removeObserver:self name:CCUpdateForecastTime object:nil];
-                [wself liveViewControllerDismissComplete:nil];
-            } cancel:^{
-                wself.lastNotitionTime = getcurrsecond();
-                wself.isBadNetworkAlertingToClose = NO;
-            }];
         }
             break;
             
         case EVEncodedStateNetWorkStateUnSuitForStreaming_lv2:
         {
-            self.liveState = CCLiveStateNetworkWorst;
+            self.liveState = EVLiveStateNetworkWorst;
             if ( self.isBadNetworkAlertingToClose )
                 return;
             self.recoderInfo.userRequestStop = YES;
@@ -466,7 +569,14 @@ static inline long long getcurrsecond()
             [_liveEncode shutDwonStream];
             __weak typeof(self) wself = self;
             [[EVAlertManager shareInstance] performComfirmTitle:kTooltip message:kE_GlobalZH(@"network_not_living") comfirmTitle:kOK WithComfirm:^{
-                [wself liveViewControllerDismissComplete:nil];
+                AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                
+                appDelegate.allowRotation = NO;//(以上2行代码,可以理解为打开横屏开关)
+                
+                [self setNewOrientation:NO];//调用转屏代码90
+                self.recoderInfo.userRequestStop = YES;
+                [self requestLiveStop];
+                [[EVAudioPlayer sharePlayer] stop];
             }];
         }
             break;
@@ -475,11 +585,6 @@ static inline long long getcurrsecond()
             break;
     }
 
-}
-
-- (void)EVRecordAudioBufferList:(AudioBufferList *)audioBufferList
-{
-     [[EVAudioPlayer sharePlayer] mixWithRecordedBuffer:audioBufferList];
 }
 
 #pragma mark - ***********      Actions 🌠        ***********
@@ -507,7 +612,7 @@ static inline long long getcurrsecond()
         __weak typeof(self) wself = self;
         
         [self.liveEncode cameraZoomWithFactor:self.recoderInfo.scale fail:^(NSError *error) {
-            [CCProgressHUD showError:kE_GlobalZH(@"zoom_fail") toView:wself.view];
+            [EVProgressHUD showError:kE_GlobalZH(@"zoom_fail") toView:wself.view];
         }];
     }
 }
@@ -516,20 +621,19 @@ static inline long long getcurrsecond()
 #pragma mark - 直播的检测网络 和 直播准备
 - (void)setUpNotification
 {
-    [CCNotificationCenter addObserver:self selector:@selector(netWorkChange:) name:CCNetWorkChangeNotification object:nil];
-    [CCNotificationCenter addObserver:self selector:@selector(forceToClose) name:CCNeedToForceCloseLivePageOrWatchPage object:nil];
-    [CCNotificationCenter addObserver:self selector:@selector(heartBeatToUpdateLiveStatus) name:CCUpdateForecastTime object:nil];
-    CCNetworkStatus state = [EVNetWorkStateManger sharedManager].currNetWorkState;
+    [EVNotificationCenter addObserver:self selector:@selector(netWorkChange:) name:CCNetWorkChangeNotification object:nil];
+    [EVNotificationCenter addObserver:self selector:@selector(forceToClose) name:CCNeedToForceCloseLivePageOrWatchPage object:nil];
+    EVNetworkStatus state = [EVNetWorkStateManger sharedManager].currNetWorkState;
     NSDictionary *userInfo = @{ CCNetWorkStateKey : @(state) };
     NSNotification *notification = [NSNotification notificationWithName:AFNetworkingReachabilityDidChangeNotification object:nil userInfo:userInfo];
-    
     [self netWorkChange:notification];
 }
+
 
 // 检测网络状态的改变
 - (void)netWorkChange:(NSNotification *)notification
 {
-    CCNetworkStatus status = [notification.userInfo[CCNetWorkStateKey] integerValue];
+    EVNetworkStatus status = [notification.userInfo[CCNetWorkStateKey] integerValue];
     if ( status == WithoutNetwork ) {
         // 直播还没准备好，也就是还在直播准备页的时候，对准备页进行处理
         if ( !self.recoderInfo.liveReady ) {
@@ -545,24 +649,11 @@ static inline long long getcurrsecond()
             // 普通直播
     }
 }
-
 // 强制关闭播放器
 - (void)forceToClose
 {
     [_liveEncode shutDownEncoding];
     [self liveViewControllerDismissComplete:nil];
-}
-
-//定时上传直播视频状态
-- (void)heartBeatToUpdateLiveStatus
-{
-    if ( !self.isStartBtnClicked )
-        return;
-    
-    static long int time = 0;
-    time += 1;
-    if ( time % kLiveUpdateStateTimeInterval != 1 )
-        return;
 }
 
 - (void)closeRecorder
@@ -581,13 +672,10 @@ static inline long long getcurrsecond()
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     params[AUDIENCE_UPDATE_TIME_MODE] = @(2);
-    if ( self.recoderInfo.title )
-    {
+    if ( self.recoderInfo.title ) {
         params[AUDIENCE_UPDATE_TITLE] = self.recoderInfo.title;
     }
-    
     [self updateVideoInfo:params];
-    
 }
 
 - (void)prepareToLiveWithInfo:(NSDictionary *)info
@@ -595,10 +683,9 @@ static inline long long getcurrsecond()
     self.recoderInfo.vid = info[kVid];
     self.vid =  self.recoderInfo.vid;
     self.recoderInfo.live_url = info[@"uri"];
-    self.recoderInfo.share_url = info[kShare_url];
+    self.recoderInfo.share_url = info[@"share_url"];
     [_liveEncode upDateLiveUrl:info[@"uri"]];
     [self setUpObserver];
-
 }
 
 
@@ -611,20 +698,20 @@ static inline long long getcurrsecond()
         itemView.flashButton.userInteractionEnabled = NO;
     }
 }
+
 // 直播开始请求
 - (void)requestLiveStart
 {
     if (self.recoderInfo.vid == nil) {
-        [CCProgressHUD showError:kE_GlobalZH(@"vid_nil")];
+        [EVProgressHUD showError:kE_GlobalZH(@"vid_nil")];
     }
     
     [self liveBottomView];
-    self.bottomBtnContainerView.hidden = NO;
+    self.bottomBtnContainerView.hidden = YES;
     self.recoderInfo.thumb = YES;
     __weak typeof(self) wself = self;
-  
     self.liveEncode.startLiving = YES;
-    self.bottomBtnContainerView.hidden = NO;
+    self.bottomBtnContainerView.hidden = YES;
     wself.recoderInfo.startCountTime = YES;
     [wself boardCastLiveInfo];
 
@@ -633,21 +720,16 @@ static inline long long getcurrsecond()
 - (void)startCountTime
 {
     self.recoderInfo.currSecond = 0;
-     [CCNotificationCenter addObserver:self selector:@selector(modifyTime) name:CCUpdateForecastTime object:nil];
+//     [EVNotificationCenter addObserver:self selector:@selector(modifyTime) name:EVUpdateTime object:nil];
 }
 
 - (void)modifyTime
 {
     self.recoderInfo.currSecond++;
     double currSecond = self.recoderInfo.currSecond;
-    
     NSString *time = [self stringFormattedTimeFromSeconds:&currSecond];
- 
-    [self updateVideoInfo:@{AUDIENCE_UPDATE_PLAY_TIME: time}];
-
+//    [self updateVideoInfo:@{AUDIENCE_UPDATE_PLAY_TIME: time}];
 }
-
-
 
 - (NSString *)stringFormattedTimeFromSeconds:(double *)seconds
 {
@@ -662,13 +744,10 @@ static inline long long getcurrsecond()
 - (void)boardCastLiveInfo
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    
     params[AUDIENCE_UPDATE_TIME_MODE] = @(2);
-    if ( self.recoderInfo.title )
-    {
+    if ( self.recoderInfo.title ) {
         params[AUDIENCE_UPDATE_TITLE] = self.recoderInfo.title;
     }
-    
     params[AUDIENCE_FONT_CARERA] = @(self.recoderInfo.fontCamera);
     params[AUDIENCE_FLASHLIGHT_ON] = @(self.recoderInfo.lighton);
     [self updateVideoInfo:params];
@@ -682,15 +761,11 @@ static inline long long getcurrsecond()
 
 - (void)checkDelegate
 {
-    if ( self.foreCapture )
-    {
-        if ( self.recoderInfo.thumbImage == nil )
-        {
+    if ( self.foreCapture ) {
+        if ( self.recoderInfo.thumbImage == nil ) {
             __weak typeof(self) wself =  self;
             [wself notifyDelegateWithImage:nil];
-        }
-        else
-        {
+        } else {
             [self notifyDelegateWithImage:self.recoderInfo.thumbImage];
         }
     }
@@ -698,16 +773,12 @@ static inline long long getcurrsecond()
 
 - (void)notifyDelegateWithImage:(UIImage *)image
 {
-    if ( [self.delegate respondsToSelector:@selector(liveDidStart:info:)] )
-    {
-        if ( self.recoderInfo.vid )
-        {
+    if ( [self.delegate respondsToSelector:@selector(liveDidStart:info:)] ) {
+        if ( self.recoderInfo.vid ) {
             NSMutableDictionary *info = [NSMutableDictionary dictionary];
-            if ( self.recoderInfo.vid )
-            {
+            if ( self.recoderInfo.vid ) {
                 info[kVid] = self.recoderInfo.vid;
-                if ( image )
-                {
+                if ( image ) {
                     info[kThumb] = image;
                 }
             }
@@ -716,15 +787,9 @@ static inline long long getcurrsecond()
     }
 }
 
-
-
-
 - (void)setUpView
 {
     self.slidScrollView.contentSize = self.view.bounds.size;
-    // 手势引导
-//    [self addGestureGuideCoverviewWithImageNamed:@"cue_living_setting"];
-    [self addBottomToolBar];
     
     UIView *livingView = [[UIView alloc] initWithFrame:self.view.bounds];
     [self.view addSubview:livingView];
@@ -733,9 +798,6 @@ static inline long long getcurrsecond()
     [livingView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
     [self.view sendSubviewToBack:livingView];
    
-    
-    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
-    
     
     UIView *cover = [[UIView alloc] init];
     cover.hidden = YES;
@@ -755,8 +817,6 @@ static inline long long getcurrsecond()
     
     [self prepareForeView];
     
-
-    
     [self addLiveEndView];
     
     [self addFocusView];
@@ -765,10 +825,14 @@ static inline long long getcurrsecond()
     [self addFocusTapView];
     self.contentView.hidden = YES;
     
-    self.floatView.isMng = NO;
+    self.floatView.isMng = YES;
 }
 - (void)addFocusTapView
 {
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapClick:)];
+    tap.delegate = self;
+    [self.contentView addGestureRecognizer:tap];
+    
     UIView *focusView = [[UIView alloc] init];
     [self.contentView addSubview:focusView];
     [focusView autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:self.riceAmountView];
@@ -776,8 +840,22 @@ static inline long long getcurrsecond()
     focusView.backgroundColor = [UIColor clearColor];
     [focusView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
     [focusView autoPinEdgeToSuperviewEdge:ALEdgeRight];
-    UITapGestureRecognizer *focusTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(focusWithGesture:)];
-    [focusView addGestureRecognizer:focusTap];
+//    UITapGestureRecognizer *focusTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(focusWithGesture:)];
+//    [focusView addGestureRecognizer:focusTap];
+}
+
+-(BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+    return YES;
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    if ([touch.view isKindOfClass:[self.contentView class]]) {
+        return YES;
+    }else {
+        return NO;
+    }
 }
 
 // 直播状态提醒
@@ -786,6 +864,7 @@ static inline long long getcurrsecond()
     EVLiveTipsLabel *tipsLabel = [[EVLiveTipsLabel alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 20)];
     [self.view addSubview:tipsLabel];
     self.tipsLabel = tipsLabel;
+    tipsLabel.hidden = YES;
     [tipsLabel hiddenWithAnimation];
 }
 
@@ -828,28 +907,13 @@ static inline long long getcurrsecond()
     [liveEndView dismiss];
 }
 
-/** 添加下面的工具栏 */
-- (void)addBottomToolBar
-{
-    EVLiveBottomItemView *bottomC = [[EVLiveBottomItemView alloc] init];
-    bottomC.delegate = self;
-    self.muteItem = bottomC.muteButton;
-    [self.view addSubview:bottomC];
-    bottomC.hidden = YES;
-    [bottomC autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:0];
-    [bottomC autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:10];
-    [bottomC autoSetDimension:ALDimensionWidth toSize:2 * self.view.bounds.size.width];
-    self.bottomBtnContainerView = bottomC;
-    [self.loveView autoPinEdge:ALEdgeRight toEdge:ALEdgeRight ofView:bottomC];
-    [self.loveView autoPinEdge:ALEdgeBottom toEdge:ALEdgeBottom ofView:bottomC];
-}
 
 - (void)liveBottomItemViewButtonClick:(UIButton *)button
 {
     switch ( button.tag )
     {
             
-        case CCLiveBottomMuteItem:  // 静音
+        case EVLiveBottomMuteItem:  // 静音
         {
             static BOOL selected = NO;
             self.muteItem.selected = !selected;
@@ -857,76 +921,81 @@ static inline long long getcurrsecond()
             selected = !selected;
             break;
         }
-        case CCLiveBottomFlashItem:
+        case EVLiveBottomFlashItem:
         {
             [self toggleLight];
         }
             break;
-        case CCLivebottomCameraItem:
+        case EVLivebottomCameraItem:
         {
-             [self toggleCameraWithType:CCToggleCameraLiving];
+             [self toggleCameraWithType:EVToggleCameraLiving];
         }
             break;
-        case CCLiveBottomChatItem:  // 发送评论
+        case EVLiveBottomChatItem:  // 发送评论
             self.sendComment = YES;
             [self.chatTextView beginEdit];
             break;
             
-        case CCLiveBottomShareItem:  // 分享
-            [self showShareView];
+        case EVLiveBottomShareItem:  // 分享
+            [self showShareView:YES];
             break;
         
-        case CCLiveBottomSendRedPacketItem: // 主播发红包
+        case EVLiveBottomSendRedPacketItem: // 主播发红包
             self.sendPacketView.anchorEcoinCount = self.anchorEcoinCount;
             [self.sendPacketView show];
             break;
             
-        case CCLivebottomFaceItem:
+        case EVLivebottomFaceItem:
         {
             self.isBeautyOn = !self.isBeautyOn;
             [self.liveEncode enableFaceBeauty:self.isBeautyOn];
         }
             break;
-        case CCLiveBottomPlayerItem:
+        case EVLiveBottomPlayerItem:
         {
-            if (self.isPlayMp3 == NO) {
-                 [[EVAudioPlayer sharePlayer] play];
-            }else {
-                [[EVAudioPlayer sharePlayer] stop];
-            }
-            
-            self.isPlayMp3 = !self.isPlayMp3;
-            
-           
+            [self.musicView showCover];
+        }
+            break;
+        case EVLiveBottomLinkItem:
+        {
+
         }
             break;
     }
 }
 
+- (void)noSeletedButton
+{
+    [self.prepareView.startLiveButton setBackgroundColor:[UIColor grayColor]];
+    [self.prepareView.startLiveButton setEnabled:YES];
+}
 
+- (void)enableButton
+{
+    self.prepareView.startLiveButton.backgroundColor = [UIColor evMainColor];
+    [self.prepareView.startLiveButton setEnabled:YES];
+}
 
 - (void)prepareForeView
 {
-    self.view.backgroundColor = [UIColor blackColor];
-    
     EVLivePrePareView *prepareView = [[EVLivePrePareView alloc] init];
     [self.view addSubview:prepareView];
     prepareView.frame = self.view.bounds;
-
+    prepareView.editTextFiled.delegate = self;
     prepareView.delegate = self;
+
     self.prepareView = prepareView;
-    
+    [self noSeletedButton];
     
     NSString *title = self.recoderInfo.title;
     // 设置默认标题
-    if ( title != nil && self.recoderInfo.isDefaultTitle == NO )
-    {
+    if ( title != nil && self.recoderInfo.isDefaultTitle == NO ) {
         self.prepareView.title = title;
     }
-    
-   
-    
 }
+
+
+
 
 #pragma mark - 直播网络状态提醒
 - (void)updateLiveStatusWithTitle:(NSString *)title
@@ -934,6 +1003,7 @@ static inline long long getcurrsecond()
     self.coverLabel.text = title;
     self.cover.hidden = NO;
 }
+
 
 - (void)updateResumeLiveStatusWithTitle:(NSString *)title
 {
@@ -944,7 +1014,6 @@ static inline long long getcurrsecond()
     });
 }
 
-
 #pragma mark - 服务器强行结束
 - (void)liveForeToStop:(BOOL)fromServer
 {
@@ -954,8 +1023,7 @@ static inline long long getcurrsecond()
     }
     NSMutableString *title = [NSMutableString string];
     [title appendString:kE_GlobalZH(@"connection_time_out_live_end")];
-    if ( fromServer )
-    {
+    if ( fromServer ) {
         [title appendString:@"."];
     }
     [self forceToStopWithTitle:title];
@@ -964,7 +1032,6 @@ static inline long long getcurrsecond()
 - (void)forceToStopWithTitle:(NSString *)title
 {
     __weak typeof(self) wself = self;
-    // TODO: Delete
     self.recoderInfo.userRequestStop = YES;
     [self.liveEncode shutDwonStream];
     [[EVAlertManager shareInstance] performComfirmTitle:kE_GlobalZH(@"living_end") message:title comfirmTitle:kOK WithComfirm:^{
@@ -974,9 +1041,15 @@ static inline long long getcurrsecond()
     
 }
 
+- (void)EVInteractiveLiveUpdateStatus:(EVInteractiveLiveStatus)status
+{
+    EVLog(@"ZHUANGTAIOHUITIAPAASKL;DSJKL;ASKL; ===== =  %ld",status);
+}
+
 #pragma mark - pickLiveCover
 - (void)startToPickCover
 {
+  
     UIActionSheet * action=[[UIActionSheet alloc]initWithTitle:nil
                                                       delegate:self
                                              cancelButtonTitle:kCancel
@@ -990,6 +1063,41 @@ static inline long long getcurrsecond()
 {
     self.recoderInfo.topic.title = item.title;
     [self.prepareView.categoryButton setTitle:[NSString stringWithFormat:@"#%@#",item.title] forState:UIControlStateNormal];
+}
+
+
+#pragma mark - textFiled delegate
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if (textField.text.length > 0 && self.prepareView.coverImage != nil) {
+        [self enableButton];
+    }else {
+        [self noSeletedButton];
+    }
+    self.prepareView.title = textField.text;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if ( [string isEqualToString:@"\n"] )
+    {
+        [self.prepareView.editTextFiled resignFirstResponder];
+        return NO;
+    }
+    else
+    {
+        NSString * replacedText = [textField.text stringByReplacingCharactersInRange:range withString:string];
+        if ( replacedText.length > 20 )
+        {
+            textField.text = [replacedText substringToIndex:20];
+            return NO;
+        }
+        if (range.length == 1) {
+            return YES;
+        }
+    }
+    return YES;
 }
 
 #pragma mark - pickLiveCover - UIActionSheetDelegate
@@ -1007,7 +1115,8 @@ static inline long long getcurrsecond()
             
         case 0: // 拍照
         {
-            [self.prepareView startCaptureImage];
+//            [self.prepareView startCaptureImage];
+            [self addCarema];
         }
             break;
             
@@ -1016,28 +1125,34 @@ static inline long long getcurrsecond()
     }
 }
 
-#pragma mark - CCLiveEditTitleViewDelegate
+#pragma mark - EVLiveEditTitleViewDelegate
 - (void)liveEditTitleViewHidden
 {
-    self.bottomBtnContainerView.hidden = NO;
+    self.bottomBtnContainerView.hidden = YES;
 }
 
 
 #pragma mark - UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
+//    [picker dismissViewControllerAnimated:YES completion:nil];
+    [self.chatTextView resignFirstResponder];
     UIImage *image = info[UIImagePickerControllerOriginalImage];
-
-    if ( image == nil )
-    {
-        [CCProgressHUD showError:kE_GlobalZH(@"checking_image_save_photo")];
+    if ( image == nil ) {
+        [EVProgressHUD showError:kE_GlobalZH(@"checking_image_save_photo")];
         return;
     }
     
-    image = [[UIImage alloc] initWithData:UIImageJPEGRepresentation(image, 0.5)];
-    [picker dismissViewControllerAnimated:YES completion:^{
-        [self cropperImage:image originImage:NO];
-    }];
+    self.imageCropperViewController = [[UzysImageCropperViewController alloc] initWithImage:image andframeSize:picker.view.frame.size andcropSize:CGSizeMake(1280, 720)];
+    self.imageCropperViewController.delegate = self;
+    [picker pushViewController:_imageCropperViewController animated:YES];
+    [picker setNavigationBarHidden:YES];
+    
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)cropperImage:(UIImage *)image originImage:(BOOL)originImage
@@ -1055,7 +1170,13 @@ static inline long long getcurrsecond()
     
     [cropper dismissViewControllerAnimated:YES completion:^{
         self.prepareView.coverImage = image;
+        if (self.prepareView.editTextFiled.text.length > 0 && self.prepareView.coverImage != nil) {
+            [self enableButton];
+        }else {
+            [self noSeletedButton];
+        }
     }];
+   
     self.prepareView.captureSuccess = YES;
 }
 
@@ -1064,26 +1185,64 @@ static inline long long getcurrsecond()
     [cropper dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark - CCAudienceViewControllerProtocol
+#pragma mark - EVAudienceViewControllerProtocol
+- (void)topViewButtonType:(EVHVLiveTopViewType)type button:(UIButton *)button
+{
+    switch (type) {
+        case EVHVLiveTopViewTypeClose:
+        {
+            AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+            
+            appDelegate.allowRotation = NO;//(以上2行代码,可以理解为打开横屏开关)
+            
+            [self setNewOrientation:NO];//调用转屏代码90
+            self.recoderInfo.userRequestStop = YES;
+            [self requestLiveStop];
+            [[EVAudioPlayer sharePlayer] stop];
+            
+        }
+            break;
+        case EVHVLiveTopViewTypeMute:
+        {
+            button.selected = !button.selected;
+            [self muteRecoder:button.selected];
+        }
+        
+            break;
+        case EVHVLiveTopViewTypeTurn:
+        {
+              [self toggleCameraWithType:EVToggleCameraLiving];
+        }
+            break;
+        case EVHVLiveTopViewTypeShare:
+        {
+            self.liveShareView.hidden = NO;
+            self.giftAniView.hidden = YES;
+        }
+            break;
+        default:
+            break;
+    }
+}
 
-- (void)audienceDidClicked:(CCAudienceInfoViewButtonType)btn
+- (void)audienceDidClicked:(EVAudienceInfoViewButtonType)btn
 {
     
     switch ( btn )
     {
-        case CCAudienceInfoCancel:
+        case EVAudienceInfoCancel:
         {
             __weak typeof(self) weakself = self;
             [[EVAlertManager shareInstance] performComfirmTitle:kTooltip message:kE_GlobalZH(@"is_stop_living") cancelButtonTitle:kCancel comfirmTitle:kOK WithComfirm:^{
                 weakself.recoderInfo.userRequestStop = YES;
                 [weakself requestLiveStop];
-                [[EVAudioPlayer sharePlayer]stop];
+                [[EVAudioPlayer sharePlayer] stop];
             } cancel:nil];
         }
             break;
         
-        case CCAudienceInfoCamera:
-            [self toggleCameraWithType:CCToggleCameraPrepare];
+        case EVAudienceInfoCamera:
+            [self toggleCameraWithType:EVToggleCameraPrepare];
             break;
         
         default:
@@ -1101,29 +1260,29 @@ static inline long long getcurrsecond()
         [self initialLiveViewDataView];
         [self checkDelegate];
        
-        self.bottomBtnContainerView.hidden = NO;
+        self.bottomBtnContainerView.hidden = YES;
         self.recoderInfo.startCountTime = YES;
         [self boardCastLiveInfo];
     }
 }
 
 #pragma mark - liveShare
-- (void)liveShareWithType:(CCLiveShareType)type
+- (void)liveShareWithType:(EVLiveShareType)type
 {
-    CCLiveShareButtonType shareType = 0;
+    EVLiveShareButtonType shareType = 0;
     switch (type)
     {
-        case CCLiveShareSina:
-            shareType = CCLiveShareSinaWeiBoButton;
+        case EVLiveShareSina:
+            shareType = EVLiveShareSinaWeiBoButton;
             break;
-        case CCLiveShareQQ:
-            shareType = CCLiveShareQQButton;
+        case EVLiveShareQQ:
+            shareType = EVLiveShareQQButton;
             break;
-        case CCLiveShareWeiXin:
-            shareType = CCLiveShareWeiXinButton;
+        case EVLiveShareWeiXin:
+            shareType = EVLiveShareWeiXinButton;
             break;
-        case CCLiveShareFriendCircle:
-            shareType = CCLiveShareFriendCircleButton;
+        case EVLiveShareFriendCircle:
+            shareType = EVLiveShareFriendCircleButton;
             break;
         default:
             break;
@@ -1131,10 +1290,25 @@ static inline long long getcurrsecond()
     [self liveShareViewDidClickButton:shareType];
 }
 
-
-#pragma mark - CCLivePrePareViewDelegate
+- (void)addCarema
+{
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        picker.delegate = self;
+        picker.allowsEditing = NO;
+        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        picker.videoQuality = UIImagePickerControllerQualityTypeIFrame1280x720;
+        [self presentViewController:picker animated:YES completion:nil];
+    }else{
+        //如果没有提示用户
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您的设备上没有摄像头" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alert show];
+    }
+}
+#pragma mark - EVLivePrePareViewDelegate
 - (void)livePrePareView:(EVLivePrePareView *)view didClickButton:(EVLivePrePareViewButtonType)type
 {
+    
     EVLiveBottomItemView *itemView = ((EVLiveBottomItemView*)self.bottomBtnContainerView);
     switch (type)
     {
@@ -1146,12 +1320,13 @@ static inline long long getcurrsecond()
         }
             break;
         case EVLivePrePareViewButtonToggleCamera:
-            [self toggleCameraWithType:CCToggleCameraLiving];
+            
+            [self toggleCameraWithType:EVToggleCameraLiving];
             itemView.cameraButton.selected = !itemView.cameraButton.selected;
             itemView.flashButton.highlighted = itemView.cameraButton.selected;
             itemView.flashButton.userInteractionEnabled = !itemView.cameraButton.selected;
             
-            CCLog(@"user interaction enable = %d", itemView.flashButton.userInteractionEnabled);
+            EVLog(@"user interaction enable = %d", itemView.flashButton.userInteractionEnabled);
             break;
             
         case EVLivePrePareViewButtonCancel:
@@ -1160,8 +1335,6 @@ static inline long long getcurrsecond()
             break;
         case EVLivePrePareViewButtonLiveStart:
         {
-            CCLog(@"开始直播按钮");
-
             [self startLiving];
         }
             break;
@@ -1169,15 +1342,6 @@ static inline long long getcurrsecond()
             [self startToPickCover];
             break;
         
-            
-        case EVLivePrePareViewButtonBeauty:
-        {
-            self.isBeautyOn = !self.isBeautyOn;
-            ((EVLiveBottomItemView *)self.bottomBtnContainerView).faceButton.selected = self.isBeautyOn;
-            [self.liveEncode enableFaceBeauty:self.isBeautyOn];
-        }
-            break;
-            
         case EVLivePrePareViewButtonPermission:
         {
             [self gotoAthorityPage];
@@ -1185,11 +1349,42 @@ static inline long long getcurrsecond()
             break;
         case EVLivePrePareViewButtonCategory:
         {
-            EVCategoryViewController *categotyVC = [[EVCategoryViewController alloc]init];
-            categotyVC.nowItem = self.recoderInfo.topic;
-            categotyVC.delegate = self;
-            [self.navigationController pushViewController:categotyVC animated:NO];
+          
             
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+
+
+- (void)touchMusicButton:(MusicButtonType)musicType button:(UIButton *)btn
+{
+    switch (musicType) {
+        case MusicButtonTypePlay:
+        {
+            [[EVAudioPlayer sharePlayer] play];
+        }
+            
+            break;
+        case MusicButtonTypePause:
+        {
+            [[EVAudioPlayer sharePlayer] pause];
+        }
+            break;
+        
+        case MusicButtonTypeResume:
+        {
+            [[EVAudioPlayer sharePlayer] resume];
+        }
+            break;
+        
+        case MusicButtonTypeStop:
+        {
+             [[EVAudioPlayer sharePlayer] stop];
         }
             break;
             
@@ -1201,51 +1396,33 @@ static inline long long getcurrsecond()
 
 - (void)startLiving
 {
-     self.isStartBtnClicked = YES;
+    self.isStartBtnClicked = YES;
+ 
     NSString *liveTitle = self.prepareView.title;
-    if ( liveTitle && liveTitle.length ) {
-        self.videoInfoView.item.title = [NSString stringWithFormat:@"%@%@",[EVLoginInfo localObject].nickname,liveTitle];
-        self.recoderInfo.title = liveTitle;
-    }else {
-        
-        self.videoInfoView.item.title = [NSString stringWithFormat:@"%@%@",[EVLoginInfo localObject].nickname,kE_GlobalZH(@"living_enter_watch")];
+    self.recoderInfo.title = liveTitle;
+    if (liveTitle.length <= 0 || self.prepareView.coverImage == nil) {
+        [EVProgressHUD showError:@"请填写标题和上传封面"];
+        return;
     }
-    
-    
+    [EVProgressHUD showMessage:@"加载中" toView:self.view];
     WEAK(self)
     NSMutableDictionary *params = [self.recoderInfo liveStartParams];
     
     [self.engine GETLivePreStartParams:params Start:^{
-        [CCProgressHUD showSuccess:@"请等待" toView:self.view];
+        [EVProgressHUD showSuccess:@"请等待" toView:self.view];
     } fail:^(NSError *error) {
         NSString *customError = error.userInfo[kCustomErrorKey];
-        if ( [customError isEqualToString:@"E_USER_PHONE_NOT_EXISTS"] )
-        {
+        if ( [customError isEqualToString:@"E_USER_PHONE_NOT_EXISTS"] ) {
             [weakself liveNeedToBindPhone];
-        }
-        else if ( customError )
-        {
+        } else if ( customError ) {
             [weakself.prepareView setLoadingInfo:customError canStart:NO];
-        }
-        else
-        {
+        } else {
             [weakself.prepareView setLoadingInfo:kDefaultErrorStateTitle canStart:NO];
         }
     } success:^(NSDictionary *info) {
-        self.topicVid = info[@"vid"];
-        [CCProgressHUD hideHUDForView:self.view];
-        [self upLoadThumbWithVid:self.topicVid];
-        [self prepareToLiveWithInfo:info];
-        self.recoderInfo.startCountTime = YES;
-        [self startCountTime];
-        [self.liveEncode startEncoding];
-       
-        self.bottomBtnContainerView.hidden = NO;
-        self.contentView.hidden = NO;
         // 普通直播流程记录直播信息到本地
         if ( self.prepareView.currShareTye == EVLivePrePareViewShareNone && self.recoderInfo.vid != nil ) {
             [self requestLiveStart];
-            
         } else {
             if ( self.recoderInfo.thumbImage ) {
                 [self checkUserInfoAndStartLiving];
@@ -1254,38 +1431,68 @@ static inline long long getcurrsecond()
                 [wself checkUserInfoAndStartLiving];
             }
         }
+        [EVNotificationCenter addObserver:self selector:@selector(receiveTimeUpdate:) name:EVUpdateTime object:nil];
+        [EVProgressHUD hideHUDForView:self.view];
+       
+        AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        
+        appDelegate.allowRotation = YES;//(以上2行代码,可以理解为打开横屏开关)
+        
+        [self setNewOrientation:YES];//调用转屏代码90
+        self.tipsLabel.frame = CGRectMake(0, 0, ScreenHeight, 20);
+        [self setInitLiveEncode];
+        [NSTimer scheduledTimerWithTimeInterval:3
+                                         target:self
+                                       selector:@selector(onFrameAnimationFinished:)
+                                       userInfo:self.startAniImageView
+                                        repeats:NO];
+        self.topicVid = info[@"vid"];
+        self.startAniImageView.hidden = NO;
+        [self.startAniImageView startAnimating];
+        [self upLoadThumbWithVid:self.topicVid];
+        [self prepareToLiveWithInfo:info];
+        self.recoderInfo.startCountTime = YES;
+        [self startCountTime];
+        [self.liveEncode startEncoding];
+        self.contentView.hidden = NO;
         [self initialLiveViewDataView];
+        [self initSDKMessage];
+        
+        [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+//        if ([UIApplication sharedApplication].idleTimerDisabled == NO) {
+//            [[EVAlertManager shareInstance] configAlertViewWithTitle:@"2222222222" message:@"123" cancelTitle:@"123" WithCancelBlock:^(UIAlertView *alertView) {
+//                
+//            }];
+//        }
     } sessionExpire:^{
-        CCRelogin(self);
+        EVRelogin(self);
     }];
 
 }
 
-
 - (void)upLoadThumbWithVid:(NSString *)vid
 {
-    if ( vid == nil || self.recoderInfo.thumbImage == nil )
-    {
+    if ( vid == nil || self.recoderInfo.thumbImage == nil ) {
         return;
     }
         NSMutableDictionary *postParams = [NSMutableDictionary dictionary];
         NSString *fileName = [NSString stringWithFormat:@"file"];
         postParams[kFile] = fileName;
-   [self.engine upLoadVideoThumbWithiImage:self.recoderInfo.thumbImage vid:vid fileparams:postParams sessionExpire:^{
+
+   [self.engine upLoadVideoThumbWithiImage:self.recoderInfo.thumbImage vid:vid fileparams:postParams success:^(NSDictionary *dict) {
+       
+   } sessionExpire:^{
        
    }];
 }
 - (void)gotoAthorityPage
 {
     EVLimitViewController *limitVC = self.limitVC;
-    if ( limitVC == nil )
-    {
+    if ( limitVC == nil ) {
         limitVC = [[EVLimitViewController alloc] init];
         limitVC.delegate = self;
         self.limitVC = limitVC;
-    }
-    else
-    {
+    } else {
         limitVC.reuse = YES;
     }
     [self presentViewController:limitVC animated:YES completion:nil];
@@ -1307,25 +1514,28 @@ static inline long long getcurrsecond()
 
 - (void)checkUserInfoAndStartLiving
 {
-    CCLiveShareButtonType type = 0;
+    EVLiveShareButtonType type = 0;
     switch ( self.prepareView.currShareTye )
     {
         case EVLivePrePareViewShareSina:
         {
-            type = CCLiveShareSinaWeiBoButton;
+            type = EVLiveShareSinaWeiBoButton;
         }
             break;
             
         case EVLivePrePareViewShareWeixin:
-            type = CCLiveShareWeiXinButton;
+            type = EVLiveShareWeiXinButton;
             break;
             
         case EVLivePrePareViewShareFriendCircle:
-            type = CCLiveShareFriendCircleButton;
+            type = EVLiveShareFriendCircleButton;
             break;
             
         case EVLivePrePareViewShareQQ:
-            type = CCLiveShareQQButton;
+            type = EVLiveShareQQButton;
+            break;
+        case EVLivePrePareViewShareQQZone:
+            type = EVLiveShareQQZoneButton;
             break;
             
         default:
@@ -1342,19 +1552,26 @@ static inline long long getcurrsecond()
     [self liveViewControllerDismissComplete:nil];
 }
 
+- (void)initSDKMessage
+{
+    EVLiveMessage *liveMessage = [[EVLiveMessage alloc] init];
+    liveMessage.delegate = self;
+    self.messageSDKEngine = liveMessage;
+}
 
-#pragma mark - CCLiveAnchorSendRedPacketViewDelegate
+
+#pragma mark - EVLiveAnchorSendRedPacketViewDelegate
 - (void)liveAnchorSendPacketViewView:(EVLiveAnchorSendRedPacketView *)sendPacketView packets:(NSInteger)packets ecoins:(NSInteger)ecoins greetings:(NSString *)greetings
 {
-    CCLog(@"%zd --- %zd --- %@", packets, ecoins, greetings);
+    EVLog(@"%zd --- %zd --- %@", packets, ecoins, greetings);
     [self.engine GETLiveSendRedPacketWithVid:self.vid ecoin:ecoins count:packets greeting:greetings start:^{
         
     } fail:^(NSError *error) {
         NSString *errorStr = [error errorInfoWithPlacehold:kE_GlobalZH(@"send_red_fail")];
-        [CCProgressHUD showError:errorStr];
+        [EVProgressHUD showError:errorStr];
     } success:^{
         self.anchorEcoinCount = self.anchorEcoinCount - ecoins;
-        CCLog(@"send red packet success");
+        EVLog(@"send red packet suEVess");
     } sessionExpire:^{
         
     }];
@@ -1390,10 +1607,10 @@ static inline long long getcurrsecond()
     
     [((AppDelegate *)[UIApplication sharedApplication].delegate).liveEngine GETAppdevRemoveVideoWith:self.recoderInfo.vid start:nil fail:^(NSError *error) {
         [wself dismissViewControllerAnimated:NO completion:nil];
-        CCLog(@"!!!!!!!!appdev remove fail...");
+        EVLog(@"!!!!!!!!appdev remove fail...");
     } success:^{
         [wself dismissViewControllerAnimated:NO completion:nil];
-        CCLog(@"---------------appdev remove success...");
+        EVLog(@"---------------appdev remove suEVess...");
     } sessionExpire:^{
         [wself dismissViewControllerAnimated:NO completion:nil];
     }];
@@ -1401,8 +1618,20 @@ static inline long long getcurrsecond()
 }
 
 
+- (void)liveLinkSelectAcccount:(nonnull EVLinkUserModel *)account
+{
+  
+    
+}
+
+- (void)anchorAcceptSuccessCallid:(NSString *)callid
+{
+    self.callid = callid;
+    [self.liveEncode startLinkChannelid:callid];
+}
+
 #pragma mark - liveOperatiion
-- (void)toggleCameraWithType:(CCToggleCameraType)type
+- (void)toggleCameraWithType:(EVToggleCameraType)type
 {
     __weak typeof(self) wself = self;
     if ( self.recoderInfo.totogling )
@@ -1410,21 +1639,17 @@ static inline long long getcurrsecond()
         return;
     }
     self.recoderInfo.totogling = YES;
-    [_liveEncode switchCamera:!self.recoderInfo.fontCamera complete:^(BOOL success, NSError *error) {
-        if( success )
+    [_liveEncode switchCamera:!self.recoderInfo.fontCamera complete:^(BOOL suEVess, NSError *error) {
+        if( suEVess )
         {
             [wself recoderInfo].fontCamera = !wself.recoderInfo.fontCamera;
-            if ( type == CCToggleCameraPrepare )
+            if ( type == EVToggleCameraPrepare )
             {
-                [wself.videoInfoView buttonDidClicked:wself.videoInfoView.cameraButton];
+//                [wself.videoInfoView buttonDidClicked:wself.videoInfoView.cameraButton];
             }
         }
-        BOOL font = [wself recoderInfo].fontCamera;
+
         wself.recoderInfo.totogling = NO;
-        [wself.contacter boardCastEvent:CCLiveInfoUpdate
-                             withParams:@{
-                                          CCLiveInfoKey : @{AUDIENCE_FONT_CARERA : @(font)}
-                                          }];
     }];
 }
 
@@ -1436,8 +1661,8 @@ static inline long long getcurrsecond()
     AVCaptureDevice *flashLight = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     if ( [flashLight isTorchAvailable] && [flashLight isTorchModeSupported:AVCaptureTorchModeOn] )
     {
-        BOOL success = [flashLight lockForConfiguration:NULL];
-        if ( success )
+        BOOL suEVess = [flashLight lockForConfiguration:NULL];
+        if ( suEVess )
         {
             if ( [flashLight isTorchActive] )
             {
@@ -1493,10 +1718,18 @@ static inline long long getcurrsecond()
     }];
 }
 
+- (void)videoChatCloseAction
+{
+    [self.liveEncode endLink];
+}
+
 #pragma mark - cycleMessage
 - (void)liveViewControllerDismissComplete:(void(^)())complete
 {
-    CCLog(@"####-----%d,----%s-----%@--%@-####",__LINE__,__FUNCTION__,self.navigationController,self.navigationController.viewControllers);
+    [self dismissShareView];
+    AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    appDelegate.allowRotation = NO;//关闭横屏仅允许竖屏
     [self.navigationController dismissViewControllerAnimated:YES completion:^{
         if ( complete )
         {
@@ -1508,21 +1741,59 @@ static inline long long getcurrsecond()
 #pragma mark - private message
 - (void)requestLiveStop
 {
+    [self.liveEncode endLink];
+//    NSDictionary *commentFormat = [NSDictionary dictionaryWithObjectsAndKeys:@"1",EVMessageKeySt, nil];
+//    NSMutableDictionary *commentJoin = [NSMutableDictionary dictionaryWithObjectsAndKeys:commentFormat,EVMessageKeyLvst, nil];
+//    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:commentJoin options:NSJSONWritingPrettyPrinted error:nil];
+//    NSString *jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+//    [[EVMessageManager shareManager] sendMessage:@"1" userData:jsonString toTopic:self.topicVid result:^(BOOL isSuccess, EVMessageErrorCode errorCode) {
+//        if (isSuccess) {
+//            EVLog(@"sendmessagesuccess ------------");
+//        }else{
+//            
+//            EVLog(@"errorCode ------------------");
+//        }
+//    }];
+    if (self.isVideoTimer <= 120) {
+        EVLog(@"remove---------------------------------");
+        [((AppDelegate *)[UIApplication sharedApplication].delegate).liveEngine GETAppdevRemoveVideoWith:self.recoderInfo.vid start:nil fail:^(NSError *error) {
+            
+        } success:^{
+            EVLog(@"deleteVideo------------ success");
+        } sessionExpire:^{
+            
+        }];
+    }
+    
+
     self.bottomBtnContainerView.hidden = YES;
     [self.sendPacketView dismiss];
     [self.contacter boardCastEvent:CCLiveStop withParams:nil];
     __weak typeof(self) wself = self;
+//    [self.engine ]
     [self.liveEndView show:^{
         [wself hiddenContentSubviews];
     }];
+    [self successUpdateCount];
     [self.engine GETAppdevstopliveWithVid:self.recoderInfo.vid start:^{
     } fail:^(NSError *error) {
         [wself showLiveEndViewWithInfo:nil];
     } success:^(NSDictionary *videoInfo) {
-        [wself showLiveEndViewWithInfo:videoInfo];
+        EVLog(@"videoremove-------------------------");
     } sessionExpire:^{
         [wself showLiveEndViewWithInfo:nil];
     }];
+}
+
+
+- (void)successUpdateCount
+{
+     self.liveEndView.riceCountLabel.text = [NSString stringWithFormat:@"%lld",self.growwatch_count];
+    self.liveEndView.audienceCountLabel.text = [NSString stringWithFormat:@"%lld",self.growwatching_count];
+    self.liveEndView.likeCountLabel.text = [NSString stringWithFormat:@"%lld",self.growHuoyanbi];
+    if (self.isVideoTimer > 300) {
+        self.liveEndView.tipLabel.text = @"已保存至我的直播";
+    }
 }
 /**
  *  仅仅告诉服务器，直播结束，不做任何其他操作
@@ -1535,31 +1806,33 @@ static inline long long getcurrsecond()
 - (void)showLiveEndViewWithInfo:(NSDictionary *)videoInfo
 {
     [self.view endEditing:YES];
-    EVLiveEndViewData *data = [[EVLiveEndViewData alloc] init];
-    if ( videoInfo )
-    {
-        self.recoderInfo.play_url = videoInfo[kPlay_url];
-        data.commentCount = [videoInfo[kComment_count] integerValue];
-        data.likeCount = self.like_count;
-        data.audienceCount = self.watch_count;
-        data.signature = self.recoderInfo.title;
-        data.playBackURLString = self.recoderInfo.play_url;
-    }
-    else
-    {
-        data.commentCount = self.recoderInfo.liveUserInfo.video_info.comment_count;
-        data.likeCount = self.recoderInfo.liveUserInfo.video_info.like_count;
-        data.audienceCount = self.recoderInfo.liveUserInfo.video_info.watch_count;
-        data.signature = self.recoderInfo.title;
-    }
-    data.riceCount = self.riceAmountView.lasttimeRiceCount;
-    self.recoderInfo.noCanSaveVideo = data.noCanKeepVideo;
-    self.liveEndView.liveViewData = data;
+  
+//    EVLiveEndViewData *data = [[EVLiveEndViewData alloc] init];
+//    if ( videoInfo )
+//    {
+//        self.recoderInfo.play_url = videoInfo[kPlay_url];
+//        data.commentCount = [videoInfo[kComment_count] integerValue];
+//        data.likeCount = self.like_count;
+//        data.audienceCount = self.watch_count;
+//        data.signature = self.recoderInfo.title;
+//        data.playBackURLString = self.recoderInfo.play_url;
+//    }
+//    else
+//    {
+//        data.commentCount = self.recoderInfo.liveUserInfo.video_info.comment_count;
+//        data.likeCount = self.recoderInfo.liveUserInfo.video_info.like_count;
+//        data.audienceCount = self.recoderInfo.liveUserInfo.video_info.watch_count;
+//        data.signature = self.recoderInfo.title;
+//    }
+//    data.riceCount = self.riceAmountView.lasttimeRiceCount;
+//    self.recoderInfo.noCanSaveVideo = data.noCanKeepVideo;
+//    self.liveEndView.liveViewData = data;
 }
 
 // 对焦
 - (void)focusWithGesture:(UITapGestureRecognizer *)tap
 {
+    self.liveShareView.hidden = YES;
     if ( self.contentView.frame.origin.y < 0 )
     {
         [self.chatTextView emptyText];
@@ -1573,6 +1846,14 @@ static inline long long getcurrsecond()
         }
     }
 }
+
+- (void)tapClick:(UIGestureRecognizer *)sender
+{
+    self.liveShareView.hidden = YES;
+    self.giftAniView.hidden = NO;
+    
+}
+
 
 // 对焦
 - (void)beginFocusWithPoint:(CGPoint)point
@@ -1604,6 +1885,9 @@ static inline long long getcurrsecond()
     }];
 }
 
+- (void)updateMessageLinkDict:(NSDictionary *)dict comment:(NSString *)comment
+{
+}
 
 
 - (void)updateLiveState:(BOOL)living
@@ -1641,7 +1925,7 @@ static inline long long getcurrsecond()
     return _controllerItem;
 }
 
-#pragma CCEventContoller
+#pragma EVEventContoller
 - (EVEventController *)eventController
 {
     if ( _eventController == nil )
@@ -1669,6 +1953,25 @@ static inline long long getcurrsecond()
         _engine = [[EVBaseToolManager alloc] init];
     }
     return _engine;
+}
+
+- (EVMusicView *)musicView
+{
+    if (!_musicView) {
+        _musicView = [[EVMusicView alloc] initWithFrame:CGRectMake(0, ScreenHeight - 100, ScreenWidth, 100)];
+        _musicView.delegate = self;
+        _musicView.hidden = YES;
+        [self.view addSubview:_musicView];
+        [self.view bringSubviewToFront:_musicView];
+    }
+    
+    return _musicView;
+}
+
+
+- (BOOL)shouldAutorotate
+{
+    return NO;
 }
 
 @end

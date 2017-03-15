@@ -45,47 +45,47 @@
     
     // 删除
     UIButton *deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    deleteButton.tag = EVLiveEndViewReadingDestroyButton;
+    deleteButton.tag = EVLiveEndViewSaveVideoButton;
     [self addSubview:deleteButton];
-    [deleteButton setTitle:kE_GlobalZH(@"delete_video") forState:UIControlStateNormal];
-    [deleteButton setTitleColor:CCColor(175, 153, 188) forState:UIControlStateNormal];
-    [deleteButton setBackgroundColor:[UIColor colorWithWhite:1 alpha:.05]];
-    deleteButton.titleLabel.font = [UIFont systemFontOfSize:15];
-    deleteButton.layer.borderColor = CCColor(175, 153, 188).CGColor;
-    deleteButton.layer.borderWidth = 1.f;
-    deleteButton.layer.cornerRadius = 6.;
-    [deleteButton autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:105.f/2.f];
-    [deleteButton autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:20];
-    [deleteButton autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:20];
-    [deleteButton autoSetDimension:ALDimensionHeight toSize:40];
+    [deleteButton setImage:[UIImage imageNamed:@"btn_graycancel_n"] forState:(UIControlStateNormal)];
+//    [deleteButton setTitle:kE_GlobalZH(@"delete_video") forState:UIControlStateNormal];
+//    [deleteButton setTitleColor:[UIColor evMainColor] forState:UIControlStateNormal];
+//    [deleteButton setBackgroundColor:[UIColor colorWithWhite:1 alpha:.05]];
+//    deleteButton.titleLabel.font = [UIFont systemFontOfSize:15];
+//    deleteButton.layer.borderColor = [UIColor evMainColor].CGColor;
+//    deleteButton.layer.borderWidth = 1.f;
+//    deleteButton.layer.cornerRadius = 6.;
+    [deleteButton autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:36];
+    [deleteButton autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:10];
+    [deleteButton autoSetDimensionsToSize:CGSizeMake(40, 40)];
     self.deleteBtn = deleteButton;
+//
+//    
+//    CGFloat saveButtonHeight = 40.f;
+//    UIButton *saveButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    saveButton.tag = EVLiveEndViewSaveVideoButton;
+//    [self addSubview:saveButton];
+//    [saveButton setTitle:kE_GlobalZH(@"save_video") forState:UIControlStateNormal];
+//    saveButton.titleLabel.font = [UIFont systemFontOfSize:15];
+//    saveButton.backgroundColor = [UIColor evMainColor];
+//    saveButton.layer.cornerRadius = 6.;
+//    saveButton.layer.masksToBounds = YES;
+//    [saveButton autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:deleteButton];
+//    [saveButton autoPinEdge:ALEdgeRight toEdge:ALEdgeRight ofView:deleteButton];
+//    [saveButton autoSetDimension:ALDimensionHeight toSize:saveButtonHeight];
+//    [saveButton autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:deleteButton withOffset:-20];
+//    self.saveButton = saveButton;
     
     
-    CGFloat saveButtonHeight = 40.f;
-    UIButton *saveButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    saveButton.tag = EVLiveEndViewSaveVideoButton;
-    [self addSubview:saveButton];
-    [saveButton setTitle:kE_GlobalZH(@"save_video") forState:UIControlStateNormal];
-    saveButton.titleLabel.font = [UIFont systemFontOfSize:15];
-    saveButton.backgroundColor = CCColor(175, 153, 188);
-    saveButton.layer.cornerRadius = 6.;
-    saveButton.layer.masksToBounds = YES;
-    [saveButton autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:deleteButton];
-    [saveButton autoPinEdge:ALEdgeRight toEdge:ALEdgeRight ofView:deleteButton];
-    [saveButton autoSetDimension:ALDimensionHeight toSize:saveButtonHeight];
-    [saveButton autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:deleteButton withOffset:-20];
-    self.saveButton = saveButton;
-    
-    
-    UILabel *noSaveHintLbl = [[UILabel alloc] init];
-    noSaveHintLbl.text = kE_GlobalZH(@"not_save_video");
-    noSaveHintLbl.textColor = [UIColor whiteColor];
-    noSaveHintLbl.font = [UIFont systemFontOfSize:13];
-    [self addSubview:noSaveHintLbl];
-    [noSaveHintLbl autoAlignAxis:ALAxisVertical toSameAxisOfView:saveButton];
-    [noSaveHintLbl autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:saveButton withOffset:-15];
-    noSaveHintLbl.hidden = YES;
-    self.noSaveHintLbl = noSaveHintLbl;
+//    UILabel *noSaveHintLbl = [[UILabel alloc] init];
+//    noSaveHintLbl.text = kE_GlobalZH(@"not_save_video");
+//    noSaveHintLbl.textColor = [UIColor whiteColor];
+//    noSaveHintLbl.font = [UIFont systemFontOfSize:13];
+//    [self addSubview:noSaveHintLbl];
+//    [noSaveHintLbl autoAlignAxis:ALAxisVertical toSameAxisOfView:saveButton];
+//    [noSaveHintLbl autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:saveButton withOffset:-15];
+//    noSaveHintLbl.hidden = YES;
+//    self.noSaveHintLbl = noSaveHintLbl;
     
     
     UIActivityIndicatorView *loadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
@@ -141,7 +141,7 @@
     EVWhiteShadowButton *button = [[EVWhiteShadowButton alloc] init];
     [button setTitle:title forState:UIControlStateNormal];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [button setTitleColor:CCAppMainColor forState:UIControlStateHighlighted];
+    [button setTitleColor:[UIColor evMainColor] forState:UIControlStateHighlighted];
     button.titleLabel.font = [UIFont systemFontOfSize:CCLiveEndBaseViewBUTTONFont];
     [button autoSetDimensionsToSize:CGSizeMake(buttonW, buttonH)];
     

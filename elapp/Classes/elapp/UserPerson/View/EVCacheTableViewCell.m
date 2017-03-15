@@ -47,8 +47,8 @@
     // 添加标题
     UILabel *titleLbl = [[UILabel alloc] initWithFrame:CGRectZero];
     titleLbl.textAlignment = NSTextAlignmentLeft;
-    titleLbl.font = [[CCAppSetting shareInstance] normalFontWithSize:15];
-    titleLbl.textColor = CCTextBlackColor;
+    titleLbl.font = [[EVAppSetting shareInstance] normalFontWithSize:15];
+    titleLbl.textColor = [UIColor textBlackColor];
     [self.contentView addSubview:titleLbl];
     self.titleLbl = titleLbl;
     // 标题约束
@@ -58,8 +58,8 @@
     // 添加缓存显示label
     UILabel *detailLbl = [[UILabel alloc] initWithFrame:CGRectZero];
     detailLbl.textAlignment = NSTextAlignmentRight;
-    detailLbl.font = [[CCAppSetting shareInstance] normalFontWithSize:15];
-    detailLbl.textColor = CCTextBlackColor;
+    detailLbl.font = [[EVAppSetting shareInstance] normalFontWithSize:15];
+    detailLbl.textColor = [UIColor textBlackColor];
     [self.contentView addSubview:detailLbl];
     self.detailLbl = detailLbl;
     

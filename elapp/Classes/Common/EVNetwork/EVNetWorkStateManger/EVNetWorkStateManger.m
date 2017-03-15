@@ -49,11 +49,11 @@
 
 - (void)dealloc
 {
-    [CCNotificationCenter removeObserver:self];
+    [EVNotificationCenter removeObserver:self];
 }
 
 - (instancetype)initWithReachability:(SCNetworkReachabilityRef)reachability{
-    CCLog(@"initWithReachability");
+    EVLog(@"initWithReachability");
     if ( self = [super initWithReachability:reachability] ) {
         [self setUp];
     }
@@ -63,7 +63,7 @@
 - (void)setUp{
 //    AFNetworkReachabilityManager *reachability = [AFNetworkReachabilityManager sharedManager];
 //    [reachability startMonitoring];
-    [CCNotificationCenter addObserver:self selector:@selector(applicationNetworkStatusChanged:) name:AFNetworkingReachabilityDidChangeNotification object:nil];
+    [EVNotificationCenter addObserver:self selector:@selector(applicationNetworkStatusChanged:) name:AFNetworkingReachabilityDidChangeNotification object:nil];
 }
 
 - (void)boardCastNetWorkState{
@@ -72,6 +72,11 @@
 
 - (void)applicationNetworkStatusChanged:(NSNotification*)userinfo{
     NSInteger status = [[[userinfo userInfo]objectForKey:AFNetworkingReachabilityNotificationStatusItem] integerValue];
+    if (self.currNetWorkState == AFNetworkReachabilityStatusReachableViaWiFi &&
+        status == AFNetworkReachabilityStatusReachableViaWWAN) {
+        // WiFi -> 3G/4G
+        [EVProgressHUD showOnlyTextMessage:@"请注意！您正在使用移动网络，将消耗流量~" forView:[[[[UIApplication sharedApplication] keyWindow] rootViewController] view]];
+    }
     self.currNetWorkState = status;
     switch (status) {
         case AFNetworkReachabilityStatusNotReachable:
@@ -107,9 +112,9 @@
     }
 }
 
-- (void)postNotificationWithState:(CCNetworkStatus)state
+- (void)postNotificationWithState:(EVNetworkStatus)state
 {
-    [CCNotificationCenter postNotificationName:CCNetWorkChangeNotification object:nil userInfo:@{CCNetWorkStateKey: @(state)}];
+    [EVNotificationCenter postNotificationName:CCNetWorkChangeNotification object:nil userInfo:@{CCNetWorkStateKey: @(state)}];
 }
 
 - (void)unKnowNetWork

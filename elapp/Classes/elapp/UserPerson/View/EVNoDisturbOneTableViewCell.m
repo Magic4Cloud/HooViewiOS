@@ -26,7 +26,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     [self handleButtonstyle:_avatar];
-    self.switcher.onTintColor = [CCAppSetting shareInstance].appMainColor;
+    self.switcher.onTintColor = [UIColor evMainColor];
 }
 
 #pragma mark - event response
@@ -38,7 +38,7 @@
 }
 
 - (IBAction)switchHandle:(UISwitch *)sender {
-    CCLog(@"swith:%d", sender.on);
+    EVLog(@"swith:%d", sender.on);
     if (self.switchHandle) {
         self.switchHandle(sender.on, self);
     }
@@ -57,7 +57,7 @@
 - (void)setModel:(EVFanOrFollowerModel *)model {
 //    if (_model != model) {
         _model = model;
-        [self.avatar cc_setBackgroundImageURL:self.model.logourl placeholderImageStr:kUserLogoPlaceHolder isVip:model.vip vipSizeType:CCVipMini];
+        [self.avatar cc_setBackgroundImageURL:self.model.logourl placeholderImageStr:kUserLogoPlaceHolder isVip:model.vip vipSizeType:EVVipMini];
         
 //        [self.avatar cc_setBackgroundImageURL:self.model.logourl forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:kUserLogoPlaceHolder]];
         

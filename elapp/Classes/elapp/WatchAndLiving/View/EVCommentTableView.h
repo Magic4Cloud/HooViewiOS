@@ -9,7 +9,7 @@
 
 #import <UIKit/UIKit.h>
 
-#define kDefaultTableHeight 150
+#define kDefaultTableHeight 138
 
 @interface EVCommentTableView : UITableView
 

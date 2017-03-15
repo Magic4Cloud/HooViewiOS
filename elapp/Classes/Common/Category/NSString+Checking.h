@@ -12,7 +12,7 @@
 
 
 /**
- *  @author 杨尚彬
+
  *
  *  检查是否是手机号
  *
@@ -23,7 +23,7 @@
 - (BOOL)CC_isPhoneNumberNew;
 
 /**
- *  @author 杨尚彬
+
  *
  *  检查是否是邮箱
  *

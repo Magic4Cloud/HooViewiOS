@@ -6,9 +6,9 @@
 //  Copyright (c) 2016 EasyVass. All rights reserved.
 //
 
-#import "CCBaseObject.h"
+#import "EVBaseObject.h"
 
-@interface EVRelationWith3rdAccoutModel : CCBaseObject<NSCoding>
+@interface EVRelationWith3rdAccoutModel : EVBaseObject<NSCoding>
 
 @property (copy, nonatomic) NSString *type;             /**< 账号类型：phone，手机号；sina，新浪微博；qq，qq账号；weixin，微信账号 */
 @property (copy, nonatomic) NSString *token;            /**< 用户token信息 */

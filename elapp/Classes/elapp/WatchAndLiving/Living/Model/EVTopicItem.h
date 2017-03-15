@@ -6,9 +6,9 @@
 //  Copyright (c) 2016 EasyVass. All rights reserved.
 //
 
-#import "CCBaseObject.h"
+#import "EVBaseObject.h"
 
-@interface EVTopicItem : CCBaseObject
+@interface EVTopicItem : EVBaseObject
 /**话题id*/
 @property (nonatomic, copy) NSString *Id;
 /**标题*/

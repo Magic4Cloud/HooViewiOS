@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 @class ASIHTTPRequest;
 
-typedef NS_ENUM(NSInteger, CCNetWorkHTTPMethod) {
-    CCNetWorkHTTPMethodGet,
-    CCNetWorkHTTPMethodPost
+typedef NS_ENUM(NSInteger, EVNetWorkHTTPMethod) {
+    EVNetWorkHTTPMethodGet,
+    EVNetWorkHTTPMethodPost
 };
 
 @interface EVNetWorkRequest : NSObject
@@ -22,7 +22,7 @@ typedef NS_ENUM(NSInteger, CCNetWorkHTTPMethod) {
 /** key:String value:String -> 此参数用于 POST 请求 */
 @property (nonatomic, strong) NSData *postData;
 /** 默认为 GET */
-@property (nonatomic, assign) CCNetWorkHTTPMethod httpMethod;
+@property (nonatomic, assign) EVNetWorkHTTPMethod httpMethod;
 - (instancetype)initWithURLString:(NSString *)urlString;
 
 + (instancetype)netWorkRequestURLString:(NSString *)urlString;
@@ -38,14 +38,5 @@ typedef NS_ENUM(NSInteger, CCNetWorkHTTPMethod) {
 
 + (instancetype)shareInstance;
 
-- (ASIHTTPRequest *)requestWithURLString:(NSString *)urlString success:(void(^)(NSData *data))successBlock fail:(void(^)(NSError *error))failBlock;
-
-- (ASIHTTPRequest *)startSynchronousRequestWIthURLString:(NSString *)urlString;
-
-- (ASIHTTPRequest *)requestWithURLString:(NSString *)urlString start:(void(^)())startBlock success:(void(^)(NSData *data))successBlock fail:(void(^)(NSError *error))failBlock;
-
-- (ASIHTTPRequest *)postRequestWithURLString:(NSString *)urlString postParams:(NSMutableDictionary *)postParams fileData:(NSData *)data fileMineType:(NSString *)mineType fileName:(NSString *)fileName contentType:(NSString *)contentType start:(void(^)())startBlock success:(void(^)(NSData *data))successBlock fail:(void(^)(NSError *error))failBlock;
-
-- (ASIHTTPRequest *)requestWithPostData:(NSMutableData *)data urlString:(NSString *)urlString start:(void(^)())startBlock success:(void(^)(NSData *data))successBlock fail:(void(^)(NSError *error))failBlock;
 
 @end

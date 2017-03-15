@@ -11,7 +11,7 @@
 
 #define LABELTABBAR_HEIGHT 44
 
-@protocol CCLabelsTabbarDelegate <NSObject>
+@protocol EVLabelsTabbarDelegate <NSObject>
 
 @optional
 - (void)labelsTabbar:(EVLabelsTabbar *)tabbar didSelectedItem:(EVLabelsTabbarItem *)item;
@@ -20,7 +20,7 @@
 
 @interface EVLabelsTabbar : UIView
 
-@property (nonatomic,weak) id<CCLabelsTabbarDelegate> delegate;
+@property (nonatomic,weak) id<EVLabelsTabbarDelegate> delegate;
 
 @property (nonatomic,strong) NSArray *items;
 

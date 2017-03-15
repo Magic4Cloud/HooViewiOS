@@ -39,7 +39,7 @@
 
 - (void)dealloc
 {
-    CCLog(@"%@ dealloc", [self class]);
+    EVLog(@"%@ dealloc", [self class]);
     _engine = nil;
 }
 
@@ -74,8 +74,6 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:animated];
-
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -116,16 +114,16 @@
 
     [self.view endEditing:YES];
     __weak typeof(self) wself = self;
-    [self.engine GETPhoneUserPhoneLoginWithAreaCode:self.currRegion.area_code Phone:phone password:pwd phoneNumError:^(NSString *numError) {
-         [CCProgressHUD showError:numError toView:self.view];
+    [self.engine GETPhoneUserPhoneLoginWithAreaCode:@"86" Phone:phone password:pwd phoneNumError:^(NSString *numError) {
+         [EVProgressHUD showError:numError toView:self.view];
     }  start:^{
-        [CCProgressHUD showMessage:kLogin_loading toView:wself.view];
+        [EVProgressHUD showMessage:kLogin_loading toView:wself.view];
     } fail:^(NSError *error) {
-        [CCProgressHUD hideHUDForView:wself.view];
+        [EVProgressHUD hideHUDForView:wself.view];
         NSString *errorStr = [error errorInfoWithPlacehold:kFail_login];
          [[EVAlertManager shareInstance] performComfirmTitle:errorStr message:nil comfirmTitle:kOK WithComfirm:nil];
     } success:^(EVLoginInfo *loginInfo) {
-        [CCProgressHUD hideHUDForView:wself.view];
+        [EVProgressHUD hideHUDForView:wself.view];
         [EVBugly setUserId:loginInfo.name];
         [EVSDKInitManager initMessageSDKUserData:loginInfo.name];
         loginInfo.phone = wself.phoneLogin.phoneText.text;

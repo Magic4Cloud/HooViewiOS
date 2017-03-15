@@ -6,14 +6,14 @@
 //  Copyright (c) 2016 EasyVass. All rights reserved.
 //
 
-#import "CCBaseObject.h"
+#import "EVBaseObject.h"
 @class EVLoginInfo;
 
 #define CCUserModelUpdateToLocalNotification @"CCUserModelUpdateToLocalNotification"
 #define CCUpdateUserModel   @"CCUpdateUserModel"
 
 
-@interface EVUserModel : CCBaseObject
+@interface EVUserModel : EVBaseObject
 
 @property (copy, nonatomic) NSString *name;                 /**< 用户云播号 */
 @property (copy, nonatomic) NSString *phone;                /**< 手机号 */
@@ -46,9 +46,10 @@
 @property (assign, nonatomic) NSInteger sign_days;          /**< 连续签到天数 */
 @property (assign, nonatomic) NSInteger score;              /**< 用户积分 */
 @property (copy, nonatomic) NSString *score_url;            /**< 积分详情URL */
-@property (assign, nonatomic) NSInteger sendecoin;          /**< 送出的云币数 */
+@property (assign, nonatomic) NSInteger sendecoin;          /**< 送出的火眼豆数 */
 @property (assign, nonatomic) NSInteger recvgift;           /**< 收到的礼物数 */
-
+@property (nonatomic, strong) NSArray *tags;
+@property (nonatomic, copy) NSString *credentials;          /**< 执业证号 */
 
 /**
  *  根据用户的云播号来从本地数据库查询对应的用户基本信息

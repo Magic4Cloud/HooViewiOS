@@ -7,7 +7,7 @@
 //
 
 #import "EVTableViewController.h"
-#include "CCEnums.h"
+#include "EVEnums.h"
 
 @interface EVFansOrFocusesTableViewController : EVTableViewController
 

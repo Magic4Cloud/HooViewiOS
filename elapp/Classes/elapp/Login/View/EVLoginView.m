@@ -52,7 +52,7 @@
     UIButton *loginButton = [[UIButton alloc] init];
     [loginButton setBackgroundColor:[UIColor redColor]];
     loginButton.tag = EVLoginButton;
-    loginButton.backgroundColor = CCAppMainColor;
+    loginButton.backgroundColor = [UIColor evMainColor];
     [loginButton setTitle:kE_Login forState: UIControlStateNormal];
     [loginButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
 // fix by 王伟
@@ -82,8 +82,8 @@
     registButton.layer.cornerRadius = 6;
     registButton.layer.borderWidth = 1;
     registButton.layer.masksToBounds = YES;
-    registButton.layer.borderColor = CCAppMainColor.CGColor;
-    [registButton setTitleColor:CCAppMainColor forState:(UIControlStateNormal)];
+    registButton.layer.borderColor = [UIColor evMainColor].CGColor;
+    [registButton setTitleColor:[UIColor evMainColor] forState:(UIControlStateNormal)];
    
     //    /服务条款与协议
     TTTAttributedLabel *serviceagreement = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
@@ -96,7 +96,7 @@
     NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString: kE_GlobalZH(@"login_agree_user_protocol") attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],NSForegroundColorAttributeName:textColor}];
     serviceagreement.attributedText = attrStr;
     serviceagreement.delegate = self;
-    [serviceagreement setLinkAttributes:@{NSForegroundColorAttributeName:CCAppMainColor}];
+    [serviceagreement setLinkAttributes:@{NSForegroundColorAttributeName:[UIColor evMainColor]}];
     [serviceagreement setActiveLinkAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
     [serviceagreement addLinkToAddress:@{@"key":@"1"} withRange:NSMakeRange(8, 4)];
     
@@ -133,8 +133,7 @@
     
     
     UIView *bottomLineView = [[UIView alloc]init];
-    // change color
-    bottomLineView.backgroundColor =  [UIColor colorWithHexString:@"#622d80"];
+    bottomLineView.backgroundColor = [UIColor evLineColor];
     [self addSubview:bottomLineView];
     [bottomLineView autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:self withOffset:50];
     [bottomLineView autoPinEdge:ALEdgeRight toEdge:ALEdgeRight ofView:self withOffset:-50];
@@ -147,7 +146,7 @@
     thirdLabel.text = kE_GlobalZH(@"other_login_way");
     thirdLabel.font = [UIFont systemFontOfSize:12];
     thirdLabel.backgroundColor = [UIColor whiteColor];
-    thirdLabel.textColor = [UIColor colorWithHexString:@"#622d80"];
+    thirdLabel.textColor = [UIColor colorWithHexString:@"#ACACAC"];
     [self addSubview:thirdLabel];
     [thirdLabel autoAlignAxis:ALAxisVertical toSameAxisOfView:registButton];
     [thirdLabel autoAlignAxis:ALAxisHorizontal toSameAxisOfView:bottomLineView];

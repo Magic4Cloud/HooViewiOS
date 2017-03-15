@@ -15,7 +15,7 @@
 
 // http://115.29.109.121/mediawiki/index.php?title=Searchinfos
 - (void)getSearchInfosWith:(NSString *)keyword
-                      type:(NSString *)type
+                      type:(EVSearchType)type
                      start:(NSInteger)start
                      count:(NSInteger)count
                 startBlock:(void(^)())startBlock
@@ -25,54 +25,30 @@
                reterrBlock:(void(^)(NSString *reterr))reterrBlock
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
-    if ( sessionID == nil )
-    {
-        return;
-    }
-    params[kSessionIdKey] = sessionID;
-    [params setValue:type forKey:kType];
     [params setValue:@(start) forKey:kStart];
     [params setValue:@(count) forKey:kCount];
-    [params setValue:keyword forKey:kKeyWord];
-    NSString *urlString = [EVHttpURLManager fullURLStringWithURI:EVSearchInfosAPI
-                                              params:params];
+   
+    NSString *urlString;
+    switch (type) {
+        case EVSearchTypeNews:
+            urlString = EVSearchNews;
+             [params setValue:keyword forKey:@"title"];
+            break;
+        case EVSearchTypeLive:
+             urlString = EVSearchVideoAPI;
+             [params setValue:keyword forKey:kKeyWord];
+            
+            break;
+        case EVSearchTypeStock:
+            urlString = EVSearchStock;
+             [params setValue:keyword forKey:@"name"];
+            break;
+        default:
+            break;
+    }
     
-    [self requestWithURLString:urlString
-                         start:startBlock
-                          fail:failBlock
-                       success:^(NSData *data)
-     {
-         if ( data )
-         {
-             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
-                                                                  options:NSJSONReadingMutableContainers
-                                                                    error:NULL];
-             if ( [info[kRetvalKye] isEqualToString:kRequestOK] )
-             {
-                 if ( successBlock )
-                 {
-                     successBlock(info[kRetinfoKey]);
-                 }
-             }
-             else if ( [info[kRetvalKye] isEqualToString:kSessionIdExpireValue] )
-             {
-                 if ( sessionExpireBlock )
-                 {
-                     sessionExpireBlock();
-                 }
-             }
-             else if (failBlock)
-             {
-                 NSString *reterr = [NSString stringWithFormat:@"%@",info[@"reterr"]];
-                 reterrBlock(reterr);
-             }
-         }
-         else if (failBlock)
-         {
-             failBlock(nil);
-         }
-     }];
+    EVLog(@"param ------- %@ -----------------  %@",params,urlString);
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
 }
 
 @end

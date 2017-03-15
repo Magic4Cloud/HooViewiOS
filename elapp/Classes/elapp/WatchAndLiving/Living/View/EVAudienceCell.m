@@ -23,7 +23,7 @@
 
 - (void)dealloc
 {
-    CCLog(@"CCAudienceCell dealloc");
+    EVLog(@"CCAudienceCell dealloc");
 }
 
 - (instancetype)initWithFrame:(CGRect)frame

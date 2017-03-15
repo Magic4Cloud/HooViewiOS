@@ -24,74 +24,74 @@
    [super setUpdate_time:im_update_time];
 }
 
-- (void)setConversation:(EMConversation *)conversation
-{
-    _conversation = conversation;
-    //  此处需要从后台或者本地缓存获取环信号与云播号的联系,然后在此设置头像 图标,以及未读消息
-    self.title =self.userModel.nickname;
-    
-    self.title = self.title.length == 0 ? @"''" : self.title;
-    
-    self.imuser = conversation.chatter;
-    self.unread = conversation.unreadMessagesCount;
-    
-    // 设置最后一条消息
-    [self setLastMessage:conversation.latestMessage];
-    
-    if ( self.currUserName == nil ) {
-        EVLoginInfo *login = [EVLoginInfo localObject];
-        self.currUserName = login.name;
-    }
-}
-
-- (void)setLastMessage:(EMMessage *)latestMsg
-{
-    self.send_fail = latestMsg.deliveryState == eMessageDeliveryState_Failure;
-    
-    id<IEMMessageBody> body = [latestMsg.messageBodies firstObject];
-    NSString *stampFormat = @"YYYY-MM-dd HH:mm:ss";
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:stampFormat];
-    NSDate *date = [NSDate dateWithTimeIntervalSince1970:latestMsg.timestamp / 1000];
-    self.update_time = [formatter stringFromDate:date];
-    
-    if ([body isKindOfClass:[EMTextMessageBody class]]) {
-        EMTextMessageBody *textBody = [latestMsg.messageBodies firstObject];
-        if ([latestMsg.ext.allKeys containsObject:@"redpack"]) {
-            self.content = kE_GlobalZH(@"message_red_pack");
-        } else {
-            self.content = textBody.text;
-        }
-    }
-    else
-    {
-        switch ( [body messageBodyType] )
-        {
-            case eMessageBodyType_Image:
-                if ( latestMsg.ext[kVid] )
-                {
-                    self.content = kE_GlobalZH(@"message_living");
-                }
-                else
-                {
-                    self.content = kE_GlobalZH(@"kMessage_image");
-                }
-                break;
-                
-            case eMessageBodyType_Voice:
-                self.content = kE_GlobalZH(@"message_voice");
-                break;
-                
-            case eMessageBodyType_Location:
-                self.content = kE_GlobalZH(@"message_shared_position");
-                break;
-                
-            default:
-                self.content = kE_GlobalZH(@"message_new");
-                break;
-        }
-    }
-}
+//- (void)setConversation:(EMConversation *)conversation
+//{
+//    _conversation = conversation;
+//    //  此处需要从后台或者本地缓存获取环信号与云播号的联系,然后在此设置头像 图标,以及未读消息
+//    self.title =self.userModel.nickname;
+//    
+//    self.title = self.title.length == 0 ? @"''" : self.title;
+//    
+//    self.imuser = conversation.chatter;
+//    self.unread = conversation.unreadMessagesCount;
+//    
+//    // 设置最后一条消息
+//    [self setLastMessage:conversation.latestMessage];
+//    
+//    if ( self.currUserName == nil ) {
+//        EVLoginInfo *login = [EVLoginInfo localObject];
+//        self.currUserName = login.name;
+//    }
+//}
+//
+//- (void)setLastMessage:(EMMessage *)latestMsg
+//{
+//    self.send_fail = latestMsg.deliveryState == eMessageDeliveryState_Failure;
+//    
+//    id<IEMMessageBody> body = [latestMsg.messageBodies firstObject];
+//    NSString *stampFormat = @"YYYY-MM-dd HH:mm:ss";
+//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//    [formatter setDateFormat:stampFormat];
+//    NSDate *date = [NSDate dateWithTimeIntervalSince1970:latestMsg.timestamp / 1000];
+//    self.update_time = [formatter stringFromDate:date];
+//    
+//    if ([body isKindOfClass:[EMTextMessageBody class]]) {
+//        EMTextMessageBody *textBody = [latestMsg.messageBodies firstObject];
+//        if ([latestMsg.ext.allKeys containsObject:@"redpack"]) {
+//            self.content = kE_GlobalZH(@"message_red_pack");
+//        } else {
+//            self.content = textBody.text;
+//        }
+//    }
+//    else
+//    {
+//        switch ( [body messageBodyType] )
+//        {
+//            case eMessageBodyType_Image:
+//                if ( latestMsg.ext[kVid] )
+//                {
+//                    self.content = kE_GlobalZH(@"message_living");
+//                }
+//                else
+//                {
+//                    self.content = kE_GlobalZH(@"kMessage_image");
+//                }
+//                break;
+//                
+//            case eMessageBodyType_Voice:
+//                self.content = kE_GlobalZH(@"message_voice");
+//                break;
+//                
+//            case eMessageBodyType_Location:
+//                self.content = kE_GlobalZH(@"message_shared_position");
+//                break;
+//                
+//            default:
+//                self.content = kE_GlobalZH(@"message_new");
+//                break;
+//        }
+//    }
+//}
 
 - (void)setUserModel:(EVUserModel *)userModel
 {
@@ -110,7 +110,7 @@
     }
     else if ( [object isKindOfClass:[EVNotifyConversationItem class]] )
     {
-        return [self.conversation.chatter isEqualToString:[[object conversation] chatter]];
+//        return [self.conversation.chatter isEqualToString:[[object conversation] chatter]];
     }
     return NO;
 }
@@ -145,7 +145,7 @@
         }
         return;
     }
-    CCQueryObject *query = [[CCQueryObject alloc] init];
+    EVQueryObject *query = [[EVQueryObject alloc] init];
     query.clazz = [self class];
     if ( login.name && ![login.name isEqualToString:@""] )
     {
@@ -169,7 +169,7 @@
                 index++;
                 if ( model == nil )
                 {
-                    item.conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:item.imuser conversationType:eConversationTypeChat];
+//                    item.conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:item.imuser conversationType:eConversationTypeChat];
                 }
                 else
                 {
@@ -186,7 +186,7 @@
 
 - (void)fillConverSationAfterFromLocal
 {
-    self.conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:self.userModel.imuser conversationType:eConversationTypeChat];
+//    self.conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:self.userModel.imuser conversationType:eConversationTypeChat];
 }
 
 @end

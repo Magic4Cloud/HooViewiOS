@@ -8,7 +8,6 @@
 
 #import "EVViewController.h"
 #import "EVAudienceChatTextView.h"
-#import "EVVideoViewProtocol.h"
 #import "EVVideoTopView.h"
 #import "EVLiveShareView.h"
 #import "EVPresentView.h"
@@ -18,29 +17,23 @@
 #import "EVCenterPresentView.h"
 #import "EVReportReasonView.h"
 #import "EVRecordControlView.h"
-#import "EVEnterAnimationView.h"
 #import "EVMagicEmojiView.h"
 #import "EVComment.h"
-#import "EVAudienceLoveView.h"
+#import "EVHVLiveTopView.h"
+#import "EVHVGiftAniView.h"
 
-@interface CCContentView : UIView
+@interface EVContentView : UIView
 
 @end
 
-@class EVLiveTipsLabel,EVUserModel;
-@interface EVVideoViewController : EVViewController <UIScrollViewDelegate, CCVideoViewProtocol, CCLiveShareViewDelegate, CCFloatingViewDelegate>
-
-/** 处理数据 */
-/** 回复评论 */
+@class EVLiveTipsLabel,EVUserModel,EVLiveWatchManager,EVLinkUserModel,EVLinkManager,EVSDKLiveMessageEngine;
+@interface EVVideoViewController : EVViewController <UIScrollViewDelegate, CCLiveShareViewDelegate, CCFloatingViewDelegate>
 
 /** 是否是要发送评论，需要显示评论框的时候为yes */
 @property ( nonatomic ) BOOL sendComment;
 
-// MARK: live and watch common element
-
 /** vid */
 @property ( nonatomic, copy ) NSString *vid;
-
 
 /** 当前用户云播号 */
 @property ( nonatomic, copy ) NSString *name;
@@ -61,10 +54,11 @@
 @property ( nonatomic, weak, readonly ) UIView *chatContainerView;
 
 /** 视频界面上部关于主播内容和视频内容的部分 */
-@property ( nonatomic, weak) EVVideoTopView *videoInfoView;
+@property ( nonatomic, weak) EVHVLiveTopView *videoInfoView;
 
 /** 收到礼物提示 */
 @property ( nonatomic, weak, readonly ) EVPresentView *presentView;
+
 @property (weak, nonatomic) EVUserModel *reportedUser; /**< 被举报人 */
 /** 礼物动画 */
 @property ( nonatomic, weak, readonly ) EVCenterPresentView *presentAnimatingView;
@@ -77,15 +71,14 @@
 
 @property ( nonatomic, weak, readonly ) EVRiceAmountView *riceAmountView;
 
-/** 显示点赞 */
-@property ( nonatomic, weak, readonly ) EVAudienceLoveView *loveView;
 
-/** 底部按钮的容器 */
-/*
- *  在观看页面是CCWatchBottomItemView
- *  在直播页面是CCLiveBottomItemView
+/** 底部按钮的容器
+ *  在观看页面是EVWatchBottomItemView
+ *  在直播页面是EVLiveBottomItemView
  */
 @property ( nonatomic, weak ) UIView *bottomBtnContainerView;
+
+@property (nonatomic, weak) EVHVGiftAniView *giftAniView;
 
 /** 播放控制视图的容器 */
 @property (nonatomic, weak) EVRecordControlView * recordControlView;
@@ -104,9 +97,6 @@
 @property (nonatomic, weak) EVReportReasonView *reportReasonView;
 
 
-/** 进场动画 */
-@property ( nonatomic, strong, readonly) EVEnterAnimationView *enterAnimationView;
-
 @property (nonatomic,assign) BOOL isShutupUser;
 @property (nonatomic,assign) BOOL isManagerUser;
 /* 禁言的名字数组*/
@@ -123,7 +113,6 @@
 //直播的房间
 @property (nonatomic, copy) NSString *topicVid;
 
-
 /** 主播云播号 */
 @property ( nonatomic, copy ) NSString *anchorName;
 
@@ -132,37 +121,59 @@
 
 @property (nonatomic, assign) NSUInteger like_count;
 
-@property (nonatomic, assign) NSUInteger watch_count;
+@property (nonatomic, assign) long long watch_count;
 
+@property (nonatomic, assign) long long growwatch_count;
+
+@property (nonatomic, assign) long long watching_count;
+
+@property (nonatomic, assign) long long growwatching_count;
+
+@property (nonatomic, assign) long long huoyanbi;
+
+@property (nonatomic, assign) long long growHuoyanbi;
+
+
+@property (nonatomic, strong) EVLiveWatchManager *liveWatchManager;
 
 @property (nonatomic, assign) BOOL isSelfBrush;
 
+@property (nonatomic, assign) BOOL isKickSelf;
 
-- (void)audienceDidClicked:(CCAudienceInfoViewButtonType)btn;
+@property (nonatomic, weak) UIView *videolinkView;
+
+@property (nonatomic, strong) NSMutableArray *linkArray;
+
+@property (nonatomic, strong) EVLinkManager *linkManager;
+
+@property (nonatomic, strong) EVSDKLiveMessageEngine *messageSDKEngine;
+
+@property (nonatomic, weak) UILabel *hvBeanLabel;
+
+
+- (void)audienceDidClicked:(EVAudienceInfoViewButtonType)btn;
+
+
 
 /**
- *  @author shizhiang, 16-03-08 11:03:33
  *
  *  展示分享页面
  */
-- (void)showShareView;
+- (void)showShareView:(BOOL)YorN;
 
 /**
- *  @author shizhiang, 16-03-08 15:03:16
  *
  *  重新登录
  */
 - (void)sessionExpireAndRelogin;
 
 /**
- *  @author shizhiang, 16-03-09 10:03:18
  *
  *  退出视频，开始私信聊天
  */
 - (void)logoutVideoAndChatWithName:(NSString *)name;
 
-/**s
- *  @author shizhiang, 16-03-09 10:03:45
+/**
  *
  *  更新视频信息
  *
@@ -171,7 +182,6 @@
 - (void)updateVideoInfo:(NSDictionary *)videoInfo;
 
 /**
- *  @author shizhiang, 16-03-15 20:03:22
  *
  *  根据礼物存放路径找到礼物动画路径
  *
@@ -183,32 +193,26 @@
 
 - (void)riceAmoutViewDidSelect;
 
-
 - (void)shutupAudienceWithAudienceName:(NSString *)name shutupState:(BOOL)shutup;
 
-/**
- *  举报用户和视频方法
- *
- *  @param title <#title description#>
- */
 - (void)reportUserTitle:(NSString *)title;
 
 - (void)addLoveView;
 
 - (void)focusAudienceWithUserModel:(EVUserModel *)userModel;
 
-// 跳转个人中心
 - (void)showUserCenterWithName:(NSString *)name fromLivingRoom:(BOOL)fromLivingRoom;
 
 - (void)gotoLetterPageWithUserModel:(EVUserModel *)userModel;
 
-- (void)audienceShutedupDenied;
-
 - (void)audienceShutedup;
-
-
 
 - (void)hiddenContentSubviews;
 
+- (void)modifyFollowUser:(BOOL)follow;
+
+- (void)dismissShareView;
+
+- (void)topViewButtonType:(EVHVLiveTopViewType)type button:(UIButton *)button;
 
 @end

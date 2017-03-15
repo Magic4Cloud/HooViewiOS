@@ -21,7 +21,7 @@
 
 - (void)awakeFromNib {
 //    self.mySwitch.on = ![CCBaseTool pushNotificationIsOff];
-    self.mySwitch.onTintColor = [CCAppSetting shareInstance].appMainColor;
+    self.mySwitch.onTintColor = [UIColor evMainColor];
 }
 
 

@@ -9,6 +9,7 @@
 #import "EVAudienceChatTextView.h"
 #import <PureLayout.h>
 #import "NSString+Extension.h"
+#import "EVChatTextView.h"
 
 @interface EVAudienceChatTextView () <CCChatTextViewDelegate, UITextViewDelegate>
 
@@ -19,13 +20,15 @@
 /** 评论框中文字的高度 */
 @property ( nonatomic ) CGFloat textHeight;
 
+@property (nonatomic, weak) EVChatTextView *textView;
+
 @end
 
 @implementation EVAudienceChatTextView
 
 - (void)dealloc
 {
-    [CCNotificationCenter removeObserver:self];
+    [EVNotificationCenter removeObserver:self];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -72,7 +75,7 @@
     textView.showSendButton = YES;
     textView.textColor = [UIColor whiteColor];
     textView.placeHoderTextColor = [UIColor colorWithHexString:@"#FFFFFF" alpha:0.5];
-    textView.font = CCNormalFont(12);
+    textView.font = EVNormalFont(12);
     textView.textAlignment = NSTextAlignmentLeft;
     textView.backgroundColor = [UIColor clearColor];
     [self addSubview:textView];
@@ -87,7 +90,7 @@
 
 - (void)setUpNotification
 {
-     [CCNotificationCenter addObserver:self selector:@selector(keyFrameChanged:) name:UIKeyboardWillChangeFrameNotification object:nil];
+     [EVNotificationCenter addObserver:self selector:@selector(keyFrameChanged:) name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
 - (void)keyFrameChanged:(NSNotification *)notification

@@ -6,7 +6,7 @@
 //  Copyright (c) 2016 EasyVass. All rights reserved.
 //
 
-#import "CCBaseObject.h"
+#import "EVBaseObject.h"
 #import "EVSystemPublic.h"
 
 #define k_focusCellName kE_GlobalZH(@"have_people_follow_me_remind")
@@ -21,7 +21,7 @@ typedef enum : NSUInteger {
     EVAuthSettingModelTypeClear
 } EVAuthSettingModelType;
 
-@interface EVAuthSettingModel : CCBaseObject
+@interface EVAuthSettingModel : EVBaseObject
 
 @property (nonatomic, assign) BOOL live;            /**< 直播消息推送总开关，"1"推送，"0"不推送 */
 @property (nonatomic, assign) BOOL follow;          /**< 关注消息推送开关，"1"推送，"0"不推送 */

@@ -11,31 +11,6 @@
 #import "EVHttpURLManager.h"
 @implementation EVBaseToolManager (EVLogAPI)
 
-- (NSString *)fullLogURLWithParams:(NSMutableDictionary *)params
-{
-    return [EVHttpURLManager urlStringWithHost:CCLogBaseURL
-                         uriString:CCApplePayURI
-                            params:params];
-}
-
-- (void)POSTPayLogWithType:(NSString *)type
-                     state:(NSString *)state
-                  moreInfo:(NSDictionary *)moreInfo
-{
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setValue:CCActionApplePayValue forKey:CCActionKey];
-    [params setValue:type forKey:kType];
-    [params setValue:state forKey:kState];
-    [params setValue:[EVLoginInfo localObject].name forKey:kNameKey];
-    [params setValuesForKeysWithDictionary:moreInfo];
-    
-    NSString *urlString = [self fullLogURLWithParams:params];
-    [self requestWithURLString:urlString
-                         start:nil
-                          fail:nil
-                       success:nil];
-}
-
 + (NSString*)dictionaryToJson:(NSDictionary *)dic
 
 {

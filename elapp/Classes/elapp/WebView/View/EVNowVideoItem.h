@@ -6,10 +6,10 @@
 //  Copyright (c) 2016 EasyVass. All rights reserved.
 //
 
-#import "CCBaseObject.h"
+#import "EVBaseObject.h"
 @class EVDiscoverNowVideoCell;
 
-@interface EVNowVideoListItem : CCBaseObject
+@interface EVNowVideoListItem : EVBaseObject
 
 @property (nonatomic, assign) NSInteger next;
 
@@ -35,7 +35,7 @@
 
 @end
 
-@interface EVNowVideoItem : CCBaseObject
+@interface EVNowVideoItem : EVBaseObject
 
 @property (nonatomic, assign) BOOL hasAppear;
 

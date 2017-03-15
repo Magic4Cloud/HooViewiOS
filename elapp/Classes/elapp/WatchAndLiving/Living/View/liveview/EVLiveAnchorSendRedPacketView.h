@@ -13,7 +13,6 @@
 @protocol CCLiveAnchorSendRedPacketViewDelegate <NSObject>
 
 /**
- *  @author shizhiang, 16-03-09 14:03:30
  *
  *  直播过程中主播发红包
  *
@@ -37,14 +36,12 @@
 
 @property (nonatomic, assign) long long anchorEcoinCount;
 /**
- *  @author shizhiang, 16-03-09 14:03:55
  *
  *  显示发红包界面
  */
 - (void)show;
 
 /**
- *  @author shizhiang, 16-03-09 14:03:25
  *
  *  收起发红包界面
  */

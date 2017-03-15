@@ -6,9 +6,9 @@
 //  Copyright (c) 2016 EasyVass. All rights reserved.
 //
 
-#import "CCBaseObject.h"
+#import "EVBaseObject.h"
 
-@interface EVTopicResponse : CCBaseObject
+@interface EVTopicResponse : EVBaseObject
 /** 当前返回的个数 */
 @property (nonatomic,assign) NSInteger count;
 /** 纪录下一个start的id */

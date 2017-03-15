@@ -10,7 +10,7 @@
 #import <UIKit/UIKit.h>
 @class EVReportReasonView;
 
-@protocol CCReportResonViewDelegate <NSObject>
+@protocol EVReportResonViewDelegate <NSObject>
 
 @optional
 - (void)reportWithReason:(NSString *)reason;
@@ -19,7 +19,7 @@
 
 @interface EVReportReasonView : UIView
 
-@property (nonatomic, assign) id<CCReportResonViewDelegate> delegate;
+@property (nonatomic, assign) id<EVReportResonViewDelegate> delegate;
 
 // 显示举报原因
 - (void)show;

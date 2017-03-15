@@ -46,6 +46,10 @@
 /** 经度 */
 @property (nonatomic, assign) double longitude;
 
+@property (nonatomic, copy) void(^willPresentNotificationBlock)(NSDictionary *userInfo);
+@property (nonatomic, copy) void(^didReceiveNotificationResponseBlock)(NSDictionary *userInfo);
+
+
 - (BOOL)gpsAuth;
 
 /**
@@ -80,7 +84,8 @@
  */
 - (void)handleWithUserInfo:(NSDictionary *)userInfo;
 
-
+/** 配置当前图标上显示的气泡数，并同步到JPush服务端 */
++ (void)setCurrentBadge:(NSInteger)badge;
 - (void)resetJpushBadge;
 singtonInterface(PushManager);
 

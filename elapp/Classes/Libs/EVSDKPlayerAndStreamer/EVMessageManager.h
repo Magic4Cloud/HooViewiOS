@@ -3,7 +3,7 @@
 //  EVMessage
 //
 //  Created by mashuaiwei on 16/7/24.
-//  Copyright © 2016年 easyvaas. All rights reserved.
+//  Copyright © 2016年 cloudfocous. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -36,9 +36,16 @@ typedef void(^EVMessageResultBlock)(BOOL isSuccess, EVMessageErrorCode errorCode
  *
  *  @param topic       话题
  *  @param resultblock 执行结果
+        isSuccess       是否执行成功，YES:成功 NO:失败
+        errorCode       失败码
+        privateInfos    私有信息
+        users           用户列表
+        kickusers       已被踢人员的列表
+        managers        管理员列表
+        shutups         已被禁言列表
  */
 - (void)joinTopic:(NSString *)topic
-           result:(void(^)(BOOL isSuccess, EVMessageErrorCode errorCode, NSArray <NSString *>*privateInfos, NSArray <NSString *>*users))resultblock;
+           result:(void(^)(BOOL isSuccess, EVMessageErrorCode errorCode, NSArray <NSString *>*privateInfos, NSArray <NSString *>*users, NSArray <NSString *>*kickusers, NSArray <NSString *>*managers, NSArray <NSString *>*shutups))resultblock;
 
 /**
  *  离开话题
@@ -72,5 +79,27 @@ typedef void(^EVMessageResultBlock)(BOOL isSuccess, EVMessageErrorCode errorCode
 - (void)addLikeCountNumber:(NSUInteger)likes
                    inTopic:(NSString *)topic
                     result:(EVMessageResultBlock)resultblock;
+
+/**
+ 获取最近的历史记录（默认 10 条）
+
+ @param topic 话题
+ @param resultBlock 结果
+ */
+- (void)getLatestHistoryMessagesInTopic:(NSString *)topic
+                         result:(void(^)(BOOL isSuccess, EVMessageErrorCode errorCode, NSDictionary *response)) resultBlock;
+
+/**
+ 获取历史记录
+
+ @param start 记录的起始位置
+ @param count 本次要获取多少条条数
+ @param topic 话题
+ @param resultBlock 结果
+ */
+- (void)getHitoryMessagesWithStart:(NSInteger)start
+                             count:(NSInteger)count
+                           inTopic:(NSString *)topic
+                            result:(void(^)(BOOL isSuccess, EVMessageErrorCode errorCode, NSDictionary *response)) resultBlock;
 
 @end

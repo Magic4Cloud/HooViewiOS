@@ -27,12 +27,20 @@
 
 @implementation EVFeedbackTableViewController
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.hidesBottomBarWhenPushed = YES;
+    }
+    return self;
+}
 #pragma mark - life circle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [CCNotificationCenter addObserver:self selector:@selector(textChange:) name:UITextViewTextDidChangeNotification object:nil];
+    [EVNotificationCenter addObserver:self selector:@selector(textChange:) name:UITextViewTextDidChangeNotification object:nil];
     
     self.title = kE_GlobalZH(@"opinion_feedback");
     UIBarButtonItem *rightCommit = [[UIBarButtonItem alloc] initWithTitle:kE_GlobalZH(@"e_submit") style:UIBarButtonItemStylePlain target:self action:@selector(commit)];
@@ -53,7 +61,7 @@
     }
     else
     {
-        self.numberLabel.textColor = [UIColor colorWithHexString:kGlobalSeparatorColorStr];
+        self.numberLabel.textColor = [UIColor evGlobalSeparatorColor];
     }
 }
 
@@ -90,25 +98,25 @@
     [self.view endEditing:YES];
     if ([self.selectTextView.text isEqualToString:@""])
     {
-        [CCProgressHUD showError:kE_GlobalZH(@"feedback_not_nil") toView:self.view];
+        [EVProgressHUD showError:kE_GlobalZH(@"feedback_not_nil") toView:self.view];
         return;
     }
     
     if ([self.contactEmailTextField.text isEqualToString:@""] || self.contactEmailTextField.text == nil)
     {
-        [CCProgressHUD showError:kE_GlobalZH(@"mail_not_nil") toView:self.view];
+        [EVProgressHUD showError:kE_GlobalZH(@"mail_not_nil") toView:self.view];
         return;
     }
     
 //    if ([CCBaseTool checkEmailByRegx:self.contactEmailTextField.text] == NO) {
     if ([self.contactEmailTextField.text isEmail] == NO) {
-        [CCProgressHUD showError:kE_GlobalZH(@"mail_fail") toView:self.view];
+        [EVProgressHUD showError:kE_GlobalZH(@"mail_fail") toView:self.view];
         return;
     }
     
     if (_numOfWord > 140)
     {
-        [CCProgressHUD showError:kE_GlobalZH(@"feedback_length_please_correct") toView:self.view];
+        [EVProgressHUD showError:kE_GlobalZH(@"feedback_length_please_correct") toView:self.view];
         return;
     }
     

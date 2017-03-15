@@ -11,19 +11,19 @@
 #import "EVLabelsTabbarItem.h"
 #import "EVHomeScrollViewController.h"
 
-@protocol CCHomeCommonBaseViewControllerProtocal <NSObject>
+@protocol EVHomeCommonBaseViewControllerProtocal <NSObject>
 
 @optional
 - (void)homeScrollViewDidScroll;
 
 @end
 
-@interface EVHomeCommonBaseViewController : EVViewController<CCHomeCommonBaseViewControllerProtocal>
+@interface EVHomeCommonBaseViewController : EVViewController<EVHomeCommonBaseViewControllerProtocal>
 
 @property (nonatomic,strong) EVLabelsTabbarItem *viewControllerItem;
 
 @property (nonatomic, assign) BOOL gesturePrepared;
 
-@property (nonatomic,weak) id<CCHomeScrollViewControllerProtocol> homeScrollView;
+@property (nonatomic,weak) id<EVHomeScrollViewControllerProtocol> homeScrollView;
 
 @end

@@ -28,6 +28,9 @@
 @interface SDCollectionViewCell : UICollectionViewCell
 
 @property (weak, nonatomic) UIImageView *imageView;
+
+@property (weak, nonatomic) UIImageView *bgImageView;
+
 @property (copy, nonatomic) NSString *title;
 
 @property (nonatomic, strong) UIColor *titleLabelTextColor;

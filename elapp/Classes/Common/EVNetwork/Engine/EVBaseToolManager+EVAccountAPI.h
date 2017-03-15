@@ -16,11 +16,11 @@ typedef enum : NSUInteger {
 } SMSTYPE;
 
 // 定义登录的类型
-typedef NS_ENUM(NSInteger, CCUseLoginAuthtype)
+typedef NS_ENUM(NSInteger, EVUseLoginAuthtype)
 {
-    CCUseLoginSina,
-    CCUseLoginQQ,
-    CCUseLoginWeixin
+    EVUseLoginSina,
+    EVUseLoginQQ,
+    EVUseLoginWeixin
 };
 
 
@@ -63,7 +63,7 @@ typedef NS_ENUM(NSInteger, CCUseLoginAuthtype)
                      success:(void(^)(BOOL success))successBlock;
 
 /** 授权后第三方登录 */
-- (void)GETThirdPartLoginWithType:(CCUseLoginAuthtype)type
+- (void)GETThirdPartLoginWithType:(EVUseLoginAuthtype)type
                            params:(NSDictionary *)param
                             start:(void(^)())startBlock
                              fail:(void(^)(NSError *error))failBlock
