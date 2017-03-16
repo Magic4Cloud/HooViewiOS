@@ -10,17 +10,17 @@ target 'elapp' do
 
 pod 'MJRefresh'
 pod 'PureLayout'
-pod 'DeviceUtil', '~> 1.3.7'
+pod 'DeviceUtil'
 pod 'SDWebImage'
 pod 'AFNetworking'
-pod 'LBBlurredImage', '~> 0.2.2'
+pod 'LBBlurredImage'
 pod 'FMDB'
-pod 'APAddressBook', '~> 0.2.3'
+pod 'APAddressBook'
 pod 'UMengAnalytics-NO-IDFA‘
-pod 'HLHanZiToPinYin', '~> 0.0.1'
-pod 'HyphenateLite_CN', '~> 3.2.2.2'
+pod 'HLHanZiToPinYin'
+pod 'HyphenateLite_CN'
 pod 'SlimeRefresh’
-pod 'Bugly', '~> 2.4.0'
+pod 'Bugly'
 pod 'TTTAttributedLabel'
 pod 'GrowingIO'
 pod 'SDCycleScrollView'
