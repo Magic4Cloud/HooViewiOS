@@ -378,7 +378,7 @@ static const CGFloat maxPreviewLengthOfSina   = 1024 * 1024 * 5;
 
 - (void)shareContentToQQZoneWithTitle:(NSString *)shareTitle descriptionStr:(NSString *)descriptionString URLString:(NSString *)urlString image:(UIImage *)shareImage shareType:(ShareType)shareType outImage:(UIImage *)outImage{
     if (shareType == ShareTypeMineTextLive) {
-        NSData *previewData = [self handleShareImage:shareImage maxLength:maxPreviewLengthOfQQ];
+        //NSData *previewData = [self handleShareImage:shareImage maxLength:maxPreviewLengthOfQQ];
         
         //    QQApiNewsObject* imgObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:urlString] title:shareTitle description:descriptionString previewImageData:previewData targetContentType:QQApiURLTargetTypeVideo];
         //    [imgObj setCflag:kQQAPICtrlFlagQZoneShareOnStart];

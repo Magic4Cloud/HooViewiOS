@@ -106,14 +106,14 @@
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
     // 1、计算滚动到哪一页
-    NSInteger index = scrollView.contentOffset.x / scrollView.frame.size.width;
+    //NSInteger index = scrollView.contentOffset.x / scrollView.frame.size.width;
 //    self.pageControl.currentPage = index;
 }
 
 - (void)updateStockData:(NSMutableArray *)data
 {
     self.dataArray = [NSMutableArray arrayWithArray:data];
-    NSMutableArray *temArray = [NSMutableArray arrayWithArray:data];
+    //NSMutableArray *temArray = [NSMutableArray arrayWithArray:data];
     for (NSInteger i = 0; i < self.dataArray.count; i++) {
         self.divInteger = self.dataArray.count / 3;
         self.cellCount = self.dataArray.count % 3 == 0 ?  self.divInteger  :  self.divInteger  + 1;

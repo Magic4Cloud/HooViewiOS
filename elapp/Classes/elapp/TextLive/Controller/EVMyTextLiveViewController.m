@@ -862,7 +862,7 @@
 {
     NSLog(@"acmdmessage-----------  %@",aCmdMessages);
     for (EMMessage *umessage in aCmdMessages) {
-        EMMessageBody *cmdBody = umessage.body;
+        //EMMessageBody *cmdBody = umessage.body;
         [self messageGiftDict:umessage.ext];
     }
 }

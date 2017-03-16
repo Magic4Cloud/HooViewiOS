@@ -750,10 +750,10 @@ static const NSString *const SettingCellID = @"settingCell";
         id groups = messageData[@"groups"];
         if ( [groups isKindOfClass:[NSArray class]] )
         {
-            NSArray *messageGroupsTemp = (NSArray *)groups;
-            NSArray *messageGroups = [EVNotifyItem objectWithDictionaryArray:messageGroupsTemp];
+            //NSArray *messageGroupsTemp = (NSArray *)groups;
+            //NSArray *messageGroups = [EVNotifyItem objectWithDictionaryArray:messageGroupsTemp];
             for (int i = 0; i < 2; i++) {
-                EVNotifyItem *item = messageGroups[i];
+                //EVNotifyItem *item = messageGroups[i];
 //                if (i == 1) {
 //                    [weakSelf.msgMessages addObject:item];
 //                }

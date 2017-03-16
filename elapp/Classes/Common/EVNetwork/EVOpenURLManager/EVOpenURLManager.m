@@ -185,7 +185,7 @@ static EVOpenURLManager *_openURLManager;
  */
 - (void)switchToActivityPageWithActivityId:(NSString *)activity_id
 {
-    EVHomeViewController *homeVC = ((AppDelegate *)[UIApplication sharedApplication].delegate).homeVC;
+    //EVHomeViewController *homeVC = ((AppDelegate *)[UIApplication sharedApplication].delegate).homeVC;
 }
 
 

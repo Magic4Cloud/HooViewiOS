@@ -585,7 +585,7 @@
                         success:^(NSDictionary *info)
      {
          NSLog(@"info------------  %@",info);
-         NSInteger ecoin = [info[@"retinfo"][@"productid"] integerValue];
+         //NSInteger ecoin = [info[@"retinfo"][@"productid"] integerValue];
          if ( weakself.delgate &&
              [weakself.delgate respondsToSelector:@selector(appPayDidSucceedWithEcoin:)] &&
              !isReupload)

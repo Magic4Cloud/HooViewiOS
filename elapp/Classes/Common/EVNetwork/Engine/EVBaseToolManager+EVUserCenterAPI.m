@@ -97,7 +97,7 @@
     postParams[kFile] = fileName;
     NSAssert(image, @"image can not be nil");
     NSData *data = UIImageJPEGRepresentation(image, 0.8);
-    NSString *contentType = @"form/multipart";
+    //NSString *contentType = @"form/multipart";
     NSString *fileMineType = @"image/jpeg";
     [EVBaseToolManager POSTRequestWithUrl:urlString params:params fileData:data fileMineType:fileMineType fileName:@"file" success:successBlock sessionExpireBlock:sessionExpireBlock failError:failBlock];
 

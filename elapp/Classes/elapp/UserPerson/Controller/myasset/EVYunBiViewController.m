@@ -400,7 +400,7 @@ typedef enum : NSUInteger {
             {
                 return;
             }
-            NSDictionary *moreInfoDict = @{CCProductID : self.lastSelectedProduct.productid};
+            //NSDictionary *moreInfoDict = @{CCProductID : self.lastSelectedProduct.productid};
      
             
             [[EVPayManager sharedManager] payByInAppPurchase:self.lastSelectedProduct];
@@ -715,7 +715,7 @@ typedef enum : NSUInteger {
             {
                 return;
             }
-            NSDictionary *moreInfoDict = @{CCProductID : self.lastSelectedProduct.productid};
+            //NSDictionary *moreInfoDict = @{CCProductID : self.lastSelectedProduct.productid};
             
             
             [[EVPayManager sharedManager] payByInAppPurchase:self.lastSelectedProduct];

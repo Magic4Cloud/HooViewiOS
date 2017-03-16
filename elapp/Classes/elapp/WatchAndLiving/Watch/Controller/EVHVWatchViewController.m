@@ -609,7 +609,7 @@
 - (void)keyboardWillHide:(NSNotification *)notification
 {
     self.blackBackView.hidden = YES;
-    NSDictionary* info = [notification userInfo];
+    //NSDictionary* info = [notification userInfo];
     //kbSize即為鍵盤尺寸 (有width, height)
     if (self.scrollViewIndex == 0) {
         [self.view bringSubviewToFront:self.chatTextView];
@@ -965,7 +965,7 @@
 - (void)liveShareViewDidClickButton:(EVLiveShareButtonType)type
 {
     NSString *nickName = self.watchVideoInfo.nickname;
-    NSString *videoTitle = self.watchVideoInfo.title;
+    //NSString *videoTitle = self.watchVideoInfo.title;
     NSString *shareUrlString = self.watchVideoInfo.share_url;
     
     if (self.watchVideoInfo.logourl == nil) {

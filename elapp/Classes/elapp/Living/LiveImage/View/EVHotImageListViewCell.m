@@ -42,7 +42,7 @@
 {
     _watchVideoInfo = watchVideoInfo;
     self.nameLabel.text = [NSString stringWithFormat:@"%@的直播间",watchVideoInfo.nickname];
-    NSString *viewCount = [NSString numFormatNumber:watchVideoInfo.viewcount];
+    //NSString *viewCount = [NSString numFormatNumber:watchVideoInfo.viewcount];
     
     [self.headImageView cc_setImageWithURLString:watchVideoInfo.logourl placeholderImage:[UIImage imageNamed:@"Account_bitmap_user"]];
     

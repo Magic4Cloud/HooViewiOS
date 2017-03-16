@@ -530,7 +530,7 @@ static inline long long getcurrsecond()
         case EVEncodedStateLivingIsInterruptedByOther:
         {
             self.liveState = EVLiveStateHoldUp;
-            __weak typeof(self) wself = self;
+            //__weak typeof(self) wself = self;
             [[EVAlertManager shareInstance] performComfirmTitle:kTooltip message:kE_GlobalZH(@"living_end_again") comfirmTitle:kOK WithComfirm:^{
                 AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
                 
@@ -567,7 +567,7 @@ static inline long long getcurrsecond()
             self.isBadNetworkAlertingToClose = YES;
             [_liveEncode shutDwonStream];
             [_liveEncode shutDwonStream];
-            __weak typeof(self) wself = self;
+            //__weak typeof(self) wself = self;
             [[EVAlertManager shareInstance] performComfirmTitle:kTooltip message:kE_GlobalZH(@"network_not_living") comfirmTitle:kOK WithComfirm:^{
                 AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
                 
@@ -726,8 +726,8 @@ static inline long long getcurrsecond()
 - (void)modifyTime
 {
     self.recoderInfo.currSecond++;
-    double currSecond = self.recoderInfo.currSecond;
-    NSString *time = [self stringFormattedTimeFromSeconds:&currSecond];
+    //double currSecond = self.recoderInfo.currSecond;
+    //NSString *time = [self stringFormattedTimeFromSeconds:&currSecond];
 //    [self updateVideoInfo:@{AUDIENCE_UPDATE_PLAY_TIME: time}];
 }
 

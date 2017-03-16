@@ -426,7 +426,7 @@
 
 - (void)reloginIm
 {
-    __weak typeof(self) wself = self;
+ //   __weak typeof(self) wself = self;
 //    [EVEaseMob checkAndAutoReloginWithLoginInfo:nil imHasLogin:^(EVLoginInfo *loginInfo) {
 //    } loginSuccess:^(EVLoginInfo *login) {
 //    } loginFail:^(EMError *error) {

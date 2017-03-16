@@ -184,7 +184,7 @@
             [EVProgressHUD showMessage:kSetting_again toView:wself.view];
         } fail:^(NSError *error) {
             [EVProgressHUD hideHUDForView:wself.view];
-            NSString *errorStr = [error errorInfoWithPlacehold:kFail_setting];
+            //NSString *errorStr = [error errorInfoWithPlacehold:kFail_setting];
         } success:^(BOOL success) {
             [EVProgressHUD hideHUDForView:wself.view];
             
@@ -194,7 +194,7 @@
                 [EVProgressHUD showMessage:kLogin_loading toView:wself.view];
             } fail:^(NSError *error) {
                 [EVProgressHUD hideHUDForView:wself.view];
-                NSString *errorStr = [error errorInfoWithPlacehold:kFail_login];
+                //NSString *errorStr = [error errorInfoWithPlacehold:kFail_login];
             } success:^(EVLoginInfo *loginInfo) {
                 EVLog(@"denglu---------------   %@",loginInfo.name);
                 [EVSDKInitManager initMessageSDKUserData:loginInfo.name];

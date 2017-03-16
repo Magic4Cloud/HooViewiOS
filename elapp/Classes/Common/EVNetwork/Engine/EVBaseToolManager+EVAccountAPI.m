@@ -179,8 +179,8 @@
 {
     if ( login.impwd.length == 0 || login.imuser.length == 0 )
     {
-        static int try = 0;
-        __weak typeof(self) wself = self;
+//        static int try = 0;
+//        __weak typeof(self) wself = self;
 //        [self GETUseriminfoStart:nil
 //                            fail:^(NSError *error)
 //         {

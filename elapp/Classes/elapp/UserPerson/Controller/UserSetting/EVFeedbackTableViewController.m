@@ -120,9 +120,9 @@
         return;
     }
     
-    __weak typeof(self) weakself = self;
-    NSString *email = self.contactEmailTextField.text;
-    NSString *feedback = self.selectTextView.text;
+//    __weak typeof(self) weakself = self;
+//    NSString *email = self.contactEmailTextField.text;
+//    NSString *feedback = self.selectTextView.text;
     
 }
 

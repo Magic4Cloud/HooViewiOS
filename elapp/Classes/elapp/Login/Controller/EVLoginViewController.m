@@ -522,7 +522,7 @@ typedef NS_ENUM(NSInteger, CCLoginViewButtonType) {
 {
     EVUseLoginAuthtype type = (EVUseLoginAuthtype)userInfo.type;
     __weak typeof(self) wself = self;
-    __weak typeof(wself.navigationController) wnav = wself.navigationController;
+    //__weak typeof(wself.navigationController) wnav = wself.navigationController;
     NSDictionary *loginDic = [userInfo userLoginParams];
     [self.engine GETThirdPartLoginWithType:type params:loginDic  start:^{
         [EVProgressHUD showMessage:kGettingThirdPartUserInfo toView:wself.view];

@@ -74,7 +74,7 @@
     self.playbackImage.hidden = videoModel.living == 1 ? YES : NO;
     self.liveImage.hidden = videoModel.living == 1 ? NO : YES;
     // 视频标题
-    NSString *liveTitle = [EVAppSetting liveTitleWithNickName:self.videoModel.nickname CurrentTitle:self.videoModel.title isLive:self.videoModel.living ];
+//    NSString *liveTitle = [EVAppSetting liveTitleWithNickName:self.videoModel.nickname CurrentTitle:self.videoModel.title isLive:self.videoModel.living ];
 //    [self.title cc_setEmotionWithText:liveTitle];
     CCCellType type = CCCellTypeVideo;
   

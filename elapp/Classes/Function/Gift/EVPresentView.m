@@ -201,7 +201,7 @@
 {
     headerView.presentImageView.image = [UIImage imageWithContentsOfFile:PRESENTFILEPATH([imageStr md5String])];
     NSLog(@"path----------------  %@",PRESENTFILEPATH([imageStr md5String]));
-    UIImage *imageV = [UIImage imageWithContentsOfFile:PRESENTFILEPATH([imageStr md5String])];
+    //UIImage *imageV = [UIImage imageWithContentsOfFile:PRESENTFILEPATH([imageStr md5String])];
     headerView.numLabel.text = [NSString stringWithFormat:@"×1"];
     headerView.contentLabel.text = [NSString stringWithFormat:@"送出了%@",presentName];
     headerView.nickNameLabel.text = nickname;
