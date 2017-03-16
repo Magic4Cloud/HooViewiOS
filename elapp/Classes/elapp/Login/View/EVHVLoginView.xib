@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -16,17 +13,14 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="COb-6e-nPy">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="100" id="nA5-fp-I2L"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5ZS-br-sqI">
-                    <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9pI-g5-4kV">
-                            <rect key="frame" x="10" y="10" width="30" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="30" id="D3N-qz-zwH"/>
                                 <constraint firstAttribute="height" constant="30" id="qpB-3b-G4D"/>
@@ -34,7 +28,6 @@
                             <state key="normal" image="btn_graycancel_n"/>
                         </button>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="pkk-GN-fKi">
-                            <rect key="frame" x="127" y="56" width="120" height="120"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="120" id="8r4-Gr-kEF"/>
@@ -42,7 +35,6 @@
                             </constraints>
                         </imageView>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请填写您的手机号" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dgk-g4-TUw">
-                            <rect key="frame" x="40" y="196" width="295" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="APq-hB-bCi"/>
                             </constraints>
@@ -51,14 +43,12 @@
                             <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                         </textField>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Bf-T3-Spb">
-                            <rect key="frame" x="40" y="236" width="295" height="1"/>
                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="MFZ-Jm-vmd"/>
                             </constraints>
                         </view>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入6-20位密码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="B8a-FS-XYm">
-                            <rect key="frame" x="40" y="257" width="295" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="2Oy-cz-m8E"/>
                             </constraints>
@@ -67,14 +57,12 @@
                             <textInputTraits key="textInputTraits" keyboardType="alphabet" returnKeyType="join"/>
                         </textField>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Iqz-8B-5ew">
-                            <rect key="frame" x="40" y="297" width="295" height="1"/>
                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="5AD-Fy-nM8"/>
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RGU-VN-W2a">
-                            <rect key="frame" x="235" y="303" width="100" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="96T-1n-Tfa"/>
                                 <constraint firstAttribute="width" constant="100" id="W9e-dl-1AE"/>
@@ -85,7 +73,6 @@
                             </state>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oHG-3V-fBY">
-                            <rect key="frame" x="40" y="373" width="295" height="40"/>
                             <color key="backgroundColor" red="0.40695452690124512" green="0.16810798645019531" blue="0.53685879707336426" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="4cY-J6-fKp"/>
@@ -101,7 +88,6 @@
                             </userDefinedRuntimeAttributes>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8vL-TS-MAl">
-                            <rect key="frame" x="20" y="533" width="50" height="50"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="50" id="TcF-hQ-4ST"/>
                                 <constraint firstAttribute="height" constant="50" id="XFg-0N-VYL"/>
@@ -109,7 +95,6 @@
                             <state key="normal" image="btn_wechat_n"/>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KmZ-1D-NwH">
-                            <rect key="frame" x="162" y="533" width="50" height="50"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="988-Eo-Ufs"/>
                                 <constraint firstAttribute="width" constant="50" id="mRx-gG-Ntq"/>
@@ -117,7 +102,6 @@
                             <state key="normal" image="btn_qq_n"/>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bWO-Ep-bI2">
-                            <rect key="frame" x="305" y="533" width="50" height="50"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="E48-dt-dKw"/>
                                 <constraint firstAttribute="width" constant="50" id="cWN-sz-J0N"/>
@@ -125,7 +109,6 @@
                             <state key="normal" image="btn_weibo_n"/>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rH8-oQ-7Vp">
-                            <rect key="frame" x="313" y="261" width="22" height="22"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="22" id="6cQ-on-cpa"/>
                                 <constraint firstAttribute="height" constant="22" id="Hcl-XP-BWe"/>

@@ -52,6 +52,9 @@
 		3116F62E1D07F81000DC122E /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3116F62D1D07F81000DC122E /* libstdc++.6.0.9.tbd */; };
 		31D028521C1EA45300F080B0 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31D028511C1EA45300F080B0 /* StoreKit.framework */; };
 		855BA25DB3AF1C2846A9D41F /* libPods-elapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8870469BA124F47A220386F3 /* libPods-elapp.a */; };
+		9EC24DAF1E7A70C2003664B4 /* guide.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9EC24DAE1E7A70C2003664B4 /* guide.xcassets */; };
+		9EC24DB21E7A7117003664B4 /* EVConsultGuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EC24DB11E7A7117003664B4 /* EVConsultGuideView.m */; };
+		9EC24DB41E7A7BB2003664B4 /* EVConsultGuideView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EC24DB31E7A7BB2003664B4 /* EVConsultGuideView.xib */; };
 		9F1F900D1311FACB6DD9C40B /* EVMagicEmojiView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F1F94298F25BCA3E45CBE68 /* EVMagicEmojiView.m */; };
 		9F1F9019A8A5C540A535207B /* Expression_32@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F1F9D724E605DFCC5A5E31D /* Expression_32@2x.png */; };
 		9F1F902AEA9EA503C1E653DB /* Expression_33@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F1F9175F5047440DD550B80 /* Expression_33@2x.png */; };
@@ -784,6 +787,10 @@
 		4765F6D15BEC4925FA89C38D /* Pods-elapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-elapp.release.xcconfig"; path = "Pods/Target Support Files/Pods-elapp/Pods-elapp.release.xcconfig"; sourceTree = "<group>"; };
 		8367F5891D6D926B00BE2DB7 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8870469BA124F47A220386F3 /* libPods-elapp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-elapp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9EC24DAE1E7A70C2003664B4 /* guide.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = guide.xcassets; sourceTree = "<group>"; };
+		9EC24DB01E7A7117003664B4 /* EVConsultGuideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVConsultGuideView.h; sourceTree = "<group>"; };
+		9EC24DB11E7A7117003664B4 /* EVConsultGuideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVConsultGuideView.m; sourceTree = "<group>"; };
+		9EC24DB31E7A7BB2003664B4 /* EVConsultGuideView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVConsultGuideView.xib; sourceTree = "<group>"; };
 		9F1F900E3CB1564B1E75DE78 /* EVFace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVFace.m; sourceTree = "<group>"; };
 		9F1F902A7BFBBAAD453DCA62 /* EVShareManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVShareManager.h; sourceTree = "<group>"; };
 		9F1F90508E7A5BFF806E32B2 /* EVPushBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPushBar.m; sourceTree = "<group>"; };
@@ -4470,6 +4477,7 @@
 				E862FF561D6BE8540081E72F /* cities.plist */,
 				E862FF571D6BE8540081E72F /* elapp.pch */,
 				E862FF581D6BE8540081E72F /* Images.xcassets */,
+				9EC24DAE1E7A70C2003664B4 /* guide.xcassets */,
 				E862FF5A1D6BE8540081E72F /* Manager */,
 				E862FF631D6BE8540081E72F /* 用户注册协议.rtf */,
 				E862FF641D6BE8540081E72F /* 申诉说明.rtf */,
@@ -4511,6 +4519,9 @@
 				E8CEC7F01E6EEF0A005188E7 /* 苹果启动页.mp4 */,
 				E8717F701E6DB309008BD55B /* ZYLauchMovieViewController.h */,
 				E8717F711E6DB309008BD55B /* ZYLauchMovieViewController.m */,
+				9EC24DB01E7A7117003664B4 /* EVConsultGuideView.h */,
+				9EC24DB11E7A7117003664B4 /* EVConsultGuideView.m */,
+				9EC24DB31E7A7BB2003664B4 /* EVConsultGuideView.xib */,
 			);
 			path = APPStart;
 			sourceTree = "<group>";
@@ -5055,7 +5066,7 @@
 					18D053491B09DDF1008861C6 = {
 						CreatedOnToolsVersion = 6.3;
 						DevelopmentTeam = 8YE8AXL3F3;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -5113,6 +5124,7 @@
 				E86200FF1D6BE8540081E72F /* EVNoDisturbAllTableViewCell.xib in Resources */,
 				E86201941D6BE8550081E72F /* WeiboSDK.bundle in Resources */,
 				E8AF7F401E1D10B7001682EA /* EVNewsListViewCell.xib in Resources */,
+				9EC24DB41E7A7BB2003664B4 /* EVConsultGuideView.xib in Resources */,
 				E86200F41D6BE8540081E72F /* EVAccountBindTableViewCell.xib in Resources */,
 				E8EF9D1D1D829F8E001AF7B0 /* EVLimitFiendCell.xib in Resources */,
 				E86200CE1D6BE8540081E72F /* EVAccountPhoneBindViewController.storyboard in Resources */,
@@ -5144,6 +5156,7 @@
 				9F1F9949F71A6C600C8DB435 /* Expression_12@2x.png in Resources */,
 				9F1F9CBFA688C950FDF082D7 /* Expression_13@2x.png in Resources */,
 				E849328A1E5309FE00E6D0D3 /* EVNewsCollectTableViewCell.xib in Resources */,
+				9EC24DAF1E7A70C2003664B4 /* guide.xcassets in Resources */,
 				E84354911E1F34EA006D2E7D /* EVHotItemViewCell.xib in Resources */,
 				9F1F98CF068A7AEA984DAE17 /* Expression_14@2x.png in Resources */,
 				E8572F321E1E251C002D3784 /* EVFastNewsViewCell.xib in Resources */,
@@ -5712,6 +5725,7 @@
 				9F1F94AF9DAF451133F3A534 /* EVBaseToolManager+EVAccountChangeAPI.m in Sources */,
 				9F1F96422CEA1E0A429C9AF3 /* EVBaseToolManager+EVDiscoverAPI.m in Sources */,
 				E844F9361E08C48700CCE0B0 /* UIView+SGExtension.m in Sources */,
+				9EC24DB21E7A7117003664B4 /* EVConsultGuideView.m in Sources */,
 				9F1F975EA0B700777CF20CBD /* EVBaseToolManager+EVFindFreindsAPI.m in Sources */,
 				9F1F9C14F7151DED77E1D435 /* EVBaseToolManager+EVHomeAPI.m in Sources */,
 				9F1F94C4CD1CCB1384E434FF /* EVBaseToolManager+EVLiveAPI.m in Sources */,
@@ -6017,8 +6031,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hooview.app;
 				PRODUCT_MODULE_NAME = elapp;
 				PRODUCT_NAME = "火眼财经";
-				PROVISIONING_PROFILE = "822ed211-e1e4-4144-929e-0c38384ed9b7";
-				PROVISIONING_PROFILE_SPECIFIER = hooview_dev;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = YES;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/elapp/Classes/Libs/LibStreamer/Third-Party/FFmpeg/inc/**";
@@ -6034,7 +6048,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "elapp/火眼财经.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 8YE8AXL3F3;
@@ -6108,8 +6122,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hooview.app;
 				PRODUCT_MODULE_NAME = elapp;
 				PRODUCT_NAME = "火眼财经";
-				PROVISIONING_PROFILE = "00e01275-76c3-4214-8b60-7af8d2d04285";
-				PROVISIONING_PROFILE_SPECIFIER = yangshangbin;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = YES;

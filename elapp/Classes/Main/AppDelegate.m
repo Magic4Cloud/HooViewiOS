@@ -39,6 +39,8 @@
 #import "EVEaseMob.h"
 #import "ZYLauchMovieViewController.h"
 
+#import "EVConsultGuideView.h"
+
 
 NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 
@@ -47,6 +49,7 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 @interface AppDelegate ()<UIAlertViewDelegate>
 
 @property (nonatomic,strong) EVTimerTool *timerTool;
+@property (nonatomic, strong)EVConsultGuideView *guideView;
 
 @end
 
@@ -202,7 +205,7 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 //    [self.window makeKeyAndVisible];
     NSLog(@"------ %@ ---- ",[EVLoginInfo localObject].name);
     [EVSDKInitManager initMessageSDKUserData:[EVLoginInfo localObject].name];
-//    if ( [EVBaseToolManager userHasLoginLogin] )
+//    if ( [EVBaseToolManager userHasLoginLogin])
 //    {
 //        
 //        //  下载备注列表
@@ -271,6 +274,34 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     
     self.window.rootViewController = homeVC;
     self.homeVC = homeVC;
+    
+#pragma mark ---------------------------------------------
+    NSArray *loginXib = [[NSBundle mainBundle] loadNibNamed:@"EVConsultGuideView" owner:nil options:nil];
+    EVConsultGuideView *guideView = [loginXib firstObject];
+    guideView.backgroundColor = [UIColor clearColor];
+    guideView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
+    self.guideView = guideView;
+    [homeVC.view addSubview:guideView];
+    
+    self.guideView.liveBackImage.hidden = YES;
+    self.guideView.marketBackImage.hidden = YES;
+    self.guideView.knowButton2.hidden = YES;
+    self.guideView.knowButton3.hidden = YES;
+    self.guideView.knowButton4.hidden = YES;
+    self.guideView.knowButton5.hidden = YES;
+    
+    guideView._knowBlock  = ^(){
+        self.homeVC.selectedIndex = 1;
+    };
+    guideView._knowBlockLive  = ^(){
+        self.homeVC.selectedIndex = 2;
+    };
+    guideView._endGuideBlock  = ^(){
+        self.homeVC.selectedIndex = 0;
+        [self.guideView removeFromSuperview];
+    };
+    
+
 }
 
 - (void)application:(UIApplication *)application

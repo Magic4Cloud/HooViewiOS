@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="EVConsultGuideView">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="new" translatesAutoresizingMaskIntoConstraints="NO" id="UbW-kl-2Aq"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="live" translatesAutoresizingMaskIntoConstraints="NO" id="VAD-Fi-gZN"/>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rJM-3p-acI">
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="80" id="IUN-mH-BIN"/>
+                        <constraint firstAttribute="height" constant="30" id="caJ-J3-Nbh"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                    <state key="normal" title="我知道了">
+                        <color key="titleColor" red="0.36862745099999999" green="0.16862745100000001" blue="0.53725490200000003" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="6"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="knowButton4:" destination="iN0-l3-epB" eventType="touchUpInside" id="Hwg-hV-QXl"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fh7-gL-Xaf">
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="49z-vT-EnO"/>
+                        <constraint firstAttribute="width" constant="80" id="JWF-Hr-rl9"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                    <state key="normal" title="我知道了">
+                        <color key="titleColor" red="0.36862745099999999" green="0.16862745100000001" blue="0.53725490200000003" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="6"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="knowButton2:" destination="iN0-l3-epB" eventType="touchUpInside" id="odm-Nz-GFz"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iqJ-9Z-evD">
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="80" id="JhF-zk-Hou"/>
+                        <constraint firstAttribute="height" constant="30" id="am6-FM-Yxq"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                    <state key="normal" title="我知道了">
+                        <color key="titleColor" red="0.36862745098039218" green="0.16862745098039217" blue="0.53725490196078429" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="6"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="knowButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="J8W-ad-CiC"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="22o-ZQ-Gcr">
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="kGD-Md-N3f"/>
+                        <constraint firstAttribute="width" constant="80" id="vag-Ql-UH4"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                    <state key="normal" title="我知道了">
+                        <color key="titleColor" red="0.36862745099999999" green="0.16862745100000001" blue="0.53725490200000003" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="6"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="knowButton3:" destination="iN0-l3-epB" eventType="touchUpInside" id="eeO-fQ-SHb"/>
+                    </connections>
+                </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="market" translatesAutoresizingMaskIntoConstraints="NO" id="AGL-QH-glP"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Idc-h9-4BV">
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="OCN-or-vjj"/>
+                        <constraint firstAttribute="width" constant="80" id="QVZ-ZX-WBW"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                    <state key="normal" title="立即体验">
+                        <color key="titleColor" red="0.36862745099999999" green="0.16862745100000001" blue="0.53725490200000003" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="6"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="knowButton5:" destination="iN0-l3-epB" eventType="touchUpInside" id="Zi5-SC-8cM"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="VAD-Fi-gZN" secondAttribute="trailing" id="1Ms-ub-X9e"/>
+                <constraint firstAttribute="bottom" secondItem="Idc-h9-4BV" secondAttribute="bottom" constant="112" id="2Yb-nn-9Dn"/>
+                <constraint firstItem="UbW-kl-2Aq" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="4mn-Mi-cGW"/>
+                <constraint firstAttribute="bottom" secondItem="fh7-gL-Xaf" secondAttribute="bottom" constant="59" id="8y3-DV-PRJ"/>
+                <constraint firstItem="VAD-Fi-gZN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="90x-RW-JbY"/>
+                <constraint firstAttribute="trailing" secondItem="rJM-3p-acI" secondAttribute="trailing" constant="57" id="ApI-kU-Bam"/>
+                <constraint firstItem="fh7-gL-Xaf" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="C8d-MH-ZH9"/>
+                <constraint firstItem="rJM-3p-acI" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="167" id="CPo-ju-vs3"/>
+                <constraint firstAttribute="trailing" secondItem="22o-ZQ-Gcr" secondAttribute="trailing" constant="87" id="JE3-P9-qfK"/>
+                <constraint firstItem="iqJ-9Z-evD" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="188" id="LIe-pe-3AR"/>
+                <constraint firstAttribute="trailing" secondItem="Idc-h9-4BV" secondAttribute="trailing" constant="46" id="PsU-vu-cqW"/>
+                <constraint firstAttribute="bottom" secondItem="AGL-QH-glP" secondAttribute="bottom" id="V1k-rc-C1s"/>
+                <constraint firstAttribute="trailing" secondItem="UbW-kl-2Aq" secondAttribute="trailing" id="fEF-n3-p9q"/>
+                <constraint firstItem="22o-ZQ-Gcr" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="163" id="nrS-WP-osi"/>
+                <constraint firstItem="VAD-Fi-gZN" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="rJd-Z7-c39"/>
+                <constraint firstAttribute="bottom" secondItem="iqJ-9Z-evD" secondAttribute="bottom" constant="106" id="rdT-Sm-rSu"/>
+                <constraint firstItem="UbW-kl-2Aq" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="tIH-wy-RhB"/>
+                <constraint firstAttribute="trailing" secondItem="AGL-QH-glP" secondAttribute="trailing" id="tuk-cu-ggT"/>
+                <constraint firstItem="AGL-QH-glP" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="ut0-lX-Cae"/>
+                <constraint firstAttribute="bottom" secondItem="UbW-kl-2Aq" secondAttribute="bottom" id="v22-8E-4x2"/>
+                <constraint firstItem="AGL-QH-glP" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="vUP-P5-8Hr"/>
+                <constraint firstAttribute="bottom" secondItem="VAD-Fi-gZN" secondAttribute="bottom" id="zXH-cC-Ndf"/>
+            </constraints>
+            <connections>
+                <outlet property="backImage" destination="UbW-kl-2Aq" id="0y2-2T-1jf"/>
+                <outlet property="knowButton" destination="iqJ-9Z-evD" id="NL3-QX-bff"/>
+                <outlet property="knowButton2" destination="fh7-gL-Xaf" id="0gi-vm-XCK"/>
+                <outlet property="knowButton3" destination="22o-ZQ-Gcr" id="qF3-7f-SLs"/>
+                <outlet property="knowButton4" destination="rJM-3p-acI" id="Dks-u3-fBt"/>
+                <outlet property="knowButton5" destination="Idc-h9-4BV" id="ffs-mJ-0wn"/>
+                <outlet property="liveBackImage" destination="VAD-Fi-gZN" id="Tnt-Ed-obe"/>
+                <outlet property="marketBackImage" destination="AGL-QH-glP" id="gcr-vi-GBd"/>
+            </connections>
+        </view>
+    </objects>
+    <resources>
+        <image name="live" width="375" height="667"/>
+        <image name="market" width="375" height="667"/>
+        <image name="new" width="375" height="667"/>
+    </resources>
+</document>
