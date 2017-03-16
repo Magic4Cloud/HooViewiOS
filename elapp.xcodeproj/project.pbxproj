@@ -1193,7 +1193,7 @@
 		E859C3511E6136C6003AFCFF /* EVConsumptionDetailsViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVConsumptionDetailsViewCell.h; sourceTree = "<group>"; };
 		E859C3521E6136C6003AFCFF /* EVConsumptionDetailsViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVConsumptionDetailsViewCell.m; sourceTree = "<group>"; };
 		E859C3531E6136C6003AFCFF /* EVConsumptionDetailsViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVConsumptionDetailsViewCell.xib; sourceTree = "<group>"; };
-		E85DFDCA1E7797D6005667DD /* 火眼财经.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "火眼财经.entitlements"; sourceTree = "<group>"; };
+		E85DFDCA1E7797D6005667DD /* 火眼财经.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = "火眼财经.entitlements"; path = "../火眼财经.entitlements"; sourceTree = "<group>"; };
 		E85DFE261E78D42A005667DD /* EVCutIgeShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVCutIgeShareViewController.h; sourceTree = "<group>"; };
 		E85DFE271E78D42A005667DD /* EVCutIgeShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVCutIgeShareViewController.m; sourceTree = "<group>"; };
 		E85DFE281E78D42A005667DD /* EVHVWatchTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVHVWatchTextViewController.h; sourceTree = "<group>"; };
@@ -3084,7 +3084,6 @@
 		E862FA561D6BE8520081E72F /* elapp */ = {
 			isa = PBXGroup;
 			children = (
-				E85DFDCA1E7797D6005667DD /* 火眼财经.entitlements */,
 				E862FA5B1D6BE8520081E72F /* Classes */,
 				E862FF531D6BE8540081E72F /* Supporting Files */,
 				8367F5891D6D926B00BE2DB7 /* Info.plist */,
@@ -4374,6 +4373,7 @@
 		E862FF531D6BE8540081E72F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E85DFDCA1E7797D6005667DD /* 火眼财经.entitlements */,
 				E862FF541D6BE8540081E72F /* aera.plist */,
 				E862FF551D6BE8540081E72F /* BTGotham-Book.otf */,
 				E862FF561D6BE8540081E72F /* cities.plist */,
