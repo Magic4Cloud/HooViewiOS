@@ -125,8 +125,8 @@ typedef NS_ENUM(NSUInteger, EVWithdrawInfoCtrlBtnType)
 
 - (void) cashout
 {
-    __weak typeof(self) wself = self;
-    NSInteger rmb = [self.withdrawAmount floatValue] * 100;
+//    __weak typeof(self) wself = self;
+//    NSInteger rmb = [self.withdrawAmount floatValue] * 100;
 //    [self.engine GETCashoutRmb:[NSString stringWithFormat:@"%zd", rmb]
 //                      start:^{
 //                          [EVProgressHUD showMessage:kE_GlobalZH(@"put_forward_please_wait") toView:wself.view];

@@ -41,7 +41,7 @@
 @implementation EVTableNotifListViewCell
 //约束
 - (void)awakeFromNib{
-    
+    [super awakeFromNib];
     self.contentBackView.layer.cornerRadius = 4.f;
     self.contentBackView.clipsToBounds = YES;
     self.contentBackView.layer.borderColor = [UIColor colorWithHexString:@"#d9d9d9"].CGColor;
@@ -99,10 +99,10 @@
     NSString *text = cellItem.content;
     
     //  计算label的宽度
-    CGFloat iconLeft = 14.;
-    CGFloat iconWidth = 40.;
-    CGFloat iconToLabel = 27.;
-    CGFloat LabelRight = 43;
+//    CGFloat iconLeft = 14.;
+//    CGFloat iconWidth = 40.;
+//    CGFloat iconToLabel = 27.;
+//    CGFloat LabelRight = 43;
     CGFloat labelWith = ScreenWidth - (36  + 32);
 
     CGRect rect = [text boundingRectWithSize:CGSizeMake(labelWith, 10000) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:16]} context:NULL];

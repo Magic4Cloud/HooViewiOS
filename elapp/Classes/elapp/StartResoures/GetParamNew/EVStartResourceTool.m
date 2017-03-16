@@ -211,7 +211,7 @@
         if ([object[P_PRESENT_ANITYPE] integerValue] == EVPresentAniTypeZip) {
 
         }
-        NSString *downLoadAniImageUrl = [object[P_PRESENT_ANI] componentsSeparatedByString:@"/"].lastObject;
+//        NSString *downLoadAniImageUrl = [object[P_PRESENT_ANI] componentsSeparatedByString:@"/"].lastObject;
         BOOL needDownLoad = [object[P_PRESENT_ANITYPE] integerValue] == EVPresentAniTypeZip || [object[P_PRESENT_ANITYPE] integerValue] == EVPresentAniTypeStaticImage;   // 需要进行数据下载
         NSString *path = PRESENTFILEPATH(storeImageUrl);
         if (needDownLoad && ![[NSFileManager defaultManager] fileExistsAtPath:path]) {

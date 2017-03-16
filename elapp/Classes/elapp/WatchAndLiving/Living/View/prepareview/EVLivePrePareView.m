@@ -112,9 +112,9 @@ static NSInteger const shareLabBaseTag = 888;
 - (void)keyboardWillShow:(NSNotification *)notification
 {
 
-    NSDictionary *info = notification.userInfo;
-    NSValue *value = [info objectForKey:UIKeyboardFrameEndUserInfoKey];
-    CGFloat keybaordHeight = [value CGRectValue].size.height;
+    //NSDictionary *info = notification.userInfo;
+    //NSValue *value = [info objectForKey:UIKeyboardFrameEndUserInfoKey];
+    //CGFloat keybaordHeight = [value CGRectValue].size.height;
 //    self.startButtonBottomConstraint.constant = ScreenHeight > 568 ? - keybaordHeight - 40.f : -keybaordHeight;
 //    self.coverButtonTopConstraint.constant = ScreenHeight > 568 ? 90 / 614.f * ScreenHeight : 63.f;
     // 隐藏分类列表并将选中分类按钮设置为未选中
@@ -233,8 +233,8 @@ static NSInteger const shareLabBaseTag = 888;
     titleLabel.textColor = [UIColor evMainColor];
     titleLabel.textAlignment = NSTextAlignmentCenter;
     
-    CGFloat topBtnWith = 40.f;
-    CGFloat topBtnHeight = 40.f;
+//    CGFloat topBtnWith = 40.f;
+//    CGFloat topBtnHeight = 40.f;
     
 //    // 切换摄像头
 //    UIButton *changeButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -418,7 +418,7 @@ static NSInteger const shareLabBaseTag = 888;
 - (void)setUpMenuButtons
 {
     CGFloat startButtonHeight = 40.f;//ScreenHeight * 60.0 / 736.0;
-    CGFloat startButtonMarginBottom = 216 + startButtonHeight; //55 * ScreenHeight / 736.0;
+    //CGFloat startButtonMarginBottom = 216 + startButtonHeight; //55 * ScreenHeight / 736.0;
     
     UIButton *startButton = [UIButton buttonWithType:UIButtonTypeCustom];
     startButton.tag = EVLivePrePareViewButtonLiveStart;
@@ -449,7 +449,7 @@ static NSInteger const shareLabBaseTag = 888;
     
     NSMutableArray *shareImageNormalArray = [NSMutableArray arrayWithCapacity:5];
     NSMutableArray *shareImageSelectedArray = [NSMutableArray arrayWithCapacity:5];
-    NSMutableArray *shareLabelNormalArray = [NSMutableArray arrayWithCapacity:5];
+    //NSMutableArray *shareLabelNormalArray = [NSMutableArray arrayWithCapacity:5];
     // 判断本地安装的可分享的APP
     if ( [EVShareManager qqInstall] )
     {

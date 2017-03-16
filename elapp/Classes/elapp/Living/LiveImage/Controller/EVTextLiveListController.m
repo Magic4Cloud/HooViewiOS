@@ -116,7 +116,7 @@
 }
 - (NSMutableString *)loadDataUserInfos:(NSArray *)array
 {
-    NSMutableArray *dataA = [NSMutableArray arrayWithArray:array];
+    //NSMutableArray *dataA = [NSMutableArray arrayWithArray:array];
     NSMutableString *userID = [NSMutableString string];
     for (NSInteger i =0 ; i< array.count; i++) {
         EVWatchVideoInfo *watchInfo = array[i];

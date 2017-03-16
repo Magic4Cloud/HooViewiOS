@@ -114,7 +114,7 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
-    EVHVGiftAniViewCell *giftCell = (EVHVGiftAniViewCell *)[self.giftTableView cellForItemAtIndexPath:indexPath];
+//    EVHVGiftAniViewCell *giftCell = (EVHVGiftAniViewCell *)[self.giftTableView cellForItemAtIndexPath:indexPath];
     if (self.isDeleteObject == YES) {
         return;
     }

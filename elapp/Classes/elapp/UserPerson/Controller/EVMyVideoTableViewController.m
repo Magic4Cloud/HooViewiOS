@@ -183,7 +183,7 @@ static const NSString *const myVideoCellID = @"videoCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    EVMyVideoTableViewCell *cell = (EVMyVideoTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    //EVMyVideoTableViewCell *cell = (EVMyVideoTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
 
 }
 

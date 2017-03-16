@@ -9,7 +9,7 @@
 
 #import "EVHomeTabbar.h"
 #import <PureLayout.h>
-#import "EVTabbarItem.h"  ,   
+#import "EVTabbarItem.h"   
 
 #define K_ANIMATION_TIME 0.3
 

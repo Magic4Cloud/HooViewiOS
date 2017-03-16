@@ -290,7 +290,7 @@
             NSArray *userModelArray = [EVAudience objectWithDictionaryArray:modelDict[@"users"]];
             [self.allUserArray addObjectsFromArray:userModelArray];
             NSArray *userArray = modelDict[@"users"];
-            NSDictionary *userDict = userArray[0];
+            //NSDictionary *userDict = userArray[0];
             EVComment *comment = [[EVComment alloc]init];
             [comment updateWithCommentInfo:userArray[0] contextInfo:@"进入直播间" userid:nil commentType:CCCommentFocus];
             [self.newCommentArray addObject:comment];

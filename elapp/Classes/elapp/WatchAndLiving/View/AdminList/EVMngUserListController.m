@@ -163,7 +163,7 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         EVMngUserListModel *listModel = self.adminListArray[indexPath.row];
-        WEAK(self)
+        //WEAK(self)
         [self.liveWatchManager settingManagerWithName:listModel.name vid:self.vid state:0];
         
         [self.adminListArray removeObject:listModel];

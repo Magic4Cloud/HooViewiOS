@@ -94,7 +94,7 @@
     self.nameLabel.text = stockBaseModel.name;
     self.codeLabel.text = [NSString stringWithFormat:@"%@",stockBaseModel.symbol];
     self.changeLabel.text = [NSString stringWithFormat:@"%.2f",stockBaseModel.close];
-    float changeF = (([stockBaseModel.low floatValue] - [stockBaseModel.pre_close floatValue])/[stockBaseModel.pre_close floatValue])*100;
+    //float changeF = (([stockBaseModel.low floatValue] - [stockBaseModel.pre_close floatValue])/[stockBaseModel.pre_close floatValue])*100;
     NSString *floatMarked = @"%";
     self.changeFloatLabel.text = stockBaseModel.changepercent > 0 ? [NSString stringWithFormat:@"+%.2f%@",stockBaseModel.changepercent,floatMarked] : [NSString stringWithFormat:@"%.2f%@",stockBaseModel.changepercent,floatMarked];
     self.changeFloatLabel.textColor = stockBaseModel.changepercent > 0 ? [UIColor evAssistColor] : [UIColor evSecondColor];

@@ -63,7 +63,7 @@
 
 - (NSString *)timeFormatted:(NSInteger)time
 {
-    NSString *timeStr = nil;
+    //NSString *timeStr = nil;
     
     NSInteger secondsInteger = (time) % 60;
     NSInteger minuterInteger = (time) / 60;

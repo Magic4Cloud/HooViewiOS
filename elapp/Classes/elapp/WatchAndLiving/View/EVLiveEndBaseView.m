@@ -32,16 +32,16 @@
 
 - (void)setSuperUpViews
 {
-    UIFont *labelFont = EVNormalFont(18);
+    //UIFont *labelFont = EVNormalFont(18);
 
     UIImageView *bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"IOS_bg"]];
     [self addSubview:bgImageView];
     [bgImageView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
     
-    CGFloat marginSide = cc_absolute_x(50);
-    CGFloat marginLine = cc_absolute_y(4);
-    CGFloat height = 45;
-    CGFloat margin = cc_absolute_y(130.0);
+//    CGFloat marginSide = cc_absolute_x(50);
+//    CGFloat marginLine = cc_absolute_y(4);
+//    CGFloat height = 45;
+//    CGFloat margin = cc_absolute_y(130.0);
     
     //tip
     UILabel *tipLabel = [[UILabel alloc] init];

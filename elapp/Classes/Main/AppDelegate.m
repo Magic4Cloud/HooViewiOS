@@ -152,7 +152,7 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
         return;
     }
     
-    UIViewController *controller =  notification.userInfo[CCNeedToReLoginControllerNotificationKey];
+    //UIViewController *controller =  notification.userInfo[CCNeedToReLoginControllerNotificationKey];
     
     
     if ([EVAppSetting shareInstance].isLogining)  return;

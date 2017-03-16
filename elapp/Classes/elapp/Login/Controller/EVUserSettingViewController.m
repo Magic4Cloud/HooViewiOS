@@ -460,7 +460,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     }
     
     CCUserSettingItem *item = itemArray[indexPath.row];
-    __weak typeof(self) wself = self;
+    //__weak typeof(self) wself = self;
     if ( [item.settingTitle isEqualToString:@"介绍自己"] )
     {
         [self addSignatureView:item.contentTitle];

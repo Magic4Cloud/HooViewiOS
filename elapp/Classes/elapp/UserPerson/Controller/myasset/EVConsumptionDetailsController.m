@@ -261,8 +261,8 @@
 //获取消费详情网络请求
 - (void)consumptiondataWithStart:(NSInteger)start count:(NSInteger)count
 {
-    __weak typeof(self) wself = self;
-//    [self.engine  GETConsumptionDetailslistWithStart:start count:count start:^{
+   // __weak typeof(self) wself = self;
+//  //  [self.engine  GETConsumptionDetailslistWithStart:start count:count start:^{
 //        
 //    } fail:^(NSError *error) {
 //        [wself endRefrenshing];
@@ -280,7 +280,7 @@
 
 - (void)totalConsumptionData
 {
-    WEAK(self)
+    //WEAK(self)
 //    [self.engine GETTotalConsumptMoneyStart:^{
 //        
 //    } fail:^(NSError *error) {
@@ -395,7 +395,7 @@
 
 - (void)cashTotalMoneyData
 {
-    WEAK(self)
+    //WEAK(self)
 //    [self.engine GETCashTotalMoneyStart:^{
 //        
 //    } fail:^(NSError *error) {
