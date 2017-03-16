@@ -47,10 +47,10 @@
 #pragma mark - Lazy Load
 - (SDCycleScrollView *)cycleScrollView {
     if (!_cycleScrollView) {
-        CGFloat whRate  = BannerWidthHeightRate;
+        //CGFloat whRate  = BannerWidthHeightRate;
         CGFloat headerW = ScreenWidth;
         CGFloat banderW = headerW;
-        CGFloat banderH = banderW / whRate;
+        //CGFloat banderH = banderW / whRate;
         _cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, banderW, 250)
                                                               delegate:self
                                                       placeholderImage:[UIImage imageNamed:@"Account_bitmap_list"]];
@@ -58,7 +58,7 @@
         _cycleScrollView.pageControlAliment     = SDCycleScrollViewPageContolAlimentRight;
         _cycleScrollView.currentPageDotColor    = [UIColor whiteColor];
         _cycleScrollView.pageDotColor           = [UIColor colorWithHexString:@"000000" alpha:0.3];
-        _cycleScrollView.pageOriginY            = 250-20;
+        //_cycleScrollView.pageOriginY            = 250-20;
         _cycleScrollView.titleLabelBackgroundColor = [UIColor clearColor];
         _cycleScrollView.titleLabelTextFont = [UIFont systemFontOfSize:18];
         _cycleScrollView.titleLabelHeight = 50;

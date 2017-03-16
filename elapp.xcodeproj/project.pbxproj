@@ -509,15 +509,6 @@
 		E86201921D6BE8550081E72F /* read_me.txt in Resources */ = {isa = PBXBuildFile; fileRef = E862FEDD1D6BE8540081E72F /* read_me.txt */; };
 		E86201931D6BE8550081E72F /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E862FEE11D6BE8540081E72F /* libWeiboSDK.a */; };
 		E86201941D6BE8550081E72F /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E862FEEA1D6BE8540081E72F /* WeiboSDK.bundle */; };
-		E86201951D6BE8550081E72F /* OpenUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FEEF1D6BE8540081E72F /* OpenUDID.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		E86201961D6BE8550081E72F /* RKNotificationHub.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FEF21D6BE8540081E72F /* RKNotificationHub.m */; };
-		E86201971D6BE8550081E72F /* TAAbstractDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FEF61D6BE8540081E72F /* TAAbstractDotView.m */; };
-		E86201981D6BE8550081E72F /* TAAnimatedDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FEF81D6BE8540081E72F /* TAAnimatedDotView.m */; };
-		E86201991D6BE8550081E72F /* TADotView.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FEFA1D6BE8540081E72F /* TADotView.m */; };
-		E862019A1D6BE8550081E72F /* TAPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FEFC1D6BE8540081E72F /* TAPageControl.m */; };
-		E862019B1D6BE8550081E72F /* SDCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FEFE1D6BE8540081E72F /* SDCollectionViewCell.m */; };
-		E862019C1D6BE8550081E72F /* SDCycleScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FF001D6BE8540081E72F /* SDCycleScrollView.m */; };
-		E862019D1D6BE8550081E72F /* UIView+SDExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FF021D6BE8540081E72F /* UIView+SDExtension.m */; };
 		E86201B41D6BE8550081E72F /* EVAppSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FF391D6BE8540081E72F /* EVAppSetting.m */; };
 		E86201B51D6BE8550081E72F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FF3B1D6BE8540081E72F /* AppDelegate.m */; };
 		E86201B61D6BE8550081E72F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FF3C1D6BE8540081E72F /* main.m */; };
@@ -603,7 +594,6 @@
 		E879AB751E5576D200D6D301 /* EVHVCenterImageLiveViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E879AB731E5576D200D6D301 /* EVHVCenterImageLiveViewCell.m */; };
 		E879AB761E5576D200D6D301 /* EVHVCenterImageLiveViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E879AB741E5576D200D6D301 /* EVHVCenterImageLiveViewCell.xib */; };
 		E879AB781E55CA6800D6D301 /* libEVMessage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E879AB771E55CA6800D6D301 /* libEVMessage.a */; };
-		E88584921DAB6EA700966F07 /* jpush-ios-2.1.9.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E88584901DAB6EA700966F07 /* jpush-ios-2.1.9.a */; };
 		E88584941DAB706400966F07 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E88584931DAB706400966F07 /* UserNotifications.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		E8862B5F1D93A85D00A13145 /* EVBugly.m in Sources */ = {isa = PBXBuildFile; fileRef = E8862B5E1D93A85D00A13145 /* EVBugly.m */; };
 		E88CD4291E4DA726007BA539 /* EVChooseNewsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E88CD4281E4DA726007BA539 /* EVChooseNewsModel.m */; };
@@ -1669,24 +1659,6 @@
 		E862FEEA1D6BE8540081E72F /* WeiboSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WeiboSDK.bundle; sourceTree = "<group>"; };
 		E862FEEB1D6BE8540081E72F /* WeiboSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboSDK.h; sourceTree = "<group>"; };
 		E862FEEC1D6BE8540081E72F /* WeiboUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboUser.h; sourceTree = "<group>"; };
-		E862FEEE1D6BE8540081E72F /* OpenUDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenUDID.h; sourceTree = "<group>"; };
-		E862FEEF1D6BE8540081E72F /* OpenUDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenUDID.m; sourceTree = "<group>"; };
-		E862FEF11D6BE8540081E72F /* RKNotificationHub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKNotificationHub.h; sourceTree = "<group>"; };
-		E862FEF21D6BE8540081E72F /* RKNotificationHub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKNotificationHub.m; sourceTree = "<group>"; };
-		E862FEF51D6BE8540081E72F /* TAAbstractDotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAbstractDotView.h; sourceTree = "<group>"; };
-		E862FEF61D6BE8540081E72F /* TAAbstractDotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAAbstractDotView.m; sourceTree = "<group>"; };
-		E862FEF71D6BE8540081E72F /* TAAnimatedDotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAnimatedDotView.h; sourceTree = "<group>"; };
-		E862FEF81D6BE8540081E72F /* TAAnimatedDotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAAnimatedDotView.m; sourceTree = "<group>"; };
-		E862FEF91D6BE8540081E72F /* TADotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TADotView.h; sourceTree = "<group>"; };
-		E862FEFA1D6BE8540081E72F /* TADotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TADotView.m; sourceTree = "<group>"; };
-		E862FEFB1D6BE8540081E72F /* TAPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAPageControl.h; sourceTree = "<group>"; };
-		E862FEFC1D6BE8540081E72F /* TAPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAPageControl.m; sourceTree = "<group>"; };
-		E862FEFD1D6BE8540081E72F /* SDCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDCollectionViewCell.h; sourceTree = "<group>"; };
-		E862FEFE1D6BE8540081E72F /* SDCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDCollectionViewCell.m; sourceTree = "<group>"; };
-		E862FEFF1D6BE8540081E72F /* SDCycleScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDCycleScrollView.h; sourceTree = "<group>"; };
-		E862FF001D6BE8540081E72F /* SDCycleScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDCycleScrollView.m; sourceTree = "<group>"; };
-		E862FF011D6BE8540081E72F /* UIView+SDExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SDExtension.h"; sourceTree = "<group>"; };
-		E862FF021D6BE8540081E72F /* UIView+SDExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SDExtension.m"; sourceTree = "<group>"; };
 		E862FF381D6BE8540081E72F /* EVAppSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVAppSetting.h; sourceTree = "<group>"; };
 		E862FF391D6BE8540081E72F /* EVAppSetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVAppSetting.m; sourceTree = "<group>"; };
 		E862FF3A1D6BE8540081E72F /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -1767,8 +1739,6 @@
 		E879AB731E5576D200D6D301 /* EVHVCenterImageLiveViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVHVCenterImageLiveViewCell.m; sourceTree = "<group>"; };
 		E879AB741E5576D200D6D301 /* EVHVCenterImageLiveViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVHVCenterImageLiveViewCell.xib; sourceTree = "<group>"; };
 		E879AB771E55CA6800D6D301 /* libEVMessage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libEVMessage.a; sourceTree = "<group>"; };
-		E88584901DAB6EA700966F07 /* jpush-ios-2.1.9.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "jpush-ios-2.1.9.a"; sourceTree = "<group>"; };
-		E88584911DAB6EA700966F07 /* JPUSHService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPUSHService.h; sourceTree = "<group>"; };
 		E88584931DAB706400966F07 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		E8862B5D1D93A85D00A13145 /* EVBugly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVBugly.h; sourceTree = "<group>"; };
 		E8862B5E1D93A85D00A13145 /* EVBugly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVBugly.m; sourceTree = "<group>"; };
@@ -2033,7 +2003,6 @@
 				1893389C1B79B81D007532FC /* libresolv.dylib in Frameworks */,
 				189338991B79B74E007532FC /* CFNetwork.framework in Frameworks */,
 				E86201701D6BE8540081E72F /* libEVMediaBase_static.a in Frameworks */,
-				E88584921DAB6EA700966F07 /* jpush-ios-2.1.9.a in Frameworks */,
 				188703CC1B58A9EC00241263 /* libbz2.1.0.dylib in Frameworks */,
 				04F80ABA1B3D261E001D4C2B /* MobileCoreServices.framework in Frameworks */,
 				184641621B15C40300270F10 /* AddressBookUI.framework in Frameworks */,
@@ -4201,14 +4170,10 @@
 			children = (
 				E862FE901D6BE8540081E72F /* EVSDKPlayerAndStreamer */,
 				E862FEA11D6BE8540081E72F /* FeedBack */,
-				E862FEA91D6BE8540081E72F /* LibJPush */,
 				E862FEC91D6BE8540081E72F /* libStreamer */,
 				E862FED71D6BE8540081E72F /* libTencent */,
 				E862FEDB1D6BE8540081E72F /* libWeChat */,
 				E862FEE01D6BE8540081E72F /* libWeiboSDK */,
-				E862FEED1D6BE8540081E72F /* OpenUDID */,
-				E862FEF01D6BE8540081E72F /* RKNotificationHub */,
-				E862FEF31D6BE8540081E72F /* SDCycleScrollView */,
 			);
 			path = Libs;
 			sourceTree = "<group>";
@@ -4253,15 +4218,6 @@
 				E862FEA81D6BE8540081E72F /* YWHybridWebViewFMWK.framework */,
 			);
 			path = FeedBack;
-			sourceTree = "<group>";
-		};
-		E862FEA91D6BE8540081E72F /* LibJPush */ = {
-			isa = PBXGroup;
-			children = (
-				E88584901DAB6EA700966F07 /* jpush-ios-2.1.9.a */,
-				E88584911DAB6EA700966F07 /* JPUSHService.h */,
-			);
-			path = LibJPush;
 			sourceTree = "<group>";
 		};
 		E862FEC91D6BE8540081E72F /* libStreamer */ = {
@@ -4339,53 +4295,6 @@
 				E862FEEC1D6BE8540081E72F /* WeiboUser.h */,
 			);
 			path = libWeiboSDK;
-			sourceTree = "<group>";
-		};
-		E862FEED1D6BE8540081E72F /* OpenUDID */ = {
-			isa = PBXGroup;
-			children = (
-				E862FEEE1D6BE8540081E72F /* OpenUDID.h */,
-				E862FEEF1D6BE8540081E72F /* OpenUDID.m */,
-			);
-			path = OpenUDID;
-			sourceTree = "<group>";
-		};
-		E862FEF01D6BE8540081E72F /* RKNotificationHub */ = {
-			isa = PBXGroup;
-			children = (
-				E862FEF11D6BE8540081E72F /* RKNotificationHub.h */,
-				E862FEF21D6BE8540081E72F /* RKNotificationHub.m */,
-			);
-			path = RKNotificationHub;
-			sourceTree = "<group>";
-		};
-		E862FEF31D6BE8540081E72F /* SDCycleScrollView */ = {
-			isa = PBXGroup;
-			children = (
-				E862FEF41D6BE8540081E72F /* PageControl */,
-				E862FEFD1D6BE8540081E72F /* SDCollectionViewCell.h */,
-				E862FEFE1D6BE8540081E72F /* SDCollectionViewCell.m */,
-				E862FEFF1D6BE8540081E72F /* SDCycleScrollView.h */,
-				E862FF001D6BE8540081E72F /* SDCycleScrollView.m */,
-				E862FF011D6BE8540081E72F /* UIView+SDExtension.h */,
-				E862FF021D6BE8540081E72F /* UIView+SDExtension.m */,
-			);
-			path = SDCycleScrollView;
-			sourceTree = "<group>";
-		};
-		E862FEF41D6BE8540081E72F /* PageControl */ = {
-			isa = PBXGroup;
-			children = (
-				E862FEF51D6BE8540081E72F /* TAAbstractDotView.h */,
-				E862FEF61D6BE8540081E72F /* TAAbstractDotView.m */,
-				E862FEF71D6BE8540081E72F /* TAAnimatedDotView.h */,
-				E862FEF81D6BE8540081E72F /* TAAnimatedDotView.m */,
-				E862FEF91D6BE8540081E72F /* TADotView.h */,
-				E862FEFA1D6BE8540081E72F /* TADotView.m */,
-				E862FEFB1D6BE8540081E72F /* TAPageControl.h */,
-				E862FEFC1D6BE8540081E72F /* TAPageControl.m */,
-			);
-			path = PageControl;
 			sourceTree = "<group>";
 		};
 		E862FF361D6BE8540081E72F /* Main */ = {
@@ -5049,13 +4958,13 @@
 			attributes = {
 				CLASSPREFIX = EV;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = easyvaas;
 				TargetAttributes = {
 					18D053491B09DDF1008861C6 = {
 						CreatedOnToolsVersion = 6.3;
-						DevelopmentTeam = 8YE8AXL3F3;
-						ProvisioningStyle = Manual;
+						DevelopmentTeam = WX73XRL87F;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -5320,7 +5229,6 @@
 				E85DFE551E78D42A005667DD /* EVTextLiveStockTableView.m in Sources */,
 				E8CDBB1F1E1B486400586CBF /* EVMarketDetailsController.m in Sources */,
 				E86201BD1D6BE8550081E72F /* EVHomeTabbar.m in Sources */,
-				E862019B1D6BE8550081E72F /* SDCollectionViewCell.m in Sources */,
 				E86201111D6BE8540081E72F /* EVSDKLiveMessageEngine.m in Sources */,
 				E8A873ED1E569F31004C6BB5 /* EVVipNotOpenTableView.m in Sources */,
 				E86200CC1D6BE8540081E72F /* EVAccountBindViewController.m in Sources */,
@@ -5329,7 +5237,6 @@
 				E8BD29801D87B0DD00CBAD82 /* EMAudioRecorderUtil.m in Sources */,
 				E862009E1D6BE8540081E72F /* EVPhonePwdResetViewController.m in Sources */,
 				E862009D1D6BE8540081E72F /* EVPhoneLoginViewController.m in Sources */,
-				E86201991D6BE8550081E72F /* TADotView.m in Sources */,
 				E86200DD1D6BE8540081E72F /* EVWithdrawNumCtrl.m in Sources */,
 				E8EF9D2A1D82AD36001AF7B0 /* EVSettingLivingPWDView.m in Sources */,
 				E877DF201DAA579B00653AF3 /* EVPromptRedPacketView.m in Sources */,
@@ -5392,7 +5299,6 @@
 				E86201BB1D6BE8550081E72F /* EVViewController.m in Sources */,
 				E862016C1D6BE8540081E72F /* EVWatchBottomItemView.m in Sources */,
 				E86200EF1D6BE8540081E72F /* EVUserVideoModel.m in Sources */,
-				E862019A1D6BE8550081E72F /* TAPageControl.m in Sources */,
 				E8BF48331E28A78D00FDB000 /* EVHVEyesModel.m in Sources */,
 				E86200AE1D6BE8540081E72F /* EVNotifyConversationItem.m in Sources */,
 				E862011E1D6BE8540081E72F /* EVVideoTopicItem.m in Sources */,
@@ -5403,7 +5309,6 @@
 				E86200BD1D6BE8540081E72F /* EVSearchAllViewController.m in Sources */,
 				E86201291D6BE8540081E72F /* EVLiveEndView.m in Sources */,
 				E86200E71D6BE8540081E72F /* EVConsumptionModel.m in Sources */,
-				E86201951D6BE8550081E72F /* OpenUDID.m in Sources */,
 				E8BF48401E28F08D00FDB000 /* EVFastNewsModel.m in Sources */,
 				E85DFE531E78D42A005667DD /* EVSendImageView.m in Sources */,
 				E812617C1E1520EF0021C305 /* UIFont+EVExtension.m in Sources */,
@@ -5423,7 +5328,6 @@
 				E8EF9D361D83A68F001AF7B0 /* EVPayVideoViewController.m in Sources */,
 				E862FFA61D6BE8540081E72F /* EVDB.m in Sources */,
 				E8BD29811D87B0DD00CBAD82 /* EMCDDeviceManager+Media.m in Sources */,
-				E86201971D6BE8550081E72F /* TAAbstractDotView.m in Sources */,
 				E8695C4A1E13B21100CCA323 /* EVPasswordView.m in Sources */,
 				E86201531D6BE8540081E72F /* EVRiceAmountView.m in Sources */,
 				E86200621D6BE8540081E72F /* EVCarouselItem.m in Sources */,
@@ -5477,7 +5381,6 @@
 				E8AA9DDE1E20CE070024980D /* EVHVWatchCenterView.m in Sources */,
 				E86201231D6BE8540081E72F /* EVCommentCell.m in Sources */,
 				E84354941E1F3BFC006D2E7D /* EVRecoredItemCell.m in Sources */,
-				E86201961D6BE8550081E72F /* RKNotificationHub.m in Sources */,
 				E86200F21D6BE8540081E72F /* EVGetVirifyCodeView.m in Sources */,
 				E862014B1D6BE8540081E72F /* EVManagerUserView.m in Sources */,
 				E80C5CDB1E52D6DA00015831 /* EVChatTextView.m in Sources */,
@@ -5499,7 +5402,6 @@
 				E862010E1D6BE8540081E72F /* EVVideoViewController.m in Sources */,
 				E86201431D6BE8540081E72F /* EVAudienceCommentUnreadButton.m in Sources */,
 				E86201301D6BE8540081E72F /* EVFantuanContributorTableViewCell.m in Sources */,
-				E86201981D6BE8550081E72F /* TAAnimatedDotView.m in Sources */,
 				E862FF891D6BE8540081E72F /* NSError+Extention.m in Sources */,
 				E8E9A4C01E24E8DA006A5005 /* EVHVChatTextView.m in Sources */,
 				E86200CB1D6BE8540081E72F /* EVSetNewPhoneViewController.m in Sources */,
@@ -5565,7 +5467,6 @@
 				E86200C91D6BE8540081E72F /* EVCheckOldPhoneViewController.m in Sources */,
 				E8C60FBB1E2C79D20066F287 /* EVCommentViewCell.m in Sources */,
 				E86200BE1D6BE8540081E72F /* EVFindUserInfo.m in Sources */,
-				E862019C1D6BE8550081E72F /* SDCycleScrollView.m in Sources */,
 				E8EF9D331D82B294001AF7B0 /* EVSearchTextField.m in Sources */,
 				E862FF9F1D6BE8540081E72F /* NSArray+Log.m in Sources */,
 				E86200EC1D6BE8540081E72F /* EVUserAsset.m in Sources */,
@@ -5591,7 +5492,6 @@
 				E86200A51D6BE8540081E72F /* EVLoginView.m in Sources */,
 				E86200A71D6BE8540081E72F /* EVUserSettingCell.m in Sources */,
 				E845D4DC1E262AAD00BFE6BE /* EVHVWatchStockView.m in Sources */,
-				E862019D1D6BE8550081E72F /* UIView+SDExtension.m in Sources */,
 				0C9D222D1E696DDE000F2AD0 /* NullSafe.m in Sources */,
 				E862013D1D6BE8540081E72F /* EVMagicEmojiModel.m in Sources */,
 				E86200CF1D6BE8540081E72F /* EVAuthSettingViewController.m in Sources */,
@@ -5851,6 +5751,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -5887,7 +5788,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "";
@@ -5899,6 +5800,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -5928,7 +5830,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PROVISIONING_PROFILE = "";
 				VALIDATE_PRODUCT = YES;
@@ -5946,7 +5848,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 8YE8AXL3F3;
+				DEVELOPMENT_TEAM = WX73XRL87F;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6014,11 +5916,11 @@
 					"\"SystemConfiguration\"",
 				);
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS) -force_load elapp/Classes/Libs/libWeiboSDK/libWeiboSDK.a -fobjc-arc";
-				PRODUCT_BUNDLE_IDENTIFIER = com.hooview.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cloud4magic.hooview;
 				PRODUCT_MODULE_NAME = elapp;
 				PRODUCT_NAME = "火眼财经";
-				PROVISIONING_PROFILE = "822ed211-e1e4-4144-929e-0c38384ed9b7";
-				PROVISIONING_PROFILE_SPECIFIER = hooview_dev;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = YES;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/elapp/Classes/Libs/LibStreamer/Third-Party/FFmpeg/inc/**";
@@ -6034,10 +5936,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "elapp/火眼财经.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 8YE8AXL3F3;
+				DEVELOPMENT_TEAM = WX73XRL87F;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6105,11 +6007,11 @@
 					"\"SystemConfiguration\"",
 				);
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS) -force_load elapp/Classes/Libs/libWeiboSDK/libWeiboSDK.a -fobjc-arc";
-				PRODUCT_BUNDLE_IDENTIFIER = com.hooview.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cloud4magic.hooview;
 				PRODUCT_MODULE_NAME = elapp;
 				PRODUCT_NAME = "火眼财经";
-				PROVISIONING_PROFILE = "00e01275-76c3-4214-8b60-7af8d2d04285";
-				PROVISIONING_PROFILE_SPECIFIER = yangshangbin;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = YES;
