@@ -80,6 +80,7 @@
     [self.baseToolManager GETAllUserTagsListfail:^(NSError *error) {
         
     } success:^(NSDictionary *info) {
+        NSLog(@"%@",info);
         NSArray *tagArr = [EVUserTagsModel objectWithDictionaryArray:info[@"tags"]];
         self.allUserListB = YES;
       

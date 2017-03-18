@@ -393,6 +393,7 @@
    
     [self.baseToolManager GETNewsRequestStart:start count:count Success:^(NSDictionary *retinfo) {
        
+        NSLog(@"retinfo");
         [self endRefreshing];
         self.start = retinfo[@"next"];
         if ([retinfo[@"start"] integerValue] == 0) {

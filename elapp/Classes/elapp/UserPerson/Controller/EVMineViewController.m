@@ -387,31 +387,55 @@ static const NSString *const SettingCellID = @"settingCell";
             switch (indexPath.row) {
                 case 0:
                 {
-                    EVMyVideoTableViewController *myVideoVC = [[EVMyVideoTableViewController alloc] init];
-                    myVideoVC.userModel = self.userModel;
-                    [self.navigationController pushViewController:myVideoVC animated:YES];
+                    NSLog(@"vip == %ld",[EVLoginInfo localObject].vip);
+                    if ([EVLoginInfo localObject].vip == 0) {
+                        [EVProgressHUD showMessage:@"暂未实现 敬请期待"];
+                    } else {
+                        EVMyVideoTableViewController *myVideoVC = [[EVMyVideoTableViewController alloc] init];
+                        myVideoVC.userModel = self.userModel;
+                        [self.navigationController pushViewController:myVideoVC animated:YES];
+                    }
                 }
                     break;
                 case 1:
                 {
-                    [EVProgressHUD showMessage:@"暂未实现 敬请期待"];
+                    if ([EVLoginInfo localObject].vip == 0) {
+                        EVLog(@"我的收藏");
+                        //[EVProgressHUD showError:@"暂未实现 敬请期待"];
+                        EVNewsCollectViewController *newsCollectVC = [[EVNewsCollectViewController alloc] init];
+                        [self.navigationController pushViewController:newsCollectVC animated:YES];
+                        
+                    } else {
+                        [EVProgressHUD showMessage:@"暂未实现 敬请期待"];
+                    }
                 }
                     
                     break;
                 case 2:
                 {
-                    EVLog(@"我的收藏");
-//                    [EVProgressHUD showError:@"暂未实现 敬请期待"];
-                    EVNewsCollectViewController *newsCollectVC = [[EVNewsCollectViewController alloc] init];
-                    [self.navigationController pushViewController:newsCollectVC animated:YES];
+                    if ([EVLoginInfo localObject].vip == 0) {
+                        EVLog(@"阅读历史");
+                        EVHVHistoryViewController *historyVC = [[EVHVHistoryViewController alloc] init];
+                        [self.navigationController pushViewController:historyVC animated:YES];
+
+                    } else {
+                        EVLog(@"我的收藏");
+                        //                    [EVProgressHUD showError:@"暂未实现 敬请期待"];
+                        EVNewsCollectViewController *newsCollectVC = [[EVNewsCollectViewController alloc] init];
+                        [self.navigationController pushViewController:newsCollectVC animated:YES];
+                    }
                 }
                     
                     break;
                 case 3:
                 {
-                    EVLog(@"阅读历史");
-                    EVHVHistoryViewController *historyVC = [[EVHVHistoryViewController alloc] init];
-                    [self.navigationController pushViewController:historyVC animated:YES];
+                    if ([EVLoginInfo localObject].vip == 0) {
+                        break;
+                    } else {
+                        EVLog(@"阅读历史");
+                        EVHVHistoryViewController *historyVC = [[EVHVHistoryViewController alloc] init];
+                        [self.navigationController pushViewController:historyVC animated:YES];
+                    }
                 }
                 default:
                     break;

@@ -260,6 +260,8 @@ static CGFloat const collectionViewHeight = 292.f;
 // 发送礼物
 - (void)sendPresent
 {
+    
+    
     if (self.sendNum && self.delegate && [self.delegate respondsToSelector:@selector(sendMagicEmojiWithEmoji:num:)])
     {
         [self.delegate sendMagicEmojiWithEmoji:self.selectedMagicEmoji
@@ -344,7 +346,7 @@ static CGFloat const collectionViewHeight = 292.f;
     // 要发送薏米礼物的时候，薏米不足
     if ( self.selectedMagicEmoji.costtype == 0 )
     {
-        if ( self.barley == 0 || self.barley < self.selectedMagicEmoji.cost )
+        if (( self.barley == 0 || self.barley < self.selectedMagicEmoji.cost ) && self.selectedMagicEmoji.cost != 0)
         {
             [[EVAlertManager shareInstance] performComfirmTitle:nil message:kE_GlobalZH(@"not_more_yimi") cancelButtonTitle:nil comfirmTitle:kOK WithComfirm:^{
                 
@@ -357,7 +359,9 @@ static CGFloat const collectionViewHeight = 292.f;
     // 要发送火眼豆礼物的时候，火眼豆不足
     if ( self.selectedMagicEmoji.costtype == 1 )
     {
-        if ( self.ecoin == 0 || self.selectedMagicEmoji.cost > self.ecoin )
+      
+        NSLog(@"%ld",self.selectedMagicEmoji.cost);
+        if ( (self.ecoin == 0 || self.selectedMagicEmoji.cost > self.ecoin) && self.selectedMagicEmoji.cost != 0)
         {
             [[EVAlertManager shareInstance] performComfirmTitle:nil message:kE_GlobalZH(@"nil_coin") cancelButtonTitle:@"取消" comfirmTitle:kOK WithComfirm:^{
      

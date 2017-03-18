@@ -51,7 +51,7 @@
     
     self.videoTitle.text = [NSString stringWithFormat:@"%@",watchVideoInfo.title];
     self.nameLabel.text = [NSString stringWithFormat:@"%@",watchVideoInfo.nickname];
-    self.watchCount.text = [NSString stringWithFormat:@"%@ 人观看",[NSString shortNumber:watchVideoInfo.watching_count]];
+    self.watchCount.text = [NSString stringWithFormat:@"%@ 人观看",[NSString shortNumber:watchVideoInfo.watch_count]];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

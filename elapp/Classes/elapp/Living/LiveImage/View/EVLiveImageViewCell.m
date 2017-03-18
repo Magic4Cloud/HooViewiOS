@@ -64,7 +64,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    EVWatchVideoInfo *watchVideoInfo = self.dataLiveArray[indexPath.row];
+    EVWatchVideoInfo *watchVideoInfo = self.dataArray[indexPath.row];
     EVWatchVideoInfo *liveVideoInfo = self.dataLiveArray[indexPath.row];
     if (self.listSeletedBlock) {
         self.listSeletedBlock(watchVideoInfo,liveVideoInfo);

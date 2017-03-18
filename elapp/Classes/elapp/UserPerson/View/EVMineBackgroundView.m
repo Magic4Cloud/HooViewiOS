@@ -18,6 +18,8 @@
 @property (nonatomic, weak) EVMineTopViewCell *mineCell;
 @property (nonatomic, strong) NSArray *imageArray;
 @property (nonatomic, strong) NSArray *secondRowArray;
+@property (nonatomic, strong) NSArray *secondImageArray;
+
 @end
 
 
@@ -35,12 +37,19 @@
 - (void)addUpView
 {
     NSArray *firstRowArray = @[@"name"];
-    self.secondRowArray = @[@"我的直播",@"我的秘籍",@"我的收藏",@"历史记录"];
-    NSArray *secondImageArray = @[@"ic_live",@"ic_book",@"ic_collect",@"ic_history"];
+    NSLog(@"vip == %ld",[EVLoginInfo localObject].vip);
+    if ([EVLoginInfo localObject].vip == 0) {
+        self.secondRowArray = @[@"我的秘籍",@"我的收藏",@"历史记录"];
+        self.secondImageArray = @[@"ic_book",@"ic_collect",@"ic_history"];
+    } else {
+        self.secondRowArray = @[@"我的直播",@"我的秘籍",@"我的收藏",@"历史记录"];
+        self.secondImageArray = @[@"ic_live",@"ic_book",@"ic_collect",@"ic_history"];
+    }
+    
     NSArray *threeImageArray  = @[@"ic_feedback"];
     NSArray *threeRowArray = @[@"意见反馈"];
     self.mineArray = @[firstRowArray,_secondRowArray,threeRowArray];
-    self.imageArray = @[firstRowArray,secondImageArray,threeImageArray];
+    self.imageArray = @[firstRowArray,_secondImageArray,threeImageArray];
     UITableView *mineTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth,EVContentHeight+49) style:(UITableViewStyleGrouped)];
     mineTableView.delegate = self;
     mineTableView.dataSource = self;

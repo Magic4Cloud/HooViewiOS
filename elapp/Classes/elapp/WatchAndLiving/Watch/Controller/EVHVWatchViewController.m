@@ -1044,6 +1044,7 @@
         EVLog(@"errorStr = %@", errorStr);
         [EVProgressHUD showError:errorStr toView:weakself.view];
     } success:^(NSDictionary *info) {
+
         if (info[@"ecoin"]) {
              [weakself updateAssetWithInfo:info];
             return;

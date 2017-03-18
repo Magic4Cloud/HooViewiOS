@@ -143,11 +143,11 @@
     self.nullDataView = nullDataView;
     nullDataView.hidden = YES;
     
-    
     [self.baseToolManager GETUserCollectType:EVCollectTypeNews code:self.newsID action:0 start:^{
         
     } fail:^(NSError *error) {
         [EVProgressHUD showMessage:@"失败"];
+        NSLog(@"error == %@",error);
     } success:^(NSDictionary *retinfo) {
         NSLog(@"retinfo----%@",retinfo);
         self.detailBottomView.isCollec = [retinfo[@"exist"] boolValue];
@@ -385,15 +385,15 @@
 }
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-    [self.baseToolManager GETUserHistoryType:EVCollectTypeNews code:self.newsID action:1 start:^{
-        
-    } fail:^(NSError *error) {
-        
-    } success:^(NSDictionary *retinfo) {
-        
-    } sessionExpire:^{
-        
-    }];
+//    [self.baseToolManager GETUserHistoryType:EVCollectTypeNews code:self.newsID action:1 start:^{
+//        
+//    } fail:^(NSError *error) {
+//        
+//    } success:^(NSDictionary *retinfo) {
+//        
+//    } sessionExpire:^{
+//        
+//    }];
 }
 
 - (void)webView:(WKWebView *)webView didReceiveServerRedirectForProvisionalNavigation:(WKNavigation *)navigation {
@@ -415,13 +415,17 @@
         case EVBottomButtonTypeShare:
         {
             [self presentLoginVC];
+            
+            NSLog(@"---------%d",self.isCollect);
             int action = self.isCollect ? 2 : 1;
             
             [self.baseToolManager GETUserCollectType:EVCollectTypeNews code:self.newsID action:action start:^{
-                
+//                NSLog(@"ssss = %@",);
             } fail:^(NSError *error) {
+                NSLog(@"eeeee = %@",error);
                 [EVProgressHUD showMessage:@"失败"];
             } success:^(NSDictionary *retinfo) {
+                
                 [EVProgressHUD showMessage:@"成功"];
                 self.isCollect = !self.isCollect;
                 self.detailBottomView.isCollec = self.isCollect;

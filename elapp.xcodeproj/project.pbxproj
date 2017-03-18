@@ -4974,7 +4974,7 @@
 				TargetAttributes = {
 					18D053491B09DDF1008861C6 = {
 						CreatedOnToolsVersion = 6.3;
-						DevelopmentTeam = DT6X3TR4KV;
+						DevelopmentTeam = 8YE8AXL3F3;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -5862,7 +5862,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = DT6X3TR4KV;
+				DEVELOPMENT_TEAM = 8YE8AXL3F3;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5930,7 +5930,7 @@
 					"\"SystemConfiguration\"",
 				);
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS) -force_load elapp/Classes/Libs/libWeiboSDK/libWeiboSDK.a -fobjc-arc";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cloud4magic.hooview;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Hooview.hooview;
 				PRODUCT_MODULE_NAME = elapp;
 				PRODUCT_NAME = "火眼财经";
 				PROVISIONING_PROFILE = "";
@@ -5953,7 +5953,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = DT6X3TR4KV;
+				DEVELOPMENT_TEAM = 8YE8AXL3F3;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6021,7 +6021,7 @@
 					"\"SystemConfiguration\"",
 				);
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS) -force_load elapp/Classes/Libs/libWeiboSDK/libWeiboSDK.a -fobjc-arc";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cloud4magic.hooview;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Hooview.hooview;
 				PRODUCT_MODULE_NAME = elapp;
 				PRODUCT_NAME = "火眼财经";
 				PROVISIONING_PROFILE = "";

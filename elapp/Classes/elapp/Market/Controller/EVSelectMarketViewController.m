@@ -177,7 +177,7 @@
         [[self _selfStockViewControllerWithType:type] updateDataArray:dataArray];
     } error:^(NSError *error) {
         [[[self _selfStockViewControllerWithType:type] listTableView] endHeaderRefreshing];
-        [EVProgressHUD showMessage:@"加载错误"];
+//        [EVProgressHUD showMessage:@"加载错误"];
     }];
 }
 

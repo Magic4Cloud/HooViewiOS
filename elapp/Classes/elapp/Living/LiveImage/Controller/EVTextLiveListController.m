@@ -80,6 +80,7 @@
                 [weakself.hotArray removeAllObjects];
                 [weakself.dataArray removeAllObjects];
             }
+            
             weakself.next = info[@"retinfo"][@"next"];
             NSArray *hotArr = [EVWatchVideoInfo objectWithDictionaryArray:info[@"retinfo"][@"hotstreams"]];
             [weakself.hotLiveArray addObjectsFromArray:hotArr];
@@ -110,6 +111,8 @@
         NSArray *userArr = [EVWatchVideoInfo objectWithDictionaryArray:modelDict[@"users"]];
         ishot == YES ? [self.hotArray addObjectsFromArray:userArr] : [self.dataArray addObjectsFromArray:userArr];
         [weakself.liveTableView reloadData];
+        NSLog(@"------------------%ld",self.hotArray.count);
+        NSLog(@"------------------%ld",self.dataArray.count);
     } sessionExpire:^{
         
     }];
@@ -128,6 +131,13 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (self.dataArray.count == 0) {
+        return 0;
+    }
+    if(self.hotArray.count == 0) {
+        return 0;
+    }
+    
     if (section == 0) {
         return 1;
     }
@@ -136,17 +146,25 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    if (self.dataArray.count == 0) {
+        return 0;
+    }
+    if(self.hotArray.count == 0) {
+        return 0;
+    }
+    
     return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     if (indexPath.section == 0) {
         EVLiveImageViewCell *Cell  = [tableView dequeueReusableCellWithIdentifier:@"imageItemCell"];
         if (!Cell) {
             Cell =  [[EVLiveImageViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:@"imageItemCell"];
         }
+        NSLog(@"hahahahhahahahahaha = %ld",self.hotArray.count);
+        NSLog(@"hahahahhahahahahaha = %ld",self.dataArray.count);
         Cell.dataArray = self.hotArray;
         Cell.dataLiveArray = self.hotLiveArray;
         Cell.listSeletedBlock = ^(EVWatchVideoInfo *videoInfo,EVWatchVideoInfo *liveVideoInfo) {
@@ -169,7 +187,9 @@
     if (!liveCell) {
         liveCell = [[NSBundle mainBundle] loadNibNamed:@"EVHotImageListViewCell" owner:nil options:nil].firstObject;
     }
-    liveCell.watchVideoInfo = self.dataArray[indexPath.row];
+    if (self.dataArray.count != 0) {
+        liveCell.watchVideoInfo = self.dataArray[indexPath.row];
+    }
     liveCell.selectionStyle = UITableViewCellSelectionStyleNone;
     return liveCell;
 }
