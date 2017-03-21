@@ -355,13 +355,15 @@
 
 - (void)loadUserData
 {
+    NSLog(@"self.watchVideoInfo.name:%@",self.watchVideoInfo.name);
     [self.baseToolManager GETBaseUserInfoWithUname:self.watchVideoInfo.name start:^{
         
     } fail:^(NSError *error) {
         
     } success:^(NSDictionary *modelDict) {
         self.watchVideoInfo = [EVWatchVideoInfo objectWithDictionary:modelDict];
-         [self updateIsFollow:self.watchVideoInfo.followed];
+        
+        [self updateIsFollow:self.watchVideoInfo.followed];
     } sessionExpire:^{
         
     }];
@@ -837,6 +839,10 @@
 - (void)setWatchVideoInfo:(EVWatchVideoInfo *)watchVideoInfo
 {
     _watchVideoInfo = watchVideoInfo;
+    NSLog(@"self.vipCenterView%@",_vipCenterView);
+    NSLog(@"watchVideoInfo.signature:%@",watchVideoInfo.signature);
+    NSLog(@"watchVideoInfo.nickname:%@",watchVideoInfo.nickname);
+    NSLog(@"watchVideoInfo.tags:%@",watchVideoInfo.tags);
     self.vipCenterView.watchVideoInfo = watchVideoInfo;
      self.nNameLabel.text = watchVideoInfo.nickname;
     if ([watchVideoInfo.name isEqualToString:[EVLoginInfo localObject].name]) {

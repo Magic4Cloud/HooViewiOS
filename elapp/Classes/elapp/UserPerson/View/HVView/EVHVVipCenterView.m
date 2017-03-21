@@ -177,6 +177,7 @@
 - (void)setWatchVideoInfo:(EVWatchVideoInfo *)watchVideoInfo
 {
     _watchVideoInfo = watchVideoInfo;
+    
     [_topBackImageView cc_setImageWithURLString:watchVideoInfo.logourl placeholderImage:[UIImage imageNamed:@"Account_bitmap_user"]];
     [_userHeadIgeView cc_setImageWithURLString:watchVideoInfo.logourl placeholderImage:[UIImage imageNamed:@"Account_bitmap_user"]];
     [self.introLabel setText:watchVideoInfo.signature];

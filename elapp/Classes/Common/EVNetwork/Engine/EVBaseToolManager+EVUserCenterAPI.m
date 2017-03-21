@@ -180,20 +180,19 @@
                    sessionExpire:(void(^)())sessionExpireBlock
 {
     NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
-    if ( sessionID == nil )
+    if ( sessionID )
     {
-        return ;
+        NSMutableDictionary *params = [NSMutableDictionary dictionary];
+        params[kSessionIdKey] = sessionID;
+        if ( uname )
+        {
+            params[kNameKey] = uname;
+        }
+        NSString *urlString = [EVHttpURLManager fullURLStringWithURI:EVVideoUserInfoAPI
+                                                              params:nil];
+        [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
     }
-    
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[kSessionIdKey] = sessionID;
-    if ( uname )
-    {
-        params[kNameKey] = uname;
-    }
-    NSString *urlString = [EVHttpURLManager fullURLStringWithURI:EVVideoUserInfoAPI
-                                              params:nil];
-    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+
 }
 
 

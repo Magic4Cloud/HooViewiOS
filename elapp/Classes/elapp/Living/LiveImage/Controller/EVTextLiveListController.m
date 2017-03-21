@@ -244,9 +244,10 @@
     EVWatchVideoInfo *liveVideoInfo = _dataLiveArray[indexPath.row];
     EVHVWatchTextViewController *watchImageVC = [[EVHVWatchTextViewController alloc] init];
     UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:watchImageVC];
-    [self presentViewController:navigationVC animated:YES completion:nil];
     watchImageVC.watchVideoInfo = WatchVideoInfo;
     watchImageVC.liveVideoInfo = liveVideoInfo;
+    [self presentViewController:navigationVC animated:YES completion:nil];
+    
 }
 
 
