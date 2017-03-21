@@ -24,6 +24,9 @@
 
 @interface EVMineBackgroundView : UIView
 
+@property (nonatomic, weak) UITableView *mineTableView;
+
+
 @property (nonatomic, copy) NSString *ecoin;//火眼豆
 
 @property (nonatomic, strong) EVUserModel *userModel;
