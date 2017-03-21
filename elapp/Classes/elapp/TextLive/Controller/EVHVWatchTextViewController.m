@@ -139,7 +139,7 @@
 //    [self.view addSubview:_swipeTableView];
 //    self.vipCenterView.watchVideoInfo = self.watchVideoInfo;
     
-    
+    //头部  头像视图
     self.vipCenterView = [[EVHVVipCenterView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, headerTopHig) isTextLive:YES];
     [self.view addSubview:_vipCenterView];
     _vipCenterView.delegate = self;
@@ -573,6 +573,7 @@
         [weakself.textLiveChatTableView endHeaderRefreshing];
     }];
 }
+#pragma mark -- 直播菜单按钮点击
 - (void)buttonTag:(UIButton *)tag
 {
     switch (tag.tag) {
@@ -594,6 +595,9 @@
         {
             NSLog(@"聊天");
             [self.topSView changeSelectButtonIndex:2];
+            //修复bug  点击聊天没有跳转页面
+            CGFloat offsetX = 2 * self.view.frame.size.width;
+            self.mainBackView.contentOffset = CGPointMake(offsetX, 0);
             [self chooseIndex:2];
         }
             break;
