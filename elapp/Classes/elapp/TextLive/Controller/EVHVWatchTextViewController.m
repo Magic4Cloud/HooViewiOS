@@ -140,9 +140,9 @@
 //    self.vipCenterView.watchVideoInfo = self.watchVideoInfo;
     
     //头部  头像视图
-    self.vipCenterView = [[EVHVVipCenterView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, headerTopHig) isTextLive:YES];
-    [self.view addSubview:_vipCenterView];
-    _vipCenterView.delegate = self;
+//    self.vipCenterView = [[EVHVVipCenterView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, headerTopHig) isTextLive:YES];
+    [self.view addSubview:self.vipCenterView];
+    self.vipCenterView.delegate = self;
     [self.vipCenterView.reportBtn setImage:[UIImage imageNamed:@"btn_share_w_n_back"] forState:(UIControlStateNormal)];
     
     self.sementedBackView  = [[UIView alloc] init];
@@ -254,7 +254,13 @@
     [self addPresentListView];
     [self addGiftAniView];
 }
-
+- (EVHVVipCenterView *)vipCenterView
+{
+    if (!_vipCenterView) {
+        _vipCenterView = [[EVHVVipCenterView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, headerTopHig) isTextLive:YES];
+    }
+    return _vipCenterView;
+}
 - (void)addChatTextView
 {
     _blackBackView = [[UIButton alloc] init];
