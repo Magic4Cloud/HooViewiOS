@@ -165,6 +165,7 @@
 {
     NSString *sessionID = [self.baseToolManager getSessionIdWithBlock:nil];
     EVLoginInfo *loginInfo = [EVLoginInfo localObject];
+    
     WEAK(self)
     if (sessionID == nil || [sessionID isEqualToString:@""]) {
         [weakself loginView];
@@ -188,7 +189,7 @@
     }];
 }
 
-
+#pragma mark - 跳转到我的直播间
 - (void)pushLiveImageVCModel:(EVTextLiveModel *)model
 {
     EVMyTextLiveViewController *myLiveImageVC = [[EVMyTextLiveViewController alloc] init];

@@ -83,6 +83,17 @@
     [sendButton addTarget:self action:@selector(sendMessage:) forControlEvents:(UIControlEventTouchUpInside)];
 }
 
+/**
+ 开始编辑
+ */
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(chatTextViewDidBeginEditing)]) {
+        [self.delegate chatTextViewDidBeginEditing];
+        }
+}
+
+
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range
  replacementText:(NSString *)text
 {

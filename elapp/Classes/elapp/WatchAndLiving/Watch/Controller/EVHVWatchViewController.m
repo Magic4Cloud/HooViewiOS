@@ -1135,11 +1135,11 @@
     switch (type) {
         case EVHVWatchCenterTypeHeadImage:
         {
+            //TODO:点击头像进入个人中心
             EVVipCenterViewController *vipCenterVC  = [[EVVipCenterViewController alloc] init];
              [self.navigationController pushViewController:vipCenterVC animated:YES];
             vipCenterVC.watchVideoInfo = self.watchVideoInfo;
             vipCenterVC.isFollow = weakself.watchCenterView.isFollow;
-           
         }
             break;
         case EVHVWatchCenterTypeFollow:

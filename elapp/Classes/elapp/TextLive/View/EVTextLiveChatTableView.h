@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "EVEaseMessageModel.h"
 
+/**
+ 聊天
+ */
 @protocol EVTextLiveTableViewDelegate <NSObject>
 
 - (void)longPressModel:(EVEaseMessageModel *)model;

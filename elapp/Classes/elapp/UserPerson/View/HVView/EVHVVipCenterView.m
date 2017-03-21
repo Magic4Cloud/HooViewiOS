@@ -13,7 +13,7 @@
 @interface EVHVVipCenterView ()
 @property (nonatomic, weak) UIImageView *topBackImageView;
 
-@property (nonatomic, weak) UIImageView *userHeadIgeView;
+
 
 @property (nonatomic, weak) UILabel *nameLabel;
 

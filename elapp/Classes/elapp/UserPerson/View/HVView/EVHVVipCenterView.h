@@ -20,6 +20,8 @@
 
 @interface EVHVVipCenterView : UIView
 
+@property (nonatomic, weak) UIImageView *userHeadIgeView;
+
 @property (nonatomic, weak) UIButton *reportBtn;
 
 @property (nonatomic, weak) id <EVHVVipCenterDelegate> delegate;
