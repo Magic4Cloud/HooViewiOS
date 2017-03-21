@@ -60,6 +60,8 @@
     }
     Cell.selectionStyle =  UITableViewCellSelectionStyleNone;
     Cell.easeMessageModel = self.dataArray[indexPath.row];
+    
+    
     if (self.tpDataArray.count > 0 && indexPath.row == 0) {
         Cell.leftCircleIgeView.image = [UIImage imageNamed:@"ic_top"];
         Cell.lineView.backgroundColor = [UIColor colorWithHexString:@"#672f87"];

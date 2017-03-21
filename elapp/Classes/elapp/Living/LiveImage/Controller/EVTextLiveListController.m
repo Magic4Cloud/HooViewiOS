@@ -240,8 +240,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     EVLog(@"-----------------------watchtextlive--------------");
-    EVWatchVideoInfo *WatchVideoInfo = self.dataArray[indexPath.row];
-    EVWatchVideoInfo *liveVideoInfo = self.dataLiveArray[indexPath.row];
+    EVWatchVideoInfo *WatchVideoInfo = _dataArray[indexPath.row];
+    EVWatchVideoInfo *liveVideoInfo = _dataLiveArray[indexPath.row];
     EVHVWatchTextViewController *watchImageVC = [[EVHVWatchTextViewController alloc] init];
     UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:watchImageVC];
     [self presentViewController:navigationVC animated:YES completion:nil];

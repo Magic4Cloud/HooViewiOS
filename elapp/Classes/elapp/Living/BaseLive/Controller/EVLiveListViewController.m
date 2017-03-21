@@ -92,18 +92,19 @@
     backScrollView.showsHorizontalScrollIndicator = NO;
     backScrollView.contentSize = CGSizeMake(ScreenWidth * 3, EVContentHeight);
     
-    
+    //视频直播
     EVLiveVideoController *liveVideoVC = [[EVLiveVideoController alloc] init];
     [self addChildViewController:liveVideoVC];
     [backScrollView addSubview:liveVideoVC.view];
     liveVideoVC.view.frame = CGRectMake(0,0, ScreenWidth, EVContentHeight);
     
-    
+    //图文直播
     EVTextLiveListController *liveImageVC = [[EVTextLiveListController alloc] init];
     [self addChildViewController:liveImageVC];
     [backScrollView addSubview:liveImageVC.view];
     liveImageVC.view.frame = CGRectMake(ScreenWidth, 0, ScreenWidth, EVContentHeight);
     
+    //精品视频
     EVRecorededVideoListController *recoredVideoVC = [[EVRecorededVideoListController alloc] init];
     [self addChildViewController:recoredVideoVC];
     [backScrollView addSubview:recoredVideoVC.view];

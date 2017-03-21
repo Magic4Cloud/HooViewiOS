@@ -8,6 +8,9 @@
 
 #import "EVViewController.h"
 
+/**
+ 直播首页
+ */
 @interface EVLiveListViewController : EVViewController
 
 @end
