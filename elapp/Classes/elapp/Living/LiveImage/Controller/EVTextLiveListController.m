@@ -111,8 +111,6 @@
         NSArray *userArr = [EVWatchVideoInfo objectWithDictionaryArray:modelDict[@"users"]];
         ishot == YES ? [self.hotArray addObjectsFromArray:userArr] : [self.dataArray addObjectsFromArray:userArr];
         [weakself.liveTableView reloadData];
-        NSLog(@"------------------%ld",self.hotArray.count);
-        NSLog(@"------------------%ld",self.dataArray.count);
     } sessionExpire:^{
         
     }];
@@ -163,8 +161,6 @@
         if (!Cell) {
             Cell =  [[EVLiveImageViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:@"imageItemCell"];
         }
-        NSLog(@"hahahahhahahahahaha = %ld",self.hotArray.count);
-        NSLog(@"hahahahhahahahahaha = %ld",self.dataArray.count);
         Cell.dataArray = self.hotArray;
         Cell.dataLiveArray = self.hotLiveArray;
         Cell.listSeletedBlock = ^(EVWatchVideoInfo *videoInfo,EVWatchVideoInfo *liveVideoInfo) {

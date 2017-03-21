@@ -201,6 +201,7 @@ static const NSString *const SettingCellID = @"settingCell";
 #pragma mark - setUI
 - (void)setUpView
 {
+    
     self.mineBgView = [[EVMineBackgroundView alloc] init];
     [self.view addSubview:self.mineBgView];
     self.mineBgView.delegate = self;
@@ -679,6 +680,7 @@ static const NSString *const SettingCellID = @"settingCell";
 
 - (void)setUpData
 {
+    [self.mineBgView.mineTableView reloadData];
     NSString *sessionID = [self.engine getSessionIdWithBlock:nil];
     if (sessionID) {
         self.mineBgView.isSession = YES;

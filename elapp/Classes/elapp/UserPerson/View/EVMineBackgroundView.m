@@ -13,7 +13,6 @@
 #import "EVUserTagsModel.h"
 
 @interface EVMineBackgroundView ()<UITableViewDelegate,UITableViewDataSource,EVMineTopViewCellDelegate>
-@property (nonatomic, weak) UITableView *mineTableView;
 @property (nonatomic, strong) NSArray *mineArray;
 @property (nonatomic, weak) EVMineTopViewCell *mineCell;
 @property (nonatomic, strong) NSArray *imageArray;
@@ -37,7 +36,7 @@
 - (void)addUpView
 {
     NSArray *firstRowArray = @[@"name"];
-    NSLog(@"vip == %ld",[EVLoginInfo localObject].vip);
+    NSLog(@"vip == %d",[EVLoginInfo localObject].vip);
     if ([EVLoginInfo localObject].vip == 0) {
         self.secondRowArray = @[@"我的秘籍",@"我的收藏",@"历史记录"];
         self.secondImageArray = @[@"ic_book",@"ic_collect",@"ic_history"];

@@ -551,7 +551,7 @@
             if (weakself.isRefresh == YES || [retinfo[@"retinfo"][@"start"] integerValue] != 0) {
                 for (NSDictionary *msgDict in msgsAry) {
                      weakself.time = [NSString stringWithFormat:@"%@",msgDict[@"timestamp"]];
-                    if ([msgDict[@"from"] isEqualToString:[EVLoginInfo localObject].name]) {
+                    if ([msgDict[@"from"] isEqualToString:self.watchVideoInfo.name]) {
                         EVEaseMessageModel *messageModel = [[EVEaseMessageModel alloc] initWithHistoryMessage:msgDict];
                         [weakself.historyArray addObject:messageModel];
                     }else {
