@@ -59,6 +59,23 @@
     self.mineTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
 
+- (void)updateTableViewDatasource {
+    NSArray *firstRowArray = @[@"name"];
+    NSLog(@"vip == %d",[EVLoginInfo localObject].vip);
+    if ([EVLoginInfo localObject].vip == 0) {
+        self.secondRowArray = @[@"我的秘籍",@"我的收藏",@"历史记录"];
+        self.secondImageArray = @[@"ic_book",@"ic_collect",@"ic_history"];
+    } else {
+        self.secondRowArray = @[@"我的直播",@"我的秘籍",@"我的收藏",@"历史记录"];
+        self.secondImageArray = @[@"ic_live",@"ic_book",@"ic_collect",@"ic_history"];
+    }
+    NSArray *threeImageArray  = @[@"ic_feedback"];
+    NSArray *threeRowArray = @[@"意见反馈"];
+    self.mineArray = @[firstRowArray,_secondRowArray,threeRowArray];
+    self.imageArray = @[firstRowArray,_secondImageArray,threeImageArray];
+    [self.mineTableView reloadData];
+}
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {

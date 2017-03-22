@@ -232,6 +232,7 @@
     [_nShareBtn addTarget:self action:@selector(shareClick:) forControlEvents:(UIControlEventTouchUpInside)];
     
     
+//    [self loadHistoryData];
     
     [mainBackView addSubview:self.liveImageTableView];
     WEAK(self)
@@ -587,7 +588,7 @@
     WEAK(self)
     self.isRefresh = YES;
     [self.baseToolManager GETHistoryTextLiveStreamid:self.liveVideoInfo.liveID  count:@"20" stime:self.time success:^(NSDictionary *retinfo) {
-        EVLog(@"successsjhdahj  %@",retinfo);
+        NSLog(@"successsjhdahj  %@",retinfo);
         [weakself.liveImageTableView endFooterRefreshing];
         [weakself.textLiveChatTableView endHeaderRefreshing];
         if ([retinfo[@"reterr"] isEqualToString:@"OK"]) {
@@ -613,6 +614,8 @@
              [weakself.liveImageTableView setFooterState:(msgsAry.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
             weakself.isRefresh = NO;
         }
+        NSLog(@"his = %@",self.historyArray);
+        NSLog(@"hishis = %@",self.historyChatArray);
     } error:^(NSError *error) {
         weakself.isRefresh = NO;
         [weakself.liveImageTableView endFooterRefreshing];

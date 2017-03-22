@@ -145,6 +145,7 @@ static const NSString *const SettingCellID = @"settingCell";
     self.mineBgView.isSession = NO;
 }
 - (void)actionOfLogin:(NSNotification *)notify {
+    
     [self setUpData];
 }
 
@@ -680,6 +681,7 @@ static const NSString *const SettingCellID = @"settingCell";
 
 - (void)setUpData
 {
+    [self.mineBgView updateTableViewDatasource];
     [self.mineBgView.mineTableView reloadData];
     NSString *sessionID = [self.engine getSessionIdWithBlock:nil];
     if (sessionID) {
