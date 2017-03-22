@@ -10,7 +10,7 @@
 #import "YZInputView.h"
 
 
-//来限制最大输入只能100个字符
+//来限制最大输入只能1000个字符
 #define MAX_LIMIT_NUMS     1000
 @interface EVTextLiveToolBar ()<UITextViewDelegate>
 
@@ -58,7 +58,7 @@
     [inputTextView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:8];
     [inputTextView autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:8];
     // 设置文本框最大行数
-    _inputTextView.maxNumberOfLines = 4;
+    _inputTextView.maxNumberOfLines = 5;
 
 
     

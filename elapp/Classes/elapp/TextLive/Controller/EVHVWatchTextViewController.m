@@ -530,10 +530,13 @@
     }
     NSString *time = [NSString stringWithFormat:@"%lld",message.timestamp];
     
-    [self.baseToolManager POSTChatTextLiveID:self.liveVideoInfo.liveID from:message.from nk:ext[@"nk"] msgid:message.messageId msgtype:type msg:msg tp:ext[@"tp"] rct:ext[@"rct"] rnk:ext[@"rnk"] timestamp:time img:image success:^(NSDictionary *retinfo) {
-        EVLog(@"成功--------------");
-    } error:^(NSError *error) {
-    }];
+    if ([_watchVideoInfo.name isEqualToString:[EVLoginInfo localObject].name]) {
+        [self.baseToolManager POSTChatTextLiveID:self.liveVideoInfo.liveID from:message.from nk:ext[@"nk"] msgid:message.messageId msgtype:type msg:msg tp:ext[@"tp"] rct:ext[@"rct"] rnk:ext[@"rnk"] timestamp:time img:image success:^(NSDictionary *retinfo) {
+            NSLog(@"成功--------------");
+        } error:^(NSError *error) {
+        }];
+     }
+    NSLog(@"不是主播");
 }
 
 - (void)loadHistoryData
@@ -659,6 +662,7 @@
     __weak typeof(self) weakself = self;
     [[EMClient sharedClient].chatManager sendMessage:message progress:^(int progress) {
     } completion:^(EMMessage *aMessage, EMError *aError) {
+
         if (!aError) {
             [weakself uploadHooviewDataExt:aMessage.ext message:aMessage imageType:@"txt" image:nil];
             [weakself _refreshAfterSentMessage:aMessage];

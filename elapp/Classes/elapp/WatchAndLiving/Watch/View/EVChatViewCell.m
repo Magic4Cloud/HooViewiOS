@@ -8,6 +8,7 @@
 
 #import "EVChatViewCell.h"
 #import "EVHVChatModel.h"
+#import "UIView+STFrame.h"
 
 @interface EVChatViewCell ()
 
@@ -88,7 +89,8 @@
     [contentLabel autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:5];
     [contentLabel autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:10];
     [contentLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:10];
-    self.cLabelHig =    [contentLabel autoSetDimension:ALDimensionHeight toSize:0];
+//    [contentLabel autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:-5];
+//    self.cLabelHig =    [contentLabel autoSetDimension:ALDimensionHeight toSize:0];
     
     UILabel *rpcLabel = [[UILabel alloc] init];
     [chatContentBtn addSubview:rpcLabel];
@@ -153,7 +155,13 @@
 {
     _easeMessageModel = easeMessageModel;
 //    [self.chatContentBtn setTitle:easeMessageModel.text forState:(UIControlStateNormal)];
-    self.contentLabel.text = easeMessageModel.text;
+
+    NSString *content = easeMessageModel.text;
+    content = [content stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    content = [content stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+    
+    self.contentLabel.text = content;
+//    self.contentLabel.text = easeMessageModel.text;
     self.nameLabel.frame = easeMessageModel.nameRect;
     self.chatContentBtn.frame = easeMessageModel.contentRect;
     self.nameLabel.text = easeMessageModel.nickname;

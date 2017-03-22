@@ -31,8 +31,12 @@
                 CGFloat nameX = ChatMargin;
                 EMTextMessageBody *messageBody = (EMTextMessageBody *)_firstMessageBody;
                 self.text = messageBody.text;
-                NSDictionary *attributes = @{ NSFontAttributeName : [UIFont systemFontOfSize:16.f]};
-                CGSize nameSize = [self.nickname boundingRectWithSize:CGSizeMake(100, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin  attributes:attributes context:nil].size;
+                NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+                paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
+                paragraphStyle.alignment = NSTextAlignmentLeft;
+                
+                NSDictionary *attributes = @{ NSFontAttributeName : [UIFont textFontB2],
+                                              NSParagraphStyleAttributeName: paragraphStyle};                CGSize nameSize = [self.nickname boundingRectWithSize:CGSizeMake(100, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin  attributes:attributes context:nil].size;
                 CGSize contentSize = [messageBody.text boundingRectWithSize:CGSizeMake(ScreenWidth - 130, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin  attributes:attributes context:nil].size;
                 self.cHig = contentSize.height+5;
                 CGSize rpContetSize = [self.rpContent boundingRectWithSize:CGSizeMake(ScreenWidth - 140, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
@@ -50,7 +54,7 @@
                 
                 CGFloat rpH =   self.isReply ? (rpContetSize.height + 10) : 0;
          
-                _contentRect = CGRectMake(contentX, 0, minWid, contentSize.height + rpH + 10);
+                _contentRect = CGRectMake(contentX, 0, minWid, ceil(contentSize.height) + rpH + 10 + 40);
                 
                 _chatCellHight =  MAX(CGRectGetMaxY(_contentRect), 22) + 10;
             }
@@ -81,10 +85,19 @@
                 EVLog(@"文本消息");
                 EMTextMessageBody *messageBody = (EMTextMessageBody *)_firstMessageBody;
                 self.text = messageBody.text;
-                 NSDictionary *attributes = @{ NSFontAttributeName : [UIFont textFontB2]};
-                 CGSize contentSize = [self.text boundingRectWithSize:CGSizeMake(ScreenWidth - 64, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin  attributes:attributes context:nil].size;
-                CGSize rpContentSize = [self.rpContent boundingRectWithSize:CGSizeMake(ScreenWidth - 89, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin  attributes:attributes context:nil].size;
+                NSLog(@"tttttttt = %@",self.text);
+                
+                NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+                paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
+                paragraphStyle.alignment = NSTextAlignmentLeft;
+                
+                 NSDictionary *attributes = @{ NSFontAttributeName : [UIFont textFontB2],
+                                               NSParagraphStyleAttributeName: paragraphStyle};
+                 CGSize contentSize = [self.text boundingRectWithSize:CGSizeMake(ScreenWidth - 64, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading  attributes:attributes context:nil].size;
+                CGSize rpContentSize = [self.rpContent boundingRectWithSize:CGSizeMake(ScreenWidth - 89, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading  attributes:attributes context:nil].size;
                 self.rpLhig = rpContentSize.height;
+                
+//                contentSize = CGSizeMake(contentSize.width, contentSize.height + 10);
                 self.titleSize = contentSize;
                 self.cellHeight = contentSize.height+56+rpContentSize.height;
             }
@@ -147,10 +160,15 @@
         NSDictionary *Dict = message[@"payload"];
         [self updateMessageExtDict:Dict[@"ext"]];
 
-        NSDictionary *attributes = @{ NSFontAttributeName : [UIFont textFontB2]};
-        CGSize contentSize = [self.text boundingRectWithSize:CGSizeMake(ScreenWidth - 64, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin  attributes:attributes context:nil].size;
+        NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
+        paragraphStyle.alignment = NSTextAlignmentLeft;
+        
+        NSDictionary *attributes = @{ NSFontAttributeName : [UIFont textFontB2],
+                                      NSParagraphStyleAttributeName: paragraphStyle};        CGSize contentSize = [self.text boundingRectWithSize:CGSizeMake(ScreenWidth - 64, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin  attributes:attributes context:nil].size;
         CGSize rpContentSize = [self.rpContent boundingRectWithSize:CGSizeMake(ScreenWidth - 89, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin  attributes:attributes context:nil].size;
         self.rpLhig = rpContentSize.height;
+        contentSize = CGSizeMake(contentSize.width, contentSize.height + 10);
         self.titleSize = contentSize;
         self.cellHeight = contentSize.height+56+rpContentSize.height;
         self.from = message[@"from"];
@@ -177,13 +195,18 @@
             NSDictionary *dict = message[@"payload"];
             [self updateMessageExtDict:dict[@"ext"]];
             CGFloat nameX = ChatMargin;
-            NSDictionary *attributes = @{ NSFontAttributeName : [UIFont systemFontOfSize:16.f]};
-            CGSize nameSize = [self.nickname boundingRectWithSize:CGSizeMake(100, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin  attributes:attributes context:nil].size;
-            CGSize contentSize = [self.text boundingRectWithSize:CGSizeMake(ScreenWidth - 130, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin  attributes:attributes context:nil].size;
-            self.cHig = contentSize.height;
-            CGSize rpContetSize = [self.rpContent boundingRectWithSize:CGSizeMake(ScreenWidth - 140, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
+            NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+            paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
+            paragraphStyle.alignment = NSTextAlignmentLeft;
+            
+            NSDictionary *attributes = @{ NSFontAttributeName : [UIFont textFontB2],
+                                          NSParagraphStyleAttributeName: paragraphStyle};
+            CGSize nameSize = [self.nickname boundingRectWithSize:CGSizeMake(100, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin |NSStringDrawingUsesFontLeading  attributes:attributes context:nil].size;
+            CGSize contentSize = [self.text boundingRectWithSize:CGSizeMake(ScreenWidth - 130, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading  attributes:attributes context:nil].size;
+            self.cHig = ceil(contentSize.height);
+            CGSize rpContetSize = [self.rpContent boundingRectWithSize:CGSizeMake(ScreenWidth - 140, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size;
             CGFloat contentX = ChatMargin + MIN(nameSize.width+5, 100);
-            self.rpcHig = rpContetSize.height;
+            self.rpcHig = ceil(rpContetSize.height);
             CGFloat maxWid = MAX(rpContetSize.width, contentSize.width);
              CGFloat minWid = MAX(maxWid, 36);
             if (_isSender) {
@@ -195,7 +218,7 @@
             _nameRect = CGRectMake(nameX, 5, MIN(nameSize.width+5, 100), 22);
          
             CGFloat rpH =   self.isReply ? (rpContetSize.height + 10) : 0;
-            _contentRect = CGRectMake(contentX, 0, minWid, contentSize.height + rpH + 10);
+            _contentRect = CGRectMake(contentX, 0, minWid, ceil(contentSize.height) + rpH + 10 + 40);
             _chatCellHight =  MAX(CGRectGetMaxY(_contentRect), 22) + 10;
             
         }else {

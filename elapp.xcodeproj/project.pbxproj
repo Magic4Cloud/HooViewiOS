@@ -52,6 +52,7 @@
 		3116F62E1D07F81000DC122E /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3116F62D1D07F81000DC122E /* libstdc++.6.0.9.tbd */; };
 		31D028521C1EA45300F080B0 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31D028511C1EA45300F080B0 /* StoreKit.framework */; };
 		855BA25DB3AF1C2846A9D41F /* libPods-elapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8870469BA124F47A220386F3 /* libPods-elapp.a */; };
+		9E66728D1E8136D700933C92 /* UIFont+swizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E66728B1E8136D700933C92 /* UIFont+swizzle.m */; };
 		9EC24DAF1E7A70C2003664B4 /* guide.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9EC24DAE1E7A70C2003664B4 /* guide.xcassets */; };
 		9EC24DB21E7A7117003664B4 /* EVConsultGuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EC24DB11E7A7117003664B4 /* EVConsultGuideView.m */; };
 		9EC24DB41E7A7BB2003664B4 /* EVConsultGuideView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EC24DB31E7A7BB2003664B4 /* EVConsultGuideView.xib */; };
@@ -777,6 +778,8 @@
 		4765F6D15BEC4925FA89C38D /* Pods-elapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-elapp.release.xcconfig"; path = "Pods/Target Support Files/Pods-elapp/Pods-elapp.release.xcconfig"; sourceTree = "<group>"; };
 		8367F5891D6D926B00BE2DB7 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8870469BA124F47A220386F3 /* libPods-elapp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-elapp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9E66728B1E8136D700933C92 /* UIFont+swizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+swizzle.m"; sourceTree = "<group>"; };
+		9E66728C1E8136D700933C92 /* UIFont+swizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+swizzle.h"; sourceTree = "<group>"; };
 		9EC24DAE1E7A70C2003664B4 /* guide.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = guide.xcassets; sourceTree = "<group>"; };
 		9EC24DB01E7A7117003664B4 /* EVConsultGuideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVConsultGuideView.h; sourceTree = "<group>"; };
 		9EC24DB11E7A7117003664B4 /* EVConsultGuideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVConsultGuideView.m; sourceTree = "<group>"; };
@@ -3194,6 +3197,8 @@
 				E862FACC1D6BE8520081E72F /* UUImageAvatarBrowser.m */,
 				E812617A1E1520EF0021C305 /* UIFont+EVExtension.h */,
 				E812617B1E1520EF0021C305 /* UIFont+EVExtension.m */,
+				9E66728B1E8136D700933C92 /* UIFont+swizzle.m */,
+				9E66728C1E8136D700933C92 /* UIFont+swizzle.h */,
 				0C9D222C1E696DDE000F2AD0 /* NullSafe.m */,
 			);
 			path = Category;
@@ -5322,6 +5327,7 @@
 				E86200BD1D6BE8540081E72F /* EVSearchAllViewController.m in Sources */,
 				E86201291D6BE8540081E72F /* EVLiveEndView.m in Sources */,
 				E86200E71D6BE8540081E72F /* EVConsumptionModel.m in Sources */,
+				9E66728D1E8136D700933C92 /* UIFont+swizzle.m in Sources */,
 				E8BF48401E28F08D00FDB000 /* EVFastNewsModel.m in Sources */,
 				E85DFE531E78D42A005667DD /* EVSendImageView.m in Sources */,
 				E812617C1E1520EF0021C305 /* UIFont+EVExtension.m in Sources */,

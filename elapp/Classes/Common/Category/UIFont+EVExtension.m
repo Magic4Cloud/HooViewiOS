@@ -7,6 +7,7 @@
 //
 
 #import "UIFont+EVExtension.h"
+#import "UIFont+swizzle.h"
 
 @implementation UIFont (EVExtension)
 
