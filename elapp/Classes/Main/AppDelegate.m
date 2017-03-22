@@ -175,7 +175,7 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 
 - (void)appPrepareWithOptions:(NSDictionary *)launchOptions
 {
-    // 环信注册
+    
     [[EVEaseMob cc_shareInstance] registForAppWithOptions:launchOptions];
     [[EVNetWorkStateManger sharedManager] startMonitoring];
     // 全局数据库管理工具类
@@ -311,7 +311,7 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     [application registerForRemoteNotifications];
 }
 
-- (void)                                application:(UIApplication *)application
+- (void)application:(UIApplication *)application
    didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
     if ( deviceToken )

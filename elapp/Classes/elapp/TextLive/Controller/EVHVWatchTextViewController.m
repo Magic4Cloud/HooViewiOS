@@ -512,11 +512,13 @@
     [info synchronized];
 }
 
+#pragma mark - 送礼物
 - (void)sendMagicEmojiWithEmoji:(EVStartGoodModel *)magicEmoji num:(NSInteger)numOfEmoji
 {
     WEAK(self)
     self.startGoodModel = magicEmoji;
     EMCmdMessageBody *body = [[EMCmdMessageBody alloc] initWithAction:@"礼物"];
+//    EMTextMessageBody * body = [[EMTextMessageBody alloc] initWithText:@"礼物"];
     NSString *from = [[EMClient sharedClient] currentUsername];
     //生成Message
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
@@ -524,6 +526,8 @@
     [dict setValue:[EVLoginInfo localObject].nickname forKey:@"nk"];
     EMMessage *message = [[EMMessage alloc] initWithConversationID:_conversation.conversationId from:from to:_conversation.conversationId body:body ext:dict];
     message.chatType = EMChatTypeChatRoom;
+   
+
     
     [[EMClient sharedClient].chatManager sendMessage:message progress:^(int progress) {
     } completion:^(EMMessage *aMessage, EMError *aError) {

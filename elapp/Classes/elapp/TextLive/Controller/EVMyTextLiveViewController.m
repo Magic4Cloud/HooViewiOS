@@ -31,6 +31,16 @@
 
 
 @interface EVMyTextLiveViewController ()<SGSegmentedControlStaticDelegate,UIScrollViewDelegate,EVLiveImageBottomViewDelegate,EMChatManagerDelegate,EVTextBarDelegate,EVSendImageDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,EVHVStockTextViewDelegate,EVTextLiveTableViewDelegate,EMChatroomManagerDelegate>
+{
+    //延迟显示小红花  刚进入的时候不显示
+    BOOL isDisplayflower;
+}
+
+/**
+ 小红花数组  收到小红花就放到这个数组里   用来区别 如果收到相同的红花  就不加入进去  避免重复
+ */
+@property (nonatomic,strong) NSMutableArray *redFlowerArray;
+
 @property (nonatomic,strong) NSMutableArray *historyChatArray;
 @property (nonatomic,strong) NSMutableArray *historyArray;
 @property (nonatomic, copy) NSString *time;
@@ -124,6 +134,12 @@
     [self addShareView];
     
     [self addGiftAniView];
+    //延迟一秒显示小红花
+    [self performSelector:@selector(delayDisplayFlower) withObject:nil afterDelay:1.f];
+}
+
+- (void)delayDisplayFlower{
+    isDisplayflower = YES;
 }
 
 - (void)addBarItem
@@ -302,7 +318,7 @@
     };
 }
 
-
+#pragma mark - 显示小红花
 - (void)addGiftAniView
 {
     EVHVGiftAniView *hvGiftAniView = [[EVHVGiftAniView alloc] init];
@@ -735,24 +751,29 @@
     _textLiveModel = textLiveModel;
     
     EMError *error = nil;
+    //加入聊天室
     self.chatRoom = [[EMClient sharedClient].roomManager joinChatroom:_textLiveModel.streamid error:&error];
     EVLog(@"chatroom-------  %@ ---------  %ld ------ ",self.chatRoom,error.code);
     [self.liveImageTableView updateWatchCount:self.chatRoom.membersCount];
-    //注册消息回调
+    //TODO:注册环信消息回调
+
     [[EMClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
     [[EMClient sharedClient].roomManager addDelegate:self];
+   
     _conversation = [[EMClient sharedClient].chatManager getConversation:textLiveModel.streamid type:EMConversationTypeChatRoom createIfNotExist:YES];
     
     NSArray *conversations = [[EMClient sharedClient].chatManager getAllConversations];
-    EVLog(@"conversations----%ld",conversations.count);
+    
 }
 
 - (void)didReceiveMessages:(NSArray *)aMessages
 {
+    
     if (aMessages.count > 0) {
         self.liveImageNullDataView.hidden = YES;
     }
     for (EMMessage *umessage in aMessages) {
+        
         NSUInteger i  = [aMessages indexOfObject:umessage];
         if (i == 0) {
              self.time = [NSString stringWithFormat:@"%lld",umessage.timestamp];
@@ -769,18 +790,56 @@
         EVEaseMessageModel *chateaseMessageModel = [[EVEaseMessageModel alloc] initWithChatMessage:umessage];
         [self.textLiveChatTableView updateMessageModel:chateaseMessageModel];
         EMMessageBody *cmdBody = umessage.body;
+        //收到小红花    
         if (cmdBody.type == EMMessageBodyTypeCmd) {
-            [self messageGiftDict:umessage.ext];
+            [self messageGiftDict:umessage.ext model:umessage];
         }
+//        if (cmdBody.type == EMMessageBodyTypeText) {
+//            EMTextMessageBody *messageBody = (EMTextMessageBody *)umessage.body;
+//            if ([messageBody.text isEqualToString:@"礼物"]) {
+//                NSLog(@"如果消息为礼物0000000000000000:%@",[umessage messageId]);
+//                NSLog(@"[umessage isRead]:%d",[umessage isRead]);
+//                NSLog(@"[umessage isDeliverAcked]:%d",[umessage isDeliverAcked]);
+//                NSLog(@"[umessage isReadAcked]:%d",[umessage isReadAcked]);
+//                [self messageGiftDict:umessage.ext model:umessage];
+////                EMError * error;
+//               
+//                [[EMClient sharedClient].chatManager sendMessageReadAck:umessage completion:nil];
+//                [self.conversation markMessageAsReadWithId:umessage.messageId error:nil];
+////                [[EMClient sharedClient].chatManager sendMessageReadAck:umessage completion:^(EMMessage *aMessage, EMError *aError) {
+////                    NSLog(@"发送完消息已读回执:%d",[aMessage isRead]);
+////                    NSLog(@"错误描述：%@",aError.errorDescription);
+////                }];
+////                [_conversation markAllMessagesAsRead:&error];
+////                NSLog(@"错误描述：%@",error.errorDescription);
+//            }
+//        
+//        }
     }
 }
 
-- (void)messageGiftDict:(NSDictionary *)dict
+- (void)messageGiftDict:(NSDictionary *)dict model:(EMMessage *)model
 {
-    EVLog(@"dict----------   ------------------------------");
-    NSMutableDictionary *giftDict = [NSMutableDictionary dictionaryWithDictionary:dict];
-    EVStartGoodModel *goodModel = [EVStartGoodModel modelWithDict:giftDict];
-    [self.hvGiftAniView addStartGoodModel:goodModel];
+    
+    BOOL isContain = NO;
+    for (EMMessage * temp in self.redFlowerArray) {
+        if ([model.messageId isEqualToString:temp.messageId]) {
+            isContain = YES;
+            break;
+        }
+    }
+    
+    if (!isContain) {
+        
+        [self.redFlowerArray addObject:model];
+        NSMutableDictionary *giftDict = [NSMutableDictionary dictionaryWithDictionary:dict];
+        EVStartGoodModel *goodModel = [EVStartGoodModel modelWithDict:giftDict];
+        //TODO:添加小红花
+        [self.hvGiftAniView addStartGoodModel:goodModel];
+        
+    }
+    
+   
 }
 
 - (void)messageAttachmentStatusDidChange:(EMMessage *)aMessage
@@ -858,12 +917,16 @@
         [weakself.textLiveChatTableView endHeaderRefreshing];
     }];
 }
+#pragma mark - 收到环信透传消息
 - (void)didReceiveCmdMessages:(NSArray *)aCmdMessages
 {
-    NSLog(@"acmdmessage-----------  %@",aCmdMessages);
-    for (EMMessage *umessage in aCmdMessages) {
-        //EMMessageBody *cmdBody = umessage.body;
-        [self messageGiftDict:umessage.ext];
+    //主要用于显示小红花
+    if (!isDisplayflower) {
+        return;
+    }
+    for (EMMessage *umessage in aCmdMessages)
+    {
+        [self messageGiftDict:umessage.ext model:umessage];
     }
 }
 
@@ -909,6 +972,13 @@
 }
 
 
+- (NSMutableArray *)redFlowerArray
+{
+    if (!_redFlowerArray) {
+        _redFlowerArray = [NSMutableArray array];
+    }
+    return _redFlowerArray;
+}
 - (NSMutableArray *)historyArray
 {
     if (!_historyArray) {
