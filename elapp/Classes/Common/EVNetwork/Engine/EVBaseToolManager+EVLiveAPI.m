@@ -526,12 +526,13 @@
 
 
 //创建图文直播间
-- (void)GETHistoryTextLiveStreamid:(NSString *)streamid  count:(NSString *)count stime:(NSString *)stime success:(void (^) (NSDictionary *retinfo))success error:(void (^)(NSError *error))error
+- (void)GETHistoryTextLiveStreamid:(NSString *)streamid  count:(NSString *)count start:(NSString *)start stime:(NSString *)stime success:(void (^) (NSDictionary *retinfo))success error:(void (^)(NSError *error))error
 {
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     param[@"streamid"] = streamid;
     param[@"count"] = count;
     param[@"etime"] = stime;
+    param[@"start"] = start;
     NSString *url = [NSString stringWithFormat:EVTextLiveHistiryAPI];
     [EVBaseToolManager GETNoSessionWithUrl:url parameters:param success:success fail:error];
     

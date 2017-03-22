@@ -825,7 +825,7 @@
     EVLog(@"date2时间戳 = %@",date2);
     WEAK(self)
     weakself.isRefresh = YES;
-    [self.baseToolManager GETHistoryTextLiveStreamid:self.textLiveModel.streamid count:@"20" stime:self.time success:^(NSDictionary *retinfo) {
+    [self.baseToolManager GETHistoryTextLiveStreamid:self.textLiveModel.streamid count:@"20" start:@"0"stime:self.time success:^(NSDictionary *retinfo) {
         EVLog(@"successsjhdahj  %@",retinfo);
         [weakself.liveImageTableView endFooterRefreshing];
         [weakself.textLiveChatTableView endHeaderRefreshing];

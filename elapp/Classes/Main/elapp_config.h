@@ -79,8 +79,8 @@
 // 开启日志全局开关e
 #ifdef STATE_DEV
  #define EVDEBUG
- #define webNewsUrl @"http://dev.yizhibo.tv/hooview/stock/"
- #define webMarketUrl @"http://dev.yizhibo.tv/hooview/stock/"
+ #define webNewsUrl @"http://appgwdev.hooview.com/hooview/stock/"
+ #define webMarketUrl @"http://appgwdev.hooview.com/hooview/stock/"
 #endif
 
 
