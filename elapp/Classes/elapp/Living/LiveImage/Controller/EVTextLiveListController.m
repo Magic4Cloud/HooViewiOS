@@ -13,6 +13,7 @@
 #import "EVHVWatchTextViewController.h"
 #import "EVBaseToolManager+EVHomeAPI.h"
 #import "EVBaseToolManager+EVSDKMessage.h"
+#import "EVBaseToolManager+EVLiveAPI.h"
 #import "EMClient.h"
 #import "EVMyTextLiveViewController.h"
 #import "EVLoginInfo.h"
@@ -250,22 +251,39 @@
         NSString *sessionID = [self.baseToolManager getSessionIdWithBlock:nil];
         EVLoginInfo *loginInfo = [EVLoginInfo localObject];
         
-        if ([EVTextLiveModel textLiveObject].streamid.length > 0) {
+        if ([EVTextLiveModel textLiveObject].streamid.length > 0)
+        {
+            //如果本地存到有  从本地取  否则 网络请求
             [self pushLiveImageVCModel:[EVTextLiveModel textLiveObject]];
             return;
         }
         NSString *easemobid = loginInfo.imuser.length <= 0 ? loginInfo.name : loginInfo.imuser;
-        
-        
+        WEAK(self)
+        [self.baseToolManager GETCreateTextLiveUserid:loginInfo.name nickName:loginInfo.nickname easemobid:easemobid success:^(NSDictionary *retinfo) {
+            EVLog(@"LIVETEXT--------- %@",retinfo);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                EVTextLiveModel *textLiveModel = [EVTextLiveModel objectWithDictionary:retinfo[@"retinfo"][@"data"]];
+                [textLiveModel synchronized];
+                [weakself pushLiveImageVCModel:textLiveModel];
+            });
+        } error:^(NSError *error) {
+            //         [weakself pushLiveImageVCModel:nil];
+            [EVProgressHUD showMessage:@"创建失败"];
+        }];
+    
+    }
+    else
+    {
+        //进别人的直播间
+        EVHVWatchTextViewController *watchImageVC = [[EVHVWatchTextViewController alloc] init];
+        UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:watchImageVC];
+        watchImageVC.watchVideoInfo = WatchVideoInfo;
+        watchImageVC.liveVideoInfo = liveVideoInfo;
+        [self presentViewController:navigationVC animated:YES completion:nil];
     }
     
-    EVHVWatchTextViewController *watchImageVC = [[EVHVWatchTextViewController alloc] init];
-    UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:watchImageVC];
-    watchImageVC.watchVideoInfo = WatchVideoInfo;
-    watchImageVC.liveVideoInfo = liveVideoInfo;
-    [self presentViewController:navigationVC animated:YES completion:nil];
-    
 }
+
 
 #pragma mark - 跳转到我的直播间
 - (void)pushLiveImageVCModel:(EVTextLiveModel *)model
