@@ -65,6 +65,7 @@
     }
 }
 
+#pragma mark - 长按回复
 - (void)longPressCell:(EVChatViewCell *)cell easeModel:(EVEaseMessageModel *)easeModel
 {
     if (self.tDelegate && [self.tDelegate respondsToSelector:@selector(longPressModel:)]) {
@@ -103,10 +104,12 @@
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     [self scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
+
 - (void)updateWatchCount:(NSInteger)count
 {
      self.watchLabel.text = [NSString stringWithFormat:@"%@人数",[NSString numFormatNumber:count]];
 }
+
 - (NSMutableArray *)dataArray
 {
     if (!_dataArray) {

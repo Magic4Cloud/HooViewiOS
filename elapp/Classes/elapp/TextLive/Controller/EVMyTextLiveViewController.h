@@ -9,6 +9,9 @@
 #import "EVViewController.h"
 #import "EVTextLiveModel.h"
 
+/**
+ 我的图文直播间
+ */
 @interface EVMyTextLiveViewController : EVViewController
 
 @property (nonatomic, strong) EVTextLiveModel *textLiveModel;

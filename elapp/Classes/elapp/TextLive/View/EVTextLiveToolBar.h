@@ -13,6 +13,8 @@
 
 - (void)sendMessageBtn:(UIButton *)btn textToolBar:(EVTextLiveToolBar *)textToolBar;
 
+@optional
+- (void)chatTextViewDidBeginEditing;
 @end
 
 

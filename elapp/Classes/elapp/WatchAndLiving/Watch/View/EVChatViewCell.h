@@ -11,6 +11,9 @@
 #import "EVEaseMessageModel.h"
 
 
+/**
+ 聊天 cell
+ */
 @class EVChatViewCell;
 @protocol EVChatViewCellDelegate <NSObject>
 

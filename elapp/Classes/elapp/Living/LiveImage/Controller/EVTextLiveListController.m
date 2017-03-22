@@ -13,7 +13,9 @@
 #import "EVHVWatchTextViewController.h"
 #import "EVBaseToolManager+EVHomeAPI.h"
 #import "EVBaseToolManager+EVSDKMessage.h"
-
+#import "EMClient.h"
+#import "EVMyTextLiveViewController.h"
+#import "EVLoginInfo.h"
 @interface EVTextLiveListController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, weak) UITableView *liveTableView;
@@ -238,13 +240,41 @@
     EVLog(@"-----------------------watchtextlive--------------");
     EVWatchVideoInfo *WatchVideoInfo = _dataArray[indexPath.row];
     EVWatchVideoInfo *liveVideoInfo = _dataLiveArray[indexPath.row];
+    
+    
+    
+    NSString *myId = [EVLoginInfo localObject].name;
+
+    if ([liveVideoInfo.ownerid isEqualToString:myId]) {
+        //是进自己的直播间
+        NSString *sessionID = [self.baseToolManager getSessionIdWithBlock:nil];
+        EVLoginInfo *loginInfo = [EVLoginInfo localObject];
+        
+        if ([EVTextLiveModel textLiveObject].streamid.length > 0) {
+            [self pushLiveImageVCModel:[EVTextLiveModel textLiveObject]];
+            return;
+        }
+        NSString *easemobid = loginInfo.imuser.length <= 0 ? loginInfo.name : loginInfo.imuser;
+        
+        
+    }
+    
     EVHVWatchTextViewController *watchImageVC = [[EVHVWatchTextViewController alloc] init];
     UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:watchImageVC];
-    [self presentViewController:navigationVC animated:YES completion:nil];
     watchImageVC.watchVideoInfo = WatchVideoInfo;
     watchImageVC.liveVideoInfo = liveVideoInfo;
+    [self presentViewController:navigationVC animated:YES completion:nil];
+    
 }
 
+#pragma mark - 跳转到我的直播间
+- (void)pushLiveImageVCModel:(EVTextLiveModel *)model
+{
+    EVMyTextLiveViewController *myLiveImageVC = [[EVMyTextLiveViewController alloc] init];
+    UINavigationController *navigationVc = [[UINavigationController alloc] initWithRootViewController:myLiveImageVC];
+    [self presentViewController:navigationVc animated:YES completion:nil];
+    myLiveImageVC.textLiveModel = model;
+}
 
 - (NSMutableArray *)dataArray
 {

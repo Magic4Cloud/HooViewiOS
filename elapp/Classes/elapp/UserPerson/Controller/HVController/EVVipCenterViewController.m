@@ -24,6 +24,9 @@
 #import "EVHVWatchViewController.h"
 
 
+#import "EVLoginInfo.h"
+#import "EVLoginViewController.h"
+
 @interface EVVipCenterViewController ()<EVHVVipCenterDelegate,SwipeTableViewDataSource,SwipeTableViewDelegate,UIGestureRecognizerDelegate,UIViewControllerTransitioningDelegate,SGSegmentedControlStaticDelegate>
 
 @property (nonatomic, strong) SwipeTableView * swipeTableView;
@@ -181,17 +184,26 @@
 
 - (void)followClick:(UIButton *)btn
 {
+    if (![EVLoginInfo hasLogged]) {
+        UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
+        [self presentViewController:navighaVC animated:YES completion:nil];
+        return;
+    }
+    
     WEAK(self)
     BOOL followType = self.watchVideoInfo.followed ? NO : YES;
     [self.baseToolManager GETFollowUserWithName:self.watchVideoInfo.name followType:followType start:^{
         
     } fail:^(NSError *error) {
+        
     } success:^{
          btn.selected = !btn.selected;
         [weakself buttonStatus:btn.selected button:btn];
         weakself.watchVideoInfo.followed = followType;
         
-    } essionExpire:^{
+    }
+    essionExpire:^{
+        
     }];
 }
 
@@ -355,9 +367,6 @@
 - (void)setIsFollow:(BOOL)isFollow
 {
     _isFollow = isFollow;
-    
-    
-    
 }
 - (void)backButton
 {

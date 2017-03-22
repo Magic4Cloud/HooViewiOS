@@ -150,7 +150,7 @@
         liveCell = [[NSBundle mainBundle] loadNibNamed:@"EVLiveListViewCell" owner:nil options:nil].firstObject;
     }
     liveCell.watchVideoInfo = self.dataArray[indexPath.row];
-     liveCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    liveCell.selectionStyle = UITableViewCellSelectionStyleNone;
     return liveCell;
 }
 

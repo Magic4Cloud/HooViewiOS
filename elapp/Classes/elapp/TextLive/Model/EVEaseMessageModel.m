@@ -24,6 +24,7 @@
         _fromName = message.from;
         NSDictionary *Dict = message.ext;
          [self updateMessageExtDict:Dict];
+        
         switch (_firstMessageBody.type) {
             case EMMessageBodyTypeText:
             {

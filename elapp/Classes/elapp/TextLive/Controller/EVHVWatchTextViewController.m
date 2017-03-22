@@ -37,6 +37,9 @@
 #import "EVBaseToolManager+EVUserCenterAPI.h"
 #import "EVNotOpenView.h"
 
+#import "EVBaseToolManager+EVAccountAPI.h"
+#import "EVLoginViewController.h"
+#import "EVVipCenterViewController.h"
 
 #define headerTopHig     216
 #define segmentHig        44
@@ -45,6 +48,12 @@
 @property (nonatomic,strong) NSMutableArray *historyChatArray;
 @property (nonatomic,strong) NSMutableArray *historyArray;
 @property (nonatomic, assign) BOOL isRefresh;
+
+
+@property (nonatomic, copy) NSString *rpName;
+@property (nonatomic, copy) NSString *rpContent;
+
+@property (strong, nonatomic) EVBaseToolManager *engine;
 
 @property (nonatomic, strong) SGSegmentedControlStatic *topSView;
 
@@ -140,9 +149,9 @@
 //    self.vipCenterView.watchVideoInfo = self.watchVideoInfo;
     
     //头部  头像视图
-    self.vipCenterView = [[EVHVVipCenterView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, headerTopHig) isTextLive:YES];
-    [self.view addSubview:_vipCenterView];
-    _vipCenterView.delegate = self;
+//    self.vipCenterView = [[EVHVVipCenterView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, headerTopHig) isTextLive:YES];
+    [self.view addSubview:self.vipCenterView];
+    self.vipCenterView.delegate = self;
     [self.vipCenterView.reportBtn setImage:[UIImage imageNamed:@"btn_share_w_n_back"] forState:(UIControlStateNormal)];
     
     self.sementedBackView  = [[UIView alloc] init];
@@ -241,7 +250,7 @@
     [mainBackView addSubview:self.textLiveChatTableView];
     self.textLiveChatTableView.tDelegate = self;
     
-    
+    //TODO:聊天tableView
     [self.textLiveChatTableView addRefreshHeaderWithRefreshingBlock:^{
          [weakself loadHistoryData];
     }];
@@ -254,7 +263,26 @@
     [self addPresentListView];
     [self addGiftAniView];
 }
-
+#pragma mark - 点击头像进入个人主页
+- (void)personalHomePage
+{
+    EVVipCenterViewController *vipCenterVC  = [[EVVipCenterViewController alloc] init];
+    vipCenterVC.watchVideoInfo = self.watchVideoInfo;
+    //isfollow  是关注的意思
+    vipCenterVC.isFollow = self.watchVideoInfo.followed;
+    [self.navigationController pushViewController:vipCenterVC animated:YES];
+   
+}
+- (EVHVVipCenterView *)vipCenterView
+{
+    if (!_vipCenterView) {
+        _vipCenterView = [[EVHVVipCenterView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, headerTopHig) isTextLive:YES];
+        UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(personalHomePage)];
+        [_vipCenterView.userHeadIgeView addGestureRecognizer:tap];
+        _vipCenterView.userHeadIgeView.userInteractionEnabled = YES;
+    }
+    return _vipCenterView;
+}
 - (void)addChatTextView
 {
     _blackBackView = [[UIButton alloc] init];
@@ -265,6 +293,7 @@
     [self.navigationController.view addSubview:_blackBackView];
     _blackBackView.hidden = YES;
     
+    //TODO:聊天输入框
     EVTextLiveToolBar *textLiveToolBar = [[EVTextLiveToolBar alloc] init];
     [self.navigationController.view addSubview:textLiveToolBar];
     self.textLiveToolBar = textLiveToolBar;
@@ -308,6 +337,18 @@
     [self loadUserData];
 }
 
+#pragma mark - 聊天框开始编辑 判断是否登陆
+- (void)chatTextViewDidBeginEditing
+{
+    //聊天  开始编辑  如果没登陆   弹出登陆提示框  让键盘下去
+    NSString *sessionID = [self.engine getSessionIdWithBlock:nil];
+    if (sessionID == nil || [sessionID isEqualToString:@""]) {
+        UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
+        
+        [self presentViewController:navighaVC animated:YES completion:nil];
+        [self.textLiveToolBar.inputTextView resignFirstResponder];
+    }
+}
 - (void)tableViewDidScroll:(UIScrollView *)scrollView
 {
     if (self.chooseIndex == 2) {
@@ -355,13 +396,15 @@
 
 - (void)loadUserData
 {
+    NSLog(@"self.watchVideoInfo.name:%@",self.watchVideoInfo.name);
     [self.baseToolManager GETBaseUserInfoWithUname:self.watchVideoInfo.name start:^{
         
     } fail:^(NSError *error) {
         
     } success:^(NSDictionary *modelDict) {
         self.watchVideoInfo = [EVWatchVideoInfo objectWithDictionary:modelDict];
-         [self updateIsFollow:self.watchVideoInfo.followed];
+        
+        [self updateIsFollow:self.watchVideoInfo.followed];
     } sessionExpire:^{
         
     }];
@@ -647,18 +690,39 @@
     [self.stockTextView.stockTextFiled resignFirstResponder];
 }
 
+#pragma mark - 发送聊天消息
 - (void)sendMessageBtn:(UIButton *)btn textToolBar:(EVTextLiveToolBar *)textToolBar
 {
- 
-    EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:textToolBar.inputTextView.text];
+    
+    NSString *chatViewText = self.textLiveToolBar.inputTextView.text;
+    
     NSString *from = [[EMClient sharedClient] currentUsername];
-    //生成Message
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    [dict setValue:@"nor" forKey:@"tp"];
+    NSString *messageType = @"nor";
+   
+    
+    [dict setValue:messageType forKey:@"tp"];
     [dict setValue:[EVLoginInfo localObject].nickname forKey:@"nk"];
+    if (self.rpName != nil && ![self.rpName isEqualToString:@""]) {
+        if ([chatViewText rangeOfString:self.rpName].location != NSNotFound) {
+            NSString *chatS = chatViewText;
+            chatViewText = [chatViewText substringWithRange:NSMakeRange(self.rpName.length,chatS.length - self.rpName.length)];
+            NSString *rct = [NSString stringWithFormat:@"%@%@",self.rpName,self.rpContent];
+            [dict setObject:rct forKey:@"rct"];
+            [dict setValue:@"rp" forKey:@"tp"];
+        }
+    }
+    
+    EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:chatViewText];
+    
+    self.rpName = nil;
+    self.rpContent = nil;
+    //生成Message
+    
+//    [self touchHide];
+    
     EMMessage *message = [[EMMessage alloc] initWithConversationID:_conversation.conversationId from:from to:_conversation.conversationId body:body ext:dict];
     message.chatType = EMChatTypeChatRoom;
-    
     __weak typeof(self) weakself = self;
     [[EMClient sharedClient].chatManager sendMessage:message progress:^(int progress) {
     } completion:^(EMMessage *aMessage, EMError *aError) {
@@ -671,6 +735,36 @@
             [weakself.liveImageTableView reloadData];
         }
     }];
+    
+    
+    
+    
+//    //消息体
+//    EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:textToolBar.inputTextView.text];
+//    
+//    NSString *from = [[EMClient sharedClient] currentUsername];
+//    //生成Message
+//    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+//    //内容类型（st，置顶消息；hl，高亮消息；nor，普通消息）
+//    [dict setValue:@"nor" forKey:@"tp"];
+//    //发消息人名字 为自己
+//    [dict setValue:[EVLoginInfo localObject].nickname forKey:@"nk"];
+//    
+//    //环信
+//    EMMessage *message = [[EMMessage alloc] initWithConversationID:_conversation.conversationId from:from to:_conversation.conversationId body:body ext:dict];
+//    message.chatType = EMChatTypeChatRoom;
+//    
+//    __weak typeof(self) weakself = self;
+//    [[EMClient sharedClient].chatManager sendMessage:message progress:^(int progress) {
+//    } completion:^(EMMessage *aMessage, EMError *aError) {
+//        if (!aError) {
+//            [weakself uploadHooviewDataExt:aMessage.ext message:aMessage imageType:@"txt" image:nil];
+//            [weakself _refreshAfterSentMessage:aMessage];
+//        }
+//        else {
+//            [weakself.liveImageTableView reloadData];
+//        }
+//    }];
 }
 
 - (void)keyBoardShow:(NSNotification *)notification
@@ -722,8 +816,28 @@
     [self.textLiveChatTableView updateMessageModel:chatEaseMessageModel];
 }
 
+- (EVBaseToolManager *)engine
+{
+    if (!_engine)
+    {
+        _engine = [[EVBaseToolManager alloc] init];
+    }
+    
+    return _engine;
+}
+
+#pragma mark - 关注按钮点击
 - (void)followClick:(UIButton *)btn
 {
+    NSString *sessionID = [self.engine getSessionIdWithBlock:nil];
+    
+    if (sessionID == nil || [sessionID isEqualToString:@""]) {
+        UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
+        
+        [self presentViewController:navighaVC animated:YES completion:nil];
+        return;
+    }
+    
     WEAK(self)
     BOOL followType = self.watchVideoInfo.followed ? NO : YES;
     [self.baseToolManager GETFollowUserWithName:self.watchVideoInfo.name followType:followType start:^{
@@ -736,6 +850,50 @@
     }];
 }
 
+//#pragma mark - 长按回复某人
+//- (void)longPressModel:(EVEaseMessageModel *)model
+//{
+//    EVEaseMessageModel * model2 = model;
+//    
+//    
+//    if (![model.fromName isEqualToString:[EVLoginInfo localObject].name]) {
+//        self.textLiveToolBar.inputTextView.text = [NSString stringWithFormat:@"回复%@ ",model.nickname];
+//        _rpName = self.textLiveToolBar.inputTextView.text;
+//        _rpContent = model.text;
+//        [self.textLiveToolBar.inputTextView textDidChange];
+//        [self.textLiveToolBar.inputTextView becomeFirstResponder];
+//    }
+//    
+//    
+//
+////    //消息体
+////    EMTextMessageBod y *body = [[EMTextMessageBody alloc] initWithText:textToolBar.inputTextView.text];
+////    
+////    NSString *from = [[EMClient sharedClient] currentUsername];
+////    //生成Message
+////    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+////    //内容类型（st，置顶消息；hl，高亮消息；nor，普通消息）
+////    [dict setValue:@"nor" forKey:@"tp"];
+////    //发消息人名字 为自己
+////    [dict setValue:[EVLoginInfo localObject].nickname forKey:@"nk"];
+////    
+////    //环信
+////    EMMessage *message = [[EMMessage alloc] initWithConversationID:_conversation.conversationId from:from to:_conversation.conversationId body:body ext:dict];
+////    message.chatType = EMChatTypeChatRoom;
+////    
+////    __weak typeof(self) weakself = self;
+////    [[EMClient sharedClient].chatManager sendMessage:message progress:^(int progress) {
+////    } completion:^(EMMessage *aMessage, EMError *aError) {
+////        if (!aError) {
+////            [weakself uploadHooviewDataExt:aMessage.ext message:aMessage imageType:@"txt" image:nil];
+////            [weakself _refreshAfterSentMessage:aMessage];
+////        }
+////        else {
+////            [weakself.liveImageTableView reloadData];
+////        }
+////    }];
+//    
+//}
 
 - (void)updateIsFollow:(BOOL)follow
 {
@@ -747,6 +905,7 @@
 
 - (void)SGSegmentedControlStatic:(SGSegmentedControlStatic *)segmentedControlStatic didSelectTitleAtIndex:(NSInteger)index
 {
+   
     CGFloat offsetX = index * self.view.frame.size.width;
     self.mainBackView.contentOffset = CGPointMake(offsetX, 0);
     [self chooseIndex:index];
@@ -841,6 +1000,10 @@
 - (void)setWatchVideoInfo:(EVWatchVideoInfo *)watchVideoInfo
 {
     _watchVideoInfo = watchVideoInfo;
+    NSLog(@"self.vipCenterView%@",_vipCenterView);
+    NSLog(@"watchVideoInfo.signature:%@",watchVideoInfo.signature);
+    NSLog(@"watchVideoInfo.nickname:%@",watchVideoInfo.nickname);
+    NSLog(@"watchVideoInfo.tags:%@",watchVideoInfo.tags);
     self.vipCenterView.watchVideoInfo = watchVideoInfo;
      self.nNameLabel.text = watchVideoInfo.nickname;
     if ([watchVideoInfo.name isEqualToString:[EVLoginInfo localObject].name]) {
@@ -959,6 +1122,7 @@
         _textLiveChatTableView = [[EVTextLiveChatTableView alloc] initWithFrame:CGRectMake(ScreenWidth * 2 , 0, ScreenWidth, ScreenHeight - 49) style:(UITableViewStylePlain)];
         _textLiveChatTableView.backgroundColor = [UIColor evBackgroundColor];
         _textLiveChatTableView.contentInset = UIEdgeInsetsMake(segmentHig + headerTopHig, 0, 0, 0);
+        _textLiveChatTableView.tDelegate = self;
     }
     return _textLiveChatTableView;
 }
