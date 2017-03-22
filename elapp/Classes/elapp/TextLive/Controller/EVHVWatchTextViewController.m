@@ -653,6 +653,15 @@
         case 9002:
         {
             NSLog(@"礼物");
+            NSString *sessionID = [self.engine getSessionIdWithBlock:nil];
+            
+            if (sessionID == nil || [sessionID isEqualToString:@""]) {
+                UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
+                
+                [self presentViewController:navighaVC animated:YES completion:nil];
+                return;
+            }
+            
             [_magicEmojiView show];
             [self.view bringSubviewToFront:self.magicEmojiView];
         }
@@ -697,35 +706,65 @@
 - (void)sendMessageBtn:(UIButton *)btn textToolBar:(EVTextLiveToolBar *)textToolBar
 {
     
-    NSString *chatViewText = self.textLiveToolBar.inputTextView.text;
+//    NSString *chatViewText = self.textLiveToolBar.inputTextView.text;
+//    
+//    NSString *from = [[EMClient sharedClient] currentUsername];
+//    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+//    NSString *messageType = @"nor";
+//   
+//    
+//    [dict setValue:messageType forKey:@"tp"];
+//    [dict setValue:[EVLoginInfo localObject].nickname forKey:@"nk"];
+//    if (self.rpName != nil && ![self.rpName isEqualToString:@""]) {
+//        if ([chatViewText rangeOfString:self.rpName].location != NSNotFound) {
+//            NSString *chatS = chatViewText;
+//            chatViewText = [chatViewText substringWithRange:NSMakeRange(self.rpName.length,chatS.length - self.rpName.length)];
+//            NSString *rct = [NSString stringWithFormat:@"%@%@",self.rpName,self.rpContent];
+//            [dict setObject:rct forKey:@"rct"];
+//            [dict setValue:@"rp" forKey:@"tp"];
+//        }
+//    }
+//    
+//    EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:chatViewText];
+//    
+//    self.rpName = nil;
+//    self.rpContent = nil;
+//    //生成Message
+//    
+////    [self touchHide];
+//    
+//    EMMessage *message = [[EMMessage alloc] initWithConversationID:_conversation.conversationId from:from to:_conversation.conversationId body:body ext:dict];
+//    message.chatType = EMChatTypeChatRoom;
+//    __weak typeof(self) weakself = self;
+//    [[EMClient sharedClient].chatManager sendMessage:message progress:^(int progress) {
+//    } completion:^(EMMessage *aMessage, EMError *aError) {
+//        if (!aError) {
+//            [weakself uploadHooviewDataExt:aMessage.ext message:aMessage imageType:@"txt" image:nil];
+//            [weakself _refreshAfterSentMessage:aMessage];
+//        }
+//        else {
+//            [weakself.liveImageTableView reloadData];
+//        }
+//    }];
+    
+    
+    
+    
+    //消息体
+    EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:textToolBar.inputTextView.text];
     
     NSString *from = [[EMClient sharedClient] currentUsername];
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    NSString *messageType = @"nor";
-   
-    
-    [dict setValue:messageType forKey:@"tp"];
-    [dict setValue:[EVLoginInfo localObject].nickname forKey:@"nk"];
-    if (self.rpName != nil && ![self.rpName isEqualToString:@""]) {
-        if ([chatViewText rangeOfString:self.rpName].location != NSNotFound) {
-            NSString *chatS = chatViewText;
-            chatViewText = [chatViewText substringWithRange:NSMakeRange(self.rpName.length,chatS.length - self.rpName.length)];
-            NSString *rct = [NSString stringWithFormat:@"%@%@",self.rpName,self.rpContent];
-            [dict setObject:rct forKey:@"rct"];
-            [dict setValue:@"rp" forKey:@"tp"];
-        }
-    }
-    
-    EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:chatViewText];
-    
-    self.rpName = nil;
-    self.rpContent = nil;
     //生成Message
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    //内容类型（st，置顶消息；hl，高亮消息；nor，普通消息）
+    [dict setValue:@"nor" forKey:@"tp"];
+    //发消息人名字 为自己
+    [dict setValue:[EVLoginInfo localObject].nickname forKey:@"nk"];
     
-//    [self touchHide];
-    
+    //环信
     EMMessage *message = [[EMMessage alloc] initWithConversationID:_conversation.conversationId from:from to:_conversation.conversationId body:body ext:dict];
     message.chatType = EMChatTypeChatRoom;
+    
     __weak typeof(self) weakself = self;
     [[EMClient sharedClient].chatManager sendMessage:message progress:^(int progress) {
     } completion:^(EMMessage *aMessage, EMError *aError) {
@@ -738,36 +777,6 @@
             [weakself.liveImageTableView reloadData];
         }
     }];
-    
-    
-    
-    
-//    //消息体
-//    EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:textToolBar.inputTextView.text];
-//    
-//    NSString *from = [[EMClient sharedClient] currentUsername];
-//    //生成Message
-//    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-//    //内容类型（st，置顶消息；hl，高亮消息；nor，普通消息）
-//    [dict setValue:@"nor" forKey:@"tp"];
-//    //发消息人名字 为自己
-//    [dict setValue:[EVLoginInfo localObject].nickname forKey:@"nk"];
-//    
-//    //环信
-//    EMMessage *message = [[EMMessage alloc] initWithConversationID:_conversation.conversationId from:from to:_conversation.conversationId body:body ext:dict];
-//    message.chatType = EMChatTypeChatRoom;
-//    
-//    __weak typeof(self) weakself = self;
-//    [[EMClient sharedClient].chatManager sendMessage:message progress:^(int progress) {
-//    } completion:^(EMMessage *aMessage, EMError *aError) {
-//        if (!aError) {
-//            [weakself uploadHooviewDataExt:aMessage.ext message:aMessage imageType:@"txt" image:nil];
-//            [weakself _refreshAfterSentMessage:aMessage];
-//        }
-//        else {
-//            [weakself.liveImageTableView reloadData];
-//        }
-//    }];
 }
 
 - (void)keyBoardShow:(NSNotification *)notification
@@ -1003,10 +1012,10 @@
 - (void)setWatchVideoInfo:(EVWatchVideoInfo *)watchVideoInfo
 {
     _watchVideoInfo = watchVideoInfo;
-    NSLog(@"self.vipCenterView%@",_vipCenterView);
-    NSLog(@"watchVideoInfo.signature:%@",watchVideoInfo.signature);
-    NSLog(@"watchVideoInfo.nickname:%@",watchVideoInfo.nickname);
-    NSLog(@"watchVideoInfo.tags:%@",watchVideoInfo.tags);
+//    NSLog(@"self.vipCenterView%@",_vipCenterView);
+//    NSLog(@"watchVideoInfo.signature:%@",watchVideoInfo.signature);
+//    NSLog(@"watchVideoInfo.nickname:%@",watchVideoInfo.nickname);
+//    NSLog(@"watchVideoInfo.tags:%@",watchVideoInfo.tags);
     self.vipCenterView.watchVideoInfo = watchVideoInfo;
      self.nNameLabel.text = watchVideoInfo.nickname;
     if ([watchVideoInfo.name isEqualToString:[EVLoginInfo localObject].name]) {
