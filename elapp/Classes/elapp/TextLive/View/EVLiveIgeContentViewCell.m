@@ -95,9 +95,9 @@
     self.contentLabel = contentLabel;
     contentLabel.textColor = [UIColor colorWithHexString:@"#AC4242"];
     contentLabel.font = [UIFont textFontB2];
-    contentLabel.backgroundColor = [UIColor brownColor];
     contentLabel.numberOfLines = 0;
-    contentLabel.lineBreakMode = NSLineBreakByCharWrapping;
+    contentLabel.preferredMaxLayoutWidth = (ScreenWidth -64);
+    contentLabel.lineBreakMode = NSLineBreakByWordWrapping;
     [contentLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:5];
     [contentLabel autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:8];
     self.clabelHig  = [contentLabel autoSetDimension:ALDimensionHeight toSize:0];
