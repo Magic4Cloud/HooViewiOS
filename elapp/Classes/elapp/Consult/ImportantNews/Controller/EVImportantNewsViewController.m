@@ -391,9 +391,11 @@
 - (void)loadNewsDataStart:(NSString *)start count:(NSString *)count showNoticeView:(BOOL)showView
 {
    
+    
     [self.baseToolManager GETNewsRequestStart:start count:count Success:^(NSDictionary *retinfo) {
        
-        NSLog(@"retinfo");
+        NSLog(@"retinfo:%@",retinfo);
+        NSLog(@"start:%@ *** count:%@",start,count);
         [self endRefreshing];
         self.start = retinfo[@"next"];
         if ([retinfo[@"start"] integerValue] == 0) {
@@ -411,8 +413,15 @@
               NSArray *eyesProgramArr = [EVHVEyesModel objectWithDictionaryArray:retinfo[@"huoyan"][@"channels"][@"Programs"]];
              [self.eyesProgramID addObjectsFromArray:eyesProgramArr];
 //             [self.iNewsTableview reloadData];
-             [self.iNewsTableview setFooterState:(eyesProgramArr.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
+            
+//             [self.iNewsTableview setFooterState:(eyesProgramArr.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
         }
+        
+        if (newsArray.count == 0) {
+            //没有更多数据
+            [self.iNewsTableview setFooterState:CCRefreshStateNoMoreData ];
+        }
+        
         NSString *keyid = retinfo[@"huoyan"][@"channels"];
         if (![keyid isKindOfClass:[NSNull class]]) {
             self.eyesID = retinfo[@"huoyan"][@"channels"][@"id"];

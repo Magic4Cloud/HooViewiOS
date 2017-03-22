@@ -10,6 +10,9 @@
 #import "EVWatchVideoInfo.h"
 #import "EVHVVipCenterView.h"
 
+/**
+ 个人主页
+ */
 @interface EVVipCenterViewController : UIViewController
 
 @property (nonatomic, strong) EVHVVipCenterView *vipCenterView;

@@ -48,9 +48,12 @@
 - (void)function:(NSTimer *)time
 {
     self.isDeleteObject = NO;
+    
     if (self.dataArray.count > 0) {
         NSMutableArray *array = [NSMutableArray arrayWithArray:self.dataArray];
+        
         for (EVStartGoodModel *model in array) {
+            
             if ((self.timeLong - model.timeLong) > 4) {
                 [self.dataArray removeObject:model];
                 self.isDeleteObject = YES;
@@ -110,6 +113,7 @@
         [self.colorArray addObject:array[0]];
     }
     [self.dataArray insertObject:startGoodModel atIndex:0];
+    
     [self.giftTableView reloadData];
 }
 
@@ -150,7 +154,6 @@
 {
     if (!_newColorArray) {
         _newColorArray = [NSMutableArray array];
-        
     }
     return _newColorArray;
 }

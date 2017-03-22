@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "EVStartGoodModel.h"
 
+/**
+ 弹出小红花
+ */
 @interface EVHVGiftAniView : UIView
 
 
