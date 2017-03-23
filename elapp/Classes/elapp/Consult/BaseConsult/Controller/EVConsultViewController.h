@@ -8,6 +8,9 @@
 
 #import "EVViewController.h"
 
+/**
+ 首页   资讯
+ */
 @interface EVConsultViewController : EVViewController
 
 @end

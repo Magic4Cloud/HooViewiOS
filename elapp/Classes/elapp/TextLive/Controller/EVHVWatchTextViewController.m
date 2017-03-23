@@ -1009,6 +1009,7 @@
     EVLog(@"------------------- viewDidAppear");
 //    [self.liveImageTableView updateWatchCount:self.liveVideoInfo.viewcount];
     EMError *error = nil;
+
     self.chatroom = [[EMClient sharedClient].roomManager joinChatroom:self.liveVideoInfo.liveID error:&error];
     
     self.liveVideoInfo.viewcount = self.chatroom.membersCount + 200;
@@ -1118,7 +1119,7 @@
     EMError *error;
     EMChatroom *chatroom = [[EMClient sharedClient].roomManager leaveChatroom:_liveVideoInfo.liveID error:&error];
     EVLog(@"chatroom-------  %@ ---------  %d",chatroom,error.code);
-    EVLog(@"dealloc  -- EVHVWatchTextViewController");
+    EVLog(@"_liveVideoInfo.liveID:%@",_liveVideoInfo.liveID);
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

@@ -13,8 +13,8 @@
 #define EVURL_HTTPS_RELEASE                 @"https://appgw.hooview.com/easyvaas/appgw"
 #define EVURL_STATTE_RELEASE                @"release"
 
-#define EVURL_DEV                           @"http://appgwdev.hooview.com/appgw"
-#define EVURL_HTTPS_DEV                     @"http://appgwdev.hooview.com/appgw"
+#define EVURL_DEV                           @"http://appgwdev.hooview.com/easyvaas/appgw"
+#define EVURL_HTTPS_DEV                     @"http://appgwdev.hooview.com/easyvaas/appgw"
 #define EVURL_STATTE_DEV                    @"dev"
 /////////////////////////////////////////////////////////////////////////////////////
 

@@ -742,7 +742,7 @@
 {
     [[EMClient sharedClient].chatManager removeDelegate:self];
     EMError *Error;
-    [[EMClient sharedClient].roomManager leaveChatroom:_textLiveModel.streamid error:&Error];
+//    [[EMClient sharedClient].roomManager leaveChatroom:_textLiveModel.streamid error:&Error];
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -752,8 +752,9 @@
     
     EMError *error = nil;
     //加入聊天室
-    self.chatRoom = [[EMClient sharedClient].roomManager joinChatroom:_textLiveModel.streamid error:&error];
+    _chatRoom = [[EMClient sharedClient].roomManager joinChatroom:_textLiveModel.streamid error:&error];
     EVLog(@"chatroom-------  %@ ---------  %ld ------ ",self.chatRoom,error.code);
+    NSLog(@"self.chatRoom.membersCount:%ld",(long)self.chatRoom.membersCount);
     [self.liveImageTableView updateWatchCount:self.chatRoom.membersCount];
     //TODO:注册环信消息回调
 
@@ -761,6 +762,7 @@
     [[EMClient sharedClient].roomManager addDelegate:self];
    
     _conversation = [[EMClient sharedClient].chatManager getConversation:textLiveModel.streamid type:EMConversationTypeChatRoom createIfNotExist:YES];
+    
     
     NSArray *conversations = [[EMClient sharedClient].chatManager getAllConversations];
     
@@ -959,7 +961,7 @@
     [EVNotificationCenter removeObserver:self];
     [[EMClient sharedClient].chatManager removeDelegate:self];
     EMError *Error;
-    [[EMClient sharedClient].roomManager leaveChatroom:_textLiveModel.streamid error:&Error];
+//    [[EMClient sharedClient].roomManager leaveChatroom:_textLiveModel.streamid error:&Error];
 }
 
 

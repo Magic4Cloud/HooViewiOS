@@ -242,7 +242,7 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 
     NSMutableArray *items = [NSMutableArray array];
     
-    // 咨询
+    // 资讯
     EVConsultViewController *firstVC = [[EVConsultViewController alloc] init];
     EVNavigationController *firstNav = [EVNavigationController navigationWithWrapController:firstVC];
     EVHomeTabBarItem *firstItem = [EVHomeTabBarItem homeTabBarItemWithController:firstNav];

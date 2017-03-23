@@ -125,7 +125,7 @@
     
             _watchLabel = [[UILabel alloc] init];
             _watchLabel.frame = CGRectMake(0, 4, ScreenWidth - 12, 22);
-            _watchLabel.text = @"人数";
+            _watchLabel.text = @"200人气";
             _watchLabel.textAlignment = NSTextAlignmentRight;
             _watchLabel.font = [UIFont systemFontOfSize:16];
             _watchLabel.textColor = [UIColor evTextColorH2];
