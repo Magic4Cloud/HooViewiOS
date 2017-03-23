@@ -224,8 +224,12 @@ typedef NS_ENUM(NSInteger, EVLiveState) {
 
 
 
+////创建图文直播间
+//- (void)GETHistoryTextLiveStreamid:(NSString *)streamid  count:(NSString *)count stime:(NSString *)stime success:(void (^) (NSDictionary *retinfo))success error:(void (^)(NSError *error))error;
 //创建图文直播间
-- (void)GETHistoryTextLiveStreamid:(NSString *)streamid  count:(NSString *)count stime:(NSString *)stime success:(void (^) (NSDictionary *retinfo))success error:(void (^)(NSError *error))error;
+- (void)GETHistoryTextLiveStreamid:(NSString *)streamid  count:(NSString *)count start:(NSString *)start stime:(NSString *)stime success:(void (^) (NSDictionary *retinfo))success error:(void (^)(NSError *error))error;
+
+
 - (void)POSTChatTextLiveID:(NSString *)streamid from:(NSString *)from nk:(NSString *)nk msgid:(NSString *)msgid msgtype:(NSString *)msgtype msg:(NSString *)msg tp:(NSString *)tp rct:(NSString *)rct rnk:(NSString *)rnk timestamp:(NSString *)timestamp img:(UIImage *)img success:(void (^) (NSDictionary *retinfo))success error:(void (^)(NSError *error))error;
 
 //直播间是否存在

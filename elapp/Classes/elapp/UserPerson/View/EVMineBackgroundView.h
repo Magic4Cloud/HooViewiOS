@@ -20,6 +20,7 @@
 
 - (void)didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
 
+
 @end
 
 @interface EVMineBackgroundView : UIView
@@ -38,5 +39,7 @@
 @property (nonatomic, weak) id <EVMineBackgroundViewDelegate >delegate;
 
 @property (nonatomic, strong) NSMutableArray *dataArray;
+
+- (void)updateTableViewDatasource;
 
 @end

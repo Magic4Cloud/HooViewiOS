@@ -82,6 +82,7 @@
 @property (nonatomic, strong) NSLayoutConstraint *toolBarTextViewHig;
 
 @property (nonatomic, assign) NSInteger chooseIndex;
+@property (nonatomic, assign) NSInteger cellStart;
 
 @property (nonatomic, weak) EVHVTLWatchBtnView *hvtWatchBtnView;
 
@@ -333,6 +334,9 @@
     [self loadMyAssetsData];
     
     [self loadUserData];
+    self.cellStart = 0;
+    [self loadHistoryData];
+
 }
 
 #pragma mark - 聊天框开始编辑 判断是否登陆
@@ -588,19 +592,23 @@
 {
     WEAK(self)
     self.isRefresh = YES;
-    [self.baseToolManager GETHistoryTextLiveStreamid:self.liveVideoInfo.liveID  count:@"20" stime:self.time success:^(NSDictionary *retinfo) {
-        EVLog(@"successsjhdahj  %@",retinfo);
+    NSLog(@"%ld",self.cellStart);
+    [self.baseToolManager GETHistoryTextLiveStreamid:self.liveVideoInfo.liveID  count:@"20" start:[NSString stringWithFormat:@"%ld",self.cellStart] stime:self.time success:^(NSDictionary *retinfo) {
+        NSLog(@"successsjhdahj  %@",retinfo);
         [weakself.liveImageTableView endFooterRefreshing];
         [weakself.textLiveChatTableView endHeaderRefreshing];
         if ([retinfo[@"reterr"] isEqualToString:@"OK"]) {
             NSArray *msgsAry = retinfo[@"retinfo"][@"msgs"];
             [weakself.historyArray removeAllObjects];
             [weakself.historyChatArray removeAllObjects];
+            NSLog(@"---------%ld",self.historyArray.count);
+            NSLog(@"=====  %@",retinfo[@"retinfo"][@"start"]);
             if (weakself.isRefresh == YES || [retinfo[@"retinfo"][@"start"] integerValue] != 0) {
                 for (NSDictionary *msgDict in msgsAry) {
                      weakself.time = [NSString stringWithFormat:@"%@",msgDict[@"timestamp"]];
                     if ([msgDict[@"from"] isEqualToString:self.watchVideoInfo.name]) {
                         EVEaseMessageModel *messageModel = [[EVEaseMessageModel alloc] initWithHistoryMessage:msgDict];
+                        NSLog(@"messag = %@",messageModel.text);
                         [weakself.historyArray addObject:messageModel];
                     }else {
                       
@@ -612,9 +620,14 @@
                 [weakself.liveImageTableView updateHistoryArray:self.historyArray];
                 [weakself.textLiveChatTableView updateHistoryArray:self.historyChatArray];
             }
+            if (msgsAry.count >= kCountNum) {
+                self.cellStart += 20;
+            }
              [weakself.liveImageTableView setFooterState:(msgsAry.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
             weakself.isRefresh = NO;
         }
+        NSLog(@"his = %@",self.historyArray);
+        NSLog(@"hishis = %@",self.historyChatArray);
     } error:^(NSError *error) {
         weakself.isRefresh = NO;
         [weakself.liveImageTableView endFooterRefreshing];
