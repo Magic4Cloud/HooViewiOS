@@ -63,13 +63,16 @@
 
 - (void)homeScrollNavgationBarDidSeleceIndex:(NSInteger)index
 {
-    [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width * index, 0) animated:YES];
+    
     if (index==1) {
+        //如果点击自选  没有登录则弹出登录界面并不切换界面
         if ([[EVLoginInfo localObject].sessionid isEqualToString:@""] || [EVLoginInfo localObject].sessionid == nil) {
             UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
             [self presentViewController:navighaVC animated:YES completion:nil];
+            return;
         }
     }
+    [self.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width * index, 0) animated:YES];
 }
 
 - (NSInteger)defaultSelectedIndex

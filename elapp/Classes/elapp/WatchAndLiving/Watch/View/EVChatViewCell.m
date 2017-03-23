@@ -20,6 +20,9 @@
 
 @property (nonatomic, weak) UILabel *tipLabel;
 
+/**
+ 回复label
+ */
 @property (nonatomic, weak) UILabel *rpcLabel;
 
 @property (nonatomic, strong) NSLayoutConstraint *rpcLabelHig;
@@ -119,7 +122,7 @@
     [self.chatContentBtn setTitle:message.contentStr forState:(UIControlStateNormal)];
     self.nameLabel.frame = messageCellModel.nameF;
     self.chatContentBtn.frame = messageCellModel.contentF;
-     self.nameLabel.text = message.nameStr;
+    self.nameLabel.text = message.nameStr;
     if (message.messageFrom == EVMessageFromSystem) {
         self.tipLabel.frame = messageCellModel.tipLabelF;
         self.tipLabel.text = message.contentStr;
@@ -151,6 +154,10 @@
 }
 
 
+/**
+ 聊天cell 展示
+
+ */
 - (void)setEaseMessageModel:(EVEaseMessageModel *)easeMessageModel
 {
     _easeMessageModel = easeMessageModel;

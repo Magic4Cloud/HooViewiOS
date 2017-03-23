@@ -404,7 +404,7 @@
             [self.eyesProgramID removeAllObjects];
         }
         if ([retinfo[@"start"] integerValue] == 0 && showView) {
-             [self successLoadView];
+//             [self successLoadView];
         }
         NSArray *newsArray = [EVBaseNewsModel objectWithDictionaryArray:retinfo[@"home_news"]];
         NSArray *eyesArray = [EVBaseNewsModel objectWithDictionaryArray:retinfo[@"huoyan"][@"news"]];

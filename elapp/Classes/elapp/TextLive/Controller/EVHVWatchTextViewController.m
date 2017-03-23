@@ -232,8 +232,6 @@
     [nShareBtn autoSetDimensionsToSize:CGSizeMake(54, 44)];
     [_nShareBtn addTarget:self action:@selector(shareClick:) forControlEvents:(UIControlEventTouchUpInside)];
     
-    
-    
     [mainBackView addSubview:self.liveImageTableView];
     WEAK(self)
     _liveImageTableView.scrollVBlock = ^ (UIScrollView *scrollView) {
@@ -1009,10 +1007,12 @@
 {
     [super viewDidAppear:animated];
     EVLog(@"------------------- viewDidAppear");
-    [self.liveImageTableView updateWatchCount:_liveVideoInfo.viewcount];
+//    [self.liveImageTableView updateWatchCount:self.liveVideoInfo.viewcount];
     EMError *error = nil;
-    self.chatroom = [[EMClient sharedClient].roomManager joinChatroom:_liveVideoInfo.liveID error:&error];
-    [self.liveImageTableView updateWatchCount:self.chatroom.membersCount];
+    self.chatroom = [[EMClient sharedClient].roomManager joinChatroom:self.liveVideoInfo.liveID error:&error];
+    
+    self.liveVideoInfo.viewcount = self.chatroom.membersCount + 200;
+    [self.liveImageTableView updateWatchCount:self.liveVideoInfo.viewcount];
     //注册消息回调
     [[EMClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
     [[EMClient sharedClient].roomManager addDelegate:self];
@@ -1084,6 +1084,7 @@
                        user:(NSString *)aUsername
 {
     self.liveVideoInfo.viewcount++;
+//    NSLog(@"self.liveVideoInfo.viewcount:%@",self.liveVideoInfo.viewcount);
     [self.liveImageTableView updateWatchCount:self.liveVideoInfo.viewcount];
 }
 - (void)userDidLeaveChatroom:(EMChatroom *)aChatroom

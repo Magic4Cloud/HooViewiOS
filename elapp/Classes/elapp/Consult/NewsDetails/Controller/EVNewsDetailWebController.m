@@ -381,8 +381,13 @@
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
-    [EVProgressHUD showError:@"网页加载失败"];
-    self.nullDataView.hidden = NO;
+    //如果在一个请求没加载完毕就加载下一个请求  会走这个方法  加上判断  如果不是请求取消导致的error  才显示加载失败界面
+    NSLog(@"error = %@",error);
+    if ([error code] != NSURLErrorCancelled) {
+        [EVProgressHUD showError:@"网页加载失败"];
+        self.nullDataView.hidden = NO;
+    }
+    
 }
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {

@@ -47,7 +47,7 @@
     backScrollView.showsHorizontalScrollIndicator = NO;
     backScrollView.contentSize = CGSizeMake(ScreenWidth * 4, EVContentHeight);
     
-    
+    //沪深
     EVStockBaseViewController *shStockBaseVC = [[EVStockBaseViewController alloc] init];
     shStockBaseVC.view.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
     [self addChildViewController:shStockBaseVC];
@@ -55,6 +55,7 @@
     self.shStockBaseVC = shStockBaseVC;
     self.shStockBaseVC.marketType = @"cn";
     
+    //港股
     EVStockBaseViewController *hkStockBaseVC = [[EVStockBaseViewController alloc] init];
     hkStockBaseVC.view.frame = CGRectMake(ScreenWidth, 0, ScreenWidth, ScreenHeight);
     [self addChildViewController:hkStockBaseVC];
@@ -66,11 +67,12 @@
 //    [backScrollView addSubview:hkNotOpenView];
     
     
-    
+    //美股  暂未开通
     EVNotOpenView *usNotOpenView = [[EVNotOpenView alloc] init];
     usNotOpenView.frame = CGRectMake(ScreenWidth * 2, 0, ScreenWidth, ScreenHeight);
     [backScrollView addSubview:usNotOpenView];
     
+    //全球
     EVGlobalViewController *globalVC = [[EVGlobalViewController alloc] init];
     globalVC.view.frame = CGRectMake(ScreenWidth * 3, 0, ScreenWidth, ScreenHeight);
     [backScrollView addSubview:globalVC.view];

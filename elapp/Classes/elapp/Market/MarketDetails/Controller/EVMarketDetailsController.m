@@ -164,7 +164,7 @@
         
     }];
     
-     self.window = [[UIWindow alloc] init];
+    self.window = [[UIWindow alloc] init];
     self.window.frame = [UIScreen mainScreen].bounds;
     self.window.windowLevel = UIWindowLevelAlert;
     self.window.backgroundColor = [UIColor clearColor];

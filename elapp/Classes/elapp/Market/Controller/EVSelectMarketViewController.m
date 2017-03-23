@@ -65,7 +65,7 @@
     backScrollView.showsHorizontalScrollIndicator = NO;
     backScrollView.contentSize = CGSizeMake(ScreenWidth * 4, EVContentHeight);
     
-    
+    //全部
     EVSelfStockViewController *allStockVC = [[EVSelfStockViewController alloc] init];
     [self addChildViewController:allStockVC];
     allStockVC.view.frame = CGRectMake(0, 10, ScreenWidth, EVContentHeight -10);
@@ -73,6 +73,7 @@
     self.allStockVC = allStockVC;
     self.allStockVC.stockType = EVSelfStockTypeAll;
     
+    //沪深
     EVSelfStockViewController *SHStockVC = [[EVSelfStockViewController alloc] init];
     [self addChildViewController:SHStockVC];
     SHStockVC.view.frame = CGRectMake(ScreenWidth , 10, ScreenWidth, EVContentHeight -10);
@@ -80,6 +81,7 @@
     self.SHStockVC = SHStockVC;
     self.SHStockVC.stockType = EVSelfStockTypeSZSH;
     
+    //港股
     EVSelfStockViewController *HKStockVC = [[EVSelfStockViewController alloc] init];
     [self addChildViewController:HKStockVC];
     HKStockVC.view.frame = CGRectMake(ScreenWidth * 2, 10, ScreenWidth, EVContentHeight -10);
@@ -87,7 +89,7 @@
     self.HKStockVC = HKStockVC;
     self.HKStockVC.stockType = EVSelfStockTypeHK;
     
-    
+    //美股
     EVSelfStockViewController *USStockVC = [[EVSelfStockViewController alloc] init];
     [self addChildViewController:USStockVC];
     USStockVC.view.frame = CGRectMake(ScreenWidth * 3, 10, ScreenWidth, EVContentHeight -10);

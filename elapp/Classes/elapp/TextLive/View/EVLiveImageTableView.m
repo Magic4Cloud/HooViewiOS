@@ -13,7 +13,7 @@
 
 @interface EVLiveImageTableView ()<UITableViewDelegate,UITableViewDataSource>
 
-@property (nonatomic, weak) UILabel *watchLabel;
+@property (nonatomic, strong) UILabel *watchLabel;
 
 @end
 
@@ -115,17 +115,24 @@
     dateLabel.font = [UIFont systemFontOfSize:16];
     dateLabel.textColor = [UIColor evTextColorH2];
     
-    UILabel *watchLabel = [[UILabel alloc] init];
-    [contentView addSubview:watchLabel];
-    watchLabel.frame = CGRectMake(0, 4, ScreenWidth - 12, 22);
-    watchLabel.text = @"人数";
-    watchLabel.textAlignment = NSTextAlignmentRight;
-    watchLabel.font = [UIFont systemFontOfSize:16];
-    watchLabel.textColor = [UIColor evTextColorH2];
-    self.watchLabel = watchLabel;
+    [contentView addSubview:self.watchLabel];
     return backView;
 }
 
+- (UILabel * )watchLabel
+{
+    if (!_watchLabel) {
+    
+            _watchLabel = [[UILabel alloc] init];
+            _watchLabel.frame = CGRectMake(0, 4, ScreenWidth - 12, 22);
+            _watchLabel.text = @"人数";
+            _watchLabel.textAlignment = NSTextAlignmentRight;
+            _watchLabel.font = [UIFont systemFontOfSize:16];
+            _watchLabel.textColor = [UIColor evTextColorH2];
+    
+    }
+    return _watchLabel;
+}
 - (NSString *)stringWithData
 {
     NSDate *currentDate = [NSDate date];//获取当前时间，日期
@@ -188,6 +195,7 @@
 - (void)updateWatchCount:(NSInteger)count
 {
     count = count < 0 ? 0 : count;
+    NSLog(@"count = %ld",count);
     self.watchLabel.text = [NSString stringWithFormat:@"%@人气",[NSString numFormatNumber:count]];
     
 }

@@ -42,6 +42,7 @@
     [self.navigationController setNavigationBarHidden:YES];
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self addUpView];
+    
         
 }
 - (void)addUpView

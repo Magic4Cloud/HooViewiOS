@@ -73,7 +73,7 @@
         [titleAry addObject:model.tagname];
     }
     [self labelAddTextDataArray:titleAry];
-    NSString *followCount = [NSString numFormatNumber:watchVideoInfo.follow_count];
+    NSString *followCount = [NSString numFormatNumber:watchVideoInfo.fans_count];
     self.watchCountLabel.text = [NSString stringWithFormat:@"%@人关注",followCount];
 }
 
