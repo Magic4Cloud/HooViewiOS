@@ -341,6 +341,7 @@
 - (void)updateUrlStr:(NSString *)urlStr
 {
     NSURL *url = [NSURL URLWithString:urlStr];
+    
     // 根据URL创建请求
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     // WKWebView加载请求
@@ -397,7 +398,7 @@
 }
 
 - (void)webView:(WKWebView *)webView didReceiveServerRedirectForProvisionalNavigation:(WKNavigation *)navigation {
-    EVLog(@"跳转的url------  %@",webView.URL);
+    NSLog(@"跳转的url------  %@",webView.URL);
     NSString *string = [NSString stringWithFormat:@"%@",webView.URL];
     [EVProgressHUD showSuccess:string];
 }
