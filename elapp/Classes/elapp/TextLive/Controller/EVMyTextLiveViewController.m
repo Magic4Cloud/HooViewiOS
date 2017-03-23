@@ -197,7 +197,7 @@
     liveImageTableView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight - 157);
     [mainScrollView addSubview:liveImageTableView];
     self.liveImageTableView = liveImageTableView;
-    [liveImageTableView updateWatchCount:self.chatRoom.membersCount];
+//    [liveImageTableView updateWatchCount:self.chatRoom.membersCount];
     [liveImageTableView addRefreshFooterWithRefreshingBlock:^{
         [weakself loadHistoryData];
     }];
@@ -755,7 +755,8 @@
     _chatRoom = [[EMClient sharedClient].roomManager joinChatroom:_textLiveModel.streamid error:&error];
     EVLog(@"chatroom-------  %@ ---------  %ld ------ ",self.chatRoom,error.code);
     NSLog(@"self.chatRoom.membersCount:%ld",(long)self.chatRoom.membersCount);
-    [self.liveImageTableView updateWatchCount:self.chatRoom.membersCount];
+    self.textLiveModel.viewcount = self.chatRoom.membersCount + 200;
+    [self.liveImageTableView updateWatchCount:self.textLiveModel.viewcount];
     //TODO:注册环信消息回调
 
     [[EMClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
