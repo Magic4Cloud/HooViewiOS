@@ -532,7 +532,8 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     NSMutableArray *bezelConstraints = [NSMutableArray array];
     NSDictionary *metrics = @{@"margin": @(margin)};
 
-    NSMutableArray *subviews = [NSMutableArray arrayWithObjects:self.topSpacer, self.label, self.detailsLabel, self.button, self.bottomSpacer, nil];
+//    NSMutableArray *subviews = [NSMutableArray arrayWithObjects:self.topSpacer, self.label, self.detailsLabel, self.button, self.bottomSpacer, nil];
+    NSMutableArray *subviews = [NSMutableArray arrayWithObjects:self.topSpacer, self.label, self.detailsLabel, self.bottomSpacer, nil];
     if (self.indicator) [subviews insertObject:self.indicator atIndex:1];
 
     // Remove existing constraints
@@ -784,7 +785,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 - (void)updateForCurrentOrientationAnimated:(BOOL)animated {
     // Stay in sync with the superview in any case
     if (self.superview) {
-        self.frame = self.superview.bounds;
+        self.bounds = self.superview.bounds;
     }
 
     // Not needed on iOS 8+, compile out when the deployment target allows,
@@ -849,6 +850,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 - (CGSize)intrinsicContentSize {
     return CGSizeMake(37.f, 37.f);
+//    return CGSizeMake(0.f, 0.f);
 }
 
 #pragma mark - Properties
@@ -1164,7 +1166,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
             [self addSubview:effectView];
             effectView.frame = self.bounds;
             effectView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-//            self.backgroundColor = [UIColor clearColor];
             self.backgroundColor = self.color;
             self.layer.allowsGroupOpacity = NO;
             self.effectView = effectView;

@@ -7,13 +7,13 @@
 //
 
 #import "MBProgressHUD.h"
-
+#import "EVProgressHUD.h"
 @implementation EVProgressHUD
 
 #pragma mark 显示信息
 + (void)show:(NSString *)text icon:(NSString *)icon view:(UIView *)view
 {
-    if (view == nil) view = [[UIApplication sharedApplication].windows lastObject];
+    if (view == nil) view = [[UIApplication sharedApplication] keyWindow];
     // 快速显示一个提示信息
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
     hud.label.text = text;
@@ -54,7 +54,7 @@
 
 #pragma mark 显示一些信息
 + (void)showMessage:(NSString *)message toView:(UIView *)view {
-    if (view == nil) view = [[UIApplication sharedApplication].windows lastObject];
+    if (view == nil) view = [[UIApplication sharedApplication] keyWindow];
     // 快速显示一个提示信息
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
     [self configStyleForHUD:hud];
@@ -68,7 +68,7 @@
 
 + (void)showLoadingAnimationMessage:(NSString *)message toView:(UIView *)view
 {
-    if (view == nil) view = [[UIApplication sharedApplication].windows lastObject];
+    if (view == nil) view = [[UIApplication sharedApplication] keyWindow];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
     // Set the custom view mode to show any view.
     hud.mode = MBProgressHUDModeCustomView;
@@ -129,7 +129,7 @@
 + (void)showProgressMumWithClearColorToView:(UIView *)view
                                     message:(NSString *)message
 {
-    if (view == nil) view = [[UIApplication sharedApplication].windows lastObject];
+    if (view == nil) view = [[UIApplication sharedApplication] keyWindow];
     // 快速显示一个提示信息
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
     hud.label.text = message;

@@ -1010,6 +1010,8 @@
     [self.liveImageTableView updateWatchCount:_liveVideoInfo.viewcount];
     EMError *error = nil;
     self.chatroom = [[EMClient sharedClient].roomManager joinChatroom:_liveVideoInfo.liveID error:&error];
+    
+    EVLog(@"进入聊天室：_liveVideoInfo.liveID:%@",_liveVideoInfo.liveID);
     [self.liveImageTableView updateWatchCount:self.chatroom.membersCount];
     //注册消息回调
     [[EMClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
@@ -1115,7 +1117,7 @@
     EMError *error;
     EMChatroom *chatroom = [[EMClient sharedClient].roomManager leaveChatroom:_liveVideoInfo.liveID error:&error];
     EVLog(@"chatroom-------  %@ ---------  %d",chatroom,error.code);
-    EVLog(@"dealloc  -- EVHVWatchTextViewController");
+    EVLog(@"_liveVideoInfo.liveID:%@",_liveVideoInfo.liveID);
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
