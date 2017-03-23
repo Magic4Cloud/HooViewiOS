@@ -10,6 +10,9 @@
 
 typedef void(^commitBlock)();
 
+/**
+ 编辑自选
+ */
 @interface EVEditSelfStockViewController : EVViewController
 
 @property (nonatomic, copy)commitBlock commitBlock;

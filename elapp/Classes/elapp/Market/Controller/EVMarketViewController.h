@@ -8,6 +8,9 @@
 
 #import "EVHomeScrollViewController.h"
 
+/**
+ 行情
+ */
 @interface EVMarketViewController : EVHomeScrollViewController
 
 @end

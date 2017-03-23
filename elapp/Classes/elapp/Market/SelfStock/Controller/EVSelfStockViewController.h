@@ -23,6 +23,9 @@ typedef NS_ENUM(NSUInteger, EVSelfStockType) {
 
 @end
 
+/**
+ 自选子页面
+ */
 @interface EVSelfStockViewController : EVViewController
 
 @property (nonatomic, weak) id<EVSelfStockVCDelegate> Sdelegate;

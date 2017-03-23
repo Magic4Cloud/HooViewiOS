@@ -8,6 +8,9 @@
 
 #import "EVHomeCommonBaseViewController.h"
 
+/**
+ 市场
+ */
 @interface EVSortMarketViewController : EVHomeCommonBaseViewController
 
 @end

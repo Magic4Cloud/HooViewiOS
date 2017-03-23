@@ -179,6 +179,9 @@
     return self;
 }
 
+/**
+ 聊天记录 model
+ */
 - (instancetype)initWithHistoryChatMessage:(NSDictionary *)message
 {
     self = [super init];
@@ -192,7 +195,8 @@
             self.hType = bodies[@"type"];
             self.text = bodies[@"msg"];
         }
-        if ([self.hType isEqualToString:@"txt"]) {
+        if ([self.hType isEqualToString:@"txt"])
+        {
             NSDictionary *dict = message[@"payload"];
             [self updateMessageExtDict:dict[@"ext"]];
             CGFloat nameX = ChatMargin;
@@ -209,7 +213,7 @@
             CGFloat contentX = ChatMargin + MIN(nameSize.width+5, 100);
             self.rpcHig = ceil(rpContetSize.height);
             CGFloat maxWid = MAX(rpContetSize.width, contentSize.width);
-             CGFloat minWid = MAX(maxWid, 36);
+            CGFloat minWid = MAX(maxWid, 36);
             if (_isSender) {
                 contentX = ScreenWidth - nameSize.width - minWid - 20;
             }
@@ -221,8 +225,9 @@
             CGFloat rpH =   self.isReply ? (rpContetSize.height + 10) : 0;
             _contentRect = CGRectMake(contentX, 0, minWid, ceil(contentSize.height) + rpH + 10 + 40);
             _chatCellHight =  MAX(CGRectGetMaxY(_contentRect), 22) + 10;
-            
-        }else {
+        }
+        else
+        {
             NSDictionary *bodies = payloadAry[0];
             [UIImage gp_imageWithURlString:bodies[@"url"] comoleteOrLoadFromCache:^(UIImage *image, BOOL loadFromLocal) {
                 self.image = image;
