@@ -231,8 +231,6 @@
     [nShareBtn autoSetDimensionsToSize:CGSizeMake(54, 44)];
     [_nShareBtn addTarget:self action:@selector(shareClick:) forControlEvents:(UIControlEventTouchUpInside)];
     
-    
-    
     [mainBackView addSubview:self.liveImageTableView];
     WEAK(self)
     _liveImageTableView.scrollVBlock = ^ (UIScrollView *scrollView) {
