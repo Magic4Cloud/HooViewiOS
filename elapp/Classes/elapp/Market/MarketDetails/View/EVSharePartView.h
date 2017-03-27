@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "EVWebViewShareView.h"
 
+/**
+ 分享
+ */
 @interface EVSharePartView : UIView
 
 /** 分享模块的容器view*/

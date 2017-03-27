@@ -29,6 +29,9 @@ typedef NS_ENUM(NSInteger, EVEaseMessageTypeState) {
 
 @property (nonatomic, copy) NSString *fromName;
 
+/**
+ 置顶   高亮  普通
+ */
 @property (nonatomic, assign) EVEaseMessageTypeState state;
 /** @brief 消息对象 */
 @property (strong, nonatomic, readonly) EMMessage *message;

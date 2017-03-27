@@ -21,7 +21,7 @@
     NSDictionary *attributes = @{ NSFontAttributeName : [UIFont systemFontOfSize:16.f]};
   
     CGSize nameSize = [_message.nameStr boundingRectWithSize:CGSizeMake(ScreenWidth - nameSize.width - 50, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin  attributes:attributes context:nil].size;
-      CGSize contentSize = [_message.contentStr boundingRectWithSize:CGSizeMake(ScreenWidth - nameSize.width - 50, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading  attributes:attributes context:nil].size;
+    CGSize contentSize = [_message.contentStr boundingRectWithSize:CGSizeMake(ScreenWidth - nameSize.width - 50, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading  attributes:attributes context:nil].size;
     CGFloat contentX = ChatMargin + nameSize.width + 15;
     
     

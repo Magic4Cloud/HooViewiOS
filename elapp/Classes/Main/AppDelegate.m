@@ -41,6 +41,7 @@
 
 #import "EVConsultGuideView.h"
 
+#import "EVStartPageViewController.h"
 
 NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 
@@ -51,6 +52,7 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 @property (nonatomic,strong) EVTimerTool *timerTool;
 @property (nonatomic, strong)EVConsultGuideView *guideView;
 
+@property (nonatomic, strong)EVStartPageViewController * startVc;
 @end
 
 @implementation AppDelegate
@@ -61,12 +63,16 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    
     [[EVAppSetting shareInstance] createCacheAppFolder];
     application.applicationIconBadgeNumber = 0;
     UIWindow *win = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     win.backgroundColor = [UIColor whiteColor];
     self.window = win;
     [win makeKeyAndVisible];
+    
+    
     
     [EVBugly registerBugly];
     
@@ -96,7 +102,16 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     return YES;
 }
 
-
+/**
+ 加载启动页
+ */
+- (void)loadStartPage
+{
+    _startVc = [[EVStartPageViewController alloc] init];
+    _startVc.view.frame = [UIScreen mainScreen].bounds;
+    [_homeVC.view addSubview:_startVc.view];
+    
+}
 - (BOOL)isFirstLauchApp {
     return [[NSUserDefaults standardUserDefaults] boolForKey:kIsFirstLauchApp];
 }
@@ -302,6 +317,8 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
             [self.guideView removeFromSuperview];
         };
     }
+    
+    [self loadStartPage];
 }
 
 - (void)application:(UIApplication *)application

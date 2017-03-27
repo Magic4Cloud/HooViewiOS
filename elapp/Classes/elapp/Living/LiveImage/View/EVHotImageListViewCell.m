@@ -35,21 +35,22 @@
     _oneTagLabel.clipsToBounds = YES;
     _oneTagLabel.backgroundColor = [UIColor colorWithHexString:@"#f7f7f7"];
     _oneTagLabel.textColor = [UIColor colorWithHexString:@"#4281AD"];
-    _oneTagLabel.font = [UIFont systemFontOfSize:14.f];
+    _oneTagLabel.font = [UIFont systemFontOfSize:ScreenWidth == 320?12:14];
+    
     _oneTagLabel.textAlignment = NSTextAlignmentCenter;
     
     _twoTagLabel.layer.cornerRadius = 4;
     _twoTagLabel.clipsToBounds = YES;
     _twoTagLabel.backgroundColor = [UIColor colorWithHexString:@"#f7f7f7"];
     _twoTagLabel.textColor = [UIColor colorWithHexString:@"#4281AD"];
-    _twoTagLabel.font = [UIFont systemFontOfSize:14.f];
+    _twoTagLabel.font = [UIFont systemFontOfSize:ScreenWidth == 320?12:14];
     _twoTagLabel.textAlignment = NSTextAlignmentCenter;
     
     _threeTagLabel.layer.cornerRadius = 4;
     _threeTagLabel.clipsToBounds = YES;
     _threeTagLabel.backgroundColor = [UIColor colorWithHexString:@"#f7f7f7"];
     _threeTagLabel.textColor = [UIColor colorWithHexString:@"#4281AD"];
-    _threeTagLabel.font = [UIFont systemFontOfSize:14.f];
+    _threeTagLabel.font = [UIFont systemFontOfSize:ScreenWidth == 320?12:14];
     _threeTagLabel.textAlignment = NSTextAlignmentCenter;
     // Initialization code
 }

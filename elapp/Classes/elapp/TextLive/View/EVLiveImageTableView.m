@@ -46,14 +46,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    if (indexPath.section == 0) {
-//        EVLiveIgeContentViewCell *Cell = [tableView dequeueReusableCellWithIdentifier:@"chatCell"];
-//        if (!Cell) {
-//            Cell = [[EVLiveIgeContentViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:@"chatCell"];
-//        }
-//        Cell.selectionStyle =  UITableViewCellSelectionStyleNone;
-//        Cell.easeMessageModel = self.tpDataArray[indexPath.row];
-//    }
+
     EVLiveIgeContentViewCell *Cell = [tableView dequeueReusableCellWithIdentifier:@"chatCell"];
     if (!Cell) {
         Cell = [[EVLiveIgeContentViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:@"chatCell"];
@@ -88,10 +81,12 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    if (indexPath.section == 0) {
-//        return [self.tpDataArray[indexPath.row] cellHeight];
-//    }
-    return [self.dataArray[indexPath.row] cellHeight];
+
+    CGFloat cellh = [self.dataArray[indexPath.row] cellHeight];
+    if (cellh<82) {
+        return 82;
+    }
+    return [self.dataArray[indexPath.row] cellHeight] +15;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -188,9 +183,36 @@
 - (void)updateHistoryArray:(NSMutableArray *)array
 {
     [self.dataArray addObjectsFromArray:array];
+    [self updateTpArray:_dataArray];
     [self reloadData];
 //    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.dataArray.count-1 inSection:0];
 //    [self scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+}
+//自己加的   从总数据中 找出置顶消息
+- (void)updateTpArray:(NSMutableArray *)array
+{
+    NSInteger endCount = array.count;
+    //只从前20条数据里取置顶的消息 其余的置顶消息忽略
+    if (array.count>=20) {
+        endCount = 20;
+    }
+    [self.tpDataArray removeAllObjects];
+    for (int i = 0; i<endCount; i++) {
+        EVEaseMessageModel * model = array[i];
+        //如果为置顶消息
+        if (model.state == EVEaseMessageTypeStateSt) {
+            
+            [self.tpDataArray addObject:model];
+            if (i != 0) {
+                NSArray * tempArray = [NSArray arrayWithArray:array];
+                EVEaseMessageModel * tempModel = tempArray[i];
+                [array removeObjectAtIndex:i];
+                [array insertObject:tempModel atIndex:0];
+                [self reloadData];
+            }
+            break;
+        }
+    }
 }
 - (void)updateWatchCount:(NSInteger)count
 {

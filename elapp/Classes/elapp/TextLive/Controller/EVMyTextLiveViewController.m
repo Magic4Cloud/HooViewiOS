@@ -782,14 +782,18 @@
              self.time = [NSString stringWithFormat:@"%lld",umessage.timestamp];
         }
        
-        EVEaseMessageModel *easeMessageModel = [[EVEaseMessageModel alloc] initWithMessage:umessage];
-        if (easeMessageModel.state == EVEaseMessageTypeStateSt) {
-            [self.liveImageTableView updateTpMessageModel:easeMessageModel];
-        }else {
-            if ([umessage.from isEqualToString:[EVLoginInfo localObject].imuser]) {
-                [self.liveImageTableView updateMessageModel:easeMessageModel];
-            }
-        }
+        //直播 数据不用环信的
+        
+//        EVEaseMessageModel *easeMessageModel = [[EVEaseMessageModel alloc] initWithMessage:umessage];
+        
+       
+//        if (easeMessageModel.state == EVEaseMessageTypeStateSt) {
+//            [self.liveImageTableView updateTpMessageModel:easeMessageModel];
+//        }else {
+//            if ([umessage.from isEqualToString:[EVLoginInfo localObject].imuser]) {
+//                [self.liveImageTableView updateMessageModel:easeMessageModel];
+//            }
+//        }
         EVEaseMessageModel *chateaseMessageModel = [[EVEaseMessageModel alloc] initWithChatMessage:umessage];
         [self.textLiveChatTableView updateMessageModel:chateaseMessageModel];
         EMMessageBody *cmdBody = umessage.body;
@@ -797,27 +801,6 @@
         if (cmdBody.type == EMMessageBodyTypeCmd) {
             [self messageGiftDict:umessage.ext model:umessage];
         }
-//        if (cmdBody.type == EMMessageBodyTypeText) {
-//            EMTextMessageBody *messageBody = (EMTextMessageBody *)umessage.body;
-//            if ([messageBody.text isEqualToString:@"礼物"]) {
-//                NSLog(@"如果消息为礼物0000000000000000:%@",[umessage messageId]);
-//                NSLog(@"[umessage isRead]:%d",[umessage isRead]);
-//                NSLog(@"[umessage isDeliverAcked]:%d",[umessage isDeliverAcked]);
-//                NSLog(@"[umessage isReadAcked]:%d",[umessage isReadAcked]);
-//                [self messageGiftDict:umessage.ext model:umessage];
-////                EMError * error;
-//               
-//                [[EMClient sharedClient].chatManager sendMessageReadAck:umessage completion:nil];
-//                [self.conversation markMessageAsReadWithId:umessage.messageId error:nil];
-////                [[EMClient sharedClient].chatManager sendMessageReadAck:umessage completion:^(EMMessage *aMessage, EMError *aError) {
-////                    NSLog(@"发送完消息已读回执:%d",[aMessage isRead]);
-////                    NSLog(@"错误描述：%@",aError.errorDescription);
-////                }];
-////                [_conversation markAllMessagesAsRead:&error];
-////                NSLog(@"错误描述：%@",error.errorDescription);
-//            }
-//        
-//        }
     }
 }
 
