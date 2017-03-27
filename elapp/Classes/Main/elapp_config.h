@@ -24,7 +24,7 @@
 #define J_PUSH_APP_CHANNEL                  @"App Store"
 //----------------------------------- 环信推送 ----------------------------------//
 #define EASEMOBAPP_KEY_RELEASE              @"1150160929178497#hooview"
-#define EASEMOBAPP_KEY_DEV                  @"cloudfocus#elapp"
+#define EASEMOBAPP_KEY_DEV                  @"1150160929178497#hooviewtest"
 #define EASEMOBAPP_CER_RELEASE              @"online_push_service_private"
 #define EASEMOBAPP_CER_DEV                  @"dev_push_service_private"
 //----------------------------------- BUGLY崩溃上报 -----------------------------//
@@ -79,13 +79,7 @@
 // 开启日志全局开关e
 #ifdef STATE_DEV
  #define EVDEBUG
-<<<<<<< HEAD
  #define webNewsUrl @"http://appgwdev.hooview.com/easyvaas/webapp2/"
-=======
-// #define webNewsUrl @"http://appgwdev.hooview.com/hooview/stock/"
- #define webNewsUrl @"http://appgwdev.hooview.com/easyvaas/webapp2/"
-// #define webMarketUrl @"http://appgwdev.hooview.com/hooview/stock/"
->>>>>>> a98da64c9df83b5d63445c848804617012a0681e
  #define webMarketUrl @"http://appgwdev.hooview.com/easyvaas/webapp2/"
 #endif
 

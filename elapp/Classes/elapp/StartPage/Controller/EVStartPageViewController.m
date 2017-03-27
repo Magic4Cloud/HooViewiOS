@@ -7,14 +7,17 @@
 //
 
 #import "EVStartPageViewController.h"
-
+#import "EVBaseToolManager.h"
+#import "EVHttpURLManager.h"
+#import "EVStartPageModel.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 @interface EVStartPageViewController ()
 {
     NSInteger count;
 }
 
 /**
- 背景图  固定的一张图
+ 广告图
  */
 @property (nonatomic, strong)UIImageView * topImageView;
 @property (nonatomic, strong)UIView * bottomView;
@@ -22,6 +25,9 @@
 @property (nonatomic, strong)UIButton * skipButton;
 
 @property (nonatomic, strong)NSTimer * timer;
+
+@property (nonatomic, strong)EVStartPageModel * startModel;
+@property (nonatomic, strong)UIImage * adImage;
 @end
 
 @implementation EVStartPageViewController
@@ -32,9 +38,10 @@
     [self initUI];
     
     [self initData];
-    // Do any additional setup after loading the view.
+    
+    [self requestData];
+    
 }
-
 - (void)initUI
 {
     self.view.backgroundColor = [UIColor whiteColor];
@@ -45,19 +52,79 @@
     [self.topImageView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
     [self.topImageView autoPinEdgeToSuperviewEdge:ALEdgeRight];
     [self.topImageView autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:self.bottomView];
-    self.topImageView.backgroundColor = [UIColor lightGrayColor];
     count = 3;
-    _timer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(timerCount:) userInfo:nil repeats:YES];
-    [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSDefaultRunLoopMode];
+    
+    
 }
 - (void)initData
 {
     self.cpLabel.text = @"Copyright © 2017 HooView";
 }
+
 #pragma mark - private methods
+
+- (void)requestData
+{
+    
+//    NSString *urlString = [EVHttpURLManager fullURLStringWithURI:EVAPPSTARTAPI  params:nil];
+    NSString * urlString = @"http://openapi.hooview.com/api/ad/appstart";
+    __weak typeof(self) weakSelf = self;
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:nil success:^(NSDictionary *successDict) {
+        weakSelf.startModel = [[EVStartPageModel alloc] initModelWithDic:successDict];
+        
+    } sessionExpireBlock:^{
+        [self loadDefaultImage];
+    } fail:^(NSError *error) {
+        [self loadDefaultImage];
+    }];
+}
+
+- (void)loadDefaultImage
+{
+    self.skipButton.hidden = YES;
+    self.topImageView.image = [UIImage imageNamed:@"startPageDefaultImage"];
+    [self performSelector:@selector(dismissSelf) withObject:nil afterDelay:2];
+}
+- (void)dismissSelf
+{
+    [self.view removeFromSuperview];
+}
+- (void)isLoadDefaultImage
+{
+    //如果时间到了  还没有请求到图片  则使用默认图片
+    if (self.adImage == nil) {
+        [self loadDefaultImage];
+    }
+}
+- (void)setStartModel:(EVStartPageModel *)startModel
+{
+    _startModel = startModel;
+    if (startModel.adurl.length>0) {
+        if (startModel.starttime.length>0 && startModel.endtime.length>0) {
+            NSDate * date = [NSDate date];
+            NSTimeInterval timeInterval = [date timeIntervalSince1970];
+            if (timeInterval > [startModel.starttime doubleValue] && timeInterval < [startModel.endtime doubleValue])
+            {
+                [self.topImageView sd_setImageWithURL:[NSURL URLWithString:_startModel.adurl] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                    _adImage = image;
+                    [self timerBegin];
+                    
+                }];
+                [self performSelector:@selector(isLoadDefaultImage) withObject:nil afterDelay:2];
+            }
+        }
+    }
+    //如果后台没上传 就使用默认图
+    else
+    {
+        [self loadDefaultImage];
+    }
+    
+}
+
 - (void)timerCount:(NSTimer *)tim
 {
-    NSLog(@"定时器在走");
+    self.skipButton.hidden = NO;
     if (count == 0)
     {
         [self.view removeFromSuperview];
@@ -74,6 +141,12 @@
     count -- ;
 }
 
+- (void)timerBegin
+{
+    _timer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(timerCount:) userInfo:nil repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSDefaultRunLoopMode];
+}
+
 - (void)skipButtonClick:(UIButton *)button
 {
     [self.view removeFromSuperview];
@@ -86,6 +159,7 @@
 {
     if (!_topImageView) {
         _topImageView = [[UIImageView alloc] init];
+        
     }
     return _topImageView;
 }
@@ -112,6 +186,7 @@
         [_skipButton setTitleColor:[UIColor colorWithRed:155/255.0 green:155/255.0 blue:155/255.0 alpha:1.0] forState:UIControlStateNormal];
         _skipButton.titleLabel.font = [UIFont systemFontOfSize:15];
         _skipButton.enabled = NO;
+        _skipButton.hidden = YES;
         [_skipButton addTarget:self action:@selector(skipButtonClick:) forControlEvents:UIControlEventTouchUpInside];
         
     }
@@ -130,7 +205,7 @@
         [imageView autoAlignAxisToSuperviewAxis:ALAxisVertical];
         [imageView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:40];
         [imageView autoSetDimensionsToSize:CGSizeMake(130, 33)];
-        imageView.backgroundColor = [UIColor greenColor];
+        imageView.image = [UIImage imageNamed:@"startPagelogo"];
         
         [_bottomView addSubview:self.cpLabel];
         [self.cpLabel autoAlignAxisToSuperviewAxis:ALAxisVertical];

@@ -43,6 +43,7 @@
 
 #import "EVStartPageViewController.h"
 
+#import <Growing.h>
 NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 
 #define kIsFirstLauchApp @"kIsFirstLauchApp"
@@ -198,7 +199,14 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     [EVBaseToolManager checkSessionID];
     // 微信、微博、QQ空间
     [[EV3rdPartAPIManager sharedManager] registForAppWeiXinKey:WEIXIN_APP_KEY weiBoKey:WEIBO_APP_KEY QQkey:QQ_APP_ID];
+    
     // GrowingIO
+    // 启动GrowingIO
+    [Growing startWithAccountId:@"bb5b5afbf03bafb8"];
+    // 其他配置
+    // 开启Growing调试日志 可以开启日志
+     [Growing setEnableLog:YES];
+    
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
 }
@@ -291,7 +299,7 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     self.homeVC = homeVC;
     
 #pragma mark -----------------------------------------------------
-    if (![self isFirstLauchApp]) {
+    if ([self isFirstLauchApp]) {
         NSArray *loginXib = [[NSBundle mainBundle] loadNibNamed:@"EVConsultGuideView" owner:nil options:nil];
         EVConsultGuideView *guideView = [loginXib firstObject];
         guideView.backgroundColor = [UIColor clearColor];
@@ -540,6 +548,10 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
     if ([[EVOpenURLManager shareInstance] openUrl:url])
+    {
+        return YES;
+    }
+    if ([Growing handleUrl:url]) // 请务必确保该函数被调用
     {
         return YES;
     }
