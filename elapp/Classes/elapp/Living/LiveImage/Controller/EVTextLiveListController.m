@@ -132,26 +132,39 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (self.dataArray.count == 0) {
-        return 0;
+    if(self.hotArray.count == 0)
+    {
+        if (self.dataArray.count == 0) {
+            return 0;
+        }
     }
-    if(self.hotArray.count == 0) {
-        return 0;
+    else
+    {
+        if (section == 0) {
+            return 1;
+        }
     }
     
-    if (section == 0) {
-        return 1;
-    }
+    
     return self.dataArray.count;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (self.dataArray.count == 0) {
-        return 0;
-    }
     if(self.hotArray.count == 0) {
-        return 0;
+        if (self.dataArray.count == 0) {
+            return 0;
+        }
+        else
+        {
+            return 1;
+        }
+    }
+    else
+    {
+        if (self.dataArray.count == 0) {
+            return 1;
+        }
     }
     
     return 2;
@@ -159,29 +172,46 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
-        EVLiveImageViewCell *Cell  = [tableView dequeueReusableCellWithIdentifier:@"imageItemCell"];
-        if (!Cell) {
-            Cell =  [[EVLiveImageViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:@"imageItemCell"];
+    if (self.hotArray.count == 0) {
+        if (self.dataArray.count>0) {
+            EVHotImageListViewCell *liveCell =[tableView dequeueReusableCellWithIdentifier:@"imageCell"];
+            if (!liveCell) {
+                liveCell = [[NSBundle mainBundle] loadNibNamed:@"EVHotImageListViewCell" owner:nil options:nil].firstObject;
+            }
+            if (self.dataArray.count != 0) {
+                liveCell.watchVideoInfo = self.dataArray[indexPath.row];
+            }
+            liveCell.selectionStyle = UITableViewCellSelectionStyleNone;
+            return liveCell;
         }
-        Cell.dataArray = self.hotArray;
-        Cell.dataLiveArray = self.hotLiveArray;
-        Cell.listSeletedBlock = ^(EVWatchVideoInfo *videoInfo,EVWatchVideoInfo *liveVideoInfo) {
-            //            NSString *sessionID = [self.baseToolManager getSessionIdWithBlock:nil];
-            //            if (sessionID == nil || [sessionID isEqualToString:@""]) {
-            //                [self loginView];
-            //                return;
-            //            }
-            EVHVWatchTextViewController *watchViewVC = [[EVHVWatchTextViewController alloc] init];
-            watchViewVC.watchVideoInfo = videoInfo;
-            watchViewVC.liveVideoInfo = liveVideoInfo;
-            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:watchViewVC];
-            [self presentViewController:nav animated:YES completion:nil];
-        };
-        Cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        return Cell;
     }
-    
+    else
+    {
+        
+            if (indexPath.section == 0)
+            {
+                EVLiveImageViewCell *Cell  = [tableView dequeueReusableCellWithIdentifier:@"imageItemCell"];
+                if (!Cell) {
+                    Cell =  [[EVLiveImageViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:@"imageItemCell"];
+                }
+                Cell.dataArray = self.hotArray;
+                Cell.dataLiveArray = self.hotLiveArray;
+                Cell.listSeletedBlock = ^(EVWatchVideoInfo *videoInfo,EVWatchVideoInfo *liveVideoInfo) {
+                    //            NSString *sessionID = [self.baseToolManager getSessionIdWithBlock:nil];
+                    //            if (sessionID == nil || [sessionID isEqualToString:@""]) {
+                    //                [self loginView];
+                    //                return;
+                    //            }
+                    EVHVWatchTextViewController *watchViewVC = [[EVHVWatchTextViewController alloc] init];
+                    watchViewVC.watchVideoInfo = videoInfo;
+                    watchViewVC.liveVideoInfo = liveVideoInfo;
+                    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:watchViewVC];
+                    [self presentViewController:nav animated:YES completion:nil];
+                };
+                Cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                return Cell;
+            }
+    }
     EVHotImageListViewCell *liveCell =[tableView dequeueReusableCellWithIdentifier:@"imageCell"];
     if (!liveCell) {
         liveCell = [[NSBundle mainBundle] loadNibNamed:@"EVHotImageListViewCell" owner:nil options:nil].firstObject;
@@ -205,6 +235,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     
+    
     NSArray *titleArray = @[@" 热门大牛",@" 大牛列表"];
     NSArray *imageArray = @[@"hv_recommend_n",@"hv_list_live"];
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 50)];
@@ -222,7 +253,10 @@
     imageButton.titleLabel.font = [UIFont textFontB2];
     imageButton.frame = CGRectMake(16, 9, 100, 22);
     imageButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    
+    if (self.hotArray.count == 0) {
+        [imageButton setTitle:titleArray[1] forState:(UIControlStateNormal)];
+        [imageButton setImage:[UIImage imageNamed:imageArray[1]] forState:(UIControlStateNormal)];
+    }
     return backView;
 }
 

@@ -27,6 +27,7 @@ pod 'SDCycleScrollView'
 pod 'RKNotificationHub'
 pod 'JPush'
 pod 'OpenUDID'
+pod 'GrowingIO'
 #pod 'Reveal-iOS-SDK', :configurations => ['Debug']
 
 end

@@ -53,6 +53,7 @@
         cell = [[EVChatViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:@"chatTextCell"];
         cell.delegate = self;
     }
+    
     cell.easeMessageModel = self.dataArray[indexPath.row];
     cell.backgroundColor = [UIColor evBackgroundColor];
     return cell;

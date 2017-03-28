@@ -170,8 +170,9 @@
             self.contentLabel.textColor = [UIColor colorWithHexString:@"5f85d0"];
             
         }
-    }else {
-        
+    }
+    else
+    {
         if (easeMessageModel.bodyType == EMMessageBodyTypeText) {
             self.contentLabel.hidden = NO;
             self.messageImageView.hidden = YES;

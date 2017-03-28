@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "EVEnums.h"
 
+/**
+ 分享
+ */
 @protocol EVWebViewShareViewDelegate <NSObject>
 
 - (void)shareType:(EVLiveShareButtonType)type;

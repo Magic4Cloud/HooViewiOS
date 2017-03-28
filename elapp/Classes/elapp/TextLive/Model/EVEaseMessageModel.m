@@ -12,6 +12,10 @@
 
 
 @implementation EVEaseMessageModel
+
+/**
+环信聊天 记录model生成
+ */
 - (instancetype)initWithChatMessage:(EMMessage *)message
 {
     self = [super init];
@@ -43,8 +47,8 @@
                 CGSize rpContetSize = [self.rpContent boundingRectWithSize:CGSizeMake(ScreenWidth - 140, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
                 CGFloat contentX = ChatMargin + MIN(nameSize.width+5, 100);
                 self.rpcHig = rpContetSize.height;
-                CGFloat maxWid = MAX(rpContetSize.width, contentSize.width);
-                CGFloat minWid = MAX(maxWid, 36);
+                CGFloat maxWid = MAX(rpContetSize.width, contentSize.width) + 20;
+                CGFloat minWid = MAX(maxWid, 36)+10;
                 if (_isSender) {
                     contentX = ScreenWidth - nameSize.width - minWid - 20;
                 }
@@ -55,7 +59,7 @@
                 
                 CGFloat rpH =   self.isReply ? (rpContetSize.height + 10) : 0;
          
-                _contentRect = CGRectMake(contentX, 0, minWid, ceil(contentSize.height) + rpH + 10 + 40);
+                _contentRect = CGRectMake(contentX, 0, minWid, ceil(contentSize.height) + rpH + 10 + 10);
                 
                 _chatCellHight =  MAX(CGRectGetMaxY(_contentRect), 22) + 10;
             }
@@ -68,6 +72,9 @@
     return self;
 }
 
+/**
+ 从环信  聊天记录拉取信息   直播和聊天都用的这个model
+ */
 - (instancetype)initWithMessage:(EMMessage *)message
 {
     self = [super init];
@@ -86,7 +93,7 @@
                 EVLog(@"文本消息");
                 EMTextMessageBody *messageBody = (EMTextMessageBody *)_firstMessageBody;
                 self.text = messageBody.text;
-                NSLog(@"tttttttt = %@",self.text);
+                NSLog(@"环信聊天记录: %@",self.text);
                 
                 NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
                 paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
@@ -95,12 +102,23 @@
                  NSDictionary *attributes = @{ NSFontAttributeName : [UIFont textFontB2],
                                                NSParagraphStyleAttributeName: paragraphStyle};
                  CGSize contentSize = [self.text boundingRectWithSize:CGSizeMake(ScreenWidth - 64, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading  attributes:attributes context:nil].size;
-                CGSize rpContentSize = [self.rpContent boundingRectWithSize:CGSizeMake(ScreenWidth - 89, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading  attributes:attributes context:nil].size;
-                self.rpLhig = rpContentSize.height;
                 
-//                contentSize = CGSizeMake(contentSize.width, contentSize.height + 10);
+                NSLog(@"根据环信聊天记录算出来的size: %@",NSStringFromCGSize(contentSize));
+                CGSize rpContentSize = CGSizeZero;
+                if (_rpContent) {
+                    if (_rpContent.length > 0) {
+                        rpContentSize = [_rpContent boundingRectWithSize:CGSizeMake(ScreenWidth - 89, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading  attributes:attributes context:nil].size;
+                    }
+                }
+                
+                NSLog(@"环信聊天回复的内容: %@",self.rpContent);
+                NSLog(@"根据聊天回复的内容算出来的size: %@",NSStringFromCGSize(rpContentSize));
+                self.rpLhig = rpContentSize.height;
+            
                 self.titleSize = contentSize;
-                self.cellHeight = contentSize.height+56+rpContentSize.height;
+
+                self.cellHeight = contentSize.height+20+rpContentSize.height;
+                NSLog(@"最终的cell高度: %f",_cellHeight);
             }
                 break;
             case EMMessageBodyTypeImage:
@@ -148,6 +166,9 @@
 }
 
 
+/**
+ 从自己服务器拉去聊天记录
+ */
 - (instancetype)initWithHistoryMessage:(NSDictionary *)message
 {
     self = [super init];
@@ -171,7 +192,7 @@
         self.rpLhig = rpContentSize.height;
         contentSize = CGSizeMake(contentSize.width, contentSize.height + 10);
         self.titleSize = contentSize;
-        self.cellHeight = contentSize.height+56+rpContentSize.height;
+        self.cellHeight = contentSize.height+20+rpContentSize.height;
         self.from = message[@"from"];
         self.timestamp = [message[@"timestamp"] longLongValue];
         
@@ -212,7 +233,7 @@
             CGSize rpContetSize = [self.rpContent boundingRectWithSize:CGSizeMake(ScreenWidth - 140, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size;
             CGFloat contentX = ChatMargin + MIN(nameSize.width+5, 100);
             self.rpcHig = ceil(rpContetSize.height);
-            CGFloat maxWid = MAX(rpContetSize.width, contentSize.width);
+            CGFloat maxWid = MAX(rpContetSize.width, contentSize.width)+20;
             CGFloat minWid = MAX(maxWid, 36);
             if (_isSender) {
                 contentX = ScreenWidth - nameSize.width - minWid - 20;
@@ -223,7 +244,7 @@
             _nameRect = CGRectMake(nameX, 5, MIN(nameSize.width+5, 100), 22);
          
             CGFloat rpH =   self.isReply ? (rpContetSize.height + 10) : 0;
-            _contentRect = CGRectMake(contentX, 0, minWid, ceil(contentSize.height) + rpH + 10 + 40);
+            _contentRect = CGRectMake(contentX, 0, minWid, ceil(contentSize.height) + rpH + 10 + 20);
             _chatCellHight =  MAX(CGRectGetMaxY(_contentRect), 22) + 10;
         }
         else
@@ -267,9 +288,13 @@
     if ([[dict allKeys] containsObject:@"rct"]) {
         self.rpContent = dict[@"rct"];
     }
-    self.isReply = [[dict allKeys] containsObject:@"rct"] ? YES : NO;
-    NSString *rctStr = dict[@"rct"];
-    self.isReply = rctStr.length ? YES : NO;
+    self.isReply = NO;
+    if ([[dict allKeys] containsObject:@"rct"]) {
+        NSString *rctStr = dict[@"rct"];
+        if (rctStr.length>0) {
+            self.isReply = YES;
+        }
+    }
     self.nickname =  _isSender == YES ? @"我": dict[@"nk"];
 }
 

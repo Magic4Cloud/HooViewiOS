@@ -45,7 +45,7 @@
     self.backScrollView = backScrollView;
     backScrollView.pagingEnabled = YES;
     backScrollView.showsHorizontalScrollIndicator = NO;
-    backScrollView.contentSize = CGSizeMake(ScreenWidth * 4, EVContentHeight);
+    backScrollView.contentSize = CGSizeMake(ScreenWidth * 3, EVContentHeight);
     
     //沪深
     EVStockBaseViewController *shStockBaseVC = [[EVStockBaseViewController alloc] init];
@@ -68,13 +68,13 @@
     
     
     //美股  暂未开通
-    EVNotOpenView *usNotOpenView = [[EVNotOpenView alloc] init];
-    usNotOpenView.frame = CGRectMake(ScreenWidth * 2, 0, ScreenWidth, ScreenHeight);
-    [backScrollView addSubview:usNotOpenView];
+//    EVNotOpenView *usNotOpenView = [[EVNotOpenView alloc] init];
+//    usNotOpenView.frame = CGRectMake(ScreenWidth * 2, 0, ScreenWidth, ScreenHeight);
+//    [backScrollView addSubview:usNotOpenView];
     
     //全球
     EVGlobalViewController *globalVC = [[EVGlobalViewController alloc] init];
-    globalVC.view.frame = CGRectMake(ScreenWidth * 3, 0, ScreenWidth, ScreenHeight);
+    globalVC.view.frame = CGRectMake(ScreenWidth * 2, 0, ScreenWidth, ScreenHeight);
     [backScrollView addSubview:globalVC.view];
     [self addChildViewController:globalVC];
 //    EVNotOpenView *globalVC = [[EVNotOpenView alloc] init];
@@ -82,7 +82,7 @@
 //    [backScrollView addSubview:globalVC];
     self.globalVC = globalVC;
     
-    NSArray *titleArray = @[@"沪深",@"港股",@"美股",@"全球"];
+    NSArray *titleArray = @[@"沪深",@"港股",@"全球"];
 
     self.topSView = [SGSegmentedControlStatic segmentedControlWithFrame:CGRectMake(0, 64, ScreenWidth, 44) delegate:self childVcTitle:titleArray indicatorIsFull:NO];
     // 必须实现的方法
@@ -131,14 +131,10 @@
             break;
             case 2:
         {
-            
-        }
-            break;
-            case 3:
-        {
             [self.globalVC.globalView loadData];
         }
             break;
+        
         default:
             break;
     }

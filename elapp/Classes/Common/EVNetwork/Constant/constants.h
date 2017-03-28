@@ -13,6 +13,8 @@
 #define WeiboBaseURL                @"https://api.weibo.com/2/users/show.json"
 #define QQBaseURL                   @"https://graph.qq.com/user/get_user_info"
 
+#define EVAPPSTARTAPI               @"/api/ad/appstart"//App启动页广告。
+
 #define EVVideoMobileRegisterAPI    @"/user/register"//用户注册
 #define EVRegisterUserAPI           @"/user/login"//用户登录
 #define EVVideoUserInfoAPI          @"/user/info"         /**< 用户的完整基本信息接口，个人中心使用 */

@@ -168,7 +168,6 @@
     content = [content stringByReplacingOccurrencesOfString:@"\r" withString:@""];
     
     self.contentLabel.text = content;
-//    self.contentLabel.text = easeMessageModel.text;
     self.nameLabel.frame = easeMessageModel.nameRect;
     self.chatContentBtn.frame = easeMessageModel.contentRect;
     self.nameLabel.text = easeMessageModel.nickname;

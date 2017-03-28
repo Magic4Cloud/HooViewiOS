@@ -247,7 +247,7 @@
     self.textLiveStockTableView.tDelegate = self;
     
     [mainBackView addSubview:self.textLiveChatTableView];
-    self.textLiveChatTableView.tDelegate = self;
+//    self.textLiveChatTableView.tDelegate = self;
     
     //TODO:聊天tableView
     [self.textLiveChatTableView addRefreshHeaderWithRefreshingBlock:^{
@@ -588,11 +588,13 @@
     NSLog(@"不是主播");
 }
 
+//上拉加载
 - (void)loadHistoryData
 {
     WEAK(self)
     self.isRefresh = YES;
     NSLog(@"%ld",self.cellStart);
+    //如果cellStart是0就是刷新   否则加载更多
     [self.baseToolManager GETHistoryTextLiveStreamid:self.liveVideoInfo.liveID  count:@"20" start:[NSString stringWithFormat:@"%ld",self.cellStart] stime:self.time success:^(NSDictionary *retinfo) {
         NSLog(@"successsjhdahj  %@",retinfo);
         [weakself.liveImageTableView endFooterRefreshing];
@@ -601,18 +603,26 @@
             NSArray *msgsAry = retinfo[@"retinfo"][@"msgs"];
             [weakself.historyArray removeAllObjects];
             [weakself.historyChatArray removeAllObjects];
-            NSLog(@"---------%ld",self.historyArray.count);
-            NSLog(@"=====  %@",retinfo[@"retinfo"][@"start"]);
+//            NSLog(@"---------%ld",self.historyArray.count);
+//            NSLog(@"=====  %@",retinfo[@"retinfo"][@"start"]);
             if (weakself.isRefresh == YES || [retinfo[@"retinfo"][@"start"] integerValue] != 0) {
-                for (NSDictionary *msgDict in msgsAry) {
+                
+                for (NSDictionary *msgDict in msgsAry)
+                {
                      weakself.time = [NSString stringWithFormat:@"%@",msgDict[@"timestamp"]];
-                    if ([msgDict[@"from"] isEqualToString:self.watchVideoInfo.name]) {
+                    if ([msgDict[@"from"] isEqualToString:self.watchVideoInfo.name])
+                    {
+                        //直播内容
                         EVEaseMessageModel *messageModel = [[EVEaseMessageModel alloc] initWithHistoryMessage:msgDict];
                         NSLog(@"messag = %@",messageModel.text);
                         [weakself.historyArray addObject:messageModel];
-                    }else {
-                      
                     }
+                    else
+                    {
+                        //非直播内容
+                    }
+                    
+                    //所有内容（聊天内容）
                     EVEaseMessageModel *chatModel = [[EVEaseMessageModel alloc] initWithHistoryChatMessage:msgDict];
                     [weakself.historyChatArray addObject:chatModel];
 
@@ -718,50 +728,7 @@
 - (void)sendMessageBtn:(UIButton *)btn textToolBar:(EVTextLiveToolBar *)textToolBar
 {
     
-//    NSString *chatViewText = self.textLiveToolBar.inputTextView.text;
-//    
-//    NSString *from = [[EMClient sharedClient] currentUsername];
-//    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-//    NSString *messageType = @"nor";
-//   
-//    
-//    [dict setValue:messageType forKey:@"tp"];
-//    [dict setValue:[EVLoginInfo localObject].nickname forKey:@"nk"];
-//    if (self.rpName != nil && ![self.rpName isEqualToString:@""]) {
-//        if ([chatViewText rangeOfString:self.rpName].location != NSNotFound) {
-//            NSString *chatS = chatViewText;
-//            chatViewText = [chatViewText substringWithRange:NSMakeRange(self.rpName.length,chatS.length - self.rpName.length)];
-//            NSString *rct = [NSString stringWithFormat:@"%@%@",self.rpName,self.rpContent];
-//            [dict setObject:rct forKey:@"rct"];
-//            [dict setValue:@"rp" forKey:@"tp"];
-//        }
-//    }
-//    
-//    EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:chatViewText];
-//    
-//    self.rpName = nil;
-//    self.rpContent = nil;
-//    //生成Message
-//    
-////    [self touchHide];
-//    
-//    EMMessage *message = [[EMMessage alloc] initWithConversationID:_conversation.conversationId from:from to:_conversation.conversationId body:body ext:dict];
-//    message.chatType = EMChatTypeChatRoom;
-//    __weak typeof(self) weakself = self;
-//    [[EMClient sharedClient].chatManager sendMessage:message progress:^(int progress) {
-//    } completion:^(EMMessage *aMessage, EMError *aError) {
-//        if (!aError) {
-//            [weakself uploadHooviewDataExt:aMessage.ext message:aMessage imageType:@"txt" image:nil];
-//            [weakself _refreshAfterSentMessage:aMessage];
-//        }
-//        else {
-//            [weakself.liveImageTableView reloadData];
-//        }
-//    }];
-    
-    
-    
-    
+
     //消息体
     EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:textToolBar.inputTextView.text];
     
@@ -874,50 +841,6 @@
     }];
 }
 
-//#pragma mark - 长按回复某人
-//- (void)longPressModel:(EVEaseMessageModel *)model
-//{
-//    EVEaseMessageModel * model2 = model;
-//    
-//    
-//    if (![model.fromName isEqualToString:[EVLoginInfo localObject].name]) {
-//        self.textLiveToolBar.inputTextView.text = [NSString stringWithFormat:@"回复%@ ",model.nickname];
-//        _rpName = self.textLiveToolBar.inputTextView.text;
-//        _rpContent = model.text;
-//        [self.textLiveToolBar.inputTextView textDidChange];
-//        [self.textLiveToolBar.inputTextView becomeFirstResponder];
-//    }
-//    
-//    
-//
-////    //消息体
-////    EMTextMessageBod y *body = [[EMTextMessageBody alloc] initWithText:textToolBar.inputTextView.text];
-////    
-////    NSString *from = [[EMClient sharedClient] currentUsername];
-////    //生成Message
-////    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-////    //内容类型（st，置顶消息；hl，高亮消息；nor，普通消息）
-////    [dict setValue:@"nor" forKey:@"tp"];
-////    //发消息人名字 为自己
-////    [dict setValue:[EVLoginInfo localObject].nickname forKey:@"nk"];
-////    
-////    //环信
-////    EMMessage *message = [[EMMessage alloc] initWithConversationID:_conversation.conversationId from:from to:_conversation.conversationId body:body ext:dict];
-////    message.chatType = EMChatTypeChatRoom;
-////    
-////    __weak typeof(self) weakself = self;
-////    [[EMClient sharedClient].chatManager sendMessage:message progress:^(int progress) {
-////    } completion:^(EMMessage *aMessage, EMError *aError) {
-////        if (!aError) {
-////            [weakself uploadHooviewDataExt:aMessage.ext message:aMessage imageType:@"txt" image:nil];
-////            [weakself _refreshAfterSentMessage:aMessage];
-////        }
-////        else {
-////            [weakself.liveImageTableView reloadData];
-////        }
-////    }];
-//    
-//}
 
 - (void)updateIsFollow:(BOOL)follow
 {
@@ -1045,6 +968,11 @@
    
   
 }
+
+/**
+ 环信消息到来
+
+ */
 - (void)messagesDidReceive:(NSArray *)aMessages
 {
     EVLog(@"amessage-------- %ld",aMessages.count);
@@ -1053,15 +981,20 @@
         if ([aMessages indexOfObject:umessage] == 0) {
             self.time = [NSString stringWithFormat:@"%lld",umessage.timestamp];
         }
+        
         EVEaseMessageModel *easeMessageModel = [[EVEaseMessageModel alloc] initWithMessage:umessage];
-        if (easeMessageModel.state == EVEaseMessageTypeStateSt) {
-            [self.liveImageTableView updateTpMessageModel:easeMessageModel];
-        }else {
-            if ([umessage.from isEqualToString:_liveVideoInfo.ownerid]) {
-                [self.liveImageTableView updateMessageModel:easeMessageModel];
-            }
-//            [self.liveImageTableView updateMessageModel:easeMessageModel];
-        }
+        //直播页面的聊天记录是从自己的api获取   环信的只在聊天页面
+//        if (easeMessageModel.state == EVEaseMessageTypeStateSt) {
+//            [self.liveImageTableView updateTpMessageModel:easeMessageModel];
+//        }
+//        else
+//        {
+//            
+//            if ([umessage.from isEqualToString:_liveVideoInfo.ownerid])
+//            {
+//                [self.liveImageTableView updateMessageModel:easeMessageModel];
+//            }
+//        }
         EVEaseMessageModel *chatEaseMessageModel = [[EVEaseMessageModel alloc] initWithChatMessage:umessage];
         [self.textLiveChatTableView updateMessageModel:chatEaseMessageModel];
     }

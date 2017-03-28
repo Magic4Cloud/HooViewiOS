@@ -65,6 +65,7 @@ static NSString *identifier = @"EVShareViewCell";
     ;
     
     [cell.shareWayBtn setImage:[UIImage imageNamed:self.imageArray[indexPath.row]] forState:(UIControlStateNormal)];
+//    [cell.shareWayBtn setBackgroundImage:[UIImage imageNamed:self.imageArray[indexPath.row]] forState:(UIControlStateNormal)];
     [cell.shareWayNameLabel setText:self.titleArray[indexPath.row]];
     
     

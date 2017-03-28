@@ -63,7 +63,7 @@
     self.backScrollView = backScrollView;
     backScrollView.pagingEnabled = YES;
     backScrollView.showsHorizontalScrollIndicator = NO;
-    backScrollView.contentSize = CGSizeMake(ScreenWidth * 4, EVContentHeight);
+    backScrollView.contentSize = CGSizeMake(ScreenWidth * 3, EVContentHeight);
     
     //全部
     EVSelfStockViewController *allStockVC = [[EVSelfStockViewController alloc] init];
@@ -90,18 +90,18 @@
     self.HKStockVC.stockType = EVSelfStockTypeHK;
     
     //美股
-    EVSelfStockViewController *USStockVC = [[EVSelfStockViewController alloc] init];
-    [self addChildViewController:USStockVC];
-    USStockVC.view.frame = CGRectMake(ScreenWidth * 3, 10, ScreenWidth, EVContentHeight -10);
-    [backScrollView addSubview:USStockVC.view];
-    self.USStockVC = USStockVC;
-    self.USStockVC.stockType = EVSelfStockTypeUS;
+//    EVSelfStockViewController *USStockVC = [[EVSelfStockViewController alloc] init];
+//    [self addChildViewController:USStockVC];
+//    USStockVC.view.frame = CGRectMake(ScreenWidth * 3, 10, ScreenWidth, EVContentHeight -10);
+//    [backScrollView addSubview:USStockVC.view];
+//    self.USStockVC = USStockVC;
+//    self.USStockVC.stockType = EVSelfStockTypeUS;
     
     // 四个控制器的配置
     self.allStockVC.Sdelegate = self;
     self.SHStockVC.Sdelegate = self;
     self.HKStockVC.Sdelegate = self;
-    self.USStockVC.Sdelegate = self;
+//    self.USStockVC.Sdelegate = self;
     [self.allStockVC.listTableView addRefreshHeaderWithRefreshingBlock:^{
         [self fetchDataWithType:EVSelfStockTypeAll];
     }];
@@ -115,7 +115,7 @@
         [self fetchDataWithType:EVSelfStockTypeUS];
     }];
     
-    NSArray *titleArray = @[@"全部",@"沪深",@"港股",@"美股"];
+    NSArray *titleArray = @[@"全部",@"沪深",@"港股"];
     
     self.topSView = [SGSegmentedControlStatic segmentedControlWithFrame:CGRectMake(0, 64, ScreenWidth, 44) delegate:self childVcTitle:titleArray indicatorIsFull:NO];
     // 必须实现的方法
