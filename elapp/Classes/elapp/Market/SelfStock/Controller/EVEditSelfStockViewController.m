@@ -134,7 +134,7 @@
         }
         
         [self.chooseArray addObject:symbol];
-        [self.chooseArray writeToFile:[self storyFilePath] atomically:YES];
+//        [self.chooseArray writeToFile:[self storyFilePath] atomically:YES];
         [self loadData];
     }];
     [self.navigationController pushViewController:searchStockVC animated:YES];
@@ -142,17 +142,34 @@
 
 - (void)popBack
 {
-    [self.chooseArray writeToFile:[self storyFilePath] atomically:YES];
+//    [self.chooseArray writeToFile:[self storyFilePath] atomically:YES];
     [EVNotificationCenter postNotificationName:@"chooseMarketCommit" object:nil];
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)commit
 {
-    EVLog(@"完成");
+    NSLog(@"完成");
     if (self.commitBlock) {
         self.commitBlock();
     }
-    [self.chooseArray writeToFile:[self storyFilePath] atomically:YES];
+    
+    [self.chooseArray removeAllObjects];
+//    [self.chooseArray writeToFile:[self storyFilePath] atomically:YES];
+    
+    
+    for (EVStockBaseModel *baseModel in self.dataArray) {
+        [self.chooseArray addObject:baseModel.symbol];
+    }
+    
+    NSString *codeListStr = [self.chooseArray componentsJoinedByString:@","];
+    
+    [self.baseToolManager GETAddSelfStocksymbol:codeListStr type:0 userid:[EVLoginInfo localObject].name Success:^(NSDictionary *retinfo) {
+
+        //        !weakself.addStockBlock ? : weakself.addStockBlock(cell.stockBaseModel.symbol);
+    } error:^(NSError *error) {
+//        [EVProgressHUD showMessage:@"添加失败"];
+    }];
+
     [EVNotificationCenter postNotificationName:@"chooseMarketCommit" object:nil];
     [self.navigationController popViewControllerAnimated:YES];
 
@@ -204,17 +221,18 @@
     
     [self.dataArray removeObject:model];
     [self.mainTableView reloadData];
-    [self.chooseArray removeObject:model.symbol];
-    [self.chooseArray writeToFile:[self storyFilePath] atomically:YES];
-    [self.baseToolManager GETUserCollectType:EVCollectTypeStock code:model.symbol action:2 start:^{
-        
-    } fail:^(NSError *error) {
-        
-    } success:^(NSDictionary *retinfo) {
-        [EVProgressHUD showSuccess:@"删除成功"];
-    } sessionExpire:^{
-        
-    }];
+    
+//    [self.chooseArray removeObject:model.symbol];
+//    [self.chooseArray writeToFile:[self storyFilePath] atomically:YES];
+//    [self.baseToolManager GETUserCollectType:EVCollectTypeStock code:model.symbol action:2 start:^{
+//        
+//    } fail:^(NSError *error) {
+//        
+//    } success:^(NSDictionary *retinfo) {
+//        [EVProgressHUD showSuccess:@"删除成功"];
+//    } sessionExpire:^{
+//        
+//    }];
 }
 
 - (void)tableView:(JXMovableCellTableView *)tableView newDataSourceArrayAfterMove:(NSArray *)newDataSourceArray
@@ -231,25 +249,42 @@
 
 - (void)loadData
 {
-    self.chooseArray = [NSMutableArray arrayWithContentsOfFile:[self storyFilePath]];
-    if (self.chooseArray.count <= 0) {
-        [self.baseToolManager GETUserCollectListType:EVCollectTypeStock start:^{
-            
-        } fail:^(NSError *error) {
-            [EVProgressHUD showError:@"加载错误"];
-        } success:^(NSDictionary *retinfo) {
-            [EVProgressHUD showSuccess:@"加载成功"];
-            NSArray *marketStr = [retinfo[@"collectlist"] componentsSeparatedByString:@","];
-            [self.chooseArray addObjectsFromArray:marketStr];
-            [self.chooseArray writeToFile:[self storyFilePath] atomically:YES];
-            [self loadStockDataStr:retinfo[@"collectlist"]];
-        } sessionExpire:^{
-            [EVProgressHUD showError:@"没有登录"];
-        }];
-    }else {
-        NSString *market = [NSString stringWithArray:self.chooseArray];
-        [self loadStockDataStr:market];
-    }
+    [self.baseToolManager GETRequestSelfStockList:[EVLoginInfo localObject].name Success:^(NSDictionary *retinfo) {
+        NSLog(@"------retinfo = %@",retinfo);
+        
+        NSArray *dataArray = [EVStockBaseModel objectWithDictionaryArray:retinfo[@"data"]];
+        self.dataArray = [NSMutableArray arrayWithArray:dataArray];
+        [self.mainTableView reloadData];
+
+        
+//        [[self _selfStockViewControllerWithType:type] updateDataArray:retinfo[@"data"]];
+//        [[[self _selfStockViewControllerWithType:type] listTableView] endHeaderRefreshing];
+    } error:^(NSError *error) {
+//        [[[self _selfStockViewControllerWithType:type] listTableView] endHeaderRefreshing];
+//        [[self _selfStockViewControllerWithType:type] updateDataArray:@[]];
+    }];
+
+    
+    
+//    self.chooseArray = [NSMutableArray arrayWithContentsOfFile:[self storyFilePath]];
+//    if (self.chooseArray.count <= 0) {
+//        [self.baseToolManager GETUserCollectListType:EVCollectTypeStock start:^{
+//            
+//        } fail:^(NSError *error) {
+//            [EVProgressHUD showError:@"加载错误"];
+//        } success:^(NSDictionary *retinfo) {
+//            [EVProgressHUD showSuccess:@"加载成功"];
+//            NSArray *marketStr = [retinfo[@"collectlist"] componentsSeparatedByString:@","];
+//            [self.chooseArray addObjectsFromArray:marketStr];
+//            [self.chooseArray writeToFile:[self storyFilePath] atomically:YES];
+//            [self loadStockDataStr:retinfo[@"collectlist"]];
+//        } sessionExpire:^{
+//            [EVProgressHUD showError:@"没有登录"];
+//        }];
+//    }else {
+//        NSString *market = [NSString stringWithArray:self.chooseArray];
+//        [self loadStockDataStr:market];
+//    }
     
 }
 

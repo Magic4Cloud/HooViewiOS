@@ -34,6 +34,37 @@
 }
 
 
+- (void)GETRequestSelfStockList:(NSString *)userid
+                        Success:(void (^) (NSDictionary *retinfo))success
+                          error:(void (^)(NSError *error))error
+{
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    NSString *urlString = [NSString stringWithFormat:@"%@",EVStockListAPI];
+    if (userid) {
+        param[@"userid"] = userid;
+    }
+    [EVBaseToolManager GETNotVerifyRequestWithUrl:urlString parameters:param success:success fail:error];
+}
+
+
+//添加自选
+- (void)GETAddSelfStocksymbol:(NSString *)symbol
+                     type:(int)type
+                     userid:(NSString *)userid
+                    Success:(void (^) (NSDictionary *retinfo))success
+                      error:(void (^)(NSError *error))error
+{
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    NSString *urlString = [NSString stringWithFormat:@"%@",EVAddSelfStockAPI];
+    if (userid) {
+        [param setValue:userid forKey:@"userid"];
+        [param setValue:@(type) forKey:@"type"];
+        [param setValue:symbol forKey:@"symbol"];
+    }
+    [EVBaseToolManager GETNotVerifyRequestWithUrl:urlString parameters:param success:success fail:error];
+}
+
+
 
 - (void)GETUserCollectType:(EVCollectType)type
                       code:(NSString *)code

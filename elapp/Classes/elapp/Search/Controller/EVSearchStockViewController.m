@@ -14,6 +14,8 @@
 #import "EVBaseToolManager+EVSearchAPI.h"
 #import "EVNullDataView.h"
 #import "EVBaseToolManager+EVStockMarketAPI.h"
+#import "EVLoginInfo.h"
+
 
 @interface EVSearchStockViewController ()<CCSearchViewDelegate,UIScrollViewDelegate,SGSegmentedControlStaticDelegate,UITableViewDelegate,UITableViewDataSource,EVSearchStockDelegate>
 
@@ -309,18 +311,27 @@
 
 - (void)buttonClickCell:(EVSearchStockViewCell *)cell
 {
-    [cell changeButtonStatus];
     WEAK(self);
-    [self.baseToolManager GETUserCollectType:EVCollectTypeStock code:cell.stockBaseModel.symbol action:1 start:^{
-        
-    } fail:^(NSError *error) {
-        [EVProgressHUD showMessage:@"添加失败"];
-    } success:^(NSDictionary *retinfo) {
+    
+    [self.baseToolManager GETAddSelfStocksymbol:cell.stockBaseModel.symbol type:1 userid:[EVLoginInfo localObject].name Success:^(NSDictionary *retinfo) {
         [EVProgressHUD showMessage:@"已添加"];
+        [cell changeButtonStatus];
         !weakself.addStockBlock ? : weakself.addStockBlock(cell.stockBaseModel.symbol);
-    } sessionExpire:^{
-        
+    } error:^(NSError *error) {
+        [EVProgressHUD showMessage:@"添加失败"];
     }];
+    
+    
+//    [self.baseToolManager GETUserCollectType:EVCollectTypeStock code:cell.stockBaseModel.symbol action:1 start:^{
+//        
+//    } fail:^(NSError *error) {
+//        [EVProgressHUD showMessage:@"添加失败"];
+//    } success:^(NSDictionary *retinfo) {
+//        [EVProgressHUD showMessage:@"已添加"];
+//        !weakself.addStockBlock ? : weakself.addStockBlock(cell.stockBaseModel.symbol);
+//    } sessionExpire:^{
+//        
+//    }];
   
 }
 

@@ -299,7 +299,7 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     self.homeVC = homeVC;
     
 #pragma mark -----------------------------------------------------
-    if ([self isFirstLauchApp]) {
+    if (![self isFirstLauchApp]) {
         NSArray *loginXib = [[NSBundle mainBundle] loadNibNamed:@"EVConsultGuideView" owner:nil options:nil];
         EVConsultGuideView *guideView = [loginXib firstObject];
         guideView.backgroundColor = [UIColor clearColor];
