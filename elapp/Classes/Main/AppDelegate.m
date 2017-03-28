@@ -46,8 +46,12 @@
 #import <Growing.h>
 NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 
-#define kIsFirstLauchApp @"kIsFirstLauchApp"
+#define kIsFirstLauchApp  @"kIsFirstLauchApp"
 
+/**
+ 是否新版本第一次安装
+ */
+#define LAST_RUN_VERSION_KEY @"last_run_version_of_application"
 @interface AppDelegate ()<UIAlertViewDelegate>
 
 @property (nonatomic,strong) EVTimerTool *timerTool;
@@ -65,7 +69,6 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     
-    
     [[EVAppSetting shareInstance] createCacheAppFolder];
     application.applicationIconBadgeNumber = 0;
     UIWindow *win = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -73,6 +76,7 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     self.window = win;
     [win makeKeyAndVisible];
     
+    [self loadStartPage];
     
     
     [EVBugly registerBugly];
@@ -81,7 +85,7 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     [[EVPayManager sharedManager] checkWhetherAnyBuyedProductDoNotUploadToServerAndThenPushThem];
     [[EVPushManager sharePushManager] setUpWithOptions:launchOptions];
     [self appPrepareWithOptions:launchOptions];
-    [self setUpAppHomeController];
+    
     
 //    [EVAudioPlayer  initialAudioPlayerBackgroundThread];
     
@@ -110,12 +114,52 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 {
     _startVc = [[EVStartPageViewController alloc] init];
     _startVc.view.frame = [UIScreen mainScreen].bounds;
-    [_homeVC.view addSubview:_startVc.view];
-    
+    self.window.rootViewController = _startVc;
+    __weak typeof(self) weakSelf = self;
+    _startVc.dismissSelfBlock = ^()
+    {
+        [weakSelf setUpAppHomeController];
+    };
 }
 - (BOOL)isFirstLauchApp {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:kIsFirstLauchApp];
+//    return YES;
+    
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:kIsFirstLauchApp]){
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kIsFirstLauchApp];
+        //第一次启动
+        return YES;
+    }
+    else
+    {
+        //不是第一次启动了
+        return NO;
+    }
 }
+
+/**
+ 是否新版本第一次启动  用于显示新手引导页
+
+ */
+- (BOOL)isNewVersionisFirstLoad
+{
+    NSString *currentVersion = [[[NSBundle mainBundle] infoDictionary]
+                                objectForKey:@"CFBundleShortVersionString"];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    NSString *lastRunVersion = [defaults objectForKey:LAST_RUN_VERSION_KEY];
+    
+    if (!lastRunVersion) {
+        [defaults setObject:currentVersion forKey:LAST_RUN_VERSION_KEY];
+        return YES;
+    }
+    else if (![lastRunVersion isEqualToString:currentVersion]) {
+        [defaults setObject:currentVersion forKey:LAST_RUN_VERSION_KEY];
+        return YES;  
+    }  
+    return NO;  
+}
+
 - (void)setUpTimer
 {
     _timerTool = [[EVTimerTool alloc] init];
@@ -202,10 +246,10 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     
     // GrowingIO
     // 启动GrowingIO
-    [Growing startWithAccountId:@"bb5b5afbf03bafb8"];
+    [Growing startWithAccountId:@"a9d9a45702edf729"];
     // 其他配置
     // 开启Growing调试日志 可以开启日志
-     [Growing setEnableLog:YES];
+//     [Growing setEnableLog:YES];
     
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
@@ -215,7 +259,7 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 {
 //    [self setUpHomeController]; 
    
-    if (![self isFirstLauchApp]) {
+    if ([self isFirstLauchApp]) {
         ZYLauchMovieViewController *vc = [[ZYLauchMovieViewController alloc] init];
         self.window.rootViewController = vc;
         vc.mainBlock  = ^(){
@@ -299,13 +343,32 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     self.homeVC = homeVC;
     
 #pragma mark -----------------------------------------------------
-    if ([self isFirstLauchApp]) {
+    
+    if ([self isNewVersionisFirstLoad]) {
+        NSString * imageNameSuffix;
+        if (ScreenWidth == 320) {
+            imageNameSuffix = @"5";
+        }
+        else if(ScreenWidth == 375)
+        {
+            imageNameSuffix = @"";
+        }
+        else
+        {
+            imageNameSuffix = @"plus";
+        }
+        
+        
         NSArray *loginXib = [[NSBundle mainBundle] loadNibNamed:@"EVConsultGuideView" owner:nil options:nil];
         EVConsultGuideView *guideView = [loginXib firstObject];
         guideView.backgroundColor = [UIColor clearColor];
         guideView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
         self.guideView = guideView;
         [homeVC.view addSubview:guideView];
+        
+        self.guideView.liveBackImage.image = [UIImage imageNamed:[NSString stringWithFormat:@"live%@",imageNameSuffix]];
+        self.guideView.marketBackImage.image = [UIImage imageNamed:[NSString stringWithFormat:@"market%@",imageNameSuffix]];
+        self.guideView.backImage.image = [UIImage imageNamed:[NSString stringWithFormat:@"new%@",imageNameSuffix]];
         
         self.guideView.liveBackImage.hidden = YES;
         self.guideView.marketBackImage.hidden = YES;
@@ -326,7 +389,7 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
         };
     }
     
-    [self loadStartPage];
+    
 }
 
 - (void)application:(UIApplication *)application

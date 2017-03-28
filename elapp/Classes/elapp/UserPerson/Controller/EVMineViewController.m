@@ -328,6 +328,7 @@ static const NSString *const SettingCellID = @"settingCell";
             case UIMineClickButtonTypeMyCoin:
             {
                 EVLog(@"我的余额");
+                //TODO:我的余额
                 EVHVBiViewController *hvBiVC = [[EVHVBiViewController alloc] init];
                 hvBiVC.asset = self.asset;
 //                hvBiVC.delegate = self;

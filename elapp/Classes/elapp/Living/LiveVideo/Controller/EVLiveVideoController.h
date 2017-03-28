@@ -8,6 +8,9 @@
 
 #import "EVViewController.h"
 
+/**
+ 视频直播
+ */
 @interface EVLiveVideoController : EVViewController
 
 @end

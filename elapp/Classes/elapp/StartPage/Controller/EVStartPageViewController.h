@@ -12,5 +12,5 @@
  启动页
  */
 @interface EVStartPageViewController : UIViewController
-
+@property (nonatomic, copy)void(^dismissSelfBlock)();
 @end

@@ -59,11 +59,11 @@
 - (void)prepareMovie {
     //首次运行
     NSString *filePath = nil;
-    if (![self isFirstLauchApp]) {
+//    if ([self isFirstLauchApp]) {
         //第一次安装
         filePath = [[NSBundle mainBundle] pathForResource:@"苹果启动页.mp4" ofType:nil];
-        [self setIsFirstLauchApp:YES];
-    }
+//        [self setIsFirstLauchApp:NO];
+//    }
 //    else {
 //          filePath = [[NSBundle mainBundle] pathForResource:@"opening_short_1080*1920.mp4" ofType:nil];
 //    }
@@ -178,16 +178,19 @@
 #pragma mark -- 监听以及实现方法
 - (void)addNotification {
     
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
       [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewWillEnterForeground) name:UIApplicationDidBecomeActiveNotification object:nil];//进入前台
-    if ([self isFirstLauchApp]) {
-        
-    }else {
-        //第二次进入app视频需要直接结束
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlaybackComplete) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];//视频播放结束
-        //第一次进入app视频需要轮播
-//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlaybackAgain) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];//视频播放结束
-    }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlaybackComplete) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];//视频播放结束
+//    if ([self isFirstLauchApp]) {
+//        
+//    }else {
+//        //第二次进入app视频需要直接结束
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlaybackComplete) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];//视频播放结束
+//        //第一次进入app视频需要轮播
+////        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlaybackAgain) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];//视频播放结束
+//    }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlaybackStart) name:AVPlayerItemTimeJumpedNotification object:nil];//播放开始
 }
 //再一次播放视频
@@ -242,9 +245,9 @@
 }
 
 #pragma mark -- 是否第一次进入app
-- (BOOL)isFirstLauchApp {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:kIsFirstLauchApp];
-}
+//- (BOOL)isFirstLauchApp {
+//    return [[NSUserDefaults standardUserDefaults] boolForKey:kIsFirstLauchApp];
+//}
 
 - (void)setIsFirstLauchApp:(BOOL)isFirstLauchApp
 {
