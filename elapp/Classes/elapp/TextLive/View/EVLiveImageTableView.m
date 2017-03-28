@@ -195,7 +195,6 @@
 - (void)updateWatchCount:(NSInteger)count
 {
     count = count < 0 ? 0 : count;
-    NSLog(@"count = %ld",count);
     self.watchLabel.text = [NSString stringWithFormat:@"%@人气",[NSString numFormatNumber:count]];
     
 }
