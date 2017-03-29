@@ -9,6 +9,9 @@
 #import "EVViewController.h"
 #import "EVUserAsset.h"
 
+/**
+ 我的余额
+ */
 @interface EVHVBiViewController : EVViewController
 
 @property (strong, nonatomic) EVUserAsset *asset;  /**< 用户资产信息 */

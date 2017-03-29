@@ -36,6 +36,13 @@ typedef NS_ENUM(NSUInteger, EVCollectType)
                       Success:(void (^) (NSDictionary *retinfo))success
                         error:(void (^)(NSError *error))error;
 
+//是否已添加自选
+- (void)GETIsAddSelfStockSymbol:(NSString *)symbol
+                         userid:(NSString *)userid
+                        Success:(void (^) (NSDictionary *retinfo))success
+                          error:(void (^)(NSError *error))error;
+
+
 - (void)GETUserCollectType:(EVCollectType)type
                       code:(NSString *)code
                     action:(int)action

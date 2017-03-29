@@ -363,7 +363,7 @@ static CGFloat const collectionViewHeight = 292.f;
         NSLog(@"%ld",self.selectedMagicEmoji.cost);
         if ( (self.ecoin == 0 || self.selectedMagicEmoji.cost > self.ecoin) && self.selectedMagicEmoji.cost != 0)
         {
-            [[EVAlertManager shareInstance] performComfirmTitle:nil message:kE_GlobalZH(@"nil_coin") cancelButtonTitle:@"取消" comfirmTitle:kOK WithComfirm:^{
+            [[EVAlertManager shareInstance] performComfirmTitle:nil message:kE_GlobalZH(@"nil_coin") cancelButtonTitle:@"去充值" comfirmTitle:kOK WithComfirm:^{
      
             } cancel:^{
                 if ( self.delegate && [self.delegate respondsToSelector:@selector(yibiNotEnough)] )

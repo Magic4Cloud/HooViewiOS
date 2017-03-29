@@ -10,6 +10,9 @@
 #import "EVWatchVideoInfo.h"
 
 
+/**
+ 视频直播详情页
+ */
 @interface EVHVWatchViewController : EVViewController
 
 @property (nonatomic, strong) EVWatchVideoInfo *watchVideoInfo;

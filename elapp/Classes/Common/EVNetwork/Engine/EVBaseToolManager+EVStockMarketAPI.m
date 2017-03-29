@@ -64,6 +64,22 @@
     [EVBaseToolManager GETNotVerifyRequestWithUrl:urlString parameters:param success:success fail:error];
 }
 
+//是否已添加自选
+- (void)GETIsAddSelfStockSymbol:(NSString *)symbol
+                       userid:(NSString *)userid
+                      Success:(void (^) (NSDictionary *retinfo))success
+                        error:(void (^)(NSError *error))error
+{
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    NSString *urlString = [NSString stringWithFormat:@"%@",EVIsAddSelfStockAPI];
+    if (userid) {
+        [param setValue:userid forKey:@"userid"];
+        [param setValue:symbol forKey:@"symbol"];
+    }
+    [EVBaseToolManager GETNotVerifyRequestWithUrl:urlString parameters:param success:success fail:error];
+}
+
+
 
 
 - (void)GETUserCollectType:(EVCollectType)type

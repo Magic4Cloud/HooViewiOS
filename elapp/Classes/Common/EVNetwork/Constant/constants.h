@@ -157,8 +157,8 @@
 
 //api/news/banners/
 #define EVAddSelfStockAPI           @"http://dev.hooview.com/api/user/modifystocks"//添加 & 修改自选股
-#define EVGetChooseStockNewsAPI           @"http://dev.hooview.com/api/user/stocknews"//自选新闻
-
+#define EVGetChooseStockNewsAPI     @"http://dev.hooview.com/api/user/stocknews"//自选新闻
+#define EVIsAddSelfStockAPI         @"http://dev.hooview.com/api/user/collect/stock"//是否已添加自选
 
 #define EVHoovviewNewsBannersAPI    @"http://dev.hooview.com/api/news/banners"
 #define EVTextLiveHaveAPI           @"http://dev.hooview.com/api/textlive/streaminfo"
@@ -192,7 +192,7 @@
 #define EVStockListAPI              @"http://openapi.hooview.com/api/user/stocks"//自选股列表
 #define EVAddSelfStockAPI           @"http://openapi.hooview.com/api/user/modifystocks"//添加 & 修改自选股
 #define EVGetChooseStockNewsAPI     @"http://openapi.hooview.com/api/user/stocknews"//自选新闻
-
+#define EVIsAddSelfStockAPI         @"http://openapi.hooview.com/api/user/collect/stock"//是否已添加自选
 
 #define EVMarketGlobalAPI           @"http://openapi.hooview.com/api/stock/globalindex"
 

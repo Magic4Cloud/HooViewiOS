@@ -11,6 +11,9 @@ typedef void(^knowBlock)();
 typedef void(^knowBlockLive)();
 typedef void(^endGuideBlock)();
 
+/**
+ 新手引导页
+ */
 @interface EVConsultGuideView : UIView
 @property (weak, nonatomic) IBOutlet UIImageView *backImage;
 

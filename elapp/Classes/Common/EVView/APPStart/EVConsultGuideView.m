@@ -9,8 +9,9 @@
 #import "EVConsultGuideView.h"
 
 @interface EVConsultGuideView()
-//@property (nonatomic, strong)UIButton *knowButton;
-
+{
+    NSString * imageNameSuffix;
+}
 @end
 
 @implementation EVConsultGuideView
@@ -18,7 +19,19 @@
 
 
 - (IBAction)knowButton:(id)sender {
-    self.backImage.image = [UIImage imageNamed:@"hooview"];
+    if (ScreenWidth == 320) {
+        imageNameSuffix = @"5";
+    }
+    else if(ScreenWidth == 375)
+    {
+        imageNameSuffix = @"";
+    }
+    else
+    {
+        imageNameSuffix = @"plus";
+    }
+    
+    self.backImage.image = [UIImage imageNamed:[NSString stringWithFormat:@"hooview%@",imageNameSuffix]];
     self.knowButton.hidden = YES;
     self.knowButton2.hidden = NO;
 }
@@ -34,7 +47,7 @@
 }
 
 - (IBAction)knowButton3:(id)sender {
-    self.liveBackImage.image = [UIImage imageNamed:@"imglive"];
+    self.liveBackImage.image = [UIImage imageNamed:[NSString stringWithFormat:@"imglive%@",imageNameSuffix]];
     self.knowButton3.hidden = YES;
     self.knowButton4.hidden = NO;
 }

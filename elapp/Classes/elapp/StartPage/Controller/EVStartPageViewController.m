@@ -8,9 +8,15 @@
 
 #import "EVStartPageViewController.h"
 #import "EVBaseToolManager.h"
-#import "EVHttpURLManager.h"
 #import "EVStartPageModel.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#ifdef STATE_RELEASE
+#define adUrl               @"http://openapi.hooview.com/api/ad/appstart"
+#endif
+
+#ifdef STATE_DEV
+#define adUrl               @"http://dev.hooview.com/api/ad/appstart"
+#endif
 @interface EVStartPageViewController ()
 {
     NSInteger count;
@@ -20,17 +26,35 @@
  广告图
  */
 @property (nonatomic, strong)UIImageView * topImageView;
+
+/**
+ 底部固定展示部分
+ */
 @property (nonatomic, strong)UIView * bottomView;
+
+/**
+ 版权信息
+ */
 @property (nonatomic, strong)UILabel * cpLabel;
+
+/**
+ 跳过按钮
+ */
 @property (nonatomic, strong)UIButton * skipButton;
 
 @property (nonatomic, strong)NSTimer * timer;
 
 @property (nonatomic, strong)EVStartPageModel * startModel;
+
+/**
+ 获取到的广告图
+ */
 @property (nonatomic, strong)UIImage * adImage;
 @end
 
 @implementation EVStartPageViewController
+
+#pragma mark - View lifecycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -42,6 +66,8 @@
     [self requestData];
     
 }
+
+#pragma mark - User Interface layout
 - (void)initUI
 {
     self.view.backgroundColor = [UIColor whiteColor];
@@ -52,24 +78,22 @@
     [self.topImageView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
     [self.topImageView autoPinEdgeToSuperviewEdge:ALEdgeRight];
     [self.topImageView autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:self.bottomView];
-    count = 3;
     
     
 }
+
 - (void)initData
 {
     self.cpLabel.text = @"Copyright © 2017 HooView";
+    count = 3;
 }
 
-#pragma mark - private methods
+#pragma mark - Request service methods
 
 - (void)requestData
 {
-    
-//    NSString *urlString = [EVHttpURLManager fullURLStringWithURI:EVAPPSTARTAPI  params:nil];
-    NSString * urlString = @"http://openapi.hooview.com/api/ad/appstart";
     __weak typeof(self) weakSelf = self;
-    [EVBaseToolManager GETRequestWithUrl:urlString parameters:nil success:^(NSDictionary *successDict) {
+    [EVBaseToolManager GETRequestWithUrl:adUrl parameters:nil success:^(NSDictionary *successDict) {
         weakSelf.startModel = [[EVStartPageModel alloc] initModelWithDic:successDict];
         
     } sessionExpireBlock:^{
@@ -79,6 +103,8 @@
     }];
 }
 
+#pragma mark - Private methods
+
 - (void)loadDefaultImage
 {
     self.skipButton.hidden = YES;
@@ -87,7 +113,10 @@
 }
 - (void)dismissSelf
 {
-    [self.view removeFromSuperview];
+    if (self.dismissSelfBlock) {
+        self.dismissSelfBlock();
+    }
+//    [self.view removeFromSuperview];
 }
 - (void)isLoadDefaultImage
 {
@@ -96,10 +125,45 @@
         [self loadDefaultImage];
     }
 }
+
+
+- (void)timerCount:(NSTimer *)tim
+{
+    self.skipButton.hidden = NO;
+    if (count == 0)
+    {
+        [self dismissSelf];
+        [tim invalidate];
+        tim = nil;
+    }
+    count -- ;
+}
+
+- (void)timerBegin
+{
+    if (_timer)
+    {
+        [_timer invalidate];
+        _timer = nil;
+    }
+    _timer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(timerCount:) userInfo:nil repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSDefaultRunLoopMode];
+}
+
+#pragma mark - Target action methods
+
+- (void)skipButtonClick:(UIButton *)button
+{
+    [self dismissSelf];
+    [_timer invalidate];
+    _timer = nil;
+}
+
+#pragma mark - Setters/Getters
 - (void)setStartModel:(EVStartPageModel *)startModel
 {
     _startModel = startModel;
-    if (startModel.adurl.length>0) {
+    if (startModel.adurl.length>0 && [startModel.valid boolValue]) {
         if (startModel.starttime.length>0 && startModel.endtime.length>0) {
             NSDate * date = [NSDate date];
             NSTimeInterval timeInterval = [date timeIntervalSince1970];
@@ -110,51 +174,17 @@
                     [self timerBegin];
                     
                 }];
+                
                 [self performSelector:@selector(isLoadDefaultImage) withObject:nil afterDelay:2];
+                return;
             }
         }
     }
-    //如果后台没上传 就使用默认图
-    else
-    {
-        [self loadDefaultImage];
-    }
+    //如果后台没上传或者图片过期 或者失效 就使用默认图
+    [self loadDefaultImage];
     
 }
 
-- (void)timerCount:(NSTimer *)tim
-{
-    self.skipButton.hidden = NO;
-    if (count == 0)
-    {
-        [self.view removeFromSuperview];
-        [tim invalidate];
-        tim = nil;
-        [self.skipButton setTitle:@"跳过" forState:UIControlStateNormal];
-        self.skipButton.enabled = YES;
-    }
-    else
-    {
-        self.skipButton.enabled = NO;
-        [self.skipButton setTitle:[NSString stringWithFormat:@"%ldS",count] forState:UIControlStateNormal];
-    }
-    count -- ;
-}
-
-- (void)timerBegin
-{
-    _timer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(timerCount:) userInfo:nil repeats:YES];
-    [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSDefaultRunLoopMode];
-}
-
-- (void)skipButtonClick:(UIButton *)button
-{
-    [self.view removeFromSuperview];
-    [_timer invalidate];
-    _timer = nil;
-}
-
-#pragma mark - getters
 - (UIImageView * )topImageView
 {
     if (!_topImageView) {
@@ -185,10 +215,9 @@
         _skipButton.layer.masksToBounds = YES;
         [_skipButton setTitleColor:[UIColor colorWithRed:155/255.0 green:155/255.0 blue:155/255.0 alpha:1.0] forState:UIControlStateNormal];
         _skipButton.titleLabel.font = [UIFont systemFontOfSize:15];
-        _skipButton.enabled = NO;
         _skipButton.hidden = YES;
         [_skipButton addTarget:self action:@selector(skipButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-        
+        [_skipButton setTitle:@"跳过" forState:UIControlStateNormal];
     }
     return _skipButton;
 }
@@ -219,7 +248,7 @@
     }
     return _bottomView;
 }
-
+#pragma mark - Initialization & Memory management methods
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

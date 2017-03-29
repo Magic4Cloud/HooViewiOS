@@ -71,7 +71,7 @@
     
     WEAK(self)
     [self.baseToolManager GETChooseNewsRequestStart:start count:@"20" userid:[EVLoginInfo localObject].name Success:^(NSDictionary *retinfo) {
-        NSLog(@"-----------------yyyy  %@",retinfo);
+
         [weakself.newsTableView endHeaderRefreshing];
         [weakself.newsTableView endFooterRefreshing];
         weakself.start = retinfo[@"next"];
@@ -124,7 +124,7 @@
 {
     WEAK(self)
     [self.baseToolManager GETConsultNewsRequestSymbol:symbol Start:start count:@"20" userid:[EVLoginInfo localObject].name Success:^(NSDictionary *retinfo) {
-        NSLog(@"-----------------yyyy  %@",retinfo);
+
         [weakself.newsTableView endHeaderRefreshing];
         [weakself.newsTableView endFooterRefreshing];
         weakself.start = retinfo[@"next"];

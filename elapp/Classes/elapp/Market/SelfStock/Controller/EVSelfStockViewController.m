@@ -42,7 +42,6 @@
 
 - (void)addNullView
 {
-    
     self.nullDataView = [[EVNullDataView alloc] init];
     self.nullDataView.frame = CGRectMake(0, 0, ScreenWidth, EVContentHeight-10);
     self.nullDataView.backgroundColor = [UIColor clearColor];
@@ -81,7 +80,7 @@
 
 - (void)loadData
 {
-  
+    [self refreshClick];
 }
 
 - (void)rightClick

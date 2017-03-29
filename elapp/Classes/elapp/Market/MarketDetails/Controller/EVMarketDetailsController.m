@@ -188,17 +188,27 @@
     };
     self.window.hidden = YES;
     
+    //判断是否添加自选
+//    [self.baseToolManager GETUserCollectType:EVCollectTypeStock code:self.stockBaseModel.symbol action:0 start:^{
+//        
+//    } fail:^(NSError *error) {
+//        [EVProgressHUD showError:@"添加失败"];
+//    } success:^(NSDictionary *retinfo) {
+//        self.detailBottomView.isMarketCollect = [retinfo[@"exist"] boolValue];
+//        self.isMarketCollect = [retinfo[@"exist"] boolValue];
+//    } sessionExpire:^{
+//        
+//    }];
     
-    [self.baseToolManager GETUserCollectType:EVCollectTypeStock code:self.stockBaseModel.symbol action:0 start:^{
-        
-    } fail:^(NSError *error) {
-        [EVProgressHUD showError:@"添加失败"];
-    } success:^(NSDictionary *retinfo) {
+    //判断是否添加自选
+    [self.baseToolManager GETIsAddSelfStockSymbol:self.stockBaseModel.symbol userid:[EVLoginInfo localObject].name Success:^(NSDictionary *retinfo) {
+        NSLog(@"%@",retinfo);
         self.detailBottomView.isMarketCollect = [retinfo[@"exist"] boolValue];
         self.isMarketCollect = [retinfo[@"exist"] boolValue];
-    } sessionExpire:^{
+    } error:^(NSError *error) {
         
     }];
+    
 }
 
 - (void)sendCommentStr:(NSString *)str
@@ -363,6 +373,7 @@
 - (void)detailBottomClick:(EVBottomButtonType)type button:(UIButton *)btn
 {
     switch (type) {
+        //添加自选 & 取消添加
         case EVBottomButtonTypeAdd:
             {
                 EVLoginInfo *loginInfo = [EVLoginInfo localObject];
@@ -370,26 +381,41 @@
                     UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
                     [self presentViewController:navighaVC animated:YES completion:nil];
                 }else {
-                    int action =     self.isMarketCollect ? 2 : 1;
-                    
+                    int action = self.isMarketCollect ? 2 : 1;
+                    NSLog(@"%d",action);
                     NSString *actionTypeStr = self.isMarketCollect ? @"移除自选" : @"添加自选";
-                    [self.baseToolManager GETUserCollectType:EVCollectTypeStock code:self.stockBaseModel.symbol action:action start:^{
-                        
-                    } fail:^(NSError *error) {
-                        [EVProgressHUD showMessage:[actionTypeStr stringByAppendingString:@"失败"]];
-                    } success:^(NSDictionary *retinfo) {
+                    
+                    [self.baseToolManager GETAddSelfStocksymbol:self.stockBaseModel.symbol type:action userid:[EVLoginInfo localObject].name Success:^(NSDictionary *retinfo) {
+
                         if (!_isMarketCollect) {
                             [EVProgressHUD showMessage:[actionTypeStr stringByAppendingString:@"成功"]];
-                            self.isMarketCollect ? [self.addDataArray removeObject:self.stockBaseModel.symbol] : [self.addDataArray addObject:self.stockBaseModel.symbol];
-                            [self.addDataArray writeToFile:[self storyFilePath] atomically:YES];
-                            
                         }
                         
                         self.isMarketCollect = !self.isMarketCollect;
                         self.detailBottomView.isMarketCollect = self.isMarketCollect;
-                    } sessionExpire:^{
-                        
+
+                    } error:^(NSError *error) {
+                        [EVProgressHUD showMessage:[actionTypeStr stringByAppendingString:@"失败"]];
                     }];
+
+                    
+//                    [self.baseToolManager GETUserCollectType:EVCollectTypeStock code:self.stockBaseModel.symbol action:action start:^{
+//                        
+//                    } fail:^(NSError *error) {
+//                        [EVProgressHUD showMessage:[actionTypeStr stringByAppendingString:@"失败"]];
+//                    } success:^(NSDictionary *retinfo) {
+//                        if (!_isMarketCollect) {
+//                            [EVProgressHUD showMessage:[actionTypeStr stringByAppendingString:@"成功"]];
+//                            self.isMarketCollect ? [self.addDataArray removeObject:self.stockBaseModel.symbol] : [self.addDataArray addObject:self.stockBaseModel.symbol];
+//                            [self.addDataArray writeToFile:[self storyFilePath] atomically:YES];
+//                            
+//                        }
+//                        
+//                        self.isMarketCollect = !self.isMarketCollect;
+//                        self.detailBottomView.isMarketCollect = self.isMarketCollect;
+//                    } sessionExpire:^{
+//                        
+//                    }];
                 }
               
         }
@@ -454,6 +480,7 @@
 
 - (void)popBack
 {
+    [EVNotificationCenter postNotificationName:@"chooseMarketCommit" object:nil];
     [self deallocView];
     [self.navigationController popViewControllerAnimated:YES];
 }
