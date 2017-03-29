@@ -26,6 +26,7 @@
 @property (nonatomic, copy) NSString *code;
 @property (nonatomic, assign) float changepercent;
 @property (nonatomic, assign) NSUInteger priority;
+@property (nonatomic, assign) NSUInteger collected;//是否已自选
 
 @property (nonatomic, assign) BOOL status;
 

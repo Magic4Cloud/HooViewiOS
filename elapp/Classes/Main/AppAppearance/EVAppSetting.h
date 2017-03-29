@@ -138,7 +138,7 @@ extern NSString * const NotifyOfLogin;
 
 - (UIFont *)normalFontWithSize:(CGFloat)size;
 - (UIFont *)systemBoldFontWithSize:(CGFloat)size;
-- (UIFont *) systemFontOfSize:(CGFloat)size;
+- (UIFont *)systemFontOfSize:(CGFloat)size;
 
 + (void)broadcastAppStyleChangeWith:(EVAppStyleChangeState)state;
 + (void)broadcastAppMainColorChage;

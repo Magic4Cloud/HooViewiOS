@@ -130,7 +130,7 @@
         weakself.refreshFinish = NO;
         [weakself.stockTableView reloadData];
     } error:^(NSError *error) {
-         [self.stockTableView endHeaderRefreshing];
+        [self.stockTableView endHeaderRefreshing];
         [EVProgressHUD hideHUDForView:self.view];
         [EVProgressHUD showError:@"大盘请求失败"];
         EVLog(@"dapan-------  %@",error);

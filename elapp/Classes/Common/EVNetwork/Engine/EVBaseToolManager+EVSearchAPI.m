@@ -51,4 +51,31 @@
     [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
 }
 
+
+//股票搜索
+- (void)getSearchStockInfosWith:(NSString *)name
+                      type:(EVSearchType)type
+                     start:(NSInteger)start
+                          count:(NSInteger)count
+                         userid:(NSString *)userid
+                startBlock:(void(^)())startBlock
+                      fail:(void(^)(NSError *error))failBlock
+                   success:(void(^)(NSDictionary *dict))successBlock
+             sessionExpire:(void(^)())sessionExpireBlock
+               reterrBlock:(void(^)(NSString *reterr))reterrBlock
+{
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValue:@(start) forKey:kStart];
+    [params setValue:@(count) forKey:kCount];
+    [params setValue:name forKey:@"name"];
+    [params setValue:userid forKey:@"userid"];
+    
+    EVLog(@"param ------- %@ -----------------  %@",params,EVSearchStock);
+    [EVBaseToolManager GETRequestWithUrl:EVSearchStock parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+}
+
+
+
+
+
 @end

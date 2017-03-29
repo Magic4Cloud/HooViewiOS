@@ -14,6 +14,8 @@
 #import "EVBaseToolManager+EVSearchAPI.h"
 #import "EVNullDataView.h"
 #import "EVBaseToolManager+EVStockMarketAPI.h"
+#import "EVLoginInfo.h"
+
 
 @interface EVSearchStockViewController ()<CCSearchViewDelegate,UIScrollViewDelegate,SGSegmentedControlStaticDelegate,UITableViewDelegate,UITableViewDataSource,EVSearchStockDelegate>
 
@@ -220,15 +222,13 @@
         [EVProgressHUD showMessage:@"请输入搜索内容"];
         return;
     }
-    [self.baseToolManager getSearchInfosWith:text type:type start:start count:kCountNum startBlock:^{
+    
+    [self.baseToolManager getSearchStockInfosWith:text type:type start:start count:kCountNum userid:[EVLoginInfo localObject].name startBlock:^{
         
     } fail:^(NSError *error) {
-//        weakself.loadingView.failTitle = kNot_newwork_wrap;
-//        [weakself.loadingView showFailedViewWithClickBlock:^{
-//            [weakself searchView:weakself.searchView didBeginSearchWithText:weakself.lastSearchText];
-//        }];
         weakself.stockNoDataView.hidden = NO;
     } success:^(NSDictionary *dict) {
+        
         EVLog(@"dict:%@ -------------- type %ld", dict,type);
         weakself.stockNoDataView.hidden = YES;
         NSArray *stockArray =  [EVStockBaseModel objectWithDictionaryArray:dict[@"data"]];
@@ -240,42 +240,73 @@
         weakself.startCount = self.dataArray.count;
         [self.allTableView setFooterState:(stockArray.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
         [self.allTableView reloadData];
-//        [weakself.loadingView destroy];
-//        EVSearchResultModel *model = [EVSearchResultModel objectWithDictionary:dict];
-//        
-//        switch (type) {
-//            case 0: {
-//                [weakself.searchResult.news removeAllObjects];
-//                [weakself.searchResult.news addObjectsFromArray:model.news];
-//                self.newsLoaded = YES;
-//                break;
-//            }
-//            case 1: {
-//                [weakself.searchResult.videos removeAllObjects];
-//                [weakself.searchResult.videos addObjectsFromArray:model.videos];
-//                self.liveLoaded = YES;
-//                break;
-//            }
-//            case 2: {
-//                [weakself.searchResult.stock removeAllObjects];
-//                [weakself.searchResult.stock addObjectsFromArray:model.stock];
-//                self.stockLoaded = YES;
-//                break;
-//            }
-//                
-//            default:
-//                break;
-//        }
-//        [weakself handleNoDataViewStatusWithNoticeSearch:NO];
-//        [tableArray[type] reloadData];
-        
+
     } sessionExpire:^{
         EVRelogin(weakself);
     } reterrBlock:^(NSString *reterr) {
-//        [weakself handleNoDataViewStatusWithNoticeSearch:NO];
-//        [weakself.loadingView destroy];
         
     }];
+    
+    
+    
+    
+    
+//    [self.baseToolManager getSearchInfosWith:text type:type start:start count:kCountNum startBlock:^{
+//        
+//    } fail:^(NSError *error) {
+////        weakself.loadingView.failTitle = kNot_newwork_wrap;
+////        [weakself.loadingView showFailedViewWithClickBlock:^{
+////            [weakself searchView:weakself.searchView didBeginSearchWithText:weakself.lastSearchText];
+////        }];
+//        weakself.stockNoDataView.hidden = NO;
+//    } success:^(NSDictionary *dict) {
+//        EVLog(@"dict:%@ -------------- type %ld", dict,type);
+//        weakself.stockNoDataView.hidden = YES;
+//        NSArray *stockArray =  [EVStockBaseModel objectWithDictionaryArray:dict[@"data"]];
+//        
+//        if (start == 0) {
+//            [self.dataArray removeAllObjects];
+//        }
+//        [self.dataArray addObjectsFromArray:stockArray];
+//        weakself.startCount = self.dataArray.count;
+//        [self.allTableView setFooterState:(stockArray.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
+//        [self.allTableView reloadData];
+////        [weakself.loadingView destroy];
+////        EVSearchResultModel *model = [EVSearchResultModel objectWithDictionary:dict];
+////        
+////        switch (type) {
+////            case 0: {
+////                [weakself.searchResult.news removeAllObjects];
+////                [weakself.searchResult.news addObjectsFromArray:model.news];
+////                self.newsLoaded = YES;
+////                break;
+////            }
+////            case 1: {
+////                [weakself.searchResult.videos removeAllObjects];
+////                [weakself.searchResult.videos addObjectsFromArray:model.videos];
+////                self.liveLoaded = YES;
+////                break;
+////            }
+////            case 2: {
+////                [weakself.searchResult.stock removeAllObjects];
+////                [weakself.searchResult.stock addObjectsFromArray:model.stock];
+////                self.stockLoaded = YES;
+////                break;
+////            }
+////                
+////            default:
+////                break;
+////        }
+////        [weakself handleNoDataViewStatusWithNoticeSearch:NO];
+////        [tableArray[type] reloadData];
+//        
+//    } sessionExpire:^{
+//        EVRelogin(weakself);
+//    } reterrBlock:^(NSString *reterr) {
+////        [weakself handleNoDataViewStatusWithNoticeSearch:NO];
+////        [weakself.loadingView destroy];
+//        
+//    }];
 }
 
 - (void)cancelSearch
@@ -309,18 +340,34 @@
 
 - (void)buttonClickCell:(EVSearchStockViewCell *)cell
 {
-    [cell changeButtonStatus];
     WEAK(self);
-    [self.baseToolManager GETUserCollectType:EVCollectTypeStock code:cell.stockBaseModel.symbol action:1 start:^{
-        
-    } fail:^(NSError *error) {
-        [EVProgressHUD showMessage:@"添加失败"];
-    } success:^(NSDictionary *retinfo) {
-        [EVProgressHUD showMessage:@"已添加"];
+    NSLog(@"%d",cell.removeButton.hidden);
+    
+    int action = cell.removeButton.hidden ? 1 : 2;
+    NSLog(@"%d",action);
+    [self.baseToolManager GETAddSelfStocksymbol:cell.stockBaseModel.symbol type:action userid:[EVLoginInfo localObject].name Success:^(NSDictionary *retinfo) {
+        if (cell.removeButton.hidden) {
+            [EVProgressHUD showMessage:@"已添加"];
+        } else {
+            [EVProgressHUD showMessage:@"已取消"];
+        }
+        [cell changeButtonStatus];
         !weakself.addStockBlock ? : weakself.addStockBlock(cell.stockBaseModel.symbol);
-    } sessionExpire:^{
-        
+    } error:^(NSError *error) {
+        [EVProgressHUD showMessage:@"失败"];
     }];
+    
+    
+//    [self.baseToolManager GETUserCollectType:EVCollectTypeStock code:cell.stockBaseModel.symbol action:1 start:^{
+//        
+//    } fail:^(NSError *error) {
+//        [EVProgressHUD showMessage:@"添加失败"];
+//    } success:^(NSDictionary *retinfo) {
+//        [EVProgressHUD showMessage:@"已添加"];
+//        !weakself.addStockBlock ? : weakself.addStockBlock(cell.stockBaseModel.symbol);
+//    } sessionExpire:^{
+//        
+//    }];
   
 }
 

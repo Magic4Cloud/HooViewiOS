@@ -95,7 +95,7 @@
     UIButton *drawBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     [incomeView addSubview:drawBtn];
     drawBtn.frame = CGRectMake(ScreenWidth - 84, 39, 60, 24);
-    [self addButtonView:drawBtn];
+//    [self addButtonView:drawBtn];
 //    [drawBtn setTitle:@"提现" forState:(UIControlStateNormal)];
     [drawBtn addTarget:self action:@selector(drawButton:) forControlEvents:(UIControlEventTouchUpInside)];
     
@@ -138,15 +138,15 @@
     
     CGFloat headerY;
     
-//    if ([EVLoginInfo localObject].vip == 0) {
+    if ([EVLoginInfo localObject].vip == 0) {
         UIView *nVipView =   [self addNotVipView];
         [self.view addSubview:nVipView];
         headerY = nVipView.frame.size.height;
         
-//    }else {
-//        [self.view addSubview:vipHeaderView];
-//        headerY = vipHeaderView.frame.size.height;
-//    }
+    }else {
+        [self.view addSubview:vipHeaderView];
+        headerY = vipHeaderView.frame.size.height;
+    }
     
     
     

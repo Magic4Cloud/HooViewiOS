@@ -9,7 +9,7 @@
 #define elapp_config_h
 
 ///////////////////////////////////// 服务器地址 //////////////////////////////////////
-#define EVURL_RELEASE                       @"http://appgw.hooview.com/easyvaas/appgw"
+#define EVURL_RELEASE                        @"http://appgw.hooview.com/easyvaas/appgw"
 #define EVURL_HTTPS_RELEASE                 @"https://appgw.hooview.com/easyvaas/appgw"
 #define EVURL_STATTE_RELEASE                @"release"
 
@@ -46,10 +46,10 @@
 
 ///////////////////////////////////// APP 状态 //////////////////////////////////////
 // 开发状态
-//#define STATE_DEV
+#define STATE_DEV
 
 // 发布状态
-#define STATE_RELEASE
+//#define STATE_RELEASE
 
 // 手动切换服务器
 // #define STARTE_SWITCH_SERVER_MANUAL
@@ -145,7 +145,8 @@
 #ifdef EVDEBUG
 #define EVLog( s, ... ) NSLog( @"<%@:%d> %@", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__,  [NSString stringWithFormat:(s), ##__VA_ARGS__] )
 #else
-#define EVLog(...)
+//#define EVLog(...)
+#define EVLog(FORMAT, ...) fprintf(stderr,"%s:%d  \t%s\n",[[[NSString stringWithUTF8String:__FILE__] lastPathComponent] UTF8String], __LINE__, [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]);
 #endif
 
 

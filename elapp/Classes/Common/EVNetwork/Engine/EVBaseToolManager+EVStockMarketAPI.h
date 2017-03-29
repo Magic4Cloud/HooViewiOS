@@ -26,6 +26,23 @@ typedef NS_ENUM(NSUInteger, EVCollectType)
 
 - (void)GETRequestTodayFloatMarket:(NSString *)market Success:(void (^) (NSDictionary *retinfo))success error:(void (^)(NSError *error))error;
 
+
+- (void)GETRequestSelfStockList:(NSString *)userid Success:(void (^) (NSDictionary *retinfo))success error:(void (^)(NSError *error))error;
+
+//添加自选
+- (void)GETAddSelfStocksymbol:(NSString *)symbol
+                         type:(int)type
+                       userid:(NSString *)userid
+                      Success:(void (^) (NSDictionary *retinfo))success
+                        error:(void (^)(NSError *error))error;
+
+//是否已添加自选
+- (void)GETIsAddSelfStockSymbol:(NSString *)symbol
+                         userid:(NSString *)userid
+                        Success:(void (^) (NSDictionary *retinfo))success
+                          error:(void (^)(NSError *error))error;
+
+
 - (void)GETUserCollectType:(EVCollectType)type
                       code:(NSString *)code
                     action:(int)action

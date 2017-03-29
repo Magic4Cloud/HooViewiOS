@@ -15,6 +15,8 @@
 #import "EVNotOpenView.h"
 #import "EVLoginInfo.h"
 #import "NSString+Extension.h"
+#import "EVStockBaseModel.h"
+
 
 @interface EVSelectMarketViewController ()<SGSegmentedControlStaticDelegate,UIScrollViewDelegate,EVSelfStockVCDelegate>
 @property (nonatomic, strong) UIScrollView *backScrollView;
@@ -47,6 +49,7 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self setUpPageView];
     [self fetchDataWithType:EVSelfStockTypeAll];
+    [self refreshAll];
 }
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -138,37 +141,66 @@
 
 #pragma mark - networks
 - (void)fetchDataWithType:(EVSelfStockType)type {
-    self.chooseArray = [NSMutableArray arrayWithContentsOfFile:[self storyFilePath]];
-    if (self.chooseArray.count <= 0) {
-        [self.baseToolManager GETUserCollectListType:EVCollectTypeStock start:^{
-            
-        } fail:^(NSError *error) {
-            [[[self _selfStockViewControllerWithType:type] listTableView] endHeaderRefreshing];
-            [EVProgressHUD showMessage:@"加载错误"];
-        } success:^(NSDictionary *retinfo) {
-            [[[self _selfStockViewControllerWithType:type] listTableView] endHeaderRefreshing];
-            NSString *list = retinfo[@"collectlist"];
-            if (list.length > 0) {
-                NSArray *marketA = [list componentsSeparatedByString:@","];
-                [self.chooseArray addObjectsFromArray:marketA];
-                [self.chooseArray writeToFile:[self storyFilePath] atomically:YES];
-                [self fetchStockDataWithString:retinfo[@"collectlist"] type:type];
-            }else {
-                [[self _selfStockViewControllerWithType:type] updateDataArray:@[]];
-            }
-        } sessionExpire:^{
-            [[[self _selfStockViewControllerWithType:type] listTableView] endHeaderRefreshing];
-            [EVProgressHUD showError:@"没有登录"];
-        }];
-    }else {
-        NSArray *markets = [self _filterStockWithType:type localArray:self.chooseArray];
+//    self.chooseArray = [NSMutableArray arrayWithContentsOfFile:[self storyFilePath]];
+//    
+//    if (self.chooseArray.count <= 0) {
+//        [self.baseToolManager GETUserCollectListType:EVCollectTypeStock start:^{
+//            
+//        } fail:^(NSError *error) {
+//            [[[self _selfStockViewControllerWithType:type] listTableView] endHeaderRefreshing];
+//            [EVProgressHUD showMessage:@"加载错误"];
+//        } success:^(NSDictionary *retinfo) {
+//            [[[self _selfStockViewControllerWithType:type] listTableView] endHeaderRefreshing];
+//            NSString *list = retinfo[@"collectlist"];
+//            if (list.length > 0) {
+//                NSArray *marketA = [list componentsSeparatedByString:@","];
+//                [self.chooseArray addObjectsFromArray:marketA];
+//                [self.chooseArray writeToFile:[self storyFilePath] atomically:YES];
+//                [self fetchStockDataWithString:retinfo[@"collectlist"] type:type];
+//            }else {
+//                [[self _selfStockViewControllerWithType:type] updateDataArray:@[]];
+//            }
+//        } sessionExpire:^{
+//            [[[self _selfStockViewControllerWithType:type] listTableView] endHeaderRefreshing];
+//            [EVProgressHUD showError:@"没有登录"];
+//        }];
+//    }else {
+//        NSArray *markets = [self _filterStockWithType:type localArray:self.chooseArray];
+//        NSString *marketStr = [NSString stringWithArray:markets];
+//        if (markets.count == 0) {
+//            [[self _selfStockViewControllerWithType:type] updateDataArray:@[]];
+//            return;
+//        }
+//        [self fetchStockDataWithString:marketStr type:type];
+//    }
+    
+    
+    [self.baseToolManager GETRequestSelfStockList:[EVLoginInfo localObject].name Success:^(NSDictionary *retinfo) {
+        NSLog(@"------retinfo = %@",retinfo);
+        self.chooseArray = retinfo[@"data"];
+        
+        NSMutableArray *codeArray = [NSMutableArray array];
+        for (NSDictionary *baseModel in self.chooseArray) {
+            [codeArray addObject:baseModel[@"symbol"]];
+        }
+        
+//        NSString *codeListStr = [codeArray componentsJoinedByString:@","];
+//        NSLog(@"%@",codeListStr);
+        NSArray *markets = [self _filterStockWithType:type localArray:codeArray];
         NSString *marketStr = [NSString stringWithArray:markets];
+        NSLog(@"%@",marketStr);
         if (markets.count == 0) {
             [[self _selfStockViewControllerWithType:type] updateDataArray:@[]];
             return;
         }
         [self fetchStockDataWithString:marketStr type:type];
-    }
+        
+//        [[self _selfStockViewControllerWithType:type] updateDataArray:self.chooseArray];
+        [[[self _selfStockViewControllerWithType:type] listTableView] endHeaderRefreshing];
+    } error:^(NSError *error) {
+        [[[self _selfStockViewControllerWithType:type] listTableView] endHeaderRefreshing];
+        [[self _selfStockViewControllerWithType:type] updateDataArray:@[]];
+    }];
 }
 
 - (void)fetchStockDataWithString:(NSString *)stockString type:(EVSelfStockType)type {

@@ -91,15 +91,39 @@
     [EVBaseToolManager GETNotVerifyRequestWithUrl:urlString parameters:param success:success fail:error];
 }
 
-- (void)GETConsultNewsRequestSymbol:(NSString *)symbol Start:(NSString *)start count:(NSString *)count Success:(void (^) (NSDictionary *retinfo))success error:(void (^)(NSError *error))error
+- (void)GETConsultNewsRequestSymbol:(NSString *)symbol
+                              Start:(NSString *)start
+                              count:(NSString *)count
+                             userid:(NSString *)userid
+                            Success:(void (^) (NSDictionary *retinfo))success
+                              error:(void (^)(NSError *error))error
 {
     NSString *urlString = [NSString stringWithFormat:@"%@",EVConsultNewsAPI];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
 //    [param setValue:start forKey:@"start"];
 //    [param setValue:count forKey:@"count"];
     [param setValue:symbol forKey:@"symbol"];
+    [param setValue:userid forKey:@"userid"];
     [EVBaseToolManager GETNotVerifyRequestWithUrl:urlString parameters:param success:success fail:error];
 }
+
+//自选新闻
+- (void)GETChooseNewsRequestStart:(NSString *)start
+                              count:(NSString *)count
+                             userid:(NSString *)userid
+                            Success:(void (^) (NSDictionary *retinfo))success
+                              error:(void (^)(NSError *error))error
+{
+    NSString *urlString = [NSString stringWithFormat:@"%@",EVGetChooseStockNewsAPI];
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+        [param setValue:start forKey:@"start"];
+        [param setValue:count forKey:@"count"];
+//    [param setValue:symbol forKey:@"symbol"];
+    [param setValue:userid forKey:@"userid"];
+    [EVBaseToolManager GETNotVerifyRequestWithUrl:urlString parameters:param success:success fail:error];
+}
+
+
 
 - (void)GETCollectUserNewsID:(NSString *)newsid start:(NSString *)start count:(NSString *)count Success:(void (^) (NSDictionary *retinfo))success error:(void (^)(NSError *error))error
 {

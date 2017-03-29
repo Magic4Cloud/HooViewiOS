@@ -22,6 +22,8 @@
 @property (nonatomic, strong) EVStockBaseModel *stockBaseModel;
 
 @property (nonatomic, weak) id<EVSearchStockDelegate> delegate;
+@property (nonatomic, weak) UIButton *removeButton;
 
 - (void)changeButtonStatus;
+
 @end

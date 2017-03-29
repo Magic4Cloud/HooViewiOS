@@ -68,35 +68,63 @@
         self.nullDataView.hidden =  NO;
         return;
     }
-    [self.baseToolManager GETUserCollectListType:EVCollectTypeStock start:^{
-        
-    } fail:^(NSError *error) {
-        [self.newsTableView endHeaderRefreshing];
-        [self.newsTableView endFooterRefreshing];
-    } success:^(NSDictionary *retinfo) {
-        [self.newsTableView endHeaderRefreshing];
-        [self.newsTableView endFooterRefreshing];
-        EVLog(@"retionfo------addstock---  %@",retinfo);
-        NSString *code = retinfo[@"collectlist"];
-        if (code.length == 0) {
-            self.newsTableView.hidden = NO;
-            self.nullDataView.hidden =  NO;
-        }else {
-            [self loadNewsDataSymbol:code start:@"0"];
-            self.newsTableView.hidden = NO;
-            self.nullDataView.hidden =  YES;
+    
+    WEAK(self)
+    [self.baseToolManager GETChooseNewsRequestStart:start count:@"20" userid:[EVLoginInfo localObject].name Success:^(NSDictionary *retinfo) {
+
+        [weakself.newsTableView endHeaderRefreshing];
+        [weakself.newsTableView endFooterRefreshing];
+        weakself.start = retinfo[@"next"];
+        NSArray *newsData = [EVChooseNewsModel objectWithDictionaryArray:retinfo[@"news"]];
+        if ( [start integerValue] == 0) {
+            [weakself.dataArray removeAllObjects];
         }
-    } sessionExpire:^{
-        
+        if ([start integerValue] == 0 && newsData.count <= 0) {
+            weakself.twoDataView.hidden = NO;
+        }else {
+            weakself.twoDataView.hidden = YES;
+        }
+        [weakself.dataArray addObjectsFromArray:newsData];
+        [weakself.newsTableView setFooterState:(newsData.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
+        [self.newsTableView reloadData];
+
+    } error:^(NSError *error) {
+        NSLog(@"%@",error);
+        [weakself.newsTableView endHeaderRefreshing];
+        [weakself.newsTableView endFooterRefreshing];
     }];
+    
+    
+    
+//    [self.baseToolManager GETUserCollectListType:EVCollectTypeStock start:^{
+//        
+//    } fail:^(NSError *error) {
+//        [self.newsTableView endHeaderRefreshing];
+//        [self.newsTableView endFooterRefreshing];
+//    } success:^(NSDictionary *retinfo) {
+//        [self.newsTableView endHeaderRefreshing];
+//        [self.newsTableView endFooterRefreshing];
+//        NSLog(@"retionfo------addstock---  %@",retinfo);
+//        NSString *code = retinfo[@"collectlist"];
+//        if (code.length == 0) {
+//            self.newsTableView.hidden = NO;
+//            self.nullDataView.hidden =  NO;
+//        }else {
+//            [self loadNewsDataSymbol:code start:@"0"];
+//            self.newsTableView.hidden = NO;
+//            self.nullDataView.hidden =  YES;
+//        }
+//    } sessionExpire:^{
+//        
+//    }];
 }
 
 
 - (void)loadNewsDataSymbol:(NSString *)symbol start:(NSString *)start
 {
     WEAK(self)
-    [self.baseToolManager GETConsultNewsRequestSymbol:symbol Start:start count:@"20" Success:^(NSDictionary *retinfo) {
-        EVLog(@"-----------------yyyy  %@",retinfo);
+    [self.baseToolManager GETConsultNewsRequestSymbol:symbol Start:start count:@"20" userid:[EVLoginInfo localObject].name Success:^(NSDictionary *retinfo) {
+
         [weakself.newsTableView endHeaderRefreshing];
         [weakself.newsTableView endFooterRefreshing];
         weakself.start = retinfo[@"next"];

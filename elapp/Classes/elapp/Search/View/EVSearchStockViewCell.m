@@ -20,6 +20,7 @@
 
 @property (nonatomic, weak) UILabel *addLabel;
 
+
 @end
 
 
@@ -66,16 +67,29 @@
     [addButton setImage:[UIImage imageNamed:@"hv_normal_add_stock"] forState:(UIControlStateNormal)];
     
     
-    UILabel *addLabel = [[UILabel alloc] init];
-    [self addSubview:addLabel];
-    self.addLabel = addLabel;
-    addLabel.textAlignment = NSTextAlignmentRight;
-    addLabel.textColor = [UIColor hvPurpleColor];
-    addLabel.font = [UIFont textFontB2];
-    addLabel.text = @"已添加";
-    [addLabel autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:30];
-    [addLabel autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
-    [addLabel autoSetDimensionsToSize:CGSizeMake(100, 22)];
+//    UILabel *addLabel = [[UILabel alloc] init];
+//    [self addSubview:addLabel];
+//    self.addLabel = addLabel;
+//    addLabel.textAlignment = NSTextAlignmentRight;
+//    addLabel.textColor = [UIColor hvPurpleColor];
+//    addLabel.font = [UIFont textFontB2];
+//    addLabel.text = @"已添加";
+//    [addLabel autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:30];
+//    [addLabel autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
+//    [addLabel autoSetDimensionsToSize:CGSizeMake(100, 22)];
+    
+    UIButton *removeButton = [[UIButton alloc] init];
+    [self addSubview:removeButton];
+    self.removeButton = removeButton;
+    removeButton.titleLabel.textAlignment = NSTextAlignmentRight;
+    [removeButton setTitleColor:[UIColor hvPurpleColor] forState:UIControlStateNormal];
+    removeButton.titleLabel.font = [UIFont textFontB2];
+    [removeButton addTarget:self action:@selector(buttonClick:) forControlEvents:(UIControlEventTouchUpInside)];
+    [removeButton setTitle:@"已添加" forState:UIControlStateNormal];
+    [removeButton autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:10];
+    [removeButton autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
+    [removeButton autoSetDimensionsToSize:CGSizeMake(100, 22)];
+    
     
 }
 
@@ -88,17 +102,24 @@
 
 - (void)changeButtonStatus
 {
-    self.addButton.hidden = YES;
-    self.addLabel.hidden = NO;
+    if (self.removeButton.hidden) {
+        self.addButton.hidden = YES;
+        self.removeButton.hidden = NO;
+    } else {
+        self.addButton.hidden = NO;
+        self.removeButton.hidden = YES;
+    }
 }
+
+
 
 - (void)setStockBaseModel:(EVStockBaseModel *)stockBaseModel
 {
     _stockBaseModel = stockBaseModel;
     self.nameLabel.text = stockBaseModel.name;
     self.codeLabel.text = [NSString stringWithFormat:@"%@",stockBaseModel.symbol];
-    self.addButton.hidden = NO;
-    self.addLabel.hidden = YES;
+    self.addButton.hidden = stockBaseModel.collected ? YES:NO;
+    self.removeButton.hidden = stockBaseModel.collected ? NO:YES;
     
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

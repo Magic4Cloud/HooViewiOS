@@ -35,4 +35,16 @@ typedef NS_ENUM(NSInteger ,EVSearchType){
              sessionExpire:(void(^)())sessionExpireBlock
                reterrBlock:(void(^)(NSString *reterr))reterrBlock;
 
+//股票搜索
+- (void)getSearchStockInfosWith:(NSString *)name
+                           type:(EVSearchType)type
+                          start:(NSInteger)start
+                          count:(NSInteger)count
+                         userid:(NSString *)userid
+                     startBlock:(void(^)())startBlock
+                           fail:(void(^)(NSError *error))failBlock
+                        success:(void(^)(NSDictionary *dict))successBlock
+                  sessionExpire:(void(^)())sessionExpireBlock
+                    reterrBlock:(void(^)(NSString *reterr))reterrBlock;
+
 @end
