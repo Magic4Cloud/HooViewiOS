@@ -48,6 +48,7 @@
     [self.newsTableView addRefreshFooterWithRefreshingBlock:^{
         [weakself loadDataStart:weakself.start];
     }];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated

@@ -49,12 +49,12 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self setUpPageView];
     [self fetchDataWithType:EVSelfStockTypeAll];
-    [self refreshAll];
+//    [self refreshAll];
 }
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self refreshAll];
+//    [self refreshAll];
 }
 
 - (void)setUpPageView

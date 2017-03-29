@@ -166,14 +166,13 @@
     [self.baseToolManager GETAddSelfStocksymbol:codeListStr type:0 userid:[EVLoginInfo localObject].name Success:^(NSDictionary *retinfo) {
 
         //        !weakself.addStockBlock ? : weakself.addStockBlock(cell.stockBaseModel.symbol);
+        [EVNotificationCenter postNotificationName:@"chooseMarketCommit" object:nil];
     } error:^(NSError *error) {
 //        [EVProgressHUD showMessage:@"添加失败"];
     }];
 
-    [EVNotificationCenter postNotificationName:@"chooseMarketCommit" object:nil];
     [self.navigationController popViewControllerAnimated:YES];
 
-    
 }
 
 #pragma mark - *********** Delegate/DataSource 💍 ***********
@@ -264,8 +263,6 @@
 //        [[self _selfStockViewControllerWithType:type] updateDataArray:@[]];
     }];
 
-    
-    
 //    self.chooseArray = [NSMutableArray arrayWithContentsOfFile:[self storyFilePath]];
 //    if (self.chooseArray.count <= 0) {
 //        [self.baseToolManager GETUserCollectListType:EVCollectTypeStock start:^{

@@ -125,7 +125,7 @@
     _upStockBaseModel = upStockBaseModel;
     self.nameLabel.text = upStockBaseModel.name;
     self.codeLabel.text = [NSString stringWithFormat:@"%@",upStockBaseModel.symbol];
-    self.changeLabel.text = [NSString stringWithFormat:@"%.2f",[upStockBaseModel.open floatValue]];
+    self.changeLabel.text = [NSString stringWithFormat:@"%.2f",upStockBaseModel.close];
     NSString *floatMarked = @"%";
     self.changeFloatLabel.text = upStockBaseModel.changepercent > 0 ? [NSString stringWithFormat:@"+%.2f%@",upStockBaseModel.changepercent,floatMarked] : [NSString stringWithFormat:@"%.2f%@",upStockBaseModel.changepercent,floatMarked];
     self.changeFloatLabel.backgroundColor = upStockBaseModel.changepercent > 0 ? [UIColor evAssistColor] : [UIColor evSecondColor];

@@ -23,6 +23,9 @@
 
 @property (nonatomic, weak) id<EVSearchStockDelegate> delegate;
 @property (nonatomic, weak) UIButton *removeButton;
+@property (nonatomic, weak) UIButton *addButton;
+
+@property (nonatomic, assign) BOOL isSelfStockAdd;
 
 - (void)changeButtonStatus;
 

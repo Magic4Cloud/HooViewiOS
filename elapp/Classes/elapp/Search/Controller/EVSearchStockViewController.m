@@ -334,6 +334,13 @@
     }
     searchCell.stockBaseModel = self.dataArray[indexPath.row];
     searchCell.delegate = self;
+    if (searchCell.isSelfStockAdd) {
+        searchCell.addButton.hidden = YES;
+        searchCell.removeButton.hidden = NO;
+    } else {
+        searchCell.addButton.hidden = NO;
+        searchCell.removeButton.hidden = YES;
+    }
     searchCell.selectionStyle = UITableViewCellSelectionStyleNone;
     return searchCell;
 }

@@ -48,6 +48,7 @@
     self.nullDataView.title = @"您还没有添加自选噢";
     self.nullDataView.buttonTitle = @"添加自选";
     [self.nullDataView addButtonTarget:self action:@selector(nullAddClick:) forControlEvents:(UIControlEventTouchUpInside)];
+    self.nullDataView.hidden = YES;
     [self.view addSubview:self.nullDataView];
     [self.nullDataView hide];
 }

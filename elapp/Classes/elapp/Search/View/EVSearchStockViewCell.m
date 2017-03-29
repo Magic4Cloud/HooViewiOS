@@ -16,7 +16,6 @@
 
 @property (nonatomic, weak) UILabel *codeLabel;
 
-@property (nonatomic, weak) UIButton *addButton;
 
 @property (nonatomic, weak) UILabel *addLabel;
 
@@ -118,6 +117,7 @@
     _stockBaseModel = stockBaseModel;
     self.nameLabel.text = stockBaseModel.name;
     self.codeLabel.text = [NSString stringWithFormat:@"%@",stockBaseModel.symbol];
+    self.isSelfStockAdd = stockBaseModel.collected;
     self.addButton.hidden = stockBaseModel.collected ? YES:NO;
     self.removeButton.hidden = stockBaseModel.collected ? NO:YES;
     
