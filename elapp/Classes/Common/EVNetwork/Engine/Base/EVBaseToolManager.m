@@ -462,9 +462,9 @@ static BOOL sessioncheck = NO;
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json",@"text/plain",nil];
     NSURLSessionDataTask *task =  [manager GET:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        EVLog(@"responseObject---------  %@ ------  %@",responseObject,task.currentRequest);
+        NSLog(@"responseObject:%@",responseObject);
         if (responseObject) {
-            if ( [responseObject[kRetvalKye] isEqualToString:kRequestOK] )
+            if ( [[responseObject[kRetvalKye] lowercaseString] isEqualToString:kRequestOK] )
             {
                 if ( success )
                 {
@@ -481,8 +481,8 @@ static BOOL sessioncheck = NO;
             fail(error);
         }
     }];
-    EVLog(@"responseObject-------- ------  %@",task.currentRequest);
-//    [task resume];
+
+    [task resume];
 }
 
 + (void)GETRequestWithUrl:(nullable NSString *)url parameters:(nullable id)parameters success:(nullable void (^)(NSDictionary *successDict))success sessionExpireBlock:(void(^)())sessionExpireBlock fail:(nullable void(^)(NSError  * error))fail
@@ -521,7 +521,6 @@ static BOOL sessioncheck = NO;
             fail(error);
         }
     }];
-    EVLog(@"responseObject---------  %@ ------ ",task.currentRequest);
     [task resume];
 }
 

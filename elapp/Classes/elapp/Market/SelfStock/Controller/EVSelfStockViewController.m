@@ -123,6 +123,10 @@
 {
     EVLog(@"添加自选");
     EVSearchStockViewController *searchStockVC = [[EVSearchStockViewController alloc] init];
+    searchStockVC.addStockBlock = ^(NSString * sbom)
+    {
+        [EVNotificationCenter postNotificationName:@"chooseMarketCommit" object:nil];
+    };
     [self.navigationController pushViewController:searchStockVC animated:YES];
     if (self.Sdelegate && [self.Sdelegate respondsToSelector:@selector(addStockClick)]) {
         [self.Sdelegate addStockClick];

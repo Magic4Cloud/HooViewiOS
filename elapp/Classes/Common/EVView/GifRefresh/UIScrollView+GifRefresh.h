@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "EVRefreshGifFooter.h"
 
+
 /**
  刷新控件的状态
  */

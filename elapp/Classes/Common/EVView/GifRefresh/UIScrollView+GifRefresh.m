@@ -6,9 +6,9 @@
 //  Copyright (c) 2016 EasyVass. All rights reserved.
 //
 
-#import "UIScrollView+GifRefresh.h"
-#import "EVRefreshGifHeader.h"
 
+#import "EVRefreshGifHeader.h"
+#import "UIScrollView+GifRefresh.h"
 @implementation UIScrollView (GifRefresh)
 
 #pragma mark - public instance methods
