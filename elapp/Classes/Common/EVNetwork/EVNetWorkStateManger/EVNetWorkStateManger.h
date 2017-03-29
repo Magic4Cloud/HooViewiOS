@@ -33,7 +33,7 @@ typedef NS_ENUM(NSInteger, EVNetworkStatus) {
 @property (nonatomic, assign) EVNetworkStatus currNetWorkState;
 
 @property (nonatomic,copy, readonly) NSString *netStateWorkDes;
-
++ (instancetype)shareInstance;
 - (void)boardCastNetWorkState;
 
 - (BOOL)isWifi;

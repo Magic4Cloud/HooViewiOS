@@ -116,7 +116,6 @@
     if (self.dismissSelfBlock) {
         self.dismissSelfBlock();
     }
-//    [self.view removeFromSuperview];
 }
 - (void)isLoadDefaultImage
 {
@@ -132,7 +131,7 @@
     self.skipButton.hidden = NO;
     if (count == 0)
     {
-        [self.view removeFromSuperview];
+        [self dismissSelf];
         [tim invalidate];
         tim = nil;
     }
@@ -154,7 +153,7 @@
 
 - (void)skipButtonClick:(UIButton *)button
 {
-    [self.view removeFromSuperview];
+    [self dismissSelf];
     [_timer invalidate];
     _timer = nil;
 }

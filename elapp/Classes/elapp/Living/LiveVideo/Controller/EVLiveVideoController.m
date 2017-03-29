@@ -198,26 +198,15 @@
         EVLog(@"推荐视频");
         return;
     }
-//    NSString *sessionID = [self.baseToolManager getSessionIdWithBlock:nil];
-//    
-//    if (sessionID == nil || [sessionID isEqualToString:@""]) {
-//        [self loginView];
-//        return;
-//    }
-    
+
     
     EVWatchVideoInfo *watchVideoInfo = self.dataArray[indexPath.row];
-//    videoInfo.vid = circleRecordedModel.vid;
-//    videoInfo.play_url = circleRecordedModel.play_url;
-//    videoInfo.thumb = circleRecordedModel.thumb;
-//    [self playVideoWithVideoInfo:videoInfo permission:circleRecordedModel.permission];
 
     EVHVWatchViewController *watchViewVC = [[EVHVWatchViewController alloc] init];
     watchViewVC.watchVideoInfo = watchVideoInfo;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:watchViewVC];
     [self presentViewController:nav animated:YES completion:nil];
-//    [self.navigationController pushViewController:watchViewVC animated:YES];
-//    [self presentViewController:watchViewVC animated:YES completion:nil];
+
 }
 
 - (void)loginView

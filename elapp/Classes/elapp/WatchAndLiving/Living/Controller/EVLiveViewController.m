@@ -623,7 +623,7 @@ static inline long long getcurrsecond()
 {
     [EVNotificationCenter addObserver:self selector:@selector(netWorkChange:) name:CCNetWorkChangeNotification object:nil];
     [EVNotificationCenter addObserver:self selector:@selector(forceToClose) name:CCNeedToForceCloseLivePageOrWatchPage object:nil];
-    EVNetworkStatus state = [EVNetWorkStateManger sharedManager].currNetWorkState;
+    EVNetworkStatus state = [EVNetWorkStateManger shareInstance].currNetWorkState;
     NSDictionary *userInfo = @{ CCNetWorkStateKey : @(state) };
     NSNotification *notification = [NSNotification notificationWithName:AFNetworkingReachabilityDidChangeNotification object:nil userInfo:userInfo];
     [self netWorkChange:notification];

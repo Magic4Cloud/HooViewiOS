@@ -37,7 +37,7 @@ typedef NS_ENUM(NSInteger, CCLiveControllerStyle) {
 @end
 
 /**
- *  使用此控制器之前请包一个导航控制器
+ *  使用此控制器之前请包一个导航控制器  开启直播
  */
 @interface EVLiveViewController : EVVideoViewController
 
