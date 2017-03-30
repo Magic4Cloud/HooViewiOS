@@ -112,6 +112,7 @@
 
 - (void)loadHeadTailData
 {
+    
     self.refreshFinish = YES;
     WEAK(self)
     [self.baseToolManager GETRequestTodayFloatMarket:_marketType Success:^(NSDictionary *retinfo) {

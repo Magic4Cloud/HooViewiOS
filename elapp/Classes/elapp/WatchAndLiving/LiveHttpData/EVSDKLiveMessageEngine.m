@@ -109,7 +109,7 @@
 
 - (void)loadHistoryData
 {
-    [[EVMessageManager shareManager] getLatestHistoryMessagesInTopic:self.topicVid result:^(BOOL isSuccess, EVMessageErrorCode errorCode, NSDictionary *response) {
+    [[EVMessageManager shareManager] getLatestHistoryMessagesInTopic:_topicVid result:^(BOOL isSuccess, EVMessageErrorCode errorCode, NSDictionary *response) {
         NSArray *dataArray = response[@"list"];
         EVLog(@"response--------------  %@",response);
         for (NSDictionary *dict in dataArray) {
@@ -138,7 +138,7 @@
 - (void)loadMoreHistoryDataSuccess:(void(^)())success
 {
 
-    [[EVMessageManager shareManager] getHitoryMessagesWithStart:self.start count:15 inTopic:self.topicVid result:^(BOOL isSuccess, EVMessageErrorCode errorCode, NSDictionary *response) {
+    [[EVMessageManager shareManager] getHitoryMessagesWithStart:self.start count:15 inTopic:_topicVid result:^(BOOL isSuccess, EVMessageErrorCode errorCode, NSDictionary *response) {
         EVLog(@"responsemore--------------  %@",response);
         if (success) {
             success();

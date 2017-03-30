@@ -30,7 +30,14 @@
 
 + (instancetype)shareInstance
 {
-    return [self sharedManager];
+    static EVNetWorkStateManger *_sharedManager = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _sharedManager = [self manager];
+    });
+    
+    return _sharedManager;
+//    return [self sharedManager];
 }
 
 - (NSString *)netStateWorkDes

@@ -153,10 +153,12 @@ typedef NS_ENUM(NSInteger, EVPhonePWDVCButtonType) {
     [self.engine GETUserResetPassword:password phone:self.phone start:^{
         [EVProgressHUD showMessage:kSend_again toView:wself.view];
     } fail:^(NSError *error) {
+        NSLog(@"eeeeee = %@",error);
         [EVProgressHUD hideHUDForView:wself.view];
         NSString *errorStr = [error errorInfoWithPlacehold:kFail_setting];
         [[EVAlertManager shareInstance] performComfirmTitle:kTooltip message:errorStr comfirmTitle:kOK WithComfirm:nil];
     } success:^(BOOL success) {
+        NSLog(@"修改成功 = %d",success);
         [EVProgressHUD hideHUDForView:wself.view];
         [self gotoLoginVC];
     }];

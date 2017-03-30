@@ -101,8 +101,23 @@
         [self handleLogoutAction];
         
         if (![EVLoginInfo hasLogged]) {
-            UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
-            [self presentViewController:navighaVC animated:YES completion:nil];
+            
+            if ( self.navigationController.childViewControllers.count > 1 )
+            {
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+            else if ( self.navigationController.childViewControllers.count == 1 )
+            {
+                [self dismissViewControllerAnimated:YES completion:nil];
+            } else if ( self.navigationController.childViewControllers.count == 0 )
+            {
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }
+            
+            [(AppDelegate *)[UIApplication sharedApplication].delegate relogin];
+            
+//            UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
+//            [self presentViewController:navighaVC animated:YES completion:nil];
         }
     } cancel:^{
         [self handleLogoutAction];

@@ -71,6 +71,10 @@
 
 @property (nonatomic, strong) EVSDKLiveMessageEngine *liveMessageEngine;
 
+
+/**
+ 聊天 view
+ */
 @property (nonatomic, weak) EVHVChatTextView *chatTextView;
 
 @property (nonatomic, strong) NSLayoutConstraint *chatTextViewHig;
@@ -89,6 +93,9 @@
 
 @property (strong, nonatomic) EVUserAsset *asset;  /**< 用户资产信息 */
 
+/**
+ 搜索股票输入框
+ */
 @property (nonatomic, weak) EVHVStockTextView *stockTextView;
 
 @property (nonatomic, assign) NSInteger scrollViewIndex;
@@ -127,7 +134,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+
     self.scrollViewIndex = 0;
 
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
@@ -281,7 +288,7 @@
 - (void)successLivingDataVideoInfo:(NSDictionary *)videoInfo
 {
  
-    self.watchVideoInfo = [EVWatchVideoInfo objectWithDictionary:videoInfo];
+    _watchVideoInfo = [EVWatchVideoInfo objectWithDictionary:videoInfo];
    
     [self addChatTextView];
     [self addPresentListView];
@@ -422,7 +429,7 @@
         [self.watchTopView gestureHideView];
     }
 }
-
+#pragma mark - 添加聊天输入框
 - (void)addChatTextView
 {
     _blackBackView = [[UIButton alloc] init];
@@ -506,7 +513,7 @@
 - (void)addLiveMessageEngine
 {
     _liveMessageEngine = [[EVSDKLiveMessageEngine alloc]init];
-    _liveMessageEngine.topicVid = self.watchVideoInfo.vid;
+    _liveMessageEngine.topicVid = _watchVideoInfo.vid;
     _liveMessageEngine.delegate = self;
     EVLoginInfo *loginInfo = [EVLoginInfo localObject];
     _liveMessageEngine.userData = loginInfo.name;
@@ -1032,6 +1039,7 @@
     [self.watchBottomView.giftAniView addStartGoodModel:goodModel];
 }
 
+#pragma mark - 送礼物
 - (void)sendMagicEmojiWithEmoji:(EVStartGoodModel *)magicEmoji num:(NSInteger)numOfEmoji
 {
     WEAK(self)

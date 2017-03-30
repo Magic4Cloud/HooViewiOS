@@ -23,8 +23,8 @@
 #import "EVShareManager.h"
 #import "EVVipCenterViewController.h"
 
-@interface EVNewsDetailWebController ()<UIWebViewDelegate,EVStockDetailBottomViewDelegate,UITextFieldDelegate,EVWebViewShareViewDelegate>
-@property (nonatomic, strong) UIWebView *newsWebView;
+@interface EVNewsDetailWebController ()<WKNavigationDelegate,EVStockDetailBottomViewDelegate,UITextFieldDelegate,EVWebViewShareViewDelegate>
+@property (nonatomic, strong) WKWebView *newsWebView;
 
 @property (nonatomic, copy) NSString *urlStr;
 @property (nonatomic, weak) EVStockDetailBottomView *detailBottomView;
@@ -64,9 +64,9 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if (self.newsWebView.request.URL) {
-        [self.newsWebView reload];
-    }
+//    if (self.newsWebView.request.URL) {
+//        [self.newsWebView reload];
+//    }
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
@@ -95,15 +95,23 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification  object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 
-
-    self.newsWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 1, ScreenWidth, ScreenHeight - 113)];
     
+    
+    if (self.announcementTitle.length > 0) {
+        self.newsWebView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 1, ScreenWidth, ScreenHeight - 49)];
+        self.title = self.announcementTitle;
+        self.urlStr = [self requestAnnouncementUrl:self.announcementURL];
+        [self updateUrlStr:self.urlStr];
+        EVLog(@"webviewurl---- %@",self.urlStr);
+    } else
     if (self.newsID != nil) {
+        self.newsWebView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 1, ScreenWidth, ScreenHeight - 113)];
         self.urlStr =   [self requestUrlID:self.newsID];
         [self updateUrlStr:self.urlStr];
         EVLog(@"webviewurl---- %@",self.urlStr);
     }
-    self.newsWebView.delegate = self;
+    
+    self.newsWebView.navigationDelegate = self;
     [self.view addSubview:self.newsWebView];
     
     
@@ -118,6 +126,12 @@
     stockDetailView.delegate = self;
     [self.view addSubview:stockDetailView];
     self.detailBottomView = stockDetailView;
+    
+    if (self.announcementTitle.length > 0) {
+        self.detailBottomView.hidden = YES;
+        NSLog(@"公告title = %@",self.announcementTitle);
+        NSLog(@"公告URL = %@",self.announcementURL);
+    }
     
     _webViewBridge = [WebViewJavascriptBridge bridgeForWebView:self.newsWebView];
     [_webViewBridge setWebViewDelegate:self];
@@ -143,18 +157,21 @@
     self.nullDataView = nullDataView;
     nullDataView.hidden = YES;
     
+    
+    if (self.announcementTitle.length > 0) {
+        
+    } else {
     [self.baseToolManager GETUserCollectType:EVCollectTypeNews code:self.newsID action:0 start:^{
         
     } fail:^(NSError *error) {
         [EVProgressHUD showMessage:@"失败"];
-        NSLog(@"error == %@",error);
     } success:^(NSDictionary *retinfo) {
-        NSLog(@"retinfo----%@",retinfo);
         self.detailBottomView.isCollec = [retinfo[@"exist"] boolValue];
         self.isCollect = [retinfo[@"exist"] boolValue];
     } sessionExpire:^{
         
     }];
+    }
 
 }
 
@@ -213,7 +230,7 @@
         
         EVNewsDetailWebController *detailWebVC = [[EVNewsDetailWebController alloc] init];
         NSDictionary *bodyDict = data;
-        detailWebVC.newsID = bodyDict[@"newsid"];
+        detailWebVC.newsID = [bodyDict[@"newsid"] description];
         detailWebVC.newsTitle = bodyDict[@"newstitle"];
         [self.navigationController pushViewController:detailWebVC animated:YES];
         
@@ -244,6 +261,7 @@
     self.touchLayer.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
     [self.window addSubview:self.touchLayer];
     [self.window makeKeyAndVisible];
+    
     
     [self.touchLayer addTarget:self action:@selector(hide) forControlEvents:(UIControlEventTouchUpInside)];
     
@@ -333,9 +351,11 @@
 
 - (void)popBack
 {
-    [self deallocView];
+//    [self deallocView];
 
     [self.navigationController popViewControllerAnimated:YES];
+//    NSArray * vcArray = self.navigationController.childViewControllers;
+    
 }
 
 - (void)updateUrlStr:(NSString *)urlStr
@@ -370,16 +390,40 @@
     return urlStr;
 }
 
+//拼接公告URL
+- (NSString *)requestAnnouncementUrl:(NSString *)announcementURL
+{
+    NSMutableString *paramStr = [NSMutableString string];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    
+    [params setValue:announcementURL forKey:@"url"];
+    [params setValue:@"announcement" forKey:@"page"];
+    NSInteger paramCount = params.count;
+    __block NSInteger index = 0;
+    [params enumerateKeysAndObjectsUsingBlock:^(id key, NSString *value, BOOL *stop) {
+        NSString *param = [NSString stringWithFormat:@"%@=%@",key,value];
+        [paramStr appendString:param];
+        if ( index != paramCount - 1 ) {
+            [paramStr appendString:@"&"];
+        }
+        index++;
+    }];
+    NSString *urlStr = [NSString stringWithFormat:@"%@?%@",webNewsUrl,paramStr];
+    
+    return urlStr;
+}
+
+
 
 #pragma mark - delegate
 - (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message {
+    
     if ([message.name isEqualToString:@"ScanAction"]) {
         
     }
     
 }
-
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+- (void)webView:(WKWebView *)webView didFailNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error
 {
     //如果在一个请求没加载完毕就加载下一个请求  会走这个方法  加上判断  如果不是请求取消导致的error  才显示加载失败界面
     NSLog(@"error = %@",error);
@@ -387,8 +431,17 @@
         [EVProgressHUD showError:@"网页加载失败"];
         self.nullDataView.hidden = NO;
     }
-    
 }
+//- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+//{
+//    //如果在一个请求没加载完毕就加载下一个请求  会走这个方法  加上判断  如果不是请求取消导致的error  才显示加载失败界面
+//    NSLog(@"error = %@",error);
+//    if ([error code] != NSURLErrorCancelled) {
+//        [EVProgressHUD showError:@"网页加载失败"];
+//        self.nullDataView.hidden = NO;
+//    }
+//    
+//}
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
 //    [self.baseToolManager GETUserHistoryType:EVCollectTypeNews code:self.newsID action:1 start:^{
@@ -522,10 +575,16 @@
 
 - (void)deallocView
 {
-    [self.touchLayer removeFromSuperview];
-    self.touchLayer = nil;
-    [self.window removeFromSuperview];
-    self.window = nil;
+    if (self.touchLayer) {
+        [self.touchLayer removeFromSuperview];
+        self.touchLayer = nil;
+    }
+    
+    if (self.window) {
+        [self.window resignKeyWindow];
+        self.window = nil;
+    }
+    
 }
 
 - (void)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(void))completionHandler
@@ -537,7 +596,8 @@
 - (void)dealloc
 {
     [EVNotificationCenter removeObserver:self];
-    EVLog(@"-----------------DEALLOC NEWSwebView");
+    NSLog(@"好消息，好消息 😀😀😀🙈🙈🙈🙈🙈🙈🙈🙈🐷🐷🐷🐷🐷🐷控制器释放了DEALLOC NEWSwebView");
+    
     [self deallocView];
 }
 
@@ -546,14 +606,5 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

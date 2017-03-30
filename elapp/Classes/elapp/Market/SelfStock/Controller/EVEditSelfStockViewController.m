@@ -164,11 +164,11 @@
     NSString *codeListStr = [self.chooseArray componentsJoinedByString:@","];
     
     [self.baseToolManager GETAddSelfStocksymbol:codeListStr type:0 userid:[EVLoginInfo localObject].name Success:^(NSDictionary *retinfo) {
-
-        //        !weakself.addStockBlock ? : weakself.addStockBlock(cell.stockBaseModel.symbol);
         [EVNotificationCenter postNotificationName:@"chooseMarketCommit" object:nil];
+
+
     } error:^(NSError *error) {
-//        [EVProgressHUD showMessage:@"添加失败"];
+        
     }];
 
     [self.navigationController popViewControllerAnimated:YES];
@@ -249,7 +249,7 @@
 - (void)loadData
 {
     [self.baseToolManager GETRequestSelfStockList:[EVLoginInfo localObject].name Success:^(NSDictionary *retinfo) {
-        NSLog(@"------retinfo = %@",retinfo);
+//        NSLog(@"------retinfo = %@",retinfo);
         
         NSArray *dataArray = [EVStockBaseModel objectWithDictionaryArray:retinfo[@"data"]];
         self.dataArray = [NSMutableArray arrayWithArray:dataArray];

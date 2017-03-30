@@ -17,6 +17,7 @@
 #import "NSString+Extension.h"
 #import "EVStockBaseModel.h"
 
+#import "UIScrollView+GifRefresh.h"
 
 @interface EVSelectMarketViewController ()<SGSegmentedControlStaticDelegate,UIScrollViewDelegate,EVSelfStockVCDelegate>
 @property (nonatomic, strong) UIScrollView *backScrollView;
@@ -42,19 +43,21 @@
 @end
 
 @implementation EVSelectMarketViewController
-
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self setUpPageView];
-    [self fetchDataWithType:EVSelfStockTypeAll];
-//    [self refreshAll];
+   
+
 }
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-//    [self refreshAll];
 }
 
 - (void)setUpPageView
@@ -114,9 +117,9 @@
     [self.HKStockVC.listTableView addRefreshHeaderWithRefreshingBlock:^{
         [self fetchDataWithType:EVSelfStockTypeHK];
     }];
-    [self.USStockVC.listTableView addRefreshHeaderWithRefreshingBlock:^{
-        [self fetchDataWithType:EVSelfStockTypeUS];
-    }];
+//    [self.USStockVC.listTableView addRefreshHeaderWithRefreshingBlock:^{
+//        [self fetchDataWithType:EVSelfStockTypeUS];
+//    }];
     
     NSArray *titleArray = @[@"全部",@"沪深",@"港股"];
     
@@ -132,7 +135,7 @@
         *selectedTitleColor = [UIColor evMainColor];
         *indicatorColor = [UIColor evMainColor];
     }];
-    self.topSView.selectedIndex = 0;
+//    self.topSView.selectedIndex = 0;
     [self.view addSubview:_topSView];
     
 
@@ -174,9 +177,10 @@
 //        [self fetchStockDataWithString:marketStr type:type];
 //    }
     
-    
+    NSLog(@"第一次网络请求：EVSelfStockType:%ld",type);
     [self.baseToolManager GETRequestSelfStockList:[EVLoginInfo localObject].name Success:^(NSDictionary *retinfo) {
-        NSLog(@"------retinfo = %@",retinfo);
+        [[[self _selfStockViewControllerWithType:type] listTableView] endHeaderRefreshing];
+        NSLog(@"type：%ld第一次网络请求：返回的数据********** = %@",type,retinfo);
         self.chooseArray = retinfo[@"data"];
         
         NSMutableArray *codeArray = [NSMutableArray array];
@@ -188,7 +192,7 @@
 //        NSLog(@"%@",codeListStr);
         NSArray *markets = [self _filterStockWithType:type localArray:codeArray];
         NSString *marketStr = [NSString stringWithArray:markets];
-        NSLog(@"%@",marketStr);
+        NSLog(@"marketStr:%@",marketStr);
         if (markets.count == 0) {
             [[self _selfStockViewControllerWithType:type] updateDataArray:@[]];
             return;
@@ -196,20 +200,25 @@
         [self fetchStockDataWithString:marketStr type:type];
         
 //        [[self _selfStockViewControllerWithType:type] updateDataArray:self.chooseArray];
-        [[[self _selfStockViewControllerWithType:type] listTableView] endHeaderRefreshing];
+        
     } error:^(NSError *error) {
+        NSLog(@"type:%ld第一次网络请求error:%@",type,error.domain);
         [[[self _selfStockViewControllerWithType:type] listTableView] endHeaderRefreshing];
         [[self _selfStockViewControllerWithType:type] updateDataArray:@[]];
     }];
 }
 
-- (void)fetchStockDataWithString:(NSString *)stockString type:(EVSelfStockType)type {
+- (void)fetchStockDataWithString:(NSString *)stockString type:(EVSelfStockType)type
+{
+//    NSLog(@"第二次请求type:%ld",type);
     [self.baseToolManager GETRealtimeQuotes:stockString success:^(NSDictionary *retinfo) {
+//        NSLog(@"type:%ld第二次请求得到的数据：retinfo:%@",type,retinfo);
         [[[self _selfStockViewControllerWithType:type] listTableView] endHeaderRefreshing];
 //        [EVProgressHUD showSuccess:@"加载成功"];
         NSArray *dataArray = retinfo[@"data"];
         [[self _selfStockViewControllerWithType:type] updateDataArray:dataArray];
     } error:^(NSError *error) {
+//        NSLog(@"type:%ld第二次请求得到的error:%@",type,error.domain);
         [[[self _selfStockViewControllerWithType:type] listTableView] endHeaderRefreshing];
 //        [EVProgressHUD showMessage:@"加载错误"];
     }];
@@ -288,37 +297,57 @@
     return tempArray.copy;
 }
 
-- (EVSelfStockType)_typeWithIndex:(NSInteger)index {
-    EVSelfStockType type;
-    if (index == 0) {
+- (EVSelfStockType)_typeWithIndex:(NSInteger)index
+{
+    EVSelfStockType type = EVSelfStockTypeAll;
+    if (index == 0)
+    {
         type = EVSelfStockTypeAll;
     }
-    else if (index == 1) {
+    else if (index == 1)
+    {
         type = EVSelfStockTypeSZSH;
     }
-    else if (index == 2) {
+    else if (index == 2)
+    {
         type = EVSelfStockTypeHK;
     }
-    else if (index == 3) {
-        type = EVSelfStockTypeUS;
-    }
+//    else if (index == 3) {
+//        type = EVSelfStockTypeUS;
+//    }
     return type;
 }
 
 #pragma mark - notification
 - (void)refreshAll
 {
-    [self fetchDataWithType:EVSelfStockTypeAll];
-    [self fetchDataWithType:EVSelfStockTypeSZSH];
-    [self fetchDataWithType:EVSelfStockTypeHK];
-    [self fetchDataWithType:EVSelfStockTypeUS];
+    //只刷新当前列表
+    [self fetchDataWithType:_currentSelectedType];
+//    [self fetchDataWithType:EVSelfStockTypeSZSH];
+//    [self fetchDataWithType:EVSelfStockTypeHK];
+//    [self fetchDataWithType:EVSelfStockTypeUS];
 }
 
 
 #pragma mark - EVSelfStockVCDelegate
 - (void)refreshWithType:(EVSelfStockType)type
 {
-    [self fetchDataWithType:type];
+    
+    switch (type) {
+        case EVSelfStockTypeAll:
+            [self.allStockVC.listTableView startHeaderRefreshing];
+            break;
+        case EVSelfStockTypeSZSH:
+            [self.SHStockVC.listTableView startHeaderRefreshing];
+            break;
+        case EVSelfStockTypeHK:
+            [self.HKStockVC.listTableView startHeaderRefreshing];
+            break;
+            
+        default:
+            break;
+    }
+//    [self fetchDataWithType:type];
 }
 
 - (void)addStockClick {
@@ -328,12 +357,12 @@
 #pragma mark -delegate
 
 - (void)SGSegmentedControlStatic:(SGSegmentedControlStatic *)segmentedControlStatic didSelectTitleAtIndex:(NSInteger)index {
-    NSLog(@"index - - %ld", (long)index);
     // 计算滚动的位置
     CGFloat offsetX = index * self.view.frame.size.width;
     self.backScrollView.contentOffset = CGPointMake(offsetX, 0);
+    _currentSelectedType = [self _typeWithIndex:index];
+    [self fetchDataWithType:_currentSelectedType];
     
-    [self fetchDataWithType:[self _typeWithIndex:index]];
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -341,7 +370,8 @@
     // 2.把对应的标题选中
     [self.topSView changeThePositionOfTheSelectedBtnWithScrollView:scrollView];
     NSInteger index = scrollView.contentOffset.x / scrollView.frame.size.width;
-    [self fetchDataWithType:[self _typeWithIndex:index]];
+    _currentSelectedType = [self _typeWithIndex:index];
+    [self fetchDataWithType:_currentSelectedType];
 }
 
 - (EVBaseToolManager *)baseToolManager

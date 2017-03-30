@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -15,11 +15,11 @@
             <rect key="frame" x="0.0" y="0.0" width="354" height="223"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="354" height="222"/>
+                <rect key="frame" x="0.0" y="0.0" width="354" height="222.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="New-hD-JAJ">
-                        <rect key="frame" x="5" y="5" width="344" height="207.5"/>
+                        <rect key="frame" x="8" y="5" width="338" height="207.5"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YWs-8z-qdr">
                                 <rect key="frame" x="13" y="10" width="100" height="23"/>
@@ -32,7 +32,7 @@
                                 </state>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z5e-14-PXH">
-                                <rect key="frame" x="268" y="10" width="60" height="22"/>
+                                <rect key="frame" x="262" y="10" width="60" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="cnI-xg-WTm"/>
                                     <constraint firstAttribute="height" constant="22" id="meY-74-KE2"/>
@@ -46,7 +46,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" tag="2000" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YA1-FK-ODr">
-                                <rect key="frame" x="0.0" y="50" width="304" height="50"/>
+                                <rect key="frame" x="0.0" y="50" width="298" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="5tp-Td-10Y"/>
                                 </constraints>
@@ -55,7 +55,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" tag="2001" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GmL-O5-xRb">
-                                <rect key="frame" x="0.0" y="100" width="304" height="50"/>
+                                <rect key="frame" x="0.0" y="100" width="298" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="pcz-fL-S9l"/>
                                 </constraints>
@@ -64,7 +64,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" tag="2002" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="b0f-Rl-oN0">
-                                <rect key="frame" x="0.0" y="150" width="304" height="50"/>
+                                <rect key="frame" x="0.0" y="150" width="298" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="0CZ-XL-fih"/>
                                 </constraints>
@@ -137,12 +137,19 @@
                             <constraint firstAttribute="trailing" secondItem="GmL-O5-xRb" secondAttribute="trailing" constant="40" id="wc9-Lc-ky4"/>
                             <constraint firstItem="YA1-FK-ODr" firstAttribute="centerY" secondItem="zIw-40-6LH" secondAttribute="centerY" id="yyR-OT-SjD"/>
                         </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="4"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                        </userDefinedRuntimeAttributes>
                     </view>
                 </subviews>
+                <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
                     <constraint firstItem="New-hD-JAJ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="Egj-lF-LDm"/>
-                    <constraint firstAttribute="trailing" secondItem="New-hD-JAJ" secondAttribute="trailing" constant="5" id="Wcb-oV-QcR"/>
-                    <constraint firstItem="New-hD-JAJ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="kuB-tQ-tKh"/>
+                    <constraint firstAttribute="trailing" secondItem="New-hD-JAJ" secondAttribute="trailing" constant="8" id="Wcb-oV-QcR"/>
+                    <constraint firstItem="New-hD-JAJ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="kuB-tQ-tKh"/>
                     <constraint firstAttribute="bottom" secondItem="New-hD-JAJ" secondAttribute="bottom" constant="10" id="niJ-Cc-ggC"/>
                 </constraints>
                 <userDefinedRuntimeAttributes>

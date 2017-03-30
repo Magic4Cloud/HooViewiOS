@@ -116,7 +116,6 @@
     if (self.dismissSelfBlock) {
         self.dismissSelfBlock();
     }
-//    [self.view removeFromSuperview];
 }
 - (void)isLoadDefaultImage
 {
