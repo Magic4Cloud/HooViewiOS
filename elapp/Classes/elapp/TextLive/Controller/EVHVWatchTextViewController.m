@@ -250,9 +250,9 @@
 //    self.textLiveChatTableView.tDelegate = self;
     
     //TODO:聊天tableView
-    [self.textLiveChatTableView addRefreshHeaderWithRefreshingBlock:^{
-         [weakself loadHistoryData];
-    }];
+//    [self.textLiveChatTableView addRefreshHeaderWithRefreshingBlock:^{
+//         [weakself loadHistoryData];
+//    }];
     EVNotOpenView *notOpenView = [[EVNotOpenView alloc] init];
     notOpenView.frame = CGRectMake(ScreenWidth * 3, 260, ScreenWidth, ScreenHeight - 260);
     [mainBackView addSubview:notOpenView];
@@ -365,7 +365,7 @@
 
 - (void)updateScrollView:(UIScrollView *)scrollView
 {
-    EVLog(@"scrollview------ %f",scrollView.contentOffset.y);
+    
     if (scrollView.contentOffset.y <= -(headerTopHig + segmentHig)) {
         self.vipCenterView.frame = CGRectMake(0, 0, ScreenWidth, headerTopHig);
         self.sementedBackView.frame = CGRectMake(0, headerTopHig, ScreenWidth, 44);
@@ -375,7 +375,7 @@
         self.sementedBackView.frame = CGRectMake(0, 64, ScreenWidth, 44);
         self.navigationView.alpha = 1.0;
     }else {
-        EVLog(@"--------------------  %@",self.vipCenterView);
+        
         CGRect oneFrame = self.vipCenterView.frame;
         oneFrame.origin.y = -((oneFrame.size.height+44) + scrollView.contentOffset.y);
         self.vipCenterView.frame = oneFrame;
@@ -489,9 +489,9 @@
     [self.baseToolManager GETUserAssetsWithStart:^{
         
     } fail:^(NSError *error) {
-        EVLog(@"get asset fail");
+        
     } success:^(NSDictionary *videoInfo) {
-        EVLog(@"get asset success");
+        
         self.asset = [EVUserAsset objectWithDictionary:videoInfo];
         [weakself updateAssetWithInfo:videoInfo];
     } sessionExpire:^{
@@ -588,60 +588,53 @@
     NSLog(@"不是主播");
 }
 
+
 //上拉加载
 - (void)loadHistoryData
 {
     WEAK(self)
     self.isRefresh = YES;
-    NSLog(@"%ld",self.cellStart);
-    //如果cellStart是0就是刷新   否则加载更多
-    [self.baseToolManager GETHistoryTextLiveStreamid:self.liveVideoInfo.liveID  count:@"20" start:[NSString stringWithFormat:@"%ld",self.cellStart] stime:self.time success:^(NSDictionary *retinfo) {
-        NSLog(@"successsjhdahj  %@",retinfo);
+    NSDate * currentDate = [NSDate date];
+    NSTimeInterval timeInterval = [currentDate timeIntervalSince1970] *1000;
+    _time = [NSString stringWithFormat:@"%.0f",timeInterval];
+    [self.baseToolManager GETHistoryTextLiveStreamid:self.liveVideoInfo.liveID  count:@"20" start:[NSString stringWithFormat:@"%ld",self.cellStart] stime:self.time success:^(NSDictionary *retinfo)
+    {
+//        NSLog(@"retinfo:  %@",retinfo);
         [weakself.liveImageTableView endFooterRefreshing];
-        [weakself.textLiveChatTableView endHeaderRefreshing];
-        if ([retinfo[@"reterr"] isEqualToString:@"OK"]) {
+        if ([retinfo[@"reterr"] isEqualToString:@"OK"])
+        {
             NSArray *msgsAry = retinfo[@"retinfo"][@"msgs"];
             [weakself.historyArray removeAllObjects];
-            [weakself.historyChatArray removeAllObjects];
-//            NSLog(@"---------%ld",self.historyArray.count);
-//            NSLog(@"=====  %@",retinfo[@"retinfo"][@"start"]);
-            if (weakself.isRefresh == YES || [retinfo[@"retinfo"][@"start"] integerValue] != 0) {
-                
+            
                 for (NSDictionary *msgDict in msgsAry)
                 {
-                     weakself.time = [NSString stringWithFormat:@"%@",msgDict[@"timestamp"]];
                     if ([msgDict[@"from"] isEqualToString:self.watchVideoInfo.name])
                     {
                         //直播内容
                         EVEaseMessageModel *messageModel = [[EVEaseMessageModel alloc] initWithHistoryMessage:msgDict];
-                        NSLog(@"messag = %@",messageModel.text);
                         [weakself.historyArray addObject:messageModel];
                     }
-                    else
-                    {
-                        //非直播内容
-                    }
-                    
-                    //所有内容（聊天内容）
-                    EVEaseMessageModel *chatModel = [[EVEaseMessageModel alloc] initWithHistoryChatMessage:msgDict];
-                    [weakself.historyChatArray addObject:chatModel];
-
                 }
+            
+                if (_cellStart == 0)
+                {
+                    [weakself.liveImageTableView.dataArray removeAllObjects];
+                }
+                    
                 [weakself.liveImageTableView updateHistoryArray:self.historyArray];
-                [weakself.textLiveChatTableView updateHistoryArray:self.historyChatArray];
-            }
-            if (msgsAry.count >= kCountNum) {
-                self.cellStart += 20;
-            }
+
+            _cellStart = [retinfo[@"retinfo"][@"next"] integerValue];
+
              [weakself.liveImageTableView setFooterState:(msgsAry.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
-            weakself.isRefresh = NO;
+             weakself.isRefresh = NO;
         }
-        NSLog(@"his = %@",self.historyArray);
-        NSLog(@"hishis = %@",self.historyChatArray);
-    } error:^(NSError *error) {
+        
+    }
+     error:^(NSError *error)
+    {
         weakself.isRefresh = NO;
         [weakself.liveImageTableView endFooterRefreshing];
-        [weakself.textLiveChatTableView endHeaderRefreshing];
+//        [weakself.textLiveChatTableView endHeaderRefreshing];
     }];
 }
 #pragma mark -- 直播菜单按钮点击
@@ -922,14 +915,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    EVLog(@"------------------- viewWillAppear");
+
     [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    EVLog(@"------------------- viewDidAppear");
 //    [self.liveImageTableView updateWatchCount:self.liveVideoInfo.viewcount];
     EMError *error = nil;
 
@@ -950,10 +942,6 @@
 - (void)setWatchVideoInfo:(EVWatchVideoInfo *)watchVideoInfo
 {
     _watchVideoInfo = watchVideoInfo;
-//    NSLog(@"self.vipCenterView%@",_vipCenterView);
-//    NSLog(@"watchVideoInfo.signature:%@",watchVideoInfo.signature);
-//    NSLog(@"watchVideoInfo.nickname:%@",watchVideoInfo.nickname);
-//    NSLog(@"watchVideoInfo.tags:%@",watchVideoInfo.tags);
     self.vipCenterView.watchVideoInfo = watchVideoInfo;
      self.nNameLabel.text = watchVideoInfo.nickname;
     if ([watchVideoInfo.name isEqualToString:[EVLoginInfo localObject].name]) {
@@ -968,19 +956,21 @@
    
   
 }
+#pragma mark - ***************环信消息到来**************
 
-/**
- 环信消息到来
-
- */
 - (void)messagesDidReceive:(NSArray *)aMessages
 {
-    EVLog(@"amessage-------- %ld",aMessages.count);
-    for (EMMessage *umessage in aMessages) {
-        EVLog(@"times---------  %lld",umessage.timestamp);
-        if ([aMessages indexOfObject:umessage] == 0) {
-            self.time = [NSString stringWithFormat:@"%lld",umessage.timestamp];
-        }
+
+
+    
+    
+    for (EMMessage *umessage in aMessages)
+    {
+       
+//        if ([aMessages indexOfObject:umessage] == 0)
+//        {
+//            self.time = [NSString stringWithFormat:@"%lld",umessage.timestamp];
+//        }
         
         EVEaseMessageModel *easeMessageModel = [[EVEaseMessageModel alloc] initWithMessage:umessage];
         //直播页面的聊天记录是从自己的api获取   环信的只在聊天页面
@@ -998,6 +988,10 @@
         EVEaseMessageModel *chatEaseMessageModel = [[EVEaseMessageModel alloc] initWithChatMessage:umessage];
         [self.textLiveChatTableView updateMessageModel:chatEaseMessageModel];
     }
+    //刷新自己服务器的数据
+    self.cellStart = 0;
+    [self loadHistoryData];
+    
 }
 
 - (void)messageAttachmentStatusDidChange:(EMMessage *)aMessage

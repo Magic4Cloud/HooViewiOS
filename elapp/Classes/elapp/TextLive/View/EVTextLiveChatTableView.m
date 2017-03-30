@@ -103,7 +103,7 @@
     [self reloadData];
     if (self.dataArray.count == 0) return;
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    [self scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    [self scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 }
 
 - (void)updateWatchCount:(NSInteger)count

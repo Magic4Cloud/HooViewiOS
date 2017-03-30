@@ -87,6 +87,8 @@
 
 @property (nonatomic, assign) NSInteger chooseIndex;
 
+@property (nonatomic, assign) NSInteger cellStart;
+
 @property (nonatomic, weak) EVTextLiveChatTableView *textLiveChatTableView;
 
 @property (nonatomic, copy) NSString *rpName;
@@ -136,6 +138,9 @@
     [self addGiftAniView];
     //延迟一秒显示小红花
     [self performSelector:@selector(delayDisplayFlower) withObject:nil afterDelay:1.f];
+    //从自己服务器拉取消息
+    self.cellStart = 0;
+    [self loadHistoryData];
 }
 
 - (void)delayDisplayFlower{
@@ -197,7 +202,6 @@
     liveImageTableView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight - 157);
     [mainScrollView addSubview:liveImageTableView];
     self.liveImageTableView = liveImageTableView;
-//    [liveImageTableView updateWatchCount:self.chatRoom.membersCount];
     [liveImageTableView addRefreshFooterWithRefreshingBlock:^{
         [weakself loadHistoryData];
     }];
@@ -222,10 +226,7 @@
     self.textLiveChatTableView = textLiveChatTableView;
     textLiveChatTableView.backgroundColor = [UIColor evBackgroundColor];
     textLiveChatTableView.tDelegate = self;
-    [textLiveChatTableView updateWatchCount:self.textLiveModel.viewcount];
-    [textLiveChatTableView addRefreshHeaderWithRefreshingBlock:^{
-        [weakself loadHistoryData];
-    }];
+    [textLiveChatTableView updateWatchCount:_textLiveModel.viewcount];
     
     EVNotOpenView *notOpenView = [[EVNotOpenView alloc] init];
     [mainScrollView addSubview:notOpenView];
@@ -549,6 +550,8 @@
             }
         }];
 }
+
+#pragma mark - 发送消息
 - (void)sendMessageBtn:(UIButton *)btn textToolBar:(EVTextLiveToolBar *)textToolBar
 {
     self.liveImageNullDataView.hidden = YES;
@@ -628,19 +631,18 @@
 
 - (void)showKeyBoardClick
 {
-    EVLog(@"弹出键盘");
     [self addTextWindowView];
 }
 
 - (void)_refreshAfterSentMessage:(EMMessage *)message
 {
     EVEaseMessageModel *easeMessageModel = [[EVEaseMessageModel alloc] initWithMessage:message];
-    if (easeMessageModel.state == EVEaseMessageTypeStateSt) {
+    if (easeMessageModel.state == EVEaseMessageTypeStateSt)
+    {
         [self.liveImageTableView updateTpMessageModel:easeMessageModel];
-    }else {
-//        if ([message.from isEqualToString:[EVLoginInfo localObject].imuser]) {
-//            [self.liveImageTableView updateMessageModel:easeMessageModel];
-//        }
+    }
+    else
+    {
          [self.liveImageTableView updateMessageModel:easeMessageModel];
     }
     EVEaseMessageModel *chatEaseMessageModel = [[EVEaseMessageModel alloc] initWithChatMessage:message];
@@ -753,9 +755,8 @@
     EMError *error = nil;
     //加入聊天室
     _chatRoom = [[EMClient sharedClient].roomManager joinChatroom:_textLiveModel.streamid error:&error];
-    EVLog(@"chatroom-------  %@ ---------  %ld ------ ",self.chatRoom,error.code);
-    NSLog(@"self.chatRoom.membersCount:%ld",(long)self.chatRoom.membersCount);
-    self.textLiveModel.viewcount = self.chatRoom.membersCount + 200;
+    NSInteger membersCount = self.chatRoom.membersCount;
+    self.textLiveModel.viewcount = membersCount + 200;
     [self.liveImageTableView updateWatchCount:self.textLiveModel.viewcount];
     //TODO:注册环信消息回调
 
@@ -765,35 +766,17 @@
     _conversation = [[EMClient sharedClient].chatManager getConversation:textLiveModel.streamid type:EMConversationTypeChatRoom createIfNotExist:YES];
     
     
-    NSArray *conversations = [[EMClient sharedClient].chatManager getAllConversations];
-    
 }
-
+#pragma mark - 环信收到消息
 - (void)didReceiveMessages:(NSArray *)aMessages
 {
     
-    if (aMessages.count > 0) {
+    if (aMessages.count > 0)
+    {
         self.liveImageNullDataView.hidden = YES;
     }
     for (EMMessage *umessage in aMessages) {
         
-        NSUInteger i  = [aMessages indexOfObject:umessage];
-        if (i == 0) {
-             self.time = [NSString stringWithFormat:@"%lld",umessage.timestamp];
-        }
-       
-        //直播 数据不用环信的
-        
-//        EVEaseMessageModel *easeMessageModel = [[EVEaseMessageModel alloc] initWithMessage:umessage];
-        
-       
-//        if (easeMessageModel.state == EVEaseMessageTypeStateSt) {
-//            [self.liveImageTableView updateTpMessageModel:easeMessageModel];
-//        }else {
-//            if ([umessage.from isEqualToString:[EVLoginInfo localObject].imuser]) {
-//                [self.liveImageTableView updateMessageModel:easeMessageModel];
-//            }
-//        }
         EVEaseMessageModel *chateaseMessageModel = [[EVEaseMessageModel alloc] initWithChatMessage:umessage];
         [self.textLiveChatTableView updateMessageModel:chateaseMessageModel];
         EMMessageBody *cmdBody = umessage.body;
@@ -842,14 +825,16 @@
     }
    
 }
-
+#pragma mark - 发了消息  上传到自己的服务器
 - (void)uploadHooviewDataExt:(NSDictionary *)ext message:(EMMessage *)message imageType:(NSString *)type image:(UIImage *)image
 {
     NSString *msg;
     if (EMMessageBodyTypeText == message.body.type) {
         EMTextMessageBody *messageBody = (EMTextMessageBody *)message.body;
         msg = messageBody.text;
-    }else {
+    }
+    else
+    {
         
     }
     NSString *time = [NSString stringWithFormat:@"%lld",message.timestamp];
@@ -861,46 +846,49 @@
     }];
 }
 
-
+#pragma mark - 从自己服务器加载消息
 - (void)loadHistoryData
 {
-    NSDate *senddate = [NSDate date];
     
-    NSString *date2 = [NSString stringWithFormat:@"%ld", (long)[senddate timeIntervalSince1970]];
-    EVLog(@"date2时间戳 = %@",date2);
     WEAK(self)
     weakself.isRefresh = YES;
-    [self.baseToolManager GETHistoryTextLiveStreamid:self.textLiveModel.streamid count:@"20" start:@"0"stime:self.time success:^(NSDictionary *retinfo) {
-        EVLog(@"successsjhdahj  %@",retinfo);
+    NSDate * currentDate = [NSDate date];
+    NSTimeInterval timeInterval = [currentDate timeIntervalSince1970] *1000;
+    _time = [NSString stringWithFormat:@"%.0f",timeInterval];
+    
+    [self.baseToolManager GETHistoryTextLiveStreamid:self.textLiveModel.streamid count:@"20" start:[NSString stringWithFormat:@"%ld",self.cellStart] stime:self.time success:^(NSDictionary *retinfo)
+    {
+//        EVLog(@"successsjhdahj  %@",retinfo);
         [weakself.liveImageTableView endFooterRefreshing];
-        [weakself.textLiveChatTableView endHeaderRefreshing];
         if ([retinfo[@"reterr"] isEqualToString:@"OK"]) {
             [weakself.historyArray removeAllObjects];
-            [weakself.historyChatArray removeAllObjects];
             NSArray *msgsAry = retinfo[@"retinfo"][@"msgs"];
-            if (weakself.isRefresh == YES || [retinfo[@"retinfo"][@"start"] integerValue] != 0) {
-                for (NSDictionary *msgDict in msgsAry) {
-                    weakself.time = [NSString stringWithFormat:@"%@",msgDict[@"timestamp"]];
-                    if ([msgDict[@"from"] isEqualToString:[EVLoginInfo localObject].name]) {
+            
+                for (NSDictionary *msgDict in msgsAry)
+                {
+                    
+                    //自己发的消息  直播消息
+                    NSString * mySelf = [EVLoginInfo localObject].name;
+                    if ([msgDict[@"from"] isEqualToString:mySelf])
+                    {
                         EVEaseMessageModel *messageModel = [[EVEaseMessageModel alloc] initWithHistoryMessage:msgDict];
                         [weakself.historyArray addObject:messageModel];
-                    }else {
-                       
                     }
-                    EVEaseMessageModel *chatModel = [[EVEaseMessageModel alloc] initWithHistoryChatMessage:msgDict];
-                    [weakself.historyChatArray addObject:chatModel];
+                    
                 }
+                if (self.historyArray.count > 0)
+                {
+                    self.liveImageNullDataView.hidden = YES;
                 
                 [weakself.liveImageTableView updateHistoryArray:self.historyArray];
-                [weakself.textLiveChatTableView updateHistoryArray:self.historyChatArray];
             }
             [weakself.liveImageTableView setFooterState:(msgsAry.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
             weakself.isRefresh = NO;
+            _cellStart = [retinfo[@"retinfo"][@"next"] integerValue];
         }
     } error:^(NSError *error) {
         weakself.isRefresh = NO;
         [weakself.liveImageTableView endFooterRefreshing];
-        [weakself.textLiveChatTableView endHeaderRefreshing];
     }];
 }
 #pragma mark - 收到环信透传消息
@@ -984,14 +972,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

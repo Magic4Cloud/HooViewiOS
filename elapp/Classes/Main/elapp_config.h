@@ -46,10 +46,10 @@
 
 ///////////////////////////////////// APP 状态 //////////////////////////////////////
 // 开发状态
-//#define STATE_DEV
+#define STATE_DEV
 
 // 发布状态
-#define STATE_RELEASE
+//#define STATE_RELEASE
 
 // 手动切换服务器
 // #define STARTE_SWITCH_SERVER_MANUAL
@@ -63,17 +63,17 @@
 #endif
 
 #ifdef STATE_DEV
-#define EV_APP_KEY                          @"yizhibo"
-#define EV_ACCESS_KEY                       @"yizhibo"
+#define EV_APP_KEY                          @"edjPyXz8t4ZLazV2"
+#define EV_ACCESS_KEY                       @"2MKf0XR8I4rOoTg6"
 #endif
 
 
 #ifdef STATE_RELEASE
-#define EV_SECRET_KEY                       @"S6HQDY9M4LKnaosPrR7CZWQnsEvFgHWy"
+#define EV_SECRET_KEY              @"S6HQDY9M4LKnaosPrR7CZWQnsEvFgHWy"
 #endif
 
 #ifdef STATE_DEV
-#define EV_SECRET_KEY                       @"helloworld"
+#define EV_SECRET_KEY              @"QSwp3Z2vgz0omrhTNDGBSEfQMtMW9wXr"
 #endif
 
 // 开启日志全局开关e

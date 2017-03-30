@@ -150,6 +150,7 @@ typedef NS_ENUM(NSInteger, CCLoginViewButtonType) {
             break;
         case EVLoginClickTypeProtocol:
         {
+            //TODO:忘记密码
             EVPhoneRegistFirstController *phoneRegisrVC = [[EVPhoneRegistFirstController alloc] init];
             phoneRegisrVC.resetPWD = YES;
             [self.navigationController pushViewController:phoneRegisrVC animated:YES];

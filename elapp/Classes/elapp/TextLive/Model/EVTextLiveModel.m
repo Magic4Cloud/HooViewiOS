@@ -23,7 +23,6 @@
     loginInfo.state = [decoder decodeObjectForKey:@"state"];
     loginInfo.name = [decoder decodeObjectForKey:@"name"];
 
-
     return loginInfo;
 }
 
@@ -33,7 +32,7 @@
     [encoder encodeInteger:self.viewcount forKey:@"viewcount"];
     [encoder encodeObject:self.state forKey:@"state"];
     [encoder encodeObject:self.name forKey:@"name"];
-  
+   
     
 }
 

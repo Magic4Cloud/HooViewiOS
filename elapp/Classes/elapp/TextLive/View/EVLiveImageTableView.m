@@ -183,6 +183,7 @@
 - (void)updateHistoryArray:(NSMutableArray *)array
 {
     [self.dataArray addObjectsFromArray:array];
+    
     [self updateTpArray:_dataArray];
     [self reloadData];
 //    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.dataArray.count-1 inSection:0];

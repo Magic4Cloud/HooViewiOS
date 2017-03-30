@@ -533,6 +533,7 @@
     param[@"count"] = count;
     param[@"etime"] = stime;
     param[@"start"] = start;
+    EVLog(@"param:%@",param);
     NSString *url = [NSString stringWithFormat:EVTextLiveHistiryAPI];
     [EVBaseToolManager GETNoSessionWithUrl:url parameters:param success:success fail:error];
     

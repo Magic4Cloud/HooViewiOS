@@ -150,7 +150,8 @@
     }
     
 
-    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:^(NSDictionary *successDict) {
+    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:^(NSDictionary *successDict)
+    {
         EVLoginInfo *loginInfo = [EVLoginInfo objectWithDictionary:successDict];
                          loginInfo.loginTag = kCCPhoneLoginTag;
                          for ( NSUInteger i = 0; i < ((NSArray *)successDict[kAuth]).count; i++ )
@@ -171,7 +172,8 @@
                          {
                              successBlock(loginInfo);
                          }
-    } sessionExpireBlock:nil fail:failBlock];
+    } sessionExpireBlock:nil
+                                fail:failBlock];
 
 }
 

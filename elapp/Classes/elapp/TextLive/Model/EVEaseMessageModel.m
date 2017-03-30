@@ -32,7 +32,6 @@
         switch (_firstMessageBody.type) {
             case EMMessageBodyTypeText:
             {
-                EVLog(@"文本消息");
                 CGFloat nameX = ChatMargin;
                 EMTextMessageBody *messageBody = (EMTextMessageBody *)_firstMessageBody;
                 self.text = messageBody.text;
@@ -41,7 +40,8 @@
                 paragraphStyle.alignment = NSTextAlignmentLeft;
                 
                 NSDictionary *attributes = @{ NSFontAttributeName : [UIFont textFontB2],
-                                              NSParagraphStyleAttributeName: paragraphStyle};                CGSize nameSize = [self.nickname boundingRectWithSize:CGSizeMake(100, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin  attributes:attributes context:nil].size;
+                                              NSParagraphStyleAttributeName: paragraphStyle};
+                CGSize nameSize = [self.nickname boundingRectWithSize:CGSizeMake(100, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin  attributes:attributes context:nil].size;
                 CGSize contentSize = [messageBody.text boundingRectWithSize:CGSizeMake(ScreenWidth - 130, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin  attributes:attributes context:nil].size;
                 self.cHig = contentSize.height+5;
                 CGSize rpContetSize = [self.rpContent boundingRectWithSize:CGSizeMake(ScreenWidth - 140, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
@@ -90,10 +90,9 @@
         switch (_firstMessageBody.type) {
             case EMMessageBodyTypeText:
             {
-                EVLog(@"文本消息");
+        
                 EMTextMessageBody *messageBody = (EMTextMessageBody *)_firstMessageBody;
                 self.text = messageBody.text;
-                NSLog(@"环信聊天记录: %@",self.text);
                 
                 NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
                 paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
@@ -101,24 +100,19 @@
                 
                  NSDictionary *attributes = @{ NSFontAttributeName : [UIFont textFontB2],
                                                NSParagraphStyleAttributeName: paragraphStyle};
-                 CGSize contentSize = [self.text boundingRectWithSize:CGSizeMake(ScreenWidth - 64, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading  attributes:attributes context:nil].size;
+                 CGSize contentSize = [self.text boundingRectWithSize:CGSizeMake(ScreenWidth - 64, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin  attributes:attributes context:nil].size;
+                contentSize = CGSizeMake(contentSize.width, contentSize.height + 20);
                 
-                NSLog(@"根据环信聊天记录算出来的size: %@",NSStringFromCGSize(contentSize));
                 CGSize rpContentSize = CGSizeZero;
-                if (_rpContent) {
-                    if (_rpContent.length > 0) {
-                        rpContentSize = [_rpContent boundingRectWithSize:CGSizeMake(ScreenWidth - 89, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading  attributes:attributes context:nil].size;
-                    }
-                }
                 
-                NSLog(@"环信聊天回复的内容: %@",self.rpContent);
-                NSLog(@"根据聊天回复的内容算出来的size: %@",NSStringFromCGSize(rpContentSize));
+                rpContentSize = [_rpContent boundingRectWithSize:CGSizeMake(ScreenWidth - 89, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin  attributes:attributes context:nil].size;
+                
                 self.rpLhig = rpContentSize.height;
             
                 self.titleSize = contentSize;
 
                 self.cellHeight = contentSize.height+20+rpContentSize.height;
-                NSLog(@"最终的cell高度: %f",_cellHeight);
+                
             }
                 break;
             case EMMessageBodyTypeImage:
@@ -187,12 +181,25 @@
         paragraphStyle.alignment = NSTextAlignmentLeft;
         
         NSDictionary *attributes = @{ NSFontAttributeName : [UIFont textFontB2],
-                                      NSParagraphStyleAttributeName: paragraphStyle};        CGSize contentSize = [self.text boundingRectWithSize:CGSizeMake(ScreenWidth - 64, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin  attributes:attributes context:nil].size;
-        CGSize rpContentSize = [self.rpContent boundingRectWithSize:CGSizeMake(ScreenWidth - 89, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin  attributes:attributes context:nil].size;
+                                      NSParagraphStyleAttributeName: paragraphStyle};
+        CGSize contentSize = [_text boundingRectWithSize:CGSizeMake(ScreenWidth - 64, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin  attributes:attributes context:nil].size;
+        
+        CGSize rpContentSize = [_rpContent boundingRectWithSize:CGSizeMake(ScreenWidth - 89, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin  attributes:attributes context:nil].size;
+        float addValue = 20;
+        if (_rpContent.length>0) {
+            addValue = 50;
+        }
         self.rpLhig = rpContentSize.height;
         contentSize = CGSizeMake(contentSize.width, contentSize.height + 10);
         self.titleSize = contentSize;
-        self.cellHeight = contentSize.height+20+rpContentSize.height;
+        _cellHeight = contentSize.height+addValue+rpContentSize.height;
+        
+        NSLog(@"contentSize:%@",NSStringFromCGSize(contentSize));
+        NSLog(@"rpContentSize:%@",NSStringFromCGSize(rpContentSize));
+        NSLog(@"contentSize.height:%f",contentSize.height);
+        NSLog(@"_rpContent:%@",_rpContent);
+        NSLog(@"_text:%@",_text);
+        NSLog(@"_cellHeight:%f",_cellHeight);
         self.from = message[@"from"];
         self.timestamp = [message[@"timestamp"] longLongValue];
         

@@ -284,11 +284,13 @@
         //是进自己的直播间
         NSString *sessionID = [self.baseToolManager getSessionIdWithBlock:nil];
         EVLoginInfo *loginInfo = [EVLoginInfo localObject];
-        
-        if ([EVTextLiveModel textLiveObject].streamid.length > 0)
+        EVTextLiveModel * localModel = [EVTextLiveModel textLiveObject];
+
+        if (localModel.streamid.length > 0)
         {
             //如果本地存到有  从本地取  否则 网络请求
-            [self pushLiveImageVCModel:[EVTextLiveModel textLiveObject]];
+            
+            [self pushLiveImageVCModel:localModel];
             return;
         }
         NSString *easemobid = loginInfo.imuser.length <= 0 ? loginInfo.name : loginInfo.imuser;
@@ -323,9 +325,10 @@
 - (void)pushLiveImageVCModel:(EVTextLiveModel *)model
 {
     EVMyTextLiveViewController *myLiveImageVC = [[EVMyTextLiveViewController alloc] init];
+    myLiveImageVC.textLiveModel = model;
     UINavigationController *navigationVc = [[UINavigationController alloc] initWithRootViewController:myLiveImageVC];
     [self presentViewController:navigationVc animated:YES completion:nil];
-    myLiveImageVC.textLiveModel = model;
+    
 }
 
 - (NSMutableArray *)dataArray
