@@ -13,6 +13,8 @@
 @interface EVCycleScrollView () <SDCycleScrollViewDelegate>
 
 @property (nonatomic, strong) SDCycleScrollView *cycleScrollView;
+@property (nonatomic, strong) UIImageView *BannerImage;
+
 
 @end
 
@@ -24,6 +26,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self addSubview:self.cycleScrollView];
+        [self.cycleScrollView addSubview:self.BannerImage];
     }
     return self;
 }
@@ -73,5 +76,16 @@
     }
     return _cycleScrollView;
 }
+
+-(UIImageView *)BannerImage {
+    if (!_BannerImage) {
+        CGFloat headerW = ScreenWidth;
+        CGFloat banderW = headerW;
+        _BannerImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, banderW, 250)];
+        _BannerImage.image = [UIImage imageNamed:@"bg_banner-1"];
+    }
+    return _BannerImage;
+}
+
 
 @end

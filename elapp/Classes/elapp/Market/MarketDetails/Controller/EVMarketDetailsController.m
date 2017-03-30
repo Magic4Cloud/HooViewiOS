@@ -164,6 +164,20 @@
         
     }];
     
+    
+    //公告跳转
+    [_webViewBridge registerHandler:@"showStockAnnouncementDetail" handler:^(id data, WVJBResponseCallback responseCallback) {
+        
+        EVNewsDetailWebController *detailWebVC = [[EVNewsDetailWebController alloc] init];
+        NSDictionary *bodyDict = data;
+        detailWebVC.announcementURL = bodyDict[@"url"];
+        detailWebVC.announcementTitle = bodyDict[@"title"];
+//        detailWebVC.detailBottomView.hidden = YES;
+        [self.navigationController pushViewController:detailWebVC animated:YES];
+    }];
+
+    
+    
     self.window = [[UIWindow alloc] init];
     self.window.frame = [UIScreen mainScreen].bounds;
     self.window.windowLevel = UIWindowLevelAlert;

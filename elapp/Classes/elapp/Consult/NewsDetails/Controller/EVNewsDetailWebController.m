@@ -95,14 +95,22 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification  object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 
-
-    self.newsWebView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 1, ScreenWidth, ScreenHeight - 113)];
     
+    
+    if (self.announcementTitle.length > 0) {
+        self.newsWebView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 1, ScreenWidth, ScreenHeight - 49)];
+        self.title = self.announcementTitle;
+        self.urlStr = [self requestAnnouncementUrl:self.announcementURL];
+        [self updateUrlStr:self.urlStr];
+        EVLog(@"webviewurl---- %@",self.urlStr);
+    } else
     if (self.newsID != nil) {
+        self.newsWebView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 1, ScreenWidth, ScreenHeight - 113)];
         self.urlStr =   [self requestUrlID:self.newsID];
         [self updateUrlStr:self.urlStr];
         EVLog(@"webviewurl---- %@",self.urlStr);
     }
+    
     self.newsWebView.navigationDelegate = self;
     [self.view addSubview:self.newsWebView];
     
@@ -118,6 +126,12 @@
     stockDetailView.delegate = self;
     [self.view addSubview:stockDetailView];
     self.detailBottomView = stockDetailView;
+    
+    if (self.announcementTitle.length > 0) {
+        self.detailBottomView.hidden = YES;
+        NSLog(@"公告title = %@",self.announcementTitle);
+        NSLog(@"公告URL = %@",self.announcementURL);
+    }
     
     _webViewBridge = [WebViewJavascriptBridge bridgeForWebView:self.newsWebView];
     [_webViewBridge setWebViewDelegate:self];
@@ -143,6 +157,10 @@
     self.nullDataView = nullDataView;
     nullDataView.hidden = YES;
     
+    
+    if (self.announcementTitle.length > 0) {
+        
+    } else {
     [self.baseToolManager GETUserCollectType:EVCollectTypeNews code:self.newsID action:0 start:^{
         
     } fail:^(NSError *error) {
@@ -153,6 +171,7 @@
     } sessionExpire:^{
         
     }];
+    }
 
 }
 
@@ -370,6 +389,30 @@
     
     return urlStr;
 }
+
+//拼接公告URL
+- (NSString *)requestAnnouncementUrl:(NSString *)announcementURL
+{
+    NSMutableString *paramStr = [NSMutableString string];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    
+    [params setValue:announcementURL forKey:@"url"];
+    [params setValue:@"announcement" forKey:@"page"];
+    NSInteger paramCount = params.count;
+    __block NSInteger index = 0;
+    [params enumerateKeysAndObjectsUsingBlock:^(id key, NSString *value, BOOL *stop) {
+        NSString *param = [NSString stringWithFormat:@"%@=%@",key,value];
+        [paramStr appendString:param];
+        if ( index != paramCount - 1 ) {
+            [paramStr appendString:@"&"];
+        }
+        index++;
+    }];
+    NSString *urlStr = [NSString stringWithFormat:@"%@?%@",webNewsUrl,paramStr];
+    
+    return urlStr;
+}
+
 
 
 #pragma mark - delegate

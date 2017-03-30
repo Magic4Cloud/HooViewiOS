@@ -14,4 +14,9 @@
 
 @property (nonatomic, copy) NSString *newsTitle;
 
+@property (nonatomic, copy) NSString *announcementTitle;
+@property (nonatomic, copy) NSString *announcementURL;
+
+
+
 @end
