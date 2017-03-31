@@ -35,7 +35,7 @@
     [self.fastTipImage setImage:image];
     
     UIColor *timeColor = [fastNewsModel.importance integerValue] > 1 ? [UIColor colorWithHexString:@"#5f85d0"] : [UIColor evTextColorH2];
-    UIColor *contentColor = [fastNewsModel.importance integerValue] > 1 ? [UIColor colorWithHexString:@"5f85d0"] : [UIColor evTextColorH2];
+    UIColor *contentColor = [fastNewsModel.importance integerValue] > 1 ? [UIColor colorWithHexString:@"#5f85d0"] : [UIColor evTextColorH1];
     [self.timeLabel setTextColor:timeColor];
     [self.contentLabel setTextColor:contentColor];
 

@@ -33,7 +33,7 @@
 
 - (void)addUpView
 {
-    [EVLineView addCellTopDefaultLineToView:self];
+    
     
     UIImageView *iconImageView = [[UIImageView alloc] init];
     [self addSubview:iconImageView];

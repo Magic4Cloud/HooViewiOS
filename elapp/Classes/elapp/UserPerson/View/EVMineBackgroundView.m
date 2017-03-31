@@ -139,6 +139,18 @@
     [cell setCellImage:self.imageArray[indexPath.section][indexPath.row] name:self.mineArray[indexPath.section][indexPath.row]];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
+    if (indexPath.section == 1) {
+        if ([EVLoginInfo localObject].vip == 0) {
+            if (indexPath.row == 0 || indexPath.row == 1) {
+                [EVLineView addCellTopDefaultLineToView:cell];
+            }
+        } else {
+            if (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 2) {
+                [EVLineView addCellTopDefaultLineToView:cell];
+            }
+        }
+    }
+    
     return cell;
 }
 
