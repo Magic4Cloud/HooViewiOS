@@ -60,7 +60,7 @@
     EVLoginInfo *loginInfo = [EVLoginInfo localObject];
 
     self.titleArray = [NSMutableArray arrayWithObjects:@"消息提醒",@"我的粉丝",@"我的关注",@"我的余额", nil];
-    EVHVHeadButton *headImageView = [[EVHVHeadButton alloc] initWithFrame:CGRectMake(10, 30, 50, 50)];
+    EVHVHeadButton *headImageView = [[EVHVHeadButton alloc] initWithFrame:CGRectMake(10, 10, 50, 50)];
     headImageView.headImageFrame = headImageView.bounds;
     [self addSubview:headImageView];
     self.headImageView = headImageView;
@@ -68,7 +68,7 @@
     [headImageView.headImageView cc_setImageURL:loginInfo.logourl forState:(UIControlStateNormal) placeholderImage:[UIImage imageNamed:@"Account_bitmap_user"]];
     
     EVNickNameAndLevelView *nameLevelView = [[EVNickNameAndLevelView alloc] init];
-    nameLevelView.frame = CGRectMake(CGRectGetMaxX(headImageView.frame)+10, 30, ScreenWidth - headImageView.frame.size.width, 30);
+    nameLevelView.frame = CGRectMake(CGRectGetMaxX(headImageView.frame)+10, 10, ScreenWidth - headImageView.frame.size.width, 30);
     [self addSubview:nameLevelView];
     self.nameLevelView = nameLevelView;
     nameLevelView.nickNameLabel.text = loginInfo.nickname;
