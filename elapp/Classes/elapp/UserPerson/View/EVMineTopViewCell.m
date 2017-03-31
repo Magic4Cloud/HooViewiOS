@@ -56,11 +56,11 @@
 
 - (void)addUpView
 {
+    
     EVLoginInfo *loginInfo = [EVLoginInfo localObject];
-    
-    
+
     self.titleArray = [NSMutableArray arrayWithObjects:@"消息提醒",@"我的粉丝",@"我的关注",@"我的余额", nil];
-    EVHVHeadButton *headImageView = [[EVHVHeadButton alloc] initWithFrame:CGRectMake(10, 10, 50, 50)];
+    EVHVHeadButton *headImageView = [[EVHVHeadButton alloc] initWithFrame:CGRectMake(10, 30, 50, 50)];
     headImageView.headImageFrame = headImageView.bounds;
     [self addSubview:headImageView];
     self.headImageView = headImageView;
@@ -68,7 +68,7 @@
     [headImageView.headImageView cc_setImageURL:loginInfo.logourl forState:(UIControlStateNormal) placeholderImage:[UIImage imageNamed:@"Account_bitmap_user"]];
     
     EVNickNameAndLevelView *nameLevelView = [[EVNickNameAndLevelView alloc] init];
-    nameLevelView.frame = CGRectMake(CGRectGetMaxX(headImageView.frame)+10, 10, ScreenWidth - headImageView.frame.size.width, 30);
+    nameLevelView.frame = CGRectMake(CGRectGetMaxX(headImageView.frame)+10, 30, ScreenWidth - headImageView.frame.size.width, 30);
     [self addSubview:nameLevelView];
     self.nameLevelView = nameLevelView;
     nameLevelView.nickNameLabel.text = loginInfo.nickname;
@@ -89,9 +89,6 @@
     [hvTagLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:nameLevelView];
     [hvTagLabel autoSetDimensionsToSize:CGSizeMake(ScreenWidth - 80, 20)];
     
-//    NSArray *tagArray = @[@"河师大",@"北师大",@"南京师范"];
-//    self.hvTagLabel.dataArray = [NSMutableArray arrayWithArray:tagArray];
-    
     
     UILabel *notloginLabel = [[UILabel alloc] init];
     [self addSubview:notloginLabel];
@@ -109,10 +106,12 @@
     [self addSubview:editButton];
     self.editButton = editButton;
     editButton.backgroundColor = [UIColor clearColor];
-    [editButton autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:10];
-    [editButton autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:30];
-    [editButton autoSetDimensionsToSize:CGSizeMake(50, 50)];
-    [editButton setImage:[UIImage imageNamed:@"btn_next_n"] forState:(UIControlStateNormal)];
+    [editButton autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:0];
+    [editButton autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:0];
+    [editButton autoSetDimensionsToSize:CGSizeMake(ScreenWidth, 110)];
+    UIImage * buttonImage = [UIImage imageNamed:@"btn_next_n"];
+    [editButton setImage:buttonImage forState:(UIControlStateNormal)];
+    [editButton setImageEdgeInsets:UIEdgeInsetsMake(0, (ScreenWidth/2-buttonImage.size.width-15), 0, -(ScreenWidth/2-buttonImage.size.width-15))];
     [editButton addTarget:self action:@selector(editButtonClick) forControlEvents:(UIControlEventTouchUpInside)];
     
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
@@ -162,16 +161,17 @@
         cell.topImageView.hidden = NO;
         cell.moneyLabel.hidden = YES;
     }else {
-        
-       
         cell.topImageView.hidden = YES;
         cell.moneyLabel.hidden = NO;
      
     }
+    cell.separateLineView.hidden = NO;
     if (indexPath.row == 3) {
          cell.moneyLabel.text = [NSString shortNumber:[self.ecoin integerValue]];
+        cell.separateLineView.hidden = YES;
     }else if(indexPath.row == 2){
         cell.moneyLabel.text = [NSString shortNumber:self.userModel.follow_count];
+        
         
     }else if (indexPath.row == 1) {
         cell.moneyLabel.text = [NSString shortNumber:self.userModel.fans_count];

@@ -322,11 +322,12 @@ typedef enum : NSUInteger {
     
     [self regetAssetsAfterWeixinPaySuccess];
 }
-
+//购买失败
 - (void)appPayDidFailWithFailType:(EVPayFailedType)failType
                       failMessage:(NSString *)failMessage
 {
     [EVProgressHUD hideHUDForView:self.view];
+    [EVProgressHUD showMessage:failMessage];
     switch ( failType )
     {
         case EVPayFailedTypeUnknown:
@@ -337,7 +338,7 @@ typedef enum : NSUInteger {
             
         case EVPayFailedTypeError:
         {
-            [EVProgressHUD showMessage:failMessage];
+            
         }
             break;
             
@@ -504,6 +505,7 @@ typedef enum : NSUInteger {
     }];
     
 }
+
 - (void)loadPayWaysData
 {
     // 根据返回数据判断是否展示除内购外的支付方式和对应数据：如果只支持内购，则不显示支付方式选项栏；如果支持多种方式支付，则显示支付方式选项栏，并且底部用多个view来展示不同支付方式
@@ -720,7 +722,7 @@ typedef enum : NSUInteger {
             //NSDictionary *moreInfoDict = @{CCProductID : self.lastSelectedProduct.productid};
             
             
-            [[EVPayManager sharedManager] payByInAppPurchase:self.lastSelectedProduct];
+            [[EVPayManager sharedManager] payByInAppPurchase:_lastSelectedProduct];
         }
             break;
             

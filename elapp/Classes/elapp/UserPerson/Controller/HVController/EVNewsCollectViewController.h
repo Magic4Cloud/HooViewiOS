@@ -8,6 +8,9 @@
 
 #import "EVViewController.h"
 
+/**
+ 我的收藏
+ */
 @interface EVNewsCollectViewController : EVViewController
 
 @end

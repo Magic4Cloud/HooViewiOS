@@ -132,6 +132,7 @@
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:self.isReedit ? kE_GlobalZH(@"carry_out") : kE_GlobalZH(@"next") style:UIBarButtonItemStylePlain target:self action:@selector(next)];
     self.navigationItem.rightBarButtonItem = rightItem;
     [rightItem setTintColor:[UIColor evMainColor]];
+
     [rightItem setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0]} forState:(UIControlStateNormal)];
     _barButtonItem = rightItem;
     

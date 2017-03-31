@@ -107,11 +107,15 @@
                 
                 rpContentSize = [_rpContent boundingRectWithSize:CGSizeMake(ScreenWidth - 89, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin  attributes:attributes context:nil].size;
                 
+                float addValue = 20;
+                if (_rpContent.length>0) {
+                    addValue = 50;
+                }
                 self.rpLhig = rpContentSize.height;
             
                 self.titleSize = contentSize;
 
-                self.cellHeight = contentSize.height+20+rpContentSize.height;
+                self.cellHeight = contentSize.height+addValue+rpContentSize.height;
                 
             }
                 break;
@@ -194,12 +198,6 @@
         self.titleSize = contentSize;
         _cellHeight = contentSize.height+addValue+rpContentSize.height;
         
-        NSLog(@"contentSize:%@",NSStringFromCGSize(contentSize));
-        NSLog(@"rpContentSize:%@",NSStringFromCGSize(rpContentSize));
-        NSLog(@"contentSize.height:%f",contentSize.height);
-        NSLog(@"_rpContent:%@",_rpContent);
-        NSLog(@"_text:%@",_text);
-        NSLog(@"_cellHeight:%f",_cellHeight);
         self.from = message[@"from"];
         self.timestamp = [message[@"timestamp"] longLongValue];
         

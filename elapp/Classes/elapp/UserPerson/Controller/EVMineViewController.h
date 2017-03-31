@@ -8,6 +8,9 @@
 
 #import "EVViewController.h"
 
+/**
+ 个人中心
+ */
 @interface EVMineViewController : EVViewController
 
 @end

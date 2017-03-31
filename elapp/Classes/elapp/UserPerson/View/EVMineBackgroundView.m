@@ -38,7 +38,7 @@
 - (void)addUpView
 {
     NSArray *firstRowArray = @[@"name"];
-    NSLog(@"vip == %d",[EVLoginInfo localObject].vip);
+    
     if ([EVLoginInfo localObject].vip == 0) {
         self.secondRowArray = @[@"我的秘籍",@"我的收藏",@"历史记录"];
         self.secondImageArray = @[@"ic_book",@"ic_collect",@"ic_history"];
@@ -63,7 +63,7 @@
 
 - (void)updateTableViewDatasource {
     NSArray *firstRowArray = @[@"name"];
-    NSLog(@"vip == %d",[EVLoginInfo localObject].vip);
+    
     if ([EVLoginInfo localObject].vip == 0) {
         self.secondRowArray = @[@"我的秘籍",@"我的收藏",@"历史记录"];
         self.secondImageArray = @[@"ic_book",@"ic_collect",@"ic_history"];

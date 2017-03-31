@@ -100,6 +100,7 @@
     self.productInfoModel = product;
     if ( ![SKPaymentQueue canMakePayments] )
     {
+        //无法购买
         if ( self.delgate &&
             [self.delgate respondsToSelector:@selector(appPayDidFailWithFailType:failMessage:)] )
         {

@@ -122,6 +122,7 @@ typedef enum : NSUInteger {
     [self.allCellArray addObject:threeArray];
     
     UITableView *settingTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight) style:(UITableViewStyleGrouped)];
+    settingTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     settingTableView.delegate = self;
     settingTableView.dataSource = self;
     [self.view addSubview:settingTableView];
@@ -200,6 +201,17 @@ typedef enum : NSUInteger {
     }
     if (indexPath.section == 3 && indexPath.row == 0) {
         cell.tipLabel.text = EVAppVersion;
+    }
+    if (indexPath.section == 1) {
+        if (indexPath.row == 0) {
+            UIView * lineView = [[UIView alloc] init];
+            lineView.backgroundColor = [UIColor evLineColor];
+            [cell.contentView addSubview:lineView];
+            [lineView autoPinEdgeToSuperviewEdge:ALEdgeBottom];
+            [lineView autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:8];
+            [lineView autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:18];
+            [lineView autoSetDimension:ALDimensionHeight toSize:1];
+        }
     }
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     return cell;

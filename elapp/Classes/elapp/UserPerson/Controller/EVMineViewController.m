@@ -288,6 +288,9 @@ static const NSString *const SettingCellID = @"settingCell";
     }else {
         switch (type) {
             case UIMineClickButtonTypeHeadImage:
+            {
+                
+            }
                 
                 break;
             case UIMineClickButtonTypeRemindMsg:
@@ -385,7 +388,9 @@ static const NSString *const SettingCellID = @"settingCell";
     if (sessionID == nil || [sessionID isEqualToString:@""]) {
         UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
         [self presentViewController:navighaVC animated:YES completion:nil];
-    }else{
+    }
+    else
+    {
         if (indexPath.section == 1) {
             switch (indexPath.row) {
                 case 0:
