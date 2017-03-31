@@ -137,7 +137,7 @@
         
         UIImageView *promptView = [[UIImageView alloc]init];
         [titleContentView addSubview:promptView];
-        promptView.frame = CGRectMake((11)+(i * 60), 33, 13, 8);
+        promptView.frame = CGRectMake((11)+(i * 60), 36, 13, 8);
         promptView.image = [UIImage imageNamed:@"Huoyan_Topbar_Tip"];
         promptView.tag = Prompt_TAG + i;
         self.promptView = promptView;

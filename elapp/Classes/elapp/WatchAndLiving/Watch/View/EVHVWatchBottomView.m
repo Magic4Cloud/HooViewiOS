@@ -124,7 +124,7 @@
 - (EVHVVideoCommentView *)videoCommentView
 {
     if (!_videoCommentView) {
-        _videoCommentView = [[EVHVVideoCommentView alloc] initWithFrame:CGRectMake(0, 0,ScreenWidth, self.frameHig - 47 - 49)];
+        _videoCommentView = [[EVHVVideoCommentView alloc] initWithFrame:CGRectMake(0, 0,ScreenWidth, self.frameHig - 40 - 49)];
     }
     return _videoCommentView;
 }

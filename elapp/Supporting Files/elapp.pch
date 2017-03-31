@@ -27,7 +27,7 @@
 #define kFixSize6Plus(w,h) ((ScreenWidth) / (w)) * (h)
 
 #define kStatusBarHeight 20
-#define kGlobalSeparatorHeight      0.3f
+#define kGlobalSeparatorHeight      0.4f
 
 #define EVNotificationCenter [NSNotificationCenter defaultCenter]
 

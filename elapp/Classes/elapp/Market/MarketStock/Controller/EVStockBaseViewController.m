@@ -60,7 +60,7 @@
 - (void)addUpTableView
 {
     EVStockTopView *stockTopView = [[EVStockTopView alloc] init];
-    stockTopView.frame  = CGRectMake(0, 0, ScreenWidth, 115);
+    stockTopView.frame  = CGRectMake(0, 0, ScreenWidth, 108);
     stockTopView.delegate = self;
     
     UITableView *stockTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 10, ScreenWidth, EVContentHeight-10) style:(UITableViewStylePlain)];
@@ -193,14 +193,14 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 0.01;
+    return 20;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 42)];
     [EVLineView addTopLineToView:view];
-    [EVLineView addBottomLineToView:view];
+//    [EVLineView addBottomLineToView:view];
     view.backgroundColor = [UIColor whiteColor];
     UILabel *titleLabel = [[UILabel alloc] init];
     titleLabel.frame = CGRectMake(16, 10, ScreenWidth - 16, 22);
@@ -208,6 +208,16 @@
     NSString *titleStr = section == 0 ? @"涨幅榜" : @"跌幅榜";
     titleLabel.text = [NSString stringWithFormat:@"%@",titleStr];
     titleLabel.textColor = [UIColor evTextColorH2];
+    return view;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 20)];
+    view.backgroundColor = [UIColor evBackgroundColor];
+        if (section == 1) {
+        view.hidden = YES;
+    }
     return view;
 }
 

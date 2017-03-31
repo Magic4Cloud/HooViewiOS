@@ -36,6 +36,7 @@
     searchTableView.delegate = self;
     searchTableView.dataSource = self;
     searchTableView.hidden = NO;
+    searchTableView.backgroundColor = [UIColor evBackgroundColor];
     searchTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.searchTableView autoPinEdgeToSuperviewEdge:ALEdgeTop];
     [self.searchTableView autoPinEdgeToSuperviewEdge:ALEdgeLeft];

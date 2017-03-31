@@ -39,6 +39,12 @@
     self.backImageView.image = [UIImage imageNamed:@"Account_bitmap_list"];
      [backImageView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
     
+    UIView *backView = [[UIView alloc] init];
+    backView.backgroundColor = [UIColor blackColor];
+    backView.alpha = 0.4;
+    [self addSubview:backView];
+    [backView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
+
     
     
     UILabel *nameLabel = [[UILabel alloc] init];
@@ -60,6 +66,9 @@
     timeLabel.textColor = [UIColor whiteColor];
     timeLabel.font = [UIFont systemFontOfSize:14.f];
     timeLabel.frame = CGRectMake(5, 88-30, 100, 25);
+    
+    
+    
 }
 
 - (void)setWatchVideoInfo:(EVWatchVideoInfo *)watchVideoInfo
