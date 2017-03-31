@@ -74,6 +74,14 @@
     [moneyLabel autoSetDimensionsToSize:CGSizeMake(ScreenWidth/4, 22)];
     [moneyLabel autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:0];
     
+    
+    _separateLineView = [UIView new];
+    _separateLineView.backgroundColor = [UIColor evLineColor];
+    [self addSubview:_separateLineView];
+    [_separateLineView autoPinEdgeToSuperviewEdge:ALEdgeRight];
+    [_separateLineView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:13];
+    [_separateLineView autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:13];
+    [_separateLineView autoSetDimension:ALDimensionWidth toSize:1];
 }
 
 - (void)setUnreadCount:(NSUInteger)unreadCount {

@@ -91,7 +91,7 @@
 
 + (UIColor *)textBlackColor
 {
-    return [UIColor colorWithHexString:@"#5d5854"];
+    return [UIColor colorWithHexString:@"#303030"];
 }
 
 //#f87a2b 248 122 43

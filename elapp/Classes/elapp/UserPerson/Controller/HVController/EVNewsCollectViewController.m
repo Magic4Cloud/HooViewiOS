@@ -81,7 +81,10 @@
     UITableView *iNewsTableview = [[UITableView alloc] initWithFrame:CGRectMake(0, 1, ScreenWidth, ScreenHeight-64) style:(UITableViewStylePlain)];
     iNewsTableview.delegate = self;
     iNewsTableview.dataSource = self;
+    iNewsTableview.backgroundColor = [UIColor colorWithHexString:@"#f8f8f8"];
+    iNewsTableview.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:iNewsTableview];
+   
     _iNewsTableview = iNewsTableview;
     iNewsTableview.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     

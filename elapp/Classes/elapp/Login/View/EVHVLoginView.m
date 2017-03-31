@@ -41,7 +41,7 @@
     [serviceagreement autoAlignAxis:ALAxisVertical toSameAxisOfView:self];
     [serviceagreement autoSetDimension:ALDimensionHeight toSize:30];
     UIColor *textColor = [UIColor colorWithHexString:@"#ACACAC"];
-    NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:@"你还没有账号?点击注册" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],NSForegroundColorAttributeName:textColor}];
+    NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:@"你还没有账号?点击注册" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16],NSForegroundColorAttributeName:textColor}];
     serviceagreement.attributedText = attrStr;
     serviceagreement.font = [UIFont systemFontOfSize:16.f];
     serviceagreement.delegate = self;

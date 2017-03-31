@@ -41,6 +41,8 @@
 {
     UITableView *nTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 108) style:(UITableViewStylePlain)];
     [self addSubview:nTableView];
+    nTableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
+    nTableView.backgroundColor = [UIColor colorWithHexString:@"#f8f8f8"];
     self.nTableView = nTableView;
     nTableView.delegate = self;
     nTableView.dataSource = self;

@@ -21,6 +21,6 @@
 
 @property (nonatomic, assign) NSUInteger unreadCount;
 
-
+@property (nonatomic, strong) UIView * separateLineView;
 @property (nonatomic, assign) BOOL isSession;
 @end

@@ -117,6 +117,7 @@
     self.hvLiveView = liveButton;
     [liveButton setBackgroundColor:[UIColor clearColor]];
     WEAK(self)
+    //TODO:开启直播
     liveButton.buttonBlock = ^(EVLiveButtonType type, UIButton *btn) {
        
         if (type == EVLiveButtonTypeLive) {

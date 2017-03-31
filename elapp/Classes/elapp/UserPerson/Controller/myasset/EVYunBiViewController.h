@@ -20,6 +20,9 @@
 
 @end
 
+/**
+ 充值  界面
+ */
 @interface EVYunBiViewController : EVViewController
 
 @property (strong, nonatomic) EVUserAsset *asset;  /**< 用户资产信息 */

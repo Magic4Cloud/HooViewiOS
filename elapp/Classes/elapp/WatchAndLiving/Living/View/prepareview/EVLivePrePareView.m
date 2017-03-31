@@ -424,6 +424,8 @@ static NSInteger const shareLabBaseTag = 888;
     startButton.tag = EVLivePrePareViewButtonLiveStart;
     [self.settingContentView addSubview:startButton];
     [startButton setTitle:kE_GlobalZH(@"start_living") forState:UIControlStateNormal];
+    [startButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    startButton.backgroundColor = [UIColor redColor];
     startButton.titleLabel.font = [UIFont systemFontOfSize:15];
     [startButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     startButton.layer.cornerRadius =20.f;

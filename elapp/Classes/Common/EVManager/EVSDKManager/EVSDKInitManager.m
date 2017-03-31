@@ -13,7 +13,7 @@
 @implementation EVSDKInitManager
 //初始化聊天服务器   用户登录后的系统账号
 + (void)initMessageSDKUserData:(NSString *)userName {
-    NSLog(@"app_key--- %@ ----- secret_key ----- %@ ----- access_key ------- %@  ============  %@ username",EV_APP_KEY,EV_SECRET_KEY,EV_ACCESS_KEY,userName);
+    EVLog(@"app_key--- %@ ----- secret_key ----- %@ ----- access_key ------- %@  ============  %@ username",EV_APP_KEY,EV_SECRET_KEY,EV_ACCESS_KEY,userName);
     [EVSDKManager initSDKWithAppID:EV_APP_KEY appKey:EV_ACCESS_KEY appSecret:EV_SECRET_KEY userID:userName];
 }
 @end
