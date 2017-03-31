@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -22,6 +22,10 @@
                         <constraint firstAttribute="width" constant="120" id="G5T-Om-h8a"/>
                     </constraints>
                 </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gt5-wU-X8b" userLabel="mengceng">
+                    <rect key="frame" x="12" y="10" width="120" height="647"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.40000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
+                </view>
                 <view alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7D1-R7-13t">
                     <rect key="frame" x="52" y="313" width="40" height="40"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -92,16 +96,20 @@
                 <constraint firstItem="7D1-R7-13t" firstAttribute="centerX" secondItem="tBH-Nh-idO" secondAttribute="centerX" id="DsQ-i0-OCQ"/>
                 <constraint firstItem="vfR-hw-JpJ" firstAttribute="centerX" secondItem="tBH-Nh-idO" secondAttribute="centerX" id="GJ5-s3-WSc"/>
                 <constraint firstAttribute="trailing" secondItem="jOb-ZS-znI" secondAttribute="trailing" constant="14" id="Q5z-PG-d1c"/>
+                <constraint firstItem="gt5-wU-X8b" firstAttribute="centerX" secondItem="tBH-Nh-idO" secondAttribute="centerX" id="TD4-lM-yaD"/>
+                <constraint firstItem="gt5-wU-X8b" firstAttribute="centerY" secondItem="tBH-Nh-idO" secondAttribute="centerY" id="Utn-OW-5df"/>
                 <constraint firstItem="7D1-R7-13t" firstAttribute="centerY" secondItem="tBH-Nh-idO" secondAttribute="centerY" id="Wag-q2-Nbg"/>
                 <constraint firstItem="g7e-DA-lGw" firstAttribute="leading" secondItem="uHj-Z2-aIj" secondAttribute="leading" id="Ygo-H3-CyX"/>
                 <constraint firstItem="jOb-ZS-znI" firstAttribute="leading" secondItem="g7e-DA-lGw" secondAttribute="leading" id="aCe-xS-JkD"/>
                 <constraint firstItem="uHj-Z2-aIj" firstAttribute="leading" secondItem="tBH-Nh-idO" secondAttribute="trailing" constant="14" id="ccP-gJ-kLn"/>
                 <constraint firstAttribute="trailing" secondItem="g7e-DA-lGw" secondAttribute="trailing" constant="14" id="d9v-E8-1g9"/>
+                <constraint firstItem="gt5-wU-X8b" firstAttribute="top" secondItem="tBH-Nh-idO" secondAttribute="top" id="fP5-lG-cJ4"/>
                 <constraint firstAttribute="trailing" secondItem="uHj-Z2-aIj" secondAttribute="trailing" constant="14" id="gWk-Dz-iTf"/>
                 <constraint firstItem="g7e-DA-lGw" firstAttribute="centerY" secondItem="tBH-Nh-idO" secondAttribute="centerY" id="jUd-6a-3qT"/>
                 <constraint firstItem="jOb-ZS-znI" firstAttribute="bottom" secondItem="tBH-Nh-idO" secondAttribute="bottom" id="ojd-GB-qPv"/>
                 <constraint firstItem="tBH-Nh-idO" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="12" id="tf1-4a-4mj"/>
                 <constraint firstItem="uHj-Z2-aIj" firstAttribute="top" secondItem="tBH-Nh-idO" secondAttribute="top" id="xNP-0Y-ear"/>
+                <constraint firstItem="gt5-wU-X8b" firstAttribute="leading" secondItem="tBH-Nh-idO" secondAttribute="leading" id="xoS-D5-zoG"/>
                 <constraint firstItem="1UW-gG-2au" firstAttribute="centerY" secondItem="tBH-Nh-idO" secondAttribute="centerY" id="zaZ-cm-QWA"/>
             </constraints>
             <connections>

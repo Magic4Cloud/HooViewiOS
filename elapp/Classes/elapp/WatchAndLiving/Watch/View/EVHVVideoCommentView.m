@@ -35,6 +35,7 @@
     commentTableView.dataSource = self;
     [self addSubview:commentTableView];
     self.commentTableView = commentTableView;
+    commentTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [commentTableView autoPinEdgesToSuperviewEdges];
     
     commentTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];

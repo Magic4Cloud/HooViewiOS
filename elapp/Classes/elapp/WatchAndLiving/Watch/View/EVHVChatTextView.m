@@ -34,7 +34,7 @@ static NSUInteger const kMaxLimitNum = 140;
 {
     
     UIView *vLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 1)];
-    vLineView.backgroundColor = [UIColor colorWithHexString:@"#cccccc"];
+    vLineView.backgroundColor = [UIColor evBackgroundColor];
     [self addSubview:vLineView];
   
     UIButton *giftButton = [UIButton buttonWithType:(UIButtonTypeCustom)];

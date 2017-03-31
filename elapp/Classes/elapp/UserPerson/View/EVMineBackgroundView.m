@@ -11,6 +11,8 @@
 #import "EVMineTopViewCell.h"
 #import "EVUserTagsView.h"
 #import "EVUserTagsModel.h"
+#import "EVLineView.h"
+
 
 @interface EVMineBackgroundView ()<UITableViewDelegate,UITableViewDataSource,EVMineTopViewCellDelegate>
 @property (nonatomic, strong) NSArray *mineArray;
@@ -136,6 +138,7 @@
     }
     [cell setCellImage:self.imageArray[indexPath.section][indexPath.row] name:self.mineArray[indexPath.section][indexPath.row]];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     return cell;
 }
 

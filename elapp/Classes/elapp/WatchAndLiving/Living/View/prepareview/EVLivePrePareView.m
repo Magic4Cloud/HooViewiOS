@@ -481,7 +481,7 @@ static NSInteger const shareLabBaseTag = 888;
     UILabel *shareTitle = [[UILabel alloc] init];
     [self.settingContentView addSubview:shareTitle];
     [shareTitle setTextAlignment:NSTextAlignmentCenter];
-    [shareTitle setTextColor:[UIColor whiteColor]];
+    [shareTitle setTextColor:[UIColor evTextColorH2]];
     [shareTitle setFont:[UIFont systemFontOfSize:16.f]];
     [shareTitle setText:@"分享到这里获得更高人气"];
     [shareTitle autoAlignAxisToSuperviewAxis:ALAxisVertical];
@@ -653,7 +653,7 @@ static NSInteger const shareLabBaseTag = 888;
     if ( !start )
     {
         self.startLiveButton.userInteractionEnabled = NO;
-        self.startLiveButton.alpha = 0.0;
+        self.startLiveButton.alpha = 1.0;
     }
 }
 

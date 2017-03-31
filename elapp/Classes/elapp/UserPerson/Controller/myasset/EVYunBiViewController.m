@@ -512,6 +512,8 @@ typedef enum : NSUInteger {
     [self.engine GETCashinOptionWith:EVPayPlatformAll start:^{
         
     } fail:^(NSError *error) {
+        NSLog(@"");
+        
     } success:^(NSDictionary *info) {
         EVLog(@"info:%@", info);
         NSArray *optionListTemp = info[@"optionlist"];

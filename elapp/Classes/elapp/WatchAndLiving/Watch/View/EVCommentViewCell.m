@@ -7,7 +7,7 @@
 //
 
 #import "EVCommentViewCell.h"
-
+#import "EVLineView.h"
 
 @interface EVCommentViewCell ()
 
@@ -69,6 +69,14 @@
     [contentLabel autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:16];
     [contentLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:nameLabel withOffset:6];
     
+//    [EVLineView addCellBottomDefaultLineToView:self.contentView];
+    EVLineView *lineView = [EVLineView new];
+    [self addSubview:lineView];
+    lineView.backgroundColor = [UIColor evBackgroundColor];
+    [lineView autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:15.f];
+    [lineView autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:10.f];
+    [lineView autoPinEdgeToSuperviewEdge:ALEdgeTop];
+    [lineView autoSetDimension:ALDimensionHeight toSize:1.0f];
     
 }
 

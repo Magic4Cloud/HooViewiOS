@@ -100,6 +100,14 @@
     [reportButton autoSetDimensionsToSize:CGSizeMake(40, 40)];
     [reportButton addTarget:self action:@selector(buttonClick:) forControlEvents:(UIControlEventTouchUpInside)];
     
+    UITapGestureRecognizer* singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(gestureAppearView:)];
+    [self addGestureRecognizer:singleTap];
+    
+}
+
+- (void)gestureAppearView:(UITapGestureRecognizer *)sender
+{
+    self.hidden = YES;
 }
 
 - (void)gestureHideView
