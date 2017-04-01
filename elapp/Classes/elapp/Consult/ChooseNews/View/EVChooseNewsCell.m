@@ -49,7 +49,7 @@
         [self loadStockLabel:self.oneStockLabel count:0 layoutF:self.oneLabelWid];
         self.twoStockLabel.hidden = YES;
         self.threeStockLabel.hidden = YES;
-        self.oneStockLabel.textColor = [UIColor colorWithHexString:@"#FE494A"];
+//        self.oneStockLabel.textColor = [UIColor colorWithHexString:@"#FE494A"];
     }
     
     if (chooseNewsModel.stocks.count == 2) {
@@ -57,7 +57,7 @@
         [self loadStockLabel:self.twoStockLabel count:1 layoutF:self.twoLabelWid];
         self.twoStockLabel.hidden = NO;
         self.threeStockLabel.hidden = YES;
-        self.twoStockLabel.textColor = [UIColor colorWithHexString:@"#FE494A"];
+//        self.twoStockLabel.textColor = [UIColor colorWithHexString:@"#FE494A"];
     }
     
     if (chooseNewsModel.stocks.count >= 3) {
@@ -66,7 +66,7 @@
         [self loadStockLabel:self.threeStockLabel count:2 layoutF:self.threeLabelWid];
         self.twoStockLabel.hidden = NO;
         self.threeStockLabel.hidden = NO;
-        self.threeStockLabel.textColor = [UIColor colorWithHexString:@"#FE494A"];
+//        self.threeStockLabel.textColor = [UIColor colorWithHexString:@"#FE494A"];
     }
     
     
@@ -77,11 +77,12 @@
 {
     EVStockBaseModel *stockModel = _chooseNewsModel.stocks[count];
     NSString *stockF = @"%";
-    NSString *persentS = [stockModel.persent floatValue] > 0 ? [NSString stringWithFormat:@"+%@%@",stockModel.persent,stockF] : [NSString stringWithFormat:@"%@%@",stockModel.persent,stockF];
+//    NSString *persentS = [stockModel.percent floatValue] > 0 ? [NSString stringWithFormat:@"%@%@",stockModel.percent,stockF] : [NSString stringWithFormat:@"%@%@",stockModel.percent,stockF];
+    NSString *persentS =  [NSString stringWithFormat:@"%@%@",stockModel.percent,stockF];
     label.text = [NSString stringWithFormat:@"%@ %@",stockModel.name,persentS];
     CGSize widSize = [label sizeThatFits:CGSizeZero];
     layoutF.constant = widSize.width;
-    label.textColor = [stockModel.persent floatValue] > 0 ? [UIColor evAssistColor] : [UIColor evSecondColor];
+    label.textColor = [stockModel.percent floatValue] > 0 ? [UIColor evAssistColor] : [UIColor evSecondColor];
     
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

@@ -120,8 +120,10 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:@(type) forKey:@"type"];
     [params setValue:sessionID forKey:@"sessionid"];
+    
     NSString *url = [EVHttpURLManager fullURLStringWithURI:EVCollectListAPI
                                                     params:nil];
+    NSLog(@"url:%@\nparams:%@",url,params);
     [EVBaseToolManager GETRequestWithUrl:url parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
 }
 

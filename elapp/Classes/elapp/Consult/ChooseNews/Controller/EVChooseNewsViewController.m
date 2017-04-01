@@ -37,17 +37,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     // Do any additional setup after loading the view.
     [self addUpView];
     
     WEAK(self)
     [self.newsTableView addRefreshHeaderWithRefreshingBlock:^{
+        self.start = @"0";
         [weakself loadDataStart:@"0"];
     }];
     
     [self.newsTableView addRefreshFooterWithRefreshingBlock:^{
         [weakself loadDataStart:weakself.start];
     }];
+    [self requestCollectList];
     
 }
 
@@ -61,6 +64,27 @@
     [self loadDataStart:@"0"];
 }
 
+- (void)requestCollectList
+{
+    [self.baseToolManager GETUserCollectListType:EVCollectTypeStock start:^{
+        
+    } fail:^(NSError *error) {
+        
+    } success:^(NSDictionary *retinfo) {
+        
+        NSString *code = retinfo[@"collectlist"];
+        if (code.length == 0) {
+            self.newsTableView.hidden = NO;
+            self.nullDataView.hidden =  NO;
+        }else {
+//            [self loadNewsDataSymbol:code start:@"0"];
+            self.newsTableView.hidden = NO;
+            self.nullDataView.hidden =  YES;
+        }
+    } sessionExpire:^{
+        
+    }];
+}
 - (void)loadDataStart:(NSString *)start
 {
     EVLoginInfo *loginInfo = [EVLoginInfo localObject];
@@ -87,6 +111,12 @@
         }
         [weakself.dataArray addObjectsFromArray:newsData];
         [weakself.newsTableView setFooterState:(newsData.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
+       
+        if (weakself.dataArray.count>0)
+        {
+            self.nullDataView.hidden =  YES;
+        }
+        
         [self.newsTableView reloadData];
 
     } error:^(NSError *error) {
@@ -97,27 +127,7 @@
     
     
     
-//    [self.baseToolManager GETUserCollectListType:EVCollectTypeStock start:^{
-//        
-//    } fail:^(NSError *error) {
-//        [self.newsTableView endHeaderRefreshing];
-//        [self.newsTableView endFooterRefreshing];
-//    } success:^(NSDictionary *retinfo) {
-//        [self.newsTableView endHeaderRefreshing];
-//        [self.newsTableView endFooterRefreshing];
-//        NSLog(@"retionfo------addstock---  %@",retinfo);
-//        NSString *code = retinfo[@"collectlist"];
-//        if (code.length == 0) {
-//            self.newsTableView.hidden = NO;
-//            self.nullDataView.hidden =  NO;
-//        }else {
-//            [self loadNewsDataSymbol:code start:@"0"];
-//            self.newsTableView.hidden = NO;
-//            self.nullDataView.hidden =  YES;
-//        }
-//    } sessionExpire:^{
-//        
-//    }];
+    
 }
 
 
@@ -199,11 +209,19 @@
         return;
     }
     EVSearchStockViewController *searchStockVC = [[EVSearchStockViewController alloc] init];
+    __weak typeof(self) weakSelf = self;
+    searchStockVC.addStockBlock = ^(NSString *symbol)
+    {
+        __strong typeof(self) strongSelf = weakSelf;
+        strongSelf.start = @"0";
+        [strongSelf loadDataStart:strongSelf.start];
+    };
     [self.navigationController pushViewController:searchStockVC animated:YES];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+   
     return self.dataArray.count;
 }
 
