@@ -425,7 +425,7 @@ static NSInteger const shareLabBaseTag = 888;
     [self.settingContentView addSubview:startButton];
     [startButton setTitle:kE_GlobalZH(@"start_living") forState:UIControlStateNormal];
     [startButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    startButton.backgroundColor = [UIColor redColor];
+    startButton.backgroundColor = [UIColor evMainColor];
     startButton.titleLabel.font = [UIFont systemFontOfSize:15];
     [startButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     startButton.layer.cornerRadius =20.f;
@@ -655,7 +655,8 @@ static NSInteger const shareLabBaseTag = 888;
     if ( !start )
     {
         self.startLiveButton.userInteractionEnabled = NO;
-        self.startLiveButton.alpha = 1.0;
+    } else {
+        self.startLiveButton.userInteractionEnabled = YES;
     }
 }
 

@@ -63,7 +63,7 @@
     stockTopView.frame  = CGRectMake(0, 0, ScreenWidth, 108);
     stockTopView.delegate = self;
     
-    UITableView *stockTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 10, ScreenWidth, EVContentHeight-10) style:(UITableViewStylePlain)];
+    UITableView *stockTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 10, ScreenWidth, EVContentHeight-10) style:(UITableViewStyleGrouped)];
     stockTableView.delegate = self;
     stockTableView.dataSource = self;
     [self.view addSubview:stockTableView];
@@ -176,6 +176,8 @@
     }else {
         cell.rankLabel.hidden = NO;
     }
+    
+    
     cell.selectionStyle  = UITableViewCellSelectionStyleNone;
     cell.cellType = EVStockBaseViewCellTypeSock;
     cell.rankLabel.text = [NSString stringWithFormat:@"%ld",(indexPath.row + 1)];

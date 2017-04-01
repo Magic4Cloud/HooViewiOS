@@ -1,4 +1,4 @@
-//
+ //
 //  EVPayManager.m
 //  elapp
 //
@@ -589,6 +589,8 @@
      {
          NSLog(@"info------------  %@",info);
          //NSInteger ecoin = [info[@"retinfo"][@"productid"] integerValue];
+         
+         
          if ( weakself.delgate &&
              [weakself.delgate respondsToSelector:@selector(appPayDidSucceedWithEcoin:)] &&
              !isReupload)
@@ -615,6 +617,18 @@
                                       name:CCSessionIdDidUpdateNotification
                                     object:nil];
      }];
+    
+    
+//    [self.engine GETSuccessPayToServiceWithUid:[EVLoginInfo localObject].name orderid:@"" rmb:amound start:^{
+//        
+//    } fail:^(NSError *error) {
+//        NSLog(@"error == %@",error);
+//    } success:^(NSDictionary *info) {
+//        NSLog(@"info === %@",info);
+//    } sessionExpired:^{
+//        
+//    }];
+
 }
 
 - (BOOL)checkWeixinInstalled

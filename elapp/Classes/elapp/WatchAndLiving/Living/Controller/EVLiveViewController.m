@@ -974,6 +974,7 @@ static inline long long getcurrsecond()
 {
     self.prepareView.startLiveButton.backgroundColor = [UIColor evMainColor];
     [self.prepareView.startLiveButton setEnabled:YES];
+    self.prepareView.startLiveButton.userInteractionEnabled = YES;
 }
 
 - (void)prepareForeView

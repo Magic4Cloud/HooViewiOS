@@ -22,6 +22,7 @@
 #import "NSString+Extension.h"
 #import "EVHVMoneyCollectionViewCell.h"
 #import "EVPhoneFAQViewController.h"
+#import "EVLoginInfo.h"
 
 typedef enum : NSUInteger {
     CCYibiSelectedWeixinPay = 100,
@@ -320,7 +321,22 @@ typedef enum : NSUInteger {
     // 重新请求余额数据
     EVLog(@"苹果支付成功，重新请求余额数据");
     
-    [self regetAssetsAfterWeixinPaySuccess];
+    [self.engine  GETPrepaidRecordslistWithStart:0 count:20 start:^{
+        
+    } fail:^(NSError *error) {
+        //        [wself endRefrenshing];
+        [self regetAssetsAfterWeixinPaySuccess];
+    } success:^(NSDictionary *info) {
+        
+        [self regetAssetsAfterWeixinPaySuccess];
+        //        [wself requestSuccessWithIndex:start result:info];
+    } sessionExpired:^{
+        //        [wself endRefrenshing];
+    }];
+
+    
+    
+    
 }
 //购买失败
 - (void)appPayDidFailWithFailType:(EVPayFailedType)failType
@@ -430,6 +446,11 @@ typedef enum : NSUInteger {
     [EVProgressHUD showProgressMumWithClearColorToView:self.view
                                                message:kE_GlobalZH(@"pay_success_ecoin_gain")];
     __weak typeof(self) weakSelf = self;
+    
+    
+    
+    
+    
     [self.engine GETUserAssetsWithStart:nil fail:^(NSError *error) {
         [EVProgressHUD hideHUDForView:weakSelf.view];
         [EVProgressHUD showError:kE_GlobalZH(@"please_see_asset") toView:weakSelf.view];
@@ -456,6 +477,7 @@ typedef enum : NSUInteger {
          [EVProgressHUD hideHUDForView:weakSelf.view];
          EVRelogin(weakSelf);
      }];
+    
 }
 
 - (void)setUpViews
