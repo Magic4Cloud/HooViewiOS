@@ -104,6 +104,7 @@
 //    [param setValue:count forKey:@"count"];
     [param setValue:symbol forKey:@"symbol"];
     [param setValue:userid forKey:@"userid"];
+    NSLog(@"url:%@\nparams:%@",urlString,param);
     [EVBaseToolManager GETNotVerifyRequestWithUrl:urlString parameters:param success:success fail:error];
 }
 
@@ -120,6 +121,7 @@
         [param setValue:count forKey:@"count"];
 //    [param setValue:symbol forKey:@"symbol"];
     [param setValue:userid forKey:@"userid"];
+    NSLog(@"url:%@\nparams:%@",urlString,param);
     [EVBaseToolManager GETNotVerifyRequestWithUrl:urlString parameters:param success:success fail:error];
 }
 

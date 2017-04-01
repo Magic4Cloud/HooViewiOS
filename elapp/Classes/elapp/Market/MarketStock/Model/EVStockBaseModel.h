@@ -23,6 +23,7 @@
 @property (nonatomic, copy) NSString *price;
 @property (nonatomic, copy) NSString *pre_close;
 @property (nonatomic, copy) NSString *persent;
+@property (nonatomic, copy) NSString *percent;
 @property (nonatomic, copy) NSString *code;
 @property (nonatomic, assign) float changepercent;
 @property (nonatomic, assign) NSUInteger priority;
