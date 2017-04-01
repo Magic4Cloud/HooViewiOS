@@ -17,7 +17,7 @@ typedef NS_ENUM(NSUInteger, EVStockBaseViewCellType) {
     
 };
 
-@interface EVStockBaseViewCell : EVBaseTableViewCell
+@interface EVStockBaseViewCell : UITableViewCell
 @property (nonatomic, strong) UIColor *rankColor;
 @property (nonatomic, weak) UILabel *rankLabel;
 

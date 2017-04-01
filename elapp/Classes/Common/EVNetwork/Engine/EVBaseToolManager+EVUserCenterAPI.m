@@ -685,6 +685,30 @@
 }
 
 
+//充值成功回调
+- (void)GETSuccessPayToServiceWithUid:(NSString *)userid
+                              orderid:(NSString *)orderid
+                                  rmb:(NSString *)rmb
+                                start:(void(^)())startBlock
+                                 fail:(void(^)(NSError *error))failBlock
+                            success:(void(^)(NSDictionary *info))successBlock
+                    sessionExpired:(void(^)())sessionExpiredBlock
+{
+    NSString *sessionID = [self getSessionIdWithBlock:sessionExpiredBlock];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    if ( sessionID )
+    {
+        params[kSessionIdKey] = sessionID;
+    }
+    [params setValue:userid forKey:@"userid"];
+    [params setValue:orderid forKey:@"orderid"];
+    [params setValue:rmb forKey:@"rmb"];
+    
+    [EVBaseToolManager GETRequestWithUrl:EVSuccessPayToService parameters:params success:successBlock sessionExpireBlock:sessionExpiredBlock fail:failBlock];
+}
+
+
+
 // 充值选项
 - (void)GETCashinOptionWith:(EVPayPlatform)plateform
                       start:(void(^)())startBlock

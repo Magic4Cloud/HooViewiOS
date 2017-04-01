@@ -55,7 +55,7 @@
     switch (type) {
         case EVDetailType_prepaid:
         {
-            self.contentLabel.text = @"充值火眼豆";
+            self.contentLabel.text = _listItemModel.descriptionss;
             self.symbolLabel.text = @"火眼豆";
         }
             break;

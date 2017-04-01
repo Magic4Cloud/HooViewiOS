@@ -125,6 +125,7 @@ typedef enum : NSUInteger {
     settingTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     settingTableView.delegate = self;
     settingTableView.dataSource = self;
+    settingTableView.backgroundColor = [UIColor evBackgroundColor];
     [self.view addSubview:settingTableView];
     self.settingTableView = settingTableView;
     

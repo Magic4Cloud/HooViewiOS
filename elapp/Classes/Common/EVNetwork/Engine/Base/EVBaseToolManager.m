@@ -481,7 +481,7 @@ static BOOL sessioncheck = NO;
             fail(error);
         }
     }];
-
+    EVLog(@"------- %@",task.currentRequest);
     [task resume];
 }
 
@@ -521,6 +521,7 @@ static BOOL sessioncheck = NO;
             fail(error);
         }
     }];
+    EVLog(@"------- %@",task.currentRequest);
     [task resume];
 }
 

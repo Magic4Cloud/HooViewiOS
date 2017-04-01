@@ -277,6 +277,17 @@ typedef enum : NSUInteger {
                         sessionExpired:(void(^)())sessionExpiredBlock;
 
 
+//充值成功回调
+- (void)GETSuccessPayToServiceWithUid:(NSString *)userid
+                              orderid:(NSString *)orderid
+                                  rmb:(NSString *)rmb
+                                start:(void(^)())startBlock
+                                 fail:(void(^)(NSError *error))failBlock
+                              success:(void(^)(NSDictionary *info))successBlock
+                       sessionExpired:(void(^)())sessionExpiredBlock;
+
+
+
 /**
  消费记录
 
