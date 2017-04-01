@@ -380,7 +380,7 @@ static const NSString *const SettingCellID = @"settingCell";
     reeditUserInfoVC.tagsAry = self.userModel.tags;
     [self.navigationController pushViewController:reeditUserInfoVC animated:YES];
 }
-
+#pragma mark - didSelectRowAtIndexPath
 - (void)didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *sessionID = [self.engine getSessionIdWithBlock:nil];

@@ -61,9 +61,13 @@
         self.offsetBlock (0,YES);
     }
     
+    
+}
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     [self loadDataStart:@"0"];
 }
-
 - (void)requestCollectList
 {
     [self.baseToolManager GETUserCollectListType:EVCollectTypeStock start:^{

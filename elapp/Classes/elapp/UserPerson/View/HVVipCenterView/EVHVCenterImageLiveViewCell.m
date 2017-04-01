@@ -47,6 +47,9 @@
 - (void)setUserModel:(EVUserModel *)userModel
 {
     _userModel = userModel;
+    if (!userModel) {
+        return;
+    }
      self.nameLabel.text  = [NSString stringWithFormat:@"%@的直播间",userModel.nickname];
     NSString *followC = [NSString numFormatNumber:userModel.follow_count];
     self.followLabel.text = [NSString stringWithFormat:@"%@人关注",followC];

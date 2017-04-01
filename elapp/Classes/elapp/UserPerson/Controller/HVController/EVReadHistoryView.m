@@ -70,6 +70,7 @@
         weakself.nTableView.hidden = YES;
     } success:^(NSDictionary *retinfo) {
         NSString *historyList = retinfo[@"historylist"];
+        
         if (historyList.length > 0) {
             weakself.nullDataView.hidden = YES;
             weakself.nTableView.hidden = NO;

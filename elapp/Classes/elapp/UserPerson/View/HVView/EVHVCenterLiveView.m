@@ -56,25 +56,86 @@
 
 - (void)addVipUI
 {
-    EVNullDataView *nullDataView = [[EVNullDataView alloc] init];
+    EVNullDataView *nullDataView = [[EVNullDataView alloc] initWithFrame:CGRectMake(0, 300, ScreenWidth, ScreenHeight-200)];
     [self addSubview:nullDataView];
     self.nullDataView = nullDataView;
-    nullDataView.frame = CGRectMake(0,0, ScreenWidth, ScreenHeight - 64);
-    nullDataView.topImage = [UIImage imageNamed:@"ic_cry"];
-    nullDataView.title = @"您还不是主播噢";
-    nullDataView.buttonTitle = @"成为主播";
-    [nullDataView addButtonTarget:self action:@selector(nullDataClick) forControlEvents:(UIControlEventTouchUpInside)];
+//    [nullDataView autoPinEdgesToSuperviewEdges];
+    
+    nullDataView.topImage = [UIImage imageNamed:@"ic_smile"];
+    nullDataView.title = @"他还没有直播";
+//    [nullDataView addButtonTarget:self action:@selector(nullDataClick) forControlEvents:(UIControlEventTouchUpInside)];
 }
 
 
-- (void)nullDataClick
-{
-    [EVProgressHUD showSuccess:@"申请成功"];
-}
+//- (void)nullDataClick
+//{
+//    [EVProgressHUD showSuccess:@"申请成功"];
+//}
 
 - (void)getDataWithName:(NSString *)name {
     _name = name;
     [self getDataWithName:name start:0 count:20];
+}
+
+- (void)getDataWithName:(NSString *)name start:(NSInteger)start count:(NSInteger)count
+{
+    NSString *type = @"video";
+    
+    
+    __weak typeof(self) weakself = self;
+    [self.baseToolManager GETUserVideoListWithName:name type:type start:start count:count startBlock:^{
+        
+    } fail:^(NSError *error) {
+        [weakself endHeaderRefreshing];
+        [weakself endFooterRefreshing];
+    } success:^(NSArray *videos) {
+        
+        
+        if (start == 0)
+        {
+            [weakself.videos removeAllObjects];
+        }
+        [weakself.videos addObjectsFromArray:videos];
+        [weakself reloadData];
+        [weakself endHeaderRefreshing];
+        [weakself endFooterRefreshing];
+        
+        if ( weakself.videos.count )
+        {
+            [weakself showFooter];
+        }
+        else
+        {
+            [weakself hideFooter];
+        }
+        if (weakself.videos.count)
+        {
+            
+            if (videos.count < count)
+            {
+                [weakself setFooterState:CCRefreshStateNoMoreData];
+            }
+            else
+            {
+                [weakself setFooterState:CCRefreshStateIdle];
+            }
+            
+            
+        }
+        
+        if (start == 0 && videos.count == 0) {
+            weakself.nullDataView.hidden = NO;
+        }
+        else
+        {
+            weakself.nullDataView.hidden = YES;
+        }
+        
+    } essionExpire:^{
+        [weakself endHeaderRefreshing];
+        [weakself endFooterRefreshing];
+        EVRelogin(weakself);
+    }];
 }
 
 - (void)loadIsHaveTextLive
@@ -100,6 +161,9 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    if (self.nullDataView.hidden == NO) {
+        return 0;
+    }
     if (self.textLiveState == 2) {
         return 1;
     }
@@ -218,64 +282,7 @@
 }
 
 
-- (void)getDataWithName:(NSString *)name start:(NSInteger)start count:(NSInteger)count
-{
-    NSString *type = @"video";
-    
-    
-    __weak typeof(self) weakself = self;
-    [self.baseToolManager GETUserVideoListWithName:name type:type start:start count:count startBlock:^{
-        
-    } fail:^(NSError *error) {
-        [weakself endHeaderRefreshing];
-        [weakself endFooterRefreshing];
-    } success:^(NSArray *videos) {
 
-        
-        if (start == 0)
-        {
-            [weakself.videos removeAllObjects];
-        }
-        [weakself.videos addObjectsFromArray:videos];
-        [weakself reloadData];
-        [weakself endHeaderRefreshing];
-        [weakself endFooterRefreshing];
-        
-        if ( weakself.videos.count )
-        {
-            [weakself showFooter];
-        }
-        else
-        {
-            [weakself hideFooter];
-        }
-        if (weakself.videos.count)
-        {
-            
-            if (videos.count < count)
-            {
-                [weakself setFooterState:CCRefreshStateNoMoreData];
-            }
-            else
-            {
-                [weakself setFooterState:CCRefreshStateIdle];
-            }
-         
-            
-        }
-        
-        if (start == 0 && videos.count == 0) {
-            weakself.nullDataView.hidden = NO;
-        }else {
-            weakself.nullDataView.hidden = YES;
-        }
-        
-    } essionExpire:^{
-        [weakself endHeaderRefreshing];
-        [weakself endFooterRefreshing];
-        EVRelogin(weakself);
-    }];
-}
 
 
 - (NSMutableArray *)videos

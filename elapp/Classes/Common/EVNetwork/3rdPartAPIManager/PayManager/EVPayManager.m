@@ -238,6 +238,8 @@
                 EVLog(@"购买成功");
                 // 上传日志
                 NSMutableDictionary *moreInfoDict = [NSMutableDictionary dictionary];
+                
+                NSString * ident = transaction.payment.productIdentifier;
                 [moreInfoDict setValue:transaction.payment.productIdentifier
                                 forKey:CCProductID];
              

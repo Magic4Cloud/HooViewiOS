@@ -68,7 +68,8 @@
     stockTableView.dataSource = self;
     [self.view addSubview:stockTableView];
     self.stockTableView = stockTableView;
-    stockTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    stockTableView.tableFooterView = [UIView new];
+//    stockTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     stockTableView.tableHeaderView = stockTopView;
     self.stockTopView = stockTopView;
     
