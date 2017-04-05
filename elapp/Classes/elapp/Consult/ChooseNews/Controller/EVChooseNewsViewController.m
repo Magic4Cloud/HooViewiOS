@@ -164,27 +164,29 @@
 
 - (void)addUpView
 {
-    UIImageView *topBackImage = [[UIImageView alloc] init];
-    topBackImage.frame = CGRectMake(0, 0,ScreenWidth, 120);
-    topBackImage.backgroundColor = [UIColor clearColor];
-    topBackImage.image = [UIImage imageNamed:@"bg_optional"];
-    [self.view addSubview:topBackImage];
+//    UIImageView *topBackImage = [[UIImageView alloc] init];
+//    topBackImage.frame = CGRectMake(0, 0,ScreenWidth, 120);
+//    topBackImage.backgroundColor = [UIColor clearColor];
+//    topBackImage.image = [UIImage imageNamed:@"bg_optional"];
+//    [self.view addSubview:topBackImage];
     
     
-    UITableView *newsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 44) style:(UITableViewStylePlain)];
+    UITableView *newsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 49-64) style:(UITableViewStylePlain)];
     newsTableView.delegate = self;
     newsTableView.dataSource = self;
     [self.view addSubview:newsTableView];
     self.newsTableView = newsTableView;
     newsTableView.separatorStyle = NO;
-    newsTableView.tableHeaderView = topBackImage;
+//    newsTableView.tableHeaderView = topBackImage;
+    newsTableView.backgroundColor = [UIColor evLineColor];
+    newsTableView.contentInset = UIEdgeInsetsMake(7, 0, 0, 0);
     UIView *footView = [[UIView alloc] initWithFrame:CGRectZero];
     newsTableView.tableFooterView = footView;
     
     
     
     EVNullDataView *nullDataView = [[EVNullDataView alloc] init];
-    nullDataView.frame = CGRectMake(0, 120, ScreenWidth, ScreenHeight - 164);
+    nullDataView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight - 64);
     nullDataView.topImage = [UIImage imageNamed:@"ic_smile"];
     nullDataView.title = @"您还没有添加自选噢";
     nullDataView.buttonTitle = @"添加自选";
@@ -194,7 +196,7 @@
     
     
     EVNullDataView *twoDataView = [[EVNullDataView alloc] init];
-    twoDataView.frame = CGRectMake(0, 120, ScreenWidth, ScreenHeight - 164);
+    twoDataView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight - 64);
     twoDataView.topImage = [UIImage imageNamed:@"ic_smile"];
     twoDataView.title = @"自选股当前没有相关新闻";
     [self.view addSubview:twoDataView];

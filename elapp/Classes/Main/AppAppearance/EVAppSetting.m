@@ -173,6 +173,7 @@ NSString * const NotifyOfLogin = @"NotifyOfLogin";
     if ( !isLive )
     {
         defaltLivingTitle = [NSString stringWithFormat:@"%@%@", nickName,kE_GlobalZH(@"bring_you_fly")];
+
     }
     
     return defaltLivingTitle;

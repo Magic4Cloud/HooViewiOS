@@ -16,7 +16,7 @@
 @property (nonatomic, assign) BOOL syschronizedCache;
 
 // 当前的请求列表
-@property (nonatomic, strong) NSMapTable *requests;
+@property (nonatomic, strong) NSMapTable * _Nullable requests;
 
 // 停止当前所有操作
 - (void)cancelAllOperation;

@@ -44,6 +44,8 @@
 #import "EVStartPageViewController.h"
 
 #import <Growing.h>
+
+#import "EVHomeBaseViewController.h"
 NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 
 #define kIsFirstLauchApp  @"kIsFirstLauchApp"
@@ -310,11 +312,15 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     NSMutableArray *items = [NSMutableArray array];
     
     // 资讯
-    EVConsultViewController *firstVC = [[EVConsultViewController alloc] init];
-    EVNavigationController *firstNav = [EVNavigationController navigationWithWrapController:firstVC];
+//    EVConsultViewController *firstVC = [[EVConsultViewController alloc] init];
+//    EVNavigationController *firstNav = [EVNavigationController navigationWithWrapController:firstVC];
+//    EVHomeTabBarItem *firstItem = [EVHomeTabBarItem homeTabBarItemWithController:firstNav];
+//    [items addObject:firstItem];
+    
+    EVHomeBaseViewController * firstVC = [[EVHomeBaseViewController alloc] init];
+    UINavigationController *firstNav = [[UINavigationController alloc] initWithRootViewController:firstVC];
     EVHomeTabBarItem *firstItem = [EVHomeTabBarItem homeTabBarItemWithController:firstNav];
     [items addObject:firstItem];
-    
     
     // 直播
     EVLiveListViewController *secondVC = [[EVLiveListViewController alloc] init];
