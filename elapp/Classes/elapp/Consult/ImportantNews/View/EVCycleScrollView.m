@@ -54,7 +54,7 @@
         CGFloat headerW = ScreenWidth;
         CGFloat banderW = headerW;
         //CGFloat banderH = banderW / whRate;
-        _cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, banderW, 250)
+        _cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, banderW, self.bounds.size.height)
                                                               delegate:self
                                                       placeholderImage:[UIImage imageNamed:@"Account_bitmap_list"]];
         _cycleScrollView.autoScrollTimeInterval = 5.0f;
@@ -81,7 +81,7 @@
     if (!_BannerImage) {
         CGFloat headerW = ScreenWidth;
         CGFloat banderW = headerW;
-        _BannerImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, banderW, 250)];
+        _BannerImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, banderW, self.bounds.size.height)];
         _BannerImage.image = [UIImage imageNamed:@"bg_banner-1"];
     }
     return _BannerImage;

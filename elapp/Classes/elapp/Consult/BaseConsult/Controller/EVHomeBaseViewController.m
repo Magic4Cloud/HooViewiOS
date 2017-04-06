@@ -31,9 +31,14 @@
         self.progressViewWidths = @[@20,@20,@20,@20];
 //        self.progressViewIsNaughty = YES;
         self.titles = @[@"要闻",@"快讯",@"自选",@"专栏"];
-        float lastMargin = ScreenWidth - 60-15*3-50*4;
+        float margin = 15;
+        if (ScreenWidth == 320) {
+            margin = (ScreenWidth - 50 - 60 - 50*4)/3;
+        }
+        NSNumber * marginNum = [NSNumber numberWithFloat:margin];
+        float lastMargin = ScreenWidth - 50-margin*3-50*4;
         NSNumber * number = [NSNumber numberWithFloat:lastMargin];
-        self.itemsMargins = @[@60,@15,@15,@15,number];
+        self.itemsMargins = @[@50,marginNum,marginNum,marginNum,number];
         self.menuBGColor = [UIColor whiteColor];
         self.menuViewStyle = WMMenuViewLayoutModeLeft;
     }
