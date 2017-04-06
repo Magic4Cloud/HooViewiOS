@@ -113,7 +113,7 @@
     [self.view addSubview:iNewsTableview];
     _iNewsTableview = iNewsTableview;
     iNewsTableview.contentInset = UIEdgeInsetsMake(7, 0, 0, 0);
-    EVCycleScrollView *cycleScrollView = [[EVCycleScrollView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 250)];
+    EVCycleScrollView *cycleScrollView = [[EVCycleScrollView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenWidth/1.56)];
     cycleScrollView.delegate = self;
     cycleScrollView.backgroundColor = [UIColor whiteColor];
     cycleScrollView.items = self.dataArray;
