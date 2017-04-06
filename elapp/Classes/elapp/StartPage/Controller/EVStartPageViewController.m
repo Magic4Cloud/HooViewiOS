@@ -174,6 +174,7 @@
                     
                 }];
                 
+                //延时两秒  如果图片还没加载出来 则使用默认图
                 [self performSelector:@selector(isLoadDefaultImage) withObject:nil afterDelay:2];
                 return;
             }

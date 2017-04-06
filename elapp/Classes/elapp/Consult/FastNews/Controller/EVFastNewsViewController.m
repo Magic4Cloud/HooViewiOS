@@ -78,21 +78,22 @@
 }
 - (void)addUpView
 {
-    UIImageView *topBackImage = [[UIImageView alloc] init];
-    topBackImage.frame = CGRectMake(0, 0,ScreenWidth, 120);
-    topBackImage.backgroundColor = [UIColor clearColor];
-    topBackImage.image = [UIImage imageNamed:@"bg_News_flash"];
-    [self.view addSubview:topBackImage];
+//    UIImageView *topBackImage = [[UIImageView alloc] init];
+//    topBackImage.frame = CGRectMake(0, 0,ScreenWidth, 120);
+//    topBackImage.backgroundColor = [UIColor clearColor];
+//    topBackImage.image = [UIImage imageNamed:@"bg_News_flash"];
+//    [self.view addSubview:topBackImage];
     
     
-    UITableView *newsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 44) style:(UITableViewStylePlain)];
+    UITableView *newsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 49-64) style:(UITableViewStylePlain)];
+    newsTableView.contentInset = UIEdgeInsetsMake(7, 0, 0, 0);
     newsTableView.delegate = self;
     newsTableView.dataSource = self;
     [self.view addSubview:newsTableView];
     self.newsTableView = newsTableView;
     newsTableView.separatorStyle = NO;
-    
-    newsTableView.tableHeaderView = topBackImage;
+    newsTableView.backgroundColor = [UIColor evLineColor];
+//    newsTableView.tableHeaderView = topBackImage;
     
     UIView *footView = [[UIView alloc] init];
     newsTableView.tableFooterView = footView;

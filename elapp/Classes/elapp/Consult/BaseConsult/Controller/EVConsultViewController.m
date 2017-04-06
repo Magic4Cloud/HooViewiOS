@@ -38,7 +38,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"咨询";
+    self.title = @"资讯";
     [self.navigationController setNavigationBarHidden:YES];
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self addUpView];

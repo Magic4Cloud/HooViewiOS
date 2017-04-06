@@ -92,7 +92,7 @@
 {
     [super viewWillAppear:animated];
     [self loadNewsDataStart:@"0" count:[NSString stringWithFormat:@"%ld", self.newsDataArray.count] showNoticeView:NO];
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
+//    [self.navigationController setNavigationBarHidden:YES animated:NO];
 //    self.refreshTimes = [NSTimer timerWithTimeInterval:60 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
 //    [[NSRunLoop mainRunLoop] addTimer:self.refreshTimes forMode:NSDefaultRunLoopMode];
 }
@@ -106,15 +106,16 @@
 
 - (void)addTableView
 {
-    UITableView *iNewsTableview = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-44) style:(UITableViewStyleGrouped)];
+    UITableView *iNewsTableview = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-49-64) style:(UITableViewStyleGrouped)];
     iNewsTableview.delegate = self;
     iNewsTableview.dataSource = self;
+    iNewsTableview.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:iNewsTableview];
     _iNewsTableview = iNewsTableview;
-    
+    iNewsTableview.contentInset = UIEdgeInsetsMake(7, 0, 0, 0);
     EVCycleScrollView *cycleScrollView = [[EVCycleScrollView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 250)];
     cycleScrollView.delegate = self;
-    cycleScrollView.backgroundColor = [UIColor clearColor];
+    cycleScrollView.backgroundColor = [UIColor whiteColor];
     cycleScrollView.items = self.dataArray;
     self.cycleScrollView = cycleScrollView;
     _iNewsTableview.tableHeaderView = cycleScrollView;
