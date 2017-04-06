@@ -163,6 +163,8 @@
 #define EVHoovviewNewsBannersAPI    @"http://dev.hooview.com/api/news/banners"
 #define EVTextLiveHaveAPI           @"http://dev.hooview.com/api/textlive/streaminfo"
 
+//支付成功回调给服务器
+#define EVSuccessPayToService       @"https://appgw.hooview.com/easyvaas/service/service/payecoin"
 #endif
 
 
