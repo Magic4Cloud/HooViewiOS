@@ -34,6 +34,8 @@
 
 @property (nonatomic) NSTimer *refreshTimes;
 
+@property (nonatomic, strong) UIView *headView;
+@property (nonatomic, strong) UIView *footView;
 
 @end
 
@@ -43,8 +45,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self addUpTableView];
-    [self loadStockData];
     [self loadHeadTailData];
+    [self loadStockData];
+    
    
 }
 
@@ -61,32 +64,32 @@
 - (void)addUpTableView
 {
     EVStockTopView *stockTopView = [[EVStockTopView alloc] init];
-    stockTopView.frame  = CGRectMake(0, 0, ScreenWidth, 108);
+    stockTopView.frame  = CGRectMake(0, 0, ScreenWidth, 126);
     stockTopView.delegate = self;
     
-    UITableView *stockTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 113) style:(UITableViewStyleGrouped)];
+    UITableView *stockTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 113) style:(UITableViewStylePlain)];
     stockTableView.delegate = self;
     stockTableView.dataSource = self;
     stockTableView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:stockTableView];
     self.stockTableView = stockTableView;
     stockTableView.tableFooterView = [UIView new];
-//    stockTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    stockTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     stockTableView.tableHeaderView = stockTopView;
     self.stockTopView = stockTopView;
     
     
-//    UIButton *refreshButton = [[UIButton alloc] init];
-//    refreshButton.frame = CGRectMake(ScreenWidth - 64, stockTableView.frame.size.height - 58, 44, 44);
-//    refreshButton.backgroundColor = [UIColor blackColor];
-//    refreshButton.layer.masksToBounds = YES;
-//    refreshButton.layer.cornerRadius = 22;
-//    refreshButton.alpha = 0.7;
-//    [refreshButton setImage:[UIImage imageNamed:@"hv_refresh_white"] forState:(UIControlStateNormal)];
-//    [self.view addSubview:refreshButton];
-//    [refreshButton addTarget:self action:@selector(refreshClick) forControlEvents:(UIControlEventTouchUpInside)];
-//    self.refreshButton = refreshButton;
-//    [self.view bringSubviewToFront:refreshButton];
+    UIButton *refreshButton = [[UIButton alloc] init];
+    refreshButton.frame = CGRectMake(ScreenWidth - 64, stockTableView.frame.size.height - 58, 44, 44);
+    refreshButton.backgroundColor = [UIColor blackColor];
+    refreshButton.layer.masksToBounds = YES;
+    refreshButton.layer.cornerRadius = 22;
+    refreshButton.alpha = 0.7;
+    [refreshButton setImage:[UIImage imageNamed:@"hv_refresh_white"] forState:(UIControlStateNormal)];
+    [self.view addSubview:refreshButton];
+    [refreshButton addTarget:self action:@selector(refreshClick) forControlEvents:(UIControlEventTouchUpInside)];
+    self.refreshButton = refreshButton;
+    [self.view bringSubviewToFront:refreshButton];
     
     [stockTableView addRefreshHeaderWithRefreshingBlock:^ {
         [self loadStockData];
@@ -180,6 +183,11 @@
         cell.rankLabel.hidden = NO;
     }
     
+    if (indexPath.row < 10 && indexPath.row > 0) {
+        cell.lineLabel.hidden = NO;
+    } else {
+        cell.lineLabel.hidden = YES;
+    }
     
     cell.selectionStyle  = UITableViewCellSelectionStyleNone;
     cell.cellType = EVStockBaseViewCellTypeSock;
@@ -190,7 +198,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 42;
+    return 30;
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -199,28 +207,35 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 20;
+    return 8;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 42)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 30)];
 //    [EVLineView addTopLineToView:view];
 //    [EVLineView addBottomLineToView:view];
     view.backgroundColor = [UIColor whiteColor];
     UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.frame = CGRectMake(26, 10, ScreenWidth - 16, 22);
+    titleLabel.frame = CGRectMake(22, 5, ScreenWidth - 16, 20);
     [view addSubview:titleLabel];
-    NSString *titleStr = section == 0 ? @"涨幅榜" : @"跌幅榜";
+    NSString *titleStr = @"";
+    if ([_marketType isEqualToString:@"cn"]) {
+        titleStr = section == 0 ? @"涨幅榜" : @"跌幅榜";
+    } else if([_marketType isEqualToString:@"hk"]) {
+        titleStr = section == 0 ? @"领涨股" : @"领跌股";
+    }
     titleLabel.text = [NSString stringWithFormat:@"%@",titleStr];
     titleLabel.font = [UIFont systemFontOfSize:14.f];
     titleLabel.textColor = [UIColor evTextColorH2];
     
-    UILabel *signLabel = [[UILabel alloc] initWithFrame:CGRectMake(14, 15, 2, 12)];
+    UILabel *signLabel = [[UILabel alloc] initWithFrame:CGRectMake(12, 8, 2, 14)];
     if (section == 0) {
         signLabel.backgroundColor = [UIColor colorWithHexString:@"#AE3231"];
+        self.headView = view;
     }else {
         signLabel.backgroundColor = [UIColor colorWithHexString:@"#099468"];
+        self.footView = view;
     }
     [view addSubview:signLabel];
     
@@ -229,7 +244,7 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 20)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 8)];
     view.backgroundColor = [UIColor evBackgroundColor];
         if (section == 1) {
         view.hidden = YES;
@@ -283,6 +298,28 @@
             break;
     }
 }
+
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if (self.headView.frame.origin.y > 126) {
+        self.headView.backgroundColor = [UIColor colorWithRed:251/255.0f green:251/255.0f blue:251/255.0f alpha:1];
+    } else {
+        self.headView.backgroundColor = [UIColor whiteColor];
+    }
+    if (self.footView.frame.origin.y > 816) {
+        self.footView.backgroundColor = [UIColor colorWithRed:251/255.0f green:251/255.0f blue:251/255.0f alpha:1];
+    } else {
+        self.footView.backgroundColor = [UIColor whiteColor];
+    }
+}
+
+
+
+
+
+
+
+
 - (EVBaseToolManager *)baseToolManager
 {
     if ( !_baseToolManager ) {

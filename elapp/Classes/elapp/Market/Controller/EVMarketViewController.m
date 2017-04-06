@@ -16,7 +16,7 @@
 #import "EVSelfStockViewController.h"
 #import "EVStockBaseViewController.h"
 #import "EVGlobalViewController.h"
-
+#import "EVSearchAllViewController.h"
 
 @interface EVMarketViewController ()<UIGestureRecognizerDelegate>
 @property (nonatomic, strong) NSArray *musicCategories;
@@ -36,130 +36,152 @@
 
 
 
-- (NSArray *)musicCategories {
-    if (!_musicCategories) {
-        _musicCategories = @[@"自选", @"沪深", @"港股", @"全球"];
-    }
-    return _musicCategories;
-}
+//- (NSArray *)musicCategories {
+//    if (!_musicCategories) {
+//        _musicCategories = @[@"自选", @"沪深", @"港股", @"全球"];
+//    }
+//    return _musicCategories;
+//}
 
 - (instancetype)init {
     if (self = [super init]) {
-        self.titleSizeNormal = 15;
-        self.titleSizeSelected = 17;
+//        self.titleSizeNormal = 15;
+//        self.titleSizeSelected = 17;
+//        self.menuViewStyle = WMMenuViewStyleLine;
+//        self.itemsMargins = @[@"50",@"25",@"25", @"25",@"100"];
+//        //        self.menuItemWidth = [UIScreen mainScreen].bounds.size.width / self.musicCategories.count;
+//        self.menuItemWidth = 35.f;
+//        self.menuHeight = 34;
+//        self.menuViewBottomSpace = 5.f;
+//        self.menuBGColor = [UIColor whiteColor];
+//        self.progressWidth = 20.f;//进度条长度
+//        self.viewTop = kNavigationBarHeight + kWMHeaderViewHeight;
+//        self.titleColorSelected = [UIColor evMainColor];
+//        self.titleColorNormal = [UIColor blackColor];
+//        self.scrollView.backgroundColor = [UIColor evBackgroundColor];
+        
         self.menuViewStyle = WMMenuViewStyleLine;
-        self.itemsMargins = @[@"50",@"25",@"25", @"25",@"100"];
-        //        self.menuItemWidth = [UIScreen mainScreen].bounds.size.width / self.musicCategories.count;
-        self.menuItemWidth = 35.f;
-        self.menuHeight = 34;
-        self.menuViewBottomSpace = 5.f;
-        self.menuBGColor = [UIColor whiteColor];
-        self.progressWidth = 20.f;//进度条长度
-        self.viewTop = kNavigationBarHeight + kWMHeaderViewHeight;
+        self.titleSizeSelected = 18.0f;
+        self.titleSizeNormal = 16.0f;
+        self.menuHeight = 44;
         self.titleColorSelected = [UIColor evMainColor];
-        self.titleColorNormal = [UIColor blackColor];
-        self.scrollView.backgroundColor = [UIColor evBackgroundColor];
+        self.titleColorNormal = [UIColor evTextColorH2];
+        self.menuItemWidth = 50;
+        self.progressViewWidths = @[@20,@20,@20,@20];
+        //        self.progressViewIsNaughty = YES;
+        self.titles = @[@"自选",@"沪深",@"港股",@"全球"];
+        float margin = 15;
+        if (ScreenWidth == 320) {
+            margin = (ScreenWidth - 50 - 60 - 50*4)/3;
+        }
+        NSNumber * marginNum = [NSNumber numberWithFloat:margin];
+        float lastMargin = ScreenWidth - 50-margin*3-50*4;
+        NSNumber * number = [NSNumber numberWithFloat:lastMargin];
+        self.itemsMargins = @[@50,marginNum,marginNum,marginNum,number];
+        self.menuBGColor = [UIColor whiteColor];
+        self.menuViewStyle = WMMenuViewLayoutModeLeft;
+        
     }
     return self;
 }
 
+#pragma mark - ♻️Lifecycle
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-//    self.view.backgroundColor = [UIColor evBackgroundColor];
     [self setupView];
-    
+    // Do any additional setup after loading the view.
 }
 
 - (void)setupView {
-    self.navigationController.navigationBar.hidden = YES;
+    self.viewFrame = CGRectMake(0, 20, ScreenWidth, ScreenHeight);
+    self.automaticallyAdjustsScrollViewInsets = NO;
     
-    UIButton *logoButton = [[UIButton alloc] init];
-    logoButton.frame = CGRectMake(15.f, 30.f, 22.f, 22.f);
-    [logoButton setImage:[UIImage imageNamed:@"huoyan_logo"] forState:(UIControlStateNormal)];
-    logoButton.userInteractionEnabled = NO;
-    [self.view addSubview:logoButton];
+    UIButton *searchButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    searchButton.frame = CGRectMake(ScreenWidth - 44 -10, 20, 44,44);
+    [searchButton setImage:[UIImage imageNamed:@"Huoyan_market_search"] forState:(UIControlStateNormal)];
+    [searchButton addTarget:self action:@selector(searchClick) forControlEvents:(UIControlEventTouchUpInside)];
+    [self.view addSubview:searchButton];
     
-    UIButton *rightButton = [[UIButton alloc] init];
-    [rightButton setImage:[UIImage imageNamed:@"Huoyan_market_search"] forState:(UIControlStateNormal)];
-    rightButton.frame = CGRectMake(340, 30, rightButton.imageView.image.size.width, rightButton.imageView.image.size.height);
-    self.rightButton = rightButton;
-    [rightButton addTarget:self action:@selector(rightClick:) forControlEvents:(UIControlEventTouchUpInside)];
-    [self.view addSubview:rightButton];
-    
+    //    self.menuView.rightView = searchButton;
+    UIImageView * icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"huoyan_logo"]];
+    icon.frame = CGRectMake(20, 30, 23, 23);
+    [self.view addSubview:icon];
 }
 
 
-
-// MARK: ChangeViewFrame (Animatable)
-- (void)setViewTop:(CGFloat)viewTop {
-    
-    _viewTop = viewTop;
-    
-    if (_viewTop <= kNavigationBarHeight) {
-        _viewTop = kNavigationBarHeight;
-    }
-    
-    if (_viewTop > kWMHeaderViewHeight + kNavigationBarHeight) {
-        _viewTop = kWMHeaderViewHeight + kNavigationBarHeight;
-    }
-    
-    self.viewFrame = CGRectMake(0, 30, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 30);
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
 }
 
 #pragma mark - Datasource & Delegate
 - (NSInteger)numbersOfChildControllersInPageController:(WMPageController *)pageController {
-    return self.musicCategories.count;
+    return self.titles.count;
 }
 
 - (UIViewController *)pageController:(WMPageController *)pageController viewControllerAtIndex:(NSInteger)index {
     
-    if (index == 0) {
-        //自选
-        EVSelfStockViewController *allStockVC = [[EVSelfStockViewController alloc] init];
-        [self addChildViewController:allStockVC];
-        allStockVC.view.frame = CGRectMake(0, 10, ScreenWidth, ScreenHeight - 113 -10);
-        allStockVC.stockType = EVSelfStockTypeAll;
-        return allStockVC;
-    } else if(index == 1) {
-        //沪深
-        EVStockBaseViewController *shStockBaseVC = [[EVStockBaseViewController alloc] init];
-        shStockBaseVC.view.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
-        self.shStockBaseVC = shStockBaseVC;
-        self.shStockBaseVC.marketType = @"cn";
-        return shStockBaseVC;
-    } else if(index == 2) {
-        //港股
-        EVStockBaseViewController *hkStockBaseVC = [[EVStockBaseViewController alloc] init];
-        hkStockBaseVC.view.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
-        self.hkStockBaseVC = hkStockBaseVC;
-        self.hkStockBaseVC.marketType = @"hk";
-        return hkStockBaseVC;
-    } else {
-        //全球
-        EVGlobalViewController *globalVC = [[EVGlobalViewController alloc] init];
-        globalVC.view.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
-        self.globalVC = globalVC;
-        return globalVC;
+    switch (index) {
+        case 0:
+        {
+            //自选
+            EVSelfStockViewController *allStockVC = [[EVSelfStockViewController alloc] init];
+            allStockVC.view.frame = CGRectMake(0, 10, ScreenWidth, ScreenHeight - 113 -10);
+            allStockVC.stockType = EVSelfStockTypeAll;
+            return allStockVC;
+        }
+            break;
+        case 1:
+        {
+            //沪深
+            EVStockBaseViewController *shStockBaseVC = [[EVStockBaseViewController alloc] init];
+            self.shStockBaseVC = shStockBaseVC;
+            self.shStockBaseVC.marketType = @"cn";
+            return shStockBaseVC;
+        }
+        case 2:
+        {
+            //港股
+            EVStockBaseViewController *hkStockBaseVC = [[EVStockBaseViewController alloc] init];
+            self.hkStockBaseVC = hkStockBaseVC;
+            self.hkStockBaseVC.marketType = @"hk";
+            return hkStockBaseVC;        }
+        case 3:
+        {
+            //全球
+            EVGlobalViewController *globalVC = [[EVGlobalViewController alloc] init];
+            self.globalVC = globalVC;
+            return globalVC;        }
+        default:
+        {
+            return nil;
+        }
+            break;
     }
-}
 
-- (NSString *)pageController:(WMPageController *)pageController titleAtIndex:(NSInteger)index {
-    return self.musicCategories[index];
-}
-
-
-
-//搜索
-- (void)rightClick:(UIButton *)sender {
+    
     
 }
 
+- (NSString *)pageController:(WMPageController *)pageController titleAtIndex:(NSInteger)index {
+    return self.titles[index];
+}
+
+
+
+#pragma mark -👣 Target actions
+- (void)searchClick
+{
+    EVSearchAllViewController *searchVC = [[EVSearchAllViewController alloc] init];
+    [self.navigationController pushViewController:searchVC animated:YES];
+}
 
 
 
