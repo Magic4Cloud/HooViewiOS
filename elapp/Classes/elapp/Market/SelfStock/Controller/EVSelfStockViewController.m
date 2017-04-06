@@ -14,6 +14,7 @@
 #import "EVMarketDetailsController.h"
 #import "EVLoginInfo.h"
 #import "EVSearchStockViewController.h"
+#import "EVEditSelfStockViewController.h"
 
 @interface EVSelfStockViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) EVNullDataView *nullDataView;
@@ -67,17 +68,26 @@
     
     self.listTableView = listTableView;
     
-//    UIButton *refreshButton = [[UIButton alloc] init];
-//    refreshButton.frame = CGRectMake(ScreenWidth - 64, listTableView.frame.size.height - 58, 44, 44);
-//    refreshButton.backgroundColor = [UIColor blackColor];
-//    refreshButton.layer.masksToBounds = YES;
-//    refreshButton.layer.cornerRadius = 22;
-//    refreshButton.alpha = 0.7;
-//    [refreshButton setImage:[UIImage imageNamed:@"hv_refresh_white"] forState:(UIControlStateNormal)];
-//    [self.view addSubview:refreshButton];
-//    [refreshButton addTarget:self action:@selector(refreshClick) forControlEvents:(UIControlEventTouchUpInside)];
-//    self.refreshButton = refreshButton;
-//    [self.view bringSubviewToFront:refreshButton];
+    
+    //编辑
+    UIButton *refreshButton = [[UIButton alloc] init];
+    refreshButton.frame = CGRectMake(ScreenWidth - 64, listTableView.frame.size.height - 58, 44, 44);
+    refreshButton.backgroundColor = [UIColor blackColor];
+    refreshButton.layer.masksToBounds = YES;
+    refreshButton.layer.cornerRadius = 22;
+    refreshButton.alpha = 0.7;
+    [refreshButton setImage:[UIImage imageNamed:@"huoyan_edit"] forState:(UIControlStateNormal)];
+    [self.view addSubview:refreshButton];
+    [refreshButton addTarget:self action:@selector(refreshClick:) forControlEvents:(UIControlEventTouchUpInside)];
+    self.refreshButton = refreshButton;
+    [self.view bringSubviewToFront:refreshButton];
+    
+    [self.listTableView addRefreshHeaderWithRefreshingBlock:^{
+        [self fetchDataWithType:EVSelfStockTypeAll];
+    }];
+    
+    [EVNotificationCenter addObserver:self selector:@selector(loadData) name:@"chooseMarketCommit" object:nil];
+    
 }
 
 - (void)loadData
@@ -90,11 +100,18 @@
 
 }
 
-- (void)refreshClick
+//跳转编辑页
+- (void)refreshClick:(UIButton *)sender
 {
-    if (self.Sdelegate && [self.Sdelegate respondsToSelector:@selector(refreshWithType:)]) {
-        [self.Sdelegate refreshWithType:EVSelfStockTypeAll];
-    }
+//    if (self.Sdelegate && [self.Sdelegate respondsToSelector:@selector(refreshWithType:)]) {
+//        [self.Sdelegate refreshWithType:EVSelfStockTypeAll];
+//    }
+    EVEditSelfStockViewController *mineVC = [[EVEditSelfStockViewController alloc] init];
+    mineVC.commitBlock = ^(){
+    };
+    [self.navigationController pushViewController:mineVC animated:YES];
+
+    
 }
 
 
@@ -118,6 +135,10 @@
     cell.upStockBaseModel = self.dataArray[indexPath.row];
     cell.cellType = EVStockBaseViewCellTypeSelfSock;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    if (indexPath.row > 0) {
+        cell.lineLabel.hidden = NO;
+    }
+    
     return cell;
 }
 

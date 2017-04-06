@@ -12,9 +12,8 @@
 /**
  行情
  */
-static CGFloat const kWMHeaderViewHeight = 0;
-static CGFloat const kNavigationBarHeight = 64;
+
 @interface EVMarketViewController : WMPageController
-@property (nonatomic, assign) CGFloat viewTop;
+
 
 @end

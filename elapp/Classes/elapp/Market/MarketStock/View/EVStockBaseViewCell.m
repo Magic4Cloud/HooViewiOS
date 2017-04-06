@@ -79,6 +79,17 @@
     [rankLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeTop ofView:nameLabel];
     [rankLabel autoSetDimensionsToSize:CGSizeMake(14.f, 24.f)];
     self.rankLabel = rankLabel;
+    
+    
+    UILabel *lineLabel = [[UILabel alloc] init];
+    [self addSubview:lineLabel];
+    lineLabel.backgroundColor = [UIColor colorWithHexString:@"#EEEEEE"];
+    [lineLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:22.f];
+    [lineLabel autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:13.f];
+    [lineLabel autoPinEdgeToSuperviewEdge:ALEdgeTop];
+    [lineLabel autoSetDimension:ALDimensionHeight toSize:1];
+    lineLabel.hidden = YES;
+    self.lineLabel = lineLabel;
 
 }
 

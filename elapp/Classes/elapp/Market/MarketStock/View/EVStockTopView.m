@@ -34,7 +34,7 @@
 - (void)addUpView
 {
     UIView *contentView =  [[UIView alloc] init];
-    contentView.frame = CGRectMake(0, 0, ScreenWidth, 108);
+    contentView.frame = CGRectMake(0, 0, ScreenWidth, 106);
     [self addSubview:contentView];
 //    contentView.backgroundColor = [UIColor yellowColor];
     
@@ -44,7 +44,7 @@
     flowLayout.itemSize = CGSizeMake(ScreenWidth/3,100);
     flowLayout.sectionInset  = UIEdgeInsetsMake(0, 0, 0, 0);
      flowLayout.minimumLineSpacing = 0.f;
-    UICollectionView *stockCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 98) collectionViewLayout:flowLayout];
+    UICollectionView *stockCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 106) collectionViewLayout:flowLayout];
     [contentView addSubview:stockCollectionView];
     stockCollectionView.delegate = self;
     stockCollectionView.dataSource = self;
@@ -64,7 +64,7 @@
 //    pageControl.currentPageIndicatorTintColor = [UIColor grayColor];
 //    [contentView addSubview:pageControl];
 //    self.pageControl = pageControl;
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 98, ScreenWidth, 10)];
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 116, ScreenWidth, 10)];
     lineView.backgroundColor = [UIColor evBackgroundColor];
     [self addSubview:lineView];
     
