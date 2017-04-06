@@ -188,8 +188,8 @@
             [codeArray addObject:baseModel[@"symbol"]];
         }
         
-//        NSString *codeListStr = [codeArray componentsJoinedByString:@","];
-//        NSLog(@"%@",codeListStr);
+        NSString *codeListStr = [codeArray componentsJoinedByString:@","];
+        NSLog(@"codeListStr = %@",codeListStr);
         NSArray *markets = [self _filterStockWithType:type localArray:codeArray];
         NSString *marketStr = [NSString stringWithArray:markets];
         NSLog(@"marketStr:%@",marketStr);

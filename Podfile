@@ -28,6 +28,7 @@ pod 'RKNotificationHub'
 pod 'JPush'
 pod 'OpenUDID'
 pod 'GrowingIO'
+pod 'WMPageController'
 #pod 'Reveal-iOS-SDK', :configurations => ['Debug']
 
 end

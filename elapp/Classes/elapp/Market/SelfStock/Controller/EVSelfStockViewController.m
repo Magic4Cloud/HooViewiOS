@@ -18,7 +18,7 @@
 @interface EVSelfStockViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) EVNullDataView *nullDataView;
 
-
+@property (nonatomic, strong) NSMutableArray *chooseArray;
 
 @property (nonatomic, strong) EVBaseToolManager *baseToolManager;
 
@@ -55,33 +55,34 @@
 
 - (void)addTableView
 {
-    UITableView *listTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, EVContentHeight-10) style:(UITableViewStylePlain)];
+    UITableView *listTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 5, ScreenWidth, ScreenHeight - 118) style:(UITableViewStylePlain)];
     listTableView.delegate = self;
     listTableView.dataSource = self;
+    listTableView.backgroundColor = [UIColor evBackgroundColor];
     [self.view addSubview:listTableView];
+    
     UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
-    view.backgroundColor = [UIColor evBackgroundColor];
     listTableView.tableFooterView = view;
     listTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     self.listTableView = listTableView;
     
-    UIButton *refreshButton = [[UIButton alloc] init];
-    refreshButton.frame = CGRectMake(ScreenWidth - 64, listTableView.frame.size.height - 58, 44, 44);
-    refreshButton.backgroundColor = [UIColor blackColor];
-    refreshButton.layer.masksToBounds = YES;
-    refreshButton.layer.cornerRadius = 22;
-    refreshButton.alpha = 0.7;
-    [refreshButton setImage:[UIImage imageNamed:@"hv_refresh_white"] forState:(UIControlStateNormal)];
-    [self.view addSubview:refreshButton];
-    [refreshButton addTarget:self action:@selector(refreshClick) forControlEvents:(UIControlEventTouchUpInside)];
-    self.refreshButton = refreshButton;
-    [self.view bringSubviewToFront:refreshButton];
+//    UIButton *refreshButton = [[UIButton alloc] init];
+//    refreshButton.frame = CGRectMake(ScreenWidth - 64, listTableView.frame.size.height - 58, 44, 44);
+//    refreshButton.backgroundColor = [UIColor blackColor];
+//    refreshButton.layer.masksToBounds = YES;
+//    refreshButton.layer.cornerRadius = 22;
+//    refreshButton.alpha = 0.7;
+//    [refreshButton setImage:[UIImage imageNamed:@"hv_refresh_white"] forState:(UIControlStateNormal)];
+//    [self.view addSubview:refreshButton];
+//    [refreshButton addTarget:self action:@selector(refreshClick) forControlEvents:(UIControlEventTouchUpInside)];
+//    self.refreshButton = refreshButton;
+//    [self.view bringSubviewToFront:refreshButton];
 }
 
 - (void)loadData
 {
-    [self refreshClick];
+    [self fetchDataWithType:EVSelfStockTypeAll];
 }
 
 - (void)rightClick
@@ -92,7 +93,7 @@
 - (void)refreshClick
 {
     if (self.Sdelegate && [self.Sdelegate respondsToSelector:@selector(refreshWithType:)]) {
-        [self.Sdelegate refreshWithType:self.stockType];
+        [self.Sdelegate refreshWithType:EVSelfStockTypeAll];
     }
 }
 
@@ -153,7 +154,7 @@
     leftLabel.frame = CGRectMake(24, 0, 48, 40);
     leftLabel.font = [UIFont textFontB2];
     leftLabel.textColor = [UIColor evTextColorH2];
-    leftLabel.text = @"名称";
+    leftLabel.text = @"全部";
     [backView addSubview:leftLabel];
     
     UILabel *centerLabel = [[UILabel alloc] init];
@@ -241,14 +242,68 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma mark - networks
+- (void)fetchDataWithType:(EVSelfStockType)type {
+        
+    NSLog(@"第一次网络请求：EVSelfStockType:%ld",type);
+    [self.baseToolManager GETRequestSelfStockList:[EVLoginInfo localObject].name Success:^(NSDictionary *retinfo) {
+        [[self listTableView] endHeaderRefreshing];
+        NSLog(@"type：%ld第一次网络请求：返回的数据********** = %@",type,retinfo);
+        self.chooseArray = retinfo[@"data"];
+        
+        NSMutableArray *codeArray = [NSMutableArray array];
+        for (NSDictionary *baseModel in self.chooseArray) {
+            [codeArray addObject:baseModel[@"symbol"]];
+        }
+        
+        NSString *codeListStr = [codeArray componentsJoinedByString:@","];
+        NSLog(@"%@",codeListStr);
+//        NSArray *markets = [self _filterStockWithType:type localArray:codeArray];
+//        NSString *marketStr = [NSString stringWithArray:markets];
+//        NSLog(@"marketStr:%@",marketStr);
+        if (codeArray.count == 0) {
+            [self updateDataArray:@[]];
+            return;
+        }
+        [self fetchStockDataWithString:codeListStr type:type];
+        
+        //        [[self _selfStockViewControllerWithType:type] updateDataArray:self.chooseArray];
+        
+    } error:^(NSError *error) {
+        NSLog(@"type:%ld第一次网络请求error:%@",type,error.domain);
+        [[self listTableView] endHeaderRefreshing];
+        [self updateDataArray:@[]];
+    }];
 }
-*/
+
+- (void)fetchStockDataWithString:(NSString *)stockString type:(EVSelfStockType)type
+{
+    //    NSLog(@"第二次请求type:%ld",type);
+    [self.baseToolManager GETRealtimeQuotes:stockString success:^(NSDictionary *retinfo) {
+        //        NSLog(@"type:%ld第二次请求得到的数据：retinfo:%@",type,retinfo);
+        [[self listTableView] endHeaderRefreshing];
+        //        [EVProgressHUD showSuccess:@"加载成功"];
+        NSArray *dataArray = retinfo[@"data"];
+        [self updateDataArray:dataArray];
+    } error:^(NSError *error) {
+        //        NSLog(@"type:%ld第二次请求得到的error:%@",type,error.domain);
+        [[self  listTableView] endHeaderRefreshing];
+    }];
+}
+
+
+
+
+- (NSMutableArray *)chooseArray
+{
+    if (!_chooseArray) {
+        _chooseArray = [NSMutableArray array];
+    }
+    return _chooseArray;
+}
+
+
+
+
 
 @end

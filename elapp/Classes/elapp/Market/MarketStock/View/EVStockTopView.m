@@ -34,9 +34,9 @@
 - (void)addUpView
 {
     UIView *contentView =  [[UIView alloc] init];
-    contentView.frame = CGRectMake(0, 0, ScreenWidth, 115);
+    contentView.frame = CGRectMake(0, 0, ScreenWidth, 108);
     [self addSubview:contentView];
-    contentView.backgroundColor = [UIColor yellowColor];
+//    contentView.backgroundColor = [UIColor yellowColor];
     
 
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
@@ -44,13 +44,13 @@
     flowLayout.itemSize = CGSizeMake(ScreenWidth/3,100);
     flowLayout.sectionInset  = UIEdgeInsetsMake(0, 0, 0, 0);
      flowLayout.minimumLineSpacing = 0.f;
-    UICollectionView *stockCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 115) collectionViewLayout:flowLayout];
+    UICollectionView *stockCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 98) collectionViewLayout:flowLayout];
     [contentView addSubview:stockCollectionView];
     stockCollectionView.delegate = self;
     stockCollectionView.dataSource = self;
     stockCollectionView.pagingEnabled = YES;
     stockCollectionView.bounces = NO;
-    stockCollectionView.backgroundColor = [UIColor evBackgroundColor];
+    stockCollectionView.backgroundColor = [UIColor whiteColor];
     stockCollectionView.showsHorizontalScrollIndicator = NO;
     [stockCollectionView registerClass:[EVStockCollectionViewCell class] forCellWithReuseIdentifier:@"stockCell"];
     self.stockCollectionView = stockCollectionView;
@@ -64,6 +64,9 @@
 //    pageControl.currentPageIndicatorTintColor = [UIColor grayColor];
 //    [contentView addSubview:pageControl];
 //    self.pageControl = pageControl;
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 98, ScreenWidth, 10)];
+    lineView.backgroundColor = [UIColor evBackgroundColor];
+    [self addSubview:lineView];
     
 }
 
