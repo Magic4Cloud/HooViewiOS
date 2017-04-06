@@ -160,7 +160,7 @@
         }
         Cell.backgroundColor = [UIColor evBackgroundColor];
         Cell.scStock = ^(EVCSStockButton *btn){
-            EVLog(@"btn-----tag------ %ld",btn.tag);
+            
             EVMarketDetailsController *marketDetailVC = [[EVMarketDetailsController alloc] init];
             marketDetailVC.stockBaseModel = btn.stockBaseModel;
             if ([btn.stockBaseModel.symbol isEqualToString:@""] || btn.stockBaseModel.symbol == nil) {

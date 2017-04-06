@@ -9,7 +9,7 @@
 #import "EVViewController.h"
 
 /**
- 首页   资讯
+ 首页   资讯 (2.2废弃)
  */
 @interface EVConsultViewController : EVViewController
 

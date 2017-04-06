@@ -11,7 +11,7 @@
 #import "EVFastNewsViewController.h"
 #import "EVImportantNewsViewController.h"
 #import "EVSearchAllViewController.h"
-
+#import "EVSpeciaColumnViewController.h"
 @interface EVHomeBaseViewController ()
 
 @end
@@ -20,7 +20,6 @@
 #pragma mark - 👨‍💻‍ Initialization
 - (instancetype)init {
     if (self = [super init]) {
-        
         self.menuViewStyle = WMMenuViewStyleLine;
         self.titleSizeSelected = 18.0f;
         self.titleSizeNormal = 16.0f;
@@ -114,8 +113,8 @@
         case 3:
         {
             //专栏
-            EVChooseNewsViewController *chooseVC = [[EVChooseNewsViewController alloc] init];
-            return chooseVC;
+            EVSpeciaColumnViewController * speciaColumnVC = [[EVSpeciaColumnViewController alloc] init];
+            return speciaColumnVC;
         }
         default:
         {

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="EVOnlyTextCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="99.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="曹山石：安邦举牌格力的可能性分析 ,成本最高达470亿" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aor-rk-qKL">
+                        <rect key="frame" x="12" y="12" width="298" height="43"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QNL-Oz-G7P">
+                        <rect key="frame" x="12" y="70.5" width="31" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8US-D1-w8g">
+                        <rect key="frame" x="129" y="70.5" width="31" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="8US-D1-w8g" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="129" id="3kV-HL-hy5"/>
+                    <constraint firstItem="aor-rk-qKL" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="12" id="8wa-Ge-VO9"/>
+                    <constraint firstItem="aor-rk-qKL" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="ItR-OU-wG1"/>
+                    <constraint firstAttribute="bottom" secondItem="QNL-Oz-G7P" secondAttribute="bottom" constant="12" id="ZmG-UM-g2B"/>
+                    <constraint firstItem="QNL-Oz-G7P" firstAttribute="leading" secondItem="aor-rk-qKL" secondAttribute="leading" id="euP-ha-yaa"/>
+                    <constraint firstAttribute="trailing" secondItem="aor-rk-qKL" secondAttribute="trailing" constant="10" id="k3A-yu-f36"/>
+                    <constraint firstItem="8US-D1-w8g" firstAttribute="centerY" secondItem="QNL-Oz-G7P" secondAttribute="centerY" id="roV-jE-M15"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="cellContentLabel" destination="aor-rk-qKL" id="VPV-6g-gcc"/>
+                <outlet property="cellDateLabel" destination="QNL-Oz-G7P" id="ujh-24-9gg"/>
+                <outlet property="cellViewCountLabel" destination="8US-D1-w8g" id="lt3-Y0-EMa"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>
