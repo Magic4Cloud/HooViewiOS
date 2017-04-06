@@ -44,6 +44,7 @@
     // Do any additional setup after loading the view.
     [self addUpTableView];
     [self loadStockData];
+    [self loadHeadTailData];
    
 }
 
@@ -63,9 +64,10 @@
     stockTopView.frame  = CGRectMake(0, 0, ScreenWidth, 108);
     stockTopView.delegate = self;
     
-    UITableView *stockTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 10, ScreenWidth, EVContentHeight-10) style:(UITableViewStyleGrouped)];
+    UITableView *stockTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 113) style:(UITableViewStyleGrouped)];
     stockTableView.delegate = self;
     stockTableView.dataSource = self;
+    stockTableView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:stockTableView];
     self.stockTableView = stockTableView;
     stockTableView.tableFooterView = [UIView new];
@@ -74,22 +76,23 @@
     self.stockTopView = stockTopView;
     
     
-    UIButton *refreshButton = [[UIButton alloc] init];
-    refreshButton.frame = CGRectMake(ScreenWidth - 64, stockTableView.frame.size.height - 58, 44, 44);
-    refreshButton.backgroundColor = [UIColor blackColor];
-    refreshButton.layer.masksToBounds = YES;
-    refreshButton.layer.cornerRadius = 22;
-    refreshButton.alpha = 0.7;
-    [refreshButton setImage:[UIImage imageNamed:@"hv_refresh_white"] forState:(UIControlStateNormal)];
-    [self.view addSubview:refreshButton];
-    [refreshButton addTarget:self action:@selector(refreshClick) forControlEvents:(UIControlEventTouchUpInside)];
-    self.refreshButton = refreshButton;
-    [self.view bringSubviewToFront:refreshButton];
+//    UIButton *refreshButton = [[UIButton alloc] init];
+//    refreshButton.frame = CGRectMake(ScreenWidth - 64, stockTableView.frame.size.height - 58, 44, 44);
+//    refreshButton.backgroundColor = [UIColor blackColor];
+//    refreshButton.layer.masksToBounds = YES;
+//    refreshButton.layer.cornerRadius = 22;
+//    refreshButton.alpha = 0.7;
+//    [refreshButton setImage:[UIImage imageNamed:@"hv_refresh_white"] forState:(UIControlStateNormal)];
+//    [self.view addSubview:refreshButton];
+//    [refreshButton addTarget:self action:@selector(refreshClick) forControlEvents:(UIControlEventTouchUpInside)];
+//    self.refreshButton = refreshButton;
+//    [self.view bringSubviewToFront:refreshButton];
     
     [stockTableView addRefreshHeaderWithRefreshingBlock:^ {
         [self loadStockData];
         [self loadHeadTailData];
      }];
+    
 }
 
 - (void)loadStockData
@@ -202,15 +205,25 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 42)];
-    [EVLineView addTopLineToView:view];
+//    [EVLineView addTopLineToView:view];
 //    [EVLineView addBottomLineToView:view];
     view.backgroundColor = [UIColor whiteColor];
     UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.frame = CGRectMake(16, 10, ScreenWidth - 16, 22);
+    titleLabel.frame = CGRectMake(26, 10, ScreenWidth - 16, 22);
     [view addSubview:titleLabel];
     NSString *titleStr = section == 0 ? @"涨幅榜" : @"跌幅榜";
     titleLabel.text = [NSString stringWithFormat:@"%@",titleStr];
+    titleLabel.font = [UIFont systemFontOfSize:14.f];
     titleLabel.textColor = [UIColor evTextColorH2];
+    
+    UILabel *signLabel = [[UILabel alloc] initWithFrame:CGRectMake(14, 15, 2, 12)];
+    if (section == 0) {
+        signLabel.backgroundColor = [UIColor colorWithHexString:@"#AE3231"];
+    }else {
+        signLabel.backgroundColor = [UIColor colorWithHexString:@"#099468"];
+    }
+    [view addSubview:signLabel];
+    
     return view;
 }
 

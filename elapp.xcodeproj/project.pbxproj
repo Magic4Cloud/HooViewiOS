@@ -55,6 +55,7 @@
 		7A3AFE491E88ED0500454C9D /* EVStartPageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3AFE481E88ED0500454C9D /* EVStartPageModel.m */; };
 		855BA25DB3AF1C2846A9D41F /* libPods-elapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8870469BA124F47A220386F3 /* libPods-elapp.a */; };
 		9E66728D1E8136D700933C92 /* UIFont+swizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E66728B1E8136D700933C92 /* UIFont+swizzle.m */; };
+		9E7E6BED1E94DA34009CBD6F /* WMPanGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E7E6BEC1E94DA34009CBD6F /* WMPanGestureRecognizer.m */; };
 		9EC24DAF1E7A70C2003664B4 /* guide.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9EC24DAE1E7A70C2003664B4 /* guide.xcassets */; };
 		9EC24DB21E7A7117003664B4 /* EVConsultGuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EC24DB11E7A7117003664B4 /* EVConsultGuideView.m */; };
 		9EC24DB41E7A7BB2003664B4 /* EVConsultGuideView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EC24DB31E7A7BB2003664B4 /* EVConsultGuideView.xib */; };
@@ -786,6 +787,8 @@
 		8870469BA124F47A220386F3 /* libPods-elapp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-elapp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E66728B1E8136D700933C92 /* UIFont+swizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+swizzle.m"; sourceTree = "<group>"; };
 		9E66728C1E8136D700933C92 /* UIFont+swizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+swizzle.h"; sourceTree = "<group>"; };
+		9E7E6BEB1E94DA34009CBD6F /* WMPanGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMPanGestureRecognizer.h; sourceTree = "<group>"; };
+		9E7E6BEC1E94DA34009CBD6F /* WMPanGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMPanGestureRecognizer.m; sourceTree = "<group>"; };
 		9EC24DAE1E7A70C2003664B4 /* guide.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = guide.xcassets; sourceTree = "<group>"; };
 		9EC24DB01E7A7117003664B4 /* EVConsultGuideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVConsultGuideView.h; sourceTree = "<group>"; };
 		9EC24DB11E7A7117003664B4 /* EVConsultGuideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVConsultGuideView.m; sourceTree = "<group>"; };
@@ -2171,6 +2174,15 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		9E7E6BEA1E94DA34009CBD6F /* Gesture */ = {
+			isa = PBXGroup;
+			children = (
+				9E7E6BEB1E94DA34009CBD6F /* WMPanGestureRecognizer.h */,
+				9E7E6BEC1E94DA34009CBD6F /* WMPanGestureRecognizer.m */,
+			);
+			path = Gesture;
+			sourceTree = "<group>";
+		};
 		9F1F90868CFFE76B8E2E5AA8 /* Danmu */ = {
 			isa = PBXGroup;
 			children = (
@@ -3161,6 +3173,7 @@
 		E862FA5C1D6BE8520081E72F /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				9E7E6BEA1E94DA34009CBD6F /* Gesture */,
 				E8033D9C1E3384C500A81A37 /* WebViewJavascriptBridge */,
 				E8862B5C1D93A85D00A13145 /* EVBugly */,
 				E862FA961D6BE8520081E72F /* Category */,
@@ -5283,6 +5296,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E862FF9B1D6BE8540081E72F /* UUImageAvatarBrowser.m in Sources */,
+				9E7E6BED1E94DA34009CBD6F /* WMPanGestureRecognizer.m in Sources */,
 				E86200C01D6BE8540081E72F /* EVSearchView.m in Sources */,
 				E8B4A8B11E4AECA200C75178 /* UIView+STFrame.m in Sources */,
 				E8E37BEB1E08FCD500DCAFE0 /* EVGlobalViewController.m in Sources */,

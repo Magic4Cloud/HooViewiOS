@@ -34,7 +34,7 @@
 {
     UIView *backView = [[UIView alloc] init];
     backView.backgroundColor = [UIColor evMainColor];
-    backView.frame = CGRectMake(5, 0, (ScreenWidth-30)/3, 74);
+    backView.frame = CGRectMake(5, 10, (ScreenWidth-30)/3, 74);
     [self addSubview:backView];
     self.backView = backView;
     
@@ -43,7 +43,7 @@
     backView.layer.masksToBounds = YES;
     backView.layer.cornerRadius = 4.f;
     UILabel *topNameLabel = [[UILabel alloc] init];
-    topNameLabel.frame = CGRectMake(10, 3, backViewWidth -10, 22);
+    topNameLabel.frame = CGRectMake(10, 13, backViewWidth -10, 22);
     topNameLabel.textColor = [UIColor whiteColor];
     topNameLabel.font = [UIFont systemFontOfSize:14.0];
     [self addSubview:topNameLabel];
