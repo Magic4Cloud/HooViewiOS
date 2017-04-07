@@ -17,7 +17,6 @@
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SEf-Vd-iEL">
                     <rect key="frame" x="13" y="666" width="349" height="1"/>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="sf0-9c-sY2"/>
                     </constraints>

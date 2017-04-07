@@ -61,14 +61,14 @@
 //        self.scrollView.backgroundColor = [UIColor evBackgroundColor];
         
         self.menuViewStyle = WMMenuViewStyleLine;
-        self.titleSizeSelected = 18.0f;
-        self.titleSizeNormal = 16.0f;
+        self.titleSizeSelected = 16.0f;
+        self.titleSizeNormal = 14.0f;
         self.menuHeight = 44;
         self.titleColorSelected = [UIColor evMainColor];
         self.titleColorNormal = [UIColor evTextColorH2];
         self.menuItemWidth = 50;
-        self.progressViewWidths = @[@20,@20,@20,@20];
-        //        self.progressViewIsNaughty = YES;
+        self.progressViewWidths = @[@16,@16,@16,@16];
+        //self.progressViewIsNaughty = YES;
         self.titles = @[@"自选",@"沪深",@"港股",@"全球"];
         float margin = 15;
         if (ScreenWidth == 320) {
@@ -158,7 +158,8 @@
             //全球
             EVGlobalViewController *globalVC = [[EVGlobalViewController alloc] init];
             self.globalVC = globalVC;
-            return globalVC;        }
+            return globalVC;
+        }
         default:
         {
             return nil;
@@ -166,8 +167,6 @@
             break;
     }
 
-    
-    
 }
 
 - (NSString *)pageController:(WMPageController *)pageController titleAtIndex:(NSInteger)index {

@@ -274,48 +274,21 @@
     
 }
 
-//- (void)setChooseIndex:(NSInteger)chooseIndex
-//{
-//    _chooseIndex = chooseIndex;
-//    switch (chooseIndex) {
-//            case 0:
-//        {
-//             [self refreshClick];
-//        }
-//            break;
-//            case 1:
-//        {
-//             [self refreshClick];
-//        }
-//            break;
-//            case 2:
-//        {
-//            
-//        }
-//            break;
-//            
-//        default:
-//            break;
-//    }
-//}
+
 
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     if (self.headView.frame.origin.y > 126) {
-        self.headView.backgroundColor = [UIColor colorWithRed:251/255.0f green:251/255.0f blue:251/255.0f alpha:1];
+        self.headView.backgroundColor = [UIColor colorWithRed:248/255.0f green:248/255.0f blue:248/255.0f alpha:1];
     } else {
         self.headView.backgroundColor = [UIColor whiteColor];
     }
     if (self.footView.frame.origin.y > 816) {
-        self.footView.backgroundColor = [UIColor colorWithRed:251/255.0f green:251/255.0f blue:251/255.0f alpha:1];
+        self.footView.backgroundColor = [UIColor colorWithRed:248/255.0f green:248/255.0f blue:248/255.0f alpha:1];
     } else {
         self.footView.backgroundColor = [UIColor whiteColor];
     }
 }
-
-
-
-
 
 
 

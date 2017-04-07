@@ -15,7 +15,7 @@
 @property (nonatomic, weak) UILabel *codeLabel;
 @property (nonatomic, weak) UILabel *changeLabel;
 @property (nonatomic, weak) UILabel *changeFloatLabel;
-
+@property (nonatomic, strong) UIImageView *flagImageViwe;
 @end
 
 
@@ -79,6 +79,13 @@
     [rankLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeTop ofView:nameLabel];
     [rankLabel autoSetDimensionsToSize:CGSizeMake(14.f, 24.f)];
     self.rankLabel = rankLabel;
+    
+    UIImageView *flagImageViwe = [[UIImageView alloc] init];
+    flagImageViwe.frame = CGRectMake(22, 26, 18, 12);
+    flagImageViwe.backgroundColor = [UIColor orangeColor];
+    self.flagImageViwe = flagImageViwe;
+    flagImageViwe.hidden = YES;
+    [self addSubview:flagImageViwe];
     
     
     UILabel *lineLabel = [[UILabel alloc] init];
@@ -157,10 +164,10 @@
     self.changeLabel.frame = CGRectMake(0, 20, ScreenWidth, 22);
     self.codeLabel.hidden = YES;
     self.rankLabel.hidden = YES;
-
+    self.flagImageViwe.hidden = NO;
+    
     self.nameLabel.text = globalBaseModel.name;
     self.changeLabel.text = [NSString stringWithFormat:@"%.2f",globalBaseModel.close];
-    //float changeF = (([stockBaseModel.low floatValue] - [stockBaseModel.pre_close floatValue])/[stockBaseModel.pre_close floatValue])*100;
     NSString *floatMarked = @"%";
     self.changeFloatLabel.text = globalBaseModel.changepercent > 0 ? [NSString stringWithFormat:@"+%.2f%@",globalBaseModel.changepercent,floatMarked] : [NSString stringWithFormat:@"%.2f%@",globalBaseModel.changepercent,floatMarked];
     self.changeFloatLabel.textColor = globalBaseModel.changepercent > 0 ? [UIColor evAssistColor] : [UIColor evSecondColor];

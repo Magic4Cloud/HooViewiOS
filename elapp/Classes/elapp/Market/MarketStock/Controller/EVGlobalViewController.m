@@ -113,7 +113,7 @@
     } error:^(NSError *error) {
         [self.stockTableView endHeaderRefreshing];
         [EVProgressHUD hideHUDForView:self.view];
-        [EVProgressHUD showError:@"大盘请求失败"];
+        [EVProgressHUD showError:@"请求失败"];
         EVLog(@"dapan-------  %@",error);
         weakself.refreshFinish = NO;
     }];
@@ -259,13 +259,13 @@
 
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    if (self.headView.frame.origin.y > 126) {
-        self.headView.backgroundColor = [UIColor colorWithRed:251/255.0f green:251/255.0f blue:251/255.0f alpha:1];
+    if (self.headView.frame.origin.y > 86) {
+        self.headView.backgroundColor = [UIColor colorWithRed:248/255.0f green:248/255.0f blue:248/255.0f alpha:1];
     } else {
         self.headView.backgroundColor = [UIColor whiteColor];
     }
-    if (self.footView.frame.origin.y > 816) {
-        self.footView.backgroundColor = [UIColor colorWithRed:251/255.0f green:251/255.0f blue:251/255.0f alpha:1];
+    if (self.footView.frame.origin.y > 766) {
+        self.footView.backgroundColor = [UIColor colorWithRed:248/255.0f green:248/255.0f blue:248/255.0f alpha:1];
     } else {
         self.footView.backgroundColor = [UIColor whiteColor];
     }

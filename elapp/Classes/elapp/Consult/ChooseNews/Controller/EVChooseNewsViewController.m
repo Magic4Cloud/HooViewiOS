@@ -239,6 +239,9 @@
     }
     fastCell.chooseNewsModel = self.dataArray[indexPath.row];
     fastCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    if (indexPath.row == self.dataArray.count - 1) {
+        fastCell.noShowLine = YES;
+    }
     return fastCell;
     
 }

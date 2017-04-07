@@ -31,7 +31,7 @@
     
     
     //下分割线
-    CGContextSetStrokeColorWithColor(context, [UIColor colorWithRed:198/255.0 green:198/255.0 blue:198/255.0 alpha:1].CGColor);
+    CGContextSetStrokeColorWithColor(context, [UIColor colorWithRed:238/255.0 green:238/255.0 blue:238/255.0 alpha:1].CGColor);
     CGContextStrokeRect(context, CGRectMake(12, rect.size.height, rect.size.width-12*2, 1));
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

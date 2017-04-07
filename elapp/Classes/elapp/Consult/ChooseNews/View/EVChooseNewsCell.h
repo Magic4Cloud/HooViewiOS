@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "EVChooseNewsModel.h"
+#import "EVLineTableViewCell.h"
 
 
-@interface EVChooseNewsCell : UITableViewCell
+@interface EVChooseNewsCell : EVLineTableViewCell
 
 @property (nonatomic, strong) EVChooseNewsModel *chooseNewsModel;
 
