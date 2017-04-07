@@ -21,16 +21,16 @@
 - (instancetype)init {
     if (self = [super init]) {
         self.menuViewStyle = WMMenuViewStyleLine;
-        self.titleSizeSelected = 18.0f;
-        self.titleSizeNormal = 16.0f;
+        self.titleSizeSelected = 16.0f;
+        self.titleSizeNormal = 14.0f;
         self.menuHeight = 44;
         self.titleColorSelected = [UIColor evMainColor];
         self.titleColorNormal = [UIColor evTextColorH2];
         self.menuItemWidth = 50;
-        self.progressViewWidths = @[@20,@20,@20,@20];
+        self.progressViewWidths = @[@16,@16,@16,@16];
 //        self.progressViewIsNaughty = YES;
         self.titles = @[@"要闻",@"快讯",@"自选",@"专栏"];
-        float margin = 15;
+        float margin = 12;
         if (ScreenWidth == 320) {
             margin = (ScreenWidth - 50 - 60 - 50*4)/3;
         }

@@ -11,6 +11,6 @@
 /**
  牛人推荐cell
  */
-@interface EVRecommendCell : UITableViewCell
-
+@interface EVRecommendCell : UITableViewCell<UICollectionViewDelegate,UICollectionViewDataSource>
+@property (nonatomic, strong)UICollectionView * collectionView;
 @end

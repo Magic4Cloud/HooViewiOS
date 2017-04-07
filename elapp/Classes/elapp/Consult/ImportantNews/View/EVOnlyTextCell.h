@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "EVLineTableViewCell.h"
 /**
  纯文字cell
  */
-@interface EVOnlyTextCell : UITableViewCell
+@interface EVOnlyTextCell : EVLineTableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *cellContentLabel;
 @property (weak, nonatomic) IBOutlet UILabel *cellDateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *cellViewCountLabel;

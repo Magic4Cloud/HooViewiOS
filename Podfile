@@ -29,6 +29,7 @@ pod 'JPush'
 pod 'OpenUDID'
 pod 'GrowingIO'
 pod 'WMPageController'
+pod 'YYModel'
 #pod 'Reveal-iOS-SDK', :configurations => ['Debug']
 
 end

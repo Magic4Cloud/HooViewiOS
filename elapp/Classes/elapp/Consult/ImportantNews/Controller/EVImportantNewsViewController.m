@@ -31,6 +31,11 @@
 #import "EVVipCenterViewController.h"
 
 
+#import "EVRecommendCell.h"
+#import "EVOnlyTextCell.h"
+#import "EVThreeImageCell.h"
+#import "EVSpecialTopicCell.h"
+
 @interface EVImportantNewsViewController ()<UITableViewDelegate,UITableViewDataSource,EVCycleScrollViewDelegate,EVHVEyeViewDelegate>
 
 @property (nonatomic, weak) EVCycleScrollView *cycleScrollView;
@@ -100,8 +105,6 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-//    [_refreshTimes invalidate];
-//    _refreshTimes = nil;
 }
 
 - (void)addTableView
@@ -121,13 +124,14 @@
     _iNewsTableview.tableHeaderView = cycleScrollView;
     _iNewsTableview.separatorStyle = NO;
     [self.iNewsTableview registerNib:[UINib nibWithNibName:@"EVHVEyeViewCell" bundle:nil] forCellReuseIdentifier:@"eyeCell"];
+    [self.iNewsTableview registerNib:[UINib nibWithNibName:@"EVOnlyTextCell" bundle:nil] forCellReuseIdentifier:@"EVOnlyTextCell"];
+    [self.iNewsTableview registerNib:[UINib nibWithNibName:@"EVThreeImageCell" bundle:nil] forCellReuseIdentifier:@"EVThreeImageCell"];
+    [self.iNewsTableview registerNib:[UINib nibWithNibName:@"EVSpecialTopicCell" bundle:nil] forCellReuseIdentifier:@"EVSpecialTopicCell"];
     
-    
-    
-    UIView *topBackView = [[UIView alloc] init];
-    [self.view addSubview:topBackView];
-    self.topBackView = topBackView;
-    topBackView.frame = CGRectMake(0, 0, ScreenWidth, 64);
+//    UIView *topBackView = [[UIView alloc] init];
+//    [self.view addSubview:topBackView];
+//    self.topBackView = topBackView;
+//    topBackView.frame = CGRectMake(0, 0, ScreenWidth, 64);
     
 
 }
@@ -169,7 +173,10 @@
             [self.navigationController pushViewController:marketDetailVC animated:YES];
         };
         return Cell;
-    }else if (indexPath.section == 1) {
+    }
+    else if (indexPath.section == 1)
+    {
+        //火眼金睛
         EVHVEyeViewCell *eyeCell = [tableView dequeueReusableCellWithIdentifier:@"eyeCell"];
         if (eyeCell == nil) {
             eyeCell = [[NSBundle mainBundle] loadNibNamed:@"EVHVEyeViewCell" owner:nil options:nil].firstObject;
@@ -179,23 +186,53 @@
         eyeCell.selectionStyle = UITableViewCellSelectionStyleNone;
         return eyeCell;
     }
+    //新闻列表
+    if (indexPath.row %4 == 0)
+    {
+        EVOnlyTextCell * textCell = [tableView dequeueReusableCellWithIdentifier:@"EVOnlyTextCell"];
+        return textCell;
+        
+    }
+    else if (indexPath.row %4 == 1)
+    {
+        EVThreeImageCell * threeImageCell = [tableView dequeueReusableCellWithIdentifier:@"EVThreeImageCell"];
 
+        return threeImageCell;
+    }
+    else if (indexPath.row %4 == 2)
+    {
+        EVSpecialTopicCell * specialTopicCell = [tableView dequeueReusableCellWithIdentifier:@"EVSpecialTopicCell"];
+        return specialTopicCell;
+    }
+    else if (indexPath.row %4 == 3)
+    {
+        EVRecommendCell * recommendCell = [tableView dequeueReusableCellWithIdentifier:@"EVRecommendCell"];
+        if (!recommendCell) {
+            recommendCell = [[EVRecommendCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"EVRecommendCell"];
+        }
+        return recommendCell;
+    }
     EVNewsListViewCell *newsCell = [tableView dequeueReusableCellWithIdentifier:@"newsCell"];
     if (!newsCell) {
         
         newsCell = [[NSBundle mainBundle] loadNibNamed:@"EVNewsListViewCell" owner:nil options:nil].firstObject;
+        newsCell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
+    
     newsCell.searchNewsModel = self.newsDataArray[indexPath.row];
-     newsCell.selectionStyle = UITableViewCellSelectionStyleNone;
     return newsCell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0)
+    {
         return 88;
-    }else if (indexPath.section == 1) {
-        switch (self.eyesDataArray.count) {
+    }
+    else if (indexPath.section == 1)
+    {
+        switch (self.eyesDataArray.count)
+        {
             case 0:
                 return 50;
                 break;
@@ -212,6 +249,26 @@
                 break;
         }
         return 200;
+    }
+    if (indexPath.row %4 == 0)
+    {
+        return 100;
+        
+    }
+    else if (indexPath.row %4 == 1)
+    {
+        
+        return 178;
+    }
+    else if (indexPath.row %4 == 2)
+    {
+        
+        return 100;
+    }
+    else if (indexPath.row %4 == 3)
+    {
+        
+        return 214;
     }
     return 100;
 }
@@ -340,6 +397,7 @@
     [self.navigationController pushViewController:newsDetailVC animated:YES];
 }
 
+#pragma mark - 火眼金睛查看更多
 - (void)moreButton:(UIButton *)button
 {
     EVHVEyesViewController *eyesVC = [[EVHVEyesViewController alloc] init];
