@@ -26,7 +26,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self addSubview:self.cycleScrollView];
-        [self.cycleScrollView addSubview:self.BannerImage];
+//        [self.cycleScrollView addSubview:self.BannerImage];
     }
     return self;
 }
@@ -57,11 +57,11 @@
                                                       placeholderImage:[UIImage imageNamed:@"Account_bitmap_list"]];
         _cycleScrollView.autoScrollTimeInterval = 5.0f;
 //        _cycleScrollView.autoScroll = NO;
-        _cycleScrollView.pageControlAliment     = SDCycleScrollViewPageContolAlimentRight;
-        _cycleScrollView.currentPageDotColor    = [UIColor whiteColor];
-        _cycleScrollView.pageDotColor           = [UIColor colorWithHexString:@"000000" alpha:0.3];
+//        _cycleScrollView.pageControlAliment     = SDCycleScrollViewPageContolAlimentRight;
+//        _cycleScrollView.currentPageDotColor    = [UIColor whiteColor];
+//        _cycleScrollView.pageDotColor           = [UIColor colorWithHexString:@"000000" alpha:0.3];
         //_cycleScrollView.pageOriginY            = 250-20;
-        _cycleScrollView.titleLabelBackgroundColor = [UIColor clearColor];
+//        _cycleScrollView.titleLabelBackgroundColor = [UIColor clearColor];
 //        _cycleScrollView.titleLabelTextFont = [UIFont systemFontOfSize:18];
 //        _cycleScrollView.titleLabelHeight = 50;
 //        
