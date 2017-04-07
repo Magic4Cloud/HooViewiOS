@@ -58,6 +58,12 @@
 		7AB61E611E97430E004A285F /* EVLineTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB61E601E97430E004A285F /* EVLineTableViewCell.m */; };
 		7AB61E661E9765AD004A285F /* EVNewsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB61E651E9765AD004A285F /* EVNewsModel.m */; };
 		7AB61E691E9767AB004A285F /* EVRecommendModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB61E681E9767AB004A285F /* EVRecommendModel.m */; };
+		7AB61E851E9796A4004A285F /* MKJCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB61E6D1E9796A4004A285F /* MKJCollectionViewCell.m */; };
+		7AB61E861E9796A4004A285F /* MKJCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7AB61E6E1E9796A4004A285F /* MKJCollectionViewCell.xib */; };
+		7AB61E871E9796A4004A285F /* MKJCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB61E701E9796A4004A285F /* MKJCollectionViewFlowLayout.m */; };
+		7AB61E881E9796A4004A285F /* MKJConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB61E721E9796A4004A285F /* MKJConstant.m */; };
+		7AB61E961E9796A4004A285F /* SDCycleScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB61E821E9796A4004A285F /* SDCycleScrollView.m */; };
+		7AB61E971E9796A4004A285F /* UIView+SDExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB61E841E9796A4004A285F /* UIView+SDExtension.m */; };
 		7AC6698F1E94CE0200655EB8 /* EVHomeBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AC6698E1E94CE0200655EB8 /* EVHomeBaseViewController.m */; };
 		7AD37FCD1E9630760020B794 /* EVSpeciaColumnViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AD37FCC1E9630760020B794 /* EVSpeciaColumnViewController.m */; };
 		7AD37FD11E9638EE0020B794 /* EVSpeciaColumnCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AD37FCF1E9638EE0020B794 /* EVSpeciaColumnCell.m */; };
@@ -71,15 +77,6 @@
 		7AD37FE51E963BFA0020B794 /* EVRecommendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AD37FE41E963BFA0020B794 /* EVRecommendCell.m */; };
 		855BA25DB3AF1C2846A9D41F /* libPods-elapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8870469BA124F47A220386F3 /* libPods-elapp.a */; };
 		9E66728D1E8136D700933C92 /* UIFont+swizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E66728B1E8136D700933C92 /* UIFont+swizzle.m */; };
-		9E7E6C031E95EC21009CBD6F /* MKJCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E7E6BF01E95EC21009CBD6F /* MKJCollectionViewFlowLayout.m */; };
-		9E7E6C041E95EC21009CBD6F /* MKJConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E7E6BF21E95EC21009CBD6F /* MKJConstant.m */; };
-		9E7E6C051E95EC21009CBD6F /* TAAbstractDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E7E6BF61E95EC21009CBD6F /* TAAbstractDotView.m */; };
-		9E7E6C061E95EC21009CBD6F /* TAAnimatedDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E7E6BF81E95EC21009CBD6F /* TAAnimatedDotView.m */; };
-		9E7E6C071E95EC21009CBD6F /* TADotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E7E6BFA1E95EC21009CBD6F /* TADotView.m */; };
-		9E7E6C081E95EC21009CBD6F /* TAPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E7E6BFC1E95EC21009CBD6F /* TAPageControl.m */; };
-		9E7E6C091E95EC21009CBD6F /* SDCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E7E6BFE1E95EC21009CBD6F /* SDCollectionViewCell.m */; };
-		9E7E6C0A1E95EC21009CBD6F /* SDCycleScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E7E6C001E95EC21009CBD6F /* SDCycleScrollView.m */; };
-		9E7E6C0B1E95EC21009CBD6F /* UIView+SDExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E7E6C021E95EC21009CBD6F /* UIView+SDExtension.m */; };
 		9EC24DAF1E7A70C2003664B4 /* guide.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9EC24DAE1E7A70C2003664B4 /* guide.xcassets */; };
 		9EC24DB21E7A7117003664B4 /* EVConsultGuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EC24DB11E7A7117003664B4 /* EVConsultGuideView.m */; };
 		9EC24DB41E7A7BB2003664B4 /* EVConsultGuideView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EC24DB31E7A7BB2003664B4 /* EVConsultGuideView.xib */; };
@@ -816,6 +813,17 @@
 		7AB61E651E9765AD004A285F /* EVNewsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVNewsModel.m; sourceTree = "<group>"; };
 		7AB61E671E9767AB004A285F /* EVRecommendModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRecommendModel.h; sourceTree = "<group>"; };
 		7AB61E681E9767AB004A285F /* EVRecommendModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRecommendModel.m; sourceTree = "<group>"; };
+		7AB61E6C1E9796A4004A285F /* MKJCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKJCollectionViewCell.h; sourceTree = "<group>"; };
+		7AB61E6D1E9796A4004A285F /* MKJCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKJCollectionViewCell.m; sourceTree = "<group>"; };
+		7AB61E6E1E9796A4004A285F /* MKJCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MKJCollectionViewCell.xib; sourceTree = "<group>"; };
+		7AB61E6F1E9796A4004A285F /* MKJCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKJCollectionViewFlowLayout.h; sourceTree = "<group>"; };
+		7AB61E701E9796A4004A285F /* MKJCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKJCollectionViewFlowLayout.m; sourceTree = "<group>"; };
+		7AB61E711E9796A4004A285F /* MKJConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKJConstant.h; sourceTree = "<group>"; };
+		7AB61E721E9796A4004A285F /* MKJConstant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKJConstant.m; sourceTree = "<group>"; };
+		7AB61E811E9796A4004A285F /* SDCycleScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDCycleScrollView.h; sourceTree = "<group>"; };
+		7AB61E821E9796A4004A285F /* SDCycleScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDCycleScrollView.m; sourceTree = "<group>"; };
+		7AB61E831E9796A4004A285F /* UIView+SDExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SDExtension.h"; sourceTree = "<group>"; };
+		7AB61E841E9796A4004A285F /* UIView+SDExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SDExtension.m"; sourceTree = "<group>"; };
 		7AC6698D1E94CE0200655EB8 /* EVHomeBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVHomeBaseViewController.h; sourceTree = "<group>"; };
 		7AC6698E1E94CE0200655EB8 /* EVHomeBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVHomeBaseViewController.m; sourceTree = "<group>"; };
 		7AD37FCB1E9630760020B794 /* EVSpeciaColumnViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSpeciaColumnViewController.h; sourceTree = "<group>"; };
@@ -838,24 +846,6 @@
 		8870469BA124F47A220386F3 /* libPods-elapp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-elapp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E66728B1E8136D700933C92 /* UIFont+swizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+swizzle.m"; sourceTree = "<group>"; };
 		9E66728C1E8136D700933C92 /* UIFont+swizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+swizzle.h"; sourceTree = "<group>"; };
-		9E7E6BEF1E95EC21009CBD6F /* MKJCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKJCollectionViewFlowLayout.h; sourceTree = "<group>"; };
-		9E7E6BF01E95EC21009CBD6F /* MKJCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKJCollectionViewFlowLayout.m; sourceTree = "<group>"; };
-		9E7E6BF11E95EC21009CBD6F /* MKJConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKJConstant.h; sourceTree = "<group>"; };
-		9E7E6BF21E95EC21009CBD6F /* MKJConstant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKJConstant.m; sourceTree = "<group>"; };
-		9E7E6BF51E95EC21009CBD6F /* TAAbstractDotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAbstractDotView.h; sourceTree = "<group>"; };
-		9E7E6BF61E95EC21009CBD6F /* TAAbstractDotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAAbstractDotView.m; sourceTree = "<group>"; };
-		9E7E6BF71E95EC21009CBD6F /* TAAnimatedDotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAnimatedDotView.h; sourceTree = "<group>"; };
-		9E7E6BF81E95EC21009CBD6F /* TAAnimatedDotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAAnimatedDotView.m; sourceTree = "<group>"; };
-		9E7E6BF91E95EC21009CBD6F /* TADotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TADotView.h; sourceTree = "<group>"; };
-		9E7E6BFA1E95EC21009CBD6F /* TADotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TADotView.m; sourceTree = "<group>"; };
-		9E7E6BFB1E95EC21009CBD6F /* TAPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAPageControl.h; sourceTree = "<group>"; };
-		9E7E6BFC1E95EC21009CBD6F /* TAPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAPageControl.m; sourceTree = "<group>"; };
-		9E7E6BFD1E95EC21009CBD6F /* SDCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDCollectionViewCell.h; sourceTree = "<group>"; };
-		9E7E6BFE1E95EC21009CBD6F /* SDCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDCollectionViewCell.m; sourceTree = "<group>"; };
-		9E7E6BFF1E95EC21009CBD6F /* SDCycleScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDCycleScrollView.h; sourceTree = "<group>"; };
-		9E7E6C001E95EC21009CBD6F /* SDCycleScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDCycleScrollView.m; sourceTree = "<group>"; };
-		9E7E6C011E95EC21009CBD6F /* UIView+SDExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SDExtension.h"; sourceTree = "<group>"; };
-		9E7E6C021E95EC21009CBD6F /* UIView+SDExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SDExtension.m"; sourceTree = "<group>"; };
 		9EC24DAE1E7A70C2003664B4 /* guide.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = guide.xcassets; sourceTree = "<group>"; };
 		9EC24DB01E7A7117003664B4 /* EVConsultGuideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVConsultGuideView.h; sourceTree = "<group>"; };
 		9EC24DB11E7A7117003664B4 /* EVConsultGuideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVConsultGuideView.m; sourceTree = "<group>"; };
@@ -2241,6 +2231,32 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		7AB61E6A1E9796A4004A285F /* Banner3dLayout */ = {
+			isa = PBXGroup;
+			children = (
+				7AB61E6B1E9796A4004A285F /* CustomViews */,
+				7AB61E811E9796A4004A285F /* SDCycleScrollView.h */,
+				7AB61E821E9796A4004A285F /* SDCycleScrollView.m */,
+				7AB61E831E9796A4004A285F /* UIView+SDExtension.h */,
+				7AB61E841E9796A4004A285F /* UIView+SDExtension.m */,
+			);
+			path = Banner3dLayout;
+			sourceTree = "<group>";
+		};
+		7AB61E6B1E9796A4004A285F /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
+				7AB61E6C1E9796A4004A285F /* MKJCollectionViewCell.h */,
+				7AB61E6D1E9796A4004A285F /* MKJCollectionViewCell.m */,
+				7AB61E6E1E9796A4004A285F /* MKJCollectionViewCell.xib */,
+				7AB61E6F1E9796A4004A285F /* MKJCollectionViewFlowLayout.h */,
+				7AB61E701E9796A4004A285F /* MKJCollectionViewFlowLayout.m */,
+				7AB61E711E9796A4004A285F /* MKJConstant.h */,
+				7AB61E721E9796A4004A285F /* MKJConstant.m */,
+			);
+			path = CustomViews;
+			sourceTree = "<group>";
+		};
 		7AD37FC71E96303C0020B794 /* SpecialColumn */ = {
 			isa = PBXGroup;
 			children = (
@@ -2296,47 +2312,6 @@
 				7AB61E5C1E972EB9004A285F /* EVAvatarCell.xib */,
 			);
 			name = NewStyleCell;
-			sourceTree = "<group>";
-		};
-		9E7E6BEE1E95EC21009CBD6F /* Banner3dLayout */ = {
-			isa = PBXGroup;
-			children = (
-				9E7E6BEF1E95EC21009CBD6F /* MKJCollectionViewFlowLayout.h */,
-				9E7E6BF01E95EC21009CBD6F /* MKJCollectionViewFlowLayout.m */,
-				9E7E6BF11E95EC21009CBD6F /* MKJConstant.h */,
-				9E7E6BF21E95EC21009CBD6F /* MKJConstant.m */,
-				9E7E6BF31E95EC21009CBD6F /* SDCycleScrollView */,
-			);
-			path = Banner3dLayout;
-			sourceTree = "<group>";
-		};
-		9E7E6BF31E95EC21009CBD6F /* SDCycleScrollView */ = {
-			isa = PBXGroup;
-			children = (
-				9E7E6BF41E95EC21009CBD6F /* PageControl */,
-				9E7E6BFD1E95EC21009CBD6F /* SDCollectionViewCell.h */,
-				9E7E6BFE1E95EC21009CBD6F /* SDCollectionViewCell.m */,
-				9E7E6BFF1E95EC21009CBD6F /* SDCycleScrollView.h */,
-				9E7E6C001E95EC21009CBD6F /* SDCycleScrollView.m */,
-				9E7E6C011E95EC21009CBD6F /* UIView+SDExtension.h */,
-				9E7E6C021E95EC21009CBD6F /* UIView+SDExtension.m */,
-			);
-			path = SDCycleScrollView;
-			sourceTree = "<group>";
-		};
-		9E7E6BF41E95EC21009CBD6F /* PageControl */ = {
-			isa = PBXGroup;
-			children = (
-				9E7E6BF51E95EC21009CBD6F /* TAAbstractDotView.h */,
-				9E7E6BF61E95EC21009CBD6F /* TAAbstractDotView.m */,
-				9E7E6BF71E95EC21009CBD6F /* TAAnimatedDotView.h */,
-				9E7E6BF81E95EC21009CBD6F /* TAAnimatedDotView.m */,
-				9E7E6BF91E95EC21009CBD6F /* TADotView.h */,
-				9E7E6BFA1E95EC21009CBD6F /* TADotView.m */,
-				9E7E6BFB1E95EC21009CBD6F /* TAPageControl.h */,
-				9E7E6BFC1E95EC21009CBD6F /* TAPageControl.m */,
-			);
-			path = PageControl;
 			sourceTree = "<group>";
 		};
 		9F1F90868CFFE76B8E2E5AA8 /* Danmu */ = {
@@ -3331,7 +3306,7 @@
 		E862FA5C1D6BE8520081E72F /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				9E7E6BEE1E95EC21009CBD6F /* Banner3dLayout */,
+				7AB61E6A1E9796A4004A285F /* Banner3dLayout */,
 				E8033D9C1E3384C500A81A37 /* WebViewJavascriptBridge */,
 				E8862B5C1D93A85D00A13145 /* EVBugly */,
 				E862FA961D6BE8520081E72F /* Category */,
@@ -5403,6 +5378,7 @@
 				9F1F9E29B4EB85EB1F797238 /* Expression_96@2x.png in Resources */,
 				9F1F93FBAE12EE1E6C579937 /* Expression_97@2x.png in Resources */,
 				9F1F99972C9D6CC6183842A9 /* Expression_98@2x.png in Resources */,
+				7AB61E861E9796A4004A285F /* MKJCollectionViewCell.xib in Resources */,
 				9F1F91C332186ECF8902B295 /* Expression_99@2x.png in Resources */,
 				E8695C4C1E13B44D00CCA323 /* EVPasswordView.xib in Resources */,
 				E859C3551E6136C6003AFCFF /* EVConsumptionDetailsViewCell.xib in Resources */,
@@ -5474,7 +5450,6 @@
 				E8CDBB1F1E1B486400586CBF /* EVMarketDetailsController.m in Sources */,
 				E86201BD1D6BE8550081E72F /* EVHomeTabbar.m in Sources */,
 				E86201111D6BE8540081E72F /* EVSDKLiveMessageEngine.m in Sources */,
-				9E7E6C061E95EC21009CBD6F /* TAAnimatedDotView.m in Sources */,
 				E8A873ED1E569F31004C6BB5 /* EVVipNotOpenTableView.m in Sources */,
 				E86200CC1D6BE8540081E72F /* EVAccountBindViewController.m in Sources */,
 				E86200B21D6BE8540081E72F /* EVNotifyViewCell.m in Sources */,
@@ -5487,6 +5462,7 @@
 				E877DF201DAA579B00653AF3 /* EVPromptRedPacketView.m in Sources */,
 				E85DFE491E78D42A005667DD /* EVHVWatchTextViewController.m in Sources */,
 				E86200D21D6BE8540081E72F /* EVFansOrFocusesTableViewController.m in Sources */,
+				7AB61E871E9796A4004A285F /* MKJCollectionViewFlowLayout.m in Sources */,
 				E844F9341E08C48700CCE0B0 /* SGSegmentedControlDefault.m in Sources */,
 				E862FF971D6BE8540081E72F /* UIView+Extension.m in Sources */,
 				E86200B41D6BE8540081E72F /* EVTableNotifListViewCell.m in Sources */,
@@ -5498,7 +5474,6 @@
 				E8AA9DD51E20823D0024980D /* EVHVWatchViewController.m in Sources */,
 				7AD37FD71E963B3E0020B794 /* EVOnlyTextCell.m in Sources */,
 				7AB61E5D1E972EB9004A285F /* EVAvatarCell.m in Sources */,
-				9E7E6C041E95EC21009CBD6F /* MKJConstant.m in Sources */,
 				E86201BC1D6BE8550081E72F /* EVHomeTabBarItem.m in Sources */,
 				E86201171D6BE8540081E72F /* EVComment.m in Sources */,
 				E862FF861D6BE8540081E72F /* NSDateComponents+CurDateAndTime.m in Sources */,
@@ -5608,7 +5583,6 @@
 				E86200EA1D6BE8540081E72F /* EVRelationWith3rdAccoutModel.m in Sources */,
 				E862FF931D6BE8540081E72F /* UIImage+Extension.m in Sources */,
 				E862FF8B1D6BE8540081E72F /* NSString+Checking.m in Sources */,
-				9E7E6C091E95EC21009CBD6F /* SDCollectionViewCell.m in Sources */,
 				E86201021D6BE8540081E72F /* EVOtherPersonBottomView.m in Sources */,
 				E86201311D6BE8540081E72F /* EVFantuanTop3View.m in Sources */,
 				E8EF9D201D82A035001AF7B0 /* EVLimitSearchCell.m in Sources */,
@@ -5657,6 +5631,7 @@
 				E86201301D6BE8540081E72F /* EVFantuanContributorTableViewCell.m in Sources */,
 				E862FF891D6BE8540081E72F /* NSError+Extention.m in Sources */,
 				E8E9A4C01E24E8DA006A5005 /* EVHVChatTextView.m in Sources */,
+				7AB61E971E9796A4004A285F /* UIView+SDExtension.m in Sources */,
 				E86200CB1D6BE8540081E72F /* EVSetNewPhoneViewController.m in Sources */,
 				E8C60FC51E2C960A0066F287 /* EVHVHeadButton.m in Sources */,
 				E8A0FF291E162E57002C80B8 /* EVEditGlobalViewController.m in Sources */,
@@ -5699,7 +5674,6 @@
 				E844F9301E08C48700CCE0B0 /* SGImageButton_Horizontal.m in Sources */,
 				0CFCDDF81E31B51900B27FCB /* EVRefreshSuccessView.m in Sources */,
 				E86200CD1D6BE8540081E72F /* EVAccountPhoneBindViewController.m in Sources */,
-				9E7E6C051E95EC21009CBD6F /* TAAbstractDotView.m in Sources */,
 				E8B4A8AF1E4AECA200C75178 /* STHeaderView.m in Sources */,
 				E8C60FC81E2CC0440066F287 /* EVHVTagLabel.m in Sources */,
 				E8717F721E6DB309008BD55B /* ZYLauchMovieViewController.m in Sources */,
@@ -5720,7 +5694,6 @@
 				E86201561D6BE8540081E72F /* EVScrollTextLabel.m in Sources */,
 				E862FFA01D6BE8540081E72F /* NSObject+Dictionary2Model.m in Sources */,
 				E86200C91D6BE8540081E72F /* EVCheckOldPhoneViewController.m in Sources */,
-				9E7E6C071E95EC21009CBD6F /* TADotView.m in Sources */,
 				E8C60FBB1E2C79D20066F287 /* EVCommentViewCell.m in Sources */,
 				E86200BE1D6BE8540081E72F /* EVFindUserInfo.m in Sources */,
 				E8EF9D331D82B294001AF7B0 /* EVSearchTextField.m in Sources */,
@@ -5731,7 +5704,6 @@
 				E89470E01E07B5BE0074F621 /* EVNavigationView.m in Sources */,
 				E86200F51D6BE8540081E72F /* EVAuthSettingTableViewCell.m in Sources */,
 				7A3AFE461E88B2ED00454C9D /* EVStartPageViewController.m in Sources */,
-				9E7E6C031E95EC21009CBD6F /* MKJCollectionViewFlowLayout.m in Sources */,
 				E86201B41D6BE8550081E72F /* EVAppSetting.m in Sources */,
 				E845D4DF1E2638D600BFE6BE /* EVHVWatchCheatsView.m in Sources */,
 				E862FF901D6BE8540081E72F /* UIColor+EVColor.m in Sources */,
@@ -5747,7 +5719,6 @@
 				E8572F2D1E1E148D002D3784 /* EVNewsDetailWebController.m in Sources */,
 				E86200E11D6BE8540081E72F /* EVAboutTableViewController.m in Sources */,
 				E86200E81D6BE8540081E72F /* EVFanOrFollowerModel.m in Sources */,
-				9E7E6C081E95EC21009CBD6F /* TAPageControl.m in Sources */,
 				E8CDBB281E1BC59200586CBF /* EVWebViewShareView.m in Sources */,
 				E86200A51D6BE8540081E72F /* EVLoginView.m in Sources */,
 				E86200A71D6BE8540081E72F /* EVUserSettingCell.m in Sources */,
@@ -5760,6 +5731,7 @@
 				E862FF851D6BE8540081E72F /* NSDate+Utils.m in Sources */,
 				7A3AFE491E88ED0500454C9D /* EVStartPageModel.m in Sources */,
 				E86201B81D6BE8550081E72F /* EVLocationViewController.m in Sources */,
+				7AB61E961E9796A4004A285F /* SDCycleScrollView.m in Sources */,
 				E86200F11D6BE8540081E72F /* EVChangePWDTableViewCell.m in Sources */,
 				E84825531E0A4FFB003A795F /* EVBaseTableView.m in Sources */,
 				E86200DA1D6BE8540081E72F /* EVConsumptionDetailsController.m in Sources */,
@@ -5853,7 +5825,6 @@
 				E86200BB1D6BE8540081E72F /* EVPhoneRegionView.m in Sources */,
 				9F1F969FEB26B1F97D4D81EB /* EVSearchBar.m in Sources */,
 				9F1F928946394164F0B92988 /* EVNullDataView.m in Sources */,
-				9E7E6C0B1E95EC21009CBD6F /* UIView+SDExtension.m in Sources */,
 				9F1F98DF00DB4FB645F7FF4A /* EVRefreshGifFooter.m in Sources */,
 				9F1F91840E8A36B213FC9141 /* EVRefreshGifHeader.m in Sources */,
 				9F1F9E4CB05CFB2813029DDB /* UIScrollView+GifRefresh.m in Sources */,
@@ -5899,6 +5870,7 @@
 				9F1F9B408F10B147DA0043B8 /* EVAlertManager.m in Sources */,
 				E84D911A1E275B4000858AC2 /* EVMarketTextView.m in Sources */,
 				E85DFE4A1E78D42A005667DD /* EVMyTextLiveViewController.m in Sources */,
+				7AB61E851E9796A4004A285F /* MKJCollectionViewCell.m in Sources */,
 				9F1F91341378994C79BD7855 /* EVLoadingView.m in Sources */,
 				9F1F94216A242E94B9A6A760 /* EVHeaderView.m in Sources */,
 				9F1F996AA15BDD2471304E97 /* EVImageViewWithMask.m in Sources */,
@@ -5928,6 +5900,7 @@
 				E867DEF91E1CCA610010DF52 /* EVConsultStockViewCell.m in Sources */,
 				E84825561E0A50CD003A795F /* EVBaseTableViewCell.m in Sources */,
 				E89FCAFC1E49BE17008EC671 /* EVSearchStockViewController.m in Sources */,
+				7AB61E881E9796A4004A285F /* MKJConstant.m in Sources */,
 				9F1F91BC9B9D4C61012ACF3A /* EVDanmuManager.m in Sources */,
 				9F1F989CC562F2A5F2E35054 /* EVDanmuView.m in Sources */,
 				E847B2C11E2DEDE700F4BF7D /* EVHVLiveView.m in Sources */,
@@ -5947,7 +5920,6 @@
 				9F1F9987891FEF1CF37458BA /* EVShareManager.m in Sources */,
 				E84825601E0A66A6003A795F /* EVStockBaseModel.m in Sources */,
 				9F1F9B97A288EAE8393EB5C7 /* EVSDKInitManager.m in Sources */,
-				9E7E6C0A1E95EC21009CBD6F /* SDCycleScrollView.m in Sources */,
 				9F1F9521F911A20DDB93B574 /* EVControllerContacter.m in Sources */,
 				E86BED361E2B05A60019620D /* EVHVEyesDetailView.m in Sources */,
 				9F1F9C87E68CAA4882D6254A /* EVEventController.m in Sources */,

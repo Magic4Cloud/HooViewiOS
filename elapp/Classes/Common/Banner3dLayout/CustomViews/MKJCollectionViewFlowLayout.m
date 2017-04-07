@@ -18,6 +18,7 @@
 - (instancetype)init
 {
     if (self == [super init]) {
+//         NSLog(@"%s",__func__);
         _index = 0;
     }
     return self;
@@ -27,6 +28,7 @@
 // 该方法会自动重载
 - (void)prepareLayout
 {
+//    NSLog(@"%s",__func__);
     [super prepareLayout];
 }
 
@@ -36,6 +38,7 @@
 // 返回可见区域的的内容尺寸
 - (CGSize)collectionViewContentSize
 {
+//    NSLog(@"%s",__func__);
     return [super collectionViewContentSize];
 }
 
@@ -48,11 +51,14 @@
 // layoutAttributesForDecorationViewOfKind：withIndexPath： 返回装饰的布局属性  如果没有可以不重载
 - (NSArray<UICollectionViewLayoutAttributes *> *)layoutAttributesForElementsInRect:(CGRect)rect
 {
+    
+//    NSLog(@"layoutAttributesForElementsInRect：rect:%@",NSStringFromCGRect(rect));
     //1. 获取可见区域
     CGRect visibleRect = CGRectMake(self.collectionView.contentOffset.x, 0, self.collectionView.bounds.size.width, self.collectionView.bounds.size.height);
+//    NSLog(@"visibleRect:%@",NSStringFromCGRect(visibleRect));
     //2. 获得这个区域的item
     NSArray *visibleItemArray = [super layoutAttributesForElementsInRect:visibleRect];
-    
+//    NSLog(@"visibleItemArray.count:%ld",visibleItemArray.count);
     //3. 遍历，让靠近中心线的item方法，离开的缩小
     for (UICollectionViewLayoutAttributes *attributes in visibleItemArray)
     {
@@ -64,9 +70,15 @@
         CGFloat absOffset = fabs(halfCenterX - leftMargin);
         //4. 获取的实际的缩放比例 距离中心越多，这个值就越小，也就是item的scale越小 中心是方法最大的
         CGFloat scale = 1 - absOffset / halfCenterX;
-        //5. 缩放
-        attributes.transform3D = CATransform3DMakeScale(1 + scale * MKJMinZoomScale, 1 + scale * MKJMinZoomScale, 1);
         
+        //5. 缩放
+//        attributes.transform3D = CATransform3DMakeScale(1 + scale * MKJMinZoomScale, 1 + scale * MKJMinZoomScale, 1);
+//        NSLog(@"scale:%f",scale);
+//        NSLog(@"MKJMinZoomScale:%f",MKJMinZoomScale);
+        float scallll = 1 + scale * MKJMinZoomScale;
+//        NSLog(@"scallll:%f",scallll);
+        
+        attributes.transform3D = CATransform3DMakeScale(1 + scale * MKJMinZoomScale, 1 + scale * MKJMinZoomScale, 1);
         
         // 是否需要透明
         if (self.needAlpha)
@@ -94,6 +106,7 @@
 // 当边界发生变化的时候，是否应该刷新布局。如果YES那么就是边界发生变化的时候，重新计算布局信息  这里的newBounds变化的只有x值的变化，也就是偏移量的变化
 - (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
 {
+    
     // 把collectionView本身的中心位子（固定的）,转换成collectionView整个内容上的point
     CGPoint pInView = [self.collectionView.superview convertPoint:self.collectionView.center toView:self.collectionView];
     
@@ -129,6 +142,8 @@
     
     
     [super shouldInvalidateLayoutForBoundsChange:newBounds];
+    
+//    NSLog(@"shouldInvalidateLayoutForBoundsChange newBounds:%@",NSStringFromCGRect(newBounds));
     return YES;
 }
 
@@ -171,6 +186,7 @@
     if (centerOffsetX > self.collectionView.contentSize.width -(self.sectionInset.left + self.sectionInset.right + self.itemSize.width)) {
         centerOffsetX = floor(centerOffsetX);
     }
+//    NSLog(@"targetContentOffsetForProposedContentOffset proposedContentOffset:%@\nvelocity:%@\nreturn.x:%f\nreturn.y:%f",NSStringFromCGPoint(proposedContentOffset),NSStringFromCGPoint(velocity),centerOffsetX,proposedContentOffset.y);
     return CGPointMake(centerOffsetX, proposedContentOffset.y);
 }
 
