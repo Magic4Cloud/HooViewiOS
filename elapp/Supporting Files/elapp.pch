@@ -128,6 +128,8 @@
 #import "UIColor+EVColor.h"
 #import "CCConstKeys.h"
 #import "EVProgressHUD.h"
+#import <YYModel.h>
+
 
 #import "UILabel+Extension.h"
 #import "EVEnums.h"

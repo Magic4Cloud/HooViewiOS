@@ -53,6 +53,11 @@
 		31D028521C1EA45300F080B0 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31D028511C1EA45300F080B0 /* StoreKit.framework */; };
 		7A3AFE461E88B2ED00454C9D /* EVStartPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3AFE451E88B2ED00454C9D /* EVStartPageViewController.m */; };
 		7A3AFE491E88ED0500454C9D /* EVStartPageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3AFE481E88ED0500454C9D /* EVStartPageModel.m */; };
+		7AB61E5D1E972EB9004A285F /* EVAvatarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB61E5B1E972EB9004A285F /* EVAvatarCell.m */; };
+		7AB61E5E1E972EB9004A285F /* EVAvatarCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7AB61E5C1E972EB9004A285F /* EVAvatarCell.xib */; };
+		7AB61E611E97430E004A285F /* EVLineTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB61E601E97430E004A285F /* EVLineTableViewCell.m */; };
+		7AB61E661E9765AD004A285F /* EVNewsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB61E651E9765AD004A285F /* EVNewsModel.m */; };
+		7AB61E691E9767AB004A285F /* EVRecommendModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB61E681E9767AB004A285F /* EVRecommendModel.m */; };
 		7AC6698F1E94CE0200655EB8 /* EVHomeBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AC6698E1E94CE0200655EB8 /* EVHomeBaseViewController.m */; };
 		7AD37FCD1E9630760020B794 /* EVSpeciaColumnViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AD37FCC1E9630760020B794 /* EVSpeciaColumnViewController.m */; };
 		7AD37FD11E9638EE0020B794 /* EVSpeciaColumnCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AD37FCF1E9638EE0020B794 /* EVSpeciaColumnCell.m */; };
@@ -802,6 +807,15 @@
 		7A3AFE451E88B2ED00454C9D /* EVStartPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVStartPageViewController.m; sourceTree = "<group>"; };
 		7A3AFE471E88ED0500454C9D /* EVStartPageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVStartPageModel.h; sourceTree = "<group>"; };
 		7A3AFE481E88ED0500454C9D /* EVStartPageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVStartPageModel.m; sourceTree = "<group>"; };
+		7AB61E5A1E972EB9004A285F /* EVAvatarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVAvatarCell.h; sourceTree = "<group>"; };
+		7AB61E5B1E972EB9004A285F /* EVAvatarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVAvatarCell.m; sourceTree = "<group>"; };
+		7AB61E5C1E972EB9004A285F /* EVAvatarCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVAvatarCell.xib; sourceTree = "<group>"; };
+		7AB61E5F1E97430E004A285F /* EVLineTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVLineTableViewCell.h; sourceTree = "<group>"; };
+		7AB61E601E97430E004A285F /* EVLineTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVLineTableViewCell.m; sourceTree = "<group>"; };
+		7AB61E641E9765AD004A285F /* EVNewsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVNewsModel.h; sourceTree = "<group>"; };
+		7AB61E651E9765AD004A285F /* EVNewsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVNewsModel.m; sourceTree = "<group>"; };
+		7AB61E671E9767AB004A285F /* EVRecommendModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRecommendModel.h; sourceTree = "<group>"; };
+		7AB61E681E9767AB004A285F /* EVRecommendModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRecommendModel.m; sourceTree = "<group>"; };
 		7AC6698D1E94CE0200655EB8 /* EVHomeBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVHomeBaseViewController.h; sourceTree = "<group>"; };
 		7AC6698E1E94CE0200655EB8 /* EVHomeBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVHomeBaseViewController.m; sourceTree = "<group>"; };
 		7AD37FCB1E9630760020B794 /* EVSpeciaColumnViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSpeciaColumnViewController.h; sourceTree = "<group>"; };
@@ -2277,6 +2291,9 @@
 				7AD37FE01E963BB90020B794 /* EVSpecialTopicCell.xib */,
 				7AD37FE31E963BFA0020B794 /* EVRecommendCell.h */,
 				7AD37FE41E963BFA0020B794 /* EVRecommendCell.m */,
+				7AB61E5A1E972EB9004A285F /* EVAvatarCell.h */,
+				7AB61E5B1E972EB9004A285F /* EVAvatarCell.m */,
+				7AB61E5C1E972EB9004A285F /* EVAvatarCell.xib */,
 			);
 			name = NewStyleCell;
 			sourceTree = "<group>";
@@ -2602,6 +2619,8 @@
 				9F1F9DC3B15CDDB17A4FF874 /* LoadingView */,
 				9F1F90C11610FEE4A9B58309 /* EVInheritView */,
 				9F1F9D0F5F780E4DD3495C10 /* PushBar */,
+				7AB61E5F1E97430E004A285F /* EVLineTableViewCell.h */,
+				7AB61E601E97430E004A285F /* EVLineTableViewCell.m */,
 			);
 			path = EVView;
 			sourceTree = "<group>";
@@ -4806,6 +4825,10 @@
 				E8BF482F1E2864F500FDB000 /* EVBaseNewsModel.m */,
 				E8BF48311E28A78C00FDB000 /* EVHVEyesModel.h */,
 				E8BF48321E28A78C00FDB000 /* EVHVEyesModel.m */,
+				7AB61E641E9765AD004A285F /* EVNewsModel.h */,
+				7AB61E651E9765AD004A285F /* EVNewsModel.m */,
+				7AB61E671E9767AB004A285F /* EVRecommendModel.h */,
+				7AB61E681E9767AB004A285F /* EVRecommendModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -5356,6 +5379,7 @@
 				9F1F90D8C40BFA3BC9138B19 /* Expression_75@2x.png in Resources */,
 				9F1F916913D4C4CD1EC0755C /* Expression_76@2x.png in Resources */,
 				9F1F916477730538A8530C26 /* Expression_77@2x.png in Resources */,
+				7AB61E5E1E972EB9004A285F /* EVAvatarCell.xib in Resources */,
 				9F1F90EAF2434403DD5D59E8 /* Expression_78@2x.png in Resources */,
 				9F1F9DDD381FBC8040303468 /* Expression_79@2x.png in Resources */,
 				9F1F9FA6DC421B50E968B0FF /* Expression_7@2x.png in Resources */,
@@ -5473,6 +5497,7 @@
 				E862013A1D6BE8540081E72F /* EVMngUserListModel.m in Sources */,
 				E8AA9DD51E20823D0024980D /* EVHVWatchViewController.m in Sources */,
 				7AD37FD71E963B3E0020B794 /* EVOnlyTextCell.m in Sources */,
+				7AB61E5D1E972EB9004A285F /* EVAvatarCell.m in Sources */,
 				9E7E6C041E95EC21009CBD6F /* MKJConstant.m in Sources */,
 				E86201BC1D6BE8550081E72F /* EVHomeTabBarItem.m in Sources */,
 				E86201171D6BE8540081E72F /* EVComment.m in Sources */,
@@ -5596,6 +5621,7 @@
 				E86200E91D6BE8540081E72F /* EVProductInfoModel.m in Sources */,
 				E86200C11D6BE8540081E72F /* EVTagListView.m in Sources */,
 				E8554B231E67EC7F00D2C646 /* MYSegmentView.m in Sources */,
+				7AB61E691E9767AB004A285F /* EVRecommendModel.m in Sources */,
 				E862FFAF1D6BE8540081E72F /* amrFileCodec.mm in Sources */,
 				E86201461D6BE8540081E72F /* EVAudienceUserJoinView.m in Sources */,
 				E85DFE511E78D42A005667DD /* EVLiveImageBottomTextView.m in Sources */,
@@ -5646,6 +5672,7 @@
 				E862012B1D6BE8540081E72F /* EVLiveShareView.m in Sources */,
 				E8554B2B1E67EC9600D2C646 /* SegmentSuperViewController.m in Sources */,
 				E8A0EF6D1E585957007C1B08 /* ZWTopSelectVcView.m in Sources */,
+				7AB61E661E9765AD004A285F /* EVNewsModel.m in Sources */,
 				E862FF991D6BE8540081E72F /* UIViewController+Extension.m in Sources */,
 				E86200AB1D6BE8540081E72F /* EVNewFriendItem.m in Sources */,
 				E862FF911D6BE8540081E72F /* UIColor+UIColorExt.m in Sources */,
@@ -5751,6 +5778,7 @@
 				E879AB6D1E5556D200D6D301 /* EVHVHistoryViewController.m in Sources */,
 				E86201571D6BE8540081E72F /* EVWatchLiveEndView.m in Sources */,
 				E86201421D6BE8540081E72F /* EVAudienceCollectionView.m in Sources */,
+				7AB61E611E97430E004A285F /* EVLineTableViewCell.m in Sources */,
 				E8BF483D1E28ED6C00FDB000 /* EVBaseToolManager+EVNewsAPI.m in Sources */,
 				7AD37FE11E963BB90020B794 /* EVSpecialTopicCell.m in Sources */,
 				E8572F4B1E1E2C63002D3784 /* EVTextLiveListController.m in Sources */,

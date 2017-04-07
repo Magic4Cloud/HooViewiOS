@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "EVLineTableViewCell.h"
 /**
  三张图片的cell
  */
-@interface EVThreeImageCell : UITableViewCell
+@interface EVThreeImageCell : EVLineTableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *cellTitleLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *cellImageView1;
 @property (weak, nonatomic) IBOutlet UIImageView *cellImageView2;
