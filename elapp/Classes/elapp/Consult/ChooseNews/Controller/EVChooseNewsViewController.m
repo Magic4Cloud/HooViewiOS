@@ -178,7 +178,7 @@
     self.newsTableView = newsTableView;
     newsTableView.separatorStyle = NO;
 //    newsTableView.tableHeaderView = topBackImage;
-    newsTableView.backgroundColor = [UIColor evLineColor];
+    newsTableView.backgroundColor = [UIColor evBackgroundColor];
     newsTableView.contentInset = UIEdgeInsetsMake(7, 0, 0, 0);
     UIView *footView = [[UIView alloc] initWithFrame:CGRectZero];
     newsTableView.tableFooterView = footView;

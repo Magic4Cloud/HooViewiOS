@@ -315,7 +315,7 @@
 {
     [super viewWillDisappear:animated];
     [self.nameLabel removeFromSuperview];
-    self.navigationController.navigationBar.hidden = YES;
+//    self.navigationController.navigationBar.hidden = YES;
 }
 
 - (void)updateUrlStr:(NSString *)urlStr

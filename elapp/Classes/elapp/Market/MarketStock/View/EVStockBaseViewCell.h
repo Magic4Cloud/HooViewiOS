@@ -14,6 +14,7 @@
 typedef NS_ENUM(NSUInteger, EVStockBaseViewCellType) {
     EVStockBaseViewCellTypeSock,
     EVStockBaseViewCellTypeSelfSock,
+    EVStockBaseViewCellTypeGlobalSock,
     
 };
 
@@ -30,5 +31,7 @@ typedef NS_ENUM(NSUInteger, EVStockBaseViewCellType) {
 @property (nonatomic, strong) EVStockBaseModel *upStockBaseModel;
 
 @property (nonatomic, strong) EVStockBaseModel *searchBaseModel;
+
+@property (nonatomic, strong) EVStockBaseModel *globalBaseModel;
 
 @end

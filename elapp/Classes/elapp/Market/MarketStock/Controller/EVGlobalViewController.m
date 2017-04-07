@@ -45,7 +45,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self addUpTableView];
-    [self loadStockData];
+    [self loadHeadTailData];
     
     
 }
@@ -62,10 +62,10 @@
 
 - (void)addUpTableView
 {
-    UITableView *stockTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 113) style:(UITableViewStylePlain)];
+    UITableView *stockTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 4, ScreenWidth, ScreenHeight - 117) style:(UITableViewStylePlain)];
     stockTableView.delegate = self;
     stockTableView.dataSource = self;
-    stockTableView.backgroundColor = [UIColor whiteColor];
+    stockTableView.backgroundColor = [UIColor evBackgroundColor];
     [self.view addSubview:stockTableView];
     self.stockTableView = stockTableView;
     stockTableView.tableFooterView = [UIView new];
@@ -85,35 +85,53 @@
     [self.view bringSubviewToFront:refreshButton];
     
     [stockTableView addRefreshHeaderWithRefreshingBlock:^ {
-        [self loadStockData];
+        [self loadHeadTailData];
     }];
     
 }
 
 
-- (void)loadStockData
+- (void)loadHeadTailData
 {
-    [self.baseToolManager GETRequestHSuccess:^(NSDictionary *retinfo) {
+    self.refreshFinish = YES;
+    WEAK(self)
+    [self.baseToolManager GETRequestTodayFloatMarket:@"cn" Success:^(NSDictionary *retinfo) {
         [self.stockTableView endHeaderRefreshing];
-        if (self.dataArray.count > 0) {
-            [self.dataArray removeAllObjects];
+        if (self.floatArray.count > 0) {
+            [weakself.floatArray removeAllObjects];
         }
-//        NSArray *stockArray = [EVStockBaseModel objectWithDictionaryArray:retinfo[@"data"][self.marketType]];
-//        NSArray *getArray = [stockArray subarrayWithRange:NSMakeRange(0, 3)];
-//        [self.dataArray addObjectsFromArray:getArray];
-//        [self.stockTopView updateStockData:self.dataArray];
+        [EVProgressHUD hideHUDForView:self.view];
+        NSDictionary *floatDict = retinfo[@"data"];
+        NSArray *tailArray = floatDict[@"tail"];
+        NSArray *headArray = floatDict[@"head"];
+        NSArray  *headData =[EVTodayFloatModel objectWithDictionaryArray:headArray];
+        NSArray  *tailData =[EVTodayFloatModel objectWithDictionaryArray:tailArray];
+        [weakself.floatArray addObject:headData];
+        [weakself.floatArray addObject:tailData];
+        weakself.refreshFinish = NO;
+        [weakself.stockTableView reloadData];
     } error:^(NSError *error) {
         [self.stockTableView endHeaderRefreshing];
-        [EVProgressHUD showError:@"请求失败"];
+        [EVProgressHUD hideHUDForView:self.view];
+        [EVProgressHUD showError:@"大盘请求失败"];
+        EVLog(@"dapan-------  %@",error);
+        weakself.refreshFinish = NO;
     }];
     
+//    [self.baseToolManager GETRequestGlobalSuccess:^(NSDictionary *retinfo) {
+//        NSLog(@"全球 = %@",retinfo);
+//
+//    } error:^(NSError *error) {
+//        
+//    }];
+
     
 }
 
 - (void)refreshClick
 {
     if (self.refreshFinish == NO) {
-        [self loadStockData];
+        [self loadHeadTailData];
     }
 }
 
@@ -155,9 +173,8 @@
     }
     
     cell.selectionStyle  = UITableViewCellSelectionStyleNone;
-    cell.cellType = EVStockBaseViewCellTypeSock;
-    cell.rankLabel.text = [NSString stringWithFormat:@"%ld",(indexPath.row + 1)];
-    cell.stockBaseModel = self.floatArray[indexPath.section][indexPath.row];
+    cell.cellType = EVStockBaseViewCellTypeGlobalSock;
+    cell.globalBaseModel = self.floatArray[indexPath.section][indexPath.row];
     return cell;
 }
 

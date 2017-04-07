@@ -24,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UIView *threeLabel;
 
 @property (nonatomic , strong) NSMutableArray *labelArray;
+@property (weak, nonatomic) IBOutlet UIView *hvBackView;
 
 
 @end
@@ -42,9 +43,11 @@
     self.threeLabel.layer.borderColor = [UIColor evMainColor].CGColor;
     self.threeLabel.layer.borderWidth = 1;
     
+    self.hvBackView.layer.shadowOffset = CGSizeMake(1,1);//shadowOffset阴影偏移,x向右偏移4，y向下偏移4，默认(0, -3),这个跟shadowRadius配合使用
+    self.hvBackView.layer.shadowOpacity = 0.5;//阴影透明度，默认0
+    self.hvBackView.layer.shadowRadius = 3;//阴影半径，默认3
+    self.hvBackView.layer.shadowColor = [UIColor colorWithHexString:@"#CACACA"].CGColor;//shadowColor阴影颜色
     
-    
-    // Initialization code
 }
 
 - (IBAction)newsClick:(UIButton *)sender {

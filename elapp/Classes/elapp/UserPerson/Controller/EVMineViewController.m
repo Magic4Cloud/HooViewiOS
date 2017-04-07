@@ -145,12 +145,13 @@ static const NSString *const SettingCellID = @"settingCell";
     self.mineBgView.isSession = NO;
 }
 - (void)actionOfLogin:(NSNotification *)notify {
-    
+    [EVNotificationCenter postNotificationName:@"chooseMarketCommit" object:nil];
     [self setUpData];
 }
 
 - (void)newUserRegisterSuccess
 {
+    [EVNotificationCenter postNotificationName:@"chooseMarketCommit" object:nil];
     self.hvLiveView.hidden = NO;
     [self setUpData];
     [self loadMsgData];
@@ -158,6 +159,7 @@ static const NSString *const SettingCellID = @"settingCell";
 
 - (void)userLogoutSuccess
 {
+    [EVNotificationCenter postNotificationName:@"chooseMarketCommit" object:nil];
     self.hvLiveView.hidden = YES;
     self.mineBgView.ecoin = 0;
 }

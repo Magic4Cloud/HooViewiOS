@@ -66,6 +66,7 @@
 
 - (void)userLogoutSuccess
 {
+    [EVNotificationCenter postNotificationName:@"chooseMarketCommit" object:nil];
     self.hvLiveView.hidden = YES;
 }
 

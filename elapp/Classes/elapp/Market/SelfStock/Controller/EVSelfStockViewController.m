@@ -15,6 +15,9 @@
 #import "EVLoginInfo.h"
 #import "EVSearchStockViewController.h"
 #import "EVEditSelfStockViewController.h"
+#import "NSString+Extension.h"
+
+
 
 @interface EVSelfStockViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) EVNullDataView *nullDataView;
@@ -209,6 +212,8 @@
     self.dataArray   = [NSMutableArray arrayWithArray:modelArray];
     [self.listTableView reloadData];
     
+    
+    
     if (self.dataArray.count == 0) {
         [self.nullDataView show];
         [self.view bringSubviewToFront:self.nullDataView];
@@ -279,14 +284,14 @@
         
         NSString *codeListStr = [codeArray componentsJoinedByString:@","];
         NSLog(@"%@",codeListStr);
-//        NSArray *markets = [self _filterStockWithType:type localArray:codeArray];
-//        NSString *marketStr = [NSString stringWithArray:markets];
-//        NSLog(@"marketStr:%@",marketStr);
+        NSArray *markets = [self _filterStockWithType:type localArray:codeArray];
+        NSString *marketStr = [NSString stringWithArray:markets];
+        NSLog(@"marketStr:%@",marketStr);
         if (codeArray.count == 0) {
             [self updateDataArray:@[]];
             return;
         }
-        [self fetchStockDataWithString:codeListStr type:type];
+        [self fetchStockDataWithString:marketStr type:type];
         
         //        [[self _selfStockViewControllerWithType:type] updateDataArray:self.chooseArray];
         
@@ -311,6 +316,25 @@
         [[self  listTableView] endHeaderRefreshing];
     }];
 }
+
+
+- (NSArray *)_filterStockWithType:(EVSelfStockType)type localArray:(NSArray *)localArray {
+    switch (type) {
+        case EVSelfStockTypeAll: {
+            return localArray;
+            break;
+        }
+        
+        case EVSelfStockTypeIXIX: {
+            break;
+        }
+        default:
+            break;
+    }
+    
+    return @[];
+}
+
 
 
 

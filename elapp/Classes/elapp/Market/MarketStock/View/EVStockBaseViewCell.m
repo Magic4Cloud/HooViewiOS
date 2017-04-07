@@ -125,6 +125,11 @@
             _changeFloatLabel.layer.cornerRadius = 4.f;
             _changeFloatLabel.layer.masksToBounds = YES;
             break;
+            
+        case EVStockBaseViewCellTypeGlobalSock:
+            _changeFloatLabel.backgroundColor = [UIColor clearColor];
+            break;
+            
         default:
             break;
     }
@@ -144,6 +149,25 @@
     self.changeLabel.textColor = [UIColor  evTextColorH1];
 }
 
+-(void)setGlobalBaseModel:(EVStockBaseModel *)globalBaseModel
+{
+    //全球
+    _globalBaseModel = globalBaseModel;
+    self.nameLabel.frame = CGRectMake(44, 20, 120, 22);
+    self.changeLabel.frame = CGRectMake(0, 20, ScreenWidth, 22);
+    self.codeLabel.hidden = YES;
+    self.rankLabel.hidden = YES;
+
+    self.nameLabel.text = globalBaseModel.name;
+    self.changeLabel.text = [NSString stringWithFormat:@"%.2f",globalBaseModel.close];
+    //float changeF = (([stockBaseModel.low floatValue] - [stockBaseModel.pre_close floatValue])/[stockBaseModel.pre_close floatValue])*100;
+    NSString *floatMarked = @"%";
+    self.changeFloatLabel.text = globalBaseModel.changepercent > 0 ? [NSString stringWithFormat:@"+%.2f%@",globalBaseModel.changepercent,floatMarked] : [NSString stringWithFormat:@"%.2f%@",globalBaseModel.changepercent,floatMarked];
+    self.changeFloatLabel.textColor = globalBaseModel.changepercent > 0 ? [UIColor evAssistColor] : [UIColor evSecondColor];
+    self.changeLabel.textColor = globalBaseModel.changepercent > 0 ? [UIColor evAssistColor] : [UIColor evSecondColor];
+
+    
+}
 
 - (void)setSearchBaseModel:(EVStockBaseModel *)searchBaseModel
 {

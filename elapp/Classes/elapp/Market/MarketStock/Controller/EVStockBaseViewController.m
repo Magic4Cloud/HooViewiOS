@@ -140,7 +140,7 @@
     } error:^(NSError *error) {
         [self.stockTableView endHeaderRefreshing];
         [EVProgressHUD hideHUDForView:self.view];
-        [EVProgressHUD showError:@"大盘请求失败"];
+        [EVProgressHUD showError:@"请求失败"];
         EVLog(@"dapan-------  %@",error);
         weakself.refreshFinish = NO;
     }];
@@ -274,30 +274,30 @@
     
 }
 
-- (void)setChooseIndex:(NSInteger)chooseIndex
-{
-    _chooseIndex = chooseIndex;
-    switch (chooseIndex) {
-            case 0:
-        {
-             [self refreshClick];
-        }
-            break;
-            case 1:
-        {
-             [self refreshClick];
-        }
-            break;
-            case 2:
-        {
-            
-        }
-            break;
-            
-        default:
-            break;
-    }
-}
+//- (void)setChooseIndex:(NSInteger)chooseIndex
+//{
+//    _chooseIndex = chooseIndex;
+//    switch (chooseIndex) {
+//            case 0:
+//        {
+//             [self refreshClick];
+//        }
+//            break;
+//            case 1:
+//        {
+//             [self refreshClick];
+//        }
+//            break;
+//            case 2:
+//        {
+//            
+//        }
+//            break;
+//            
+//        default:
+//            break;
+//    }
+//}
 
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{

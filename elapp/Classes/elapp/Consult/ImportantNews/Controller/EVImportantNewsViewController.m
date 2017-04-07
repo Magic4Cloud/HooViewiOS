@@ -158,7 +158,7 @@
         if (self.stockDataArray.count != 0) {
             Cell.stockDataArray = self.stockDataArray;
         }
-        Cell.backgroundColor = [UIColor evBackgroundColor];
+        Cell.backgroundColor = [UIColor whiteColor];
         Cell.scStock = ^(EVCSStockButton *btn){
             
             EVMarketDetailsController *marketDetailVC = [[EVMarketDetailsController alloc] init];
