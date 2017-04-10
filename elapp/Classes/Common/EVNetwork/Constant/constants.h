@@ -179,7 +179,10 @@
 #define EVAllTodayAPI               @"http://openapi.hooview.com/api/stock/changelist"
 //#define EVQueryQuotesAPI            @"http://openapi.hooview.com/tushare/get_realtime_quotes"
 #define EVQueryQuotesAPI            @"http://openapi.hooview.com/api/stock/realtime"
-#define EVHVNewsConstantAPI         @"http://openapi.hooview.com/api/news/gethomeNews"
+//#define EVHVNewsConstantAPI         @"http://openapi.hooview.com/api/news/gethomeNews"
+//改版
+#define EVHVNewsConstantAPI         @"http://dev.hooview.com/api/v2/news/home"
+
 #define EVHVFastNewsAPI             @"http://openapi.hooview.com/api/news/getnewsflash"
 #define EVHVEyesDetailNewsAPI       @"http://openapi.hooview.com/api/news/getlist"
 #define EVStockComment              @"http://openapi.hooview.com/api/bbs/stockpost"

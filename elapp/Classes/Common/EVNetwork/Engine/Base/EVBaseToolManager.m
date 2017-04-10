@@ -460,9 +460,10 @@ static BOOL sessioncheck = NO;
 {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json",@"text/plain",nil];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
     NSURLSessionDataTask *task =  [manager GET:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"responseObject:%@",responseObject);
+        EVLog(@"url:%@\nresponseObject:%@",url,responseObject);
         if (responseObject) {
             if ( [[responseObject[kRetvalKye] lowercaseString] isEqualToString:kRequestOK] )
             {
@@ -477,6 +478,7 @@ static BOOL sessioncheck = NO;
         
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        EVLog(@"url:%@\nerror:%@",url,error.domain);
         if (fail) {
             fail(error);
         }

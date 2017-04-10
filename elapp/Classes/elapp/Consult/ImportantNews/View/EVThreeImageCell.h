@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "EVLineTableViewCell.h"
+@class EVNewsModel;
 /**
  三张图片的cell
  */
@@ -18,5 +19,5 @@
 @property (weak, nonatomic) IBOutlet UIImageView *cellImageView3;
 @property (weak, nonatomic) IBOutlet UILabel *cellDateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *cellViewCountLabel;
-
+@property (nonatomic,strong)EVNewsModel * newsModel;
 @end

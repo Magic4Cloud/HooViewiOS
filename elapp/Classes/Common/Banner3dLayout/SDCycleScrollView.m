@@ -23,13 +23,11 @@ static NSString *indentify = @"MKJCollectionViewCell";
     int curentIndexDelegate;
 }
 
-@property (nonatomic, weak) UICollectionView *mainView; // 显示图片的collectionView
-@property (nonatomic, weak) UICollectionViewFlowLayout *flowLayout;
+@property (nonatomic, strong) UICollectionView *mainView; // 显示图片的collectionView
+@property (nonatomic, strong) UICollectionViewFlowLayout *flowLayout;
 @property (nonatomic, strong) NSArray *imagePathsGroup;
-@property (nonatomic, weak) NSTimer *timer;
+@property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, assign) NSInteger totalItemsCount;
-@property (nonatomic, weak) UIControl *pageControl;
-
 
 @property (nonatomic, strong) UIImageView *backgroundImageView; // 当imageURLs为空时的背景图
 
@@ -62,22 +60,16 @@ static NSString *indentify = @"MKJCollectionViewCell";
 
 - (void)collectioViewScrollToIndex:(NSInteger)index
 {
-    curentIndexDelegate = (int)index;
+// NSLog(@"collectioViewScrollToIndex***index:%ld",index);
+//    curentIndexDelegate = (int)index;
 }
 
 - (void)initialization
 {
-   
     _autoScrollTimeInterval = 2.0;
-    _titleLabelTextColor = [UIColor whiteColor];
-    _titleLabelTextFont= [UIFont systemFontOfSize:14];
-    _titleLabelBackgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
-    _titleLabelHeight = 30;
-    
     _autoScroll = YES;
     _infiniteLoop = YES;
-    _hidesForSinglePage = YES;
-    _bannerImageViewContentMode = UIViewContentModeScaleToFill;
+
     self.backgroundColor = [UIColor whiteColor];
     curentIndexDelegate = 0;
 }
@@ -116,24 +108,21 @@ static NSString *indentify = @"MKJCollectionViewCell";
 // 设置显示图片的collectionView
 - (void)setupMainView
 {
-//    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-//    flowLayout.minimumLineSpacing = 0;
-//    flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    
-    
+
     MKJCollectionViewFlowLayout * flowLayout = [[MKJCollectionViewFlowLayout alloc] init];
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    flowLayout.itemSize = CGSizeMake(self.bounds.size.width -60, self.bounds.size.height);
+    flowLayout.estimatedItemSize = 
+    flowLayout.itemSize = CGSizeMake(self.bounds.size.width - 60*ScreenWidth/375, self.bounds.size.height-30*ScreenWidth/375);
     flowLayout.minimumLineSpacing = 10;
 //    flowLayout.minimumInteritemSpacing = 20;
     flowLayout.delegate = self;
     _flowLayout = flowLayout;
     
-    
     UICollectionView *mainView = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:flowLayout];
     mainView.backgroundColor = [UIColor clearColor];
     mainView.showsHorizontalScrollIndicator = NO;
     mainView.showsVerticalScrollIndicator = NO;
+    
     [mainView registerNib:[UINib nibWithNibName:indentify bundle:nil] forCellWithReuseIdentifier:indentify];
     mainView.dataSource = self;
     mainView.delegate = self;
@@ -255,18 +244,6 @@ static NSString *indentify = @"MKJCollectionViewCell";
     self.imagePathsGroup = [localizationImageNamesGroup copy];
 }
 
-- (void)setTitlesGroup:(NSArray *)titlesGroup
-{
-    _titlesGroup = titlesGroup;
-    if (self.onlyDisplayText) {
-        NSMutableArray *temp = [NSMutableArray new];
-        for (int i = 0; i < _titlesGroup.count; i++) {
-            [temp addObject:@""];
-        }
-        self.backgroundColor = [UIColor clearColor];
-        self.imageURLStringsGroup = [temp copy];
-    }
-}
 
 #pragma mark - actions
 
@@ -290,6 +267,7 @@ static NSString *indentify = @"MKJCollectionViewCell";
     if (0 == _totalItemsCount) return;
     int currentIndex = [self currentIndex];
     int targetIndex = currentIndex + 1;
+//    NSLog(@"automaticScroll___targetIndex:%d",targetIndex);
     if (targetIndex >= _totalItemsCount) {
         if (self.infiniteLoop) {
             targetIndex = _totalItemsCount * 0.5;
@@ -303,7 +281,31 @@ static NSString *indentify = @"MKJCollectionViewCell";
 
 - (int)currentIndex
 {
-//    NSLog(@"currentIndex:%d",curentIndexDelegate);
+    // 把collectionView本身的中心位子（固定的）,转换成collectionView整个内容上的point
+    
+    CGPoint pInView = [self.mainView.superview convertPoint:self.mainView.center toView:self.mainView];
+    
+    // 通过坐标获取对应的indexpath
+    NSIndexPath *indexPathNow = [self.mainView indexPathForItemAtPoint:pInView];
+    
+    if (indexPathNow.row == 0)
+    {
+        if (self.mainView.contentOffset.x < ScreenWidth / 2)
+        {
+            if (curentIndexDelegate != indexPathNow.row)
+            {
+                curentIndexDelegate = 0;
+            }
+        }
+    }
+    else
+    {
+        if (curentIndexDelegate != indexPathNow.row)
+        {
+            curentIndexDelegate = indexPathNow.row;
+        }
+    }
+//    NSLog(@"currentIndex:***%d",curentIndexDelegate);
     return curentIndexDelegate;
     
 }
@@ -344,6 +346,10 @@ static NSString *indentify = @"MKJCollectionViewCell";
 
 //解决当timer释放后 回调scrollViewDidScroll时访问野指针导致崩溃
 - (void)dealloc {
+    if (_timer) {
+        _timer = nil;
+    }
+    
     _mainView.delegate = nil;
     _mainView.dataSource = nil;
 }
@@ -373,7 +379,7 @@ static NSString *indentify = @"MKJCollectionViewCell";
     
     NSString *imagePath = self.imagePathsGroup[itemIndex];
     
-    if (!self.onlyDisplayText && [imagePath isKindOfClass:[NSString class]]) {
+    if ([imagePath isKindOfClass:[NSString class]]) {
         if ([imagePath hasPrefix:@"http"]) {
             [cell.imageView sd_setImageWithURL:[NSURL URLWithString:imagePath] placeholderImage:self.placeholderImage];
         } else {
@@ -383,7 +389,7 @@ static NSString *indentify = @"MKJCollectionViewCell";
             }
             cell.imageView.image = image;
         }
-    } else if (!self.onlyDisplayText && [imagePath isKindOfClass:[UIImage class]]) {
+    } else if ([imagePath isKindOfClass:[UIImage class]]) {
         cell.imageView.image = (UIImage *)imagePath;
     }
     

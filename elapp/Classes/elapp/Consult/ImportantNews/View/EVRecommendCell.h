@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class EVRecommendModel;
 /**
  牛人推荐cell
  */
 @interface EVRecommendCell : UITableViewCell<UICollectionViewDelegate,UICollectionViewDataSource>
 @property (nonatomic, strong)UICollectionView * collectionView;
+@property (nonatomic,strong)NSMutableArray * recommentArray;
+@property (nonatomic, copy)void(^didselectedIndexIWithModelBlock)(EVRecommendModel * model);
 @end

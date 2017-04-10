@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class EVNewsModel;
 /**
  专题cell 
  */
@@ -15,5 +15,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *cellTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *cellViewCountLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *cellBgimageView;
-
+@property (nonatomic, strong)EVNewsModel * speciaModel;
 @end

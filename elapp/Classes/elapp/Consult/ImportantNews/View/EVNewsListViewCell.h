@@ -9,13 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "EVBaseNewsModel.h"
 #import "EVHVEyesModel.h"
-
+@class EVNewsModel;
 
 @interface EVNewsListViewCell : UITableViewCell
 
 @property (nonatomic, strong) EVBaseNewsModel *consultNewsModel;
 
-@property (nonatomic, strong) EVBaseNewsModel *searchNewsModel;
+@property (nonatomic, strong) EVNewsModel *searchNewsModel;
 
 @property (nonatomic, strong) EVHVEyesModel *eyesModel;
 

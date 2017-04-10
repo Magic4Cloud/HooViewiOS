@@ -8,6 +8,7 @@
 
 #import "EVRecommendCell.h"
 #import "EVAvatarCell.h"
+#import "EVRecommendModel.h"
 @implementation EVRecommendCell
 
 - (void)awakeFromNib {
@@ -51,7 +52,7 @@
 #pragma mark - delegate
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 10;
+    return _recommentArray.count;
 }
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
@@ -61,14 +62,28 @@
 {
     static NSString * identifier = @"EVAvatarCell";
     EVAvatarCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+    EVRecommendModel * model = _recommentArray[indexPath.item];
+    cell.recommendModel = model;
     return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    if (self.didselectedIndexIWithModelBlock) {
+        EVRecommendModel * model = _recommentArray[indexPath.item];
+        self.didselectedIndexIWithModelBlock(model);
+    }
 }
 #pragma mark - ✍️ Setters & Getters
+- (void)setRecommentArray:(NSMutableArray *)recommentArray
+{
+    if (!recommentArray) {
+        return;
+    }
+    _recommentArray = recommentArray;
+    [_collectionView reloadData];
+    
+}
 - (UICollectionView *)collectionView
 {
     if (!_collectionView) {

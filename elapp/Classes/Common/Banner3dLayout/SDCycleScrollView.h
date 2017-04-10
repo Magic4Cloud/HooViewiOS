@@ -82,33 +82,9 @@
 //////////////////////  自定义样式接口  //////////////////////
 
 
-/** 轮播图片的ContentMode，默认为 UIViewContentModeScaleToFill */
-@property (nonatomic, assign) UIViewContentMode bannerImageViewContentMode;
 
 /** 占位图，用于网络未加载到图片时 */
 @property (nonatomic, strong) UIImage *placeholderImage;
-
-/** 是否显示分页控件 */
-@property (nonatomic, assign) BOOL showPageControl;
-
-/** 是否在只有一张图时隐藏pagecontrol，默认为YES */
-@property(nonatomic) BOOL hidesForSinglePage;
-
-/** 只展示文字轮播 */
-@property (nonatomic, assign) BOOL onlyDisplayText;
-
-
-/** 轮播文字label字体颜色 */
-@property (nonatomic, strong) UIColor *titleLabelTextColor;
-
-/** 轮播文字label字体大小 */
-@property (nonatomic, strong) UIFont  *titleLabelTextFont;
-
-/** 轮播文字label背景颜色 */
-@property (nonatomic, strong) UIColor *titleLabelBackgroundColor;
-
-/** 轮播文字label高度 */
-@property (nonatomic, assign) CGFloat titleLabelHeight;
 
 
 

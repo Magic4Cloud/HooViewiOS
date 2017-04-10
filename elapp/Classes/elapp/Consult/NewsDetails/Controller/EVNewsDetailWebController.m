@@ -64,9 +64,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-//    if (self.newsWebView.request.URL) {
-//        [self.newsWebView reload];
-//    }
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
