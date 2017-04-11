@@ -60,7 +60,6 @@
 #pragma mark - 🖍 User Interface layout
 - (void)initUI
 {
-//    self.view.frame = CGRectMake(0, 30, ScreenWidth, ScreenHeight);
     self.viewFrame = CGRectMake(0, 20, ScreenWidth, ScreenHeight);
     self.automaticallyAdjustsScrollViewInsets = NO;
     
@@ -70,7 +69,6 @@
     [searchButton addTarget:self action:@selector(searchClick) forControlEvents:(UIControlEventTouchUpInside)];
     [self.view addSubview:searchButton];
     
-//    self.menuView.rightView = searchButton;
     UIImageView * icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"huoyan_logo"]];
     icon.frame = CGRectMake(20, 30, 23, 23);
     [self.view addSubview:icon];

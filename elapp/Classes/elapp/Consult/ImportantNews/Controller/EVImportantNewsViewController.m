@@ -36,9 +36,13 @@
 #import "EVThreeImageCell.h"
 #import "EVSpecialTopicCell.h"
 
+#import "EVNewsModel.h"
+#import "EVStockMarketModel.h"
+#import "EVRecommendModel.h"
 @interface EVImportantNewsViewController ()<UITableViewDelegate,UITableViewDataSource,EVCycleScrollViewDelegate,EVHVEyeViewDelegate>
 
-@property (nonatomic, weak) EVCycleScrollView *cycleScrollView;
+
+@property (nonatomic, strong) EVCycleScrollView *cycleScrollView;
 
 @property (nonatomic, strong) NSMutableArray *dataArray;
 
@@ -52,11 +56,16 @@
 
 @property (nonatomic, strong) NSMutableArray *eyesDataArray;
 
+/**
+ 牛人推荐数组
+ */
+@property (nonatomic, strong) NSMutableArray *recommendDataArray;
+
 @property (nonatomic, copy) NSString *eyesID;
 
 @property (nonatomic, strong) NSMutableArray *eyesProgramID;
 
-@property (nonatomic, copy) NSString *start;
+@property (nonatomic, assign) int start;
 
 @property (nonatomic, weak) UILabel *successLabel;
 
@@ -67,39 +76,34 @@
 
 @implementation EVImportantNewsViewController
 
+
+
+
+#pragma mark - ♻️Lifecycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self addTableView];
     [self loadImageCarousel];
-    [self loadStockData];
-    [self loadNewsDataStart:@"0" count:@"20" showNoticeView:YES];
+    
+    [self loadNewData];
     
     WEAK(self)
+    [self.iNewsTableview.mj_footer setHidden:YES];
     [_iNewsTableview addRefreshHeaderWithRefreshingBlock:^{
-        [weakself loadStockData];
         [weakself loadImageCarousel];
-        [weakself loadNewsDataStart:@"0" count:@"20" showNoticeView:YES];
+        [weakself loadNewData];
     }];
     
     [_iNewsTableview addRefreshFooterWithRefreshingBlock:^{
-        [weakself loadNewsDataStart:self.start count:@"20" showNoticeView:NO];
+        [weakself loadMoreData];
     }];
     
 }
-
-- (void)timerAction
-{
-    [self loadStockData];
-}
-
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self loadNewsDataStart:@"0" count:[NSString stringWithFormat:@"%ld", self.newsDataArray.count] showNoticeView:NO];
-//    [self.navigationController setNavigationBarHidden:YES animated:NO];
-//    self.refreshTimes = [NSTimer timerWithTimeInterval:60 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
-//    [[NSRunLoop mainRunLoop] addTimer:self.refreshTimes forMode:NSDefaultRunLoopMode];
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -107,6 +111,8 @@
     [super viewWillDisappear:animated];
 }
 
+
+#pragma mark - 🖍 User Interface layout
 - (void)addTableView
 {
     UITableView *iNewsTableview = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-49-64) style:(UITableViewStyleGrouped)];
@@ -128,14 +134,198 @@
     [self.iNewsTableview registerNib:[UINib nibWithNibName:@"EVThreeImageCell" bundle:nil] forCellReuseIdentifier:@"EVThreeImageCell"];
     [self.iNewsTableview registerNib:[UINib nibWithNibName:@"EVSpecialTopicCell" bundle:nil] forCellReuseIdentifier:@"EVSpecialTopicCell"];
     
-//    UIView *topBackView = [[UIView alloc] init];
-//    [self.view addSubview:topBackView];
-//    self.topBackView = topBackView;
-//    topBackView.frame = CGRectMake(0, 0, ScreenWidth, 64);
-    
-
 }
 
+#pragma mark - 🌐Networks
+// 请求轮播图
+- (void)loadImageCarousel
+{
+    WEAK(self)
+    [self.baseToolManager GETCarouselInfoWithStart:^{
+        
+    } success:^(NSDictionary *info) {
+        [weakself getCarouseInfoSuccess:info];
+    } fail:^(NSError *error) {
+        [EVProgressHUD showError:@"加载失败"];
+    } sessionExpire:^{
+        EVRelogin(weakself);
+    }];
+}
+- (void)loadNewData
+{
+    _start = 0;
+    
+    [self.iNewsTableview.mj_footer resetNoMoreData];
+    [self.baseToolManager GETNewsRequestStart:@"0" count:@"20" Success:^(NSDictionary *retinfo) {
+        
+        [self endRefreshing];
+        
+        [self.eyesDataArray removeAllObjects];
+        [self.newsDataArray removeAllObjects];
+        [self.eyesProgramID removeAllObjects];
+        [self.recommendDataArray removeAllObjects];
+        [self.stockDataArray removeAllObjects];
+        //股市大盘
+        NSArray * indexArray = retinfo[@"index"];
+        if ([retinfo[@"index"] isKindOfClass:[NSArray class]]) {
+            if (indexArray && indexArray.count>0)
+            {
+                NSArray *stockArray = [EVStockBaseModel objectWithDictionaryArray:indexArray];
+                [self.stockDataArray addObjectsFromArray:stockArray];
+                
+            }
+        }
+        
+        
+        //新闻列表
+        NSArray * homeNewsArray = retinfo[@"homeNews"];
+        if (homeNewsArray && homeNewsArray.count>0) {
+            __weak typeof(self) weakSelf = self;
+            [homeNewsArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                EVNewsModel * model = [EVNewsModel yy_modelWithDictionary:obj];
+                [weakSelf.newsDataArray addObject:model];
+            }];
+        }
+        
+        //火眼金睛 新闻
+        NSArray *eyesArray = retinfo[@"hooview"][@"news"];
+        if (eyesArray && eyesArray.count>0) {
+            for (NSDictionary * temp in eyesArray) {
+                EVNewsModel * model = [EVNewsModel yy_modelWithDictionary:temp];
+                [self.eyesDataArray addObject:model];
+            }
+        }
+        
+        //火眼金睛 频道
+        NSString *key = [NSString stringWithFormat:@"%@",retinfo[@"hooview"][@"channels"]];
+        if (![key isEqualToString:@"<null>"] && ![key isEqualToString:@""] && key != nil) {
+            self.eyesID = retinfo[@"hooview"][@"channels"][@"id"];
+
+            NSArray *eyesProgramArr = [EVHVEyesModel objectWithDictionaryArray:retinfo[@"hooview"][@"channels"][@"Programs"]];
+            [self.eyesProgramID addObjectsFromArray:eyesProgramArr];
+        }
+        
+        //牛人推荐
+        NSArray * recommendArray = retinfo[@"recommend"];
+        if (recommendArray && recommendArray.count>0) {
+            for (NSDictionary * temp in recommendArray) {
+                EVRecommendModel * model = [EVRecommendModel yy_modelWithDictionary:temp];
+                [self.recommendDataArray addObject:model];
+            }
+            
+        }
+        
+        if (self.newsDataArray.count < 20)
+        {
+            //没有更多数据
+            [self.iNewsTableview.mj_footer setHidden:YES];
+        }
+        else
+        {
+            [self.iNewsTableview.mj_footer setHidden:NO];
+        }
+        
+        _start += self.newsDataArray.count;
+        
+        
+        [self.iNewsTableview reloadData];
+        
+    } error:^(NSError *error) {
+        [self endRefreshing];
+        [EVProgressHUD showError:@"新闻请求失败"];
+    }];
+}
+
+- (void)loadMoreData
+{
+    
+    [self.baseToolManager GETNewsRequestStart:[NSString stringWithFormat:@"%d",_start] count:@"20" Success:^(NSDictionary *retinfo) {
+        
+        [self endRefreshing];
+        
+        
+        //新闻列表
+        NSArray * homeNewsArray = retinfo[@"homeNews"];
+        if (homeNewsArray && homeNewsArray.count>0) {
+            __weak typeof(self) weakSelf = self;
+            [homeNewsArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                EVNewsModel * model = [EVNewsModel yy_modelWithDictionary:obj];
+                [weakSelf.newsDataArray addObject:model];
+            }];
+        }
+        
+        if (homeNewsArray.count == 0)
+        {
+            //没有更多数据
+            [self.iNewsTableview setFooterState:CCRefreshStateNoMoreData ];
+        }
+        else
+        {
+            _start += homeNewsArray.count;
+        }
+        
+        NSString *keyid = retinfo[@"huoyan"][@"channels"];
+        if (![keyid isKindOfClass:[NSNull class]]) {
+            self.eyesID = retinfo[@"huoyan"][@"channels"][@"id"];
+        }
+        [self.iNewsTableview reloadData];
+        
+    } error:^(NSError *error) {
+        [self endRefreshing];
+        [EVProgressHUD showError:@"新闻请求失败"];
+    }];
+}
+//- (void)loadStockData
+//{
+//    [self.baseToolManager GETRequestHSuccess:^(NSDictionary *retinfo) {
+//        [self endRefreshing];
+//        NSArray *stockArray = [EVStockBaseModel objectWithDictionaryArray:retinfo[@"data"][@"cn"]];
+//        [self.stockDataArray addObjectsFromArray:stockArray];
+//        [self.iNewsTableview reloadData];
+//    } error:^(NSError *error) {
+//        [self endRefreshing];
+////        [EVProgressHUD showError:@"大盘请求失败"];
+//    }];
+//}
+
+
+
+- (void)endRefreshing
+{
+    [_iNewsTableview endHeaderRefreshing];
+    [_iNewsTableview endFooterRefreshing];
+}
+
+#pragma mark -👣 Target actions
+
+- (void)newsButton:(UIButton *)button
+{
+    EVNewsDetailWebController *newsDetailVC = [[EVNewsDetailWebController alloc] init];
+    EVBaseNewsModel *baseNewsModel = self.eyesDataArray[button.tag - 2000];
+    newsDetailVC.newsID = baseNewsModel.newsID;
+    //    newsDetailVC.title  = baseNewsModel.title;
+    if ([baseNewsModel.newsID isEqualToString:@""] || baseNewsModel.newsID == nil) {
+        return;
+    }
+    [self.navigationController pushViewController:newsDetailVC animated:YES];
+}
+
+- (void)moreButton:(UIButton *)button
+{
+    EVHVEyesViewController *eyesVC = [[EVHVEyesViewController alloc] init];
+    if (self.eyesProgramID.count <= 0) {
+        [EVProgressHUD showError:@"没有更多数据"];
+        return;
+    }
+    eyesVC.eyesArray = self.eyesProgramID;
+    eyesVC.eyesID = self.eyesID;
+    [self.navigationController pushViewController:eyesVC animated:YES];
+    
+}
+
+
+
+#pragma mark - 🌺 TableView Delegate & Datasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) {
@@ -153,7 +343,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0)
+    {
         EVConsultStockViewCell *Cell = [tableView dequeueReusableCellWithIdentifier:@"csCell"];
         if (!Cell) {
             Cell = [[EVConsultStockViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:@"csCell"];
@@ -180,47 +371,70 @@
         EVHVEyeViewCell *eyeCell = [tableView dequeueReusableCellWithIdentifier:@"eyeCell"];
         if (eyeCell == nil) {
             eyeCell = [[NSBundle mainBundle] loadNibNamed:@"EVHVEyeViewCell" owner:nil options:nil].firstObject;
+            eyeCell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         eyeCell.delegate = self;
         eyeCell.eyesArray = self.eyesDataArray;
-        eyeCell.selectionStyle = UITableViewCellSelectionStyleNone;
         return eyeCell;
     }
     //新闻列表
-    if (indexPath.row %4 == 0)
-    {
-        EVOnlyTextCell * textCell = [tableView dequeueReusableCellWithIdentifier:@"EVOnlyTextCell"];
-        return textCell;
+    
+    EVNewsModel * newsModel = _newsDataArray[indexPath.row];
+    
+    if ([newsModel.type isEqualToString:@"0"]) {
+        //普通新闻
         
+        if (newsModel.cover == nil || newsModel.cover.count == 0)
+        {
+            //没有图片
+            EVOnlyTextCell * textCell = [tableView dequeueReusableCellWithIdentifier:@"EVOnlyTextCell"];
+            textCell.newsModel = newsModel;
+            return textCell;
+        }
+        else if (newsModel.cover.count == 1)
+        {
+            //一张图片
+            EVNewsListViewCell *newsCell = [tableView dequeueReusableCellWithIdentifier:@"newsCell"];
+            if (!newsCell) {
+                
+                newsCell = [[NSBundle mainBundle] loadNibNamed:@"EVNewsListViewCell" owner:nil options:nil].firstObject;
+                newsCell.selectionStyle = UITableViewCellSelectionStyleNone;
+            }
+            newsCell.searchNewsModel = newsModel;
+        }
+        else if (newsModel.cover.count == 3)
+        {
+            //三张图片
+            EVThreeImageCell * threeImageCell = [tableView dequeueReusableCellWithIdentifier:@"EVThreeImageCell"];
+            threeImageCell.newsModel = newsModel;
+            return threeImageCell;
+        }
     }
-    else if (indexPath.row %4 == 1)
+    else if([newsModel.type isEqualToString:@"1"])
     {
-        EVThreeImageCell * threeImageCell = [tableView dequeueReusableCellWithIdentifier:@"EVThreeImageCell"];
-
-        return threeImageCell;
-    }
-    else if (indexPath.row %4 == 2)
-    {
+        //专题
         EVSpecialTopicCell * specialTopicCell = [tableView dequeueReusableCellWithIdentifier:@"EVSpecialTopicCell"];
+        specialTopicCell.speciaModel = newsModel;
         return specialTopicCell;
     }
-    else if (indexPath.row %4 == 3)
+    else if ([newsModel.type isEqualToString:@"2"])
     {
+        //牛人推荐
+        
         EVRecommendCell * recommendCell = [tableView dequeueReusableCellWithIdentifier:@"EVRecommendCell"];
         if (!recommendCell) {
             recommendCell = [[EVRecommendCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"EVRecommendCell"];
         }
+        recommendCell.recommentArray = self.recommendDataArray;
+        recommendCell.didselectedIndexIWithModelBlock = ^(EVRecommendModel * model)
+        {
+            //选中牛人
+            
+        };
         return recommendCell;
     }
-    EVNewsListViewCell *newsCell = [tableView dequeueReusableCellWithIdentifier:@"newsCell"];
-    if (!newsCell) {
-        
-        newsCell = [[NSBundle mainBundle] loadNibNamed:@"EVNewsListViewCell" owner:nil options:nil].firstObject;
-        newsCell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
-    
-    newsCell.searchNewsModel = self.newsDataArray[indexPath.row];
-    return newsCell;
+
+    return nil;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -250,27 +464,8 @@
         }
         return 200;
     }
-    if (indexPath.row %4 == 0)
-    {
-        return 100;
-        
-    }
-    else if (indexPath.row %4 == 1)
-    {
-        
-        return 178;
-    }
-    else if (indexPath.row %4 == 2)
-    {
-        
-        return 100;
-    }
-    else if (indexPath.row %4 == 3)
-    {
-        
-        return 214;
-    }
-    return 100;
+    EVNewsModel * newsModel = _newsDataArray[indexPath.row];
+    return newsModel.cellHeight;
 }
 
 
@@ -290,7 +485,8 @@
         return;
     }
     EVNewsDetailWebController *newsWebVC = [[EVNewsDetailWebController alloc] init];
-    EVBaseNewsModel *newsModel = self.newsDataArray[indexPath.row];
+    EVNewsModel * newsModel = _newsDataArray[indexPath.row];
+    
     newsWebVC.newsID = newsModel.newsID;
     newsWebVC.newsTitle = newsModel.title;
     if ([newsModel.newsID isEqualToString:@""] || newsModel.newsID == nil) {
@@ -306,6 +502,7 @@
         self.offsetBlock (scrollView.contentOffset.y,NO);
     }
 }
+
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
@@ -385,6 +582,7 @@
     }
 }
 
+<<<<<<< HEAD
 - (void)newsButton:(UIButton *)button
 {
     EVNewsDetailWebController *newsDetailVC = [[EVNewsDetailWebController alloc] init];
@@ -446,54 +644,12 @@
     [_iNewsTableview endHeaderRefreshing];
     [_iNewsTableview endFooterRefreshing];
 }
+=======
 
-- (void)loadNewsDataStart:(NSString *)start count:(NSString *)count showNoticeView:(BOOL)showView
-{
-   
-    
-    [self.baseToolManager GETNewsRequestStart:start count:count Success:^(NSDictionary *retinfo) {
-       
-        
-        [self endRefreshing];
-        self.start = retinfo[@"next"];
-        if ([retinfo[@"start"] integerValue] == 0) {
-            [self.eyesDataArray removeAllObjects];
-            [self.newsDataArray removeAllObjects];
-            [self.eyesProgramID removeAllObjects];
-        }
-        if ([retinfo[@"start"] integerValue] == 0 && showView) {
-//             [self successLoadView];
-        }
-        NSArray *newsArray = [EVBaseNewsModel objectWithDictionaryArray:retinfo[@"home_news"]];
-        NSArray *eyesArray = [EVBaseNewsModel objectWithDictionaryArray:retinfo[@"huoyan"][@"news"]];
-        NSString *key = [NSString stringWithFormat:@"%@",retinfo[@"huoyan"][@"channels"]];
-        if (![key isEqualToString:@"<null>"] && ![key isEqualToString:@""] && key != nil) {
-              NSArray *eyesProgramArr = [EVHVEyesModel objectWithDictionaryArray:retinfo[@"huoyan"][@"channels"][@"Programs"]];
-             [self.eyesProgramID addObjectsFromArray:eyesProgramArr];
-//             [self.iNewsTableview reloadData];
-            
-//             [self.iNewsTableview setFooterState:(eyesProgramArr.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
-        }
-        
-        if (newsArray.count == 0) {
-            //没有更多数据
-            [self.iNewsTableview setFooterState:CCRefreshStateNoMoreData ];
-        }
-        
-        NSString *keyid = retinfo[@"huoyan"][@"channels"];
-        if (![keyid isKindOfClass:[NSNull class]]) {
-            self.eyesID = retinfo[@"huoyan"][@"channels"][@"id"];
-        }
-        [self.eyesDataArray addObjectsFromArray:eyesArray];
-        [self.newsDataArray addObjectsFromArray:newsArray];
-        [self.iNewsTableview reloadData];
-       
-    } error:^(NSError *error) {
-        [self endRefreshing];
-        [EVProgressHUD showError:@"新闻请求失败"];
-    }];
-}
+>>>>>>> 33dff110cb3d738175d280741c704dd3c0de7841
 
+
+#pragma mark - ✍️ Setters & Getters
 - (void)successLoadView
 {
     UIView *successView = [[UIView alloc] init];
@@ -582,6 +738,14 @@
     return _newsDataArray;
 }
 
+- (NSMutableArray *)recommendDataArray
+{
+    if (!_recommendDataArray) {
+        _recommendDataArray = [NSMutableArray array];
+    }
+    return _recommendDataArray;
+}
+
 - (NSMutableArray *)eyesDataArray
 {
     if (!_eyesDataArray) {
@@ -597,7 +761,7 @@
     }
     return _eyesProgramID;
 }
-
+#pragma mark - 🗑 CleanUp
 - (void)dealloc
 {
     [_refreshTimes invalidate];

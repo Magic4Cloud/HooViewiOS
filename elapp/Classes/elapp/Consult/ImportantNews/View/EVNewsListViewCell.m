@@ -7,7 +7,7 @@
 //
 
 #import "EVNewsListViewCell.h"
-
+#import "EVNewsModel.h"
 @implementation EVNewsListViewCell
 
 - (void)awakeFromNib {
@@ -22,10 +22,10 @@
 }
 
 
-- (void)setSearchNewsModel:(EVBaseNewsModel *)searchNewsModel
+- (void)setSearchNewsModel:(EVNewsModel *)searchNewsModel
 {
     _searchNewsModel = searchNewsModel;
-    [self.newsBackImage cc_setImageWithURLString:searchNewsModel.cover placeholderImage:[UIImage imageNamed:@""]];
+    [self.newsBackImage cc_setImageWithURLString:searchNewsModel.cover[0] placeholderImage:nil];
     self.newsTitleLabel.text = searchNewsModel.title;
     NSString *timeStr = [NSString stringWithFormat:@"%@",searchNewsModel.time];
     timeStr =   [timeStr substringToIndex:10];
@@ -40,7 +40,7 @@
     }else {
         self.newsTimeLabel.text = [NSString stringWithFormat:@"今天 %@",[timeLbl substringWithRange:NSMakeRange(11, 5)]];
     }
-    self.newsReadLabel.text = [NSString stringWithFormat:@"阅 %@",searchNewsModel.viewCount];
+    self.newsReadLabel.text = [NSString stringWithFormat:@" %@",searchNewsModel.viewCount];
 }
 
 
@@ -62,7 +62,7 @@
     }else {
         self.newsTimeLabel.text = [NSString stringWithFormat:@"今天 %@",[timeLbl substringWithRange:NSMakeRange(11, 5)]];
     }
-    self.newsReadLabel.text = [NSString stringWithFormat:@"阅 %@",eyesModel.viewCount];
+    self.newsReadLabel.text = [NSString stringWithFormat:@"%@",eyesModel.viewCount];
     
 }
 

@@ -68,19 +68,28 @@
     
 }
 
-- (void)setStockBaseModel:(EVStockBaseModel *)stockBaseModel
+- (void)setStockBaseModel:(EVStockBaseModel *)stockMarketModel
 {
-    _stockBaseModel = stockBaseModel;
-    self.nameLabel.text = [NSString stringWithFormat:@"%@",stockBaseModel.name];
-    self.priceLabel.text = [NSString stringWithFormat:@"%.2f",stockBaseModel.close];
-    NSString *floatMarked = @"%";
-    NSString *addStr = @"+";
-    float priceFloat =  (stockBaseModel.close - [stockBaseModel.preclose floatValue]);
-    NSString *floatStr = stockBaseModel.changepercent > 0  ? [NSString stringWithFormat:@"%@%.2f[%@%.2f%@]",addStr,priceFloat,addStr,stockBaseModel.changepercent,floatMarked] : [NSString stringWithFormat:@"%.2f[%.2f%@]",priceFloat,stockBaseModel.changepercent,floatMarked];
-    self.upLabel.text = [NSString stringWithFormat:@"%@",floatStr];
-    self.nameLabel.textColor =  stockBaseModel.changepercent > 0 ? [UIColor evAssistColor] : [UIColor evSecondColor];
-     self.priceLabel.textColor =  stockBaseModel.changepercent > 0 ? [UIColor evAssistColor] : [UIColor evSecondColor];
-     self.upLabel.textColor =  stockBaseModel.changepercent > 0 ? [UIColor evAssistColor] : [UIColor evSecondColor];
+    _stockBaseModel = stockMarketModel;
+    self.nameLabel.text = [NSString stringWithFormat:@"%@",stockMarketModel.name];
+    self.priceLabel.text = [NSString stringWithFormat:@"%.2f",stockMarketModel.close] ;
+
+    float priceFloat =  stockMarketModel.close  - [stockMarketModel.open floatValue];
+    
+    NSString *floatStr;
+    if (stockMarketModel.changepercent > 0) {
+        floatStr = [NSString stringWithFormat:@"%.2f[%.2f%%]",priceFloat,stockMarketModel.changepercent];
+      self.priceLabel.textColor = self.upLabel.textColor = self.nameLabel.textColor = [UIColor evAssistColor];
+    
+    }
+    else
+    {
+        floatStr = [NSString stringWithFormat:@"%.2f[%.2f%%]",priceFloat,stockMarketModel.changepercent];
+        self.priceLabel.textColor = self.upLabel.textColor = self.nameLabel.textColor = [UIColor evSecondColor];
+    }
+    
+    self.upLabel.text = floatStr;
+    
 }
 
 @end

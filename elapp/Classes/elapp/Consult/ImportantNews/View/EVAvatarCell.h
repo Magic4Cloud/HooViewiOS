@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class EVRecommendModel;
 /**
  牛人推荐头像 UICollectionViewCell
  */
@@ -16,5 +16,5 @@
 @property (weak, nonatomic) IBOutlet UIImageView *cellImageView;
 @property (weak, nonatomic) IBOutlet UILabel *cellNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *cellFollowLabel;
-
+@property (nonatomic, strong) EVRecommendModel * recommendModel;
 @end

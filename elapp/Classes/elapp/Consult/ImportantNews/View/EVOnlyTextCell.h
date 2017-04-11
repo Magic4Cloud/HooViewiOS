@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "EVLineTableViewCell.h"
+@class EVNewsModel;
 /**
  纯文字cell
  */
@@ -15,5 +16,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *cellContentLabel;
 @property (weak, nonatomic) IBOutlet UILabel *cellDateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *cellViewCountLabel;
-
+@property (nonatomic,strong)EVNewsModel * newsModel;
 @end

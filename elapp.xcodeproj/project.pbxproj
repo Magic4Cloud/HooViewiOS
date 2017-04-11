@@ -53,6 +53,8 @@
 		31D028521C1EA45300F080B0 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31D028511C1EA45300F080B0 /* StoreKit.framework */; };
 		7A3AFE461E88B2ED00454C9D /* EVStartPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3AFE451E88B2ED00454C9D /* EVStartPageViewController.m */; };
 		7A3AFE491E88ED0500454C9D /* EVStartPageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3AFE481E88ED0500454C9D /* EVStartPageModel.m */; };
+		7A3E0E291E9B3148000D64F6 /* EVStockMarketModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E0E281E9B3148000D64F6 /* EVStockMarketModel.m */; };
+		7A3E0E2C1E9B62DE000D64F6 /* EVCycleScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E0E2B1E9B62DE000D64F6 /* EVCycleScrollView.m */; };
 		7AB61E5D1E972EB9004A285F /* EVAvatarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB61E5B1E972EB9004A285F /* EVAvatarCell.m */; };
 		7AB61E5E1E972EB9004A285F /* EVAvatarCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7AB61E5C1E972EB9004A285F /* EVAvatarCell.xib */; };
 		7AB61E611E97430E004A285F /* EVLineTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB61E601E97430E004A285F /* EVLineTableViewCell.m */; };
@@ -344,7 +346,6 @@
 		E8572F511E1E2C89002D3784 /* EVRecorededVideoListController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8572F501E1E2C89002D3784 /* EVRecorededVideoListController.m */; };
 		E8572F541E1E2E18002D3784 /* EVLiveTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8572F531E1E2E18002D3784 /* EVLiveTopView.m */; };
 		E8583D481E62C7CB00481673 /* EVUserTagsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E8583D471E62C7CB00481673 /* EVUserTagsModel.m */; };
-		E8591A9A1E710B7A00B39B22 /* EVCycleScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8591A991E710B7A00B39B22 /* EVCycleScrollView.m */; };
 		E859C3541E6136C6003AFCFF /* EVConsumptionDetailsViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E859C3521E6136C6003AFCFF /* EVConsumptionDetailsViewCell.m */; };
 		E859C3551E6136C6003AFCFF /* EVConsumptionDetailsViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E859C3531E6136C6003AFCFF /* EVConsumptionDetailsViewCell.xib */; };
 		E85DFE481E78D42A005667DD /* EVCutIgeShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E85DFE271E78D42A005667DD /* EVCutIgeShareViewController.m */; };
@@ -805,6 +806,10 @@
 		7A3AFE451E88B2ED00454C9D /* EVStartPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVStartPageViewController.m; sourceTree = "<group>"; };
 		7A3AFE471E88ED0500454C9D /* EVStartPageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVStartPageModel.h; sourceTree = "<group>"; };
 		7A3AFE481E88ED0500454C9D /* EVStartPageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVStartPageModel.m; sourceTree = "<group>"; };
+		7A3E0E271E9B3148000D64F6 /* EVStockMarketModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVStockMarketModel.h; sourceTree = "<group>"; };
+		7A3E0E281E9B3148000D64F6 /* EVStockMarketModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVStockMarketModel.m; sourceTree = "<group>"; };
+		7A3E0E2A1E9B62DE000D64F6 /* EVCycleScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVCycleScrollView.h; sourceTree = "<group>"; };
+		7A3E0E2B1E9B62DE000D64F6 /* EVCycleScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVCycleScrollView.m; sourceTree = "<group>"; };
 		7AB61E5A1E972EB9004A285F /* EVAvatarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVAvatarCell.h; sourceTree = "<group>"; };
 		7AB61E5B1E972EB9004A285F /* EVAvatarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVAvatarCell.m; sourceTree = "<group>"; };
 		7AB61E5C1E972EB9004A285F /* EVAvatarCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVAvatarCell.xib; sourceTree = "<group>"; };
@@ -1267,8 +1272,6 @@
 		E8572F531E1E2E18002D3784 /* EVLiveTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVLiveTopView.m; sourceTree = "<group>"; };
 		E8583D461E62C7CB00481673 /* EVUserTagsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVUserTagsModel.h; sourceTree = "<group>"; };
 		E8583D471E62C7CB00481673 /* EVUserTagsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVUserTagsModel.m; sourceTree = "<group>"; };
-		E8591A981E710B7A00B39B22 /* EVCycleScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVCycleScrollView.h; sourceTree = "<group>"; };
-		E8591A991E710B7A00B39B22 /* EVCycleScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVCycleScrollView.m; sourceTree = "<group>"; };
 		E859C3511E6136C6003AFCFF /* EVConsumptionDetailsViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVConsumptionDetailsViewCell.h; sourceTree = "<group>"; };
 		E859C3521E6136C6003AFCFF /* EVConsumptionDetailsViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVConsumptionDetailsViewCell.m; sourceTree = "<group>"; };
 		E859C3531E6136C6003AFCFF /* EVConsumptionDetailsViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVConsumptionDetailsViewCell.xib; sourceTree = "<group>"; };
@@ -4809,6 +4812,8 @@
 				7AB61E651E9765AD004A285F /* EVNewsModel.m */,
 				7AB61E671E9767AB004A285F /* EVRecommendModel.h */,
 				7AB61E681E9767AB004A285F /* EVRecommendModel.m */,
+				7A3E0E271E9B3148000D64F6 /* EVStockMarketModel.h */,
+				7A3E0E281E9B3148000D64F6 /* EVStockMarketModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -4816,9 +4821,9 @@
 		E8A4F86C1E10C0D100655272 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				7A3E0E2A1E9B62DE000D64F6 /* EVCycleScrollView.h */,
+				7A3E0E2B1E9B62DE000D64F6 /* EVCycleScrollView.m */,
 				7AD37FD31E963B030020B794 /* NewStyleCell */,
-				E8591A981E710B7A00B39B22 /* EVCycleScrollView.h */,
-				E8591A991E710B7A00B39B22 /* EVCycleScrollView.m */,
 				E867DEF71E1CCA610010DF52 /* EVConsultStockViewCell.h */,
 				E867DEF81E1CCA610010DF52 /* EVConsultStockViewCell.m */,
 				E8AF7F321E1CF401001682EA /* EVHVEyeViewCell.h */,
@@ -5762,7 +5767,6 @@
 				E862FF831D6BE8540081E72F /* NSAttributedString+Extension.m in Sources */,
 				E86201081D6BE8540081E72F /* EVSettingCollectionViewCell.m in Sources */,
 				E8BD29821D87B0DD00CBAD82 /* EMCDDeviceManager+Microphone.m in Sources */,
-				E8591A9A1E710B7A00B39B22 /* EVCycleScrollView.m in Sources */,
 				E879AB751E5576D200D6D301 /* EVHVCenterImageLiveViewCell.m in Sources */,
 				E86201401D6BE8540081E72F /* EVVideoFunctions.m in Sources */,
 				E8A4F88A1E11263600655272 /* EVHVLoginView.m in Sources */,
@@ -5802,6 +5806,7 @@
 				E8583D481E62C7CB00481673 /* EVUserTagsModel.m in Sources */,
 				E86201181D6BE8540081E72F /* EVFantuanContributorModel.m in Sources */,
 				E86200E41D6BE8540081E72F /* EVIntroductionOrCopyRightViewController.m in Sources */,
+				7A3E0E2C1E9B62DE000D64F6 /* EVCycleScrollView.m in Sources */,
 				E84932851E5309DB00E6D0D3 /* EVNewsCollectViewController.m in Sources */,
 				E86200F61D6BE8540081E72F /* EVCacheTableViewCell.m in Sources */,
 				E8CDBB251E1B9DFF00586CBF /* EVStockDetailBottomView.m in Sources */,
@@ -5926,6 +5931,7 @@
 				9F1F9987891FEF1CF37458BA /* EVShareManager.m in Sources */,
 				E84825601E0A66A6003A795F /* EVStockBaseModel.m in Sources */,
 				9F1F9B97A288EAE8393EB5C7 /* EVSDKInitManager.m in Sources */,
+				7A3E0E291E9B3148000D64F6 /* EVStockMarketModel.m in Sources */,
 				9F1F9521F911A20DDB93B574 /* EVControllerContacter.m in Sources */,
 				E86BED361E2B05A60019620D /* EVHVEyesDetailView.m in Sources */,
 				9F1F9C87E68CAA4882D6254A /* EVEventController.m in Sources */,

@@ -10,5 +10,5 @@
 
 
 const CGFloat MKJLineSpacing = 60.f;
-const CGFloat MKJZoomScale = 1.1f;
+const CGFloat MKJZoomScale = 1.14f;
 const CGFloat MKJMinZoomScale = MKJZoomScale - 1.0f;

@@ -7,12 +7,12 @@
 //
 
 #import "EVCycleScrollView.h"
-#import "SDCycleScrollView.h"
+
 #import "EVCarouselItem.h"
 
 @interface EVCycleScrollView () <SDCycleScrollViewDelegate>
 
-@property (nonatomic, strong) SDCycleScrollView *cycleScrollView;
+
 @property (nonatomic, strong) UIImageView *BannerImage;
 
 
@@ -56,15 +56,7 @@
                                                               delegate:self
                                                       placeholderImage:[UIImage imageNamed:@"Account_bitmap_list"]];
         _cycleScrollView.autoScrollTimeInterval = 5.0f;
-//        _cycleScrollView.autoScroll = NO;
-//        _cycleScrollView.pageControlAliment     = SDCycleScrollViewPageContolAlimentRight;
-//        _cycleScrollView.currentPageDotColor    = [UIColor whiteColor];
-//        _cycleScrollView.pageDotColor           = [UIColor colorWithHexString:@"000000" alpha:0.3];
-        //_cycleScrollView.pageOriginY            = 250-20;
-//        _cycleScrollView.titleLabelBackgroundColor = [UIColor clearColor];
-//        _cycleScrollView.titleLabelTextFont = [UIFont systemFontOfSize:18];
-//        _cycleScrollView.titleLabelHeight = 50;
-//        
+        
         __weak typeof(self) weakSelf = self;
         _cycleScrollView.clickItemOperationBlock = ^(NSInteger index) {
             if ([weakSelf.delegate respondsToSelector:@selector(cycleScrollViewDidSelected:index:)]) {

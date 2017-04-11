@@ -8,6 +8,7 @@
 
 
 #import "EVBaseObject.h"
+#import "SDCycleScrollView.h"
 
 @class EVCarouselItem;
 @protocol EVCycleScrollViewDelegate;
@@ -17,7 +18,7 @@
 
 @property (nonatomic, strong) NSArray *items;
 @property (nonatomic, weak  ) id<EVCycleScrollViewDelegate> delegate;
-
+@property (nonatomic, strong) SDCycleScrollView *cycleScrollView;
 @end
 
 

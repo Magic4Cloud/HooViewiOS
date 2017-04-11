@@ -12,12 +12,14 @@
  首页新闻model
  */
 @interface EVNewsModel : NSObject
-@property (nonatomic, copy)NSString * id;
+@property (nonatomic, copy)NSString * newsID;
 @property (nonatomic, copy)NSString * type;
 @property (nonatomic, copy)NSArray * cover;
 @property (nonatomic, copy)NSString * title;
 @property (nonatomic, copy)NSString * time;
 @property (nonatomic, copy)NSString * viewCount;
+
+@property (nonatomic, assign)float  cellHeight;
 /* "id": 8189,
  "type": 1,
  "cover": [],

@@ -33,11 +33,11 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6hX-uF-VeU">
-                        <rect key="frame" x="112.5" y="62" width="20" height="20"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_news_read_r" translatesAutoresizingMaskIntoConstraints="NO" id="6hX-uF-VeU">
+                        <rect key="frame" x="104.5" y="54" width="36" height="36"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="20" id="Z5W-Zg-ZXx"/>
-                            <constraint firstAttribute="width" constant="20" id="cI6-vS-uca"/>
+                            <constraint firstAttribute="height" constant="36" id="Z5W-Zg-ZXx"/>
+                            <constraint firstAttribute="width" constant="36" id="cI6-vS-uca"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="专题" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="69B-vy-YS6">
@@ -65,7 +65,7 @@
                     <constraint firstAttribute="trailing" secondItem="YDi-bh-338" secondAttribute="trailing" constant="50" id="O6w-ak-Xtt"/>
                     <constraint firstItem="69B-vy-YS6" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="21" id="QCd-g8-bM2"/>
                     <constraint firstItem="NKV-Bp-awl" firstAttribute="centerY" secondItem="6hX-uF-VeU" secondAttribute="centerY" id="V4F-S2-0GO"/>
-                    <constraint firstItem="NKV-Bp-awl" firstAttribute="leading" secondItem="6hX-uF-VeU" secondAttribute="trailing" constant="2" id="VKA-u8-pa9"/>
+                    <constraint firstItem="NKV-Bp-awl" firstAttribute="leading" secondItem="6hX-uF-VeU" secondAttribute="trailing" constant="-6" id="VKA-u8-pa9"/>
                     <constraint firstAttribute="trailing" secondItem="9ld-6d-oER" secondAttribute="trailing" constant="12" id="WuS-Ku-afU"/>
                     <constraint firstItem="YDi-bh-338" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="50" id="fXE-LR-GFR"/>
                     <constraint firstItem="NKV-Bp-awl" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="fY2-Y9-0CX"/>
@@ -81,4 +81,7 @@
             </connections>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="ic_news_read_r" width="44" height="44"/>
+    </resources>
 </document>

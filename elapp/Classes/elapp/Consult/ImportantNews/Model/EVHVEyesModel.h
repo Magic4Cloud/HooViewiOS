@@ -22,4 +22,6 @@
 
 @property (nonatomic, copy) NSString *viewCount;
 
+@property (nonatomic, copy) NSString *priority;
+
 @end

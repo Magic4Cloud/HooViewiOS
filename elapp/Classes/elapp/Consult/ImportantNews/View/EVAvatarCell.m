@@ -7,9 +7,15 @@
 //
 
 #import "EVAvatarCell.h"
-
+#import "EVRecommendModel.h"
 @implementation EVAvatarCell
-
+- (void)setRecommendModel:(EVRecommendModel *)recommendModel
+{
+    _recommendModel = recommendModel;
+    [_cellImageView cc_setImageWithURLString:recommendModel.avatar placeholderImage:nil];
+    _cellNameLabel.text = recommendModel.nickname;
+    _cellFollowLabel.text = recommendModel.fellow;
+}
 - (void)awakeFromNib {
     [super awakeFromNib];
     _cellBgView.layer.cornerRadius = 5;
