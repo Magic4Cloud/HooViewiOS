@@ -59,6 +59,7 @@
     effectView.alpha = .8f;
     [self.topBackImageView addSubview:effectView];
     
+    
     UIView *userInfoView = [[UIView alloc] init];
     [self addSubview:userInfoView];
     userInfoView.backgroundColor = [UIColor whiteColor];

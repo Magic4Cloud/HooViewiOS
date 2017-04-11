@@ -7,9 +7,16 @@
 //
 
 #import "EVSpeciaColumnViewController.h"
+#import "EVSpeciaColumnCell.h"
+#import "EVBaseToolManager.h"
+#import "EVBaseToolManager+EVNewsAPI.h"
 
-@interface EVSpeciaColumnViewController ()<UITableViewDelegate,UITableViewDataSource>
-@property (nonatomic, strong) UITableView * tableView;
+@interface EVSpeciaColumnViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
+@property (nonatomic, strong) EVBaseToolManager *baseToolManager;
+
+@property (nonatomic, strong) UICollectionView *collectionView;
+
+@property (nonatomic, strong) NSMutableArray *datasourceArray;
 @end
 
 @implementation EVSpeciaColumnViewController
@@ -18,65 +25,94 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initUI];
+    [self initData];
 }
 
 #pragma mark - 🖍 User Interface layout
 - (void)initUI
 {
-    [self.view addSubview:self.tableView];
-    [self.tableView autoPinEdgesToSuperviewEdges];
+    [self.view addSubview:self.collectionView];
+    [self.collectionView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
+    [self.collectionView autoPinEdgeToSuperviewEdge:ALEdgeRight];
+    [self.collectionView autoPinEdgeToSuperviewEdge:ALEdgeTop];
+    [self.collectionView autoSetDimension:ALDimensionHeight toSize:ScreenHeight - 113];
     
     
 }
 
 #pragma mark - 🌐 Networks
+- (void)initData {
+    [self.baseToolManager GETSpeciaColumnNewsRequestStart:@"0" count:@"20" Success:^(NSDictionary *retinfo) {
+        NSLog(@"专栏 = %@",retinfo);
+        self.datasourceArray = [retinfo[@"news"] mutableCopy];
+    } error:^(NSError *error) {
+        
+    }];
+}
 
 #pragma mark - 👣 Target actions
 
-#pragma mark - 🌺 TableView Delegate & Datasource
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+#pragma mark - 🌺 CollectionView Delegate & Datasource
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 10;
+    return 6;
 }
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
     return 1;
 }
-
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString * identifer = @"cell";
-    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:identifer];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifer];
-    }
-    cell.textLabel.text = @"专栏";
+    static NSString * identifier = @"EVSpeciaColumnCell";
+    EVSpeciaColumnCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+
+    NSArray *titleArray = @[@"江苏省原副省长李云峰严重违纪",@"菲总统信任度民调微降 或因禁毒制大量居民死亡",@"菲总统信任度民调微降  或因禁毒制大量居民死亡一二",@"江苏省原副省长",@"江苏省原副省长李云峰严重违纪被双开",@"江苏省原副省长李云峰严重违纪被双开"];
+    cell.newsTitleLabel.text = titleArray[indexPath.row];
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     
 }
-
 #pragma mark - ✍️ Setters & Getters
-- (UITableView *)tableView
+
+- (UICollectionView *)collectionView
 {
-    if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:(UITableViewStylePlain)];
-        _tableView.delegate = self;
-        _tableView.dataSource = self;
-        _tableView.tableFooterView = [UIView new];
-//        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        _tableView.rowHeight = 100;
-        _tableView.backgroundColor = [UIColor evLineColor];
-        _tableView.contentInset = UIEdgeInsetsMake(7, 0, 0, 0);
+    if (!_collectionView) {
+        UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
+        
+        layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+        layout.estimatedItemSize = CGSizeMake(120, 252);
+        layout.minimumLineSpacing = 36;//滑动方向的距离
+        layout.minimumInteritemSpacing = 0;//与滑动方向垂直的距离
+        layout.sectionInset = UIEdgeInsetsMake(12, 12, 20, 12);
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+        _collectionView.delegate = self;
+        _collectionView.dataSource = self;
+        _collectionView.backgroundColor = [UIColor whiteColor];
+        _collectionView.showsHorizontalScrollIndicator = NO;
+        [_collectionView registerNib:[UINib nibWithNibName:@"EVSpeciaColumnCell" bundle:nil] forCellWithReuseIdentifier:@"EVSpeciaColumnCell"];
     }
-    return _tableView;
+    return _collectionView;
+
 }
 
+- (EVBaseToolManager *)baseToolManager
+{
+    if (!_baseToolManager) {
+        _baseToolManager = [[EVBaseToolManager alloc] init];
+    }
+    return _baseToolManager;
+}
+
+- (NSMutableArray *)datasourceArray
+{
+    if (!_datasourceArray) {
+        _datasourceArray = [NSMutableArray array];
+    }
+    return _datasourceArray;
+}
 
 
 

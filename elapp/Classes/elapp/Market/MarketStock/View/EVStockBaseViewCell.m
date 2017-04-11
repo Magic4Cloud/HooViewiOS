@@ -51,8 +51,8 @@
     
     
     UILabel *changeLabel = [[UILabel alloc] init];
-    changeLabel.frame = CGRectMake(0, 20, ScreenWidth, 22);
-    changeLabel.textAlignment = NSTextAlignmentCenter;
+    changeLabel.frame = CGRectMake(154, 20, 120, 22);
+    changeLabel.textAlignment = NSTextAlignmentLeft;
     changeLabel.font = [UIFont systemFontOfSize:16.f];
     changeLabel.textColor = [UIColor evTextColorH3];
     [self addSubview:changeLabel];
@@ -160,8 +160,8 @@
 {
     //全球
     _globalBaseModel = globalBaseModel;
-    self.nameLabel.frame = CGRectMake(44, 20, 120, 22);
-    self.changeLabel.frame = CGRectMake(0, 20, ScreenWidth, 22);
+    self.nameLabel.frame = CGRectMake(44, 20, 130, 22);
+    self.changeLabel.frame = CGRectMake(154, 20, 120, 22);
     self.codeLabel.hidden = YES;
     self.rankLabel.hidden = YES;
     self.flagImageViwe.hidden = NO;

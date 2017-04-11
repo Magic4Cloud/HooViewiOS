@@ -66,8 +66,6 @@
 		7AB61E971E9796A4004A285F /* UIView+SDExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB61E841E9796A4004A285F /* UIView+SDExtension.m */; };
 		7AC6698F1E94CE0200655EB8 /* EVHomeBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AC6698E1E94CE0200655EB8 /* EVHomeBaseViewController.m */; };
 		7AD37FCD1E9630760020B794 /* EVSpeciaColumnViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AD37FCC1E9630760020B794 /* EVSpeciaColumnViewController.m */; };
-		7AD37FD11E9638EE0020B794 /* EVSpeciaColumnCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AD37FCF1E9638EE0020B794 /* EVSpeciaColumnCell.m */; };
-		7AD37FD21E9638EE0020B794 /* EVSpeciaColumnCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7AD37FD01E9638EE0020B794 /* EVSpeciaColumnCell.xib */; };
 		7AD37FD71E963B3E0020B794 /* EVOnlyTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AD37FD51E963B3E0020B794 /* EVOnlyTextCell.m */; };
 		7AD37FD81E963B3E0020B794 /* EVOnlyTextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7AD37FD61E963B3E0020B794 /* EVOnlyTextCell.xib */; };
 		7AD37FDC1E963B5B0020B794 /* EVThreeImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AD37FDA1E963B5B0020B794 /* EVThreeImageCell.m */; };
@@ -77,9 +75,12 @@
 		7AD37FE51E963BFA0020B794 /* EVRecommendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AD37FE41E963BFA0020B794 /* EVRecommendCell.m */; };
 		855BA25DB3AF1C2846A9D41F /* libPods-elapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8870469BA124F47A220386F3 /* libPods-elapp.a */; };
 		9E66728D1E8136D700933C92 /* UIFont+swizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E66728B1E8136D700933C92 /* UIFont+swizzle.m */; };
+		9E7E6C191E9B219D009CBD6F /* EVSpeciaColumnCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E7E6C171E9B219D009CBD6F /* EVSpeciaColumnCell.m */; };
+		9E7E6C1A1E9B219D009CBD6F /* EVSpeciaColumnCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E7E6C181E9B219D009CBD6F /* EVSpeciaColumnCell.xib */; };
 		9EC24DAF1E7A70C2003664B4 /* guide.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9EC24DAE1E7A70C2003664B4 /* guide.xcassets */; };
 		9EC24DB21E7A7117003664B4 /* EVConsultGuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EC24DB11E7A7117003664B4 /* EVConsultGuideView.m */; };
 		9EC24DB41E7A7BB2003664B4 /* EVConsultGuideView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EC24DB31E7A7BB2003664B4 /* EVConsultGuideView.xib */; };
+		9EEC876F1E9CAC9400C7F12A /* EVSpeciaColumnModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EEC876E1E9CAC9400C7F12A /* EVSpeciaColumnModel.m */; };
 		9F1F900D1311FACB6DD9C40B /* EVMagicEmojiView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F1F94298F25BCA3E45CBE68 /* EVMagicEmojiView.m */; };
 		9F1F9019A8A5C540A535207B /* Expression_32@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F1F9D724E605DFCC5A5E31D /* Expression_32@2x.png */; };
 		9F1F902AEA9EA503C1E653DB /* Expression_33@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F1F9175F5047440DD550B80 /* Expression_33@2x.png */; };
@@ -828,9 +829,6 @@
 		7AC6698E1E94CE0200655EB8 /* EVHomeBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVHomeBaseViewController.m; sourceTree = "<group>"; };
 		7AD37FCB1E9630760020B794 /* EVSpeciaColumnViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSpeciaColumnViewController.h; sourceTree = "<group>"; };
 		7AD37FCC1E9630760020B794 /* EVSpeciaColumnViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVSpeciaColumnViewController.m; sourceTree = "<group>"; };
-		7AD37FCE1E9638EE0020B794 /* EVSpeciaColumnCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSpeciaColumnCell.h; sourceTree = "<group>"; };
-		7AD37FCF1E9638EE0020B794 /* EVSpeciaColumnCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVSpeciaColumnCell.m; sourceTree = "<group>"; };
-		7AD37FD01E9638EE0020B794 /* EVSpeciaColumnCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVSpeciaColumnCell.xib; sourceTree = "<group>"; };
 		7AD37FD41E963B3E0020B794 /* EVOnlyTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVOnlyTextCell.h; sourceTree = "<group>"; };
 		7AD37FD51E963B3E0020B794 /* EVOnlyTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVOnlyTextCell.m; sourceTree = "<group>"; };
 		7AD37FD61E963B3E0020B794 /* EVOnlyTextCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVOnlyTextCell.xib; sourceTree = "<group>"; };
@@ -846,10 +844,15 @@
 		8870469BA124F47A220386F3 /* libPods-elapp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-elapp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E66728B1E8136D700933C92 /* UIFont+swizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+swizzle.m"; sourceTree = "<group>"; };
 		9E66728C1E8136D700933C92 /* UIFont+swizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+swizzle.h"; sourceTree = "<group>"; };
+		9E7E6C161E9B219D009CBD6F /* EVSpeciaColumnCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSpeciaColumnCell.h; sourceTree = "<group>"; };
+		9E7E6C171E9B219D009CBD6F /* EVSpeciaColumnCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVSpeciaColumnCell.m; sourceTree = "<group>"; };
+		9E7E6C181E9B219D009CBD6F /* EVSpeciaColumnCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVSpeciaColumnCell.xib; sourceTree = "<group>"; };
 		9EC24DAE1E7A70C2003664B4 /* guide.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = guide.xcassets; sourceTree = "<group>"; };
 		9EC24DB01E7A7117003664B4 /* EVConsultGuideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVConsultGuideView.h; sourceTree = "<group>"; };
 		9EC24DB11E7A7117003664B4 /* EVConsultGuideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVConsultGuideView.m; sourceTree = "<group>"; };
 		9EC24DB31E7A7BB2003664B4 /* EVConsultGuideView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVConsultGuideView.xib; sourceTree = "<group>"; };
+		9EEC876D1E9CAC9400C7F12A /* EVSpeciaColumnModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EVSpeciaColumnModel.h; path = elapp/Classes/elapp/Consult/SpecialColumn/View/EVSpeciaColumnModel.h; sourceTree = SOURCE_ROOT; };
+		9EEC876E1E9CAC9400C7F12A /* EVSpeciaColumnModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EVSpeciaColumnModel.m; path = elapp/Classes/elapp/Consult/SpecialColumn/View/EVSpeciaColumnModel.m; sourceTree = SOURCE_ROOT; };
 		9F1F900E3CB1564B1E75DE78 /* EVFace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVFace.m; sourceTree = "<group>"; };
 		9F1F902A7BFBBAAD453DCA62 /* EVShareManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVShareManager.h; sourceTree = "<group>"; };
 		9F1F90508E7A5BFF806E32B2 /* EVPushBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPushBar.m; sourceTree = "<group>"; };
@@ -2279,6 +2282,8 @@
 		7AD37FC91E96303C0020B794 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				9EEC876D1E9CAC9400C7F12A /* EVSpeciaColumnModel.h */,
+				9EEC876E1E9CAC9400C7F12A /* EVSpeciaColumnModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2286,9 +2291,9 @@
 		7AD37FCA1E96303C0020B794 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				7AD37FCE1E9638EE0020B794 /* EVSpeciaColumnCell.h */,
-				7AD37FCF1E9638EE0020B794 /* EVSpeciaColumnCell.m */,
-				7AD37FD01E9638EE0020B794 /* EVSpeciaColumnCell.xib */,
+				9E7E6C161E9B219D009CBD6F /* EVSpeciaColumnCell.h */,
+				9E7E6C171E9B219D009CBD6F /* EVSpeciaColumnCell.m */,
+				9E7E6C181E9B219D009CBD6F /* EVSpeciaColumnCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -5246,6 +5251,7 @@
 				E86200B31D6BE8540081E72F /* EVNotifyViewCell.xib in Resources */,
 				E86201C01D6BE8550081E72F /* aera.plist in Resources */,
 				E862FF6B1D6BE8540081E72F /* Main.storyboard in Resources */,
+				9E7E6C1A1E9B219D009CBD6F /* EVSpeciaColumnCell.xib in Resources */,
 				E86201251D6BE8540081E72F /* EVConnectingErrorView.xib in Resources */,
 				E843549E1E1F81AA006D2E7D /* EVChooseNewsCell.xib in Resources */,
 				E86201C91D6BE8550081E72F /* LaunchScreen.strings in Resources */,
@@ -5277,7 +5283,6 @@
 				9F1F978ECB6B728D4907CBEA /* Expression_17@2x.png in Resources */,
 				9F1F95BAEA100C7673E311E5 /* Expression_18@2x.png in Resources */,
 				9F1F99BE7A27FF65A27E0723 /* Expression_19@2x.png in Resources */,
-				7AD37FD21E9638EE0020B794 /* EVSpeciaColumnCell.xib in Resources */,
 				9F1F99A1107B0105BB5280BE /* Expression_1@2x.png in Resources */,
 				9F1F9249B1269ACF0F0ED672 /* Expression_20@2x.png in Resources */,
 				9F1F929B228D45688A2F8FD8 /* Expression_21@2x.png in Resources */,
@@ -5568,7 +5573,6 @@
 				E862FF821D6BE8540081E72F /* NSArray+JSON.m in Sources */,
 				E867DEFC1E1CCBCA0010DF52 /* EVCSStockButton.m in Sources */,
 				E862FF8A1D6BE8540081E72F /* NSObject+Extension.m in Sources */,
-				7AD37FD11E9638EE0020B794 /* EVSpeciaColumnCell.m in Sources */,
 				E86200A01D6BE8540081E72F /* EVSignatureViewController.m in Sources */,
 				E85DFE4B1E78D42A005667DD /* EVEaseMessageModel.m in Sources */,
 				E86201691D6BE8540081E72F /* EVRecorderEndView.m in Sources */,
@@ -5578,6 +5582,7 @@
 				E8B216141E1207F3000FD19A /* EVHVUserSettingViewCell.m in Sources */,
 				E86200F71D6BE8540081E72F /* EVFansOrFocusTableViewCell.m in Sources */,
 				E86200AF1D6BE8540081E72F /* EVNotifyItem.m in Sources */,
+				9E7E6C191E9B219D009CBD6F /* EVSpeciaColumnCell.m in Sources */,
 				E86BED331E2A27110019620D /* EVHVLiveShareView.m in Sources */,
 				E8554B2A1E67EC9600D2C646 /* SegmentPageBaseViewController.m in Sources */,
 				E86200EA1D6BE8540081E72F /* EVRelationWith3rdAccoutModel.m in Sources */,
@@ -5781,6 +5786,7 @@
 				E8862B5F1D93A85D00A13145 /* EVBugly.m in Sources */,
 				E862FF8D1D6BE8540081E72F /* NSString+Extension.m in Sources */,
 				E8033DA51E3384C500A81A37 /* WebViewJavascriptBridge.m in Sources */,
+				9EEC876F1E9CAC9400C7F12A /* EVSpeciaColumnModel.m in Sources */,
 				E844F9351E08C48700CCE0B0 /* SGSegmentedControlStatic.m in Sources */,
 				E8EF9D0D1D829CD1001AF7B0 /* EVLimitHeaderView.m in Sources */,
 				E8AEBE1C1D6D9D1000096EA6 /* EVYunBiViewController.m in Sources */,

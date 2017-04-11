@@ -390,7 +390,7 @@
     EVNewsDetailWebController *newsDetailVC = [[EVNewsDetailWebController alloc] init];
     EVBaseNewsModel *baseNewsModel = self.eyesDataArray[button.tag - 2000];
     newsDetailVC.newsID = baseNewsModel.newsID;
-//    newsDetailVC.title  = baseNewsModel.title;
+    newsDetailVC.newsTitle  = baseNewsModel.title;
     if ([baseNewsModel.newsID isEqualToString:@""] || baseNewsModel.newsID == nil) {
         return;
     }
@@ -430,15 +430,15 @@
 
 - (void)loadStockData
 {
-     [self.baseToolManager GETRequestHSuccess:^(NSDictionary *retinfo) {
-         [self endRefreshing];
-         NSArray *stockArray = [EVStockBaseModel objectWithDictionaryArray:retinfo[@"data"][@"cn"]];
-         [self.stockDataArray addObjectsFromArray:stockArray];
-         [self.iNewsTableview reloadData];
-     } error:^(NSError *error) {
-         [self endRefreshing];
-         [EVProgressHUD showError:@"大盘请求失败"];
-     }];
+//     [self.baseToolManager GETRequestHSuccess:^(NSDictionary *retinfo) {
+//         [self endRefreshing];
+//         NSArray *stockArray = [EVStockBaseModel objectWithDictionaryArray:retinfo[@"data"][@"cn"]];
+//         [self.stockDataArray addObjectsFromArray:stockArray];
+//         [self.iNewsTableview reloadData];
+//     } error:^(NSError *error) {
+//         [self endRefreshing];
+//         [EVProgressHUD showError:@"大盘请求失败"];
+//     }];
 }
 
 - (void)endRefreshing
