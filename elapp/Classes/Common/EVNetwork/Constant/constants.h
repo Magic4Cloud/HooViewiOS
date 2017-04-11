@@ -181,7 +181,14 @@
 #define EVQueryQuotesAPI            @"http://openapi.hooview.com/api/stock/realtime"
 //#define EVHVNewsConstantAPI         @"http://openapi.hooview.com/api/news/gethomeNews"
 //改版
-#define EVHVNewsConstantAPI         @"http://dev.hooview.com/api/v2/news/home"
+//#define EVHVNewsConstantAPI         @"http://dev.hooview.com/api/v2/news/home"
+//测试
+#define EVHVNewsConstantAPI         @"https://demo2821846.mockable.io/news/home"
+
+//专题详情
+//#define EVHVNewsTopicAPI            @"http://dev.hooview.com/api/v2/news/topic"
+//测试
+#define EVHVNewsTopicAPI            @"https://demo2821846.mockable.io/news/topic"
 
 #define EVHVFastNewsAPI             @"http://openapi.hooview.com/api/news/getnewsflash"
 #define EVHVEyesDetailNewsAPI       @"http://openapi.hooview.com/api/news/getlist"

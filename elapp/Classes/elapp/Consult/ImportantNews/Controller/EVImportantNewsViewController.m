@@ -30,6 +30,7 @@
 #import "EVHVWatchTextViewController.h"
 #import "EVVipCenterViewController.h"
 
+#import "EVTopicDetailViewController.h"
 
 #import "EVRecommendCell.h"
 #import "EVOnlyTextCell.h"
@@ -89,7 +90,7 @@
     [self loadNewData];
     
     WEAK(self)
-    [self.iNewsTableview.mj_footer setHidden:YES];
+    
     [_iNewsTableview addRefreshHeaderWithRefreshingBlock:^{
         [weakself loadImageCarousel];
         [weakself loadNewData];
@@ -98,6 +99,8 @@
     [_iNewsTableview addRefreshFooterWithRefreshingBlock:^{
         [weakself loadMoreData];
     }];
+    
+    [self.iNewsTableview.mj_footer setHidden:YES];
     
 }
 - (void)viewWillAppear:(BOOL)animated
@@ -133,6 +136,8 @@
     [self.iNewsTableview registerNib:[UINib nibWithNibName:@"EVOnlyTextCell" bundle:nil] forCellReuseIdentifier:@"EVOnlyTextCell"];
     [self.iNewsTableview registerNib:[UINib nibWithNibName:@"EVThreeImageCell" bundle:nil] forCellReuseIdentifier:@"EVThreeImageCell"];
     [self.iNewsTableview registerNib:[UINib nibWithNibName:@"EVSpecialTopicCell" bundle:nil] forCellReuseIdentifier:@"EVSpecialTopicCell"];
+    [self.iNewsTableview registerNib:[UINib nibWithNibName:@"EVNewsListViewCell" bundle:nil] forCellReuseIdentifier:@"EVNewsListViewCell"];
+    [self.iNewsTableview registerNib:[UINib nibWithNibName:@"EVHVEyeViewCell" bundle:nil] forCellReuseIdentifier:@"EVHVEyeViewCell"];
     
 }
 
@@ -151,13 +156,13 @@
         EVRelogin(weakself);
     }];
 }
+
 - (void)loadNewData
 {
     _start = 0;
     
-    [self.iNewsTableview.mj_footer resetNoMoreData];
     [self.baseToolManager GETNewsRequestStart:@"0" count:@"20" Success:^(NSDictionary *retinfo) {
-        
+        [self.iNewsTableview.mj_footer resetNoMoreData];
         [self endRefreshing];
         
         [self.eyesDataArray removeAllObjects];
@@ -170,9 +175,11 @@
         if ([retinfo[@"index"] isKindOfClass:[NSArray class]]) {
             if (indexArray && indexArray.count>0)
             {
-                NSArray *stockArray = [EVStockBaseModel objectWithDictionaryArray:indexArray];
-                [self.stockDataArray addObjectsFromArray:stockArray];
-                
+                for (NSDictionary * dic in indexArray) {
+                    EVStockBaseModel *model = [EVStockBaseModel yy_modelWithDictionary:dic];
+                    model.changepercent = [dic[@"changePercent"] floatValue];
+                    [self.stockDataArray addObject:model];
+                }
             }
         }
         
@@ -368,11 +375,8 @@
     else if (indexPath.section == 1)
     {
         //火眼金睛
-        EVHVEyeViewCell *eyeCell = [tableView dequeueReusableCellWithIdentifier:@"eyeCell"];
-        if (eyeCell == nil) {
-            eyeCell = [[NSBundle mainBundle] loadNibNamed:@"EVHVEyeViewCell" owner:nil options:nil].firstObject;
-            eyeCell.selectionStyle = UITableViewCellSelectionStyleNone;
-        }
+        EVHVEyeViewCell *eyeCell = [tableView dequeueReusableCellWithIdentifier:@"EVHVEyeViewCell"];
+       
         eyeCell.delegate = self;
         eyeCell.eyesArray = self.eyesDataArray;
         return eyeCell;
@@ -381,7 +385,8 @@
     
     EVNewsModel * newsModel = _newsDataArray[indexPath.row];
     
-    if ([newsModel.type isEqualToString:@"0"]) {
+    if ([newsModel.type isEqualToString:@"0"])
+    {
         //普通新闻
         
         if (newsModel.cover == nil || newsModel.cover.count == 0)
@@ -394,13 +399,9 @@
         else if (newsModel.cover.count == 1)
         {
             //一张图片
-            EVNewsListViewCell *newsCell = [tableView dequeueReusableCellWithIdentifier:@"newsCell"];
-            if (!newsCell) {
-                
-                newsCell = [[NSBundle mainBundle] loadNibNamed:@"EVNewsListViewCell" owner:nil options:nil].firstObject;
-                newsCell.selectionStyle = UITableViewCellSelectionStyleNone;
-            }
-            newsCell.searchNewsModel = newsModel;
+            EVNewsListViewCell *newsCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsListViewCell"];
+            newsCell.consultNewsModel = newsModel;
+            return newsCell;
         }
         else if (newsModel.cover.count == 3)
         {
@@ -433,8 +434,11 @@
         };
         return recommendCell;
     }
-
-    return nil;
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+    }
+    return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -484,15 +488,32 @@
     if (indexPath.section == 0 || indexPath.section == 1) {
         return;
     }
-    EVNewsDetailWebController *newsWebVC = [[EVNewsDetailWebController alloc] init];
+    
     EVNewsModel * newsModel = _newsDataArray[indexPath.row];
     
-    newsWebVC.newsID = newsModel.newsID;
-    newsWebVC.newsTitle = newsModel.title;
-    if ([newsModel.newsID isEqualToString:@""] || newsModel.newsID == nil) {
+    //专题
+    if ([newsModel.type floatValue] == 1) {
+        EVTopicDetailViewController * topicVc = [[EVTopicDetailViewController alloc] init];
+        topicVc.newsId = newsModel.newsID;
+        topicVc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:topicVc animated:YES];
+    }
+    else if ([newsModel.type floatValue] == 2)
+    {
+        //牛人推荐
         return;
     }
-     [self.navigationController pushViewController:newsWebVC animated:YES];
+    else
+    {
+        //普通新闻
+        EVNewsDetailWebController *newsWebVC = [[EVNewsDetailWebController alloc] init];
+        newsWebVC.newsID = newsModel.newsID;
+        newsWebVC.newsTitle = newsModel.title;
+        if ([newsModel.newsID isEqualToString:@""] || newsModel.newsID == nil) {
+            return;
+        }
+        [self.navigationController pushViewController:newsWebVC animated:YES];
+    }
 }
 
 

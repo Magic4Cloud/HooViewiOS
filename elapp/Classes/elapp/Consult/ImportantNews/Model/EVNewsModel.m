@@ -38,7 +38,7 @@
         else if (coverArray.count == 3)
         {
             //三张图片
-            _cellHeight = 150;
+            _cellHeight = 180;
             
         }
     }

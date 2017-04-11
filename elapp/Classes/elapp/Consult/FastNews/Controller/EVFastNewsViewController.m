@@ -54,6 +54,8 @@
         [self loadFastNewsStart:self.start count:@"20"];
         
     }];
+    
+    self.newsTableView.mj_footer.hidden = YES;
 }
 
 - (void)loadFastNewsStart:(NSString *)start count:(NSString *)count
@@ -68,7 +70,7 @@
         NSArray *newsArray = [EVFastNewsModel objectWithDictionaryArray:retinfo[@"newsFlash"]];
         [self.dataArray addObjectsFromArray:newsArray];
         [self.newsTableView reloadData];
-  
+        self.newsTableView.mj_footer.hidden = NO;
         [self.newsTableView setFooterState:(newsArray.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
     } error:^(NSError *error) {
         [self.newsTableView endHeaderRefreshing];
