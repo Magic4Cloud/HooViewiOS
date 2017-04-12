@@ -34,6 +34,11 @@
                           Success:(void (^) (NSDictionary *retinfo))success
                             error:(void (^)(NSError *error))error;
 
+//专栏
+- (void)GETSpeciaColumnNewsRequestStart:(NSString *)start
+                                  count:(NSString *)count
+                                Success:(void (^) (NSDictionary *retinfo))success error:(void (^)(NSError *error))error;
+
 
 - (void)GETNewsCommentListnewsId:(NSString *)vid
                             start:(NSString *)start

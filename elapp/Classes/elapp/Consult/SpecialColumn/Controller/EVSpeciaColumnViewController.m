@@ -7,9 +7,24 @@
 //
 
 #import "EVSpeciaColumnViewController.h"
+#import "EVSpeciaColumnCell.h"
+#import "EVBaseToolManager.h"
+#import "EVBaseToolManager+EVNewsAPI.h"
+#import "EVSpeciaColumnModel.h"
+#import "WaterFlowLayout.h"
+#import "EVNewsDetailWebController.h"
+#import "EVWatchVideoInfo.h"
+#import "EVVipCenterViewController.h"
 
-@interface EVSpeciaColumnViewController ()<UITableViewDelegate,UITableViewDataSource>
-@property (nonatomic, strong) UITableView * tableView;
+@interface EVSpeciaColumnViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,WaterFlowLayoutDelegate>
+@property (nonatomic, strong) EVBaseToolManager *baseToolManager;
+
+@property (nonatomic, strong) UICollectionView *collectionView;
+
+@property (nonatomic, strong) NSMutableArray *datasourceArray;
+
+@property (nonatomic, assign) int start;
+
 @end
 
 @implementation EVSpeciaColumnViewController
@@ -18,65 +33,212 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initUI];
+    [self initData];
+    
+    WEAK(self)
+    [self.collectionView.mj_footer setHidden:YES];
+    [_collectionView addRefreshHeaderWithRefreshingBlock:^{
+        [weakself initData];
+    }];
+    
+    [_collectionView addRefreshFooterWithRefreshingBlock:^{
+        [weakself initMoreData];
+    }];
+
 }
 
 #pragma mark - 🖍 User Interface layout
 - (void)initUI
 {
-    [self.view addSubview:self.tableView];
-    [self.tableView autoPinEdgesToSuperviewEdges];
+    
+    [self.view addSubview:self.collectionView];
+    [self.collectionView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
+    [self.collectionView autoPinEdgeToSuperviewEdge:ALEdgeRight];
+    [self.collectionView autoPinEdgeToSuperviewEdge:ALEdgeTop];
+    [self.collectionView autoSetDimension:ALDimensionHeight toSize:ScreenHeight - 113];
     
     
 }
 
 #pragma mark - 🌐 Networks
+- (void)initData {
+    _start = 0;
+    [self endRefreshing];
+    
+    [self.baseToolManager GETSpeciaColumnNewsRequestStart:@"0" count:@"20" Success:^(NSDictionary *retinfo) {
+        NSLog(@"专栏 = %@",retinfo);
+        [self.datasourceArray removeAllObjects];
+        
+        NSArray *array = retinfo[@"news"];
+        if (array && array.count>0) {
+            __weak typeof(self) weakSelf = self;
+            [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                EVSpeciaColumnModel * model = [EVSpeciaColumnModel yy_modelWithDictionary:obj];
+                [weakSelf.datasourceArray addObject:model];
+            }];
+        }
+
+        if (self.datasourceArray.count < 20)
+        {
+            //没有更多数据
+            [self.collectionView.mj_footer setHidden:YES];
+        }
+        else
+        {
+            [self.collectionView.mj_footer setHidden:NO];
+        }
+        
+        _start += self.datasourceArray.count;
+        [self.collectionView reloadData];
+    } error:^(NSError *error) {
+        [self endRefreshing];
+        [EVProgressHUD showError:@"新闻请求失败"];
+    }];
+}
+
+- (void)initMoreData {
+    [self.baseToolManager GETSpeciaColumnNewsRequestStart:[NSString stringWithFormat:@"%d",_start] count:@"20" Success:^(NSDictionary *retinfo) {
+
+        [self endRefreshing];
+        
+        NSArray *array = retinfo[@"news"];
+        if (array && array.count>0) {
+            __weak typeof(self) weakSelf = self;
+            [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                EVSpeciaColumnModel * model = [EVSpeciaColumnModel yy_modelWithDictionary:obj];
+                [weakSelf.datasourceArray addObject:model];
+            }];
+        }
+        
+        if (array.count == 0)
+        {
+            //没有更多数据
+            [self.collectionView setFooterState:CCRefreshStateNoMoreData ];
+        }
+        else
+        {
+            _start += array.count;
+        }
+        
+        [self.collectionView reloadData];
+        
+        } error:^(NSError *error) {
+        [self endRefreshing];
+        [EVProgressHUD showError:@"新闻请求失败"];
+    }];
+
+}
+
+- (void)endRefreshing
+{
+    [_collectionView endHeaderRefreshing];
+    [_collectionView endFooterRefreshing];
+}
 
 #pragma mark - 👣 Target actions
 
-#pragma mark - 🌺 TableView Delegate & Datasource
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+#pragma mark - 🌺 CollectionView Delegate & Datasource
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 10;
+    return self.datasourceArray.count;
 }
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
     return 1;
 }
-
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString * identifer = @"cell";
-    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:identifer];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifer];
-    }
-    cell.textLabel.text = @"专栏";
+    static NSString * identifier = @"EVSpeciaColumnCell";
+    EVSpeciaColumnModel * columnModel = _datasourceArray[indexPath.row];
+    
+    EVSpeciaColumnCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+    cell.columnModel = columnModel;
+    cell.collectionSeletedBlock = ^(EVSpeciaAuthor *userInfo) {
+        EVWatchVideoInfo *watchInfo = [EVWatchVideoInfo new];
+        watchInfo.name = userInfo.nameID;
+        EVVipCenterViewController *vipVC = [EVVipCenterViewController new];
+        vipVC.watchVideoInfo = watchInfo;
+        [self.navigationController pushViewController:vipVC animated:YES];
+    };
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    EVNewsDetailWebController *newsWebVC = [[EVNewsDetailWebController alloc] init];
+    EVSpeciaColumnModel * columnModel = _datasourceArray[indexPath.row];
+    newsWebVC.newsID = columnModel.newsID;
+    newsWebVC.newsTitle = columnModel.title;
+    if ([columnModel.newsID isEqualToString:@""] || columnModel.newsID == nil) {
+        return;
+    }
+    [self.navigationController pushViewController:newsWebVC animated:YES];
     
 }
 
-#pragma mark - ✍️ Setters & Getters
-- (UITableView *)tableView
-{
-    if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:(UITableViewStylePlain)];
-        _tableView.delegate = self;
-        _tableView.dataSource = self;
-        _tableView.tableFooterView = [UIView new];
-//        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        _tableView.rowHeight = 100;
-        _tableView.backgroundColor = [UIColor evLineColor];
-        _tableView.contentInset = UIEdgeInsetsMake(7, 0, 0, 0);
-    }
-    return _tableView;
+
+- (CGFloat)waterFlowLayout:(WaterFlowLayout *)waterFlowLayout heightForRowAtIndex:(NSInteger)index itemWidth:(CGFloat)width {
+    EVSpeciaColumnModel * columnModel = _datasourceArray[index];
+    return columnModel.cellHeight;
 }
 
+- (NSInteger)cloumnCountInWaterFlowLayout:(WaterFlowLayout *)waterFlowLayout {
+    return 2;
+}
+
+//决定cell 的列的距离
+- (CGFloat)columMarginInWaterFlowLayout:(WaterFlowLayout *)waterFlowLayout {
+    return 12;
+}
+
+//决定cell 的行的距离
+- (CGFloat)rowMarginInWaterFlowLayout:(WaterFlowLayout *)waterFlowLayout {
+    return 36;
+}
+
+//决定cell 的边缘距
+- (UIEdgeInsets)edgeInsetInWaterFlowLayout:(WaterFlowLayout *)waterFlowLayout {
+    return UIEdgeInsetsMake(12, 12, 12, 12);
+}
+#pragma mark - ✍️ Setters & Getters
+
+- (UICollectionView *)collectionView
+{
+    if (!_collectionView) {
+//        UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
+        WaterFlowLayout *layout = [[WaterFlowLayout alloc] init];
+//        layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+//        layout.estimatedItemSize = CGSizeMake(120, 252);
+//        layout.minimumLineSpacing = 36;//滑动方向的距离
+//        layout.minimumInteritemSpacing = 0;//与滑动方向垂直的距离
+//        layout.sectionInset = UIEdgeInsetsMake(12, 12, 20, 12);
+        layout.delegate = self;
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+        _collectionView.delegate = self;
+        _collectionView.dataSource = self;
+        _collectionView.backgroundColor = [UIColor whiteColor];
+        _collectionView.showsHorizontalScrollIndicator = NO;
+        [_collectionView registerNib:[UINib nibWithNibName:@"EVSpeciaColumnCell" bundle:nil] forCellWithReuseIdentifier:@"EVSpeciaColumnCell"];
+    }
+    return _collectionView;
+
+}
+
+- (EVBaseToolManager *)baseToolManager
+{
+    if (!_baseToolManager) {
+        _baseToolManager = [[EVBaseToolManager alloc] init];
+    }
+    return _baseToolManager;
+}
+
+- (NSMutableArray *)datasourceArray
+{
+    if (!_datasourceArray) {
+        _datasourceArray = [NSMutableArray array];
+    }
+    return _datasourceArray;
+}
 
 
 

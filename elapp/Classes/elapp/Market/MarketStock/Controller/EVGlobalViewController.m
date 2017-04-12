@@ -24,6 +24,7 @@
 @property (nonatomic, strong) NSMutableArray *dataArray;
 
 @property (nonatomic, strong) NSMutableArray *floatArray;
+@property (nonatomic, strong) NSMutableArray *sectionTitle;
 
 @property (nonatomic, strong) UIButton *refreshButton;
 
@@ -94,36 +95,31 @@
 - (void)loadHeadTailData
 {
     self.refreshFinish = YES;
-    WEAK(self)
-    [self.baseToolManager GETRequestTodayFloatMarket:@"cn" Success:^(NSDictionary *retinfo) {
+    
+    [self.baseToolManager GETRequestGlobalSuccess:^(NSDictionary *retinfo) {
+        NSLog(@"全球 = %@",retinfo);
         [self.stockTableView endHeaderRefreshing];
         if (self.floatArray.count > 0) {
-            [weakself.floatArray removeAllObjects];
+            [self.floatArray removeAllObjects];
+            [self.sectionTitle removeAllObjects];
         }
-        [EVProgressHUD hideHUDForView:self.view];
-        NSDictionary *floatDict = retinfo[@"data"];
-        NSArray *tailArray = floatDict[@"tail"];
-        NSArray *headArray = floatDict[@"head"];
-        NSArray  *headData =[EVTodayFloatModel objectWithDictionaryArray:headArray];
-        NSArray  *tailData =[EVTodayFloatModel objectWithDictionaryArray:tailArray];
-        [weakself.floatArray addObject:headData];
-        [weakself.floatArray addObject:tailData];
-        weakself.refreshFinish = NO;
-        [weakself.stockTableView reloadData];
+        NSArray *dataArray = (NSArray *)retinfo;
+        for (int i = 0; i < dataArray.count; i ++) {
+            NSArray *dataSourceArray = [EVStockBaseModel objectWithDictionaryArray:dataArray[i][@"index"]];
+            [self.sectionTitle addObject:dataArray[i][@"name"]];
+            [self.floatArray addObject:dataSourceArray];
+        }
+        self.refreshFinish = NO;
+        [self.stockTableView reloadData];
     } error:^(NSError *error) {
+        NSLog(@"error = %@",error);
         [self.stockTableView endHeaderRefreshing];
         [EVProgressHUD hideHUDForView:self.view];
         [EVProgressHUD showError:@"请求失败"];
         EVLog(@"dapan-------  %@",error);
-        weakself.refreshFinish = NO;
+        self.refreshFinish = NO;
+        
     }];
-    
-//    [self.baseToolManager GETRequestGlobalSuccess:^(NSDictionary *retinfo) {
-//        NSLog(@"全球 = %@",retinfo);
-//
-//    } error:^(NSError *error) {
-//        
-//    }];
 
     
 }
@@ -160,11 +156,6 @@
         cell.rankColor = [UIColor colorWithHexString:@"#099468"];
     }
     
-    if (indexPath.row > 2) {
-        cell.rankLabel.hidden = YES;
-    }else {
-        cell.rankLabel.hidden = NO;
-    }
     
     if (indexPath.row < 10 && indexPath.row > 0) {
         cell.lineLabel.hidden = NO;
@@ -201,23 +192,19 @@
     UILabel *titleLabel = [[UILabel alloc] init];
     titleLabel.frame = CGRectMake(22, 5, ScreenWidth - 16, 20);
     [view addSubview:titleLabel];
-    NSString *titleStr = @"";
-//    if ([_marketType isEqualToString:@"cn"]) {
-//        titleStr = section == 0 ? @"涨幅榜" : @"跌幅榜";
-//    } else if([_marketType isEqualToString:@"hk"]) {
-//        titleStr = section == 0 ? @"领涨股" : @"领跌股";
-//    }
+    NSString *titleStr = self.sectionTitle[section];
     titleLabel.text = [NSString stringWithFormat:@"%@",titleStr];
     titleLabel.font = [UIFont systemFontOfSize:14.f];
     titleLabel.textColor = [UIColor evTextColorH2];
     
     UILabel *signLabel = [[UILabel alloc] initWithFrame:CGRectMake(12, 8, 2, 14)];
+    signLabel.backgroundColor = [UIColor colorWithHexString:@"#AE3231"];
     if (section == 0) {
-        signLabel.backgroundColor = [UIColor colorWithHexString:@"#AE3231"];
         self.headView = view;
-    }else {
-        signLabel.backgroundColor = [UIColor colorWithHexString:@"#099468"];
+    }else if (section == 1){
         self.footView = view;
+    } else {
+        
     }
     [view addSubview:signLabel];
     
@@ -259,12 +246,15 @@
 
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    if (self.headView.frame.origin.y > 86) {
+    NSLog(@"%lf",self.headView.frame.origin.y);
+    NSLog(@"foot     %lf",self.footView.frame.origin.y);
+    
+    if (self.headView.frame.origin.y > 0 && self.headView.frame.origin.y < 192) {
         self.headView.backgroundColor = [UIColor colorWithRed:248/255.0f green:248/255.0f blue:248/255.0f alpha:1];
     } else {
         self.headView.backgroundColor = [UIColor whiteColor];
     }
-    if (self.footView.frame.origin.y > 766) {
+    if (self.footView.frame.origin.y > 230) {
         self.footView.backgroundColor = [UIColor colorWithRed:248/255.0f green:248/255.0f blue:248/255.0f alpha:1];
     } else {
         self.footView.backgroundColor = [UIColor whiteColor];
@@ -292,11 +282,21 @@
 - (NSMutableArray *)floatArray
 {
     if (!_floatArray) {
-        _floatArray = [NSMutableArray array];
+        _floatArray = [NSMutableArray  array];
     }
     
     return _floatArray;
 }
+
+- (NSMutableArray *)sectionTitle
+{
+    if (!_sectionTitle) {
+        _sectionTitle = [NSMutableArray  array];
+    }
+    
+    return _sectionTitle;
+}
+
 
 - (void)dealloc
 {

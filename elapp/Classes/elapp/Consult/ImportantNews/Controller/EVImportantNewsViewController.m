@@ -603,6 +603,56 @@
     }
 }
 
+//- (void)newsButton:(UIButton *)button
+//{
+//    EVNewsDetailWebController *newsDetailVC = [[EVNewsDetailWebController alloc] init];
+//    EVBaseNewsModel *baseNewsModel = self.eyesDataArray[button.tag - 2000];
+//    newsDetailVC.newsID = baseNewsModel.newsID;
+//    newsDetailVC.newsTitle  = baseNewsModel.title;
+//    if ([baseNewsModel.newsID isEqualToString:@""] || baseNewsModel.newsID == nil) {
+//        return;
+//    }
+//    [self.navigationController pushViewController:newsDetailVC animated:YES];
+//}
+
+#pragma mark - 火眼金睛查看更多
+//- (void)moreButton:(UIButton *)button
+//{
+//    EVHVEyesViewController *eyesVC = [[EVHVEyesViewController alloc] init];
+//    if (self.eyesProgramID.count <= 0) {
+//        [EVProgressHUD showError:@"没有更多数据"];
+//        return;
+//    }
+//    eyesVC.eyesArray = self.eyesProgramID;
+//    eyesVC.eyesID = self.eyesID;
+//    [self.navigationController pushViewController:eyesVC animated:YES];
+//  
+//}
+// 请求轮播图
+//- (void)loadImageCarousel
+//{
+//    WEAK(self)
+//    [self.baseToolManager GETCarouselInfoWithStart:^{
+//        
+//    } success:^(NSDictionary *info) {
+//        [self endRefreshing];
+//        [weakself getCarouseInfoSuccess:info];
+//    } fail:^(NSError *error) {
+//        [self endRefreshing];
+//        [EVProgressHUD showError:@"加载失败"];
+//    } sessionExpire:^{
+//        EVRelogin(weakself);
+//    }];
+//}
+
+
+
+
+//- (void)endRefreshing
+//{
+//    [_iNewsTableview endHeaderRefreshing];
+//    [_iNewsTableview endFooterRefreshing];
+//}
 
 
 

@@ -20,6 +20,8 @@
 @property (copy, nonatomic) NSString *nickname;             /**< 昵称 */
 @property (copy, nonatomic) NSString *logourl;              /**< 头像地址 */
 @property (copy, nonatomic) NSString *gender;               /**< 性别：male，男；female，女 */
+
+
 @property (copy, nonatomic) NSString *signature;            /**< 签名 */
 @property (copy, nonatomic) NSString *birthday;             /**< 生日 */
 @property (copy, nonatomic) NSString *location;             /**< 地理位置 */

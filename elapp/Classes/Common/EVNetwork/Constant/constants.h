@@ -145,7 +145,7 @@
 #define EVNewsDetailAPI             @"http://dev.hooview.com/api/news/getnews"
 #define EVNewsUserNewsAPI           @"http://dev.hooview.com/api/news/usernews"
 
-#define EVMarketGlobalAPI           @"http://dev.hooview.com/api/stock/globalindex"
+#define EVMarketGlobalAPI           @"http://dev.hooview.com/api/v2/stock/globalindex"
 
 #define EVCreatTextLiveAPI          @"http://dev.hooview.com/api/textlive/owner"
 #define EVTextLiveHomeAPI           @"http://dev.hooview.com/api/textlive/home"
@@ -159,6 +159,7 @@
 #define EVAddSelfStockAPI           @"http://dev.hooview.com/api/user/modifystocks"//添加 & 修改自选股
 #define EVGetChooseStockNewsAPI     @"http://dev.hooview.com/api/user/stocknews"//自选新闻
 #define EVIsAddSelfStockAPI         @"http://dev.hooview.com/api/user/collect/stock"//是否已添加自选
+#define EVGetSpecialColumnAPI       @"http://dev.hooview.com/api/v2/news/column"//专栏
 
 #define EVHoovviewNewsBannersAPI    @"http://dev.hooview.com/api/news/banners"
 #define EVTextLiveHaveAPI           @"http://dev.hooview.com/api/textlive/streaminfo"
@@ -204,8 +205,9 @@
 #define EVAddSelfStockAPI           @"http://openapi.hooview.com/api/user/modifystocks"//添加 & 修改自选股
 #define EVGetChooseStockNewsAPI     @"http://openapi.hooview.com/api/user/stocknews"//自选新闻
 #define EVIsAddSelfStockAPI         @"http://openapi.hooview.com/api/user/collect/stock"//是否已添加自选
+#define EVGetSpecialColumnAPI       @"http://openapi.hooview.com/api/v2/news/column"//专栏
 
-#define EVMarketGlobalAPI           @"http://openapi.hooview.com/api/stock/globalindex"
+#define EVMarketGlobalAPI           @"http://openapi.hooview.com/api/v2/stock/globalindex"
 
 #define EVCreatTextLiveAPI          @"http://openapi.hooview.com/api/textlive/owner"
 #define EVTextLiveHomeAPI           @"http://openapi.hooview.com/api/textlive/home"
