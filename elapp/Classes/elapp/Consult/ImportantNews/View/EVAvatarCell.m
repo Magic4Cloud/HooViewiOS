@@ -14,7 +14,28 @@
     _recommendModel = recommendModel;
     [_cellImageView cc_setImageWithURLString:recommendModel.avatar placeholderImage:nil];
     _cellNameLabel.text = recommendModel.nickname;
-    _cellFollowLabel.text = recommendModel.fellow;
+    NSString * followString = recommendModel.fellow;
+    
+    long count = followString.length;
+    
+    NSMutableString *string = [NSMutableString stringWithString:followString];
+    NSMutableString *newstring = [NSMutableString string];
+    while (count > 3) {
+        count -= 3;
+        NSRange rang = NSMakeRange(string.length - 3, 3);
+        NSString *str = [string substringWithRange:rang];
+        [newstring insertString:str atIndex:0];
+        [newstring insertString:@"," atIndex:0];
+        [string deleteCharactersInRange:rang];
+    }
+    [newstring insertString:string atIndex:0];
+    
+    
+    NSMutableAttributedString * attributeText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@人关注",newstring]];
+    
+    [attributeText addAttribute:NSForegroundColorAttributeName value:[UIColor hvPurpleColor] range:NSMakeRange(0, newstring.length)];
+    _cellFollowLabel.attributedText = attributeText;
+//    _cellFollowLabel.text = recommendModel.fellow;
 }
 - (void)awakeFromNib {
     [super awakeFromNib];

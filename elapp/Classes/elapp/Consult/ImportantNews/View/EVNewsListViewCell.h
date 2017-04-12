@@ -9,16 +9,29 @@
 #import <UIKit/UIKit.h>
 #import "EVBaseNewsModel.h"
 #import "EVHVEyesModel.h"
+#import "EVLineTableViewCell.h"
 @class EVNewsModel;
 
-@interface EVNewsListViewCell : UITableViewCell
+@interface EVNewsListViewCell : EVLineTableViewCell
 
-@property (nonatomic, strong) EVBaseNewsModel *consultNewsModel;
+/**
+ 首页新闻
+ */
+@property (nonatomic, strong) EVNewsModel *consultNewsModel;
 
-@property (nonatomic, strong) EVNewsModel *searchNewsModel;
+/**
+ 搜索结果
+ */
+@property (nonatomic, strong) EVBaseNewsModel *searchNewsModel;
 
+/**
+ 火眼金睛
+ */
 @property (nonatomic, strong) EVHVEyesModel *eyesModel;
 
+/**
+ 我的收藏
+ */
 @property (nonatomic, strong) EVBaseNewsModel *collectNewsModel;
 
 @property (weak, nonatomic) IBOutlet UIImageView *newsBackImage;

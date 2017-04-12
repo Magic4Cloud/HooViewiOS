@@ -111,14 +111,20 @@ static NSString *indentify = @"MKJCollectionViewCell";
 
     MKJCollectionViewFlowLayout * flowLayout = [[MKJCollectionViewFlowLayout alloc] init];
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+<<<<<<< HEAD
     
     flowLayout.itemSize = CGSizeMake(self.bounds.size.width - 60*ScreenWidth/375, self.bounds.size.height-30*ScreenWidth/375);
+=======
+    flowLayout.itemSize = CGSizeMake(self.bounds.size.width - 60*ScreenWidth/375, self.bounds.size.height-30*ScreenHeight/667);
+    
+>>>>>>> 940adf8474556268c0f137d7abc88515bca8ab2b
     flowLayout.minimumLineSpacing = 10;
 //    flowLayout.minimumInteritemSpacing = 20;
     flowLayout.delegate = self;
     _flowLayout = flowLayout;
-    
     UICollectionView *mainView = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:flowLayout];
+    
+    
     mainView.backgroundColor = [UIColor clearColor];
     mainView.showsHorizontalScrollIndicator = NO;
     mainView.showsVerticalScrollIndicator = NO;
@@ -130,7 +136,7 @@ static NSString *indentify = @"MKJCollectionViewCell";
     _mainView = mainView;
     
     [self addSubview:self.pageLabel];
-    
+    self.pageLabel.hidden = YES;
 }
 
 
@@ -199,11 +205,13 @@ static NSString *indentify = @"MKJCollectionViewCell";
     if (imagePathsGroup.count != 1) {
         self.mainView.scrollEnabled = YES;
         [self setAutoScroll:self.autoScroll];
+        self.pageLabel.hidden = NO;
     } else {
         [self invalidateTimer];
         self.mainView.scrollEnabled = NO;
+        self.pageLabel.hidden = YES;
     }
-    
+    curentIndexDelegate = 0;
     [self changePageShowWithIndex:0];
    
     

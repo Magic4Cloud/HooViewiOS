@@ -26,7 +26,7 @@
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     NSString *currentDateStr = [dateFormatter stringFromDate:[NSDate date]];
     NSString *timeLbl = [NSString stringWithFormat:@"%@",newsModel.time];
-    NSString *lTime = [NSString stringWithFormat:@"%@/%@ %@",[timeLbl substringWithRange:NSMakeRange(5, 2)],[timeLbl substringWithRange:NSMakeRange(8, 2)],[timeLbl substringWithRange:NSMakeRange(11, 5)]];
+    NSString *lTime = [NSString stringWithFormat:@"%@/%@",[timeLbl substringWithRange:NSMakeRange(5, 2)],[timeLbl substringWithRange:NSMakeRange(8, 2)]];
     if (![currentDateStr isEqualToString:timeStr])
     {
         _cellDateLabel.text = [NSString stringWithFormat:@"%@",lTime];

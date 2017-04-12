@@ -70,7 +70,7 @@
     iNewsTableview.delegate = self;
     iNewsTableview.dataSource = self;
     [self addSubview:iNewsTableview];
-    _detailTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    iNewsTableview.separatorStyle = UITableViewCellSeparatorStyleNone;
     _detailTableView = iNewsTableview;
     _detailTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     WEAK(self)
@@ -81,6 +81,7 @@
         [weakself loadEyesStart:weakself.start count:@"20" eyesModel:weakself.eyesModel];
     }];
     
+    _detailTableView.mj_footer.hidden = YES;
 }
 
 
@@ -99,6 +100,7 @@
         }
         [self.eyesDataArray addObjectsFromArray:eyesArr];
         [self.detailTableView reloadData];
+        _detailTableView.mj_footer.hidden = NO;
         [self.detailTableView setFooterState:(eyesArr.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
     } error:^(NSError *error) {
         [_detailTableView endFooterRefreshing];

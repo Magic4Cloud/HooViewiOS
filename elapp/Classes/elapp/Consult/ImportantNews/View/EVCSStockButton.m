@@ -78,13 +78,12 @@
     
     NSString *floatStr;
     if (stockMarketModel.changepercent > 0) {
-        floatStr = [NSString stringWithFormat:@"%.2f[%.2f%%]",priceFloat,stockMarketModel.changepercent];
+        floatStr = [NSString stringWithFormat:@"+%.2f[%.2f%%]",priceFloat,stockMarketModel.changepercent];
       self.priceLabel.textColor = self.upLabel.textColor = self.nameLabel.textColor = [UIColor evAssistColor];
-    
     }
     else
     {
-        floatStr = [NSString stringWithFormat:@"%.2f[%.2f%%]",priceFloat,stockMarketModel.changepercent];
+        floatStr = [NSString stringWithFormat:@"-%.2f[%.2f%%]",priceFloat,stockMarketModel.changepercent];
         self.priceLabel.textColor = self.upLabel.textColor = self.nameLabel.textColor = [UIColor evSecondColor];
     }
     
