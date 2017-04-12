@@ -8,6 +8,11 @@
 
 #import "EVSpeciaColumnCell.h"
 
+@interface EVSpeciaColumnCell()
+@property (nonatomic, strong)UIVisualEffectView *effectView;
+
+@end
+
 @implementation EVSpeciaColumnCell
 
 - (void)awakeFromNib {
@@ -21,13 +26,19 @@
         _authHeaderImage.layer.cornerRadius = 15;
     }
     _authHeaderImage.layer.masksToBounds = YES;
-    _authHeaderImage.backgroundColor = [UIColor brownColor];
-    
+
     UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
     UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-    effectView.frame = _newsCoverImage.bounds;
-    effectView.alpha = 10.3f;
+    self.effectView = effectView;
     [_newsCoverImage addSubview:effectView];
+
+    [effectView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
+    [effectView autoPinEdgeToSuperviewEdge:ALEdgeTop];
+    [effectView autoPinEdgeToSuperviewEdge:ALEdgeRight];
+    [effectView autoPinEdgeToSuperviewEdge:ALEdgeBottom];
+
+    effectView.alpha = 10.3f;
+    
     
     self.layer.borderWidth = 1;
     self.layer.borderColor = [UIColor colorWithHexString:@"#dddddd"].CGColor;
@@ -48,17 +59,16 @@
     _authNameLabel.text = columnModel.author.nickname;
     [_authHeaderImage cc_setImageWithURLString:columnModel.author.avatar placeholderImage:nil];
     _authIntroduceLabel.text = columnModel.author.introduce;
-    
 }
 
 
-- (void)setTitleWidth:(NSLayoutConstraint *)titleWidth {
-    if (ScreenWidth == 320) {
-        titleWidth.constant = 120.f;
-    } else {
-        titleWidth.constant = 147.f;
-    }
-}
+//- (void)setTitleWidth:(NSLayoutConstraint *)titleWidth {
+//    if (ScreenWidth == 320) {
+//        titleWidth.constant = 120.f;
+//    } else {
+//        titleWidth.constant = 147.f;
+//    }
+//}
 
 - (void)setHeaderImageWidth:(NSLayoutConstraint *)headerImageWidth {
     if (ScreenWidth == 320) {

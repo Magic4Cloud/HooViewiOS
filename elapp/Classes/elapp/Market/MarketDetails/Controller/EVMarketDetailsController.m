@@ -133,8 +133,8 @@
     EVStockDetailBottomView *stockDetailView = [[EVStockDetailBottomView alloc] init];
         NSArray *titleArray = @[@"+自选",@"分享",@"刷新"];
         NSArray *seleteTitleArr = @[@"已自选",@"分享 ",@"刷新 "];
-        NSArray *imageArray = @[@"hv_normal_add_stock",@"hv_share",@"hv_refresh"];
-        NSArray *seleteImageArr = @[@"hv_selected_add_stock",@"hv_share",@"hv_refresh"];
+        NSArray *imageArray = @[@"btn_market_n",@"btn_share_n",@"btn_market_refresh_g_n"];
+        NSArray *seleteImageArr = @[@"btn_market_s",@"btn_share_n",@"btn_market_refresh_g_n"];
     [stockDetailView addButtonTitleArray:titleArray seleteTitleArr:seleteTitleArr imageArray:imageArray seleteImage:seleteImageArr];
     stockDetailView.frame = CGRectMake(0, ScreenHeight - 113, ScreenWidth, 49);
     stockDetailView.backgroundColor = [UIColor whiteColor];

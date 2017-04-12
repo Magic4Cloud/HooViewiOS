@@ -125,6 +125,12 @@
 
 
 #ifdef STATE_DEV
+//测试
+#define EVHVNewsTopicAPI            @"https://demo2821846.mockable.io/news/topic"
+#define EVHVNewsConstantAPI         @"https://demo2821846.mockable.io/news/home"
+
+
+
 
 //#define EVMarketQuotesAPI           @"http://openapi.hooview.com/tushare/get_index"           //大盘详情
 #define EVMarketQuotesAPI           @"http://dev.hooview.com/api/stock/market"           //大盘详情

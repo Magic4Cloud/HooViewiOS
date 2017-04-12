@@ -66,16 +66,16 @@
         self.menuHeight = 44;
         self.titleColorSelected = [UIColor evMainColor];
         self.titleColorNormal = [UIColor evTextColorH2];
-        self.menuItemWidth = 50;
+        self.menuItemWidth = 40;
         self.progressViewWidths = @[@16,@16,@16,@16];
         //self.progressViewIsNaughty = YES;
         self.titles = @[@"自选",@"沪深",@"港股",@"全球"];
         float margin = 15;
         if (ScreenWidth == 320) {
-            margin = (ScreenWidth - 50 - 60 - 50*4)/3;
+            margin = (ScreenWidth - 50 - 60 - 40*4)/3;
         }
         NSNumber * marginNum = [NSNumber numberWithFloat:margin];
-        float lastMargin = ScreenWidth - 50-margin*3-50*4;
+        float lastMargin = ScreenWidth - 50-margin*3-40*4;
         NSNumber * number = [NSNumber numberWithFloat:lastMargin];
         self.itemsMargins = @[@50,marginNum,marginNum,marginNum,number];
         self.menuBGColor = [UIColor whiteColor];
