@@ -124,7 +124,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0)
+    {
         EVHotListViewCell *Cell  = [tableView dequeueReusableCellWithIdentifier:@"hotCell"];
         if (!Cell) {
             Cell =  [[EVHotListViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:@"hotCell"];
@@ -148,9 +149,11 @@
     EVLiveListViewCell *liveCell =[tableView dequeueReusableCellWithIdentifier:@"liveCell"];
     if (!liveCell) {
         liveCell = [[NSBundle mainBundle] loadNibNamed:@"EVLiveListViewCell" owner:nil options:nil].firstObject;
+        [liveCell setValue:@"liveCell" forKey:@"reuseIdentifier"];
+        liveCell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     liveCell.watchVideoInfo = self.dataArray[indexPath.row];
-    liveCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     return liveCell;
 }
 

@@ -172,7 +172,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.hotArray.count == 0) {
+    if (self.hotArray.count == 0)
+    {
         if (self.dataArray.count>0) {
             EVHotImageListViewCell *liveCell =[tableView dequeueReusableCellWithIdentifier:@"imageCell"];
             if (!liveCell) {
@@ -215,6 +216,7 @@
     EVHotImageListViewCell *liveCell =[tableView dequeueReusableCellWithIdentifier:@"imageCell"];
     if (!liveCell) {
         liveCell = [[NSBundle mainBundle] loadNibNamed:@"EVHotImageListViewCell" owner:nil options:nil].firstObject;
+        [liveCell setValue:@"imageCell" forKey:@"reuseIdentifier"];
     }
     if (self.dataArray.count != 0) {
         liveCell.watchVideoInfo = self.dataArray[indexPath.row];

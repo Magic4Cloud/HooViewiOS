@@ -430,7 +430,11 @@
         recommendCell.didselectedIndexIWithModelBlock = ^(EVRecommendModel * model)
         {
             //选中牛人
-            
+            EVWatchVideoInfo * videoModel = [[EVWatchVideoInfo alloc] init];
+            videoModel.name = model.id;
+            EVVipCenterViewController *vipVC = [EVVipCenterViewController new];
+            vipVC.watchVideoInfo = videoModel;
+            [self.navigationController pushViewController:vipVC animated:YES];
         };
         return recommendCell;
     }

@@ -86,6 +86,7 @@
     EVRecoredItemCell *cell = [tableView dequeueReusableCellWithIdentifier:@"itemCell"];
     if (!cell) {
         cell = [[NSBundle mainBundle] loadNibNamed:@"EVRecoredItemCell" owner:nil options:nil].firstObject;
+        [cell setValue:@"itemCell" forKey:@"reuseIdentifier"];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.watchVideoInfo = self.dataArray[indexPath.row];
