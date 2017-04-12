@@ -84,6 +84,8 @@
 - (void)setUpTableView
 {
     self.naviBarBgView.alpha = 0;
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    
     [_backButton setImage:[UIImage imageNamed:@"personal_nav_icon_return"] forState:UIControlStateNormal];
     
     [self.view insertSubview:self.tableView atIndex:0];

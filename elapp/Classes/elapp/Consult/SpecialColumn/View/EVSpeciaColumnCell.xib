@@ -115,7 +115,7 @@
                 <outlet property="newsTitleLabel" destination="cAh-g4-Mod" id="cup-tY-BLR"/>
                 <outlet property="toUserButton" destination="O72-x4-CsU" id="GoD-zw-veU"/>
             </connections>
-            <point key="canvasLocation" x="148.5" y="291.5"/>
+            <point key="canvasLocation" x="140" y="237"/>
         </collectionViewCell>
     </objects>
 </document>
