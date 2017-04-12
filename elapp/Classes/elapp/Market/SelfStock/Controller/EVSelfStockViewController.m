@@ -79,7 +79,7 @@
     refreshButton.layer.masksToBounds = YES;
     refreshButton.layer.cornerRadius = 22;
     refreshButton.alpha = 0.7;
-    [refreshButton setImage:[UIImage imageNamed:@"huoyan_edit"] forState:(UIControlStateNormal)];
+    [refreshButton setImage:[UIImage imageNamed:@"btn_market_arrange_n"] forState:(UIControlStateNormal)];
     [self.view addSubview:refreshButton];
     [refreshButton addTarget:self action:@selector(refreshClick:) forControlEvents:(UIControlEventTouchUpInside)];
     self.refreshButton = refreshButton;

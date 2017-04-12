@@ -42,12 +42,15 @@
 
     UIView *HLineView = [[UIView alloc] initWithFrame:CGRectMake(18, 15, 2, 18)];
     HLineView.backgroundColor = [UIColor evMainColor];
-    [self addSubview:HLineView];
+//    [self addSubview:HLineView];
     
     UIButton *commentButton = [[UIButton alloc] init];
-    commentButton.frame = CGRectMake(0, 0, ScreenWidth/2 - 17, 48);
-    [commentButton setTitle:@" 一起讨论吧~" forState:(UIControlStateNormal)];
+    commentButton.frame = CGRectMake(12, 6, ScreenWidth/2 - 27, 36);
+    [commentButton setTitle:@" 来一起讨论吧~            " forState:(UIControlStateNormal)];
     commentButton.titleLabel.font = [UIFont textFontB3];
+    commentButton.layer.borderWidth = 1;
+    commentButton.layer.borderColor = [UIColor evDDDColor].CGColor;
+    commentButton.layer.cornerRadius = 8;
     [commentButton setTitleColor:[UIColor colorWithHexString:@"#CCCCCC"] forState:(UIControlStateNormal)];
     [commentButton addTarget:self action:@selector(commontClick) forControlEvents:(UIControlEventTouchUpInside)];
     commentButton.tag = EVBottomButtonTypeComment;

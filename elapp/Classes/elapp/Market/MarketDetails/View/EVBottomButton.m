@@ -56,7 +56,7 @@
     [self addSubview:topImage];
     self.topImage  = topImage;
     topImage.image = nomalImg;
-    [topImage autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:5];
+    [topImage autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:2];
     [topImage autoAlignAxisToSuperviewAxis:ALAxisVertical];
     [topImage autoSetDimensionsToSize:CGSizeMake(self.ImageWid, self.ImageHig)];
     
@@ -71,6 +71,7 @@
     [titleLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:topImage];
     [titleLabel autoSetDimensionsToSize:CGSizeMake(80, 17)];
     [titleLabel autoAlignAxisToSuperviewAxis:ALAxisVertical];
+    titleLabel.hidden = YES;
     
     UILabel *countLabel = [[UILabel alloc] init];
     [self addSubview:countLabel];
@@ -82,8 +83,8 @@
     countLabel.textColor = [UIColor whiteColor];
     countLabel.textAlignment = NSTextAlignmentCenter;
     countLabel.backgroundColor = [UIColor colorWithHexString:@"#FF772D"];
-    [countLabel autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:11];
-    [countLabel autoPinEdgeToSuperviewEdge:ALEdgeTop];
+    [countLabel autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:13];
+    [countLabel autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:7];
    self.layoutWidF =  [countLabel autoSetDimension:ALDimensionWidth toSize:12];
     [countLabel autoSetDimension:ALDimensionHeight toSize:12];
     

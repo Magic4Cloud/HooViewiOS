@@ -54,6 +54,12 @@
 + (UIColor *)evTipColor {
     return [UIColor colorWithHexString:@"#5c2d7e" alpha:0.3];
 }
+
+//221 221 221
++ (UIColor *)evDDDColor {
+    return [UIColor colorWithHexString:@"#dddddd"];
+}
+
 //------------------------------------------------
 //------------------- 字体颜色 --------------------
 //------------------------------------------------
