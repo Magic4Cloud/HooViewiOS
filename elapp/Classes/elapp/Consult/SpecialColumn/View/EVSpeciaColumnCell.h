@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "EVUserModel.h"
-#import "EVBaseNewsModel.h"
+#import "EVSpeciaColumnModel.h"
+typedef void(^CollectionSeletedBlock)(EVSpeciaAuthor *userInfo);
 
 @interface EVSpeciaColumnCell : UICollectionViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *newsCoverImage;
@@ -20,9 +20,12 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *titleWidth;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *headerImageWidth;
 
+@property (weak, nonatomic) IBOutlet UIButton *toUserButton;
 
-@property (nonatomic, strong) EVUserModel *userModel;
-@property (nonatomic, strong) EVBaseNewsModel *columnNewsModel;
+@property (nonatomic, strong) EVSpeciaColumnModel *columnModel;
+
+@property (nonatomic, copy) CollectionSeletedBlock collectionSeletedBlock;
+
 
 
 @end

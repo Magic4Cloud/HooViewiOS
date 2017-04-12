@@ -23,21 +23,34 @@
     _authHeaderImage.layer.masksToBounds = YES;
     _authHeaderImage.backgroundColor = [UIColor brownColor];
     
+    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+    effectView.frame = _newsCoverImage.bounds;
+    effectView.alpha = 10.3f;
+    [_newsCoverImage addSubview:effectView];
+    
     self.layer.borderWidth = 1;
     self.layer.borderColor = [UIColor colorWithHexString:@"#dddddd"].CGColor;
     
     
 }
 
-- (void)setUserModel:(EVUserModel *)userModel {
-    _userModel = userModel;
-    if (!userModel) {
+
+- (void)setColumnModel:(EVSpeciaColumnModel *)columnModel {
+    _columnModel = columnModel;
+    if (!columnModel) {
         return;
     }
-    _authNameLabel.text  = userModel.nickname;
-    _authIntroduceLabel.text  = userModel.signature;
-//    [_authHeaderImage cc_setImageWithURLString:userModel.logourl placeholderImage:[UIImage imageNamed:@"Account_bitmap_user"]];
+    _newsTitleLabel.text = columnModel.title;
+    _newsContentLabel.text = columnModel.introduce;
+    [_newsCoverImage cc_setImageWithURLString:columnModel.cover placeholderImage:nil];
+    
+    _authNameLabel.text = columnModel.author.nickname;
+    [_authHeaderImage cc_setImageWithURLString:columnModel.author.avatar placeholderImage:nil];
+    _authIntroduceLabel.text = columnModel.author.introduce;
+    
 }
+
 
 - (void)setTitleWidth:(NSLayoutConstraint *)titleWidth {
     if (ScreenWidth == 320) {
@@ -57,5 +70,11 @@
 }
 
 
+- (IBAction)toUser:(id)sender {
+    EVSpeciaAuthor *userInfo = self.columnModel.author;
+    if (self.collectionSeletedBlock) {
+        self.collectionSeletedBlock(userInfo);
+    }
+}
 
 @end

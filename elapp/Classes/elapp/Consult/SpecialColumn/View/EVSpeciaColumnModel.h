@@ -7,13 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "EVUserModel.h"
+#import "EVSpeciaAuthor.h"
 
 
 @interface EVSpeciaColumnModel : NSObject
-@property (nonatomic, copy)NSString * id;
+@property (nonatomic, strong)  EVSpeciaAuthor *author;
+
+@property (nonatomic, copy)NSString *newsID;
 @property (nonatomic, copy)NSString * cover;
+@property (nonatomic, copy)NSString * newsid;
 @property (nonatomic, copy)NSString * title;
 @property (nonatomic, copy)NSString * introduce;
-@property (nonatomic, strong)EVUserModel *usermodel;
+
+@property (nonatomic, assign) CGFloat cellHeight;
+@property (nonatomic, assign) CGFloat cellWidth;
+
+
 @end

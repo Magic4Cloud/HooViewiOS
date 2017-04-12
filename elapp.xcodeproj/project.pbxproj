@@ -76,6 +76,7 @@
 		7AD37FE21E963BB90020B794 /* EVSpecialTopicCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7AD37FE01E963BB90020B794 /* EVSpecialTopicCell.xib */; };
 		7AD37FE51E963BFA0020B794 /* EVRecommendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AD37FE41E963BFA0020B794 /* EVRecommendCell.m */; };
 		855BA25DB3AF1C2846A9D41F /* libPods-elapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8870469BA124F47A220386F3 /* libPods-elapp.a */; };
+		9E079FC51E9DC8F200CFF0EE /* EVSpeciaAuthor.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E079FC41E9DC8F200CFF0EE /* EVSpeciaAuthor.m */; };
 		9E66728D1E8136D700933C92 /* UIFont+swizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E66728B1E8136D700933C92 /* UIFont+swizzle.m */; };
 		9E7E6C191E9B219D009CBD6F /* EVSpeciaColumnCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E7E6C171E9B219D009CBD6F /* EVSpeciaColumnCell.m */; };
 		9E7E6C1A1E9B219D009CBD6F /* EVSpeciaColumnCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E7E6C181E9B219D009CBD6F /* EVSpeciaColumnCell.xib */; };
@@ -83,6 +84,7 @@
 		9EC24DB21E7A7117003664B4 /* EVConsultGuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EC24DB11E7A7117003664B4 /* EVConsultGuideView.m */; };
 		9EC24DB41E7A7BB2003664B4 /* EVConsultGuideView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EC24DB31E7A7BB2003664B4 /* EVConsultGuideView.xib */; };
 		9EEC876F1E9CAC9400C7F12A /* EVSpeciaColumnModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EEC876E1E9CAC9400C7F12A /* EVSpeciaColumnModel.m */; };
+		9EFBA1231E9CD051003FC5F7 /* WaterFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EFBA1221E9CD051003FC5F7 /* WaterFlowLayout.m */; };
 		9F1F900D1311FACB6DD9C40B /* EVMagicEmojiView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F1F94298F25BCA3E45CBE68 /* EVMagicEmojiView.m */; };
 		9F1F9019A8A5C540A535207B /* Expression_32@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F1F9D724E605DFCC5A5E31D /* Expression_32@2x.png */; };
 		9F1F902AEA9EA503C1E653DB /* Expression_33@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F1F9175F5047440DD550B80 /* Expression_33@2x.png */; };
@@ -847,6 +849,8 @@
 		7AD37FE41E963BFA0020B794 /* EVRecommendCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRecommendCell.m; sourceTree = "<group>"; };
 		8367F5891D6D926B00BE2DB7 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8870469BA124F47A220386F3 /* libPods-elapp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-elapp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9E079FC31E9DC8F200CFF0EE /* EVSpeciaAuthor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EVSpeciaAuthor.h; path = elapp/Classes/elapp/Consult/SpecialColumn/View/EVSpeciaAuthor.h; sourceTree = SOURCE_ROOT; };
+		9E079FC41E9DC8F200CFF0EE /* EVSpeciaAuthor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EVSpeciaAuthor.m; path = elapp/Classes/elapp/Consult/SpecialColumn/View/EVSpeciaAuthor.m; sourceTree = SOURCE_ROOT; };
 		9E66728B1E8136D700933C92 /* UIFont+swizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+swizzle.m"; sourceTree = "<group>"; };
 		9E66728C1E8136D700933C92 /* UIFont+swizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+swizzle.h"; sourceTree = "<group>"; };
 		9E7E6C161E9B219D009CBD6F /* EVSpeciaColumnCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSpeciaColumnCell.h; sourceTree = "<group>"; };
@@ -858,6 +862,8 @@
 		9EC24DB31E7A7BB2003664B4 /* EVConsultGuideView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVConsultGuideView.xib; sourceTree = "<group>"; };
 		9EEC876D1E9CAC9400C7F12A /* EVSpeciaColumnModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EVSpeciaColumnModel.h; path = elapp/Classes/elapp/Consult/SpecialColumn/View/EVSpeciaColumnModel.h; sourceTree = SOURCE_ROOT; };
 		9EEC876E1E9CAC9400C7F12A /* EVSpeciaColumnModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EVSpeciaColumnModel.m; path = elapp/Classes/elapp/Consult/SpecialColumn/View/EVSpeciaColumnModel.m; sourceTree = SOURCE_ROOT; };
+		9EFBA1211E9CD051003FC5F7 /* WaterFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaterFlowLayout.h; sourceTree = "<group>"; };
+		9EFBA1221E9CD051003FC5F7 /* WaterFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaterFlowLayout.m; sourceTree = "<group>"; };
 		9F1F900E3CB1564B1E75DE78 /* EVFace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVFace.m; sourceTree = "<group>"; };
 		9F1F902A7BFBBAAD453DCA62 /* EVShareManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVShareManager.h; sourceTree = "<group>"; };
 		9F1F90508E7A5BFF806E32B2 /* EVPushBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPushBar.m; sourceTree = "<group>"; };
@@ -2287,6 +2293,8 @@
 			children = (
 				9EEC876D1E9CAC9400C7F12A /* EVSpeciaColumnModel.h */,
 				9EEC876E1E9CAC9400C7F12A /* EVSpeciaColumnModel.m */,
+				9E079FC31E9DC8F200CFF0EE /* EVSpeciaAuthor.h */,
+				9E079FC41E9DC8F200CFF0EE /* EVSpeciaAuthor.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2297,6 +2305,8 @@
 				9E7E6C161E9B219D009CBD6F /* EVSpeciaColumnCell.h */,
 				9E7E6C171E9B219D009CBD6F /* EVSpeciaColumnCell.m */,
 				9E7E6C181E9B219D009CBD6F /* EVSpeciaColumnCell.xib */,
+				9EFBA1211E9CD051003FC5F7 /* WaterFlowLayout.h */,
+				9EFBA1221E9CD051003FC5F7 /* WaterFlowLayout.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -5506,6 +5516,7 @@
 				E8943E5C1E24C2C4008E5D97 /* EVChatViewCell.m in Sources */,
 				E86200B71D6BE8540081E72F /* EVRegionCodeTableViewCell.m in Sources */,
 				E89470DD1E07AD4C0074F621 /* EVMineBackgroundView.m in Sources */,
+				9E079FC51E9DC8F200CFF0EE /* EVSpeciaAuthor.m in Sources */,
 				E86200631D6BE8540081E72F /* EVDiscoverNowVideoCell.m in Sources */,
 				E86201271D6BE8540081E72F /* EVFloatingView.m in Sources */,
 				E8C650DC1E0B6C3A00815A4B /* EVTodayFloatModel.m in Sources */,
@@ -5579,6 +5590,7 @@
 				E867DEFC1E1CCBCA0010DF52 /* EVCSStockButton.m in Sources */,
 				E862FF8A1D6BE8540081E72F /* NSObject+Extension.m in Sources */,
 				E86200A01D6BE8540081E72F /* EVSignatureViewController.m in Sources */,
+				9EFBA1231E9CD051003FC5F7 /* WaterFlowLayout.m in Sources */,
 				E85DFE4B1E78D42A005667DD /* EVEaseMessageModel.m in Sources */,
 				E86201691D6BE8540081E72F /* EVRecorderEndView.m in Sources */,
 				E86200A61D6BE8540081E72F /* EVPhoneLoginView.m in Sources */,

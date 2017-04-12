@@ -582,71 +582,57 @@
     }
 }
 
-<<<<<<< HEAD
-- (void)newsButton:(UIButton *)button
-{
-    EVNewsDetailWebController *newsDetailVC = [[EVNewsDetailWebController alloc] init];
-    EVBaseNewsModel *baseNewsModel = self.eyesDataArray[button.tag - 2000];
-    newsDetailVC.newsID = baseNewsModel.newsID;
-    newsDetailVC.newsTitle  = baseNewsModel.title;
-    if ([baseNewsModel.newsID isEqualToString:@""] || baseNewsModel.newsID == nil) {
-        return;
-    }
-    [self.navigationController pushViewController:newsDetailVC animated:YES];
-}
+//- (void)newsButton:(UIButton *)button
+//{
+//    EVNewsDetailWebController *newsDetailVC = [[EVNewsDetailWebController alloc] init];
+//    EVBaseNewsModel *baseNewsModel = self.eyesDataArray[button.tag - 2000];
+//    newsDetailVC.newsID = baseNewsModel.newsID;
+//    newsDetailVC.newsTitle  = baseNewsModel.title;
+//    if ([baseNewsModel.newsID isEqualToString:@""] || baseNewsModel.newsID == nil) {
+//        return;
+//    }
+//    [self.navigationController pushViewController:newsDetailVC animated:YES];
+//}
 
 #pragma mark - 火眼金睛查看更多
-- (void)moreButton:(UIButton *)button
-{
-    EVHVEyesViewController *eyesVC = [[EVHVEyesViewController alloc] init];
-    if (self.eyesProgramID.count <= 0) {
-        [EVProgressHUD showError:@"没有更多数据"];
-        return;
-    }
-    eyesVC.eyesArray = self.eyesProgramID;
-    eyesVC.eyesID = self.eyesID;
-    [self.navigationController pushViewController:eyesVC animated:YES];
-  
-}
+//- (void)moreButton:(UIButton *)button
+//{
+//    EVHVEyesViewController *eyesVC = [[EVHVEyesViewController alloc] init];
+//    if (self.eyesProgramID.count <= 0) {
+//        [EVProgressHUD showError:@"没有更多数据"];
+//        return;
+//    }
+//    eyesVC.eyesArray = self.eyesProgramID;
+//    eyesVC.eyesID = self.eyesID;
+//    [self.navigationController pushViewController:eyesVC animated:YES];
+//  
+//}
 // 请求轮播图
-- (void)loadImageCarousel
-{
-    WEAK(self)
-    [self.baseToolManager GETCarouselInfoWithStart:^{
-        
-    } success:^(NSDictionary *info) {
-        [self endRefreshing];
-        [weakself getCarouseInfoSuccess:info];
-    } fail:^(NSError *error) {
-        [self endRefreshing];
-        [EVProgressHUD showError:@"加载失败"];
-    } sessionExpire:^{
-        EVRelogin(weakself);
-    }];
-}
+//- (void)loadImageCarousel
+//{
+//    WEAK(self)
+//    [self.baseToolManager GETCarouselInfoWithStart:^{
+//        
+//    } success:^(NSDictionary *info) {
+//        [self endRefreshing];
+//        [weakself getCarouseInfoSuccess:info];
+//    } fail:^(NSError *error) {
+//        [self endRefreshing];
+//        [EVProgressHUD showError:@"加载失败"];
+//    } sessionExpire:^{
+//        EVRelogin(weakself);
+//    }];
+//}
 
 
-- (void)loadStockData
-{
-//     [self.baseToolManager GETRequestHSuccess:^(NSDictionary *retinfo) {
-//         [self endRefreshing];
-//         NSArray *stockArray = [EVStockBaseModel objectWithDictionaryArray:retinfo[@"data"][@"cn"]];
-//         [self.stockDataArray addObjectsFromArray:stockArray];
-//         [self.iNewsTableview reloadData];
-//     } error:^(NSError *error) {
-//         [self endRefreshing];
-//         [EVProgressHUD showError:@"大盘请求失败"];
-//     }];
-}
 
-- (void)endRefreshing
-{
-    [_iNewsTableview endHeaderRefreshing];
-    [_iNewsTableview endFooterRefreshing];
-}
-=======
 
->>>>>>> 33dff110cb3d738175d280741c704dd3c0de7841
+//- (void)endRefreshing
+//{
+//    [_iNewsTableview endHeaderRefreshing];
+//    [_iNewsTableview endFooterRefreshing];
+//}
+
 
 
 #pragma mark - ✍️ Setters & Getters

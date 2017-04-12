@@ -27,6 +27,8 @@
     return @{@"signed" : @"userSigned"};
 }
 
+
+
 #pragma mark - 重写数据库类要用的方法
 + (NSString *)keyColumn
 {
