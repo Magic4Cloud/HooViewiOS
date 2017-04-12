@@ -12,7 +12,7 @@
  专题详情页头部view
  */
 @interface EVTopicHeaderView : UIView
-@property (nonatomic,strong)UIImageView * bgImageView;
+@property (nonatomic, strong)UIImageView * bgImageView;
 @property (nonatomic, strong)UILabel * viewCountLabel;
 @property (nonatomic, strong)UILabel * viewTitleLabel;
 @property (nonatomic, strong)UILabel * viewContentLabel;

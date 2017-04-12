@@ -22,6 +22,8 @@
 @property (nonatomic, strong)EVTopicHeaderView * headerView;
 @property (nonatomic, strong)EVTopicModel * topicModel;
 @property (nonatomic, strong)UIActivityIndicatorView * activityView;
+@property (nonatomic, strong)UIView * naviBarBgView;
+@property (nonatomic, weak)UIButton * backButton;
 @end
 
 @implementation EVTopicDetailViewController
@@ -44,7 +46,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -60,19 +62,30 @@
 {
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    [self.view addSubview:self.naviBarBgView];
+    
+
+    
     UIButton *backBtn =[UIButton buttonWithType:UIButtonTypeCustom];
     backBtn.frame = CGRectMake(4, 15, 44, 44);
-    [backBtn setImage:[UIImage imageNamed:@"personal_nav_icon_return"] forState:UIControlStateNormal];
+    [backBtn setImage:[UIImage imageNamed:@"hv_back_return"] forState:UIControlStateNormal];
     [backBtn addTarget:self action:@selector(popBack) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:backBtn];
+    _backButton = backBtn;
     
     [self.view addSubview:self.activityView];
     [self.activityView autoCenterInSuperview];
-    self.activityView.hidden = YES;;
+    self.activityView.hidden = YES;
+    
+
 }
 
 - (void)setUpTableView
 {
+    self.naviBarBgView.alpha = 0;
+    [_backButton setImage:[UIImage imageNamed:@"personal_nav_icon_return"] forState:UIControlStateNormal];
+    
     [self.view insertSubview:self.tableView atIndex:0];
     [self.tableView autoPinEdgesToSuperviewEdges];
     self.tableView.tableHeaderView = self.headerView;
@@ -175,7 +188,39 @@
     [self.navigationController pushViewController:newsWebVC animated:YES];
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (scrollView == _tableView) {
+        float y = scrollView.contentOffset.y;
+        NSLog(@"y:%f",y);
+        if (y>100) {
+            [UIView animateWithDuration:0.5 animations:^{
+                self.naviBarBgView.alpha = 1;
+            } completion:^(BOOL finished) {
+                [_backButton setImage:[UIImage imageNamed:@"hv_back_return"] forState:UIControlStateNormal];
+                 [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+            }];
+        }
+        else
+        {
+            [UIView animateWithDuration:0.5 animations:^{
+                self.naviBarBgView.alpha = 0;
+            } completion:^(BOOL finished) {
+                [_backButton setImage:[UIImage imageNamed:@"personal_nav_icon_return"] forState:UIControlStateNormal];
+                 [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+            }];
+        }
+    }
+}
 #pragma mark - ✍️ Setters & Getters
+- (UIView *)naviBarBgView
+{
+    if (!_naviBarBgView) {
+        _naviBarBgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 64)];
+        _naviBarBgView.backgroundColor = [UIColor whiteColor];
+    }
+    return _naviBarBgView;
+}
 - (UIActivityIndicatorView *)activityView
 {
     if (!_activityView) {
