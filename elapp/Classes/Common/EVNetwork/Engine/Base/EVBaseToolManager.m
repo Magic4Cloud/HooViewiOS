@@ -478,13 +478,13 @@ static BOOL sessioncheck = NO;
         
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        EVLog(@"url:%@\nerror:%@",url,error.domain);
+        EVLog(@"url:%@\nerror.domain:%@error.code:%d",url,error.domain,error.code);
         if (fail) {
             fail(error);
         }
     }];
     EVLog(@"------- %@",task.currentRequest);
-    [task resume];
+//    [task resume];
 }
 
 + (void)GETRequestWithUrl:(nullable NSString *)url parameters:(nullable id)parameters success:(nullable void (^)(NSDictionary *successDict))success sessionExpireBlock:(void(^)())sessionExpireBlock fail:(nullable void(^)(NSError  * error))fail

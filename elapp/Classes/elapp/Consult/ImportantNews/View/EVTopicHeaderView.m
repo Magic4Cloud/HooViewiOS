@@ -24,26 +24,15 @@
     self.backgroundColor = [UIColor colorWithRed:247/255.0 green:247/255.0 blue:247/255.0 alpha:1];
     
     [self addSubview:self.bgImageView];
-    [self.bgImageView autoSetDimensionsToSize:CGSizeMake(self.bounds.size.width, 100)];
-    [self.bgImageView autoPinEdgeToSuperviewEdge:ALEdgeTop];
-    [self.bgImageView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
-    [self.bgImageView autoPinEdgeToSuperviewEdge:ALEdgeRight];
-    
+    self.bgImageView.frame = CGRectMake(0, 0, ScreenWidth, 100);
+
     
     UIView * coverView = [UIView new];
     coverView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6];
     [self.bgImageView addSubview:coverView];
     [coverView autoPinEdgesToSuperviewEdges];
     
-    [self addSubview:self.viewCountLabel];
-    [self.viewCountLabel autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:8];
-    [self.viewCountLabel autoPinEdge:ALEdgeBottom toEdge:ALEdgeBottom ofView:self.bgImageView withOffset:16];
-    self.viewCountLabel.backgroundColor = [UIColor redColor];
     
-    UIImageView * viewImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_news_read_r"]];
-    [self addSubview:viewImageView];
-    [viewImageView autoPinEdge:ALEdgeRight toEdge:ALEdgeLeft ofView:self.viewCountLabel];
-    [viewImageView autoAlignAxis:ALAxisVertical toSameAxisOfView:self.viewCountLabel];
     
     UIImageView * coverImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Special_layer"]];
     [self.bgImageView addSubview:coverImageView];
@@ -61,8 +50,7 @@
     [self.viewTitleLabel autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:11];
     [self.viewTitleLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:self.bgImageView withOffset:11];
     [self.viewTitleLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:11];
-//    [self.viewTitleLabel autoSetDimension:ALDimensionHeight toSize:50];
-    
+
     [self addSubview:self.viewContentLabel];
     [self.viewContentLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:self.viewTitleLabel withOffset:20];
     [self.viewContentLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:11];
@@ -70,8 +58,16 @@
     
     [self.viewContentLabel autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:16 relation:NSLayoutRelationGreaterThanOrEqual];
    
-    [self bringSubviewToFront:self.viewCountLabel];
-    [self bringSubviewToFront:viewImageView];
+    [coverImageView addSubview:self.viewCountLabel];
+    [self.viewCountLabel autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:8];
+    [self.viewCountLabel autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:18];
+    
+    UIImageView * viewImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_news_read_r"]];
+    [coverImageView addSubview:viewImageView];
+    [viewImageView autoPinEdge:ALEdgeRight toEdge:ALEdgeLeft ofView:self.viewCountLabel withOffset:4];
+    [viewImageView autoAlignAxis:ALAxisHorizontal toSameAxisOfView:self.viewCountLabel];
+    [viewImageView autoSetDimensionsToSize:CGSizeMake(35, 35)];
+    
     
 }
 //给UILabel设置行间距和字间距
@@ -91,17 +87,7 @@
 {
     _topicModel = topicModel;
     
-    
-//    NSMutableAttributedString *attri =  [[NSMutableAttributedString alloc] initWithString:topicModel.title];
-//    NSTextAttachment *attch = [[NSTextAttachment alloc] init];
-//    attch.image = [UIImage imageNamed:@"ic_news_special"];
-//    attch.bounds = CGRectMake(0, 0, 30, 30);
-//    NSAttributedString * titleString = [NSAttributedString attributedStringWithAttachment:attch];
-//    [attri insertAttributedString:titleString atIndex:0];
-    
-//    self.viewTitleLabel.attributedText = attri;
     [self.viewTitleLabel sizeToFit];
-    
     self.viewTitleLabel.text = [NSString stringWithFormat:@"      %@",topicModel.title] ;
     
     NSString * viewCount = topicModel.viewCount;
@@ -120,14 +106,10 @@
     self.viewCountLabel.text = newstring;
     
     [self setLabelSpace:self.viewContentLabel withValue:topicModel.introduce withFont:[UIFont systemFontOfSize:14]];
-    [_bgImageView cc_setImageWithURLString:topicModel.cover placeholderImage:nil];
+    [self.bgImageView cc_setImageWithURLString:topicModel.cover placeholderImage:nil];
     
 }
-//- (void)setFrame:(CGRect)frame
-//{
-//    _frame = frame;
-//    [self layoutIfNeeded];
-//}
+
 
 - (UIImageView *)bgImageView
 {

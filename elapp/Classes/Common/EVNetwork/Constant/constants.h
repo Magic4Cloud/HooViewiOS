@@ -191,7 +191,6 @@
 //#define EVHVNewsConstantAPI         @"http://dev.hooview.com/api/v2/news/home"
 //测试
 #define EVHVNewsConstantAPI         @"https://demo2821846.mockable.io/news/home"
-
 //专题详情
 //#define EVHVNewsTopicAPI            @"http://dev.hooview.com/api/v2/news/topic"
 //测试
