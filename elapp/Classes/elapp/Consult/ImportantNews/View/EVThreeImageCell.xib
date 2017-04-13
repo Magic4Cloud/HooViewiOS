@@ -45,14 +45,14 @@
                         <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_news_read" translatesAutoresizingMaskIntoConstraints="NO" id="LGu-d9-p9V">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_news_time" translatesAutoresizingMaskIntoConstraints="NO" id="LGu-d9-p9V">
                         <rect key="frame" x="4" y="139" width="36" height="36"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="36" id="0aF-r3-gGd"/>
                             <constraint firstAttribute="height" constant="36" id="XEo-WD-kec"/>
                         </constraints>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_news_time" translatesAutoresizingMaskIntoConstraints="NO" id="b43-Oy-rZ7">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_news_read" translatesAutoresizingMaskIntoConstraints="NO" id="b43-Oy-rZ7">
                         <rect key="frame" x="116.5" y="139" width="36" height="36"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="36" id="1w1-wY-I2t"/>

@@ -12,6 +12,9 @@
 
 typedef void(^readMessageBlock)(BOOL isRead);
 
+/**
+ 消息中心
+ */
 @interface EVNotifyListViewController : EVViewController
 
 @property (nonatomic, copy) readMessageBlock messageBlock;

@@ -46,6 +46,18 @@
 #import <Growing.h>
 
 #import "EVHomeBaseViewController.h"
+
+#import "EVNewsDetailWebController.h"
+
+#import "EVDetailWebViewController.h"
+
+#import "EVHVWatchTextViewController.h"
+
+#import "EVVipCenterViewController.h"
+
+//推送
+#import <UserNotifications/UserNotifications.h>
+#import "JPUSHService.h"
 NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 
 #define kIsFirstLauchApp  @"kIsFirstLauchApp"
@@ -96,13 +108,18 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     [self setUpTimer];
     
     [[EVPushManager sharePushManager] setDidReceiveNotificationResponseBlock:^(NSDictionary *userInfo) {
+        //在后台收到推送消息会触发该方法
+        //收到推送 回调
+        [self didReceiveRemoteNotification:userInfo];
+        
         [EVPushManager setCurrentBadge:[userInfo[@"aps"][@"badge"] integerValue]];
         [self handlelLocalNotificationWith:userInfo];
     }];
     
     [[EVPushManager sharePushManager] setWillPresentNotificationBlock:^(NSDictionary *userInfo) {
         [EVPushManager setCurrentBadge:0];
-        [self handlelLocalNotificationWithOnActiveState:userInfo];
+        //从后台进入会触发三次此方法    在应用内只会调用该方法   并且只会调用一次
+//        [self handlelLocalNotificationWithOnActiveState:userInfo];
     }];
   
     
@@ -423,20 +440,50 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 }
 
 
-//APP在后台时收到推送的处理
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler{
-    
-    // 注册用户数据
- 
-    [[EVPushManager sharePushManager] handleWithUserInfo:userInfo];
-    if ( application.applicationState == UIApplicationStateActive ) {
-        [self handlelLocalNotificationWithOnActiveState:userInfo];
-        return;
-    }
-    [self handleRemoteNotification:userInfo];
 
+#pragma mark- JPUSHRegisterDelegate
+
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler
+{
+    NSLog(@"__func__:**********%s",__func__);
+    /*
+     userInfo:
+     {
+     "_j_msgid" = 6868098256;
+     aps =     {
+     alert = "H5\U8df3\U8f6c\U6d4b\U8bd5";
+     badge = 1;
+     sound = default;
+     };
+     resource = "http://www.hooview.com";
+     type = 0;
+     }
+     */
+    
+    [self didReceiveRemoteNotification:userInfo];
+    
 }
 
+#pragma mark - 收到推送统一调用该方法
+- (void)didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    NSLog(@"收到推送  ：userInfo：%@",userInfo);
+
+
+    // 注册用户数据
+    [[EVPushManager sharePushManager] handleWithUserInfo:userInfo];
+    if ( [UIApplication sharedApplication].applicationState == UIApplicationStateActive )
+    {
+        //如果APP在前台
+        [self handlelLocalNotificationWithOnActiveState:userInfo];
+    }
+    else
+    {
+        //如果APP在后台  跳转页面
+        [self handleRemoteNotification:userInfo];
+    }
+}
 
 #pragma mark - 用于处理远程推送过来的数据
 - (void)handleRemoteNotification:(NSDictionary *)userInfo{
@@ -445,17 +492,128 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     noti.alertAction = @"test";
     noti.userInfo = userInfo;
     [[EVNotificationManager  shareNotificationManager] performLocalNotification:noti];
+    
+    //远程推送跳转页面
+    [self switchToPredictControllerWithUserInfo:userInfo];
 }
 
 #pragma mark - 处理本地通知
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
+    NSLog(@"__func__:**********%s",__func__);
     [self handlelLocalNotificationWith:notification.userInfo];
 }
 
 #pragma mark - 跳转
 - (void)switchToPredictControllerWithUserInfo:(NSDictionary *)userInfo
 {
-    
+    NSString * type = userInfo[@"type"];
+    if (type && type.length>0) {
+        NSString * resourceString = userInfo[@"resource"];
+        [self dismissCurrentPresentViewController];
+        
+        switch ([type integerValue]) {
+            //（0，H5；1，新闻；2，精品视频；3，视频直播间；4，图文直播间；5，个人主页）
+            case 0:
+            {
+                //H5
+                NSDictionary * dic = [NSDictionary dictionaryWithObjectsAndKeys:resourceString,kH5_url, nil];
+                [self handleActivityNotificationWith:dic];
+                
+            }
+                break;
+            case 1:
+            {
+                //新闻
+                EVNewsDetailWebController *newsDetailVC = [[EVNewsDetailWebController alloc] init];
+                //                EVBaseNewsModel *baseNewsModel = ;
+                newsDetailVC.newsID = resourceString;
+                
+                if ([resourceString isEqualToString:@""] || resourceString== nil) {
+                    return;
+                }
+                self.homeVC.selectedIndex = 0;
+                UINavigationController *presentNav = self.homeVC.viewControllers[0] ;
+                [presentNav popToRootViewControllerAnimated:NO];
+                [presentNav pushViewController:newsDetailVC animated:YES];
+            }
+                break;
+            case 2:
+            {
+                //精品视频
+                EVHVWatchViewController *watchViewVC = [[EVHVWatchViewController alloc] init];
+                EVWatchVideoInfo *watchVideo = [[EVWatchVideoInfo alloc] init];
+                watchVideo.vid = resourceString;
+                watchVideo.mode = 2;
+                watchViewVC.watchVideoInfo = watchVideo;
+                UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:watchViewVC];
+                [self.homeVC presentViewController:nav animated:YES completion:nil];
+                
+            }
+                break;
+            case 3:
+            {
+                //视频直播间
+                NSDictionary * dic = [NSDictionary dictionaryWithObjectsAndKeys:resourceString,kVid,nil];
+                [self handlelLiveNotificationWith:dic];
+            }
+                break;
+            case 4:
+            {
+                //图文直播间
+                EVWatchVideoInfo *liveVideoInfo = [[EVWatchVideoInfo alloc] init];
+                liveVideoInfo.liveID = resourceString;
+                EVHVWatchTextViewController *watchImageVC = [[EVHVWatchTextViewController alloc] init];
+                UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:watchImageVC];
+                [self.homeVC presentViewController:navigationVC animated:YES completion:nil];
+                watchImageVC.liveVideoInfo = liveVideoInfo;
+            }
+                break;
+            case 5:
+            {
+                //个人主页
+                EVVipCenterViewController *vipCenterVC  = [[EVVipCenterViewController alloc] init];
+                vipCenterVC.watchVideoInfo.name = resourceString;
+                UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:vipCenterVC];
+                [self.homeVC presentViewController:nav animated:YES completion:^{
+                    
+                }];
+                
+            }
+                break;
+                
+            default:
+                break;
+        }
+    }
+}
+//让当前模态出来的控制器消失
+- (void)dismissCurrentPresentViewController
+{
+    UIViewController * currentVc = [self topViewControllerWithRootViewController:self.homeVC];
+    if (currentVc.presentingViewController) {
+//      如果当前视图是模态出来的  则dismiss
+        [currentVc dismissViewControllerAnimated:YES completion:nil];
+    }
+    else {
+        
+    }
+}
+
+//获取当前展示的控制器
+- (UIViewController *)topViewControllerWithRootViewController:(UIViewController*)rootViewController
+{
+    if ([rootViewController isKindOfClass:[UITabBarController class]]) {
+        UITabBarController *tabBarController = (UITabBarController *)rootViewController;
+        return [self topViewControllerWithRootViewController:tabBarController.selectedViewController];
+    } else if ([rootViewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController* navigationController = (UINavigationController*)rootViewController;
+        return [self topViewControllerWithRootViewController:navigationController.visibleViewController];
+    } else if (rootViewController.presentedViewController) {
+        UIViewController* presentedViewController = rootViewController.presentedViewController;
+        return [self topViewControllerWithRootViewController:presentedViewController];
+    } else {
+        return rootViewController;
+    }
 }
 
 - (void)handlelLocalNotificationWith:(NSDictionary *)userInfo{
@@ -469,6 +627,7 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     }
 }
 
+#pragma mark - 新的消息 消息中心
 - (void)handlelNotifyNotificationWith:(NSDictionary *)dict
 {
     EVNotifyListViewController *notifyListVC = [[EVNotifyListViewController alloc] init];
@@ -476,17 +635,15 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     item.groupid = dict[@"groupid"];
     notifyListVC.notiItem = item;
 
-//    [self setUpHomeController];
     self.homeVC.selectedIndex = 2;
     
-    EVNavigationController *notifyNavVC = self.homeVC.viewControllers[2];
+    EVNavigationController *notifyNavVC = self.homeVC.viewControllers[3];
     [notifyNavVC pushViewController:notifyListVC animated:YES];
 }
 
 #pragma mark - 环信推送
 - (void)handleIMNoticationWith:(NSDictionary *)dict
-{   
-//    [self setUpHomeController];
+{
     self.homeVC.selectedIndex = 3;
 }
 
@@ -501,37 +658,35 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     {
         return;
     }
-//    EVWatchViewController *watchVC = [[EVWatchViewController alloc] init];
-//    EVWatchVideoInfo *watchVideoInfo = [[EVWatchVideoInfo alloc] init];
-//    watchVideoInfo.vid = vid;
-//    watchVC.watchVideoInfo = watchVideoInfo;
-//    
-//    __block UIViewController *presenetVC = [self.window visibleViewController];
-//    
-//    if ( [presenetVC isKindOfClass:[EVWatchViewController class]] )
-//    {
-//        [[EVAlertManager shareInstance] performComfirmTitle:kTooltip message:kE_GlobalZH(@"is_end_play") cancelButtonTitle:kCancel comfirmTitle:kOK WithComfirm:^{
-//            EVHVWatchViewController *currWatchVC = (EVHVWatchViewController *)presenetVC;
-//            UIViewController *vc = [self.window visibleViewController];
-//            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:currWatchVC];
-//            [self presentViewController:nav animated:YES completion:nil];
-////            [currWatchVC foreceToPopCurrentWatchPage:^{
-////
-////                UINavigationController *nav = (UINavigationController *)([vc isKindOfClass:[UINavigationController class]] ? vc : vc.navigationController);
-////                [nav pushViewController:watchVC animated:YES];
-////            }];
-//        } cancel:nil];
-//        return;
-//    }
+    EVHVWatchViewController *watchVC = [[EVHVWatchViewController alloc] init];
+    EVWatchVideoInfo *watchVideoInfo = [[EVWatchVideoInfo alloc] init];
+    watchVideoInfo.vid = vid;
     
-//    if ( [presenetVC isKindOfClass:[EVLiveViewController class]] )
-//    {
-//         [EVProgressHUD showMessageInAFlashWithMessage:kE_GlobalZH(@"self_living_not_push")];
-//        return;
-//    }
-//    
-//    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:watchVC];
-//    [self.homeVC presentViewController:nav animated:NO completion:nil];
+    watchVC.watchVideoInfo = watchVideoInfo;
+    
+    __block UIViewController *presenetVC = [self.window visibleViewController];
+    
+    if ( [presenetVC isKindOfClass:[EVHVWatchViewController class]] )
+    {
+        [[EVAlertManager shareInstance] performComfirmTitle:kTooltip message:kE_GlobalZH(@"is_end_play") cancelButtonTitle:kCancel comfirmTitle:kOK WithComfirm:^{
+            EVHVWatchViewController *currWatchVC = (EVHVWatchViewController *)presenetVC;
+            UIViewController *vc = [self.window visibleViewController];
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:currWatchVC];
+            [self.homeVC presentViewController:nav animated:YES completion:nil];
+
+        }
+                                                     cancel:nil];
+        return;
+    }
+    
+    if ( [presenetVC isKindOfClass:[EVLiveViewController class]] )
+    {
+         [EVProgressHUD showMessageInAFlashWithMessage:kE_GlobalZH(@"self_living_not_push")];
+        return;
+    }
+    
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:watchVC];
+    [self.homeVC presentViewController:nav animated:NO completion:nil];
     
 }
 
@@ -542,25 +697,7 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     
 }
 
-#pragma mark - 关注推送
-- (void)handlelFocusNotificationWith:(NSDictionary *)dict
-{
-    UIViewController *presenetVC = [self.window visibleViewController];
-    
-    UINavigationController *presentNav = presenetVC.navigationController;
-    
-    self.window.rootViewController = self.homeVC;
-    if ( 3 == self.homeVC.selectedIndex )
-    {
-        [presentNav popToRootViewControllerAnimated:YES];
-    }
-    else
-    {
-        self.homeVC.selectedIndex = 3;
-    }
-}
-
-#pragma mark - 活动推送
+#pragma mark - 活动推送(网页)
 
 - (void)handleActivityNotificationWith:(NSDictionary *)dict
 {
@@ -582,7 +719,8 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 }
 
 #pragma mark - 处理本地通知
-- (void)handlelLocalNotificationWithOnActiveState:(NSDictionary *)userInfo{
+- (void)handlelLocalNotificationWithOnActiveState:(NSDictionary *)userInfo
+{
     UIWindow *keyWin = [UIApplication sharedApplication].keyWindow;
     EVPushBar *pushBar = [EVPushBar pushBarWithTitle:userInfo[@"aps"][@"alert"]];
     [pushBar addTarget:self action:@selector(notificationButtonDidClick:) forControlEvents:UIControlEventTouchUpInside];

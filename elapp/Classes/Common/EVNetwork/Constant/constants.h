@@ -120,9 +120,10 @@
 #define EVALLUserTagsAPI            @"/sys/taglist"
 #define EVUserTagsSetAPI            @"/user/tagset"
 
-
-
-
+//通用接口 不分正式和测试环境
+#define EVHVNewsTopicAPI            @"https://demo2821846.mockable.io/news/topic"
+//新闻
+#define EVHVNewsConstantAPI         @"https://demo2821846.mockable.io/news/home"
 
 #ifdef STATE_DEV
 //测试
@@ -170,6 +171,7 @@
 #define EVHoovviewNewsBannersAPI    @"http://dev.hooview.com/api/news/banners"
 #define EVTextLiveHaveAPI           @"http://dev.hooview.com/api/textlive/streaminfo"
 
+
 //支付成功回调给服务器
 #define EVSuccessPayToService       @"https://appgw.hooview.com/easyvaas/service/service/payecoin"
 #endif
@@ -187,14 +189,8 @@
 //#define EVQueryQuotesAPI            @"http://openapi.hooview.com/tushare/get_realtime_quotes"
 #define EVQueryQuotesAPI            @"http://openapi.hooview.com/api/stock/realtime"
 //#define EVHVNewsConstantAPI         @"http://openapi.hooview.com/api/news/gethomeNews"
-//改版
-//#define EVHVNewsConstantAPI         @"http://dev.hooview.com/api/v2/news/home"
-//测试
-#define EVHVNewsConstantAPI         @"https://demo2821846.mockable.io/news/home"
-//专题详情
-//#define EVHVNewsTopicAPI            @"http://dev.hooview.com/api/v2/news/topic"
-//测试
-#define EVHVNewsTopicAPI            @"https://demo2821846.mockable.io/news/topic"
+
+
 
 #define EVHVFastNewsAPI             @"http://openapi.hooview.com/api/news/getnewsflash"
 #define EVHVEyesDetailNewsAPI       @"http://openapi.hooview.com/api/news/getlist"

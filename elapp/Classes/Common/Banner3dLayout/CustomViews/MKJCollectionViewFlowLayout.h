@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "MKJConstant.h"
 @protocol MKJCollectionViewFlowLayoutDelegate <NSObject>
 
 - (void)collectioViewScrollToIndex:(NSInteger)index;

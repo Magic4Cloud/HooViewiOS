@@ -132,6 +132,11 @@
     [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [self.evPlayer pause];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
 

@@ -9,6 +9,9 @@
 #import "EVViewController.h"
 #import "EVHVEyesModel.h"
 
+/**
+ 火眼金睛
+ */
 @interface EVHVEyesViewController : EVViewController
 
 @property (nonatomic, copy) NSString *eyesID;

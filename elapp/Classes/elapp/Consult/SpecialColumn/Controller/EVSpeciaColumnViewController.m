@@ -44,6 +44,8 @@
     [_collectionView addRefreshFooterWithRefreshingBlock:^{
         [weakself initMoreData];
     }];
+    
+    _collectionView.mj_footer.hidden = YES;
 
 }
 
@@ -66,6 +68,7 @@
     [self endRefreshing];
     
     [self.baseToolManager GETSpeciaColumnNewsRequestStart:@"0" count:@"20" Success:^(NSDictionary *retinfo) {
+        [self.collectionView.mj_footer resetNoMoreData];
         NSLog(@"专栏 = %@",retinfo);
         [self.datasourceArray removeAllObjects];
         

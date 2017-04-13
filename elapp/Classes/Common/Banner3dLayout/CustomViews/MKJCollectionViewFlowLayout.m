@@ -7,7 +7,7 @@
 //
 
 #import "MKJCollectionViewFlowLayout.h"
-#import "MKJConstant.h"
+
 
 @implementation MKJCollectionViewFlowLayout
 {
@@ -72,13 +72,11 @@
         CGFloat scale = 1 - absOffset / halfCenterX;
         
         //5. 缩放
-//        attributes.transform3D = CATransform3DMakeScale(1 + scale * MKJMinZoomScale, 1 + scale * MKJMinZoomScale, 1);
-//        NSLog(@"scale:%f",scale);
-//        NSLog(@"MKJMinZoomScale:%f",MKJMinZoomScale);
+
         float scallll = 1 + scale * MKJMinZoomScale;
-//        NSLog(@"scallll:%f",scallll);
+//        float scallll = 1 ;
         
-        attributes.transform3D = CATransform3DMakeScale(1 + scale * MKJMinZoomScale, 1 + scale * MKJMinZoomScale, 1);
+        attributes.transform3D = CATransform3DMakeScale(scallll,scallll, 1);
         
         // 是否需要透明
         if (self.needAlpha)

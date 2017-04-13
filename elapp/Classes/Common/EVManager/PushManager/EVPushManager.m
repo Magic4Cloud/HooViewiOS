@@ -401,6 +401,8 @@ didChangeAuthorizationStatus:(CLAuthorizationStatus)status
 #pragma mark- JPUSHRegisterDelegate
 // iOS 10 Support  当程序在前台时, 收到推送弹出的通知
 - (void)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(NSInteger))completionHandler {
+    
+    NSLog(@"__func__:**********%s",__func__);
     // Required
     NSDictionary * userInfo = notification.request.content.userInfo;
     
@@ -417,6 +419,7 @@ didChangeAuthorizationStatus:(CLAuthorizationStatus)status
 }
 // iOS 10 Support   程序关闭后, 通过点击推送弹出的通知
 - (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
+    NSLog(@"__func__:**********%s",__func__);
     // Required
     NSDictionary * userInfo = response.notification.request.content.userInfo;
     

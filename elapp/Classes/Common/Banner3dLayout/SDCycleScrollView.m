@@ -14,13 +14,17 @@
 #import "MKJCollectionViewCell.h"
 #import "MKJCollectionViewFlowLayout.h"
 #import "UIImageView+WebCache.h"
+
 #define kCycleScrollViewInitialPageControlDotSize CGSizeMake(10, 10)
+
 
 static NSString *indentify = @"MKJCollectionViewCell";
 @interface SDCycleScrollView () <UICollectionViewDataSource, UICollectionViewDelegate,MKJCollectionViewFlowLayoutDelegate>
 
 {
     int curentIndexDelegate;
+    
+    float screenScale;
 }
 
 @property (nonatomic, strong) UICollectionView *mainView; // 显示图片的collectionView
@@ -69,7 +73,7 @@ static NSString *indentify = @"MKJCollectionViewCell";
     _autoScrollTimeInterval = 2.0;
     _autoScroll = YES;
     _infiniteLoop = YES;
-
+    screenScale = ScreenWidth<375?1:ScreenWidth/375;
     self.backgroundColor = [UIColor whiteColor];
     curentIndexDelegate = 0;
 }
@@ -112,9 +116,8 @@ static NSString *indentify = @"MKJCollectionViewCell";
     MKJCollectionViewFlowLayout * flowLayout = [[MKJCollectionViewFlowLayout alloc] init];
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
 
-    flowLayout.itemSize = CGSizeMake(self.bounds.size.width - 60*ScreenWidth/375, self.bounds.size.height-30*ScreenHeight/667);
-    
-
+    flowLayout.itemSize = CGSizeMake(self.bounds.size.width - 60*screenScale, self.bounds.size.height-30*screenScale);
+//    flowLayout.itemSize = CGSizeMake(self.bounds.size.width - 60, self.bounds.size.height-20);
     flowLayout.minimumLineSpacing = 10;
 //    flowLayout.minimumInteritemSpacing = 20;
     flowLayout.delegate = self;
@@ -307,7 +310,7 @@ static NSString *indentify = @"MKJCollectionViewCell";
     {
         if (curentIndexDelegate != indexPathNow.row)
         {
-            curentIndexDelegate = indexPathNow.row;
+            curentIndexDelegate = (int)indexPathNow.row;
         }
     }
 //    NSLog(@"currentIndex:***%d",curentIndexDelegate);
@@ -479,7 +482,7 @@ static NSString *indentify = @"MKJCollectionViewCell";
         float height = 40;
         
         float screenWidth = [UIScreen mainScreen].bounds.size.width;
-        _pageLabel = [[UILabel alloc] initWithFrame:CGRectMake(screenWidth-width-30, self.bounds.size.height - height - 10, width, height)];
+        _pageLabel = [[UILabel alloc] initWithFrame:CGRectMake((screenWidth-width-30*screenScale + ((ScreenWidth-60*screenScale)*MKJMinZoomScale)/2), self.bounds.size.height - height-10, width, height)];
         
         _pageLabel.backgroundColor = [UIColor colorWithHexString:@"#672f87" alpha:0.7];
         _pageLabel.textAlignment = NSTextAlignmentCenter;

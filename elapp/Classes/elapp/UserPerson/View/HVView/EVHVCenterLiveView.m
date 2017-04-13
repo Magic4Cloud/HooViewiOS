@@ -246,9 +246,11 @@
     EVMyVideoTableViewCell *videoCell = [tableView dequeueReusableCellWithIdentifier:@"videoCell"];
     if (videoCell == nil) {
         videoCell = [[NSBundle mainBundle] loadNibNamed:@"EVMyVideoTableViewCell_6" owner:nil options:nil].firstObject;
+        [videoCell setValue:@"videoCell" forKey:@"reuseIdentifier"];
+        videoCell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     videoCell.videoModel = self.videos[indexPath.row];
-    videoCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     return videoCell;
 }
 
