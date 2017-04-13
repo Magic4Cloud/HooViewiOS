@@ -536,6 +536,7 @@
         self.offsetBlock (scrollView.contentOffset.y,YES);
     }
 }
+
 - (void)cycleScrollViewDidSelected:(EVCarouselItem *)item
                              index:(NSInteger)index
 {

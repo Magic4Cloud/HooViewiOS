@@ -29,6 +29,7 @@
 @property (nonatomic, assign) NSUInteger priority;
 @property (nonatomic, assign) NSUInteger collected;//是否已自选
 @property (nonatomic, copy) NSString *datetime;
+@property (nonatomic, copy) NSString *nationalFlag;//国旗地址
 
 @property (nonatomic, assign) BOOL status;
 

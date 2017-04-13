@@ -432,10 +432,14 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     }
 }
 
+
+
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
 //    [[EVEaseMob cc_shareInstance] remoteRegistDidFailToRegisterForRemoteNotificationsWithError:error];
 }
+
+
 
 #pragma mark- JPUSHRegisterDelegate
 
@@ -465,6 +469,7 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 - (void)didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     NSLog(@"收到推送  ：userInfo：%@",userInfo);
+
 
     // 注册用户数据
     [[EVPushManager sharePushManager] handleWithUserInfo:userInfo];
@@ -615,7 +620,7 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     
      [self handlelLiveNotificationWith:userInfo];
     
-    if ( userInfo[@"f"] )   // 环信推送
+    if ( userInfo[@"f"] )   //环信推送
     {
         [self handleIMNoticationWith:userInfo];
         return;
@@ -748,6 +753,11 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 
 - (void)notificationButtonDidClick:(EVPushBar *)pushButton{
     [self handlelLocalNotificationWith:pushButton.userInfo];
+    
+    
+    
+    
+    
     pushButton.hidden = YES;
 }
 
