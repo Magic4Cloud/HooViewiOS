@@ -33,7 +33,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initUI];
-    [self initData];
+    
     
     WEAK(self)
     [self.collectionView.mj_footer setHidden:YES];
@@ -44,7 +44,7 @@
     [_collectionView addRefreshFooterWithRefreshingBlock:^{
         [weakself initMoreData];
     }];
-    
+    [_collectionView startHeaderRefreshing];
     _collectionView.mj_footer.hidden = YES;
 
 }
@@ -65,9 +65,10 @@
 #pragma mark - 🌐 Networks
 - (void)initData {
     _start = 0;
-    [self endRefreshing];
+    
     
     [self.baseToolManager GETSpeciaColumnNewsRequestStart:@"0" count:@"20" Success:^(NSDictionary *retinfo) {
+        [self endRefreshing];
         [self.collectionView.mj_footer resetNoMoreData];
         NSLog(@"专栏 = %@",retinfo);
         [self.datasourceArray removeAllObjects];

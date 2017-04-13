@@ -38,7 +38,6 @@
     
     // Do any additional setup after loading the view.
     [self addUpView];
-    [self loadFastNewsStart:@"0" count:@"20"];
     [self loadNewsData];
 }
 
@@ -54,7 +53,7 @@
         [self loadFastNewsStart:self.start count:@"20"];
         
     }];
-    
+    [self.newsTableView startHeaderRefreshing];
     self.newsTableView.mj_footer.hidden = YES;
 }
 

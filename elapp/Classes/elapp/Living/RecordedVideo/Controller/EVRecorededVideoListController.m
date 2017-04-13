@@ -63,7 +63,7 @@
         [self endRefreshing];
         [EVProgressHUD showError:@"加载失败"];
     } success:^(NSDictionary *info) {
-        self.start = info[@"retinfo"][@"start"];
+        self.start = info[@"retinfo"][@"next"];
         [self endRefreshing];
         if ([info[@"retinfo"][@"start"] integerValue]== 0) {
             [self.dataArray removeAllObjects];

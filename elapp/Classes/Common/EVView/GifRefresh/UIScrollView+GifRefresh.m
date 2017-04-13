@@ -423,10 +423,14 @@
         UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"ic_loading_%zd", i]];
         [refreshingImages addObject:image];
     }
-//    [gifHeader setImages:idleImages forState:MJRefreshStateRefreshing];
+//    for (NSUInteger i = 0; i < 6; i++) {
+//        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"spinner_%zd", i]];
+//        [refreshingImages addObject:image];
+//    }
     
+    [gifHeader setImages:refreshingImages forState:MJRefreshStateRefreshing];
     // 设置正在刷新状态的动画图片
-    [gifHeader setImages:refreshingImages duration:refreshingImages.count * .1 forState:MJRefreshStateRefreshing];
+//    [gifHeader setImages:refreshingImages duration:refreshingImages.count * 0.2 forState:MJRefreshStateRefreshing];
 }
 
 - (void)configGifFooter:(EVRefreshGifFooter *)gifFooter

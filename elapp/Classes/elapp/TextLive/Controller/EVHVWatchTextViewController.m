@@ -136,21 +136,7 @@
     mainBackView.pagingEnabled = YES;
     mainBackView.delegate = self;
     mainBackView.showsHorizontalScrollIndicator = NO;
-//    self.swipeTableView = [[SwipeTableView alloc]initWithFrame:self.view.bounds];
-//    _swipeTableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-//    _swipeTableView.delegate = self;
-//    _swipeTableView.dataSource = self;
-//    _swipeTableView.shouldAdjustContentSize = YES;
-//    _swipeTableView.alwaysBounceHorizontal = YES;
-//    _swipeTableView.swipeHeaderView = self.tableViewHeader;
-//    _swipeTableView.swipeHeaderBar = self.sementedBackView;
-//    _swipeTableView.swipeHeaderBarScrollDisabled = YES;
-//    _swipeTableView.swipeHeaderTopInset = 0;
-//    [self.view addSubview:_swipeTableView];
-//    self.vipCenterView.watchVideoInfo = self.watchVideoInfo;
     
-    //头部  头像视图
-//    self.vipCenterView = [[EVHVVipCenterView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, headerTopHig) isTextLive:YES];
     [self.view addSubview:self.vipCenterView];
     self.vipCenterView.delegate = self;
     [self.vipCenterView.reportBtn setImage:[UIImage imageNamed:@"btn_share_w_n_back"] forState:(UIControlStateNormal)];
@@ -1047,7 +1033,14 @@
     EMChatroom *chatroom = [[EMClient sharedClient].roomManager leaveChatroom:_liveVideoInfo.liveID error:&error];
     EVLog(@"chatroom-------  %@ ---------  %d",chatroom,error.code);
     EVLog(@"_liveVideoInfo.liveID:%@",_liveVideoInfo.liveID);
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if (self.navigationController.viewControllers.count == 1) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+    else
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    
 }
 
 

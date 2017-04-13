@@ -39,13 +39,15 @@
     self.view.backgroundColor = [UIColor greenColor];
     [self addUpView];
     WEAK(self);
-    [self loadTopicVideoDataWithTopicId:@"0" start:0 count:20];
+    
     [self.liveTableView addRefreshHeaderWithRefreshingBlock:^{
          [weakself loadTopicVideoDataWithTopicId:@"0" start:0 count:20];
     }];
     [self.liveTableView addRefreshFooterWithRefreshingBlock:^{
         [weakself loadTopicVideoDataWithTopicId:@"0" start:weakself.start count:20];
     }];
+    [self.liveTableView startHeaderRefreshing];
+    [self.liveTableView hideFooter];
 }
 
 
@@ -93,7 +95,8 @@
         NSArray *videos_model_temp = [EVWatchVideoInfo objectWithDictionaryArray:videoInfo[@"recommend"]];
         [self.dataArray addObjectsFromArray:videos_model_temp];
         [self.liveTableView reloadData];
-     
+        
+        [self.liveTableView showFooter];
         [self.liveTableView setFooterState:(videos_model_temp.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
     } sessionExpired:^{
         EVRelogin(weakself);

@@ -148,7 +148,7 @@ typedef enum : NSUInteger {
         self.calculateCacheSizeOver = YES;
         self.cacheSize = size;
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.settingTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForItem:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
+            [self.settingTableView reloadData];
         });
     });
     
@@ -236,7 +236,7 @@ typedef enum : NSUInteger {
             [EVProgressHUD showSuccess:@"缓存已清除"];
         }];
         
-        [[[SDCycleScrollView alloc] init] clearCache];
+        
     }else if (indexPath.section == 2 && indexPath.row == 0) {
         EVLog(@"关于火眼");
         EVAboutTableViewController *aboutVC = [EVAboutTableViewController instanceFromStoryboard];

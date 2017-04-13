@@ -82,7 +82,7 @@
     _swipeTableView.dataSource = self;
     _swipeTableView.shouldAdjustContentSize = YES;
     _swipeTableView.alwaysBounceHorizontal = YES;
-    _swipeTableView.swipeHeaderView = self.tableViewHeader;
+    _swipeTableView.swipeHeaderView = self.vipCenterView;
     _swipeTableView.swipeHeaderBar = self.sementedBackView;
     _swipeTableView.swipeHeaderBarScrollDisabled = YES;
     _swipeTableView.swipeHeaderTopInset = 0;
@@ -108,20 +108,13 @@
     
 }
 
-- (UIView *)tableViewHeader {
-    if (nil == _tableViewHeader) {
-        // swipe header
-        self.tableViewHeader = [[STHeaderView alloc]init];
-        _tableViewHeader.frame = CGRectMake(0, 0, ScreenWidth, 226);
-        _tableViewHeader.backgroundColor = [UIColor whiteColor];
-        _tableViewHeader.layer.masksToBounds = YES;
-        
-        self.vipCenterView = [[EVHVVipCenterView alloc] initWithFrame:_tableViewHeader.bounds isTextLive:NO];
-        [self.view addSubview:_vipCenterView];
+- (EVHVVipCenterView * )vipCenterView
+{
+    if (!_vipCenterView) {
+        _vipCenterView = [[EVHVVipCenterView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 226) isTextLive:NO];
         _vipCenterView.delegate = self;
-        [_tableViewHeader addSubview:_vipCenterView];
     }
-    return _tableViewHeader;
+    return _vipCenterView;
 }
 
 
@@ -370,6 +363,11 @@
 }
 - (void)backButton
 {
+    if (self.navigationController.viewControllers.count>1) {
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
+    
     if (self.presentingViewController) {
         [self dismissViewControllerAnimated:YES completion:nil];
     } else {

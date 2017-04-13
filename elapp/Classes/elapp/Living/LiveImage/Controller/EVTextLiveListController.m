@@ -40,7 +40,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
+    _next = @"0";
     [self addUpView];
     [self loadDataStart:@"0"];
     WEAK(self)
@@ -48,7 +48,7 @@
         [weakself loadDataStart:@"0"];
     }];
     [self.liveTableView addRefreshFooterWithRefreshingBlock:^{
-        
+        [weakself loadDataStart:_next];
     }];
 }
 
@@ -178,11 +178,14 @@
             EVHotImageListViewCell *liveCell =[tableView dequeueReusableCellWithIdentifier:@"imageCell"];
             if (!liveCell) {
                 liveCell = [[NSBundle mainBundle] loadNibNamed:@"EVHotImageListViewCell" owner:nil options:nil].firstObject;
+                [liveCell setValue:@"imageCell" forKey:@"reuseIdentifier"];
+                liveCell.selectionStyle = UITableViewCellSelectionStyleNone;
             }
+            
             if (self.dataArray.count != 0) {
                 liveCell.watchVideoInfo = self.dataArray[indexPath.row];
             }
-            liveCell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
             return liveCell;
         }
     }

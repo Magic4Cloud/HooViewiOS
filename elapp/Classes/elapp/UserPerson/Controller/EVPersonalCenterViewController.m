@@ -118,10 +118,7 @@
 }
 
 
-- (void)viewDidLayoutSubviews
-{
-    [super viewDidLayoutSubviews];
-}
+
 
 - (void) setUpTop
 {

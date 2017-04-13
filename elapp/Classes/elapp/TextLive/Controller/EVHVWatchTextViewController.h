@@ -11,6 +11,9 @@
 #import "EVHVVipCenterView.h"
 
 
+/**
+ 别人的图文直播间
+ */
 @interface EVHVWatchTextViewController : UIViewController
 @property (nonatomic, strong) EVHVVipCenterView *vipCenterView;
 
