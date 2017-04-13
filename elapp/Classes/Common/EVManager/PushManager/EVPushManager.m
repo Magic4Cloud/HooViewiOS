@@ -399,31 +399,35 @@ didChangeAuthorizationStatus:(CLAuthorizationStatus)status
 }
 
 #pragma mark- JPUSHRegisterDelegate
-// iOS 10 Support
+// iOS 10 Support  当程序在前台时, 收到推送弹出的通知
 - (void)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(NSInteger))completionHandler {
     // Required
     NSDictionary * userInfo = notification.request.content.userInfo;
     
     if (self.willPresentNotificationBlock) {
         self.willPresentNotificationBlock(userInfo);
+        NSLog(@"iOS10程序在前台时收到的推送: %@", userInfo);
     }
     
     if([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
         [JPUSHService handleRemoteNotification:userInfo];
+        NSLog(@"iOS  前台时收到的推送: %@", userInfo);
     }
     //    completionHandler(UNNotificationPresentationOptionAlert); //                    Badge Sound Alert
 }
-// iOS 10 Support
+// iOS 10 Support   程序关闭后, 通过点击推送弹出的通知
 - (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
     // Required
     NSDictionary * userInfo = response.notification.request.content.userInfo;
     
     if (self.didReceiveNotificationResponseBlock) {
         self.didReceiveNotificationResponseBlock(userInfo);
+        NSLog(@"iOS10程序关闭后通过点击推送进入程序弹出的通知: %@", userInfo);
     }
-    
+
     if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
         [JPUSHService handleRemoteNotification:userInfo];
+        NSLog(@"iOS  后台收到的推送: %@", userInfo);
     }
     //    completionHandler();
 }

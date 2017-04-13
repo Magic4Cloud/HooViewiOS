@@ -415,11 +415,15 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     }
 }
 
+
+
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
 //    [[EVEaseMob cc_shareInstance] remoteRegistDidFailToRegisterForRemoteNotificationsWithError:error];
 }
 
+
+//APP在后台时收到推送的处理
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler{
     
     // 注册用户数据
@@ -458,7 +462,7 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     
      [self handlelLiveNotificationWith:userInfo];
     
-    if ( userInfo[@"f"] )   // 环信推送
+    if ( userInfo[@"f"] )   //环信推送
     {
         [self handleIMNoticationWith:userInfo];
         return;
@@ -611,6 +615,11 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 
 - (void)notificationButtonDidClick:(EVPushBar *)pushButton{
     [self handlelLocalNotificationWith:pushButton.userInfo];
+    
+    
+    
+    
+    
     pushButton.hidden = YES;
 }
 

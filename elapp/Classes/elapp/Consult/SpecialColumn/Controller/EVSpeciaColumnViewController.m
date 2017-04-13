@@ -154,11 +154,13 @@
     EVSpeciaColumnCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
     cell.columnModel = columnModel;
     cell.collectionSeletedBlock = ^(EVSpeciaAuthor *userInfo) {
+        
         EVWatchVideoInfo *watchInfo = [EVWatchVideoInfo new];
         watchInfo.name = userInfo.nameID;
         EVVipCenterViewController *vipVC = [EVVipCenterViewController new];
         vipVC.watchVideoInfo = watchInfo;
         [self.navigationController pushViewController:vipVC animated:YES];
+        
     };
     return cell;
 }

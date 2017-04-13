@@ -172,7 +172,7 @@
     self.changeFloatLabel.text = globalBaseModel.changepercent > 0 ? [NSString stringWithFormat:@"+%.2f%@",globalBaseModel.changepercent,floatMarked] : [NSString stringWithFormat:@"%.2f%@",globalBaseModel.changepercent,floatMarked];
     self.changeFloatLabel.textColor = globalBaseModel.changepercent > 0 ? [UIColor evAssistColor] : [UIColor evSecondColor];
     self.changeLabel.textColor = globalBaseModel.changepercent > 0 ? [UIColor evAssistColor] : [UIColor evSecondColor];
-
+    [self.flagImageViwe cc_setImageWithURLString:globalBaseModel.nationalFlag placeholderImage:nil];
     
 }
 
