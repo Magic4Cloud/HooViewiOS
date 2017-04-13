@@ -521,6 +521,7 @@
 }
 
 
+#pragma mark - 🤝 Delegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if (self.offsetBlock) {
@@ -607,87 +608,7 @@
     }
 }
 
-//- (void)newsButton:(UIButton *)button
-//{
-//    EVNewsDetailWebController *newsDetailVC = [[EVNewsDetailWebController alloc] init];
-//    EVBaseNewsModel *baseNewsModel = self.eyesDataArray[button.tag - 2000];
-//    newsDetailVC.newsID = baseNewsModel.newsID;
-//    newsDetailVC.newsTitle  = baseNewsModel.title;
-//    if ([baseNewsModel.newsID isEqualToString:@""] || baseNewsModel.newsID == nil) {
-//        return;
-//    }
-//    [self.navigationController pushViewController:newsDetailVC animated:YES];
-//}
-
-#pragma mark - 火眼金睛查看更多
-//- (void)moreButton:(UIButton *)button
-//{
-//    EVHVEyesViewController *eyesVC = [[EVHVEyesViewController alloc] init];
-//    if (self.eyesProgramID.count <= 0) {
-//        [EVProgressHUD showError:@"没有更多数据"];
-//        return;
-//    }
-//    eyesVC.eyesArray = self.eyesProgramID;
-//    eyesVC.eyesID = self.eyesID;
-//    [self.navigationController pushViewController:eyesVC animated:YES];
-//  
-//}
-// 请求轮播图
-//- (void)loadImageCarousel
-//{
-//    WEAK(self)
-//    [self.baseToolManager GETCarouselInfoWithStart:^{
-//        
-//    } success:^(NSDictionary *info) {
-//        [self endRefreshing];
-//        [weakself getCarouseInfoSuccess:info];
-//    } fail:^(NSError *error) {
-//        [self endRefreshing];
-//        [EVProgressHUD showError:@"加载失败"];
-//    } sessionExpire:^{
-//        EVRelogin(weakself);
-//    }];
-//}
-
-
-
-
-//- (void)endRefreshing
-//{
-//    [_iNewsTableview endHeaderRefreshing];
-//    [_iNewsTableview endFooterRefreshing];
-//}
-
-
-
-#pragma mark - ✍️ Setters & Getters
-- (void)successLoadView
-{
-    UIView *successView = [[UIView alloc] init];
-    [self.navigationController.view addSubview:successView];
-    successView.frame = CGRectMake(0, 20, ScreenWidth, 20);
-    successView.backgroundColor = [UIColor evMainColor];
-    successView.alpha = 0.7;
-    
-    NSDate *currentDate = [NSDate date];//获取当前时间，日期
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"最后更新: YYYY/MM/dd hh:mm"];
-    NSString *dateString = [dateFormatter stringFromDate:currentDate];
-  
-    UILabel *successLabel = [[UILabel alloc] init];
-    [successView addSubview:successLabel];
-    self.successLabel  = successLabel;
-    successLabel.frame = CGRectMake(0, 0, ScreenWidth, 20);
-    successLabel.textColor = [UIColor whiteColor];
-    [successLabel setText:dateString];
-    successLabel.backgroundColor = [UIColor clearColor];
-    successLabel.font   = [UIFont systemFontOfSize:14];
-    successLabel.textAlignment = NSTextAlignmentCenter;
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [successView removeFromSuperview];
-    });
-}
+#pragma mark - 🙄 Private methods
 // 处理得到的轮播图
 - (void)getCarouseInfoSuccess:(NSDictionary *)info
 {
@@ -717,6 +638,36 @@
     detailVC.isEnd = isEnd;
     [self.navigationController pushViewController:detailVC animated:YES];
 }
+
+#pragma mark - ✍️ Setters & Getters
+- (void)successLoadView
+{
+    UIView *successView = [[UIView alloc] init];
+    [self.navigationController.view addSubview:successView];
+    successView.frame = CGRectMake(0, 20, ScreenWidth, 20);
+    successView.backgroundColor = [UIColor evMainColor];
+    successView.alpha = 0.7;
+    
+    NSDate *currentDate = [NSDate date];//获取当前时间，日期
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"最后更新: YYYY/MM/dd hh:mm"];
+    NSString *dateString = [dateFormatter stringFromDate:currentDate];
+  
+    UILabel *successLabel = [[UILabel alloc] init];
+    [successView addSubview:successLabel];
+    self.successLabel  = successLabel;
+    successLabel.frame = CGRectMake(0, 0, ScreenWidth, 20);
+    successLabel.textColor = [UIColor whiteColor];
+    [successLabel setText:dateString];
+    successLabel.backgroundColor = [UIColor clearColor];
+    successLabel.font   = [UIFont systemFontOfSize:14];
+    successLabel.textAlignment = NSTextAlignmentCenter;
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [successView removeFromSuperview];
+    });
+}
+
 
 - (NSMutableArray *)dataArray
 {

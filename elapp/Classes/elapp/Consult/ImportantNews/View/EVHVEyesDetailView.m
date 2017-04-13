@@ -93,10 +93,10 @@
         if ([start integerValue]== 0) {
             [self.eyesDataArray removeAllObjects];
         }
-        self.start = retinfo[@"start"];
+        self.start = retinfo[@"next"];
         NSArray *eyesArr =   [EVHVEyesModel objectWithDictionaryArray:retinfo[@"news"]];
         if (eyesArr.count > 0) {
-            [EVRefreshSuccessView showRefreshSuccessViewTo:self newsCount:eyesArr.count];
+            
         }
         [self.eyesDataArray addObjectsFromArray:eyesArr];
         [self.detailTableView reloadData];
@@ -134,11 +134,11 @@
 {
     EVNewsListViewCell *newsCell = [tableView dequeueReusableCellWithIdentifier:@"eyesCell"];
     if (!newsCell) {
-        
         newsCell = [[NSBundle mainBundle] loadNibNamed:@"EVNewsListViewCell" owner:nil options:nil].firstObject;
+        [newsCell setValue:@"eyesCell" forKey:@"reuseIdentifier"];
+        newsCell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     newsCell.eyesModel = self.eyesDataArray[indexPath.row];
-    newsCell.selectionStyle = UITableViewCellSelectionStyleNone;
     return newsCell;
 }
 

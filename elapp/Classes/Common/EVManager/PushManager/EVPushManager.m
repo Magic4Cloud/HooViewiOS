@@ -401,6 +401,8 @@ didChangeAuthorizationStatus:(CLAuthorizationStatus)status
 #pragma mark- JPUSHRegisterDelegate
 // iOS 10 Support
 - (void)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(NSInteger))completionHandler {
+    
+    NSLog(@"__func__:**********%s",__func__);
     // Required
     NSDictionary * userInfo = notification.request.content.userInfo;
     
@@ -415,6 +417,7 @@ didChangeAuthorizationStatus:(CLAuthorizationStatus)status
 }
 // iOS 10 Support
 - (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
+    NSLog(@"__func__:**********%s",__func__);
     // Required
     NSDictionary * userInfo = response.notification.request.content.userInfo;
     
