@@ -56,7 +56,7 @@
 {
     // 返回上一级页面
     UIButton *backBtn = [[UIButton alloc] initWithTitle:kEBack];
-    [backBtn setImage:[UIImage imageNamed:@"nav_icon_return"] forState:UIControlStateNormal];
+    [backBtn setImage:[UIImage imageNamed:@"hv_back_return"] forState:UIControlStateNormal];
     backBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
     backBtn.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     [backBtn addTarget:self action:@selector(popBack) forControlEvents:UIControlEventTouchUpInside];

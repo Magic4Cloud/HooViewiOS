@@ -43,9 +43,9 @@
     
     
     UIButton *searchButton = [[UIButton alloc] init];
-    searchButton.frame = CGRectMake(ScreenWidth - 38, 29, 22, 22);
+    searchButton.frame = CGRectMake(ScreenWidth - 44 -10, 20, 44, 44);
     [self addSubview:searchButton];
-    [searchButton setImage:[UIImage imageNamed:@"Huoyan_market_search"] forState:(UIControlStateNormal)];
+    [searchButton setImage:[UIImage imageNamed:@"btn_news_search_n"] forState:(UIControlStateNormal)];
     [searchButton addTarget:self action:@selector(searchClick) forControlEvents:(UIControlEventTouchUpInside)];
     
     

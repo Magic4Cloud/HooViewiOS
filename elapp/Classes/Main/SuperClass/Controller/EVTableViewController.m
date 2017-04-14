@@ -33,8 +33,8 @@
     
     UIButton *backBtn = [[UIButton alloc] initWithTitle:@""];
     [backBtn addTarget:self action:@selector(popBack) forControlEvents:UIControlEventTouchUpInside];
-    [backBtn setImage:[UIImage imageNamed:@"nav_icon_return"] forState:UIControlStateNormal];
-    [backBtn setImage:[UIImage imageNamed:@"nav_icon_return"] forState:UIControlStateSelected];
+    [backBtn setImage:[UIImage imageNamed:@"hv_back_return"] forState:UIControlStateNormal];
+    [backBtn setImage:[UIImage imageNamed:@"hv_back_return"] forState:UIControlStateSelected];
     UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = leftBarButtonItem;
 }

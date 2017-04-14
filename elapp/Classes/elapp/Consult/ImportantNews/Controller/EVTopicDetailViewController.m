@@ -56,7 +56,6 @@
 }
 
 
-
 #pragma mark - 🖍 User Interface layout
 - (void)initUI
 {
@@ -64,8 +63,6 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     [self.view addSubview:self.naviBarBgView];
-    
-
     
     UIButton *backBtn =[UIButton buttonWithType:UIButtonTypeCustom];
     backBtn.frame = CGRectMake(4, 15, 44, 44);
@@ -78,7 +75,6 @@
     [self.activityView autoCenterInSuperview];
     self.activityView.hidden = YES;
     
-
 }
 
 - (void)setUpTableView
@@ -97,19 +93,21 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"EVSpecialTopicCell" bundle:nil] forCellReuseIdentifier:@"EVSpecialTopicCell"];
     [self.tableView registerNib:[UINib nibWithNibName:@"EVNewsListViewCell" bundle:nil] forCellReuseIdentifier:@"EVNewsListViewCell"];
 }
+
 #pragma mark - 🌐Networks
 - (void)loadNewData
 {
     self.activityView.hidden = NO;
     [self.activityView startAnimating];
-    [EVBaseToolManager GETNotVerifyRequestWithUrl:EVHVNewsTopicAPI parameters:@{@"id":@"12345"} success:^(NSDictionary *successDict) {
+    [EVBaseToolManager GETNotVerifyRequestWithUrl:EVHVNewsTopicAPI parameters:@{@"id":@"12345"} success:^(NSDictionary *successDict)
+    {
         [self.activityView stopAnimating];
-//        EVTopicModel * model =
         self.topicModel = [EVTopicModel yy_modelWithDictionary:successDict];
         [self setUpTableView];
         [self.tableView reloadData];
         
-    } fail:^(NSError *error) {
+    } fail:^(NSError *error)
+    {
         [self.activityView stopAnimating];
     }];
 }
@@ -130,21 +128,21 @@
 {
     return 1;
 }
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     EVNewsModel * model = _topicModel.news[indexPath.row];
     return model.cellHeight;
 }
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //新闻列表
-    
     EVNewsModel * newsModel = _topicModel.news[indexPath.row];
     
     if ([newsModel.type isEqualToString:@"0"])
     {
         //普通新闻
-        
         if (newsModel.cover == nil || newsModel.cover.count == 0)
         {
             //没有图片

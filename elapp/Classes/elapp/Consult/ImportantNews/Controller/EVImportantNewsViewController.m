@@ -421,7 +421,6 @@
     else if ([newsModel.type isEqualToString:@"2"])
     {
         //牛人推荐
-        
         EVRecommendCell * recommendCell = [tableView dequeueReusableCellWithIdentifier:@"EVRecommendCell"];
         if (!recommendCell) {
             recommendCell = [[EVRecommendCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"EVRecommendCell"];

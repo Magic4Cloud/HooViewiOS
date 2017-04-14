@@ -230,6 +230,8 @@ typedef NS_ENUM(NSInteger, CCLoginViewButtonType) {
 #pragma mark - 手机登录
 - (void)phoneLogin
 {
+    
+    
     [self.loginView.PhoneTextFiled resignFirstResponder];
     NSString *phone = self.loginView.PhoneTextFiled.text;
     NSString *pwd =  self.loginView.passwordTextFiled.text;
@@ -242,11 +244,14 @@ typedef NS_ENUM(NSInteger, CCLoginViewButtonType) {
         return;
     }
     [self.view endEditing:YES];
+    
+    [EVProgressHUD showMessage:kLogin_loading toView:self.view];
     __weak typeof(self) wself = self;
     [self.engine GETPhoneUserPhoneLoginWithAreaCode:@"86" Phone:phone password:pwd phoneNumError:^(NSString *numError) {
+        
         [EVProgressHUD showError:numError toView:self.view];
     }  start:^{
-        [EVProgressHUD showMessage:kLogin_loading toView:wself.view];
+        
     } fail:^(NSError *error) {
         [EVProgressHUD hideHUDForView:wself.view];
         if (error.code == -1003 || error.code == -1009) {
@@ -255,12 +260,10 @@ typedef NS_ENUM(NSInteger, CCLoginViewButtonType) {
         }
         NSString *errorStr = [error errorInfoWithPlacehold:kFail_login];
         [EVProgressHUD showMessage:errorStr];
-//        [[EVAlertManager shareInstance] performComfirmTitle:errorStr message:nil comfirmTitle:kOK WithComfirm:nil];
     } success:^(EVLoginInfo *loginInfo) {
         [EVProgressHUD hideHUDForView:wself.view];
         [wself dismissViewControllerAnimated:YES completion:nil];
         [EVBugly setUserId:loginInfo.name];
-        EVLog(@"denglu---------------   %@",loginInfo.name);
         [EVSDKInitManager initMessageSDKUserData:loginInfo.name];
         loginInfo.phone = wself.loginView.PhoneTextFiled.text;
         [loginInfo synchronized];

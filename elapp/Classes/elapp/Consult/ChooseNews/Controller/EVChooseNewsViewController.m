@@ -38,7 +38,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Do any additional setup after loading the view.
     [self addUpView];
     
     WEAK(self)
@@ -56,20 +55,6 @@
     
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    if (self.offsetBlock) {
-        self.offsetBlock (0,YES);
-    }
-    
-    
-}
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-}
 - (void)requestCollectList
 {
     [self.baseToolManager GETUserCollectListType:EVCollectTypeStock start:^{
@@ -93,8 +78,9 @@
 }
 - (void)loadDataStart:(NSString *)start
 {
-    EVLoginInfo *loginInfo = [EVLoginInfo localObject];
-    if ([loginInfo.sessionid isEqualToString:@""] || loginInfo.sessionid == nil) {
+
+    if (![EVLoginInfo hasLogged])
+    {
         [self.newsTableView endHeaderRefreshing];
         self.newsTableView.hidden = NO;
         self.nullDataView.hidden =  NO;
@@ -127,7 +113,6 @@
         [self.newsTableView reloadData];
 
     } error:^(NSError *error) {
-        NSLog(@"%@",error);
         [weakself.newsTableView endHeaderRefreshing];
         [weakself.newsTableView endFooterRefreshing];
     }];
@@ -174,7 +159,7 @@
     newsTableView.backgroundColor = [UIColor evBackgroundColor];
     newsTableView.contentInset = UIEdgeInsetsMake(7, 0, 0, 0);
     newsTableView.tableFooterView = [UIView new];
-    
+    self.newsTableView.estimatedRowHeight = 80;
     
     EVNullDataView *nullDataView = [[EVNullDataView alloc] init];
     nullDataView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight - 64);
@@ -192,6 +177,8 @@
     [self.newsTableView addSubview:twoDataView];
     self.twoDataView = twoDataView;
     twoDataView.hidden = YES;
+    
+    
 }
 
 - (void)addNews
@@ -217,7 +204,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-   
     return self.dataArray.count;
 }
 
@@ -226,9 +212,10 @@
     EVChooseNewsCell *fastCell = [tableView dequeueReusableCellWithIdentifier:@"chooseCell"];
     if (fastCell == nil) {
         fastCell = [[NSBundle mainBundle] loadNibNamed:@"EVChooseNewsCell" owner:nil options:nil].firstObject;
+        [fastCell setValue:@"chooseCell" forKey:@"reuseIdentifier"];
+        fastCell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     fastCell.chooseNewsModel = self.dataArray[indexPath.row];
-    fastCell.selectionStyle = UITableViewCellSelectionStyleNone;
     if (indexPath.row == self.dataArray.count - 1) {
         fastCell.noShowLine = YES;
     }
@@ -238,23 +225,11 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    self.newsTableView.rowHeight = UITableViewAutomaticDimension;
-    self.newsTableView.estimatedRowHeight = 80;
-    return self.newsTableView.rowHeight;
+    return UITableViewAutomaticDimension;
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    if (self.offsetBlock) {
-        self.offsetBlock (scrollView.contentOffset.y,NO);
-    }
-}
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-    if (self.offsetBlock) {
-        self.offsetBlock (scrollView.contentOffset.y,YES);
-    }
-}
+
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -266,12 +241,7 @@
     [self.navigationController pushViewController:newsDetailVC animated:YES];
     
 }
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
-    if (self.offsetBlock) {
-        self.offsetBlock (scrollView.contentOffset.y,NO);
-    }
-}
+
 
 - (NSMutableArray *)dataArray
 {
@@ -291,17 +261,7 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
 }
-*/
 
 @end

@@ -216,35 +216,35 @@
 
 - (void)receiveTimeUpdate:(NSNotification *)notification
 {
-    if ( !self.viewHasAppear && !_foreground )
-    {
-        return;
-    }
-    static int i = 0;
-    static NSInteger lastUnread = 0;
-    i ++;
+//    if ( !self.viewHasAppear && !_foreground )
+//    {
+//        return;
+//    }
+//    static int i = 0;
+//    static NSInteger lastUnread = 0;
+//    i ++;
     //  每三十秒处理一次
-    if (i % 30 == 0) {
-        [self.engine GETMessageunreadcountStart:0 start:^{
-            
-        } fail:^(NSError *error) {
-            
-        } success:^(id messageData) {
-            NSDictionary *dic = nil;
-            if ([messageData isKindOfClass:[NSDictionary class]]) {
-                dic = (NSDictionary *)messageData;
-            }
-            NSInteger unread = [[dic objectForKey:@"unread"] integerValue];
-            
-            NSString *unreadStr = [NSString stringWithFormat:@"%ld",unread];
-            // 当此次未读数跟上次未读数不一样时,发送刷新列表的通知
-            if ( unread != lastUnread ) {
-
-                [EVNotificationCenter postNotificationName:EVShouldUpdateNotifyUnread object:unreadStr];
-            }
-            lastUnread = unread;
-        }];
-    }
+//    if (i % 30 == 0) {
+//        [self.engine GETMessageunreadcountStart:0 start:^{
+//            
+//        } fail:^(NSError *error) {
+//            
+//        } success:^(id messageData) {
+//            NSDictionary *dic = nil;
+//            if ([messageData isKindOfClass:[NSDictionary class]]) {
+//                dic = (NSDictionary *)messageData;
+//            }
+//            NSInteger unread = [[dic objectForKey:@"unread"] integerValue];
+//            
+//            NSString *unreadStr = [NSString stringWithFormat:@"%ld",unread];
+//            // 当此次未读数跟上次未读数不一样时,发送刷新列表的通知
+//            if ( unread != lastUnread ) {
+//
+//                [EVNotificationCenter postNotificationName:EVShouldUpdateNotifyUnread object:unreadStr];
+//            }
+//            lastUnread = unread;
+//        }];
+//    }
 }
 
 - (EVBaseToolManager *)engine

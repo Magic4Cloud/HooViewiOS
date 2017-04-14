@@ -8,10 +8,10 @@
 
 #import "EVViewController.h"
 
-
-
-typedef void(^scrollViewOffsetBlock)(CGFloat scrollViewY,BOOL isStop);
+/**
+ 自选股新闻
+ */
 @interface EVChooseNewsViewController : EVViewController
-@property (nonatomic, copy) scrollViewOffsetBlock offsetBlock;
+
 @property (nonatomic, weak) UITableView *newsTableView;
 @end

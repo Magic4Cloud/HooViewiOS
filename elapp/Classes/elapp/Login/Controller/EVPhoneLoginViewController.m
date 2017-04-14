@@ -114,10 +114,11 @@
 
     [self.view endEditing:YES];
     __weak typeof(self) wself = self;
+    [EVProgressHUD showMessage:kLogin_loading toView:wself.view];
     [self.engine GETPhoneUserPhoneLoginWithAreaCode:@"86" Phone:phone password:pwd phoneNumError:^(NSString *numError) {
          [EVProgressHUD showError:numError toView:self.view];
     }  start:^{
-        [EVProgressHUD showMessage:kLogin_loading toView:wself.view];
+        
     } fail:^(NSError *error) {
         [EVProgressHUD hideHUDForView:wself.view];
         NSString *errorStr = [error errorInfoWithPlacehold:kFail_login];

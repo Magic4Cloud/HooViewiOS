@@ -199,7 +199,7 @@ NSString *const regionCodeCell = @"regionCodeCell";
         backBtn.frame = CGRectMake(0, 20, 80, self.navBar.bounds.size.height - 20);
         [backBtn setTitle:kEBack forState:UIControlStateNormal];
         [backBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [backBtn setImage:[UIImage imageNamed:@"nav_icon_return"] forState:UIControlStateNormal];
+        [backBtn setImage:[UIImage imageNamed:@"hv_back_return"] forState:UIControlStateNormal];
         [backBtn addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
         [self.navBar addSubview:backBtn];
         _backBtn = backBtn;

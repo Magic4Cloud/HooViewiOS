@@ -95,9 +95,9 @@
 - (void)loadHeadTailData
 {
     self.refreshFinish = YES;
-    
+    [EVProgressHUD showIndeterminateForView:self.view];
     [self.baseToolManager GETRequestGlobalSuccess:^(NSDictionary *retinfo) {
-        NSLog(@"全球 = %@",retinfo);
+        [EVProgressHUD hideHUDForView:self.view];
         [self.stockTableView endHeaderRefreshing];
         if (self.floatArray.count > 0) {
             [self.floatArray removeAllObjects];
@@ -111,14 +111,13 @@
         }
         self.refreshFinish = NO;
         [self.stockTableView reloadData];
-    } error:^(NSError *error) {
-        NSLog(@"error = %@",error);
+    }
+                                            error:^(NSError *error)
+    {
         [self.stockTableView endHeaderRefreshing];
         [EVProgressHUD hideHUDForView:self.view];
         [EVProgressHUD showError:@"请求失败"];
-        EVLog(@"dapan-------  %@",error);
         self.refreshFinish = NO;
-        
     }];
 
     
@@ -186,8 +185,6 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 30)];
-    //    [EVLineView addTopLineToView:view];
-    //    [EVLineView addBottomLineToView:view];
     view.backgroundColor = [UIColor whiteColor];
     UILabel *titleLabel = [[UILabel alloc] init];
     titleLabel.frame = CGRectMake(22, 5, ScreenWidth - 16, 20);
@@ -246,8 +243,6 @@
 
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    NSLog(@"%lf",self.headView.frame.origin.y);
-    NSLog(@"foot     %lf",self.footView.frame.origin.y);
     
     if (self.headView.frame.origin.y > 0 && self.headView.frame.origin.y < 192) {
         self.headView.backgroundColor = [UIColor colorWithRed:248/255.0f green:248/255.0f blue:248/255.0f alpha:1];

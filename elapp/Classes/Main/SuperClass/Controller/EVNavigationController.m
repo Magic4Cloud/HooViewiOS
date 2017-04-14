@@ -11,7 +11,7 @@
 
 #define kNavigationBarTitleFont [[EVAppSetting shareInstance] systemBoldFontWithSize:16.f]
 
-#define NavigationBackImage @"nav_icon_return"
+#define NavigationBackImage @"hv_back_return"
 
 @interface EVNavigationController ()
 

@@ -37,7 +37,7 @@
         
         [self.titleLabel setFont:[[EVAppSetting shareInstance] normalFontWithSize:15.0f]];
         [self setTitleColor:[UIColor textBlackColor] forState:UIControlStateNormal];
-        [self setImage:[UIImage imageNamed:@"nav_icon_return"] forState:UIControlStateNormal];
+        [self setImage:[UIImage imageNamed:@"hv_back_return"] forState:UIControlStateNormal];
         
         self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         self.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;

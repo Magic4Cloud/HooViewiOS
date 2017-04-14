@@ -161,7 +161,7 @@
 - (UIImage *)returnImg {
     if ( !_returnImg )
     {
-        _returnImg = [UIImage imageNamed:@"nav_icon_return"];
+        _returnImg = [UIImage imageNamed:@"hv_back_return"];
     }
     return _returnImg;
 }

@@ -16,7 +16,7 @@
 #import "EVSearchStockViewController.h"
 #import "EVEditSelfStockViewController.h"
 #import "NSString+Extension.h"
-
+#import "EVLoginViewController.h"
 
 
 @interface EVSelfStockViewController ()<UITableViewDelegate,UITableViewDataSource>
@@ -114,7 +114,6 @@
     };
     [self.navigationController pushViewController:mineVC animated:YES];
 
-    
 }
 
 
@@ -147,6 +146,12 @@
 
 - (void)nullAddClick:(UIButton *)btn
 {
+    if (![EVLoginInfo hasLogged]) {
+        UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
+        [self presentViewController:navighaVC animated:YES completion:nil];
+        return;
+    }
+    
     EVLog(@"添加自选");
     EVSearchStockViewController *searchStockVC = [[EVSearchStockViewController alloc] init];
     searchStockVC.addStockBlock = ^(NSString * sbom)
@@ -269,12 +274,12 @@
 }
 
 #pragma mark - networks
-- (void)fetchDataWithType:(EVSelfStockType)type {
-        
-    NSLog(@"第一次网络请求：EVSelfStockType:%ld",type);
+- (void)fetchDataWithType:(EVSelfStockType)type
+{
+    
     [self.baseToolManager GETRequestSelfStockList:[EVLoginInfo localObject].name Success:^(NSDictionary *retinfo) {
         [[self listTableView] endHeaderRefreshing];
-        NSLog(@"type：%ld第一次网络请求：返回的数据********** = %@",type,retinfo);
+        
         self.chooseArray = retinfo[@"data"];
         
         NSMutableArray *codeArray = [NSMutableArray array];
@@ -282,11 +287,10 @@
             [codeArray addObject:baseModel[@"symbol"]];
         }
         
-        NSString *codeListStr = [codeArray componentsJoinedByString:@","];
-        NSLog(@"%@",codeListStr);
+    
         NSArray *markets = [self _filterStockWithType:type localArray:codeArray];
         NSString *marketStr = [NSString stringWithArray:markets];
-        NSLog(@"marketStr:%@",marketStr);
+        EVLog(@"marketStr:%@",marketStr);
         if (codeArray.count == 0) {
             [self updateDataArray:@[]];
             return;
@@ -296,7 +300,7 @@
         //        [[self _selfStockViewControllerWithType:type] updateDataArray:self.chooseArray];
         
     } error:^(NSError *error) {
-        NSLog(@"type:%ld第一次网络请求error:%@",type,error.domain);
+        
         [[self listTableView] endHeaderRefreshing];
         [self updateDataArray:@[]];
     }];
@@ -304,15 +308,14 @@
 
 - (void)fetchStockDataWithString:(NSString *)stockString type:(EVSelfStockType)type
 {
-    //    NSLog(@"第二次请求type:%ld",type);
+
     [self.baseToolManager GETRealtimeQuotes:stockString success:^(NSDictionary *retinfo) {
-        //        NSLog(@"type:%ld第二次请求得到的数据：retinfo:%@",type,retinfo);
+     
         [[self listTableView] endHeaderRefreshing];
-        //        [EVProgressHUD showSuccess:@"加载成功"];
+       
         NSArray *dataArray = retinfo[@"data"];
         [self updateDataArray:dataArray];
     } error:^(NSError *error) {
-        //        NSLog(@"type:%ld第二次请求得到的error:%@",type,error.domain);
         [[self  listTableView] endHeaderRefreshing];
     }];
 }

@@ -48,7 +48,6 @@
     [self loadHeadTailData];
     [self loadStockData];
     
-   
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -121,8 +120,11 @@
 {
     
     self.refreshFinish = YES;
+    [EVProgressHUD showIndeterminateForView:self.view];
     WEAK(self)
     [self.baseToolManager GETRequestTodayFloatMarket:_marketType Success:^(NSDictionary *retinfo) {
+        [EVProgressHUD hideHUDForView:self.view];
+        
          [self.stockTableView endHeaderRefreshing];
         if (self.floatArray.count > 0) {
             [weakself.floatArray removeAllObjects];
@@ -138,6 +140,8 @@
         weakself.refreshFinish = NO;
         [weakself.stockTableView reloadData];
     } error:^(NSError *error) {
+        
+        [EVProgressHUD hideHUDForView:self.view];
         [self.stockTableView endHeaderRefreshing];
         [EVProgressHUD hideHUDForView:self.view];
         [EVProgressHUD showError:@"请求失败"];

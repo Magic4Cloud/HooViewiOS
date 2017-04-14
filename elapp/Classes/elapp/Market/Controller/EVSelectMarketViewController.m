@@ -144,43 +144,12 @@
 
 #pragma mark - networks
 - (void)fetchDataWithType:(EVSelfStockType)type {
-//    self.chooseArray = [NSMutableArray arrayWithContentsOfFile:[self storyFilePath]];
-//    
-//    if (self.chooseArray.count <= 0) {
-//        [self.baseToolManager GETUserCollectListType:EVCollectTypeStock start:^{
-//            
-//        } fail:^(NSError *error) {
-//            [[[self _selfStockViewControllerWithType:type] listTableView] endHeaderRefreshing];
-//            [EVProgressHUD showMessage:@"加载错误"];
-//        } success:^(NSDictionary *retinfo) {
-//            [[[self _selfStockViewControllerWithType:type] listTableView] endHeaderRefreshing];
-//            NSString *list = retinfo[@"collectlist"];
-//            if (list.length > 0) {
-//                NSArray *marketA = [list componentsSeparatedByString:@","];
-//                [self.chooseArray addObjectsFromArray:marketA];
-//                [self.chooseArray writeToFile:[self storyFilePath] atomically:YES];
-//                [self fetchStockDataWithString:retinfo[@"collectlist"] type:type];
-//            }else {
-//                [[self _selfStockViewControllerWithType:type] updateDataArray:@[]];
-//            }
-//        } sessionExpire:^{
-//            [[[self _selfStockViewControllerWithType:type] listTableView] endHeaderRefreshing];
-//            [EVProgressHUD showError:@"没有登录"];
-//        }];
-//    }else {
-//        NSArray *markets = [self _filterStockWithType:type localArray:self.chooseArray];
-//        NSString *marketStr = [NSString stringWithArray:markets];
-//        if (markets.count == 0) {
-//            [[self _selfStockViewControllerWithType:type] updateDataArray:@[]];
-//            return;
-//        }
-//        [self fetchStockDataWithString:marketStr type:type];
-//    }
+
     
-    NSLog(@"第一次网络请求：EVSelfStockType:%ld",type);
+   
     [self.baseToolManager GETRequestSelfStockList:[EVLoginInfo localObject].name Success:^(NSDictionary *retinfo) {
         [[[self _selfStockViewControllerWithType:type] listTableView] endHeaderRefreshing];
-        NSLog(@"type：%ld第一次网络请求：返回的数据********** = %@",type,retinfo);
+        
         self.chooseArray = retinfo[@"data"];
         
         NSMutableArray *codeArray = [NSMutableArray array];
@@ -189,20 +158,19 @@
         }
         
         NSString *codeListStr = [codeArray componentsJoinedByString:@","];
-        NSLog(@"codeListStr = %@",codeListStr);
+        
         NSArray *markets = [self _filterStockWithType:type localArray:codeArray];
         NSString *marketStr = [NSString stringWithArray:markets];
-        NSLog(@"marketStr:%@",marketStr);
+        
         if (markets.count == 0) {
             [[self _selfStockViewControllerWithType:type] updateDataArray:@[]];
             return;
         }
         [self fetchStockDataWithString:marketStr type:type];
         
-//        [[self _selfStockViewControllerWithType:type] updateDataArray:self.chooseArray];
         
     } error:^(NSError *error) {
-        NSLog(@"type:%ld第一次网络请求error:%@",type,error.domain);
+       
         [[[self _selfStockViewControllerWithType:type] listTableView] endHeaderRefreshing];
         [[self _selfStockViewControllerWithType:type] updateDataArray:@[]];
     }];
@@ -210,17 +178,15 @@
 
 - (void)fetchStockDataWithString:(NSString *)stockString type:(EVSelfStockType)type
 {
-//    NSLog(@"第二次请求type:%ld",type);
+
     [self.baseToolManager GETRealtimeQuotes:stockString success:^(NSDictionary *retinfo) {
-//        NSLog(@"type:%ld第二次请求得到的数据：retinfo:%@",type,retinfo);
+
         [[[self _selfStockViewControllerWithType:type] listTableView] endHeaderRefreshing];
-//        [EVProgressHUD showSuccess:@"加载成功"];
+
         NSArray *dataArray = retinfo[@"data"];
         [[self _selfStockViewControllerWithType:type] updateDataArray:dataArray];
     } error:^(NSError *error) {
-//        NSLog(@"type:%ld第二次请求得到的error:%@",type,error.domain);
         [[[self _selfStockViewControllerWithType:type] listTableView] endHeaderRefreshing];
-//        [EVProgressHUD showMessage:@"加载错误"];
     }];
 }
 
