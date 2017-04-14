@@ -8,6 +8,10 @@
 
 #import "EVViewController.h"
 
+
+/**
+ 沪深  港股
+ */
 @interface EVStockBaseViewController : EVViewController
 
 @property (nonatomic, copy) NSString *marketType;

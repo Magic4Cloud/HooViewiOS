@@ -469,7 +469,7 @@ static inline long long getcurrsecond()
 
 - (void)codingStateChanged:(EVEncodedState)state
 {
-    NSLog(@"----------------------   %ld",state);
+
     switch ( state )
     {
         case EVEncodedStateEncoderError:
@@ -1044,7 +1044,7 @@ static inline long long getcurrsecond()
 
 - (void)EVInteractiveLiveUpdateStatus:(EVInteractiveLiveStatus)status
 {
-    EVLog(@"ZHUANGTAIOHUITIAPAASKL;DSJKL;ASKL; ===== =  %ld",status);
+    
 }
 
 #pragma mark - pickLiveCover

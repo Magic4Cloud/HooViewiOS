@@ -62,12 +62,6 @@
     liveTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.liveTableView = liveTableView;
     
-    
-    //    UIButton *liveButton = [[UIButton alloc] init];
-    //    liveButton.frame = CGRectMake(ScreenWidth - 60, ScreenHeight - 54, 44, 44);
-    //    [self.view addSubview:liveButton];
-    //    liveButton.backgroundColor = [UIColor yellowColor];
-    //    [liveButton addTarget:self action:@selector(liveButton) forControlEvents:(UIControlEventTouchUpInside)];
 }
 
 - (void)loadDataStart:(NSString *)start

@@ -10,7 +10,7 @@
 @class EVUserAsset;
 
 @protocol EVYiBiViewControllerDelegate <NSObject>
-
+@optional
 /**
  *  成功购买火眼豆
  *

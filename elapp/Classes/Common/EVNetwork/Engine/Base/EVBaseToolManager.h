@@ -10,6 +10,9 @@
 #import "EVEnums.h"
 #import "NSError+Extention.h"
 
+
+NS_ASSUME_NONNULL_BEGIN
+
 @class EVLoginInfo, EVLoginIMInfo, EMError;
 @interface EVBaseToolManager : NSObject
 
@@ -25,7 +28,7 @@
 - (void)cancelOperataionWithURLString:(NSString *)urlString;
 
 // 删除制定的URL请求
-- (void)removeOperationWithURLString:(NSString *)urlString;
+- (void)removeOperationWithURLString:(NSString *_Nullable)urlString;
 
 
 // 获取本地Session
@@ -142,6 +145,8 @@
 
 // 获得推送信息字典
 - (void)getPushInfo:(NSMutableDictionary *)params;
+
+NS_ASSUME_NONNULL_END
 
 @end
 

@@ -52,7 +52,8 @@
     listTableView.dataSource = self;
     [self.view addSubview:listTableView];
     self.listTableView = listTableView;
-    
+    self.listTableView.rowHeight = 70 + ScreenWidth*9/16;
+    self.listTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.listTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
 }
@@ -91,12 +92,6 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.watchVideoInfo = self.dataArray[indexPath.row];
     return cell;
-}
-
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 280;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

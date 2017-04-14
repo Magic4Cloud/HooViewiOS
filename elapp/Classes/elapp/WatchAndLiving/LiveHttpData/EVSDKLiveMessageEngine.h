@@ -41,7 +41,7 @@ typedef NS_ENUM(NSInteger, EVSDKLiveDataType)
 };
 
 @protocol EVSDKMessageDelegate <NSObject>
-
+@optional
 - (void)updateMessageLoveCount:(long long)loveCount;
 
 - (void)updateMessageWatchingCount:(long long)watchingCount;

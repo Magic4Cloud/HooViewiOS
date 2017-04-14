@@ -10,8 +10,7 @@
 
 @interface EVTodayFloatModel : EVStockBaseModel
 
-
-@property (nonatomic, assign) float changepercent;
+@property (nonatomic, assign)float changepercent;
 @property (nonatomic, copy) NSString *turnoverratio;
 @property (nonatomic, copy) NSString *per;//市盈率
 @property (nonatomic, copy) NSString *pb; //市净率

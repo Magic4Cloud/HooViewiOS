@@ -41,11 +41,10 @@
 
 @implementation EVStockBaseViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     [self addUpTableView];
-    [self loadHeadTailData];
     [self loadStockData];
 
 }
@@ -55,10 +54,6 @@
     [super viewWillAppear:animated];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-}
 
 - (void)addUpTableView
 {
@@ -92,16 +87,15 @@
     
     [stockTableView addRefreshHeaderWithRefreshingBlock:^ {
         [self loadStockData];
-        [self loadHeadTailData];
      }];
     
 }
 
 - (void)loadStockData
 {
+    self.refreshFinish = YES;
     [self.baseToolManager GETRequestHSuccess:^(NSDictionary *retinfo) {
-//        [self.stockTableView endHeaderRefreshing];
-//        [self.stockTableView endFooterRefreshing];
+        [self.stockTableView endHeaderRefreshing];
         if (self.dataArray.count > 0) {
             [self.dataArray removeAllObjects];
         }
@@ -109,9 +103,11 @@
         NSArray *getArray = [stockArray subarrayWithRange:NSMakeRange(0, 3)];
         [self.dataArray addObjectsFromArray:getArray];
         [self.stockTopView updateStockData:self.dataArray];
+        [self loadHeadTailData];
     } error:^(NSError *error) {
-        [self.stockTableView endHeaderRefreshing];
 
+        [self loadHeadTailData];
+         [self.stockTableView endHeaderRefreshing];
         [EVProgressHUD showError:@"请求失败"];
     }];
     
@@ -121,17 +117,17 @@
 - (void)loadHeadTailData
 {
     
-    self.refreshFinish = YES;
     [EVProgressHUD showIndeterminateForView:self.view];
     WEAK(self)
     [self.baseToolManager GETRequestTodayFloatMarket:_marketType Success:^(NSDictionary *retinfo) {
+        [EVProgressHUD hideHUDForView:self.view];
         
-         [self.stockTableView endHeaderRefreshing];
+        [self.stockTableView endHeaderRefreshing];
+        
         if (self.floatArray.count > 0) {
-
             [weakself.floatArray removeAllObjects];
         }
-        [EVProgressHUD hideHUDForView:self.view];
+        
         NSDictionary *floatDict = retinfo[@"data"];
         NSArray *tailArray = floatDict[@"tail"];
         NSArray *headArray = floatDict[@"head"];
@@ -147,9 +143,7 @@
         
         [EVProgressHUD hideHUDForView:self.view];
         [self.stockTableView endHeaderRefreshing];
-        [EVProgressHUD hideHUDForView:self.view];
-//        [EVProgressHUD showError:@"请求失败"];
-        EVLog(@"dapan-------  %@",error);
+        [EVProgressHUD showError:@"请求失败"];
         weakself.refreshFinish = NO;
     }];
 
@@ -158,7 +152,7 @@
 - (void)refreshClick
 {
     if (self.refreshFinish == NO) {
-         [self loadHeadTailData];
+         [self loadStockData];
     }
 }
 #pragma mark - TableViewDelegate

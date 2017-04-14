@@ -15,7 +15,7 @@
 
 #define kFansSpace   24
 
-@interface EVFloatingView()
+@interface EVFloatingView()<CAAnimationDelegate>
 
 @property ( weak, nonatomic ) EVHeaderImageView *headIconView;  // 头像
 @property ( weak, nonatomic ) UILabel *signalLabel;             // 签名
@@ -471,7 +471,7 @@
     self.idLabel.text = [NSString stringWithFormat:@"ID:%@" ,userModel.name];
     self.moneyCountLabel.text = [NSString stringWithFormat:@"%ld",(long)userModel.sendecoin];
     NSUInteger allFansCount = (long)userModel.fans_count < 0 ? 0 : (long)userModel.fans_count;
-    self.fansCountLabel.text = [NSString stringWithFormat:@"%ld",allFansCount];
+    self.fansCountLabel.text = [NSString stringWithFormat:@"%ld",(unsigned long)allFansCount];
     self.focusCountLabel.text = [NSString stringWithFormat:@"%ld",(long)userModel.follow_count];
     NSString *focusTitle = userModel.followed ? kE_GlobalZH(@"e_cancel_follow"):kE_GlobalZH(@"add_follow");
     [self.focusButton setTitle:focusTitle forState:UIControlStateNormal];

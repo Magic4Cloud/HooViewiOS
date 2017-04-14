@@ -23,7 +23,7 @@
 ////#define webUrl @"http://dev.yizhibo.tv/hooview/stock/"
 //#define webUrl   @"http://192.168.6.64:3000/"
 
-@interface EVMarketDetailsController ()<WKNavigationDelegate,EVStockDetailBottomViewDelegate,WKUIDelegate,WKScriptMessageHandler,UIWebViewDelegate,EVWebViewShareViewDelegate>
+@interface EVMarketDetailsController ()<WKNavigationDelegate,EVStockDetailBottomViewDelegate,WKUIDelegate,WKScriptMessageHandler,UIWebViewDelegate,EVWebViewShareViewDelegate,UITextFieldDelegate>
 
 @property (nonatomic, strong) WKWebView *stockWebView;
 

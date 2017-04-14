@@ -607,7 +607,7 @@ static NSMutableDictionary *_sqliteDictionary = nil;
     }
     else if ( [keyColumnType isEqualToString:COLUMN_TYPE_INTEGER] )
     {
-        condition = [NSString stringWithFormat:@"WHERE %@ = %ld", keyColumn, [value integerValue]];
+        condition = [NSString stringWithFormat:@"WHERE %@ = %ld", keyColumn, (long)[value integerValue]];
     }
     
 #ifdef EVDEBUG
