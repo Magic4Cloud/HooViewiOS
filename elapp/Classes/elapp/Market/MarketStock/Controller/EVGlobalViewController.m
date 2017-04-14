@@ -47,8 +47,6 @@
     // Do any additional setup after loading the view.
     [self addUpTableView];
     [self loadHeadTailData];
-    [self.stockTableView startHeaderRefreshing];
-    
     
 }
 
