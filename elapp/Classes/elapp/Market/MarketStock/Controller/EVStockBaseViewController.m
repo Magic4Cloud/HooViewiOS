@@ -46,6 +46,12 @@
     [super viewDidLoad];
     [self addUpTableView];
     [self loadStockData];
+
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
 }
 
 
@@ -93,13 +99,13 @@
         if (self.dataArray.count > 0) {
             [self.dataArray removeAllObjects];
         }
-        
         NSArray *stockArray = [EVStockBaseModel objectWithDictionaryArray:retinfo[@"data"]];
         NSArray *getArray = [stockArray subarrayWithRange:NSMakeRange(0, 3)];
         [self.dataArray addObjectsFromArray:getArray];
         [self.stockTopView updateStockData:self.dataArray];
         [self loadHeadTailData];
     } error:^(NSError *error) {
+
         [self loadHeadTailData];
          [self.stockTableView endHeaderRefreshing];
         [EVProgressHUD showError:@"请求失败"];
@@ -114,13 +120,14 @@
     [EVProgressHUD showIndeterminateForView:self.view];
     WEAK(self)
     [self.baseToolManager GETRequestTodayFloatMarket:_marketType Success:^(NSDictionary *retinfo) {
+        [EVProgressHUD hideHUDForView:self.view];
         
+        [self.stockTableView endHeaderRefreshing];
         
-         [self.stockTableView endHeaderRefreshing];
         if (self.floatArray.count > 0) {
             [weakself.floatArray removeAllObjects];
         }
-         [EVProgressHUD hideHUDForView:self.view];
+        
         NSDictionary *floatDict = retinfo[@"data"];
         NSArray *tailArray = floatDict[@"tail"];
         NSArray *headArray = floatDict[@"head"];
@@ -129,14 +136,14 @@
         [weakself.floatArray addObject:headData];
         [weakself.floatArray addObject:tailData];
         weakself.refreshFinish = NO;
+        [self.stockTableView endHeaderRefreshing];
+
         [weakself.stockTableView reloadData];
     } error:^(NSError *error) {
         
         [EVProgressHUD hideHUDForView:self.view];
         [self.stockTableView endHeaderRefreshing];
-        [EVProgressHUD hideHUDForView:self.view];
         [EVProgressHUD showError:@"请求失败"];
-        
         weakself.refreshFinish = NO;
     }];
 

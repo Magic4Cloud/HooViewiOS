@@ -205,15 +205,11 @@
 #define EVGetChooseStockNewsAPI     @"http://openapi.hooview.com/api/user/stocknews"//自选新闻
 #define EVIsAddSelfStockAPI         @"http://openapi.hooview.com/api/user/collect/stock"//是否已添加自选
 #define EVGetSpecialColumnAPI       @"http://openapi.hooview.com/api/v2/news/column"//专栏
-
 #define EVMarketGlobalAPI           @"http://openapi.hooview.com/api/v2/stock/globalindex"
-
 #define EVCreatTextLiveAPI          @"http://openapi.hooview.com/api/textlive/owner"
 #define EVTextLiveHomeAPI           @"http://openapi.hooview.com/api/textlive/home"
 #define EVTextLiveChatUploadAPI     @"http://openapi.hooview.com/api/textlive/chat" //POST
-
 #define EVTextLiveHistiryAPI        @"http://openapi.hooview.com/api/textlive/history"
-
 //api/news/banners/
 #define EVHoovviewNewsBannersAPI    @"http://openapi.hooview.com/api/news/banners"
 #define EVTextLiveHaveAPI           @"http://openapi.hooview.com/api/textlive/streaminfo"

@@ -41,6 +41,7 @@
     [self addTableView];
     [self addNullView];
     [self loadData];
+    [self.listTableView startHeaderRefreshing];
 
 }
 
@@ -187,11 +188,11 @@
     [backView addSubview:leftLabel];
     
     UILabel *centerLabel = [[UILabel alloc] init];
-    centerLabel.frame = CGRectMake((ScreenWidth - 100)/2, 0, 100, 40);
+    centerLabel.frame = CGRectMake(154, 0, 100, 40);
     centerLabel.font = [UIFont textFontB2];
     centerLabel.textColor = [UIColor evTextColorH2];
     centerLabel.text = @"现价";
-    centerLabel.textAlignment = NSTextAlignmentCenter;
+    centerLabel.textAlignment = NSTextAlignmentLeft;
     [backView addSubview:centerLabel];
     
     UIButton *rightButton = [[UIButton alloc] init];
@@ -278,8 +279,10 @@
 {
     
     [self.baseToolManager GETRequestSelfStockList:[EVLoginInfo localObject].name Success:^(NSDictionary *retinfo) {
+
         [[self listTableView] endHeaderRefreshing];
         
+
         self.chooseArray = retinfo[@"data"];
         
         NSMutableArray *codeArray = [NSMutableArray array];
@@ -302,6 +305,7 @@
     } error:^(NSError *error) {
         
         [[self listTableView] endHeaderRefreshing];
+        [[self listTableView] endFooterRefreshing];
         [self updateDataArray:@[]];
     }];
 }
@@ -312,11 +316,12 @@
     [self.baseToolManager GETRealtimeQuotes:stockString success:^(NSDictionary *retinfo) {
      
         [[self listTableView] endHeaderRefreshing];
-       
+
         NSArray *dataArray = retinfo[@"data"];
         [self updateDataArray:dataArray];
     } error:^(NSError *error) {
         [[self  listTableView] endHeaderRefreshing];
+
     }];
 }
 

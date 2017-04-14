@@ -32,9 +32,11 @@
 
 @implementation EVMarketViewController
 
+
 - (instancetype)init {
     if (self = [super init]) {
     
+
         self.menuViewStyle = WMMenuViewStyleLine;
         float addFont = 0;
         if (ScreenWidth>375) {
