@@ -15,14 +15,18 @@
 
 @property (nonatomic, strong) EVBaseToolManager *baseToolManager;
 
-
-
-
 @property (nonatomic, strong) NSMutableArray *dataArray;
 
 @property (nonatomic, copy) NSString *start;
 
 @property (nonatomic, copy) NSString *count;
+
+
+/**
+ 缓存行高
+ */
+@property (nonatomic, strong) NSCache * cellRowHeightCache;
+
 
 @end
 
@@ -79,12 +83,7 @@
 }
 - (void)addUpView
 {
-//    UIImageView *topBackImage = [[UIImageView alloc] init];
-//    topBackImage.frame = CGRectMake(0, 0,ScreenWidth, 120);
-//    topBackImage.backgroundColor = [UIColor clearColor];
-//    topBackImage.image = [UIImage imageNamed:@"bg_News_flash"];
-//    [self.view addSubview:topBackImage];
-    
+
     
     UITableView *newsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 49-64) style:(UITableViewStylePlain)];
     newsTableView.contentInset = UIEdgeInsetsMake(7, 0, 0, 0);
@@ -92,10 +91,10 @@
     newsTableView.dataSource = self;
     [self.view addSubview:newsTableView];
     self.newsTableView = newsTableView;
+    self.newsTableView.estimatedRowHeight = 44;
     newsTableView.separatorStyle = NO;
     newsTableView.backgroundColor = [UIColor evLineColor];
-//    newsTableView.tableHeaderView = topBackImage;
-    
+    [newsTableView registerNib:[UINib nibWithNibName:@"EVFastNewsViewCell" bundle:nil] forCellReuseIdentifier:@"fastCell"];
     UIView *footView = [[UIView alloc] init];
     newsTableView.tableFooterView = footView;
 
@@ -110,9 +109,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     EVFastNewsViewCell *fastCell = [tableView dequeueReusableCellWithIdentifier:@"fastCell"];
-    if (fastCell == nil) {
-        fastCell = [[NSBundle mainBundle] loadNibNamed:@"EVFastNewsViewCell" owner:nil options:nil].firstObject;
-    }
     fastCell.selectionStyle = UITableViewCellSelectionStyleNone;
     fastCell.fastNewsModel = self.dataArray[indexPath.row];
     return fastCell;
@@ -121,9 +117,17 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    self.newsTableView.rowHeight = UITableViewAutomaticDimension;
-    self.newsTableView.estimatedRowHeight = 44;
-    return self.newsTableView.rowHeight;
+    NSNumber * cellHeight = [self.cellRowHeightCache objectForKey:indexPath];
+    if (cellHeight) {
+        return [cellHeight floatValue];
+    }
+    return UITableViewAutomaticDimension;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSNumber *height = @(cell.frame.size.height);
+    [self.cellRowHeightCache setObject:height forKey:indexPath];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -167,8 +171,17 @@
     }
     return _dataArray;
 }
+
+- (NSCache *)cellRowHeightCache
+{
+    if (!_cellRowHeightCache) {
+        _cellRowHeightCache = [[NSCache alloc] init];
+    }
+    return _cellRowHeightCache;
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+    [self.cellRowHeightCache removeAllObjects];
     // Dispose of any resources that can be recreated.
 }
 

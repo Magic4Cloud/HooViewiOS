@@ -175,6 +175,7 @@
     NSString *resetPassWordPhone = [NSString stringWithFormat:@"%@_%@",@"86",Phone];
     // 校验验证码
     NSString *sms_id = [[NSUserDefaults standardUserDefaults] objectForKey:kSms_id];
+    [EVProgressHUD showMessage:kLogin_loading toView:wself.view];
     [self.engine getSmsverifyWithSmd_id:sms_id sms_code:_verifyCode start:^{
     } fail:^(NSError *error) {
         NSString *message = [error errorInfoWithPlacehold:kFail_verify];
@@ -191,7 +192,7 @@
             [self.engine GETPhoneUserPhoneLoginWithAreaCode:@"86" Phone:Phone password:password phoneNumError:^(NSString *numError) {
                 [EVProgressHUD showError:numError toView:self.view];
             }  start:^{
-                [EVProgressHUD showMessage:kLogin_loading toView:wself.view];
+                
             } fail:^(NSError *error) {
                 [EVProgressHUD hideHUDForView:wself.view];
                 //NSString *errorStr = [error errorInfoWithPlacehold:kFail_login];

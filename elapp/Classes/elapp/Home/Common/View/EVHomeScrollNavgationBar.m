@@ -72,7 +72,7 @@
     UIButton *searchButton = [[UIButton alloc] init];
     searchButton.tag = EVHomeScrollNavgationBarSearchButton;
     [self addSubview:searchButton];
-    [searchButton setImage:[UIImage imageNamed:@"Huoyan_market_search"] forState:UIControlStateNormal];
+    [searchButton setImage:[UIImage imageNamed:@"btn_news_search_n"] forState:UIControlStateNormal];
     [searchButton autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:margin];
     [searchButton autoAlignAxis:ALAxisHorizontal toSameAxisOfView:leftImageView];
     

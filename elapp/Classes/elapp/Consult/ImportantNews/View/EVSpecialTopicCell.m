@@ -10,14 +10,16 @@
 #import "EVNewsModel.h"
 @implementation EVSpecialTopicCell
 
-- (void)awakeFromNib {
+- (void)awakeFromNib
+{
     [super awakeFromNib];
+    _cellTitleLabel.numberOfLines = 2;
     UIView * coverView = [[UIView alloc] init];
     coverView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6];
     [_cellBgimageView addSubview:coverView];
     [coverView autoPinEdgesToSuperviewEdges];
-    // Initialization code
 }
+
 - (void)setSpeciaModel:(EVNewsModel *)speciaModel
 {
     _speciaModel = speciaModel;

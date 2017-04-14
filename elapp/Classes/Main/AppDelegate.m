@@ -33,7 +33,6 @@
 #import "EVAudioPlayer.h"
 #import "EVMineViewController.h"
 #import "EVMarketViewController.h"
-#import "EVConsultViewController.h"
 #import "EVLiveListViewController.h"
 #import "EVHVWatchViewController.h"
 #import "EVEaseMob.h"

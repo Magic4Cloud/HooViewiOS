@@ -650,8 +650,6 @@
 		E8A0FF291E162E57002C80B8 /* EVEditGlobalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A0FF281E162E57002C80B8 /* EVEditGlobalViewController.m */; };
 		E8A0FF2C1E163419002C80B8 /* EVNameGlobalController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A0FF2B1E163419002C80B8 /* EVNameGlobalController.m */; };
 		E8A21ED41E3335F800C78A6B /* libEVBaseTool.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8A21ED01E3335F800C78A6B /* libEVBaseTool.a */; };
-		E8A4F86D1E10C0D100655272 /* EVConsultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A4F85F1E10C0D100655272 /* EVConsultViewController.m */; };
-		E8A4F86E1E10C0D100655272 /* EVConsultTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A4F8631E10C0D100655272 /* EVConsultTopView.m */; };
 		E8A4F8741E10C11C00655272 /* EVChooseNewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A4F8731E10C11C00655272 /* EVChooseNewsViewController.m */; };
 		E8A4F8771E10C12800655272 /* EVFastNewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A4F8761E10C12800655272 /* EVFastNewsViewController.m */; };
 		E8A4F87A1E10C13A00655272 /* EVImportantNewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A4F8791E10C13A00655272 /* EVImportantNewsViewController.m */; };
@@ -1876,10 +1874,6 @@
 		E8A0FF2A1E163419002C80B8 /* EVNameGlobalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVNameGlobalController.h; sourceTree = "<group>"; };
 		E8A0FF2B1E163419002C80B8 /* EVNameGlobalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVNameGlobalController.m; sourceTree = "<group>"; };
 		E8A21ED01E3335F800C78A6B /* libEVBaseTool.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libEVBaseTool.a; sourceTree = "<group>"; };
-		E8A4F85E1E10C0D100655272 /* EVConsultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVConsultViewController.h; sourceTree = "<group>"; };
-		E8A4F85F1E10C0D100655272 /* EVConsultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVConsultViewController.m; sourceTree = "<group>"; };
-		E8A4F8621E10C0D100655272 /* EVConsultTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVConsultTopView.h; sourceTree = "<group>"; };
-		E8A4F8631E10C0D100655272 /* EVConsultTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVConsultTopView.m; sourceTree = "<group>"; };
 		E8A4F8721E10C11C00655272 /* EVChooseNewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVChooseNewsViewController.h; sourceTree = "<group>"; };
 		E8A4F8731E10C11C00655272 /* EVChooseNewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVChooseNewsViewController.m; sourceTree = "<group>"; };
 		E8A4F8751E10C12800655272 /* EVFastNewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVFastNewsViewController.h; sourceTree = "<group>"; };
@@ -4736,8 +4730,6 @@
 		E8A4F85D1E10C0D100655272 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				E8A4F85E1E10C0D100655272 /* EVConsultViewController.h */,
-				E8A4F85F1E10C0D100655272 /* EVConsultViewController.m */,
 				7AC6698D1E94CE0200655EB8 /* EVHomeBaseViewController.h */,
 				7AC6698E1E94CE0200655EB8 /* EVHomeBaseViewController.m */,
 			);
@@ -4754,8 +4746,6 @@
 		E8A4F8611E10C0D100655272 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				E8A4F8621E10C0D100655272 /* EVConsultTopView.h */,
-				E8A4F8631E10C0D100655272 /* EVConsultTopView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -5584,7 +5574,6 @@
 				E8943E681E24CF52008E5D97 /* EVMessage.m in Sources */,
 				E8695C3A1E13765000CCA323 /* EVHVPhoneRegistView.m in Sources */,
 				E86201371D6BE8540081E72F /* EVPrepareViewButton.m in Sources */,
-				E8A4F86D1E10C0D100655272 /* EVConsultViewController.m in Sources */,
 				7AC6698F1E94CE0200655EB8 /* EVHomeBaseViewController.m in Sources */,
 				E86200D51D6BE8540081E72F /* EVNoDisturbTableViewController.m in Sources */,
 				E8BD298F1D87D35200CBAD82 /* EVShadowButton.m in Sources */,
@@ -5650,7 +5639,6 @@
 				E862FF941D6BE8540081E72F /* UIImageView+Extension.m in Sources */,
 				E8BE5B1A1DD9CE83001920F9 /* EVMusicView.m in Sources */,
 				E844F9411E08C6C900CCE0B0 /* EVProgressHUD.m in Sources */,
-				E8A4F86E1E10C0D100655272 /* EVConsultTopView.m in Sources */,
 				E8AA9DDE1E20CE070024980D /* EVHVWatchCenterView.m in Sources */,
 				E86201231D6BE8540081E72F /* EVCommentCell.m in Sources */,
 				E84354941E1F3BFC006D2E7D /* EVRecoredItemCell.m in Sources */,

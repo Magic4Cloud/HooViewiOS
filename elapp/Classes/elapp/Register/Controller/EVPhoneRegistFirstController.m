@@ -381,11 +381,13 @@
     NSString *resetPassWordPhone = [NSString stringWithFormat:@"%@_%@",self.currRegion.area_code,Phone];
     // 校验验证码
     NSString *sms_id = [[NSUserDefaults standardUserDefaults] objectForKey:kSms_id];
+    
     [self.engine getSmsverifyWithSmd_id:sms_id sms_code:verfifyCode start:^{
     } fail:^(NSError *error) {
         NSString *message = [error errorInfoWithPlacehold:kFail_verify];
         [EVProgressHUD showError:message toView:wself.view];
     } success:^{
+        [EVProgressHUD showMessage:kLogin_loading toView:wself.view];
         [self.engine GETUserResetPassword:regionPhone.passwordTextField.text phone:resetPassWordPhone start:^{
             [EVProgressHUD showMessage:kSetting_again toView:wself.view];
         } fail:^(NSError *error) {
@@ -398,7 +400,7 @@
             [self.engine GETPhoneUserPhoneLoginWithAreaCode:self.currRegion.area_code Phone:Phone password:password phoneNumError:^(NSString *numError) {
                 [EVProgressHUD showError:numError toView:self.view];
             }  start:^{
-                [EVProgressHUD showMessage:kLogin_loading toView:wself.view];
+                
             } fail:^(NSError *error) {
                 [EVProgressHUD hideHUDForView:wself.view];
                 NSString *errorStr = [error errorInfoWithPlacehold:kFail_login];

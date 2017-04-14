@@ -120,10 +120,6 @@
 #define EVALLUserTagsAPI            @"/sys/taglist"
 #define EVUserTagsSetAPI            @"/user/tagset"
 
-//通用接口 不分正式和测试环境
-#define EVHVNewsTopicAPI            @"https://demo2821846.mockable.io/news/topic"
-//新闻
-#define EVHVNewsConstantAPI         @"https://demo2821846.mockable.io/news/home"
 
 
 
@@ -166,6 +162,11 @@
 
 #define EVHoovviewNewsBannersAPI    @"http://dev.hooview.com/api/news/banners"
 #define EVTextLiveHaveAPI           @"http://dev.hooview.com/api/textlive/streaminfo"
+
+//要闻
+#define EVHVNewsConstantAPI         @"http://dev.hooview.com/api/v3/news/home"
+//专题
+#define EVHVNewsTopicAPI            @"https://demo2821846.mockable.io/news/topic"
 
 
 //支付成功回调给服务器
@@ -212,6 +213,11 @@
 //api/news/banners/
 #define EVHoovviewNewsBannersAPI    @"http://openapi.hooview.com/api/news/banners"
 #define EVTextLiveHaveAPI           @"http://openapi.hooview.com/api/textlive/streaminfo"
+
+//要闻
+#define EVHVNewsConstantAPI         @"http://dev.hooview.com/api/v3/news/home"
+//专题
+#define EVHVNewsTopicAPI            @"https://demo2821846.mockable.io/news/topic"
 
 //支付成功回调给服务器
 #define EVSuccessPayToService       @"https://appgw.hooview.com/easyvaas/service/service/payecoin"

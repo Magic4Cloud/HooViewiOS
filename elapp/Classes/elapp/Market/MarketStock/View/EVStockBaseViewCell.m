@@ -51,11 +51,16 @@
     
     
     UILabel *changeLabel = [[UILabel alloc] init];
-    changeLabel.frame = CGRectMake(154, 20, 120, 22);
+//    changeLabel.frame = CGRectMake(154, 20, 120, 22);
     changeLabel.textAlignment = NSTextAlignmentLeft;
     changeLabel.font = [UIFont systemFontOfSize:16.f];
     changeLabel.textColor = [UIColor evTextColorH3];
-    [self addSubview:changeLabel];
+//    [changeLabel autoAlignAxisToSuperviewAxis:ALAxisVertical];
+    [self.contentView addSubview:changeLabel];
+    [changeLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:ScreenWidth/2-16];
+//    [changeLabel autoAlignAxis:ALAxisVertical toSameAxisOfView:self.contentView withOffset:14];
+    [changeLabel autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
+//    [self addSubview:changeLabel];
     changeLabel.text = @"19.89";
     self.changeLabel = changeLabel;
     
@@ -82,7 +87,6 @@
     
     UIImageView *flagImageViwe = [[UIImageView alloc] init];
     flagImageViwe.frame = CGRectMake(22, 26, 18, 12);
-    flagImageViwe.backgroundColor = [UIColor orangeColor];
     self.flagImageViwe = flagImageViwe;
     flagImageViwe.hidden = YES;
     [self addSubview:flagImageViwe];
@@ -161,9 +165,8 @@
     //全球
     _globalBaseModel = globalBaseModel;
     self.nameLabel.frame = CGRectMake(44, 20, 130, 22);
-    self.changeLabel.frame = CGRectMake(170, 20, 120, 22);
     if (ScreenWidth == 320) {
-        self.changeLabel.frame = CGRectMake(150, 20, 120, 22);
+        self.nameLabel.frame = CGRectMake(44, 20, 100, 22);
     }
     self.codeLabel.hidden = YES;
     self.rankLabel.hidden = YES;
