@@ -135,11 +135,7 @@
         }
         Cell.dataArray = self.hotArray;
         Cell.listSeletedBlock = ^(EVWatchVideoInfo *videoInfo) {
-//            NSString *sessionID = [self.baseToolManager getSessionIdWithBlock:nil];
-//            if (sessionID == nil || [sessionID isEqualToString:@""]) {
-//                [self loginView];
-//                return;
-//            }
+
             EVHVWatchViewController *watchViewVC = [[EVHVWatchViewController alloc] init];
             watchViewVC.watchVideoInfo = videoInfo;
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:watchViewVC];

@@ -41,24 +41,13 @@
 
 @implementation EVStockBaseViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     [self addUpTableView];
-    [self loadHeadTailData];
     [self loadStockData];
-    
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-}
 
 - (void)addUpTableView
 {
@@ -92,23 +81,26 @@
     
     [stockTableView addRefreshHeaderWithRefreshingBlock:^ {
         [self loadStockData];
-        [self loadHeadTailData];
      }];
     
 }
 
 - (void)loadStockData
 {
+    self.refreshFinish = YES;
     [self.baseToolManager GETRequestHSuccess:^(NSDictionary *retinfo) {
         [self.stockTableView endHeaderRefreshing];
         if (self.dataArray.count > 0) {
             [self.dataArray removeAllObjects];
         }
-        NSArray *stockArray = [EVStockBaseModel objectWithDictionaryArray:retinfo[@"data"][self.marketType]];
+        
+        NSArray *stockArray = [EVStockBaseModel objectWithDictionaryArray:retinfo[@"data"]];
         NSArray *getArray = [stockArray subarrayWithRange:NSMakeRange(0, 3)];
         [self.dataArray addObjectsFromArray:getArray];
         [self.stockTopView updateStockData:self.dataArray];
+        [self loadHeadTailData];
     } error:^(NSError *error) {
+        [self loadHeadTailData];
          [self.stockTableView endHeaderRefreshing];
         [EVProgressHUD showError:@"请求失败"];
     }];
@@ -119,11 +111,10 @@
 - (void)loadHeadTailData
 {
     
-    self.refreshFinish = YES;
     [EVProgressHUD showIndeterminateForView:self.view];
     WEAK(self)
     [self.baseToolManager GETRequestTodayFloatMarket:_marketType Success:^(NSDictionary *retinfo) {
-        [EVProgressHUD hideHUDForView:self.view];
+        
         
          [self.stockTableView endHeaderRefreshing];
         if (self.floatArray.count > 0) {
@@ -145,7 +136,7 @@
         [self.stockTableView endHeaderRefreshing];
         [EVProgressHUD hideHUDForView:self.view];
         [EVProgressHUD showError:@"请求失败"];
-        EVLog(@"dapan-------  %@",error);
+        
         weakself.refreshFinish = NO;
     }];
 
@@ -154,7 +145,7 @@
 - (void)refreshClick
 {
     if (self.refreshFinish == NO) {
-         [self loadHeadTailData];
+         [self loadStockData];
     }
 }
 #pragma mark - TableViewDelegate

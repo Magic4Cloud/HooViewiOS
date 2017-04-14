@@ -20,10 +20,5 @@
 @property (nonatomic, copy)NSString * viewCount;
 
 @property (nonatomic, assign)float  cellHeight;
-/* "id": 8189,
- "type": 1,
- "cover": [],
- "title": "商业新力量 迈向新未来",
- "time": "2017-04-05 11:05:49",
- "viewCount": 6428*/
+
 @end

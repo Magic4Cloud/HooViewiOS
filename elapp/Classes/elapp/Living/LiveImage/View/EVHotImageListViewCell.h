@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "EVWatchVideoInfo.h"
+#import "EVLineTableViewCell.h"
 
-
-@interface EVHotImageListViewCell : UITableViewCell
+@interface EVHotImageListViewCell : EVLineTableViewCell
 
 @property (nonatomic, strong) EVWatchVideoInfo *watchVideoInfo;
 
