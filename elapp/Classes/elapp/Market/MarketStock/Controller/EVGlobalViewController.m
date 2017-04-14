@@ -46,6 +46,7 @@
     [super viewDidLoad];
     [self addUpTableView];
     [self loadHeadTailData];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated
