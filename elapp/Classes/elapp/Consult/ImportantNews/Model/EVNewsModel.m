@@ -17,9 +17,23 @@
 - (BOOL)modelCustomTransformFromDictionary:(NSDictionary *)dic
 {
     _cellHeight = 100;
-    if (![dic[@"cover"] isKindOfClass:[NSArray class]]) {
+    if (![dic[@"cover"] isKindOfClass:[NSArray class]] ) {
         return YES;
     }
+    else
+    {
+        NSArray * array =  dic[@"cover"];
+        if (array.count>0) {
+            if ([array[0] isEqual:[NSNull null]]) {
+                return YES;
+            }
+        }
+        else
+        {
+            return YES;
+        }
+    }
+    
     if ([dic[@"type"] floatValue] == 0)
     {
         NSArray * coverArray = dic[@"cover"];

@@ -99,7 +99,16 @@
         if (self.dataArray.count > 0) {
             [self.dataArray removeAllObjects];
         }
-        NSArray *stockArray = [EVStockBaseModel objectWithDictionaryArray:retinfo[@"data"]];
+        NSArray *stockArray;
+        if (retinfo[@"data"][self.marketType])
+        {
+            stockArray = [EVStockBaseModel objectWithDictionaryArray:retinfo[@"data"][self.marketType]];
+        }
+        else
+        {
+            stockArray = [EVStockBaseModel objectWithDictionaryArray:retinfo[@"data"]];
+        }
+        
         NSArray *getArray = [stockArray subarrayWithRange:NSMakeRange(0, 3)];
         [self.dataArray addObjectsFromArray:getArray];
         [self.stockTopView updateStockData:self.dataArray];

@@ -130,12 +130,12 @@
                                   count:(NSString *)count
                                 Success:(void (^) (NSDictionary *retinfo))success error:(void (^)(NSError *error))error
 {
-    NSString *url = @"https://demo2821846.mockable.io/news/column";//测试数据
+//    NSString *url = @"https://demo2821846.mockable.io/news/column";//测试数据
     NSString *urlString = [NSString stringWithFormat:@"%@",EVGetSpecialColumnAPI];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     [param setValue:start forKey:@"start"];
     [param setValue:count forKey:@"count"];
-    [EVBaseToolManager GETNotVerifyRequestWithUrl:url parameters:param success:success fail:error];
+    [EVBaseToolManager GETNotVerifyRequestWithUrl:urlString parameters:param success:success fail:error];
 }
 
 
