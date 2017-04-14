@@ -162,6 +162,9 @@
     _globalBaseModel = globalBaseModel;
     self.nameLabel.frame = CGRectMake(44, 20, 130, 22);
     self.changeLabel.frame = CGRectMake(170, 20, 120, 22);
+    if (ScreenWidth == 320) {
+        self.changeLabel.frame = CGRectMake(150, 20, 120, 22);
+    }
     self.codeLabel.hidden = YES;
     self.rankLabel.hidden = YES;
     self.flagImageViwe.hidden = NO;

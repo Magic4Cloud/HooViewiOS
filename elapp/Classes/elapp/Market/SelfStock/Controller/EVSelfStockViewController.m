@@ -41,6 +41,7 @@
     [self addTableView];
     [self addNullView];
     [self loadData];
+    [self.listTableView startHeaderRefreshing];
 
 }
 
@@ -182,11 +183,11 @@
     [backView addSubview:leftLabel];
     
     UILabel *centerLabel = [[UILabel alloc] init];
-    centerLabel.frame = CGRectMake((ScreenWidth - 100)/2, 0, 100, 40);
+    centerLabel.frame = CGRectMake(154, 0, 100, 40);
     centerLabel.font = [UIFont textFontB2];
     centerLabel.textColor = [UIColor evTextColorH2];
     centerLabel.text = @"现价";
-    centerLabel.textAlignment = NSTextAlignmentCenter;
+    centerLabel.textAlignment = NSTextAlignmentLeft;
     [backView addSubview:centerLabel];
     
     UIButton *rightButton = [[UIButton alloc] init];
@@ -273,7 +274,8 @@
         
     NSLog(@"第一次网络请求：EVSelfStockType:%ld",type);
     [self.baseToolManager GETRequestSelfStockList:[EVLoginInfo localObject].name Success:^(NSDictionary *retinfo) {
-        [[self listTableView] endHeaderRefreshing];
+//        [[self listTableView] endHeaderRefreshing];
+//        [[self listTableView] endFooterRefreshing];
         NSLog(@"type：%ld第一次网络请求：返回的数据********** = %@",type,retinfo);
         self.chooseArray = retinfo[@"data"];
         
@@ -298,6 +300,7 @@
     } error:^(NSError *error) {
         NSLog(@"type:%ld第一次网络请求error:%@",type,error.domain);
         [[self listTableView] endHeaderRefreshing];
+        [[self listTableView] endFooterRefreshing];
         [self updateDataArray:@[]];
     }];
 }
@@ -308,12 +311,15 @@
     [self.baseToolManager GETRealtimeQuotes:stockString success:^(NSDictionary *retinfo) {
         //        NSLog(@"type:%ld第二次请求得到的数据：retinfo:%@",type,retinfo);
         [[self listTableView] endHeaderRefreshing];
+        [[self listTableView] endFooterRefreshing];
+
         //        [EVProgressHUD showSuccess:@"加载成功"];
         NSArray *dataArray = retinfo[@"data"];
         [self updateDataArray:dataArray];
     } error:^(NSError *error) {
         //        NSLog(@"type:%ld第二次请求得到的error:%@",type,error.domain);
-        [[self  listTableView] endHeaderRefreshing];
+        [[self listTableView] endHeaderRefreshing];
+        [[self listTableView] endFooterRefreshing];
     }];
 }
 

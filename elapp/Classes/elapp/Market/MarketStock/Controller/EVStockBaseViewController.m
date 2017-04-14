@@ -47,7 +47,7 @@
     [self addUpTableView];
     [self loadHeadTailData];
     [self loadStockData];
-    
+    [self.stockTableView startHeaderRefreshing];
    
 }
 
@@ -101,7 +101,8 @@
 - (void)loadStockData
 {
     [self.baseToolManager GETRequestHSuccess:^(NSDictionary *retinfo) {
-        [self.stockTableView endHeaderRefreshing];
+//        [self.stockTableView endHeaderRefreshing];
+//        [self.stockTableView endFooterRefreshing];
         if (self.dataArray.count > 0) {
             [self.dataArray removeAllObjects];
         }
@@ -110,7 +111,8 @@
         [self.dataArray addObjectsFromArray:getArray];
         [self.stockTopView updateStockData:self.dataArray];
     } error:^(NSError *error) {
-         [self.stockTableView endHeaderRefreshing];
+        [self.stockTableView endHeaderRefreshing];
+
         [EVProgressHUD showError:@"请求失败"];
     }];
     
@@ -123,11 +125,10 @@
     self.refreshFinish = YES;
     WEAK(self)
     [self.baseToolManager GETRequestTodayFloatMarket:_marketType Success:^(NSDictionary *retinfo) {
-         [self.stockTableView endHeaderRefreshing];
-        if (self.floatArray.count > 0) {
+            if (self.floatArray.count > 0) {
             [weakself.floatArray removeAllObjects];
         }
-         [EVProgressHUD hideHUDForView:self.view];
+        [EVProgressHUD hideHUDForView:self.view];
         NSDictionary *floatDict = retinfo[@"data"];
         NSArray *tailArray = floatDict[@"tail"];
         NSArray *headArray = floatDict[@"head"];
@@ -136,11 +137,13 @@
         [weakself.floatArray addObject:headData];
         [weakself.floatArray addObject:tailData];
         weakself.refreshFinish = NO;
+        [self.stockTableView endHeaderRefreshing];
+
         [weakself.stockTableView reloadData];
     } error:^(NSError *error) {
         [self.stockTableView endHeaderRefreshing];
         [EVProgressHUD hideHUDForView:self.view];
-        [EVProgressHUD showError:@"请求失败"];
+//        [EVProgressHUD showError:@"请求失败"];
         EVLog(@"dapan-------  %@",error);
         weakself.refreshFinish = NO;
     }];

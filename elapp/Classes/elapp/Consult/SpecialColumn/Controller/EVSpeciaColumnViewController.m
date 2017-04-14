@@ -15,6 +15,7 @@
 #import "EVNewsDetailWebController.h"
 #import "EVWatchVideoInfo.h"
 #import "EVVipCenterViewController.h"
+#import "EVNullDataView.h"
 
 @interface EVSpeciaColumnViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,WaterFlowLayoutDelegate>
 @property (nonatomic, strong) EVBaseToolManager *baseToolManager;
@@ -22,6 +23,8 @@
 @property (nonatomic, strong) UICollectionView *collectionView;
 
 @property (nonatomic, strong) NSMutableArray *datasourceArray;
+
+@property (nonatomic, weak) EVNullDataView *noDataView;
 
 @property (nonatomic, assign) int start;
 
@@ -59,6 +62,14 @@
     [self.collectionView autoPinEdgeToSuperviewEdge:ALEdgeTop];
     [self.collectionView autoSetDimension:ALDimensionHeight toSize:ScreenHeight - 113];
     
+    EVNullDataView *noDataView = [[EVNullDataView alloc] init];
+    noDataView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight - 64);
+    noDataView.topImage = [UIImage imageNamed:@"ic_smile"];
+    noDataView.title = @"当前没有相关专栏文章";
+    [self.view addSubview:noDataView];
+    self.noDataView = noDataView;
+    noDataView.hidden = YES;
+
     
 }
 
@@ -80,6 +91,12 @@
                 EVSpeciaColumnModel * model = [EVSpeciaColumnModel yy_modelWithDictionary:obj];
                 [weakSelf.datasourceArray addObject:model];
             }];
+        }
+        
+        if (_start == 0 && array.count <= 0) {
+            self.noDataView.hidden = NO;
+        }else {
+            self.noDataView.hidden = YES;
         }
 
         if (self.datasourceArray.count < 20)
@@ -118,17 +135,19 @@
         {
             //没有更多数据
             [self.collectionView setFooterState:CCRefreshStateNoMoreData ];
+            self.noDataView.hidden = NO;
         }
         else
         {
             _start += array.count;
+            self.noDataView.hidden = YES;
         }
         
         [self.collectionView reloadData];
         
         } error:^(NSError *error) {
         [self endRefreshing];
-        [EVProgressHUD showError:@"新闻请求失败"];
+        [EVProgressHUD showError:@"专栏新闻请求失败"];
     }];
 
 }
