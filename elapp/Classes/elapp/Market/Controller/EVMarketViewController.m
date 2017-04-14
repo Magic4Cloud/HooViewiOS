@@ -35,31 +35,9 @@
 
 
 
-
-//- (NSArray *)musicCategories {
-//    if (!_musicCategories) {
-//        _musicCategories = @[@"自选", @"沪深", @"港股", @"全球"];
-//    }
-//    return _musicCategories;
-//}
-
 - (instancetype)init {
     if (self = [super init]) {
-//        self.titleSizeNormal = 15;
-//        self.titleSizeSelected = 17;
-//        self.menuViewStyle = WMMenuViewStyleLine;
-//        self.itemsMargins = @[@"50",@"25",@"25", @"25",@"100"];
-//        //        self.menuItemWidth = [UIScreen mainScreen].bounds.size.width / self.musicCategories.count;
-//        self.menuItemWidth = 35.f;
-//        self.menuHeight = 34;
-//        self.menuViewBottomSpace = 5.f;
-//        self.menuBGColor = [UIColor whiteColor];
-//        self.progressWidth = 20.f;//进度条长度
-//        self.viewTop = kNavigationBarHeight + kWMHeaderViewHeight;
-//        self.titleColorSelected = [UIColor evMainColor];
-//        self.titleColorNormal = [UIColor blackColor];
-//        self.scrollView.backgroundColor = [UIColor evBackgroundColor];
-        
+
         self.menuViewStyle = WMMenuViewStyleLine;
         self.titleSizeSelected = 16.0f;
         self.titleSizeNormal = 14.0f;
@@ -104,7 +82,7 @@
     
     UIButton *searchButton = [UIButton buttonWithType:UIButtonTypeCustom];
     searchButton.frame = CGRectMake(ScreenWidth - 44 -10, 20, 44,44);
-    [searchButton setImage:[UIImage imageNamed:@"Huoyan_market_search"] forState:(UIControlStateNormal)];
+    [searchButton setImage:[UIImage imageNamed:@"btn_news_search_n"] forState:(UIControlStateNormal)];
     [searchButton addTarget:self action:@selector(searchClick) forControlEvents:(UIControlEventTouchUpInside)];
     [self.view addSubview:searchButton];
     
