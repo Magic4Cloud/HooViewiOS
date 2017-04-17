@@ -95,18 +95,20 @@
 {
     self.refreshFinish = YES;
     [self.baseToolManager GETRequestHSuccess:^(NSDictionary *retinfo) {
+        
         [self.stockTableView endHeaderRefreshing];
         if (self.dataArray.count > 0) {
             [self.dataArray removeAllObjects];
         }
         NSArray *stockArray;
-        if (retinfo[@"data"][self.marketType])
+        if ([retinfo[@"data"] isKindOfClass:[NSArray class]])
         {
-            stockArray = [EVStockBaseModel objectWithDictionaryArray:retinfo[@"data"][self.marketType]];
+            stockArray = [EVStockBaseModel objectWithDictionaryArray:retinfo[@"data"]];
+            
         }
         else
         {
-            stockArray = [EVStockBaseModel objectWithDictionaryArray:retinfo[@"data"]];
+            stockArray = [EVStockBaseModel objectWithDictionaryArray:retinfo[@"data"][self.marketType]];
         }
         
         NSArray *getArray = [stockArray subarrayWithRange:NSMakeRange(0, 3)];

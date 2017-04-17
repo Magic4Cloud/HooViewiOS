@@ -132,12 +132,12 @@
     self.cycleScrollView = cycleScrollView;
     _iNewsTableview.tableHeaderView = cycleScrollView;
     _iNewsTableview.separatorStyle = NO;
-    [self.iNewsTableview registerNib:[UINib nibWithNibName:@"EVHVEyeViewCell" bundle:nil] forCellReuseIdentifier:@"eyeCell"];
-    [self.iNewsTableview registerNib:[UINib nibWithNibName:@"EVOnlyTextCell" bundle:nil] forCellReuseIdentifier:@"EVOnlyTextCell"];
-    [self.iNewsTableview registerNib:[UINib nibWithNibName:@"EVThreeImageCell" bundle:nil] forCellReuseIdentifier:@"EVThreeImageCell"];
-    [self.iNewsTableview registerNib:[UINib nibWithNibName:@"EVSpecialTopicCell" bundle:nil] forCellReuseIdentifier:@"EVSpecialTopicCell"];
-    [self.iNewsTableview registerNib:[UINib nibWithNibName:@"EVNewsListViewCell" bundle:nil] forCellReuseIdentifier:@"EVNewsListViewCell"];
-    [self.iNewsTableview registerNib:[UINib nibWithNibName:@"EVHVEyeViewCell" bundle:nil] forCellReuseIdentifier:@"EVHVEyeViewCell"];
+    [_iNewsTableview registerNib:[UINib nibWithNibName:@"EVHVEyeViewCell" bundle:nil] forCellReuseIdentifier:@"EVHVEyeViewCell"];
+    [_iNewsTableview registerNib:[UINib nibWithNibName:@"EVOnlyTextCell" bundle:nil] forCellReuseIdentifier:@"EVOnlyTextCell"];
+    [_iNewsTableview registerNib:[UINib nibWithNibName:@"EVThreeImageCell" bundle:nil] forCellReuseIdentifier:@"EVThreeImageCell"];
+    [_iNewsTableview registerNib:[UINib nibWithNibName:@"EVSpecialTopicCell" bundle:nil] forCellReuseIdentifier:@"EVSpecialTopicCell"];
+    [_iNewsTableview registerNib:[UINib nibWithNibName:@"EVNewsListViewCell" bundle:nil] forCellReuseIdentifier:@"EVNewsListViewCell"];
+    
     
 }
 
@@ -376,7 +376,10 @@
     {
         //火眼金睛
         EVHVEyeViewCell *eyeCell = [tableView dequeueReusableCellWithIdentifier:@"EVHVEyeViewCell"];
-       
+        if (!eyeCell) {
+            eyeCell = [[NSBundle mainBundle] loadNibNamed:@"EVHVEyeViewCell" owner:nil options:nil][0];
+            [eyeCell setValue:@"EVHVEyeViewCell" forKey:@"reuseIdentifier"];
+        }
         eyeCell.delegate = self;
         eyeCell.eyesArray = self.eyesDataArray;
         return eyeCell;

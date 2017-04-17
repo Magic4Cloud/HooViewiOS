@@ -15,7 +15,7 @@ typedef void(^scrollViewOffsetBlock)(CGFloat scrollViewY,BOOL isStop);
  */
 @interface EVImportantNewsViewController : EVViewController
 
-@property (nonatomic, weak) UITableView *iNewsTableview;
+@property (nonatomic, strong) UITableView *iNewsTableview;
 
 @property (nonatomic, copy) scrollViewOffsetBlock offsetBlock;
 
