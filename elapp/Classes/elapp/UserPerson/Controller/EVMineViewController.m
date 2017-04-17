@@ -397,7 +397,7 @@ static const NSString *const SettingCellID = @"settingCell";
             switch (indexPath.row) {
                 case 0:
                 {
-                    NSLog(@"vip == %ld",[EVLoginInfo localObject].vip);
+                    
                     if ([EVLoginInfo localObject].vip == 0) {
                         [EVProgressHUD showMessage:@"暂未实现 敬请期待"];
                     } else {
@@ -465,7 +465,7 @@ static const NSString *const SettingCellID = @"settingCell";
 - (void)gotoFeedbackPage
 {
     
-    self.feedbackKit = [[YWFeedbackKit alloc]initWithAppKey:ALI_FEEDBACK_APP_KEY];
+    self.feedbackKit = [[YWFeedbackKit alloc] initWithAppKey:ALI_FEEDBACK_APP_KEY];
     // 提取手机号
     EVLoginInfo *loginInfo = [EVLoginInfo localObject];
     

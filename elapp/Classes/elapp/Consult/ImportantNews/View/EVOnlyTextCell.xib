@@ -18,8 +18,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="99.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="曹山石：安邦举牌格力的可能性分析 ,成本最高达470亿" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aor-rk-qKL">
-                        <rect key="frame" x="12" y="12" width="298" height="43"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="曹山石：安邦举牌格力的可能性分析 ,安邦举牌格力的可能性分析" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aor-rk-qKL">
+                        <rect key="frame" x="12" y="12" width="298" height="49"/>
                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -63,6 +63,7 @@
                     <constraint firstItem="8US-D1-w8g" firstAttribute="leading" secondItem="ttI-Nw-6cW" secondAttribute="trailing" constant="-6" id="b4b-I8-Fs3"/>
                     <constraint firstAttribute="trailing" secondItem="aor-rk-qKL" secondAttribute="trailing" constant="10" id="k3A-yu-f36"/>
                     <constraint firstItem="8US-D1-w8g" firstAttribute="centerY" secondItem="QNL-Oz-G7P" secondAttribute="centerY" id="roV-jE-M15"/>
+                    <constraint firstItem="ttI-Nw-6cW" firstAttribute="top" secondItem="aor-rk-qKL" secondAttribute="bottom" id="uUD-hC-kHg"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

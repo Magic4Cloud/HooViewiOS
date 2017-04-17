@@ -302,7 +302,6 @@
 		E844F9441E08C6E400CCE0B0 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = E844F9431E08C6E400CCE0B0 /* MBProgressHUD.m */; };
 		E845D4D31E25BC9B00BFE6BE /* EVHVStockTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = E845D4D21E25BC9B00BFE6BE /* EVHVStockTextView.m */; };
 		E845D4D61E26284E00BFE6BE /* EVHVGiftAniView.m in Sources */ = {isa = PBXBuildFile; fileRef = E845D4D51E26284E00BFE6BE /* EVHVGiftAniView.m */; };
-		E845D4D91E2629FE00BFE6BE /* EVHVUserPersonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E845D4D81E2629FE00BFE6BE /* EVHVUserPersonViewController.m */; };
 		E845D4DC1E262AAD00BFE6BE /* EVHVWatchStockView.m in Sources */ = {isa = PBXBuildFile; fileRef = E845D4DB1E262AAD00BFE6BE /* EVHVWatchStockView.m */; };
 		E845D4DF1E2638D600BFE6BE /* EVHVWatchCheatsView.m in Sources */ = {isa = PBXBuildFile; fileRef = E845D4DE1E2638D600BFE6BE /* EVHVWatchCheatsView.m */; };
 		E845D4E21E26395600BFE6BE /* EVNotOpenView.m in Sources */ = {isa = PBXBuildFile; fileRef = E845D4E11E26395600BFE6BE /* EVNotOpenView.m */; };
@@ -1193,8 +1192,6 @@
 		E845D4D21E25BC9B00BFE6BE /* EVHVStockTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVHVStockTextView.m; sourceTree = "<group>"; };
 		E845D4D41E26284E00BFE6BE /* EVHVGiftAniView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVHVGiftAniView.h; sourceTree = "<group>"; };
 		E845D4D51E26284E00BFE6BE /* EVHVGiftAniView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVHVGiftAniView.m; sourceTree = "<group>"; };
-		E845D4D71E2629FE00BFE6BE /* EVHVUserPersonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVHVUserPersonViewController.h; sourceTree = "<group>"; };
-		E845D4D81E2629FE00BFE6BE /* EVHVUserPersonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVHVUserPersonViewController.m; sourceTree = "<group>"; };
 		E845D4DA1E262AAD00BFE6BE /* EVHVWatchStockView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVHVWatchStockView.h; sourceTree = "<group>"; };
 		E845D4DB1E262AAD00BFE6BE /* EVHVWatchStockView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVHVWatchStockView.m; sourceTree = "<group>"; };
 		E845D4DD1E2638D600BFE6BE /* EVHVWatchCheatsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVHVWatchCheatsView.h; sourceTree = "<group>"; };
@@ -3869,8 +3866,6 @@
 				E862FD4A1D6BE8530081E72F /* EVWebViewCtrl.m */,
 				E862FD4B1D6BE8530081E72F /* myasset */,
 				E862FD581D6BE8530081E72F /* UserSetting */,
-				E845D4D71E2629FE00BFE6BE /* EVHVUserPersonViewController.h */,
-				E845D4D81E2629FE00BFE6BE /* EVHVUserPersonViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -5648,7 +5643,6 @@
 				E86201481D6BE8540081E72F /* EVNickNameAndLevelView.m in Sources */,
 				E8BD29841D87B0DD00CBAD82 /* EMCDDeviceManager+Remind.m in Sources */,
 				E8572F511E1E2C89002D3784 /* EVRecorededVideoListController.m in Sources */,
-				E845D4D91E2629FE00BFE6BE /* EVHVUserPersonViewController.m in Sources */,
 				E8033DA71E3384C500A81A37 /* WebViewJavascriptBridgeBase.m in Sources */,
 				E862014E1D6BE8540081E72F /* EVDanmuSwitch.m in Sources */,
 				E862014D1D6BE8540081E72F /* EVCommentTableView.m in Sources */,
