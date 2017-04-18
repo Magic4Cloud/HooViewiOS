@@ -55,6 +55,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title = @"编辑自选股";
     self.automaticallyAdjustsScrollViewInsets = YES;
     [self addUpTableView];
     [self addRightBarItem];
@@ -84,6 +85,7 @@
     addButton.frame = CGRectMake(ScreenWidth/2 - (210 /2 ), 36, 210, 40);
     [tableBottomView addSubview:addButton];
     addButton.backgroundColor = [UIColor evMainColor];
+    addButton.layer.cornerRadius = 20;
     [addButton setTitle:@"添加自选" forState:(UIControlStateNormal)];
     [addButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
     addButton.titleLabel.font = [UIFont systemFontOfSize:16.f];

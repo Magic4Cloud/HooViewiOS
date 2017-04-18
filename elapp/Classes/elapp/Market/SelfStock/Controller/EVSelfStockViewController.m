@@ -54,7 +54,7 @@
     self.nullDataView.buttonTitle = @"添加自选";
     [self.nullDataView addButtonTarget:self action:@selector(nullAddClick:) forControlEvents:(UIControlEventTouchUpInside)];
     self.nullDataView.hidden = YES;
-    [self.view addSubview:self.nullDataView];
+    [self.listTableView addSubview:self.nullDataView];
     [self.nullDataView hide];
 }
 
@@ -110,6 +110,15 @@
 //    if (self.Sdelegate && [self.Sdelegate respondsToSelector:@selector(refreshWithType:)]) {
 //        [self.Sdelegate refreshWithType:EVSelfStockTypeAll];
 //    }
+    EVLoginInfo *loginInfo = [EVLoginInfo localObject];
+    if ([loginInfo.sessionid isEqualToString:@""] || loginInfo.sessionid == nil) {
+        
+        UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
+        
+        [self presentViewController:navighaVC animated:YES completion:nil];
+        return;
+    }
+
     EVEditSelfStockViewController *mineVC = [[EVEditSelfStockViewController alloc] init];
     mineVC.commitBlock = ^(){
     };
@@ -188,12 +197,14 @@
     [backView addSubview:leftLabel];
     
     UILabel *centerLabel = [[UILabel alloc] init];
-    centerLabel.frame = CGRectMake(154, 0, 100, 40);
     centerLabel.font = [UIFont textFontB2];
     centerLabel.textColor = [UIColor evTextColorH2];
     centerLabel.text = @"现价";
     centerLabel.textAlignment = NSTextAlignmentLeft;
     [backView addSubview:centerLabel];
+    [centerLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:ScreenWidth/2-16];
+    [centerLabel autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
+    
     
     UIButton *rightButton = [[UIButton alloc] init];
     rightButton.frame = CGRectMake(ScreenWidth - 100, 0, 76, 40);

@@ -22,6 +22,11 @@
 #import "EVRelationWith3rdAccoutModel.h"
 #import "EVTextLiveModel.h"
 
+#import "EVFeedbackTableViewController.h"
+#import <YWFeedbackFMWK/YWFeedbackKit.h>
+#import "NSString+Extension.h"
+
+
 typedef enum : NSUInteger {
     EVLogoutType = 1000,
     EVForecastType,
@@ -39,6 +44,9 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) double cacheSize;
 
 @property (strong, nonatomic) EVBaseToolManager *engine;
+
+@property (nonatomic, strong) YWFeedbackKit *feedbackKit;
+
 
 @end
 
@@ -96,6 +104,7 @@ typedef enum : NSUInteger {
     NSMutableArray *firstArray = [NSMutableArray array];
     NSMutableArray *secondArray = [NSMutableArray array];
     NSMutableArray *threeArray = [NSMutableArray array];
+    NSMutableArray *fourArray = [NSMutableArray array];
     EVUserSettingModel *accountModel = [[EVUserSettingModel alloc] init];
     accountModel.nameLabel = @"账号管理";
     accountModel.cellType = EVSettingCellTypeImage;
@@ -117,9 +126,16 @@ typedef enum : NSUInteger {
     aboutModel.cellType = EVSettingCellTypeImage;
     [threeArray addObject:aboutModel];
     
+    EVUserSettingModel *feedbackModel = [[EVUserSettingModel alloc] init];
+    feedbackModel.nameLabel = @"意见反馈";
+    feedbackModel.cellType = EVSettingCellTypeImage;
+    [fourArray addObject:feedbackModel];
+
+    
     [self.allCellArray addObject:firstArray];
     [self.allCellArray addObject:secondArray];
     [self.allCellArray addObject:threeArray];
+    [self.allCellArray addObject:fourArray];
     
     UITableView *settingTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight) style:(UITableViewStyleGrouped)];
     settingTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -200,9 +216,9 @@ typedef enum : NSUInteger {
             cell.tipLabel.text = @"正在获取缓存";
         }
     }
-    if (indexPath.section == 3 && indexPath.row == 0) {
-        cell.tipLabel.text = EVAppVersion;
-    }
+//    if (indexPath.section == 3 && indexPath.row == 0) {
+//        cell.tipLabel.text = EVAppVersion;
+//    }
     if (indexPath.section == 1) {
         if (indexPath.row == 0) {
             UIView * lineView = [[UIView alloc] init];
@@ -241,6 +257,9 @@ typedef enum : NSUInteger {
         EVLog(@"关于火眼");
         EVAboutTableViewController *aboutVC = [EVAboutTableViewController instanceFromStoryboard];
         [self.navigationController pushViewController:aboutVC animated:YES];
+    }else if (indexPath.section == 3 && indexPath.row == 0) {
+        EVLog(@"意见反馈");
+        [self gotoFeedbackPage];
     }
 }
 
@@ -281,6 +300,55 @@ typedef enum : NSUInteger {
         [alert show];
     });
 }
+
+
+//意见反馈
+- (void)gotoFeedbackPage
+{
+    
+    self.feedbackKit = [[YWFeedbackKit alloc]initWithAppKey:ALI_FEEDBACK_APP_KEY];
+    // 提取手机号
+    EVLoginInfo *loginInfo = [EVLoginInfo localObject];
+    
+    self.feedbackKit.customUIPlist = @{@"avatar":loginInfo.logourl};
+    NSMutableDictionary *user_new = [NSMutableDictionary dictionary];
+    
+    if ( loginInfo.phone && ![loginInfo.phone isEqualToString:@""] )
+    {
+        self.feedbackKit.contactInfo = loginInfo.phone;
+        [user_new setValue:loginInfo.phone forKey:@"phone"];
+    }
+    if (loginInfo.birthday && ![loginInfo.birthday isEqualToString:@""]) {
+        NSString *age = [NSString ageFromDateStr:loginInfo.birthday];
+        [user_new setValue:age forKey:@"age"];
+    }
+    
+    if (loginInfo.name) {
+        [user_new setValue:loginInfo.name forKey:@"name"];
+    }
+    if (loginInfo.nickname) {
+        [user_new setValue:loginInfo.nickname forKey:@"nickname"];
+    }
+    if (loginInfo.gender) {
+        [user_new setValue:loginInfo.gender forKey:@"gender"];
+    }
+    self.feedbackKit.extInfo = user_new;
+    WEAK(self)
+    [self.feedbackKit makeFeedbackViewControllerWithCompletionBlock:^(YWLightFeedbackViewController *viewController, NSError *error) {
+        viewController.title = kE_GlobalZH(@"opinion_feedback");
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:viewController];
+        [self presentViewController:nav animated:YES completion:nil];
+        
+        viewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain target:weakself action:@selector(actionQuitFeedback)];
+    }];
+    
+}
+
+- (void)actionQuitFeedback
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 - (void)setUserModel:(EVUserModel *)userModel
 {

@@ -58,9 +58,7 @@
 //    [changeLabel autoAlignAxisToSuperviewAxis:ALAxisVertical];
     [self.contentView addSubview:changeLabel];
     [changeLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:ScreenWidth/2-16];
-//    [changeLabel autoAlignAxis:ALAxisVertical toSameAxisOfView:self.contentView withOffset:14];
     [changeLabel autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
-//    [self addSubview:changeLabel];
     changeLabel.text = @"19.89";
     self.changeLabel = changeLabel;
     

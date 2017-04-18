@@ -66,7 +66,7 @@
     noDataView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight - 64);
     noDataView.topImage = [UIImage imageNamed:@"ic_smile"];
     noDataView.title = @"当前没有相关专栏文章";
-    [self.view addSubview:noDataView];
+    [self.collectionView addSubview:noDataView];
     self.noDataView = noDataView;
     noDataView.hidden = YES;
 

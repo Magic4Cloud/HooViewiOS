@@ -83,6 +83,9 @@
 		7AFCC8F31E9C7D7900BFFBEF /* EVTopicDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AFCC8F21E9C7D7900BFFBEF /* EVTopicDetailViewController.m */; };
 		855BA25DB3AF1C2846A9D41F /* libPods-elapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8870469BA124F47A220386F3 /* libPods-elapp.a */; };
 		9E079FC51E9DC8F200CFF0EE /* EVSpeciaAuthor.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E079FC41E9DC8F200CFF0EE /* EVSpeciaAuthor.m */; };
+		9E08B7921EA5AF1E00721EE8 /* EVVipCenterController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E08B7911EA5AF1E00721EE8 /* EVVipCenterController.m */; };
+		9E08B7951EA5BB9300721EE8 /* EVVipCenterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E08B7941EA5BB9300721EE8 /* EVVipCenterView.m */; };
+		9E08B7971EA5BBAA00721EE8 /* EVVipCenterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E08B7961EA5BBAA00721EE8 /* EVVipCenterView.xib */; };
 		9E66728D1E8136D700933C92 /* UIFont+swizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E66728B1E8136D700933C92 /* UIFont+swizzle.m */; };
 		9E7E6C191E9B219D009CBD6F /* EVSpeciaColumnCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E7E6C171E9B219D009CBD6F /* EVSpeciaColumnCell.m */; };
 		9E7E6C1A1E9B219D009CBD6F /* EVSpeciaColumnCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E7E6C181E9B219D009CBD6F /* EVSpeciaColumnCell.xib */; };
@@ -865,6 +868,11 @@
 		8870469BA124F47A220386F3 /* libPods-elapp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-elapp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E079FC31E9DC8F200CFF0EE /* EVSpeciaAuthor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EVSpeciaAuthor.h; path = elapp/Classes/elapp/Consult/SpecialColumn/View/EVSpeciaAuthor.h; sourceTree = SOURCE_ROOT; };
 		9E079FC41E9DC8F200CFF0EE /* EVSpeciaAuthor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EVSpeciaAuthor.m; path = elapp/Classes/elapp/Consult/SpecialColumn/View/EVSpeciaAuthor.m; sourceTree = SOURCE_ROOT; };
+		9E08B7901EA5AF1E00721EE8 /* EVVipCenterController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVVipCenterController.h; sourceTree = "<group>"; };
+		9E08B7911EA5AF1E00721EE8 /* EVVipCenterController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVVipCenterController.m; sourceTree = "<group>"; };
+		9E08B7931EA5BB9300721EE8 /* EVVipCenterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVVipCenterView.h; sourceTree = "<group>"; };
+		9E08B7941EA5BB9300721EE8 /* EVVipCenterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVVipCenterView.m; sourceTree = "<group>"; };
+		9E08B7961EA5BBAA00721EE8 /* EVVipCenterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVVipCenterView.xib; sourceTree = "<group>"; };
 		9E66728B1E8136D700933C92 /* UIFont+swizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+swizzle.m"; sourceTree = "<group>"; };
 		9E66728C1E8136D700933C92 /* UIFont+swizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+swizzle.h"; sourceTree = "<group>"; };
 		9E7E6C161E9B219D009CBD6F /* EVSpeciaColumnCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSpeciaColumnCell.h; sourceTree = "<group>"; };
@@ -3049,6 +3057,8 @@
 				E8B59B691E5BF70F000DD2A4 /* EVWatchHistoryView.m */,
 				E8B59B6B1E5BF72A000DD2A4 /* EVReadHistoryView.h */,
 				E8B59B6C1E5BF72A000DD2A4 /* EVReadHistoryView.m */,
+				9E08B7901EA5AF1E00721EE8 /* EVVipCenterController.h */,
+				9E08B7911EA5AF1E00721EE8 /* EVVipCenterController.m */,
 			);
 			path = HVController;
 			sourceTree = "<group>";
@@ -5008,6 +5018,9 @@
 				E8C60FC71E2CC0440066F287 /* EVHVTagLabel.m */,
 				E8B4A8A21E4AADDF00C75178 /* EVHVVipCenterView.h */,
 				E8B4A8A31E4AADDF00C75178 /* EVHVVipCenterView.m */,
+				9E08B7931EA5BB9300721EE8 /* EVVipCenterView.h */,
+				9E08B7941EA5BB9300721EE8 /* EVVipCenterView.m */,
+				9E08B7961EA5BBAA00721EE8 /* EVVipCenterView.xib */,
 				E86029511E4C085300C46325 /* EVHVCenterLiveView.h */,
 				E86029521E4C085300C46325 /* EVHVCenterLiveView.m */,
 				E84932861E5309FE00E6D0D3 /* EVNewsCollectTableViewCell.h */,
@@ -5326,6 +5339,7 @@
 				9F1F9E9D24FFC4A0C7B22571 /* Expression_16@2x.png in Resources */,
 				9F1F978ECB6B728D4907CBEA /* Expression_17@2x.png in Resources */,
 				9F1F95BAEA100C7673E311E5 /* Expression_18@2x.png in Resources */,
+				9E08B7971EA5BBAA00721EE8 /* EVVipCenterView.xib in Resources */,
 				9F1F99BE7A27FF65A27E0723 /* Expression_19@2x.png in Resources */,
 				9F1F99A1107B0105BB5280BE /* Expression_1@2x.png in Resources */,
 				9F1F9249B1269ACF0F0ED672 /* Expression_20@2x.png in Resources */,
@@ -5635,6 +5649,7 @@
 				E8554B2A1E67EC9600D2C646 /* SegmentPageBaseViewController.m in Sources */,
 				E86200EA1D6BE8540081E72F /* EVRelationWith3rdAccoutModel.m in Sources */,
 				E862FF931D6BE8540081E72F /* UIImage+Extension.m in Sources */,
+				9E08B7951EA5BB9300721EE8 /* EVVipCenterView.m in Sources */,
 				E862FF8B1D6BE8540081E72F /* NSString+Checking.m in Sources */,
 				E86201021D6BE8540081E72F /* EVOtherPersonBottomView.m in Sources */,
 				E86201311D6BE8540081E72F /* EVFantuanTop3View.m in Sources */,
@@ -5840,6 +5855,7 @@
 				E86201501D6BE8540081E72F /* EVRecordControlView.m in Sources */,
 				E86201201D6BE8540081E72F /* EVAudienceCell.m in Sources */,
 				E89FCAFF1E49C2F5008EC671 /* EVSearchStockViewCell.m in Sources */,
+				9E08B7921EA5AF1E00721EE8 /* EVVipCenterController.m in Sources */,
 				E8EF9D391D83A708001AF7B0 /* EVPayForLivingView.m in Sources */,
 				7A3E4ABC1EA4C96F00DC6548 /* EVPersonHeadCell.m in Sources */,
 				E86201B91D6BE8550081E72F /* EVNavigationController.m in Sources */,

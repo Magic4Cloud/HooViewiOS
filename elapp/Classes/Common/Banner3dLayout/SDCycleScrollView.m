@@ -128,6 +128,7 @@ static NSString *indentify = @"MKJCollectionViewCell";
     mainView.showsHorizontalScrollIndicator = NO;
     mainView.showsVerticalScrollIndicator = NO;
     mainView.decelerationRate = 0.1;
+
     [mainView registerNib:[UINib nibWithNibName:indentify bundle:nil] forCellWithReuseIdentifier:indentify];
     mainView.dataSource = self;
     mainView.delegate = self;

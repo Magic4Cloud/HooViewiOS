@@ -41,9 +41,10 @@
 
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    flowLayout.itemSize = CGSizeMake(ScreenWidth/3,100);
+    flowLayout.itemSize = CGSizeMake(ScreenWidth/3,106);
     flowLayout.sectionInset  = UIEdgeInsetsMake(0, 0, 0, 0);
-     flowLayout.minimumLineSpacing = 0.f;
+    flowLayout.minimumLineSpacing = 0.f;
+    flowLayout.minimumInteritemSpacing = 0.f;
     UICollectionView *stockCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 106) collectionViewLayout:flowLayout];
     [contentView addSubview:stockCollectionView];
     stockCollectionView.delegate = self;
@@ -64,7 +65,7 @@
 //    pageControl.currentPageIndicatorTintColor = [UIColor grayColor];
 //    [contentView addSubview:pageControl];
 //    self.pageControl = pageControl;
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 116, ScreenWidth, 10)];
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 106, ScreenWidth, 8)];
     lineView.backgroundColor = [UIColor evBackgroundColor];
     [self addSubview:lineView];
     

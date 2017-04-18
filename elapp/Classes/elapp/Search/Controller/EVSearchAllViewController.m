@@ -567,7 +567,7 @@
     EVNullDataView *newsNoDataView = [[EVNullDataView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-115)];
     [searchScrollView addSubview:newsNoDataView];
     newsNoDataView.topImage = [UIImage imageNamed:@"ic_smile"];
-    newsNoDataView.title = @"搜索您想了解的新闻资讯";
+    newsNoDataView.title = @"搜索您想了解的新闻";
     self.newsNoDataView = newsNoDataView;
     UITapGestureRecognizer *newsTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(newsTap)];
     [newsNoDataView addGestureRecognizer:newsTap];
@@ -576,7 +576,7 @@
     EVNullDataView *liveNoDataView = [[EVNullDataView alloc] initWithFrame:CGRectMake(ScreenWidth, 0, ScreenWidth, ScreenHeight-115)];
     [searchScrollView addSubview:liveNoDataView];
     liveNoDataView.topImage = [UIImage imageNamed:@"ic_smile"];
-    liveNoDataView.title = @"搜索您想了解的直播资讯";
+    liveNoDataView.title = @"搜索您想了解的直播";
     self.liveNoDataView = liveNoDataView;
     UITapGestureRecognizer *liveTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(liveTap)];
     [liveNoDataView addGestureRecognizer:liveTap];
@@ -584,7 +584,7 @@
     EVNullDataView *stockNoDataView = [[EVNullDataView alloc] initWithFrame:CGRectMake(ScreenWidth*2, 0, ScreenWidth, ScreenHeight-115)];
     [searchScrollView addSubview:stockNoDataView];
     stockNoDataView.topImage = [UIImage imageNamed:@"ic_smile"];
-    stockNoDataView.title = @"搜索您想了解的股票资讯";
+    stockNoDataView.title = @"搜索您想了解的股票";
     self.stockNoDataView = stockNoDataView;
     UITapGestureRecognizer *stockTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(stockTap)];
     [stockNoDataView addGestureRecognizer:stockTap];
@@ -663,9 +663,9 @@
     if (noticeToSearch) {
         self.newsNoDataView.topImage = self.liveNoDataView.topImage = self.stockNoDataView.topImage = [UIImage imageNamed:@"ic_smile"];
         self.newsNoDataView.hidden = self.liveNoDataView.hidden = self.stockNoDataView.hidden = NO;
-        self.newsNoDataView.title = @"搜索您想了解的新闻资讯";
-        self.liveNoDataView.title = @"搜索您想了解的直播资讯";
-        self.stockNoDataView.title = @"搜索您想了解的股票资讯";
+        self.newsNoDataView.title = @"搜索您想了解的新闻";
+        self.liveNoDataView.title = @"搜索您想了解的直播";
+        self.stockNoDataView.title = @"搜索您想了解的股票";
         [self.searchResult.news removeAllObjects];
         [self.searchResult.videos removeAllObjects];
         [self.searchResult.data removeAllObjects];
