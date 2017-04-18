@@ -23,6 +23,7 @@
 @property (nonatomic, strong)EVTopicModel * topicModel;
 @property (nonatomic, strong)UIActivityIndicatorView * activityView;
 @property (nonatomic, strong)UIView * naviBarBgView;
+@property (nonatomic, strong)UILabel * titleLabel;
 @property (nonatomic, weak)UIButton * backButton;
 @end
 
@@ -219,8 +220,20 @@
     if (!_naviBarBgView) {
         _naviBarBgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 64)];
         _naviBarBgView.backgroundColor = [UIColor whiteColor];
+        [_naviBarBgView addSubview:self.titleLabel];
     }
     return _naviBarBgView;
+}
+
+- (UILabel *)titleLabel
+{
+    if (!_titleLabel) {
+        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(44+4, 15, ScreenWidth - 44-4, 44)];
+        _titleLabel.font = [UIFont systemFontOfSize:17];
+        _titleLabel.textColor = [UIColor evTextColorH2];
+        _titleLabel.textAlignment = NSTextAlignmentLeft;
+    }
+    return _titleLabel;
 }
 - (UIActivityIndicatorView *)activityView
 {
@@ -236,8 +249,6 @@
     if (topicModel == nil) {
         return;
     }
-//    topicModel.introduce = @"日前，西安交通大学、中央财经大学、上海财经大学、大连海事大学等多所高校研究生院发布消息：依据《财政部教育部关于进一步提高博士生国家助学金资助标准的通知》(财科教〔2017〕5号)文件要求，从2017年春季学期起，提高全国研究生招生计划内的全日制博士生(有固定工资收入的除外)国家助学金资助标准，其中中央高校博士生从每生每年12000元提高到15000元，即每生每月提高250元。";
-//    topicModel.title = @"4月10日，国家主席习近平在北京人民大会堂同缅甸总统吴廷觉举行会谈。会谈前，习近平在人民大会堂东门外广场为吴廷觉举行欢迎仪式。新华社记者姚大伟摄";
     _topicModel = topicModel;
     
     NSString * detailString = _topicModel.introduce;
@@ -246,6 +257,7 @@
     CGRect frame = _headerView.frame;
     frame.size.height = labelHeight + 227-60;
     
+    self.titleLabel.text = topicModel.title;
     self.headerView.topicModel = topicModel;
     self.headerView.frame = frame;
     

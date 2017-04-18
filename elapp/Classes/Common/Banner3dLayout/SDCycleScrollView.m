@@ -116,9 +116,8 @@ static NSString *indentify = @"MKJCollectionViewCell";
     MKJCollectionViewFlowLayout * flowLayout = [[MKJCollectionViewFlowLayout alloc] init];
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
 
-    flowLayout.itemSize = CGSizeMake(self.bounds.size.width - 60*screenScale, self.bounds.size.height-30*screenScale);
-//    flowLayout.itemSize = CGSizeMake(self.bounds.size.width - 60, self.bounds.size.height-20);
-    flowLayout.minimumLineSpacing = 10;
+    flowLayout.itemSize = CGSizeMake(self.bounds.size.width - 38*screenScale, self.bounds.size.height-2*screenScale);
+    flowLayout.minimumLineSpacing = 8;
 //    flowLayout.minimumInteritemSpacing = 20;
     flowLayout.delegate = self;
     _flowLayout = flowLayout;
@@ -129,7 +128,7 @@ static NSString *indentify = @"MKJCollectionViewCell";
     mainView.showsHorizontalScrollIndicator = NO;
     mainView.showsVerticalScrollIndicator = NO;
     mainView.decelerationRate = 0.1;
-    
+
     [mainView registerNib:[UINib nibWithNibName:indentify bundle:nil] forCellWithReuseIdentifier:indentify];
     mainView.dataSource = self;
     mainView.delegate = self;
@@ -483,7 +482,7 @@ static NSString *indentify = @"MKJCollectionViewCell";
         float height = 40;
         
         float screenWidth = [UIScreen mainScreen].bounds.size.width;
-        _pageLabel = [[UILabel alloc] initWithFrame:CGRectMake((screenWidth-width-30*screenScale + ((ScreenWidth-60*screenScale)*MKJMinZoomScale)/2), self.bounds.size.height - height-10, width, height)];
+        _pageLabel = [[UILabel alloc] initWithFrame:CGRectMake((screenWidth-width-19*screenScale + ((ScreenWidth-38*screenScale)*MKJMinZoomScale)/2), self.bounds.size.height - height-10, width, height)];
         
         _pageLabel.backgroundColor = [UIColor colorWithHexString:@"#672f87" alpha:0.7];
         _pageLabel.textAlignment = NSTextAlignmentCenter;

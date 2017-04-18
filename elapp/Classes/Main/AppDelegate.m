@@ -31,6 +31,8 @@
 #import "EVSDKInitManager.h"
 #import "EVNotificationManager.h"
 #import "EVAudioPlayer.h"
+
+#import "EVPersonCenterViewController.h"
 #import "EVMineViewController.h"
 #import "EVMarketViewController.h"
 #import "EVLiveListViewController.h"
@@ -352,8 +354,13 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     [items addObject:threeItem];
     
     // 个人
-    EVMineViewController *fourVC = [[EVMineViewController alloc] init];
-    EVNavigationController *fourNav = [EVNavigationController navigationWithWrapController:fourVC];
+//    EVMineViewController *fourVC = [[EVMineViewController alloc] init];
+//    EVNavigationController *fourNav = [EVNavigationController navigationWithWrapController:fourVC];
+//    EVHomeTabBarItem *fourItem = [EVHomeTabBarItem homeTabBarItemWithController:fourNav];
+//    [items addObject:fourItem];
+    
+    EVPersonCenterViewController * personVc = [[EVPersonCenterViewController alloc] init];
+    EVNavigationController *fourNav = [EVNavigationController navigationWithWrapController:personVc];
     EVHomeTabBarItem *fourItem = [EVHomeTabBarItem homeTabBarItemWithController:fourNav];
     [items addObject:fourItem];
     

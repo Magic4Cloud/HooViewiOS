@@ -38,7 +38,8 @@
     }else {
         self.newsTimeLabel.text = [NSString stringWithFormat:@"今天 %@",[timeLbl substringWithRange:NSMakeRange(11, 5)]];
     }
-    self.newsReadLabel.text = [NSString stringWithFormat:@" %@",consultNewsModel.viewCount];
+    self.newsReadLabel.text = [NSString stringWithFormat:@" %@",[consultNewsModel.viewCount thousandsSeparatorString]];
+    
 }
 
 
@@ -60,7 +61,8 @@
     }else {
         self.newsTimeLabel.text = [NSString stringWithFormat:@"今天 %@",[timeLbl substringWithRange:NSMakeRange(11, 5)]];
     }
-    self.newsReadLabel.text = [NSString stringWithFormat:@" %@",searchNewsModel.viewCount];
+    self.newsReadLabel.text = [NSString stringWithFormat:@" %@",[searchNewsModel.viewCount thousandsSeparatorString]];
+    
 }
 
 
@@ -82,7 +84,7 @@
     }else {
         self.newsTimeLabel.text = [NSString stringWithFormat:@"今天 %@",[timeLbl substringWithRange:NSMakeRange(11, 5)]];
     }
-    self.newsReadLabel.text = [NSString stringWithFormat:@"%@",eyesModel.viewCount];
+    self.newsReadLabel.text = [NSString stringWithFormat:@"%@",[eyesModel.viewCount thousandsSeparatorString]];
     
 }
 

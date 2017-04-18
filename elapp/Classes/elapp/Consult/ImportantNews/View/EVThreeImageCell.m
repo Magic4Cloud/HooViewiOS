@@ -38,7 +38,7 @@
     }
     
     _cellTitleLabel.text = newsModel.title;
-    _cellViewCountLabel.text = newsModel.viewCount;
+    _cellViewCountLabel.text = [newsModel.viewCount thousandsSeparatorString];
     
     [_cellImageView1 cc_setImageWithURLString:newsModel.cover[0] placeholderImage:nil];
     [_cellImageView2 cc_setImageWithURLString:newsModel.cover[1] placeholderImage:nil];

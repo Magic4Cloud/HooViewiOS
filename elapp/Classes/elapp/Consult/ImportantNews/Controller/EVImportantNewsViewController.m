@@ -621,6 +621,7 @@
 - (void)getCarouseInfoSuccess:(NSDictionary *)info
 {
     NSArray *items = [EVCarouselItem objectWithDictionaryArray:info[@"data"]];
+    
     self.cycleScrollView.items = items;
     self.headScrollArray = [items mutableCopy];
     [self.iNewsTableview reloadData];

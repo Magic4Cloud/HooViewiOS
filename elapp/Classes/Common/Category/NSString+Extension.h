@@ -62,6 +62,11 @@
 /** 数字以万、亿为单位生成字符串，四舍五入保留一位小数 */
 + (NSString *)shortNumber:(NSUInteger)count;
 
+/**
+ 千位分割符
+ */
+- (NSString *)thousandsSeparatorString;
+
 /** 根据时间间隔（单位：s），计算视频距当前的时间：1分钟前、1小时前、1天前、1月前、1年前、年月日 */
 + (NSString *)timeStampWithStopSpan:(NSUInteger)stopSpan stopTime:(NSString *)stopTime;
 
