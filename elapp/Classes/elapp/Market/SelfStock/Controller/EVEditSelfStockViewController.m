@@ -55,6 +55,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title = @"编辑自选股";
     self.automaticallyAdjustsScrollViewInsets = YES;
     [self addUpTableView];
     [self addRightBarItem];
