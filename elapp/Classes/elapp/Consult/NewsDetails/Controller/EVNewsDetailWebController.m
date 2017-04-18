@@ -23,6 +23,9 @@
 #import "EVShareManager.h"
 #import "EVVipCenterViewController.h"
 
+#import "EVVipCenterController.h"
+
+
 @interface EVNewsDetailWebController ()<WKNavigationDelegate,EVStockDetailBottomViewDelegate,UITextFieldDelegate,EVWebViewShareViewDelegate>
 @property (nonatomic, strong) WKWebView *newsWebView;
 
@@ -216,9 +219,13 @@
             NSString *name = [NSString stringWithFormat:@"%@", dic[@"name"]];
             EVWatchVideoInfo *watchInfo = [EVWatchVideoInfo new];
             watchInfo.name = name;
-            EVVipCenterViewController *vipVC = [EVVipCenterViewController new];
-            vipVC.watchVideoInfo = watchInfo;
-            [self.navigationController pushViewController:vipVC animated:YES];
+//            EVVipCenterViewController *vipVC = [EVVipCenterViewController new];
+//            vipVC.watchVideoInfo = watchInfo;
+//            [self.navigationController pushViewController:vipVC animated:YES];
+            
+            EVVipCenterController *vc = [[EVVipCenterController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+            
         }
         
     }];

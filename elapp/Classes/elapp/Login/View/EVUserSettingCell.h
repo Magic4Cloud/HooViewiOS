@@ -17,6 +17,7 @@
 #define kConstellation  kE_GlobalZH(@"constellation")
 #define kLocationTitle  kE_GlobalZH(@"location_title")
 #define kIntroTitle  kE_GlobalZH(@"signature_title")
+#define kIntroduceTitle  kE_GlobalZH(@"introduce_title")
 #define kHeaderImage kE_GlobalZH(@"user_image")
 
 
@@ -30,6 +31,7 @@ typedef NS_ENUM(NSInteger, EVCellStyleType) {
     EVCellStyleNomal,
     EVCellStyleHeaderImage,
     EVCellStyleSignature,
+    EVCellStyleIntroduce,
     EVCellStyleName,
     EVCellStyleTags,
     EVCellStylePreNum

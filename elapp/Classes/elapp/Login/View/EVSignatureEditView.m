@@ -16,6 +16,9 @@
 @property (nonatomic, weak) UIView *backView;
 
 @property (nonatomic, weak) UITextView *inputTextView;
+
+@property (nonatomic, assign) NSInteger caninputlen;
+
 @end
 
 @implementation EVSignatureEditView
@@ -60,6 +63,9 @@
     [inputView becomeFirstResponder];
     
     inputView.placeholder = @"您可以介绍一下自己";
+    if ([_type isEqualToString:@"introduce"]) {
+        inputView.placeholder = @"您可以介绍填写您的详细资料";
+    }
     inputView.placeholderColor = [UIColor colorWithHexString:@"#cccccc"];
     [inputView autoAlignAxisToSuperviewAxis:ALAxisVertical];
     [inputView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:19];
@@ -99,18 +105,22 @@
 #pragma mark - UITextViewDelegate
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     NSString *comcatstr = [textView.text stringByReplacingCharactersInRange:range withString:text];
+    if ([_type isEqualToString:@"introduce"]) {
+        _caninputlen = 100 - comcatstr.length;
+    } else {
+        _caninputlen = 20 - comcatstr.length;
+    }
     
-    NSInteger caninputlen = 20 - comcatstr.length;
     
     if ([text isEqualToString:@"\n"]) {
         return NO;
     }
     
-    if (caninputlen >= 0) {
+    if (_caninputlen >= 0) {
         return YES;
     }
     else {
-        NSInteger len = text.length + caninputlen;
+        NSInteger len = text.length + _caninputlen;
         //防止当text.length + caninputlen < 0时，使得rg.length为一个非法最大正数出错
         NSRange rg = {0,MAX(len,0)};
         

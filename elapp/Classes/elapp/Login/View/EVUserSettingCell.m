@@ -51,6 +51,7 @@
 
 
 @property (nonatomic, weak) UILabel *signatureLabel;               // 个性签名
+@property (nonatomic, weak) UILabel *introduceLabel;               // 详细资料
 
 @property (nonatomic, strong) UIButton *indicateImageView;        // 右箭头
 
@@ -124,6 +125,7 @@
     [cancelButton addTarget:self action:@selector(buttonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     [self signatureLabel];
+    [self introduceLabel];
     
     [EVNotificationCenter addObserver:self selector:@selector(textChanged) name:UITextFieldTextDidChangeNotification object:nil];
     
@@ -219,6 +221,9 @@
     else if ( [self.settingItem.settingTitle isEqualToString:kIntroTitle] )
     {  // 个性签名
     }
+    else if ( [self.settingItem.settingTitle isEqualToString:kIntroduceTitle] )
+    {  // 详细资料
+    }
     else if ([self.settingItem.settingTitle isEqualToString:@"执业证号"]) {
         self.settingItem.contentTitle = self.contentTextField.text;
         self.settingItem.loginInfo.credentials = self.contentTextField.text;
@@ -262,6 +267,7 @@
             self.contentTextField.text = settingItem.contentTitle;
             self.signatureLabel.text = self.settingItem.contentTitle;
             self.signatureLabel.hidden = YES;
+            self.introduceLabel.hidden = YES;
             self.contentTextField.hidden = NO;
             self.headImageView.hidden = YES;
             self.contentTextField.hidden = NO;
@@ -274,15 +280,32 @@
         {
             self.contentTextField.text = settingItem.contentTitle;
             self.signatureLabel.text = self.settingItem.contentTitle;
+            self.signatureLabel.textColor = [UIColor evTextColorH1];
             self.signatureLabel.hidden = NO;
             self.contentTextField.hidden = YES;
             self.headImageView.hidden = YES;
-            self.contentTextField.hidden = YES;
              self.indicateImageView.hidden = NO;
              self.userTagsView.hidden = YES;
             self.TextFiledLeftCon.constant = 62;
         }
             break;
+            
+        case EVCellStyleIntroduce:
+        {
+            self.contentTextField.text = settingItem.contentTitle;
+            self.signatureLabel.hidden = YES;
+            self.introduceLabel.text = self.settingItem.contentTitle;
+            self.introduceLabel.hidden = NO;
+            self.introduceLabel.textColor = [UIColor evTextColorH1];
+            self.contentTextField.hidden = YES;
+            self.headImageView.hidden = YES;
+            self.contentTextField.hidden = YES;
+            self.indicateImageView.hidden = NO;
+            self.userTagsView.hidden = YES;
+            self.TextFiledLeftCon.constant = 62;
+        }
+            break;
+
             
         case EVCellStyleHeaderImage:
         {
@@ -595,5 +618,26 @@
     }
     return _signatureLabel;
 }
+
+- (UILabel *)introduceLabel
+{
+    if ( !_introduceLabel )
+    {
+        UILabel *introduceLabel = [[UILabel alloc] init];
+        introduceLabel.numberOfLines = 3;
+        introduceLabel.font = [[EVAppSetting shareInstance] normalFontWithSize:16.f];
+        introduceLabel.textColor = [UIColor colorWithHexString:@"#cccccc"];
+        introduceLabel.textAlignment = NSTextAlignmentLeft;
+        [self.contentView addSubview:introduceLabel];
+        
+        [introduceLabel autoPinEdge:ALEdgeRight toEdge:ALEdgeLeft ofView:self.indicateImageView withOffset:-6];
+        [introduceLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:self.contentView withOffset:94];
+        [introduceLabel autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
+        
+        _introduceLabel = introduceLabel;
+    }
+    return _introduceLabel;
+}
+
 
 @end

@@ -34,6 +34,7 @@
 @property (nonatomic, strong) EVBaseToolManager *engin;
 
 @property (nonatomic, copy) NSString *signature;
+@property (nonatomic, copy) NSString *introduce;
 
 @property (nonatomic, copy) NSString *credentials;
 
@@ -46,6 +47,7 @@
 @property (nonatomic, assign) BOOL upDateImageError;
 
 @property (nonatomic, strong) EVSignatureEditView *signatureView;
+@property (nonatomic, strong) EVSignatureEditView *introduceView;
 
 @end
 
@@ -99,6 +101,7 @@
 {
     [super viewWillDisappear:animated];
     self.signatureView = nil;
+    self.introduceView = nil;
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     
 }
@@ -112,6 +115,7 @@
 - (void)dealloc
 {
     self.signatureView = nil;
+    self.introduceView = nil;
     self.tableView.dataSource = nil;
     self.tableView.delegate = nil;
     [EVNotificationCenter removeObserver:self];
@@ -213,14 +217,15 @@
         birthday.cellStyleType = EVCellStyleTags;
         [self.secondSectionItems addObject:birthday];
         
-//        CCUserSettingItem *detInformation = [[CCUserSettingItem alloc] init];
-//        detInformation.settingTitle = @"详细资料";
-//        detInformation.contentTitle = self.userInfo.signature;
-//        detInformation.access = YES;
-//        detInformation.loginInfo = self.userInfo;
-//        detInformation.placeHolder = @"详细资料";
-//        detInformation.cellStyleType = EVCellStyleSignature;
-//        [self.secondSectionItems addObject:detInformation];
+        CCUserSettingItem *detInformation = [[CCUserSettingItem alloc] init];
+        detInformation.settingTitle = @"详细资料";
+        detInformation.contentTitle = self.userInfo.introduce;
+        detInformation.access = YES;
+        detInformation.hiddenLine = YES;
+        detInformation.loginInfo = self.userInfo;
+        detInformation.placeHolder = @"请完善您的详细资料";
+        detInformation.cellStyleType = EVCellStyleIntroduce;
+        [self.secondSectionItems addObject:detInformation];
         
     }
    
@@ -261,6 +266,7 @@
 #pragma mark - network
 - (void)next
 {
+    NSLog(@"wancheng");
     [self.view endEditing:YES];
     if ( !self.isReedit && !self.userInfo.selectImage && !self.userInfo.logourl )
     {
@@ -482,17 +488,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     {
         [self addSignatureView:item.contentTitle];
         
-        //点击个性签名跳转到个性签名设置
-//        EVSignatureViewController *svc = [[EVSignatureViewController alloc] init];
-//        svc.text = item.contentTitle;
-//        __block NSIndexPath *wIndexPath = indexPath;
-//        svc.commitBlock = ^(NSString *text) {
-//            wself.signature = text;
-//            [wself.tableView reloadRowsAtIndexPaths:@[wIndexPath] withRowAnimation:UITableViewRowAnimationNone];
-//        };
-//        [self.navigationController pushViewController:svc animated:YES];
-        
-        //点击进入个性标签
+
     }
     if ( [item.settingTitle isEqualToString:@"我的标签"] )
     {
@@ -526,6 +522,34 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
                                                  otherButtonTitles:kE_GlobalZH(@"photo_album"),kE_GlobalZH(@"photo_capture"), nil];
         [action showInView:self.view];
     }
+    
+    if ( [item.settingTitle isEqualToString:@"详细资料"] )
+    {
+        [self addIntroduceView:item.contentTitle];
+    }
+
+}
+
+- (void)addIntroduceView:(NSString *)text
+{
+    self.introduceView = [[EVSignatureEditView alloc] init];
+    self.introduceView.originText = text;
+    self.introduceView.type = @"introduce";
+    self.introduceView.frame = [UIScreen mainScreen].bounds;
+    self.introduceView.backgroundColor = [UIColor clearColor];
+    WEAK(self)
+    self.introduceView.hideViewBlock = ^(NSString *inputStr){
+        weakself.introduceView = nil;
+        [weakself.introduceView resignKeyWindow];
+    };
+    self.introduceView.confirmBlock = ^(NSString *inputStr) {
+        weakself.introduce = inputStr;
+        NSIndexPath *indexPath=[NSIndexPath indexPathForRow:5 inSection:1];
+        [weakself.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        weakself.introduceView = nil;
+        [weakself.introduceView resignKeyWindow];
+    };
+
 }
 
 - (void)addSignatureView:(NSString *)text
@@ -596,6 +620,15 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
         }
         self.userInfo.signature = item.contentTitle;
     }
+    
+    if ( [item.settingTitle isEqualToString:@"详细资料"] )
+    {
+        if ( self.introduce )
+        {
+            item.contentTitle = self.introduce;
+        }
+        self.userInfo.introduce = item.contentTitle;
+    }
     cell.settingItem = item;
     if (indexPath.section == 1 && indexPath.row == 4) {
         NSMutableArray *titleAry = [NSMutableArray array];
@@ -616,6 +649,9 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     if (indexPath.section == 0 && indexPath.row == 0) {
         return 100;
+    }
+    if (indexPath.section == 1 && indexPath.row == 5) {
+        return 80;
     }
     return 60;
 }
