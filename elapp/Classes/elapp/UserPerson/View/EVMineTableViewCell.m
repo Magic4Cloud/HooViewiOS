@@ -34,18 +34,18 @@
 - (void)addUpView
 {
     
-    
+    self.contentView.clipsToBounds = YES;
     UIImageView *iconImageView = [[UIImageView alloc] init];
-    [self addSubview:iconImageView];
+    [self.contentView addSubview:iconImageView];
     self.iconImageView = iconImageView;
     [iconImageView autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:16];
     [iconImageView autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
     [iconImageView autoSetDimensionsToSize:CGSizeMake(22, 22)];
 
     UILabel *nameLabel = [[UILabel alloc] init];
-    [self addSubview:nameLabel];
+    [self.contentView addSubview:nameLabel];
     self.nameLabel = nameLabel;
-    nameLabel.textColor = [UIColor evTextColorH2];
+    nameLabel.textColor = [UIColor evTextColorH1];
     nameLabel.font = [UIFont textFontB2];
     [nameLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:iconImageView withOffset:12.f];
     [nameLabel autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
@@ -53,7 +53,7 @@
     
     
     UIImageView *nextImageView = [[UIImageView alloc] init];
-    [self addSubview:nextImageView];
+    [self.contentView addSubview:nextImageView];
     [nextImageView autoSetDimensionsToSize:CGSizeMake(20, 20)];
     [nextImageView autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:24];
     [nextImageView autoAlignAxisToSuperviewAxis:ALAxisHorizontal];

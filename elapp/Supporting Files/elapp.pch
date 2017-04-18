@@ -132,6 +132,7 @@
 
 
 #import "UILabel+Extension.h"
+#import "NSString+Extension.h"
 #import "EVEnums.h"
 #import "EVAppSetting.h"
 #import "elapp_util.h"

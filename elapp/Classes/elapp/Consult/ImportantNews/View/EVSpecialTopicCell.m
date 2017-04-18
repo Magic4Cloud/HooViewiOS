@@ -29,7 +29,7 @@
             [_cellBgimageView cc_setImageWithURLString:speciaModel.cover[0] placeholderImage:nil];
         }
     }
-    _cellViewCountLabel.text = speciaModel.viewCount;
+    _cellViewCountLabel.text = [speciaModel.viewCount thousandsSeparatorString];
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

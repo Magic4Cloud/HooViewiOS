@@ -38,7 +38,7 @@
     }
     
     _cellContentLabel.text = newsModel.title;
-    _cellViewCountLabel.text = newsModel.viewCount;
+    _cellViewCountLabel.text = [newsModel.viewCount thousandsSeparatorString];
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

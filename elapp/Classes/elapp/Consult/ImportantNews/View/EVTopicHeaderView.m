@@ -91,19 +91,7 @@
     self.viewTitleLabel.text = [NSString stringWithFormat:@"      %@",topicModel.title] ;
     
     NSString * viewCount = topicModel.viewCount;
-    long count = viewCount.length;
-    NSMutableString *string = [NSMutableString stringWithString:viewCount];
-    NSMutableString *newstring = [NSMutableString string];
-    while (count > 3) {
-        count -= 3;
-        NSRange rang = NSMakeRange(string.length - 3, 3);
-        NSString *str = [string substringWithRange:rang];
-        [newstring insertString:str atIndex:0];
-        [newstring insertString:@"," atIndex:0];
-        [string deleteCharactersInRange:rang];
-    }
-    [newstring insertString:string atIndex:0];
-    self.viewCountLabel.text = newstring;
+    self.viewCountLabel.text = [viewCount  thousandsSeparatorString];
     
     [self setLabelSpace:self.viewContentLabel withValue:topicModel.introduce withFont:[UIFont systemFontOfSize:14]];
     [self.bgImageView cc_setImageWithURLString:topicModel.cover placeholderImage:nil];

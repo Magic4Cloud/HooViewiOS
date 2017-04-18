@@ -97,6 +97,24 @@
     return [newAttrStr mutableCopy];
 }
 
+- (NSString *)thousandsSeparatorString
+{
+    long count = self.length;
+    NSMutableString *string = [NSMutableString stringWithString:self];
+    NSMutableString *newstring = [NSMutableString string];
+    while (count > 3) {
+        count -= 3;
+        NSRange rang = NSMakeRange(string.length - 3, 3);
+        NSString *str = [string substringWithRange:rang];
+        [newstring insertString:str atIndex:0];
+        [newstring insertString:@"," atIndex:0];
+        [string deleteCharactersInRange:rang];
+    }
+    [newstring insertString:string atIndex:0];
+    NSString *  separatorString = [NSString stringWithFormat:@"%@",newstring];
+    return separatorString;
+}
+
 + (NSString *)shortNumber:(NSUInteger)count
 {
     if ( count < 100000 )    // 小于1万的

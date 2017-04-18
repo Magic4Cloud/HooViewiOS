@@ -298,7 +298,7 @@ static const NSString *const SettingCellID = @"settingCell";
             case UIMineClickButtonTypeRemindMsg:
             {
 //                EVNotifyItem *notifyItem = [self.msgMessages objectAtIndex:0];
-                //  小秘书
+                //  消息
                 EVNotifyListViewController *notiflast = [[EVNotifyListViewController alloc]init];
                
                 notiflast.hidesBottomBarWhenPushed = YES;
@@ -910,9 +910,7 @@ static const NSString *const SettingCellID = @"settingCell";
         [self presentViewController:navighaVC animated:YES completion:nil];
     }
     
-//    UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
-//
-//    [self presentViewController:navighaVC animated:YES completion:nil];
+
 }
 //- (void)setUpNavigationBar
 //{

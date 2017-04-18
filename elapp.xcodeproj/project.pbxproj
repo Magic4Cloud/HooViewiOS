@@ -55,6 +55,9 @@
 		7A3AFE491E88ED0500454C9D /* EVStartPageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3AFE481E88ED0500454C9D /* EVStartPageModel.m */; };
 		7A3E0E291E9B3148000D64F6 /* EVStockMarketModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E0E281E9B3148000D64F6 /* EVStockMarketModel.m */; };
 		7A3E0E2C1E9B62DE000D64F6 /* EVCycleScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E0E2B1E9B62DE000D64F6 /* EVCycleScrollView.m */; };
+		7A3E4AB41EA4BD6000DC6548 /* EVPersonCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E4AB31EA4BD6000DC6548 /* EVPersonCenterViewController.m */; };
+		7A3E4ABC1EA4C96F00DC6548 /* EVPersonHeadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E4ABA1EA4C96F00DC6548 /* EVPersonHeadCell.m */; };
+		7A3E4ABD1EA4C96F00DC6548 /* EVPersonHeadCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7A3E4ABB1EA4C96F00DC6548 /* EVPersonHeadCell.xib */; };
 		7AB61E5D1E972EB9004A285F /* EVAvatarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB61E5B1E972EB9004A285F /* EVAvatarCell.m */; };
 		7AB61E5E1E972EB9004A285F /* EVAvatarCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7AB61E5C1E972EB9004A285F /* EVAvatarCell.xib */; };
 		7AB61E611E97430E004A285F /* EVLineTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB61E601E97430E004A285F /* EVLineTableViewCell.m */; };
@@ -812,6 +815,11 @@
 		7A3E0E281E9B3148000D64F6 /* EVStockMarketModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVStockMarketModel.m; sourceTree = "<group>"; };
 		7A3E0E2A1E9B62DE000D64F6 /* EVCycleScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVCycleScrollView.h; sourceTree = "<group>"; };
 		7A3E0E2B1E9B62DE000D64F6 /* EVCycleScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVCycleScrollView.m; sourceTree = "<group>"; };
+		7A3E4AB21EA4BD6000DC6548 /* EVPersonCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPersonCenterViewController.h; sourceTree = "<group>"; };
+		7A3E4AB31EA4BD6000DC6548 /* EVPersonCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPersonCenterViewController.m; sourceTree = "<group>"; };
+		7A3E4AB91EA4C96F00DC6548 /* EVPersonHeadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPersonHeadCell.h; sourceTree = "<group>"; };
+		7A3E4ABA1EA4C96F00DC6548 /* EVPersonHeadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPersonHeadCell.m; sourceTree = "<group>"; };
+		7A3E4ABB1EA4C96F00DC6548 /* EVPersonHeadCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVPersonHeadCell.xib; sourceTree = "<group>"; };
 		7AB61E5A1E972EB9004A285F /* EVAvatarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVAvatarCell.h; sourceTree = "<group>"; };
 		7AB61E5B1E972EB9004A285F /* EVAvatarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVAvatarCell.m; sourceTree = "<group>"; };
 		7AB61E5C1E972EB9004A285F /* EVAvatarCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVAvatarCell.xib; sourceTree = "<group>"; };
@@ -2241,6 +2249,16 @@
 			children = (
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		7A3E4AB81EA4C94A00DC6548 /* NewTypeCell */ = {
+			isa = PBXGroup;
+			children = (
+				7A3E4AB91EA4C96F00DC6548 /* EVPersonHeadCell.h */,
+				7A3E4ABA1EA4C96F00DC6548 /* EVPersonHeadCell.m */,
+				7A3E4ABB1EA4C96F00DC6548 /* EVPersonHeadCell.xib */,
+			);
+			path = NewTypeCell;
 			sourceTree = "<group>";
 		};
 		7AB61E6A1E9796A4004A285F /* Banner3dLayout */ = {
@@ -3835,6 +3853,8 @@
 		E862FD261D6BE8530081E72F /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				7A3E4AB21EA4BD6000DC6548 /* EVPersonCenterViewController.h */,
+				7A3E4AB31EA4BD6000DC6548 /* EVPersonCenterViewController.m */,
 				E86E92761E6FA81000C977F4 /* BaseController */,
 				E851B2841E2F62F6006316CE /* HVController */,
 				E8B2160A1E1205B8000FD19A /* MyCheats */,
@@ -3962,6 +3982,7 @@
 		E862FD791D6BE8530081E72F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				7A3E4AB81EA4C94A00DC6548 /* NewTypeCell */,
 				E879AB6E1E5575C800D6D301 /* HVVipCenterView */,
 				E8C60FBF1E2C82EE0066F287 /* HVView */,
 				E8B216101E1207A3000FD19A /* UserSetting */,
@@ -5330,6 +5351,7 @@
 				9F1F9584874FC1BFA93A6D0E /* Expression_37@2x.png in Resources */,
 				9F1F99D5799D230E1AD150F9 /* Expression_38@2x.png in Resources */,
 				9F1F98E80AA74964624136D0 /* Expression_39@2x.png in Resources */,
+				7A3E4ABD1EA4C96F00DC6548 /* EVPersonHeadCell.xib in Resources */,
 				9F1F9ECB4EA49CDA627EF0C7 /* Expression_3@2x.png in Resources */,
 				9F1F9485B1216161F7948B2C /* Expression_40@2x.png in Resources */,
 				9F1F931E784945AA40B5929F /* Expression_41@2x.png in Resources */,
@@ -5545,6 +5567,7 @@
 				E862009C1D6BE8540081E72F /* EVLoginViewController.m in Sources */,
 				E86200CA1D6BE8540081E72F /* EVPhoneFAQViewController.m in Sources */,
 				E84932891E5309FE00E6D0D3 /* EVNewsCollectTableViewCell.m in Sources */,
+				7A3E4AB41EA4BD6000DC6548 /* EVPersonCenterViewController.m in Sources */,
 				E86200C21D6BE8540081E72F /* EVUserTableViewCell.m in Sources */,
 				E85DFE501E78D42A005667DD /* EVLiveIgeContentViewCell.m in Sources */,
 				E85DFE561E78D42A005667DD /* EVTextLiveToolBar.m in Sources */,
@@ -5818,6 +5841,7 @@
 				E86201201D6BE8540081E72F /* EVAudienceCell.m in Sources */,
 				E89FCAFF1E49C2F5008EC671 /* EVSearchStockViewCell.m in Sources */,
 				E8EF9D391D83A708001AF7B0 /* EVPayForLivingView.m in Sources */,
+				7A3E4ABC1EA4C96F00DC6548 /* EVPersonHeadCell.m in Sources */,
 				E86201B91D6BE8550081E72F /* EVNavigationController.m in Sources */,
 				E88CD4291E4DA726007BA539 /* EVChooseNewsModel.m in Sources */,
 				E86200D91D6BE8540081E72F /* EVWebViewCtrl.m in Sources */,
