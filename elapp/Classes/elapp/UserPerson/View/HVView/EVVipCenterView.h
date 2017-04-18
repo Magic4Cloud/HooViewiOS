@@ -10,12 +10,4 @@
 
 @interface EVVipCenterView : UIView
 
-
-
-
-
-
-
-
-
 @end

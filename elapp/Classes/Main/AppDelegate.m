@@ -171,10 +171,12 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     
     if (!lastRunVersion) {
         [defaults setObject:currentVersion forKey:LAST_RUN_VERSION_KEY];
+        [defaults synchronize];
         return YES;
     }
     else if (![lastRunVersion isEqualToString:currentVersion]) {
         [defaults setObject:currentVersion forKey:LAST_RUN_VERSION_KEY];
+        [defaults synchronize];
         return YES;  
     }  
     return NO;  

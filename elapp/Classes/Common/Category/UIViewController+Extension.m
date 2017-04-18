@@ -32,7 +32,7 @@
     {
         return;
     }
-
+    
     if ( permission == EVLivePermissionPassWord )
     {
         if ( videoInfo.password && ![videoInfo.password isEqualToString:@""] )
@@ -55,7 +55,7 @@
 
 - (void)playWithVideoInfo:(EVWatchVideoInfo *)videoInfo
 {
-
+    
 }
 
 - (void)showPasswordInputPageWithVideoInfo:(EVWatchVideoInfo *)videoInfo
@@ -209,19 +209,19 @@
 {
     
     
-        if ( normalStart )
-        {
-            normalStart();
-        }
+    if ( normalStart )
+    {
+        normalStart();
+    }
 }
 
 - (void)requestForecastLivingWithForecastItem:(CCForeShowItem *)item
                                      delegate:(id)delegate
 {
-//    EVLiveViewController *liveVC = [EVLiveViewController liveViewControllerWith:item];
-//    liveVC.delegate = delegate;
-//    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:liveVC];
-//    [self presentViewController:nav animated:YES completion:nil];
+    //    EVLiveViewController *liveVC = [EVLiveViewController liveViewControllerWith:item];
+    //    liveVC.delegate = delegate;
+    //    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:liveVC];
+    //    [self presentViewController:nav animated:YES completion:nil];
 }
 
 
@@ -247,9 +247,9 @@
 }
 
 - (void)realRequestNormalLivingPageForceImage:(BOOL)forceImage
-                                allowList:(NSArray *)allowList
-                                audioOnly:(BOOL)audioOnly
-                                 delegate:(id)delegate
+                                    allowList:(NSArray *)allowList
+                                    audioOnly:(BOOL)audioOnly
+                                     delegate:(id)delegate
 {
     EVLiveViewController *liveVC = [[EVLiveViewController alloc] init];
     liveVC.foreCapture = forceImage;
@@ -269,8 +269,8 @@
 }
 
 - (UIButton *)addBackToTopButtonToSuperView:(UIView *)superView
-                        OffsetYToBottom:(CGFloat)offsetY_Bottom
-                                             action:(SEL)action
+                            OffsetYToBottom:(CGFloat)offsetY_Bottom
+                                     action:(SEL)action
 {
     CGFloat backToTopButtonHeight = 40.0f;
     UIButton *top = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -282,6 +282,28 @@
     
     return top;
 }
+
+
+- (void)setSystemBackButton
+{
+    
+    UIButton *backBtn = [[UIButton alloc] initWithTitle:@""];
+    CGRect frame = backBtn.bounds;
+    frame.size.width = 17.0f * 4;
+    backBtn.bounds = frame;
+    [backBtn setImage:[UIImage imageNamed:@"hv_back_return"] forState:UIControlStateNormal];
+    backBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
+    backBtn.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+    [backBtn addTarget:self action:@selector(popBack) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    
+}
+
+- (void)popBack
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 #pragma mark - private methods
 @end

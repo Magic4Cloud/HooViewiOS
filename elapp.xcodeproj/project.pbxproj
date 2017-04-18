@@ -58,6 +58,24 @@
 		7A3E4AB41EA4BD6000DC6548 /* EVPersonCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E4AB31EA4BD6000DC6548 /* EVPersonCenterViewController.m */; };
 		7A3E4ABC1EA4C96F00DC6548 /* EVPersonHeadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E4ABA1EA4C96F00DC6548 /* EVPersonHeadCell.m */; };
 		7A3E4ABD1EA4C96F00DC6548 /* EVPersonHeadCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7A3E4ABB1EA4C96F00DC6548 /* EVPersonHeadCell.xib */; };
+		7A3E98581EA5F78500F24E23 /* EVAccountBindViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E98421EA5F78500F24E23 /* EVAccountBindViewController.m */; };
+		7A3E98591EA5F78500F24E23 /* EVAccountPhoneBindViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E98441EA5F78500F24E23 /* EVAccountPhoneBindViewController.m */; };
+		7A3E985A1EA5F78500F24E23 /* EVAccountPhoneBindViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A3E98451EA5F78500F24E23 /* EVAccountPhoneBindViewController.storyboard */; };
+		7A3E985B1EA5F78500F24E23 /* EVAuthSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E98471EA5F78500F24E23 /* EVAuthSettingViewController.m */; };
+		7A3E985C1EA5F78500F24E23 /* EVBindWeixinCtrl.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E98491EA5F78500F24E23 /* EVBindWeixinCtrl.m */; };
+		7A3E985D1EA5F78500F24E23 /* EVFansOrFocusesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E984B1EA5F78500F24E23 /* EVFansOrFocusesTableViewController.m */; };
+		7A3E985E1EA5F78500F24E23 /* EVMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E984D1EA5F78500F24E23 /* EVMineViewController.m */; };
+		7A3E985F1EA5F78500F24E23 /* EVMyVideoTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E984F1EA5F78500F24E23 /* EVMyVideoTableViewController.m */; };
+		7A3E98601EA5F78500F24E23 /* EVNoDisturbTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E98511EA5F78500F24E23 /* EVNoDisturbTableViewController.m */; };
+		7A3E98611EA5F78500F24E23 /* EVOtherPersonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E98531EA5F78500F24E23 /* EVOtherPersonViewController.m */; };
+		7A3E98621EA5F78500F24E23 /* EVPersonalCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E98551EA5F78500F24E23 /* EVPersonalCenterViewController.m */; };
+		7A3E98631EA5F78500F24E23 /* EVWebViewCtrl.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E98571EA5F78500F24E23 /* EVWebViewCtrl.m */; };
+		7A3E986B1EA5F9EA00F24E23 /* EVMyShopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E986A1EA5F9EA00F24E23 /* EVMyShopViewController.m */; };
+		7A3E986E1EA5FBDE00F24E23 /* EVShopVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E986D1EA5FBDE00F24E23 /* EVShopVideoViewController.m */; };
+		7A3E98711EA5FC1000F24E23 /* EVShopLiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E98701EA5FC1000F24E23 /* EVShopLiveViewController.m */; };
+		7A3E98741EA5FC4400F24E23 /* EVShopCheatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E98731EA5FC4400F24E23 /* EVShopCheatsViewController.m */; };
+		7A3E98781EA61CA100F24E23 /* EVShopLiveCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E98761EA61CA100F24E23 /* EVShopLiveCell.m */; };
+		7A3E98791EA61CA100F24E23 /* EVShopLiveCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7A3E98771EA61CA100F24E23 /* EVShopLiveCell.xib */; };
 		7AB61E5D1E972EB9004A285F /* EVAvatarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB61E5B1E972EB9004A285F /* EVAvatarCell.m */; };
 		7AB61E5E1E972EB9004A285F /* EVAvatarCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7AB61E5C1E972EB9004A285F /* EVAvatarCell.xib */; };
 		7AB61E611E97430E004A285F /* EVLineTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB61E601E97430E004A285F /* EVLineTableViewCell.m */; };
@@ -419,18 +437,6 @@
 		E86200C91D6BE8540081E72F /* EVCheckOldPhoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FD2B1D6BE8530081E72F /* EVCheckOldPhoneViewController.m */; };
 		E86200CA1D6BE8540081E72F /* EVPhoneFAQViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FD2D1D6BE8530081E72F /* EVPhoneFAQViewController.m */; };
 		E86200CB1D6BE8540081E72F /* EVSetNewPhoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FD2F1D6BE8530081E72F /* EVSetNewPhoneViewController.m */; };
-		E86200CC1D6BE8540081E72F /* EVAccountBindViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FD311D6BE8530081E72F /* EVAccountBindViewController.m */; };
-		E86200CD1D6BE8540081E72F /* EVAccountPhoneBindViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FD331D6BE8530081E72F /* EVAccountPhoneBindViewController.m */; };
-		E86200CE1D6BE8540081E72F /* EVAccountPhoneBindViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E862FD341D6BE8530081E72F /* EVAccountPhoneBindViewController.storyboard */; };
-		E86200CF1D6BE8540081E72F /* EVAuthSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FD361D6BE8530081E72F /* EVAuthSettingViewController.m */; };
-		E86200D01D6BE8540081E72F /* EVBindWeixinCtrl.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FD381D6BE8530081E72F /* EVBindWeixinCtrl.m */; };
-		E86200D21D6BE8540081E72F /* EVFansOrFocusesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FD3C1D6BE8530081E72F /* EVFansOrFocusesTableViewController.m */; };
-		E86200D31D6BE8540081E72F /* EVMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FD3E1D6BE8530081E72F /* EVMineViewController.m */; };
-		E86200D41D6BE8540081E72F /* EVMyVideoTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FD401D6BE8530081E72F /* EVMyVideoTableViewController.m */; };
-		E86200D51D6BE8540081E72F /* EVNoDisturbTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FD421D6BE8530081E72F /* EVNoDisturbTableViewController.m */; };
-		E86200D71D6BE8540081E72F /* EVOtherPersonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FD461D6BE8530081E72F /* EVOtherPersonViewController.m */; };
-		E86200D81D6BE8540081E72F /* EVPersonalCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FD481D6BE8530081E72F /* EVPersonalCenterViewController.m */; };
-		E86200D91D6BE8540081E72F /* EVWebViewCtrl.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FD4A1D6BE8530081E72F /* EVWebViewCtrl.m */; };
 		E86200DA1D6BE8540081E72F /* EVConsumptionDetailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FD4D1D6BE8530081E72F /* EVConsumptionDetailsController.m */; };
 		E86200DB1D6BE8540081E72F /* EVMyEarningsCtrl.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FD4F1D6BE8530081E72F /* EVMyEarningsCtrl.m */; };
 		E86200DC1D6BE8540081E72F /* EVWithdrawInfoCtrl.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FD511D6BE8530081E72F /* EVWithdrawInfoCtrl.m */; };
@@ -823,6 +829,40 @@
 		7A3E4AB91EA4C96F00DC6548 /* EVPersonHeadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPersonHeadCell.h; sourceTree = "<group>"; };
 		7A3E4ABA1EA4C96F00DC6548 /* EVPersonHeadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPersonHeadCell.m; sourceTree = "<group>"; };
 		7A3E4ABB1EA4C96F00DC6548 /* EVPersonHeadCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVPersonHeadCell.xib; sourceTree = "<group>"; };
+		7A3E98411EA5F78500F24E23 /* EVAccountBindViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVAccountBindViewController.h; sourceTree = "<group>"; };
+		7A3E98421EA5F78500F24E23 /* EVAccountBindViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVAccountBindViewController.m; sourceTree = "<group>"; };
+		7A3E98431EA5F78500F24E23 /* EVAccountPhoneBindViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVAccountPhoneBindViewController.h; sourceTree = "<group>"; };
+		7A3E98441EA5F78500F24E23 /* EVAccountPhoneBindViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVAccountPhoneBindViewController.m; sourceTree = "<group>"; };
+		7A3E98451EA5F78500F24E23 /* EVAccountPhoneBindViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = EVAccountPhoneBindViewController.storyboard; sourceTree = "<group>"; };
+		7A3E98461EA5F78500F24E23 /* EVAuthSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVAuthSettingViewController.h; sourceTree = "<group>"; };
+		7A3E98471EA5F78500F24E23 /* EVAuthSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVAuthSettingViewController.m; sourceTree = "<group>"; };
+		7A3E98481EA5F78500F24E23 /* EVBindWeixinCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVBindWeixinCtrl.h; sourceTree = "<group>"; };
+		7A3E98491EA5F78500F24E23 /* EVBindWeixinCtrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVBindWeixinCtrl.m; sourceTree = "<group>"; };
+		7A3E984A1EA5F78500F24E23 /* EVFansOrFocusesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVFansOrFocusesTableViewController.h; sourceTree = "<group>"; };
+		7A3E984B1EA5F78500F24E23 /* EVFansOrFocusesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVFansOrFocusesTableViewController.m; sourceTree = "<group>"; };
+		7A3E984C1EA5F78500F24E23 /* EVMineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVMineViewController.h; sourceTree = "<group>"; };
+		7A3E984D1EA5F78500F24E23 /* EVMineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVMineViewController.m; sourceTree = "<group>"; };
+		7A3E984E1EA5F78500F24E23 /* EVMyVideoTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVMyVideoTableViewController.h; sourceTree = "<group>"; };
+		7A3E984F1EA5F78500F24E23 /* EVMyVideoTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVMyVideoTableViewController.m; sourceTree = "<group>"; };
+		7A3E98501EA5F78500F24E23 /* EVNoDisturbTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVNoDisturbTableViewController.h; sourceTree = "<group>"; };
+		7A3E98511EA5F78500F24E23 /* EVNoDisturbTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVNoDisturbTableViewController.m; sourceTree = "<group>"; };
+		7A3E98521EA5F78500F24E23 /* EVOtherPersonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVOtherPersonViewController.h; sourceTree = "<group>"; };
+		7A3E98531EA5F78500F24E23 /* EVOtherPersonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVOtherPersonViewController.m; sourceTree = "<group>"; };
+		7A3E98541EA5F78500F24E23 /* EVPersonalCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPersonalCenterViewController.h; sourceTree = "<group>"; };
+		7A3E98551EA5F78500F24E23 /* EVPersonalCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPersonalCenterViewController.m; sourceTree = "<group>"; };
+		7A3E98561EA5F78500F24E23 /* EVWebViewCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVWebViewCtrl.h; sourceTree = "<group>"; };
+		7A3E98571EA5F78500F24E23 /* EVWebViewCtrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVWebViewCtrl.m; sourceTree = "<group>"; };
+		7A3E98691EA5F9EA00F24E23 /* EVMyShopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVMyShopViewController.h; sourceTree = "<group>"; };
+		7A3E986A1EA5F9EA00F24E23 /* EVMyShopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVMyShopViewController.m; sourceTree = "<group>"; };
+		7A3E986C1EA5FBDE00F24E23 /* EVShopVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVShopVideoViewController.h; sourceTree = "<group>"; };
+		7A3E986D1EA5FBDE00F24E23 /* EVShopVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVShopVideoViewController.m; sourceTree = "<group>"; };
+		7A3E986F1EA5FC1000F24E23 /* EVShopLiveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVShopLiveViewController.h; sourceTree = "<group>"; };
+		7A3E98701EA5FC1000F24E23 /* EVShopLiveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVShopLiveViewController.m; sourceTree = "<group>"; };
+		7A3E98721EA5FC4400F24E23 /* EVShopCheatsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVShopCheatsViewController.h; sourceTree = "<group>"; };
+		7A3E98731EA5FC4400F24E23 /* EVShopCheatsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVShopCheatsViewController.m; sourceTree = "<group>"; };
+		7A3E98751EA61CA100F24E23 /* EVShopLiveCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVShopLiveCell.h; sourceTree = "<group>"; };
+		7A3E98761EA61CA100F24E23 /* EVShopLiveCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVShopLiveCell.m; sourceTree = "<group>"; };
+		7A3E98771EA61CA100F24E23 /* EVShopLiveCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVShopLiveCell.xib; sourceTree = "<group>"; };
 		7AB61E5A1E972EB9004A285F /* EVAvatarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVAvatarCell.h; sourceTree = "<group>"; };
 		7AB61E5B1E972EB9004A285F /* EVAvatarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVAvatarCell.m; sourceTree = "<group>"; };
 		7AB61E5C1E972EB9004A285F /* EVAvatarCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVAvatarCell.xib; sourceTree = "<group>"; };
@@ -1508,29 +1548,6 @@
 		E862FD2D1D6BE8530081E72F /* EVPhoneFAQViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPhoneFAQViewController.m; sourceTree = "<group>"; };
 		E862FD2E1D6BE8530081E72F /* EVSetNewPhoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSetNewPhoneViewController.h; sourceTree = "<group>"; };
 		E862FD2F1D6BE8530081E72F /* EVSetNewPhoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVSetNewPhoneViewController.m; sourceTree = "<group>"; };
-		E862FD301D6BE8530081E72F /* EVAccountBindViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVAccountBindViewController.h; sourceTree = "<group>"; };
-		E862FD311D6BE8530081E72F /* EVAccountBindViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVAccountBindViewController.m; sourceTree = "<group>"; };
-		E862FD321D6BE8530081E72F /* EVAccountPhoneBindViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVAccountPhoneBindViewController.h; sourceTree = "<group>"; };
-		E862FD331D6BE8530081E72F /* EVAccountPhoneBindViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVAccountPhoneBindViewController.m; sourceTree = "<group>"; };
-		E862FD341D6BE8530081E72F /* EVAccountPhoneBindViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = EVAccountPhoneBindViewController.storyboard; sourceTree = "<group>"; };
-		E862FD351D6BE8530081E72F /* EVAuthSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVAuthSettingViewController.h; sourceTree = "<group>"; };
-		E862FD361D6BE8530081E72F /* EVAuthSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVAuthSettingViewController.m; sourceTree = "<group>"; };
-		E862FD371D6BE8530081E72F /* EVBindWeixinCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVBindWeixinCtrl.h; sourceTree = "<group>"; };
-		E862FD381D6BE8530081E72F /* EVBindWeixinCtrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVBindWeixinCtrl.m; sourceTree = "<group>"; };
-		E862FD3B1D6BE8530081E72F /* EVFansOrFocusesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVFansOrFocusesTableViewController.h; sourceTree = "<group>"; };
-		E862FD3C1D6BE8530081E72F /* EVFansOrFocusesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVFansOrFocusesTableViewController.m; sourceTree = "<group>"; };
-		E862FD3D1D6BE8530081E72F /* EVMineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVMineViewController.h; sourceTree = "<group>"; };
-		E862FD3E1D6BE8530081E72F /* EVMineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVMineViewController.m; sourceTree = "<group>"; };
-		E862FD3F1D6BE8530081E72F /* EVMyVideoTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVMyVideoTableViewController.h; sourceTree = "<group>"; };
-		E862FD401D6BE8530081E72F /* EVMyVideoTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVMyVideoTableViewController.m; sourceTree = "<group>"; };
-		E862FD411D6BE8530081E72F /* EVNoDisturbTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVNoDisturbTableViewController.h; sourceTree = "<group>"; };
-		E862FD421D6BE8530081E72F /* EVNoDisturbTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVNoDisturbTableViewController.m; sourceTree = "<group>"; };
-		E862FD451D6BE8530081E72F /* EVOtherPersonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVOtherPersonViewController.h; sourceTree = "<group>"; };
-		E862FD461D6BE8530081E72F /* EVOtherPersonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVOtherPersonViewController.m; sourceTree = "<group>"; };
-		E862FD471D6BE8530081E72F /* EVPersonalCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPersonalCenterViewController.h; sourceTree = "<group>"; };
-		E862FD481D6BE8530081E72F /* EVPersonalCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPersonalCenterViewController.m; sourceTree = "<group>"; };
-		E862FD491D6BE8530081E72F /* EVWebViewCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVWebViewCtrl.h; sourceTree = "<group>"; };
-		E862FD4A1D6BE8530081E72F /* EVWebViewCtrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVWebViewCtrl.m; sourceTree = "<group>"; };
 		E862FD4C1D6BE8530081E72F /* EVConsumptionDetailsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVConsumptionDetailsController.h; sourceTree = "<group>"; };
 		E862FD4D1D6BE8530081E72F /* EVConsumptionDetailsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVConsumptionDetailsController.m; sourceTree = "<group>"; };
 		E862FD4E1D6BE8530081E72F /* EVMyEarningsCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVMyEarningsCtrl.h; sourceTree = "<group>"; };
@@ -2265,8 +2282,63 @@
 				7A3E4AB91EA4C96F00DC6548 /* EVPersonHeadCell.h */,
 				7A3E4ABA1EA4C96F00DC6548 /* EVPersonHeadCell.m */,
 				7A3E4ABB1EA4C96F00DC6548 /* EVPersonHeadCell.xib */,
+				7A3E98751EA61CA100F24E23 /* EVShopLiveCell.h */,
+				7A3E98761EA61CA100F24E23 /* EVShopLiveCell.m */,
+				7A3E98771EA61CA100F24E23 /* EVShopLiveCell.xib */,
 			);
 			path = NewTypeCell;
+			sourceTree = "<group>";
+		};
+		7A3E98401EA5F78500F24E23 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				7A3E98411EA5F78500F24E23 /* EVAccountBindViewController.h */,
+				7A3E98421EA5F78500F24E23 /* EVAccountBindViewController.m */,
+				7A3E98431EA5F78500F24E23 /* EVAccountPhoneBindViewController.h */,
+				7A3E98441EA5F78500F24E23 /* EVAccountPhoneBindViewController.m */,
+				7A3E98451EA5F78500F24E23 /* EVAccountPhoneBindViewController.storyboard */,
+				7A3E98461EA5F78500F24E23 /* EVAuthSettingViewController.h */,
+				7A3E98471EA5F78500F24E23 /* EVAuthSettingViewController.m */,
+				7A3E98481EA5F78500F24E23 /* EVBindWeixinCtrl.h */,
+				7A3E98491EA5F78500F24E23 /* EVBindWeixinCtrl.m */,
+				7A3E984A1EA5F78500F24E23 /* EVFansOrFocusesTableViewController.h */,
+				7A3E984B1EA5F78500F24E23 /* EVFansOrFocusesTableViewController.m */,
+				7A3E984C1EA5F78500F24E23 /* EVMineViewController.h */,
+				7A3E984D1EA5F78500F24E23 /* EVMineViewController.m */,
+				7A3E984E1EA5F78500F24E23 /* EVMyVideoTableViewController.h */,
+				7A3E984F1EA5F78500F24E23 /* EVMyVideoTableViewController.m */,
+				7A3E98501EA5F78500F24E23 /* EVNoDisturbTableViewController.h */,
+				7A3E98511EA5F78500F24E23 /* EVNoDisturbTableViewController.m */,
+				7A3E98521EA5F78500F24E23 /* EVOtherPersonViewController.h */,
+				7A3E98531EA5F78500F24E23 /* EVOtherPersonViewController.m */,
+				7A3E98541EA5F78500F24E23 /* EVPersonalCenterViewController.h */,
+				7A3E98551EA5F78500F24E23 /* EVPersonalCenterViewController.m */,
+				7A3E98561EA5F78500F24E23 /* EVWebViewCtrl.h */,
+				7A3E98571EA5F78500F24E23 /* EVWebViewCtrl.m */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
+		7A3E98641EA5F78D00F24E23 /* MyShop */ = {
+			isa = PBXGroup;
+			children = (
+				7A3E98691EA5F9EA00F24E23 /* EVMyShopViewController.h */,
+				7A3E986A1EA5F9EA00F24E23 /* EVMyShopViewController.m */,
+				7A3E986F1EA5FC1000F24E23 /* EVShopLiveViewController.h */,
+				7A3E98701EA5FC1000F24E23 /* EVShopLiveViewController.m */,
+				7A3E986C1EA5FBDE00F24E23 /* EVShopVideoViewController.h */,
+				7A3E986D1EA5FBDE00F24E23 /* EVShopVideoViewController.m */,
+				7A3E98721EA5FC4400F24E23 /* EVShopCheatsViewController.h */,
+				7A3E98731EA5FC4400F24E23 /* EVShopCheatsViewController.m */,
+			);
+			path = MyShop;
+			sourceTree = "<group>";
+		};
+		7A3E98651EA5F7BC00F24E23 /* MyRelease */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = MyRelease;
 			sourceTree = "<group>";
 		};
 		7AB61E6A1E9796A4004A285F /* Banner3dLayout */ = {
@@ -3865,35 +3937,15 @@
 			children = (
 				7A3E4AB21EA4BD6000DC6548 /* EVPersonCenterViewController.h */,
 				7A3E4AB31EA4BD6000DC6548 /* EVPersonCenterViewController.m */,
+				7A3E98651EA5F7BC00F24E23 /* MyRelease */,
+				7A3E98641EA5F78D00F24E23 /* MyShop */,
+				7A3E98401EA5F78500F24E23 /* Other */,
 				E86E92761E6FA81000C977F4 /* BaseController */,
 				E851B2841E2F62F6006316CE /* HVController */,
 				E8B2160A1E1205B8000FD19A /* MyCheats */,
 				E8B2160B1E1205B8000FD19A /* MyLive */,
 				E8B2160C1E1205B8000FD19A /* RemindMsg */,
 				E862FD271D6BE8530081E72F /* AccountBind */,
-				E862FD301D6BE8530081E72F /* EVAccountBindViewController.h */,
-				E862FD311D6BE8530081E72F /* EVAccountBindViewController.m */,
-				E862FD321D6BE8530081E72F /* EVAccountPhoneBindViewController.h */,
-				E862FD331D6BE8530081E72F /* EVAccountPhoneBindViewController.m */,
-				E862FD341D6BE8530081E72F /* EVAccountPhoneBindViewController.storyboard */,
-				E862FD351D6BE8530081E72F /* EVAuthSettingViewController.h */,
-				E862FD361D6BE8530081E72F /* EVAuthSettingViewController.m */,
-				E862FD371D6BE8530081E72F /* EVBindWeixinCtrl.h */,
-				E862FD381D6BE8530081E72F /* EVBindWeixinCtrl.m */,
-				E862FD3B1D6BE8530081E72F /* EVFansOrFocusesTableViewController.h */,
-				E862FD3C1D6BE8530081E72F /* EVFansOrFocusesTableViewController.m */,
-				E862FD3D1D6BE8530081E72F /* EVMineViewController.h */,
-				E862FD3E1D6BE8530081E72F /* EVMineViewController.m */,
-				E862FD3F1D6BE8530081E72F /* EVMyVideoTableViewController.h */,
-				E862FD401D6BE8530081E72F /* EVMyVideoTableViewController.m */,
-				E862FD411D6BE8530081E72F /* EVNoDisturbTableViewController.h */,
-				E862FD421D6BE8530081E72F /* EVNoDisturbTableViewController.m */,
-				E862FD451D6BE8530081E72F /* EVOtherPersonViewController.h */,
-				E862FD461D6BE8530081E72F /* EVOtherPersonViewController.m */,
-				E862FD471D6BE8530081E72F /* EVPersonalCenterViewController.h */,
-				E862FD481D6BE8530081E72F /* EVPersonalCenterViewController.m */,
-				E862FD491D6BE8530081E72F /* EVWebViewCtrl.h */,
-				E862FD4A1D6BE8530081E72F /* EVWebViewCtrl.m */,
 				E862FD4B1D6BE8530081E72F /* myasset */,
 				E862FD581D6BE8530081E72F /* UserSetting */,
 			);
@@ -5299,7 +5351,6 @@
 				9EC24DB41E7A7BB2003664B4 /* EVConsultGuideView.xib in Resources */,
 				E86200F41D6BE8540081E72F /* EVAccountBindTableViewCell.xib in Resources */,
 				E8EF9D1D1D829F8E001AF7B0 /* EVLimitFiendCell.xib in Resources */,
-				E86200CE1D6BE8540081E72F /* EVAccountPhoneBindViewController.storyboard in Resources */,
 				E86201041D6BE8540081E72F /* EVOtherPersonVideoTableViewCell.xib in Resources */,
 				E862FF6A1D6BE8540081E72F /* LaunchScreen.xib in Resources */,
 				E8EF9D0E1D829CD1001AF7B0 /* EVLimitHeaderView.xib in Resources */,
@@ -5426,6 +5477,7 @@
 				9F1F9C5A7AE7EAC17CBD2D98 /* Expression_81@2x.png in Resources */,
 				9F1F98EA618760AE170A9FE6 /* Expression_82@2x.png in Resources */,
 				9F1F935A53FCCDC8687200C7 /* Expression_83@2x.png in Resources */,
+				7A3E98791EA61CA100F24E23 /* EVShopLiveCell.xib in Resources */,
 				9F1F91141EB1419D198C2B71 /* Expression_84@2x.png in Resources */,
 				9F1F96AE0496430010F6E108 /* Expression_85@2x.png in Resources */,
 				9F1F9A4C58A0070E5A40C81F /* Expression_86@2x.png in Resources */,
@@ -5446,6 +5498,7 @@
 				9F1F91C332186ECF8902B295 /* Expression_99@2x.png in Resources */,
 				E8695C4C1E13B44D00CCA323 /* EVPasswordView.xib in Resources */,
 				E859C3551E6136C6003AFCFF /* EVConsumptionDetailsViewCell.xib in Resources */,
+				7A3E985A1EA5F78500F24E23 /* EVAccountPhoneBindViewController.storyboard in Resources */,
 				9F1F9ECB84D3F487797BB9E3 /* Expression_9@2x.png in Resources */,
 				9F1F9654AA8A4C708C89703A /* guide_01@2x.png in Resources */,
 			);
@@ -5515,17 +5568,16 @@
 				E86201BD1D6BE8550081E72F /* EVHomeTabbar.m in Sources */,
 				E86201111D6BE8540081E72F /* EVSDKLiveMessageEngine.m in Sources */,
 				E8A873ED1E569F31004C6BB5 /* EVVipNotOpenTableView.m in Sources */,
-				E86200CC1D6BE8540081E72F /* EVAccountBindViewController.m in Sources */,
 				E86200B21D6BE8540081E72F /* EVNotifyViewCell.m in Sources */,
 				E89470EB1E07CED90074F621 /* EVSelectMarketViewController.m in Sources */,
 				E8BD29801D87B0DD00CBAD82 /* EMAudioRecorderUtil.m in Sources */,
 				E862009E1D6BE8540081E72F /* EVPhonePwdResetViewController.m in Sources */,
+				7A3E98591EA5F78500F24E23 /* EVAccountPhoneBindViewController.m in Sources */,
 				E862009D1D6BE8540081E72F /* EVPhoneLoginViewController.m in Sources */,
 				E86200DD1D6BE8540081E72F /* EVWithdrawNumCtrl.m in Sources */,
 				E8EF9D2A1D82AD36001AF7B0 /* EVSettingLivingPWDView.m in Sources */,
 				E877DF201DAA579B00653AF3 /* EVPromptRedPacketView.m in Sources */,
 				E85DFE491E78D42A005667DD /* EVHVWatchTextViewController.m in Sources */,
-				E86200D21D6BE8540081E72F /* EVFansOrFocusesTableViewController.m in Sources */,
 				7AB61E871E9796A4004A285F /* MKJCollectionViewFlowLayout.m in Sources */,
 				E844F9341E08C48700CCE0B0 /* SGSegmentedControlDefault.m in Sources */,
 				E862FF971D6BE8540081E72F /* UIView+Extension.m in Sources */,
@@ -5548,6 +5600,7 @@
 				E85DFE481E78D42A005667DD /* EVCutIgeShareViewController.m in Sources */,
 				E845D4E81E2648D400BFE6BE /* EVLiveLoadingView.m in Sources */,
 				E862016B1D6BE8540081E72F /* EVVideoPlayer.m in Sources */,
+				7A3E98621EA5F78500F24E23 /* EVPersonalCenterViewController.m in Sources */,
 				E851B28E1E2F6653006316CE /* EVVipCenterViewController.m in Sources */,
 				E845D4E21E26395600BFE6BE /* EVNotOpenView.m in Sources */,
 				E873A4EB1E516F39008407BA /* EVHotImageListViewCell.m in Sources */,
@@ -5555,9 +5608,7 @@
 				E86201321D6BE8540081E72F /* EVTopContributorView.m in Sources */,
 				E8EF9D2D1D82AD73001AF7B0 /* EVSetLivingPaySumView.m in Sources */,
 				E862FF8C1D6BE8540081E72F /* NSString+Emoji.m in Sources */,
-				E86200D01D6BE8540081E72F /* EVBindWeixinCtrl.m in Sources */,
 				E862013F1D6BE8540081E72F /* EVRedEnvelopeView.m in Sources */,
-				E86200D71D6BE8540081E72F /* EVOtherPersonViewController.m in Sources */,
 				E8943E5C1E24C2C4008E5D97 /* EVChatViewCell.m in Sources */,
 				E86200B71D6BE8540081E72F /* EVRegionCodeTableViewCell.m in Sources */,
 				E89470DD1E07AD4C0074F621 /* EVMineBackgroundView.m in Sources */,
@@ -5582,6 +5633,7 @@
 				E86200CA1D6BE8540081E72F /* EVPhoneFAQViewController.m in Sources */,
 				E84932891E5309FE00E6D0D3 /* EVNewsCollectTableViewCell.m in Sources */,
 				7A3E4AB41EA4BD6000DC6548 /* EVPersonCenterViewController.m in Sources */,
+				7A3E985C1EA5F78500F24E23 /* EVBindWeixinCtrl.m in Sources */,
 				E86200C21D6BE8540081E72F /* EVUserTableViewCell.m in Sources */,
 				E85DFE501E78D42A005667DD /* EVLiveIgeContentViewCell.m in Sources */,
 				E85DFE561E78D42A005667DD /* EVTextLiveToolBar.m in Sources */,
@@ -5600,6 +5652,7 @@
 				E86201291D6BE8540081E72F /* EVLiveEndView.m in Sources */,
 				E86200E71D6BE8540081E72F /* EVConsumptionModel.m in Sources */,
 				9E66728D1E8136D700933C92 /* UIFont+swizzle.m in Sources */,
+				7A3E986B1EA5F9EA00F24E23 /* EVMyShopViewController.m in Sources */,
 				E8BF48401E28F08D00FDB000 /* EVFastNewsModel.m in Sources */,
 				E85DFE531E78D42A005667DD /* EVSendImageView.m in Sources */,
 				E812617C1E1520EF0021C305 /* UIFont+EVExtension.m in Sources */,
@@ -5607,10 +5660,8 @@
 				E8695C3A1E13765000CCA323 /* EVHVPhoneRegistView.m in Sources */,
 				E86201371D6BE8540081E72F /* EVPrepareViewButton.m in Sources */,
 				7AC6698F1E94CE0200655EB8 /* EVHomeBaseViewController.m in Sources */,
-				E86200D51D6BE8540081E72F /* EVNoDisturbTableViewController.m in Sources */,
 				E8BD298F1D87D35200CBAD82 /* EVShadowButton.m in Sources */,
 				E86201521D6BE8540081E72F /* EVReportReasonView.m in Sources */,
-				E86200D41D6BE8540081E72F /* EVMyVideoTableViewController.m in Sources */,
 				E86201511D6BE8540081E72F /* EVRecordInfoView.m in Sources */,
 				E8BD29831D87B0DD00CBAD82 /* EMCDDeviceManager+ProximitySensor.m in Sources */,
 				E8A873F01E56AC30004C6BB5 /* EVHVCenterFansTableView.m in Sources */,
@@ -5626,7 +5677,6 @@
 				E862009F1D6BE8540081E72F /* EVPwdResetViewController.m in Sources */,
 				E85DFE4C1E78D42A005667DD /* EVTextLiveModel.m in Sources */,
 				E84825631E0A8D9F003A795F /* EVStockBaseViewCell.m in Sources */,
-				E86200D31D6BE8540081E72F /* EVMineViewController.m in Sources */,
 				E862011C1D6BE8540081E72F /* EVTopicItem.m in Sources */,
 				E845D4D31E25BC9B00BFE6BE /* EVHVStockTextView.m in Sources */,
 				E86E92791E6FA82100C977F4 /* EVBaseHeaderViewController.m in Sources */,
@@ -5646,6 +5696,7 @@
 				E86200AF1D6BE8540081E72F /* EVNotifyItem.m in Sources */,
 				9E7E6C191E9B219D009CBD6F /* EVSpeciaColumnCell.m in Sources */,
 				E86BED331E2A27110019620D /* EVHVLiveShareView.m in Sources */,
+				7A3E986E1EA5FBDE00F24E23 /* EVShopVideoViewController.m in Sources */,
 				E8554B2A1E67EC9600D2C646 /* SegmentPageBaseViewController.m in Sources */,
 				E86200EA1D6BE8540081E72F /* EVRelationWith3rdAccoutModel.m in Sources */,
 				E862FF931D6BE8540081E72F /* UIImage+Extension.m in Sources */,
@@ -5705,6 +5756,7 @@
 				E8572F301E1E23F1002D3784 /* EVFastNewsViewCell.m in Sources */,
 				E86200B61D6BE8540081E72F /* EVPhoneRegistFirstController.m in Sources */,
 				E862011D1D6BE8540081E72F /* EVTopicResponse.m in Sources */,
+				7A3E98711EA5FC1000F24E23 /* EVShopLiveViewController.m in Sources */,
 				E8C972861E23987700026DF6 /* EVHVLiveTopView.m in Sources */,
 				E845D4EB1E26506C00BFE6BE /* EVHVGiftAniViewCell.m in Sources */,
 				E8B59B6D1E5BF72A000DD2A4 /* EVReadHistoryView.m in Sources */,
@@ -5739,10 +5791,10 @@
 				E86200AD1D6BE8540081E72F /* EVNewFriendList.m in Sources */,
 				E844F9301E08C48700CCE0B0 /* SGImageButton_Horizontal.m in Sources */,
 				0CFCDDF81E31B51900B27FCB /* EVRefreshSuccessView.m in Sources */,
-				E86200CD1D6BE8540081E72F /* EVAccountPhoneBindViewController.m in Sources */,
 				E8B4A8AF1E4AECA200C75178 /* STHeaderView.m in Sources */,
 				E8C60FC81E2CC0440066F287 /* EVHVTagLabel.m in Sources */,
 				E8717F721E6DB309008BD55B /* ZYLauchMovieViewController.m in Sources */,
+				7A3E98741EA5FC4400F24E23 /* EVShopCheatsViewController.m in Sources */,
 				E845D4D61E26284E00BFE6BE /* EVHVGiftAniView.m in Sources */,
 				E8A4F8741E10C11C00655272 /* EVChooseNewsViewController.m in Sources */,
 				E84932821E52DCB500E6D0D3 /* EVEaseMob.m in Sources */,
@@ -5780,10 +5832,11 @@
 				E862FFB11D6BE8540081E72F /* EMVoiceConverter.mm in Sources */,
 				E8B4A8A41E4AADDF00C75178 /* EVHVVipCenterView.m in Sources */,
 				E81261761E14E48F0021C305 /* EVGlobalView.m in Sources */,
-				E86200D81D6BE8540081E72F /* EVPersonalCenterViewController.m in Sources */,
 				E862FFB01D6BE8540081E72F /* wav.mm in Sources */,
 				E8572F2D1E1E148D002D3784 /* EVNewsDetailWebController.m in Sources */,
+				7A3E98601EA5F78500F24E23 /* EVNoDisturbTableViewController.m in Sources */,
 				E86200E11D6BE8540081E72F /* EVAboutTableViewController.m in Sources */,
+				7A3E98631EA5F78500F24E23 /* EVWebViewCtrl.m in Sources */,
 				E86200E81D6BE8540081E72F /* EVFanOrFollowerModel.m in Sources */,
 				E8CDBB281E1BC59200586CBF /* EVWebViewShareView.m in Sources */,
 				E86200A51D6BE8540081E72F /* EVLoginView.m in Sources */,
@@ -5791,7 +5844,6 @@
 				E845D4DC1E262AAD00BFE6BE /* EVHVWatchStockView.m in Sources */,
 				0C9D222D1E696DDE000F2AD0 /* NullSafe.m in Sources */,
 				E862013D1D6BE8540081E72F /* EVMagicEmojiModel.m in Sources */,
-				E86200CF1D6BE8540081E72F /* EVAuthSettingViewController.m in Sources */,
 				E844F9441E08C6E400CCE0B0 /* MBProgressHUD.m in Sources */,
 				E86200FB1D6BE8540081E72F /* EVMyVideoTableViewCell.m in Sources */,
 				E862FF851D6BE8540081E72F /* NSDate+Utils.m in Sources */,
@@ -5852,6 +5904,7 @@
 				E8EF9D0D1D829CD1001AF7B0 /* EVLimitHeaderView.m in Sources */,
 				E8AEBE1C1D6D9D1000096EA6 /* EVYunBiViewController.m in Sources */,
 				E86201281D6BE8540081E72F /* EVLiveBlurView.m in Sources */,
+				7A3E98581EA5F78500F24E23 /* EVAccountBindViewController.m in Sources */,
 				E86201501D6BE8540081E72F /* EVRecordControlView.m in Sources */,
 				E86201201D6BE8540081E72F /* EVAudienceCell.m in Sources */,
 				E89FCAFF1E49C2F5008EC671 /* EVSearchStockViewCell.m in Sources */,
@@ -5860,7 +5913,6 @@
 				7A3E4ABC1EA4C96F00DC6548 /* EVPersonHeadCell.m in Sources */,
 				E86201B91D6BE8550081E72F /* EVNavigationController.m in Sources */,
 				E88CD4291E4DA726007BA539 /* EVChooseNewsModel.m in Sources */,
-				E86200D91D6BE8540081E72F /* EVWebViewCtrl.m in Sources */,
 				E86201BA1D6BE8550081E72F /* EVTableViewController.m in Sources */,
 				7AF1611E1E9CA1B8009D80CB /* EVTopicHeaderView.m in Sources */,
 				E8583D481E62C7CB00481673 /* EVUserTagsModel.m in Sources */,
@@ -5924,9 +5976,13 @@
 				9F1F9C14F7151DED77E1D435 /* EVBaseToolManager+EVHomeAPI.m in Sources */,
 				9F1F94C4CD1CCB1384E434FF /* EVBaseToolManager+EVLiveAPI.m in Sources */,
 				E8B59B6A1E5BF70F000DD2A4 /* EVWatchHistoryView.m in Sources */,
+				7A3E985F1EA5F78500F24E23 /* EVMyVideoTableViewController.m in Sources */,
 				E84354871E1F2C54006D2E7D /* EVHotListViewCell.m in Sources */,
 				9F1F99E2EDD92A85319B3F44 /* EVBaseToolManager+EVLogAPI.m in Sources */,
+				7A3E98781EA61CA100F24E23 /* EVShopLiveCell.m in Sources */,
+				7A3E985E1EA5F78500F24E23 /* EVMineViewController.m in Sources */,
 				9F1F91E2B1A1E48AA2B8AF56 /* EVBaseToolManager+EVMessageAPI.m in Sources */,
+				7A3E985B1EA5F78500F24E23 /* EVAuthSettingViewController.m in Sources */,
 				9F1F92B514AE2F89D2D8ABB5 /* EVBaseToolManager+EVSDKMessage.m in Sources */,
 				E873A4E51E516AB6008407BA /* EVLiveImageViewCell.m in Sources */,
 				9F1F9084F326C665503D2A9F /* EVBaseToolManager+EVSearchAPI.m in Sources */,
@@ -5947,6 +6003,7 @@
 				9F1F996AA15BDD2471304E97 /* EVImageViewWithMask.m in Sources */,
 				9F1F98B9A5E82337A746E3C1 /* EVTextAttachment.m in Sources */,
 				9F1F9C87FDB7AD52DA973DF3 /* EVTextField.m in Sources */,
+				7A3E985D1EA5F78500F24E23 /* EVFansOrFocusesTableViewController.m in Sources */,
 				E8E37BE81E08E2E500DCAFE0 /* EVStockBaseViewController.m in Sources */,
 				E844F9321E08C48700CCE0B0 /* SGNavigationItemTitleView.m in Sources */,
 				9F1F99F57846DA9DB2197538 /* EVTextViewWithPlaceHolderAndClearButton.m in Sources */,
@@ -5992,6 +6049,7 @@
 				E84825601E0A66A6003A795F /* EVStockBaseModel.m in Sources */,
 				9F1F9B97A288EAE8393EB5C7 /* EVSDKInitManager.m in Sources */,
 				7A3E0E291E9B3148000D64F6 /* EVStockMarketModel.m in Sources */,
+				7A3E98611EA5F78500F24E23 /* EVOtherPersonViewController.m in Sources */,
 				9F1F9521F911A20DDB93B574 /* EVControllerContacter.m in Sources */,
 				E86BED361E2B05A60019620D /* EVHVEyesDetailView.m in Sources */,
 				9F1F9C87E68CAA4882D6254A /* EVEventController.m in Sources */,

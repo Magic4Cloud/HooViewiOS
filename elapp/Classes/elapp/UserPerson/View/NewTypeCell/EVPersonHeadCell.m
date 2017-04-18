@@ -62,7 +62,8 @@
         [followAndFansString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:255/255.0 green:108/255.0 blue:36/255.0 alpha:1] range:NSMakeRange(5, 1)];
         
         _cellFollowAndFansLabel.attributedText = followAndFansString;
-         _cellSexImageView.image  = nil;
+        _cellSexImageView.image  = nil;
+        _cellAvatarImageView.image = nil;
     }
 }
 

@@ -76,4 +76,8 @@
                             OffsetYToBottom:(CGFloat)offsetY_Bottom
                                      action:(SEL)action;
 
+/**
+ 为导航控制器添加统一样式的返回按钮
+ */
+- (void)setSystemBackButton;
 @end
