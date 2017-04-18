@@ -23,6 +23,7 @@
 
 
 @property (copy, nonatomic) NSString *signature;            /**< 签名 */
+@property (copy, nonatomic) NSString *introduce;            /**< 详细介绍 */
 @property (copy, nonatomic) NSString *birthday;             /**< 生日 */
 @property (copy, nonatomic) NSString *location;             /**< 地理位置 */
 @property (copy, nonatomic) NSString *authtype;             /**< 登录方式：phone，手机号；sina，新浪微博；qq，qq账号；weixin，微信账号 */

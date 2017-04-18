@@ -14,6 +14,7 @@ typedef void(^ConfirmBlock)(NSString *inputTextStr);
 @interface EVSignatureEditView : UIWindow
 
 @property (nonatomic, copy) NSString *originText;
+@property (nonatomic, copy) NSString *type;
 @property (nonatomic, copy) ConfirmBlock confirmBlock;
 @property (nonatomic,copy) HideViewBlock hideViewBlock;
 

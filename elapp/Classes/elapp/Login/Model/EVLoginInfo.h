@@ -78,6 +78,7 @@
 
 @property (nonatomic, copy) NSString *practiceNum;
 @property (nonatomic, copy) NSString *credentials;          /**< 执业证号 */
+@property (nonatomic, copy) NSString *introduce;          /**< 详细介绍 */
 
 
 /**
