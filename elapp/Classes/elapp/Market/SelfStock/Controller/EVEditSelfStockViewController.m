@@ -84,6 +84,7 @@
     addButton.frame = CGRectMake(ScreenWidth/2 - (210 /2 ), 36, 210, 40);
     [tableBottomView addSubview:addButton];
     addButton.backgroundColor = [UIColor evMainColor];
+    addButton.layer.cornerRadius = 20;
     [addButton setTitle:@"添加自选" forState:(UIControlStateNormal)];
     [addButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
     addButton.titleLabel.font = [UIFont systemFontOfSize:16.f];

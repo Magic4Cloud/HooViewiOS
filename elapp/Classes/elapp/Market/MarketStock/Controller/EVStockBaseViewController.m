@@ -58,7 +58,7 @@
 - (void)addUpTableView
 {
     EVStockTopView *stockTopView = [[EVStockTopView alloc] init];
-    stockTopView.frame  = CGRectMake(0, 0, ScreenWidth, 126);
+    stockTopView.frame  = CGRectMake(0, 0, ScreenWidth, 114);
     stockTopView.delegate = self;
     
     UITableView *stockTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 113) style:(UITableViewStylePlain)];

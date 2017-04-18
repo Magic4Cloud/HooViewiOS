@@ -213,6 +213,15 @@
         birthday.cellStyleType = EVCellStyleTags;
         [self.secondSectionItems addObject:birthday];
         
+//        CCUserSettingItem *detInformation = [[CCUserSettingItem alloc] init];
+//        detInformation.settingTitle = @"详细资料";
+//        detInformation.contentTitle = self.userInfo.signature;
+//        detInformation.access = YES;
+//        detInformation.loginInfo = self.userInfo;
+//        detInformation.placeHolder = @"详细资料";
+//        detInformation.cellStyleType = EVCellStyleSignature;
+//        [self.secondSectionItems addObject:detInformation];
+        
     }
    
 

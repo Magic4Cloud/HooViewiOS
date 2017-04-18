@@ -165,10 +165,10 @@
     
     
     
-    EVNullDataView *stockNoDataView = [[EVNullDataView alloc] initWithFrame:CGRectMake(0, 54, ScreenWidth, ScreenHeight-115)];
+    EVNullDataView *stockNoDataView = [[EVNullDataView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-61)];
     [self.view addSubview:stockNoDataView];
-    stockNoDataView.topImage = [UIImage imageNamed:@"ic_smile"];
-    stockNoDataView.title = @"搜索您想了解的股票资讯";
+    stockNoDataView.topImage = [UIImage imageNamed:@""];
+//    stockNoDataView.title = @"搜索您想了解的股票";
     self.stockNoDataView = stockNoDataView;
     
     UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(rigistKeyBoard)];
@@ -354,14 +354,14 @@
     NSLog(@"%d",action);
     [self.baseToolManager GETAddSelfStocksymbol:cell.stockBaseModel.symbol type:action userid:[EVLoginInfo localObject].name Success:^(NSDictionary *retinfo) {
         if (cell.removeButton.hidden) {
-            [EVProgressHUD showMessage:@"已添加"];
+            [EVProgressHUD showMessage:@"添加成功"];
         } else {
-            [EVProgressHUD showMessage:@"已取消"];
+            [EVProgressHUD showMessage:@"取消成功"];
         }
         [cell changeButtonStatus];
         !weakself.addStockBlock ? : weakself.addStockBlock(cell.stockBaseModel.symbol);
     } error:^(NSError *error) {
-        [EVProgressHUD showMessage:@"失败"];
+        [EVProgressHUD showMessage:@"添加失败"];
     }];
     
     

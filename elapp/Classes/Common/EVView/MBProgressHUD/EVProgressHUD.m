@@ -155,7 +155,7 @@
 //    hud.offset = CGPointMake(0.f, 0);
 //    hud.customView.backgroundColor = [UIColor clearColor];
     [self configStyleForHUD:hud];
-    [hud hideAnimated:YES afterDelay:2.f];
+    [hud hideAnimated:YES afterDelay:0.5];
 }
 
 + (void)showDetailsMessage:(NSString *)message forView:(UIView *)view {

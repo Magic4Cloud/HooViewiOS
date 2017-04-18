@@ -60,10 +60,10 @@
     [self addSubview:addButton];
     self.addButton = addButton;
     [addButton addTarget:self action:@selector(buttonClick:) forControlEvents:(UIControlEventTouchUpInside)];
-    [addButton autoSetDimensionsToSize:CGSizeMake(22, 22)];
+    [addButton autoSetDimensionsToSize:CGSizeMake(44, 44)];
     [addButton autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:30];
     [addButton autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
-    [addButton setImage:[UIImage imageNamed:@"hv_normal_add_stock"] forState:(UIControlStateNormal)];
+    [addButton setImage:[UIImage imageNamed:@"btn_market_n"] forState:(UIControlStateNormal)];
     
     
 //    UILabel *addLabel = [[UILabel alloc] init];

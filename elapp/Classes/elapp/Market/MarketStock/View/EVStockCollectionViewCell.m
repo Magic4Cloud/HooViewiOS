@@ -32,6 +32,7 @@
 
 - (void)addUpView
 {
+    
     UIView *backView = [[UIView alloc] init];
     backView.backgroundColor = [UIColor evMainColor];
     backView.frame = CGRectMake(5, 16, (ScreenWidth-30)/3, 74);
