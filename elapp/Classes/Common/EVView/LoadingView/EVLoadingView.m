@@ -104,7 +104,6 @@
     [self.activityIndicator stopAnimating];
     self.activityIndicator.hidden = YES;
     self.hidden = YES;
-    [self removeFromSuperview];
 }
 
 - (void)tap

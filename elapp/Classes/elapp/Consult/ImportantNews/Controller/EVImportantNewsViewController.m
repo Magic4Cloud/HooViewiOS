@@ -87,7 +87,7 @@
     [self addTableView];
     [self loadImageCarousel];
     
-    [self loadNewData];
+    
     
     WEAK(self)
     
@@ -106,7 +106,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-
+    
+    [self loadNewData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -119,6 +120,13 @@
 - (void)addTableView
 {
     UITableView *iNewsTableview = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-49-64) style:(UITableViewStyleGrouped)];
+    
+    [iNewsTableview registerNib:[UINib nibWithNibName:@"EVHVEyeViewCell" bundle:nil] forCellReuseIdentifier:@"EVHVEyeViewCell"];
+    [iNewsTableview registerNib:[UINib nibWithNibName:@"EVOnlyTextCell" bundle:nil] forCellReuseIdentifier:@"EVOnlyTextCell"];
+    [iNewsTableview registerNib:[UINib nibWithNibName:@"EVThreeImageCell" bundle:nil] forCellReuseIdentifier:@"EVThreeImageCell"];
+    [iNewsTableview registerNib:[UINib nibWithNibName:@"EVSpecialTopicCell" bundle:nil] forCellReuseIdentifier:@"EVSpecialTopicCell"];
+    [iNewsTableview registerNib:[UINib nibWithNibName:@"EVNewsListViewCell" bundle:nil] forCellReuseIdentifier:@"EVNewsListViewCell"];
+    
     iNewsTableview.delegate = self;
     iNewsTableview.dataSource = self;
     iNewsTableview.backgroundColor = [UIColor whiteColor];
@@ -130,13 +138,10 @@
     cycleScrollView.backgroundColor = [UIColor whiteColor];
     cycleScrollView.items = self.dataArray;
     self.cycleScrollView = cycleScrollView;
-    _iNewsTableview.tableHeaderView = cycleScrollView;
-    _iNewsTableview.separatorStyle = NO;
-    [_iNewsTableview registerNib:[UINib nibWithNibName:@"EVHVEyeViewCell" bundle:nil] forCellReuseIdentifier:@"EVHVEyeViewCell"];
-    [_iNewsTableview registerNib:[UINib nibWithNibName:@"EVOnlyTextCell" bundle:nil] forCellReuseIdentifier:@"EVOnlyTextCell"];
-    [_iNewsTableview registerNib:[UINib nibWithNibName:@"EVThreeImageCell" bundle:nil] forCellReuseIdentifier:@"EVThreeImageCell"];
-    [_iNewsTableview registerNib:[UINib nibWithNibName:@"EVSpecialTopicCell" bundle:nil] forCellReuseIdentifier:@"EVSpecialTopicCell"];
-    [_iNewsTableview registerNib:[UINib nibWithNibName:@"EVNewsListViewCell" bundle:nil] forCellReuseIdentifier:@"EVNewsListViewCell"];
+    iNewsTableview.tableHeaderView = cycleScrollView;
+    iNewsTableview.separatorStyle = NO;
+    
+   
     
     
 }

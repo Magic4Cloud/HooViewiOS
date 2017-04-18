@@ -118,9 +118,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    EVNewsListViewCell *newsCell = [tableView dequeueReusableCellWithIdentifier:@"newsCell"];
+    EVNewsListViewCell *newsCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsListViewCell"];
     if (!newsCell) {
         newsCell = [[NSBundle mainBundle] loadNibNamed:@"EVNewsListViewCell" owner:nil options:nil].firstObject;
+        
+        [newsCell setValue:@"EVNewsListViewCell" forKey:@"reuseIdentifier"];
     }
     newsCell.searchNewsModel = self.dataArray[indexPath.row];
     newsCell.selectionStyle = UITableViewCellSelectionStyleNone;

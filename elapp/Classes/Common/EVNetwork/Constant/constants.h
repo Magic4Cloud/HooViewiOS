@@ -131,7 +131,6 @@
 #define EVAllTodayAPI               @"http://dev.hooview.com/api/stock/changelist"
 //#define EVQueryQuotesAPI            @"http://dev.hooview.com/tushare/get_realtime_quotes"
 #define EVQueryQuotesAPI            @"http://dev.hooview.com/api/stock/realtime"
-#define EVHVNewsConstantAPI         @"http://dev.hooview.com/api/news/gethomeNews"
 #define EVHVFastNewsAPI             @"http://dev.hooview.com/api/news/getnewsflash"
 #define EVHVEyesDetailNewsAPI       @"http://dev.hooview.com/api/news/getlist"
 #define EVStockComment              @"http://dev.hooview.com/api/bbs/stockpost"
@@ -166,7 +165,7 @@
 //要闻
 #define EVHVNewsConstantAPI         @"http://dev.hooview.com/api/v3/news/home"
 //专题
-#define EVHVNewsTopicAPI            @"https://demo2821846.mockable.io/news/topic"
+#define EVHVNewsTopicAPI            @"http://dev.hooview.com/api/v2/news/topic"
 
 
 //支付成功回调给服务器
@@ -185,9 +184,6 @@
 #define EVAllTodayAPI               @"http://openapi.hooview.com/api/stock/changelist"
 //#define EVQueryQuotesAPI            @"http://openapi.hooview.com/tushare/get_realtime_quotes"
 #define EVQueryQuotesAPI            @"http://openapi.hooview.com/api/stock/realtime"
-//#define EVHVNewsConstantAPI         @"http://openapi.hooview.com/api/news/gethomeNews"
-
-
 
 #define EVHVFastNewsAPI             @"http://openapi.hooview.com/api/news/getnewsflash"
 #define EVHVEyesDetailNewsAPI       @"http://openapi.hooview.com/api/news/getlist"
@@ -217,12 +213,10 @@
 //要闻
 #define EVHVNewsConstantAPI         @"http://dev.hooview.com/api/v3/news/home"
 //专题
-#define EVHVNewsTopicAPI            @"https://demo2821846.mockable.io/news/topic"
+#define EVHVNewsTopicAPI            @"http://dev.hooview.com/api/v2/news/topic"
 
 //支付成功回调给服务器
 #define EVSuccessPayToService       @"https://appgw.hooview.com/easyvaas/service/service/payecoin"
-
-
 
 
 #endif

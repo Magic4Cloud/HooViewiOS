@@ -34,12 +34,13 @@
     
     [self initUI];
     
-    [self loadNewData];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self loadNewData];
     [self.navigationController setNavigationBarHidden:YES];
 }
 
@@ -99,7 +100,7 @@
 {
     self.activityView.hidden = NO;
     [self.activityView startAnimating];
-    [EVBaseToolManager GETNotVerifyRequestWithUrl:EVHVNewsTopicAPI parameters:@{@"id":@"12345"} success:^(NSDictionary *successDict)
+    [EVBaseToolManager GETNotVerifyRequestWithUrl:EVHVNewsTopicAPI parameters:@{@"id":_newsId} success:^(NSDictionary *successDict)
     {
         [self.activityView stopAnimating];
         self.topicModel = [EVTopicModel yy_modelWithDictionary:successDict];

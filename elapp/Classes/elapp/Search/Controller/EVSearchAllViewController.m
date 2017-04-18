@@ -52,7 +52,7 @@
 @property (weak, nonatomic) UITableView *stockTableView;
 @property (strong, nonatomic) EVBaseToolManager *engine; /**< 网络请求引擎 */
 @property (strong, nonatomic) EVSearchResultModel *searchResult; /**< 搜索结果 */
-@property (weak, nonatomic) EVLoadingView *loadingView;  /**< 加载页面 */
+@property (strong, nonatomic) EVLoadingView *loadingView;  /**< 加载页面 */
 @property (strong, nonatomic) EVUserTableViewCell *willUnfocusCell; /**< 即将取消关注的cell */
 @property (strong, nonatomic) UIButton *willUnfocusBtn; /**< 即将取消关注cell的button */
 @property (copy, nonatomic) NSString *lastSearchText; /**< 上次搜索的文字 */
@@ -362,7 +362,7 @@
 {
 
     if (tableView == self.newsTableView) {
-        EVNewsListViewCell *newsCell = [tableView dequeueReusableCellWithIdentifier:@"newsCell" forIndexPath:indexPath];
+        EVNewsListViewCell *newsCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsListViewCell" forIndexPath:indexPath];
         newsCell.searchNewsModel = self.searchResult.news[indexPath.row];
         return newsCell;
     }else if (tableView == self.liveTableView) {
@@ -558,7 +558,7 @@
     self.stockTableView.backgroundColor = [UIColor clearColor];
     
     // cell 注册
-    [newsTableView registerNib:[UINib nibWithNibName:@"EVNewsListViewCell" bundle:nil]  forCellReuseIdentifier:@"newsCell"];
+    [newsTableView registerNib:[UINib nibWithNibName:@"EVNewsListViewCell" bundle:nil]  forCellReuseIdentifier:@"EVNewsListViewCell"];
      [liveTableView registerNib:[UINib nibWithNibName:@"EVLiveListViewCell" bundle:nil]  forCellReuseIdentifier:@"liveCell"];
     [self.stockTableView registerClass:[EVStockBaseViewCell class] forCellReuseIdentifier:@"stockCell"];
     
@@ -858,9 +858,10 @@
 {
     if ( !_loadingView )
     {
-        EVLoadingView *loadingView = [[EVLoadingView alloc] initWithFrame:self.view.bounds];
+
+        CGRect frame = CGRectMake(0, 54, ScreenWidth, ScreenHeight - 118);
+        EVLoadingView *loadingView = [[EVLoadingView alloc] initWithFrame:frame];
         [self.view addSubview:loadingView];
-        //        _loadingView.verticalOffset = -60.0f;
         _loadingView = loadingView;
     }
     

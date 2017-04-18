@@ -132,10 +132,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    EVNewsListViewCell *newsCell = [tableView dequeueReusableCellWithIdentifier:@"eyesCell"];
+    EVNewsListViewCell *newsCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsListViewCell"];
     if (!newsCell) {
         newsCell = [[NSBundle mainBundle] loadNibNamed:@"EVNewsListViewCell" owner:nil options:nil].firstObject;
-        [newsCell setValue:@"eyesCell" forKey:@"reuseIdentifier"];
+        [newsCell setValue:@"EVNewsListViewCell" forKey:@"reuseIdentifier"];
         newsCell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     newsCell.eyesModel = self.eyesDataArray[indexPath.row];
