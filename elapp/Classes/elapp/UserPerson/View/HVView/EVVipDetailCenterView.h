@@ -17,4 +17,6 @@
 @property (nonatomic, strong) EVUserModel *userModel;
 @property (nonatomic, strong) EVWatchVideoInfo *watchVideoInfo;
 
+@property (nonatomic, strong) NSLayoutConstraint *introduceHig;
+
 @end

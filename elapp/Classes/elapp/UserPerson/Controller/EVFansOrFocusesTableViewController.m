@@ -65,7 +65,7 @@ static const NSString *const fansOrFocusCellID = @"fansOrFocus";
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [self.navigationController setNavigationBarHidden:self.navitionHidden ? YES : NO animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -413,6 +413,9 @@ static const NSString *const fansOrFocusCellID = @"fansOrFocus";
     {
       
         EVNullDataView *nodataView = [[EVNullDataView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+        if (self.navitionHidden == YES) {
+            nodataView.frame = CGRectMake(0, 0, ScreenWidth, 300);
+        }
         [self.tableView addSubview:nodataView];
         if ( [self.name isEqualToString:[EVLoginInfo localObject].name] || self.name == nil)
         {

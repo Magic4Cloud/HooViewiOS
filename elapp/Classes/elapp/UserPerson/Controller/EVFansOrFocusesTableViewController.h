@@ -13,5 +13,6 @@
 
 @property (assign, nonatomic) controllerType type;
 @property (assign, nonatomic) NSString *name;
+@property (assign, nonatomic) BOOL navitionHidden;
 
 @end

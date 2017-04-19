@@ -2379,6 +2379,13 @@
 			path = Gesture;
 			sourceTree = "<group>";
 		};
+		9E08B7A11EA628CA00721EE8 /* VIPCenterController */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = VIPCenterController;
+			sourceTree = "<group>";
+		};
 		9F1F90868CFFE76B8E2E5AA8 /* Danmu */ = {
 			isa = PBXGroup;
 			children = (
@@ -3878,6 +3885,7 @@
 			children = (
 				7A3E4AB21EA4BD6000DC6548 /* EVPersonCenterViewController.h */,
 				7A3E4AB31EA4BD6000DC6548 /* EVPersonCenterViewController.m */,
+				9E08B7A11EA628CA00721EE8 /* VIPCenterController */,
 				E86E92761E6FA81000C977F4 /* BaseController */,
 				E851B2841E2F62F6006316CE /* HVController */,
 				E8B2160A1E1205B8000FD19A /* MyCheats */,
