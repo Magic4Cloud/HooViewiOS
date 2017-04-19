@@ -77,18 +77,12 @@
 {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
-    
     self.navigationController.navigationBar.barTintColor = [UIColor evTextColorH2];
-    self.navigationController.navigationBar.tintColor = [UIColor redColor];    
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor evTextColorH2]}];
     
     self.navigationController.navigationBar.translucent = NO;
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
 
 - (void)viewDidLoad
 {
@@ -104,14 +98,10 @@
     self.introduceView = nil;
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     
+
 }
 
--(void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    
-    
-}
+
 - (void)dealloc
 {
     self.signatureView = nil;

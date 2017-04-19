@@ -14,6 +14,7 @@
 #import "EVNewsCollectViewController.h"
 #import "EVHVBiViewController.h"
 #import "EVNotifyListViewController.h"
+#import "EVMyShopViewController.h"
 
 
 #import "EVMineTableViewCell.h"
@@ -26,6 +27,7 @@
 #import "EVBaseToolManager+EVUserCenterAPI.h"
 
 #import "EVUserModel.h"
+#import "EVRelationWith3rdAccoutModel.h"
 @interface EVPersonCenterViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
     NSArray * cellTitlesArray;
@@ -43,6 +45,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self addObserVer];
+    
     [self initData];
     
     [self initUI];
@@ -55,6 +59,7 @@
     [super viewWillAppear:animated];
     
     [self loadAssetData];
+    
 }
 #pragma mark - 🙄 Private methods
 - (void)initData
@@ -63,6 +68,18 @@
    
     cellTitleIconsArray = @[@"",@"",@"",@"",@"",@""];
 }
+
+- (void)addObserVer
+{
+    [EVNotificationCenter addObserver:self selector:@selector(loadPersonalInfor) name:@"newUserRefusterSuccess" object:nil];
+    [EVNotificationCenter addObserver:self selector:@selector(logOutNotification:) name:NotifyOfLogout object:nil];
+    [EVNotificationCenter addObserver:self selector:@selector(loadPersonalInfor) name:NotifyOfLogin object:nil];
+    [EVNotificationCenter addObserver:self selector:@selector(logOutNotification:) name:@"userLogoutSuccess" object:nil];
+    [EVNotificationCenter addObserver:self selector:@selector(loadPersonalInfor) name:@"modifyUserInfoSuccess" object:nil];
+    [EVNotificationCenter addObserver:self selector:@selector(updateAuth:) name:EVUpdateAuthStatusNotification object:nil];
+}
+
+
 
 - (void)getUserInfoFromDB
 {
@@ -156,6 +173,36 @@
     }];
 }
 #pragma mark - 📢Notifications
+- (void)logOutNotification:(NSNotificationCenter *)notificationCenter
+{
+    self.userModel = nil;
+    [self.tableView reloadData];
+}
+
+- (void)updateAuth:(NSNotification *)notify {
+    NSString *obj = notify.object;
+    NSDictionary *userInfo = notify.userInfo;
+    
+    EVRelationWith3rdAccoutModel *currentModel;
+    for (EVRelationWith3rdAccoutModel *model in self.userModel.auth) {
+        if ([model.type isEqualToString:obj]) {
+            currentModel = model;
+        }
+    }
+    
+    if (currentModel) {
+        currentModel.token = userInfo[@"accessToken"];
+    }
+    else {
+        NSMutableArray *tempArray = @[].mutableCopy;
+        [tempArray addObjectsFromArray:self.userModel.auth];
+        currentModel = [EVRelationWith3rdAccoutModel new];
+        currentModel.token = userInfo[@"accessToken"];
+        currentModel.type = obj;
+        [tempArray addObject:currentModel];
+        self.userModel.auth = tempArray.copy;
+    }
+}
 
 #pragma mark - 🌺 TableView Delegate & Datasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -270,7 +317,9 @@
         case 4:
         {
             //我的购买
-            [EVProgressHUD showMessage:@"暂未实现"];
+            EVMyShopViewController * shopVc = [[EVMyShopViewController alloc] init];
+            shopVc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:shopVc animated:YES];
         }
             break;
         case 5:

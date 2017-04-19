@@ -73,15 +73,15 @@
                 <constraints>
                     <constraint firstItem="FLM-W2-CdR" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="3SX-WH-Ejd"/>
                     <constraint firstAttribute="trailing" secondItem="73b-ag-akx" secondAttribute="trailing" constant="35" id="402-db-NR0"/>
-                    <constraint firstItem="73b-ag-akx" firstAttribute="bottom" secondItem="8wD-M2-dQb" secondAttribute="bottom" id="6in-OE-fmz"/>
+                    <constraint firstItem="8wD-M2-dQb" firstAttribute="centerY" secondItem="u21-Ad-RAs" secondAttribute="centerY" id="4fN-Qu-Nbr"/>
                     <constraint firstItem="73b-ag-akx" firstAttribute="leading" secondItem="UZp-Cs-n2m" secondAttribute="trailing" constant="-9" id="Gum-m6-FQg"/>
                     <constraint firstItem="Xfz-WA-gto" firstAttribute="top" secondItem="FLM-W2-CdR" secondAttribute="top" id="LBZ-q6-1L7"/>
                     <constraint firstAttribute="trailingMargin" secondItem="Xfz-WA-gto" secondAttribute="trailing" constant="15" id="Rmb-o1-XfM"/>
                     <constraint firstItem="u21-Ad-RAs" firstAttribute="centerY" secondItem="UZp-Cs-n2m" secondAttribute="centerY" id="T7U-g5-Gta"/>
+                    <constraint firstItem="73b-ag-akx" firstAttribute="centerY" secondItem="8wD-M2-dQb" secondAttribute="centerY" id="X8s-gt-svp"/>
                     <constraint firstItem="u21-Ad-RAs" firstAttribute="leading" secondItem="FLM-W2-CdR" secondAttribute="trailing" constant="2" id="Z3B-Wu-tlr"/>
                     <constraint firstItem="Xfz-WA-gto" firstAttribute="leading" secondItem="FLM-W2-CdR" secondAttribute="trailing" constant="16" id="ZDC-zE-dyX"/>
                     <constraint firstAttribute="bottom" secondItem="u21-Ad-RAs" secondAttribute="bottom" constant="5.5" id="a5v-pT-uNr"/>
-                    <constraint firstItem="8wD-M2-dQb" firstAttribute="bottom" secondItem="FLM-W2-CdR" secondAttribute="bottom" id="hy8-f4-aUx"/>
                     <constraint firstItem="FLM-W2-CdR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="oGg-Nq-bRe"/>
                     <constraint firstItem="8wD-M2-dQb" firstAttribute="leading" secondItem="u21-Ad-RAs" secondAttribute="trailing" constant="-6" id="u59-nZ-mCq"/>
                 </constraints>
