@@ -21,16 +21,16 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pbW-Or-fLj">
                         <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7AU-40-cp9">
-                                <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                            <imageView userInteractionEnabled="NO" contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7AU-40-cp9">
+                                <rect key="frame" x="5" y="0.0" width="190" height="190"/>
                                 <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="7AU-40-cp9" secondAttribute="trailing" id="0WJ-mS-fdL"/>
-                            <constraint firstAttribute="bottom" secondItem="7AU-40-cp9" secondAttribute="bottom" id="4qj-Cf-8tn"/>
-                            <constraint firstItem="7AU-40-cp9" firstAttribute="leading" secondItem="pbW-Or-fLj" secondAttribute="leading" id="Kn9-yd-z5F"/>
+                            <constraint firstAttribute="trailing" secondItem="7AU-40-cp9" secondAttribute="trailing" constant="5" id="0WJ-mS-fdL"/>
+                            <constraint firstAttribute="bottom" secondItem="7AU-40-cp9" secondAttribute="bottom" constant="10" id="4qj-Cf-8tn"/>
+                            <constraint firstItem="7AU-40-cp9" firstAttribute="leading" secondItem="pbW-Or-fLj" secondAttribute="leading" constant="5" id="Kn9-yd-z5F"/>
                             <constraint firstItem="7AU-40-cp9" firstAttribute="top" secondItem="pbW-Or-fLj" secondAttribute="top" id="qaQ-oa-ksc"/>
                         </constraints>
                     </view>

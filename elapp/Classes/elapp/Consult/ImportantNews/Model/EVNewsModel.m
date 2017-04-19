@@ -18,39 +18,6 @@
 {
     _cellHeight = 100;
     
-    NSString *timeStr = [NSString stringWithFormat:@"%@",dic[@"time"]];
-    timeStr =   [timeStr substringToIndex:10];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    NSString *currentDateStr = [dateFormatter stringFromDate:[NSDate date]];
-    NSString *timeLbl = [NSString stringWithFormat:@"%@",dic[@"time"]];
-    if (timeLbl.length>10) {
-        NSString *lTime = [NSString stringWithFormat:@"%@/%@ %@",[timeLbl substringWithRange:NSMakeRange(5, 2)],[timeLbl substringWithRange:NSMakeRange(8, 2)],[timeLbl substringWithRange:NSMakeRange(11, 5)]];
-        if (![currentDateStr isEqualToString:timeStr]) {
-            self.time = [NSString stringWithFormat:@"%@",lTime];
-        }else {
-            self.time = [NSString stringWithFormat:@"今天 %@",[timeLbl substringWithRange:NSMakeRange(11, 5)]];
-        }
-    }
-    
-    
-    if (![dic[@"cover"] isKindOfClass:[NSArray class]] ) {
-        return YES;
-    }
-    else
-    {
-        NSArray * array =  dic[@"cover"];
-        if (array.count>0) {
-            if ([array[0] isEqual:[NSNull null]]) {
-                return YES;
-            }
-        }
-        else
-        {
-            return YES;
-        }
-    }
-    
     if ([dic[@"type"] floatValue] == 0)
     {
         NSArray * coverArray = dic[@"cover"];
@@ -81,6 +48,44 @@
     {
         _cellHeight = 220;
     }
+    
+    NSString *timeStr = [NSString stringWithFormat:@"%@",dic[@"time"]];
+    if (timeStr.length > 10) {
+        timeStr =   [timeStr substringToIndex:10];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        NSString *currentDateStr = [dateFormatter stringFromDate:[NSDate date]];
+        NSString *timeLbl = [NSString stringWithFormat:@"%@",dic[@"time"]];
+        if (timeLbl.length>10) {
+            NSString *lTime = [NSString stringWithFormat:@"%@/%@ %@",[timeLbl substringWithRange:NSMakeRange(5, 2)],[timeLbl substringWithRange:NSMakeRange(8, 2)],[timeLbl substringWithRange:NSMakeRange(11, 5)]];
+            if (![currentDateStr isEqualToString:timeStr]) {
+                self.time = [NSString stringWithFormat:@"%@",lTime];
+            }else {
+                self.time = [NSString stringWithFormat:@"今天 %@",[timeLbl substringWithRange:NSMakeRange(11, 5)]];
+            }
+        }
+    }
+   
+    
+    
+    if (![dic[@"cover"] isKindOfClass:[NSArray class]] ) {
+        return YES;
+    }
+    else
+    {
+        NSArray * array =  dic[@"cover"];
+        if (array.count>0) {
+            if ([array[0] isEqual:[NSNull null]]) {
+                return YES;
+            }
+        }
+        else
+        {
+            return YES;
+        }
+    }
+    
+    
     return YES;
 }
 @end

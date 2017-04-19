@@ -15,7 +15,7 @@
 #import "EVHVBiViewController.h"
 #import "EVNotifyListViewController.h"
 #import "EVMyShopViewController.h"
-
+#import "EVFansOrFocusesTableViewController.h"
 
 #import "EVMineTableViewCell.h"
 #import "EVPersonHeadCell.h"
@@ -238,6 +238,15 @@
 {
     if (indexPath.row == 0) {
         EVPersonHeadCell * headerCell = [tableView dequeueReusableCellWithIdentifier:@"EVPersonHeadCell"];
+        WEAK(self);
+        headerCell.fansAndFollowClickBlock = ^(controllerType type)
+        {
+            //点击  粉丝和关注
+            EVFansOrFocusesTableViewController *fansOrFocusesTVC = [[EVFansOrFocusesTableViewController alloc] init];
+            fansOrFocusesTVC.type = type;
+            [weakself.navigationController pushViewController:fansOrFocusesTVC animated:YES];
+           
+        };
         if ([EVLoginInfo hasLogged]) {
             headerCell.userModel = self.userModel;
         }

@@ -8,15 +8,17 @@
 
 #import <UIKit/UIKit.h>
 @class EVUserModel;
+#import  <TTTAttributedLabel.h>
 /**
  个人中心  头像cell
  */
-@interface EVPersonHeadCell : UITableViewCell
+@interface EVPersonHeadCell : UITableViewCell<TTTAttributedLabelDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *cellNameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *cellSexImageView;
 @property (weak, nonatomic) IBOutlet UILabel *cellIntroduceLabel;
-@property (weak, nonatomic) IBOutlet UILabel *cellFollowAndFansLabel;
+@property (weak, nonatomic) IBOutlet TTTAttributedLabel *cellFollowAndFansLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *cellAvatarImageView;
 
 @property (nonatomic, strong) EVUserModel * userModel;
+@property (nonatomic, copy) void(^fansAndFollowClickBlock)(controllerType type);
 @end

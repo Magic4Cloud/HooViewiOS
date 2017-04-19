@@ -51,6 +51,10 @@
 		3116F62A1D07F7EE00DC122E /* libiconv.2.4.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3116F6291D07F7EE00DC122E /* libiconv.2.4.0.tbd */; };
 		3116F62E1D07F81000DC122E /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3116F62D1D07F81000DC122E /* libstdc++.6.0.9.tbd */; };
 		31D028521C1EA45300F080B0 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31D028511C1EA45300F080B0 /* StoreKit.framework */; };
+		7A1CD9241EA6EEEA0087BDB0 /* EVShopVideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A1CD9221EA6EEEA0087BDB0 /* EVShopVideoCell.m */; };
+		7A1CD9251EA6EEEA0087BDB0 /* EVShopVideoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7A1CD9231EA6EEEA0087BDB0 /* EVShopVideoCell.xib */; };
+		7A1CD9291EA6F3430087BDB0 /* EVShopCheatsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A1CD9271EA6F3430087BDB0 /* EVShopCheatsCell.m */; };
+		7A1CD92A1EA6F3430087BDB0 /* EVShopCheatsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7A1CD9281EA6F3430087BDB0 /* EVShopCheatsCell.xib */; };
 		7A3AFE461E88B2ED00454C9D /* EVStartPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3AFE451E88B2ED00454C9D /* EVStartPageViewController.m */; };
 		7A3AFE491E88ED0500454C9D /* EVStartPageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3AFE481E88ED0500454C9D /* EVStartPageModel.m */; };
 		7A3E0E291E9B3148000D64F6 /* EVStockMarketModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E0E281E9B3148000D64F6 /* EVStockMarketModel.m */; };
@@ -817,6 +821,12 @@
 		3116F62D1D07F81000DC122E /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		31D028511C1EA45300F080B0 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		4765F6D15BEC4925FA89C38D /* Pods-elapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-elapp.release.xcconfig"; path = "Pods/Target Support Files/Pods-elapp/Pods-elapp.release.xcconfig"; sourceTree = "<group>"; };
+		7A1CD9211EA6EEEA0087BDB0 /* EVShopVideoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVShopVideoCell.h; sourceTree = "<group>"; };
+		7A1CD9221EA6EEEA0087BDB0 /* EVShopVideoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVShopVideoCell.m; sourceTree = "<group>"; };
+		7A1CD9231EA6EEEA0087BDB0 /* EVShopVideoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVShopVideoCell.xib; sourceTree = "<group>"; };
+		7A1CD9261EA6F3430087BDB0 /* EVShopCheatsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVShopCheatsCell.h; sourceTree = "<group>"; };
+		7A1CD9271EA6F3430087BDB0 /* EVShopCheatsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVShopCheatsCell.m; sourceTree = "<group>"; };
+		7A1CD9281EA6F3430087BDB0 /* EVShopCheatsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVShopCheatsCell.xib; sourceTree = "<group>"; };
 		7A3AFE441E88B2ED00454C9D /* EVStartPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVStartPageViewController.h; sourceTree = "<group>"; };
 		7A3AFE451E88B2ED00454C9D /* EVStartPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVStartPageViewController.m; sourceTree = "<group>"; };
 		7A3AFE471E88ED0500454C9D /* EVStartPageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVStartPageModel.h; sourceTree = "<group>"; };
@@ -2288,6 +2298,12 @@
 				7A3E98751EA61CA100F24E23 /* EVShopLiveCell.h */,
 				7A3E98761EA61CA100F24E23 /* EVShopLiveCell.m */,
 				7A3E98771EA61CA100F24E23 /* EVShopLiveCell.xib */,
+				7A1CD9211EA6EEEA0087BDB0 /* EVShopVideoCell.h */,
+				7A1CD9221EA6EEEA0087BDB0 /* EVShopVideoCell.m */,
+				7A1CD9231EA6EEEA0087BDB0 /* EVShopVideoCell.xib */,
+				7A1CD9261EA6F3430087BDB0 /* EVShopCheatsCell.h */,
+				7A1CD9271EA6F3430087BDB0 /* EVShopCheatsCell.m */,
+				7A1CD9281EA6F3430087BDB0 /* EVShopCheatsCell.xib */,
 			);
 			path = NewTypeCell;
 			sourceTree = "<group>";
@@ -5394,6 +5410,7 @@
 				9F1F9949F71A6C600C8DB435 /* Expression_12@2x.png in Resources */,
 				9F1F9CBFA688C950FDF082D7 /* Expression_13@2x.png in Resources */,
 				E849328A1E5309FE00E6D0D3 /* EVNewsCollectTableViewCell.xib in Resources */,
+				7A1CD92A1EA6F3430087BDB0 /* EVShopCheatsCell.xib in Resources */,
 				9EC24DAF1E7A70C2003664B4 /* guide.xcassets in Resources */,
 				E84354911E1F34EA006D2E7D /* EVHotItemViewCell.xib in Resources */,
 				9F1F98CF068A7AEA984DAE17 /* Expression_14@2x.png in Resources */,
@@ -5407,6 +5424,7 @@
 				9F1F99BE7A27FF65A27E0723 /* Expression_19@2x.png in Resources */,
 				9F1F99A1107B0105BB5280BE /* Expression_1@2x.png in Resources */,
 				9F1F9249B1269ACF0F0ED672 /* Expression_20@2x.png in Resources */,
+				7A1CD9251EA6EEEA0087BDB0 /* EVShopVideoCell.xib in Resources */,
 				9F1F929B228D45688A2F8FD8 /* Expression_21@2x.png in Resources */,
 				9F1F96E3F543958E3732D24A /* Expression_22@2x.png in Resources */,
 				9F1F98F789A49EBCEEBDDDA1 /* Expression_23@2x.png in Resources */,
@@ -5800,10 +5818,12 @@
 				E8943E621E24C55E008E5D97 /* EVHVMessageCellModel.m in Sources */,
 				E86201241D6BE8540081E72F /* EVConnectingErrorView.m in Sources */,
 				E8AA9DD81E2087E60024980D /* EVHVWatchTopView.m in Sources */,
+				7A1CD9291EA6F3430087BDB0 /* EVShopCheatsCell.m in Sources */,
 				E85DFE4F1E78D42A005667DD /* EVHVTLWatchBtnView.m in Sources */,
 				E86200E51D6BE8540081E72F /* EVAuthSettingModel.m in Sources */,
 				E86200AD1D6BE8540081E72F /* EVNewFriendList.m in Sources */,
 				E844F9301E08C48700CCE0B0 /* SGImageButton_Horizontal.m in Sources */,
+				7A1CD9241EA6EEEA0087BDB0 /* EVShopVideoCell.m in Sources */,
 				0CFCDDF81E31B51900B27FCB /* EVRefreshSuccessView.m in Sources */,
 				E8B4A8AF1E4AECA200C75178 /* STHeaderView.m in Sources */,
 				E8C60FC81E2CC0440066F287 /* EVHVTagLabel.m in Sources */,

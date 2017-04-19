@@ -27,10 +27,15 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     _cellBgView.layer.cornerRadius = 5;
-    _cellBgView.layer.masksToBounds = YES;
+    _cellBgView.layer.masksToBounds = NO;
     _cellImageView.layer.cornerRadius = 40;
     _cellImageView.layer.masksToBounds = YES;
     _cellImageView.backgroundColor = [UIColor evLineColor];
+    
+    _cellBgView.layer.shadowColor = [UIColor blackColor].CGColor;
+    _cellBgView.layer.shadowRadius = 1;
+    _cellBgView.layer.shadowOpacity = 0.2;
+    _cellBgView.layer.shadowOffset = CGSizeMake(1, 1);
     // Initialization code
 }
 
