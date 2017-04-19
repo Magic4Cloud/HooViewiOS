@@ -7,6 +7,7 @@
 //
 
 #import "EVShopLiveCell.h"
+#import "EVVideoAndLiveModel.h"
 
 @implementation EVShopLiveCell
 
@@ -15,6 +16,16 @@
     // Initialization code
 }
 
+- (void)setLiveModel:(EVVideoAndLiveModel *)liveModel
+{
+    if (!liveModel) {
+        return;
+    }
+    _liveModel = liveModel;
+    _cellTitleLabel.text = liveModel.title;
+    [NSString stringWithFormat:@"%@  %@",liveModel.nickname,liveModel.nickname];
+    _cellDetailLabel.text = liveModel.nickname;
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

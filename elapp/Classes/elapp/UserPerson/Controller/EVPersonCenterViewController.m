@@ -67,7 +67,7 @@
 - (void)initData
 {
     cellTitlesArray = @[@"我的消息",@"我的余额",@"我的发布",@"我的购买",@"我的收藏",@"历史记录",];
-   
+    
     cellTitleIconsArray = @[@"ic_message_new",@"ic_balance",@"ic_Release",@"ic_purchase",@"ic_collect_new",@"ic_History"];
 }
 
@@ -145,34 +145,34 @@
 {
     __weak typeof(self) weakSelf = self;
     [self.engine GETUserInfoWithUname:nil orImuser:nil start:nil fail:^(NSError *error)
-    {
-        NSString *errorStr = [error errorInfoWithPlacehold:kE_GlobalZH(@"user_data_fail")];
-        if (![errorStr isEqualToString:@""]) {
-            // 默认从本地数据库中取数据
-            [self getUserInfoFromDB];
-        }
-        [EVProgressHUD showError:errorStr toView:weakSelf.view];
-        [EVProgressHUD hideHUDForView:weakSelf.view];
-    } success:^(NSDictionary *modelDict) {
-        
-        if ( modelDict && [modelDict allKeys].count > 0 ) {
-            EVUserModel *model = [EVUserModel objectWithDictionary:modelDict];
-            weakSelf.userModel = model;
-            
-            dispatch_async(dispatch_get_global_queue(0, 0), ^ {
-                EVLoginInfo *loginInfo = [EVLoginInfo localObject];
-                loginInfo.name = weakSelf.userModel.name;
-                loginInfo.nickname = weakSelf.userModel.nickname;
-                loginInfo.logourl = modelDict[kLogourl];
-                loginInfo.location = modelDict[kLocation];
-                loginInfo.auth = [NSArray arrayWithArray:model.auth];
-                loginInfo.vip = [modelDict[@"vip"] integerValue];
-                [loginInfo synchronized];
-            });
-        }
-    } sessionExpire:^ {
-        EVRelogin(weakSelf);
-    }];
+     {
+         NSString *errorStr = [error errorInfoWithPlacehold:kE_GlobalZH(@"user_data_fail")];
+         if (![errorStr isEqualToString:@""]) {
+             // 默认从本地数据库中取数据
+             [self getUserInfoFromDB];
+         }
+         [EVProgressHUD showError:errorStr toView:weakSelf.view];
+         [EVProgressHUD hideHUDForView:weakSelf.view];
+     } success:^(NSDictionary *modelDict) {
+         
+         if ( modelDict && [modelDict allKeys].count > 0 ) {
+             EVUserModel *model = [EVUserModel objectWithDictionary:modelDict];
+             weakSelf.userModel = model;
+             
+             dispatch_async(dispatch_get_global_queue(0, 0), ^ {
+                 EVLoginInfo *loginInfo = [EVLoginInfo localObject];
+                 loginInfo.name = weakSelf.userModel.name;
+                 loginInfo.nickname = weakSelf.userModel.nickname;
+                 loginInfo.logourl = modelDict[kLogourl];
+                 loginInfo.location = modelDict[kLocation];
+                 loginInfo.auth = [NSArray arrayWithArray:model.auth];
+                 loginInfo.vip = [modelDict[@"vip"] integerValue];
+                 [loginInfo synchronized];
+             });
+         }
+     } sessionExpire:^ {
+         EVRelogin(weakSelf);
+     }];
 }
 #pragma mark - 📢Notifications
 - (void)logOutNotification:(NSNotificationCenter *)notificationCenter
@@ -221,7 +221,7 @@
     if (indexPath.row == 0) {
         return 145;
     }
-    if ([EVLoginInfo hasLogged] || [EVLoginInfo localObject].vip == 1)
+    if ([EVLoginInfo hasLogged] && [EVLoginInfo localObject].vip == 1)
     {
         //是大v
     }
@@ -247,7 +247,7 @@
             EVFansOrFocusesTableViewController *fansOrFocusesTVC = [[EVFansOrFocusesTableViewController alloc] init];
             fansOrFocusesTVC.type = type;
             [weakself.navigationController pushViewController:fansOrFocusesTVC animated:YES];
-           
+            
         };
         if ([EVLoginInfo hasLogged]) {
             headerCell.userModel = self.userModel;
@@ -325,7 +325,7 @@
             EVMyReleaseViewController * releaseVc = [[EVMyReleaseViewController alloc] init];
             releaseVc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:releaseVc animated:YES];
-
+            
         }
             break;
         case 4:
@@ -359,26 +359,27 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([EVLoginInfo hasLogged] || [EVLoginInfo localObject].vip == 1)
-    {
-        //是大v
-        if (indexPath.row == 3) {
+    if (indexPath.row == 3) {
+        if ([EVLoginInfo hasLogged] && [EVLoginInfo localObject].vip == 1)
+        {
+            //是大v
             //有我的发布
             for (UIView * subViews in cell.contentView.subviews) {
                 subViews.hidden = NO;
             }
+            
         }
-    }
-    else
-    {
-        //不是大v
-        if (indexPath.row == 3) {
+        else
+        {
+            //不是大v
             //没有我的发布
             for (UIView * subViews in cell.contentView.subviews) {
                 subViews.hidden = YES;
             }
+            
         }
     }
+    
 }
 
 #pragma mark - 👣 Target actions
