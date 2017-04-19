@@ -56,7 +56,7 @@
 
 - (void)addVipUI
 {
-    EVNullDataView *nullDataView = [[EVNullDataView alloc] initWithFrame:CGRectMake(0, 300, ScreenWidth, ScreenHeight-200)];
+    EVNullDataView *nullDataView = [[EVNullDataView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-108)];
     [self addSubview:nullDataView];
     self.nullDataView = nullDataView;
 //    [nullDataView autoPinEdgesToSuperviewEdges];
@@ -80,7 +80,6 @@
 - (void)getDataWithName:(NSString *)name start:(NSInteger)start count:(NSInteger)count
 {
     NSString *type = @"video";
-    
     
     __weak typeof(self) weakself = self;
     [self.baseToolManager GETUserVideoListWithName:name type:type start:start count:count startBlock:^{
