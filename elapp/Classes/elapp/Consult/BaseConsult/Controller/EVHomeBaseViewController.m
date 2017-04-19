@@ -111,8 +111,15 @@
              EVFastNewsViewController *fastVC = [[EVFastNewsViewController alloc] init];
             return fastVC;
         }
+//        case 2:
+//        {
+//            //自选
+//            EVChooseNewsViewController *chooseVC = [[EVChooseNewsViewController alloc] init];
+//            return chooseVC;
+//        }
         case 2:
         {
+
             //专栏
             EVSpeciaColumnViewController * speciaColumnVC = [[EVSpeciaColumnViewController alloc] init];
             return speciaColumnVC;

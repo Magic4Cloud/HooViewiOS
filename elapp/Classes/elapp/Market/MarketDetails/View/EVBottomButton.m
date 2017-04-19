@@ -79,11 +79,11 @@
     countLabel.layer.cornerRadius = 6;
     countLabel.clipsToBounds = YES;
     countLabel.hidden  = YES;
-    countLabel.font = [UIFont systemFontOfSize:10.f];
-    countLabel.textColor = [UIColor whiteColor];
+    countLabel.font = [UIFont systemFontOfSize:12.f];
+    countLabel.textColor = [UIColor colorWithHexString:@"#FF772D"];
     countLabel.textAlignment = NSTextAlignmentCenter;
-    countLabel.backgroundColor = [UIColor colorWithHexString:@"#FF772D"];
-    [countLabel autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:13];
+//    countLabel.backgroundColor = [UIColor colorWithHexString:@"#FF772D"];
+    [countLabel autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:8];
     [countLabel autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:7];
    self.layoutWidF =  [countLabel autoSetDimension:ALDimensionWidth toSize:12];
     [countLabel autoSetDimension:ALDimensionHeight toSize:12];
@@ -143,6 +143,9 @@
 {
     NSString *countStr = [NSString stringWithFormat:@"%ld",commentCount];
     self.countLabel.text = countStr;
+    if ([countStr isEqualToString:@"0"]) {
+        self.countLabel.hidden = YES;
+    }
     CGSize sizeOfText = [self.countLabel sizeThatFits:CGSizeZero];
    
     self.layoutWidF.constant = sizeOfText.width+10;

@@ -28,6 +28,8 @@
 
 #import "EVUserModel.h"
 #import "EVRelationWith3rdAccoutModel.h"
+#import "EVMyReleaseViewController.h"//我的发布
+
 @interface EVPersonCenterViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
     NSArray * cellTitlesArray;
@@ -320,7 +322,10 @@
         case 3:
         {
             //我的发布
-            [EVProgressHUD showMessage:@"暂未实现"];
+            EVMyReleaseViewController * releaseVc = [[EVMyReleaseViewController alloc] init];
+            releaseVc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:releaseVc animated:YES];
+
         }
             break;
         case 4:
