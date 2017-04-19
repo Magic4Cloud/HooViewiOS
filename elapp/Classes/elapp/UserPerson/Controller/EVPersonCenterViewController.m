@@ -66,7 +66,7 @@
 {
     cellTitlesArray = @[@"我的消息",@"我的余额",@"我的发布",@"我的购买",@"我的收藏",@"历史记录",];
    
-    cellTitleIconsArray = @[@"",@"",@"",@"",@"",@""];
+    cellTitleIconsArray = @[@"ic_message_new",@"ic_balance",@"ic_Release",@"ic_purchase",@"ic_collect_new",@"ic_History"];
 }
 
 - (void)addObserVer

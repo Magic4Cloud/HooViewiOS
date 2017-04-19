@@ -38,24 +38,24 @@
     UIImageView *iconImageView = [[UIImageView alloc] init];
     [self.contentView addSubview:iconImageView];
     self.iconImageView = iconImageView;
-    [iconImageView autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:16];
+    [iconImageView autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:18];
     [iconImageView autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
-    [iconImageView autoSetDimensionsToSize:CGSizeMake(22, 22)];
+    [iconImageView autoSetDimensionsToSize:CGSizeMake(30, 30)];
 
     UILabel *nameLabel = [[UILabel alloc] init];
     [self.contentView addSubview:nameLabel];
     self.nameLabel = nameLabel;
-    nameLabel.textColor = [UIColor evTextColorH1];
+    nameLabel.textColor = [UIColor colorWithHexString:@"#303030"];
     nameLabel.font = [UIFont textFontB2];
-    [nameLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:iconImageView withOffset:12.f];
+    [nameLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:iconImageView withOffset:8.f];
     [nameLabel autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
     [nameLabel autoSetDimensionsToSize:CGSizeMake(100, 22)];
     
     
     UIImageView *nextImageView = [[UIImageView alloc] init];
     [self.contentView addSubview:nextImageView];
-    [nextImageView autoSetDimensionsToSize:CGSizeMake(20, 20)];
-    [nextImageView autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:24];
+    [nextImageView autoSetDimensionsToSize:CGSizeMake(40, 40)];
+    [nextImageView autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:16];
     [nextImageView autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
     nextImageView.image = [UIImage imageNamed:@"btn_next_n"];
 

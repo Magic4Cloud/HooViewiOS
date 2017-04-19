@@ -20,7 +20,7 @@
     
     NSMutableAttributedString * attributeText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@人关注",newstring]];
     
-    [attributeText addAttribute:NSForegroundColorAttributeName value:[UIColor hvPurpleColor] range:NSMakeRange(0, newstring.length)];
+    [attributeText addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16],NSForegroundColorAttributeName:[UIColor hvPurpleColor]} range:NSMakeRange(0, newstring.length)];
     _cellFollowLabel.attributedText = attributeText;
 }
 

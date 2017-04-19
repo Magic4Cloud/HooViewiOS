@@ -17,8 +17,8 @@
     _cellFollowAndFansLabel.delegate = self;
     _cellFollowAndFansLabel.enabledTextCheckingTypes = NSTextCheckingTypeLink;
     NSMutableDictionary *linkAttributes = [NSMutableDictionary dictionary];
-    
-    [linkAttributes setValue:(__bridge id)[UIColor grayColor].CGColor forKey:(NSString *)kCTForegroundColorAttributeName];
+//    (__bridge id)[UIColor grayColor].CGColor
+    [linkAttributes setValue:nil forKey:(NSString *)kCTForegroundColorAttributeName];
     _cellFollowAndFansLabel.activeLinkAttributes = linkAttributes;
     
 }
