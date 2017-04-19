@@ -7,16 +7,69 @@
 //
 
 #import "EVShopVideoViewController.h"
-
-@interface EVShopVideoViewController ()
-
+#import "EVShopVideoCell.h"
+@interface EVShopVideoViewController ()<UITableViewDelegate,UITableViewDataSource>
+@property (nonatomic, strong) UITableView * tableView;
 @end
 
 @implementation EVShopVideoViewController
 
-- (void)viewDidLoad {
+#pragma mark - ♻️Lifecycle
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    [self initUI];
+}
+
+
+#pragma mark - 🖍 User Interface layout
+- (void)initUI
+{
+    [self.view addSubview:self.tableView];
+    [self.tableView autoPinEdgesToSuperviewEdges];
+    [self.tableView registerNib:[UINib nibWithNibName:@"EVShopVideoCell" bundle:nil] forCellReuseIdentifier:@"EVShopVideoCell"];
+}
+#pragma mark - 🌐Networks
+
+#pragma mark -👣 Target actions
+
+#pragma mark - 🌺 TableView Delegate & Datasource
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 10;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString * identifer = @"EVShopVideoCell";
+    EVShopVideoCell * cell = [tableView dequeueReusableCellWithIdentifier:identifer];
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+}
+
+#pragma mark - ✍️ Setters & Getters
+- (UITableView *)tableView
+{
+    if (!_tableView) {
+        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:(UITableViewStylePlain)];
+        _tableView.backgroundColor = [UIColor evBackGroundLightGrayColor];
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        _tableView.tableFooterView = [UIView new];
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _tableView.rowHeight = 355-194+(ScreenWidth-30)/1.778;
+    }
+    return _tableView;
 }
 
 - (void)didReceiveMemoryWarning {

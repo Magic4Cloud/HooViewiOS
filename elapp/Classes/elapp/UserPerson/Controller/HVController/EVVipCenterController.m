@@ -18,6 +18,7 @@
 #import "EVBaseToolManager+EVUserCenterAPI.h"
 #import "EVNotOpenView.h"
 #import "EVFansOrFocusesTableViewController.h"//我的粉丝
+#import "EVMyReleaseCheatsViewController.h"//秘籍
 
 @interface EVVipCenterController ()<UIGestureRecognizerDelegate>
 @property (nonatomic, strong) NSArray *musicCategories;
@@ -168,13 +169,15 @@
     } else if (recognizer.state == UIGestureRecognizerStateEnded) {
         
         CGPoint velocity = [recognizer velocityInView:self.view];
+        NSLog(@"%lf",velocity.y);
         CGFloat targetPoint = velocity.y < 0 ? kNavigationBarHeight : kNavigationBarHeight + self.viewHeight;
-        NSTimeInterval duration = fabs((targetPoint - self.viewTop) / velocity.y);
+//        NSTimeInterval duration = fabs((targetPoint - self.viewTop) / velocity.y);
         
         if (fabs(velocity.y) * 1.0 > fabs(targetPoint - self.viewTop)) {
-            [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-                self.viewTop = targetPoint;
-            } completion:nil];
+//            [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+//                self.viewTop = targetPoint;
+//            } completion:nil];
+            self.viewTop = targetPoint;
             
             return;
         }
@@ -227,16 +230,14 @@
             break;
         case 1:
         {
-            EVFansOrFocusesTableViewController *fansVC = [[EVFansOrFocusesTableViewController alloc] init];
-            fansVC.type = FANS;
-            fansVC.navitionHidden = NO;
-            return fansVC;
+            EVMyReleaseCheatsViewController *cheatVC = [[EVMyReleaseCheatsViewController alloc] init];
+            return cheatVC;
         }
         case 2:
         {
             EVFansOrFocusesTableViewController *fansVC = [[EVFansOrFocusesTableViewController alloc] init];
             fansVC.type = FANS;
-            fansVC.navitionHidden = NO;
+            fansVC.navitionHidden = YES;
             return fansVC;
         }
         case 3:
@@ -244,7 +245,7 @@
             //我的粉丝
             EVFansOrFocusesTableViewController *fansVC = [[EVFansOrFocusesTableViewController alloc] init];
             fansVC.type = FANS;
-            fansVC.navitionHidden = NO;
+            fansVC.navitionHidden = YES;
             return fansVC;
         }
         default:
@@ -302,7 +303,6 @@
     }
 
     self.viewFrame = CGRectMake(0, _viewTop, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - _viewTop);
-    NSLog(@"%lf",self.viewTop);
     self.hvCenterView.frame = CGRectMake(0, _viewTop - self.viewHeight, [UIScreen mainScreen].bounds.size.width, self.viewHeight);
 }
 

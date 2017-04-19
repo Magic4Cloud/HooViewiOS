@@ -17,12 +17,12 @@
 //    self.backView.backgroundColor = [UIColor clearColor];
 //    self.contentView.backgroundColor = [UIColor clearColor];
 //    self.backgroundColor = [UIColor clearColor];
-//    self.backView.layer.shadowColor = [UIColor redColor].CGColor;
-//    self.backView.layer.shadowOpacity = 0.7;
-//    self.backView.layer.shadowRadius = 5.0f;
-//    self.backView.layer.shadowOffset = CGSizeMake(2, 6);
+    self.imageView.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.imageView.layer.shadowOpacity = 0.3;
+    self.imageView.layer.shadowRadius = 1.0f;
+    self.imageView.layer.shadowOffset = CGSizeMake(1.5, 1.5);
 //    self.backView.layer.cornerRadius = 15.0;
-//    self.backView.layer.masksToBounds = YES;
+    self.imageView.layer.masksToBounds = NO;
 }
 
 @end

@@ -34,7 +34,7 @@
     NSLog(@"cont = %@",NSStringFromCGSize(contentSize));
     
     
-    _cellHeight = contentSize.height + 84 + ((ScreenWidth - 36) / 2 - 20) * 10 / 17 + 20;
+    _cellHeight = contentSize.height + 90 + ((ScreenWidth - 36) / 2 - 20) * 10 / 17 + 20;
     return YES;
 }
 

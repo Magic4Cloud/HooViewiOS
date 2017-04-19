@@ -119,9 +119,19 @@
 //        }
         case 2:
         {
+
             //专栏
             EVSpeciaColumnViewController * speciaColumnVC = [[EVSpeciaColumnViewController alloc] init];
             return speciaColumnVC;
+//            //自选
+//            EVChooseNewsViewController *chooseVC = [[EVChooseNewsViewController alloc] init];
+//            return chooseVC;
+        }
+        case 3:
+        {
+            //专栏
+//            EVSpeciaColumnViewController * speciaColumnVC = [[EVSpeciaColumnViewController alloc] init];
+//            return speciaColumnVC;
         }
         default:
         {

@@ -273,7 +273,8 @@
         }
         else
         {
-            _start += homeNewsArray.count;
+//            _start += homeNewsArray.count;
+            _start += 20;
         }
         
         NSString *keyid = retinfo[@"huoyan"][@"channels"];

@@ -15,7 +15,7 @@
 #import "EVHVBiViewController.h"
 #import "EVNotifyListViewController.h"
 #import "EVMyShopViewController.h"
-
+#import "EVFansOrFocusesTableViewController.h"
 
 #import "EVMineTableViewCell.h"
 #import "EVPersonHeadCell.h"
@@ -28,6 +28,8 @@
 
 #import "EVUserModel.h"
 #import "EVRelationWith3rdAccoutModel.h"
+#import "EVMyReleaseViewController.h"//我的发布
+
 @interface EVPersonCenterViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
     NSArray * cellTitlesArray;
@@ -238,6 +240,15 @@
 {
     if (indexPath.row == 0) {
         EVPersonHeadCell * headerCell = [tableView dequeueReusableCellWithIdentifier:@"EVPersonHeadCell"];
+        WEAK(self);
+        headerCell.fansAndFollowClickBlock = ^(controllerType type)
+        {
+            //点击  粉丝和关注
+            EVFansOrFocusesTableViewController *fansOrFocusesTVC = [[EVFansOrFocusesTableViewController alloc] init];
+            fansOrFocusesTVC.type = type;
+            [weakself.navigationController pushViewController:fansOrFocusesTVC animated:YES];
+           
+        };
         if ([EVLoginInfo hasLogged]) {
             headerCell.userModel = self.userModel;
         }
@@ -311,7 +322,10 @@
         case 3:
         {
             //我的发布
-            [EVProgressHUD showMessage:@"暂未实现"];
+            EVMyReleaseViewController * releaseVc = [[EVMyReleaseViewController alloc] init];
+            releaseVc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:releaseVc animated:YES];
+
         }
             break;
         case 4:

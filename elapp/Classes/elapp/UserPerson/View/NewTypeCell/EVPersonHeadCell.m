@@ -8,14 +8,19 @@
 
 #import "EVPersonHeadCell.h"
 #import "EVUserModel.h"
-
 @implementation EVPersonHeadCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
     _cellAvatarImageView.layer.cornerRadius = 30;
     _cellAvatarImageView.layer.masksToBounds = YES;
-    // Initialization code
+    _cellFollowAndFansLabel.delegate = self;
+    _cellFollowAndFansLabel.enabledTextCheckingTypes = NSTextCheckingTypeLink;
+    NSMutableDictionary *linkAttributes = [NSMutableDictionary dictionary];
+    
+    [linkAttributes setValue:(__bridge id)[UIColor grayColor].CGColor forKey:(NSString *)kCTForegroundColorAttributeName];
+    _cellFollowAndFansLabel.activeLinkAttributes = linkAttributes;
+    
 }
 
 - (void)setUserModel:(EVUserModel *)userModel
@@ -30,10 +35,23 @@
         NSString * followString = [NSString stringWithFormat:@"%ld",(unsigned long)userModel.follow_count];
         NSString * fansString = [NSString stringWithFormat:@"%ld",(unsigned long)userModel.fans_count];
         NSString * newString = [NSString stringWithFormat:@"%@关注  %@粉丝",followString,fansString];
+        
+        NSRange followRange = NSMakeRange(0, followString.length+2);
+        [_cellFollowAndFansLabel addLinkToURL:[NSURL URLWithString:[NSString stringWithFormat:@"followLink"]] withRange:followRange];
+        
+        NSRange fansRange = NSMakeRange(followString.length+4, fansString.length+2);
+        [_cellFollowAndFansLabel addLinkToURL:[NSURL URLWithString:[NSString stringWithFormat:@"fansLink"]] withRange:fansRange];
+        
+       
+        
+        
+        
         NSMutableAttributedString * followAndFansString = [[NSMutableAttributedString alloc] initWithString:newString];
         [followAndFansString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:255/255.0 green:108/255.0 blue:36/255.0 alpha:1] range:NSMakeRange(0, followString.length)];
         
         [followAndFansString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:255/255.0 green:108/255.0 blue:36/255.0 alpha:1] range:NSMakeRange(followString.length+4, fansString.length)];
+        
+        [followAndFansString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:NSMakeRange(0, newString.length)];
         
         _cellFollowAndFansLabel.attributedText = followAndFansString;
         
@@ -61,10 +79,33 @@
         [followAndFansString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:255/255.0 green:108/255.0 blue:36/255.0 alpha:1] range:NSMakeRange(0, 1)];
         [followAndFansString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:255/255.0 green:108/255.0 blue:36/255.0 alpha:1] range:NSMakeRange(5, 1)];
         
+        [followAndFansString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:NSMakeRange(0, followAndFansString.length)];
+        
         _cellFollowAndFansLabel.attributedText = followAndFansString;
+        
         _cellSexImageView.image  = nil;
         _cellAvatarImageView.image = nil;
     }
 }
 
+- (void)attributedLabel:(TTTAttributedLabel *)label
+   didSelectLinkWithURL:(NSURL *)url
+{
+    NSString * urlString = [url absoluteString];
+    if ([urlString isEqualToString:@"followLink"] ) {
+        //关注
+        if (self.fansAndFollowClickBlock) {
+            self.fansAndFollowClickBlock(FOCUSES);
+        }
+        
+    }
+    else if([urlString isEqualToString:@"fansLink"])
+    {
+        //粉丝
+        if (self.fansAndFollowClickBlock) {
+            self.fansAndFollowClickBlock(FANS);
+        }
+        
+    }
+}
 @end
