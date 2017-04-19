@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class EVVideoAndLiveModel;
 /**
  我的购买 视频直播cell
  */
@@ -19,4 +19,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *cellDetailLabel;
 @property (weak, nonatomic) IBOutlet UILabel *cellTagLabel;
 
+@property (nonatomic, strong)EVVideoAndLiveModel * liveModel;
 @end

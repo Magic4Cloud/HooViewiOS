@@ -65,6 +65,13 @@
                             <constraint firstAttribute="width" constant="24" id="vRi-Tj-mcw"/>
                         </constraints>
                     </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_v_new" translatesAutoresizingMaskIntoConstraints="NO" id="HLo-oF-qaF">
+                        <rect key="frame" x="261" y="58" width="30" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="30" id="ahs-un-zdN"/>
+                            <constraint firstAttribute="height" constant="30" id="pg0-U2-28k"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="0FG-ev-TXz" secondAttribute="trailing" constant="17" id="AJU-0z-iOS"/>
@@ -78,6 +85,8 @@
                     <constraint firstItem="0FG-ev-TXz" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="18" id="X2W-DW-4YJ"/>
                     <constraint firstItem="hRB-nd-TxZ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="mid-Rf-NCr" secondAttribute="bottom" constant="5" id="YaR-9x-4lm"/>
                     <constraint firstAttribute="bottom" secondItem="0FG-ev-TXz" secondAttribute="bottom" id="Z9f-i0-85G"/>
+                    <constraint firstItem="HLo-oF-qaF" firstAttribute="bottom" secondItem="5an-JQ-Rr3" secondAttribute="bottom" constant="8" id="aos-Zv-7yb"/>
+                    <constraint firstItem="HLo-oF-qaF" firstAttribute="trailing" secondItem="5an-JQ-Rr3" secondAttribute="trailing" constant="7" id="bWy-jw-zn7"/>
                     <constraint firstItem="mid-Rf-NCr" firstAttribute="top" secondItem="Zkr-II-Tws" secondAttribute="bottom" constant="5" id="fkO-9s-bST"/>
                     <constraint firstItem="5an-JQ-Rr3" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="peP-bn-C5W"/>
                     <constraint firstItem="hRB-nd-TxZ" firstAttribute="leading" secondItem="Zkr-II-Tws" secondAttribute="leading" id="r1X-07-Reo"/>
@@ -91,8 +100,12 @@
                 <outlet property="cellIntroduceLabel" destination="mid-Rf-NCr" id="4ej-Gt-SJh"/>
                 <outlet property="cellNameLabel" destination="Zkr-II-Tws" id="zO7-QV-6SA"/>
                 <outlet property="cellSexImageView" destination="2Lk-JF-3cl" id="eNX-e0-6nh"/>
+                <outlet property="cellVipImageView" destination="HLo-oF-qaF" id="GiN-d2-Jwz"/>
             </connections>
             <point key="canvasLocation" x="59" y="59.5"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="ic_v_new" width="30" height="30"/>
+    </resources>
 </document>

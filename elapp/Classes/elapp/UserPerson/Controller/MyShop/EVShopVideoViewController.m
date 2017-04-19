@@ -8,6 +8,8 @@
 
 #import "EVShopVideoViewController.h"
 #import "EVShopVideoCell.h"
+
+#import "EVVideoAndLiveModel.h"
 @interface EVShopVideoViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView * tableView;
 @end
@@ -31,6 +33,11 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"EVShopVideoCell" bundle:nil] forCellReuseIdentifier:@"EVShopVideoCell"];
 }
 #pragma mark - 🌐Networks
+- (void)loadNewData
+{
+   
+   
+}
 
 #pragma mark -👣 Target actions
 

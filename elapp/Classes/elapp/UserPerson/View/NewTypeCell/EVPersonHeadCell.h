@@ -20,5 +20,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *cellAvatarImageView;
 
 @property (nonatomic, strong) EVUserModel * userModel;
+@property (weak, nonatomic) IBOutlet UIImageView *cellVipImageView;
 @property (nonatomic, copy) void(^fansAndFollowClickBlock)(controllerType type);
 @end

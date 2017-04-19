@@ -55,6 +55,8 @@
 		7A1CD9251EA6EEEA0087BDB0 /* EVShopVideoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7A1CD9231EA6EEEA0087BDB0 /* EVShopVideoCell.xib */; };
 		7A1CD9291EA6F3430087BDB0 /* EVShopCheatsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A1CD9271EA6F3430087BDB0 /* EVShopCheatsCell.m */; };
 		7A1CD92A1EA6F3430087BDB0 /* EVShopCheatsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7A1CD9281EA6F3430087BDB0 /* EVShopCheatsCell.xib */; };
+		7A1CD92E1EA755BD0087BDB0 /* EVCheatsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A1CD92D1EA755BD0087BDB0 /* EVCheatsModel.m */; };
+		7A1CD9311EA756460087BDB0 /* EVVideoAndLiveModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A1CD9301EA756460087BDB0 /* EVVideoAndLiveModel.m */; };
 		7A3AFE461E88B2ED00454C9D /* EVStartPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3AFE451E88B2ED00454C9D /* EVStartPageViewController.m */; };
 		7A3AFE491E88ED0500454C9D /* EVStartPageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3AFE481E88ED0500454C9D /* EVStartPageModel.m */; };
 		7A3E0E291E9B3148000D64F6 /* EVStockMarketModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E0E281E9B3148000D64F6 /* EVStockMarketModel.m */; };
@@ -832,6 +834,10 @@
 		7A1CD9261EA6F3430087BDB0 /* EVShopCheatsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVShopCheatsCell.h; sourceTree = "<group>"; };
 		7A1CD9271EA6F3430087BDB0 /* EVShopCheatsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVShopCheatsCell.m; sourceTree = "<group>"; };
 		7A1CD9281EA6F3430087BDB0 /* EVShopCheatsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVShopCheatsCell.xib; sourceTree = "<group>"; };
+		7A1CD92C1EA755BD0087BDB0 /* EVCheatsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVCheatsModel.h; sourceTree = "<group>"; };
+		7A1CD92D1EA755BD0087BDB0 /* EVCheatsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVCheatsModel.m; sourceTree = "<group>"; };
+		7A1CD92F1EA756460087BDB0 /* EVVideoAndLiveModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVVideoAndLiveModel.h; sourceTree = "<group>"; };
+		7A1CD9301EA756460087BDB0 /* EVVideoAndLiveModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVVideoAndLiveModel.m; sourceTree = "<group>"; };
 		7A3AFE441E88B2ED00454C9D /* EVStartPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVStartPageViewController.h; sourceTree = "<group>"; };
 		7A3AFE451E88B2ED00454C9D /* EVStartPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVStartPageViewController.m; sourceTree = "<group>"; };
 		7A3AFE471E88ED0500454C9D /* EVStartPageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVStartPageModel.h; sourceTree = "<group>"; };
@@ -2266,6 +2272,17 @@
 				8870469BA124F47A220386F3 /* libPods-elapp.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7A1CD92B1EA7551D0087BDB0 /* NewTypeModel */ = {
+			isa = PBXGroup;
+			children = (
+				7A1CD92C1EA755BD0087BDB0 /* EVCheatsModel.h */,
+				7A1CD92D1EA755BD0087BDB0 /* EVCheatsModel.m */,
+				7A1CD92F1EA756460087BDB0 /* EVVideoAndLiveModel.h */,
+				7A1CD9301EA756460087BDB0 /* EVVideoAndLiveModel.m */,
+			);
+			name = NewTypeModel;
 			sourceTree = "<group>";
 		};
 		7A3AFE401E88B26D00454C9D /* StartPage */ = {
@@ -4065,6 +4082,7 @@
 		E862FD621D6BE8530081E72F /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				7A1CD92B1EA7551D0087BDB0 /* NewTypeModel */,
 				E862FD631D6BE8530081E72F /* EVAuthSettingModel.h */,
 				E862FD641D6BE8530081E72F /* EVAuthSettingModel.m */,
 				E862FD651D6BE8530081E72F /* EVBlackListItem.h */,
@@ -5639,6 +5657,7 @@
 				E86200B41D6BE8540081E72F /* EVTableNotifListViewCell.m in Sources */,
 				E8A0FF2C1E163419002C80B8 /* EVNameGlobalController.m in Sources */,
 				E8AF7F3F1E1D10B7001682EA /* EVNewsListViewCell.m in Sources */,
+				7A1CD92E1EA755BD0087BDB0 /* EVCheatsModel.m in Sources */,
 				E862FF981D6BE8540081E72F /* UIView+Utils.m in Sources */,
 				E8EF9D091D829B85001AF7B0 /* EVLimitViewController.m in Sources */,
 				E862013A1D6BE8540081E72F /* EVMngUserListModel.m in Sources */,
@@ -6087,6 +6106,7 @@
 				E8E111F31E1C86EC00927DAF /* EVShareViewCell.m in Sources */,
 				E8AF7F351E1CF401001682EA /* EVHVEyeViewCell.m in Sources */,
 				E8A4F87D1E10CED400655272 /* EVMineTableViewCell.m in Sources */,
+				7A1CD9311EA756460087BDB0 /* EVVideoAndLiveModel.m in Sources */,
 				E867DEF91E1CCA610010DF52 /* EVConsultStockViewCell.m in Sources */,
 				E84825561E0A50CD003A795F /* EVBaseTableViewCell.m in Sources */,
 				E89FCAFC1E49BE17008EC671 /* EVSearchStockViewController.m in Sources */,
