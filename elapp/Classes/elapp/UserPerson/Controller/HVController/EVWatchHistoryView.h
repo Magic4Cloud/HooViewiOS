@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@class EVWatchVideoInfo;
+@class EVVideoAndLiveModel;
 
-typedef void(^pushWatchVC)(EVWatchVideoInfo *watchVideoInfo);
+typedef void(^pushWatchVC)(EVVideoAndLiveModel *watchVideoInfo);
 @interface EVWatchHistoryView : UIView
 
 @property (nonatomic, copy) pushWatchVC pushWatchBlock;

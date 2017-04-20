@@ -22,18 +22,7 @@
     {
         NSArray * coverArray = dic[@"cover"];
         
-        if (coverArray == nil )
-        {
-            //没有图片
-            _cellHeight = 100;
-            return YES;
-        }
-        else if (coverArray.count == 1)
-        {
-            //一张图片
-            _cellHeight = 100;
-        }
-        else if (coverArray.count == 3)
+        if ([coverArray isKindOfClass:[NSArray class]] && coverArray.count == 3)
         {
             //三张图片
             _cellHeight = 180;
@@ -66,25 +55,6 @@
         }
     }
    
-    
-    
-    if (![dic[@"cover"] isKindOfClass:[NSArray class]] ) {
-        return YES;
-    }
-    else
-    {
-        NSArray * array =  dic[@"cover"];
-        if (array.count>0) {
-            if ([array[0] isEqual:[NSNull null]]) {
-                return YES;
-            }
-        }
-        else
-        {
-            return YES;
-        }
-    }
-    
     
     return YES;
 }

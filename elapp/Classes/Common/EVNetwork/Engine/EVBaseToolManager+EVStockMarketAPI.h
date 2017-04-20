@@ -84,4 +84,26 @@ typedef NS_ENUM(NSUInteger, EVCollectType)
                         success:(void(^)(NSDictionary *retinfo))successBlock;
 
 
+/**
+ 新版我的收藏
+
+ @param failBlock
+ @param successBlock
+ @param sessionExpireBlock
+ */
+- (void)GETUserCollectListsWithfail:(void(^)(NSError *error))failBlock
+                            success:(void(^)(NSDictionary *retinfo))successBlock
+                      sessionExpire:(void(^)())sessionExpireBlock;
+
+/**
+ 新版历史记录
+
+ @param type 0 视频  1文章
+ @param failBlock
+ @param successBlock
+ @param sessionExpireBlock
+ */
+- (void)GETUserHistoryListTypeNew:(int)type fail:(void(^)(NSError *error))failBlock success:(void(^)(NSDictionary *retinfo))successBlock
+                    sessionExpire:(void(^)())sessionExpireBlock;
+
 @end

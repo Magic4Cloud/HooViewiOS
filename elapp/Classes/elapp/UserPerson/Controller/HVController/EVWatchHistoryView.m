@@ -12,7 +12,9 @@
 #import "EVBaseToolManager+EVStockMarketAPI.h"
 #import "EVBaseToolManager+EVUserCenterAPI.h"
 
+#import "EVVideoAndLiveModel.h"
 
+#import "EVShopLiveCell.h"
 @interface EVWatchHistoryView ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, weak) UITableView *nTableView;
@@ -51,10 +53,9 @@
     nTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     nTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-
-    [nTableView addRefreshHeaderWithRefreshingBlock:^{
-        [self loadData];
-    }];
+    [nTableView registerNib:[UINib nibWithNibName:@"EVShopLiveCell" bundle:nil] forCellReuseIdentifier:@"EVShopLiveCell"];
+    
+    
     EVNullDataView *nullDataView = [[EVNullDataView alloc] init];
     [self addSubview:nullDataView];
     self.nullDataView = nullDataView;
@@ -63,7 +64,40 @@
     nullDataView.buttonTitle = @"去收看";
     nullDataView.frame = CGRectMake(0, 0,ScreenWidth,ScreenHeight - 108);
     
-    [self loadData];
+    [self loadNewData];
+}
+
+- (void)loadNewData
+{
+    WEAK(self)
+    [self.baseToolManager GETUserHistoryListTypeNew:0 fail:^(NSError *error) {
+        weakself.nullDataView.hidden = NO;
+        weakself.nTableView.hidden = YES;
+    } success:^(NSDictionary *retinfo) {
+        NSArray * videolives = retinfo[@"videolive"];
+        
+        if ([videolives isKindOfClass:[NSArray class]] && videolives.count>0) {
+            [self.dataArray removeAllObjects];
+            
+            [videolives enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                EVVideoAndLiveModel * model = [EVVideoAndLiveModel yy_modelWithDictionary:obj];
+                [self.dataArray addObject:model];
+            }];
+            
+            self.nTableView.hidden = NO;
+            self.nullDataView.hidden = YES;
+            
+            [self.nTableView reloadData];
+        }
+        else
+        {
+            self.nTableView.hidden = YES;
+            self.nullDataView.hidden = NO;
+        }
+        
+    } sessionExpire:^{
+        
+    }];
 }
 
 - (void)loadData
@@ -131,19 +165,22 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    EVLiveListViewCell *listCell  = [tableView dequeueReusableCellWithIdentifier:@"watchCell" forIndexPath:indexPath];
-    listCell.watchVideoInfo = self.dataArray[indexPath.row];
-    listCell.selectionStyle = UITableViewCellSelectionStyleNone;
-    return listCell;
+    //视频列表
+    EVVideoAndLiveModel * videoModel = _dataArray[indexPath.row];
+    
+    EVShopLiveCell * cell = [tableView dequeueReusableCellWithIdentifier:@"EVShopLiveCell"];
+    cell.liveModel = videoModel;
+    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    EVWatchVideoInfo *watchVideoInfo = self.dataArray[indexPath.row];
+    EVVideoAndLiveModel * videoModel = _dataArray[indexPath.row];
     if (self.pushWatchBlock) {
-        self.pushWatchBlock(watchVideoInfo);
+        self.pushWatchBlock(videoModel);
     }
 }
+
 - (NSMutableArray *)dataArray
 {
     if (!_dataArray) {

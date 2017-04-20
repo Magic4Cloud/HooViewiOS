@@ -75,7 +75,7 @@
     _nameLabel.text = userModel.nickname;
     _signatureLabel.text = userModel.signature;
     _introduceLabel.text = @"火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经";//详细资料
-    _credentialsLabel.text = userModel.credentials;
+    _credentialsLabel.text = @"A11402385478";
     _numberOfFans.text = [NSString stringWithFormat:@"%ld",userModel.fans_count];
     NSLog(@"userModel.tags = %@",userModel.tags[0]);
 //    NSString *marketStr = [NSString stringWithArray:userModel.tags];

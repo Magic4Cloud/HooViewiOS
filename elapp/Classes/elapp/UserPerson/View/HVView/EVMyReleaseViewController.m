@@ -13,6 +13,8 @@
 
 #import "EVHVWatchViewController.h"
 
+#import "EVMyVideoTableViewController.h"
+
 @interface EVMyReleaseViewController ()
 
 @end
@@ -100,7 +102,7 @@
         {
             //直播
             EVMyReleaseOfLiveViewController * liveVC = [[EVMyReleaseOfLiveViewController alloc] init];
-//            [liveVC getDataWithName:@"17123425"];
+            liveVC.userModel = self.userModel;
             liveVC.videoBlock = ^(EVWatchVideoInfo *videoModel) {
                 EVHVWatchViewController *watchViewVC = [[EVHVWatchViewController alloc] init];
                 watchViewVC.watchVideoInfo = videoModel;
@@ -110,8 +112,6 @@
             liveVC.textLiveBlock= ^(EVUserModel *videoInfo) {
 //                [self loadTextLiveData:videoInfo];
             };
-
-            
             return liveVC;
         }
             break;

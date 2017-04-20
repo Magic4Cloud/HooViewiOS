@@ -13,6 +13,11 @@
 #import "EVBaseToolManager+EVNewsAPI.h"
 #import "EVBaseNewsModel.h"
 
+#import "EVNewsModel.h"
+
+#import "EVOnlyTextCell.h"
+#import "EVThreeImageCell.h"
+#import "EVNewsListViewCell.h"
 @interface EVReadHistoryView ()<UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic, weak) UITableView *nTableView;
@@ -49,6 +54,9 @@
     nTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     nTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
+    [nTableView registerNib:[UINib nibWithNibName:@"EVOnlyTextCell" bundle:nil] forCellReuseIdentifier:@"EVOnlyTextCell"];
+    [nTableView registerNib:[UINib nibWithNibName:@"EVThreeImageCell" bundle:nil] forCellReuseIdentifier:@"EVThreeImageCell"];
+    [nTableView registerNib:[UINib nibWithNibName:@"EVNewsListViewCell" bundle:nil] forCellReuseIdentifier:@"EVNewsListViewCell"];
     
     EVNullDataView *nullDataView = [[EVNullDataView alloc] init];
     [self addSubview:nullDataView];
@@ -57,7 +65,39 @@
     nullDataView.title = @"您还没有看过任何资讯噢";
     nullDataView.frame = CGRectMake(0, 0,ScreenWidth,ScreenHeight - 108);
     
-    [self loadData];
+    [self loadNewData];
+}
+- (void)loadNewData
+{
+    WEAK(self)
+    [self.baseToolManager GETUserHistoryListTypeNew:1 fail:^(NSError *error) {
+        weakself.nullDataView.hidden = NO;
+        weakself.nTableView.hidden = YES;
+    } success:^(NSDictionary *retinfo) {
+        NSArray * news = retinfo[@"news"];
+        
+        if ([news isKindOfClass:[NSArray class]] && news.count>0) {
+            [self.dataArray removeAllObjects];
+            
+            [news enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                EVNewsModel * model = [EVNewsModel yy_modelWithDictionary:obj];
+                [self.dataArray addObject:model];
+            }];
+            
+            self.nTableView.hidden = NO;
+            self.nullDataView.hidden = YES;
+            
+            [self.nTableView reloadData];
+        }
+        else
+        {
+            self.nTableView.hidden = YES;
+            self.nullDataView.hidden = NO;
+        }
+        
+    } sessionExpire:^{
+        
+    }];
 }
 
 - (void)loadData
@@ -105,28 +145,55 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 100;
+    EVNewsModel * model = self.dataArray[indexPath.row];
+    return model.cellHeight;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    EVNewsListViewCell *newsCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsListViewCell"];
-    if (!newsCell) {
-        
-        newsCell = [[NSBundle mainBundle] loadNibNamed:@"EVNewsListViewCell" owner:nil options:nil].firstObject;
-        
-        [newsCell setValue:@"EVNewsListViewCell" forKey:@"reuseIdentifier"];
+    //新闻列表
+    EVNewsModel * newsModel = _dataArray[indexPath.row];
+    
+    if ([newsModel.type isEqualToString:@"0"])
+    {
+        //普通新闻
+        if (newsModel.cover == nil || newsModel.cover.count == 0)
+        {
+            //没有图片
+            EVOnlyTextCell * textCell = [tableView dequeueReusableCellWithIdentifier:@"EVOnlyTextCell"];
+            textCell.newsModel = newsModel;
+            return textCell;
+        }
+        else if (newsModel.cover.count == 1)
+        {
+            //一张图片
+            EVNewsListViewCell *newsCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsListViewCell"];
+            newsCell.consultNewsModel = newsModel;
+            return newsCell;
+        }
+        else if (newsModel.cover.count == 3)
+        {
+            //三张图片
+            EVThreeImageCell * threeImageCell = [tableView dequeueReusableCellWithIdentifier:@"EVThreeImageCell"];
+            threeImageCell.newsModel = newsModel;
+            return threeImageCell;
+        }
     }
-    newsCell.searchNewsModel = self.dataArray[indexPath.row];
-    newsCell.selectionStyle = UITableViewCellSelectionStyleNone;
-    return newsCell;
+    
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    EVBaseNewsModel *baseNewsModel = self.dataArray[indexPath.row];
+//    EVBaseNewsModel *baseNewsModel = self.dataArray[indexPath.row];
+    EVNewsModel * newsModel = _dataArray[indexPath.row];
     if (self.pushWatchBlock) {
-        self.pushWatchBlock(baseNewsModel);
+        self.pushWatchBlock(newsModel);
     }
 }
 

@@ -22,6 +22,7 @@
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ebO-Ba-eKO">
                         <rect key="frame" x="12" y="15" width="125.5" height="70"/>
+                        <color key="backgroundColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="ebO-Ba-eKO" secondAttribute="height" multiplier="120:67" id="kst-gZ-wce"/>
                         </constraints>
@@ -35,7 +36,7 @@
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fLL-gk-Yu5">
                         <rect key="frame" x="151.5" y="42" width="210.5" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <nil key="textColor"/>
+                        <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="直播中" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Tp-wj-rJm">
@@ -50,13 +51,19 @@
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0HR-kY-UUw">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_hot" translatesAutoresizingMaskIntoConstraints="NO" id="0HR-kY-UUw">
                         <rect key="frame" x="16" y="66" width="16" height="16"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="16" id="Ai5-S7-30R"/>
                             <constraint firstAttribute="width" secondItem="0HR-kY-UUw" secondAttribute="height" multiplier="1:1" id="Q4h-Sm-nWJ"/>
                         </constraints>
                     </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="付费" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tGy-TI-UN9">
+                        <rect key="frame" x="196" y="70" width="25" height="14.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="ebO-Ba-eKO" secondAttribute="bottom" constant="15" id="1xA-JG-3bi"/>
@@ -64,6 +71,7 @@
                     <constraint firstItem="lL3-XX-I0b" firstAttribute="bottom" secondItem="ebO-Ba-eKO" secondAttribute="bottom" constant="-3" id="6mw-V0-amq"/>
                     <constraint firstItem="0HR-kY-UUw" firstAttribute="leading" secondItem="ebO-Ba-eKO" secondAttribute="leading" constant="4" id="6wO-5Z-2qZ"/>
                     <constraint firstItem="6Pk-De-7kl" firstAttribute="top" secondItem="ebO-Ba-eKO" secondAttribute="top" id="Amb-Tj-DpT"/>
+                    <constraint firstItem="tGy-TI-UN9" firstAttribute="leading" secondItem="7Tp-wj-rJm" secondAttribute="trailing" constant="7.5" id="CGF-vc-CqY"/>
                     <constraint firstItem="lL3-XX-I0b" firstAttribute="leading" secondItem="ebO-Ba-eKO" secondAttribute="leading" id="Qyq-es-aPJ"/>
                     <constraint firstItem="7Tp-wj-rJm" firstAttribute="leading" secondItem="6Pk-De-7kl" secondAttribute="leading" id="T3B-Gs-iF0"/>
                     <constraint firstItem="7Tp-wj-rJm" firstAttribute="bottom" secondItem="ebO-Ba-eKO" secondAttribute="bottom" id="b27-OM-EQz"/>
@@ -73,6 +81,7 @@
                     <constraint firstItem="fLL-gk-Yu5" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="ndO-fQ-02e"/>
                     <constraint firstItem="ebO-Ba-eKO" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="osM-5P-C89"/>
                     <constraint firstItem="fLL-gk-Yu5" firstAttribute="trailing" secondItem="6Pk-De-7kl" secondAttribute="trailing" id="s1X-T6-5m2"/>
+                    <constraint firstItem="tGy-TI-UN9" firstAttribute="centerY" secondItem="7Tp-wj-rJm" secondAttribute="centerY" id="u1N-Qe-L2B"/>
                     <constraint firstItem="6Pk-De-7kl" firstAttribute="leading" secondItem="ebO-Ba-eKO" secondAttribute="trailing" constant="14" id="xqe-zA-wG9"/>
                     <constraint firstItem="0HR-kY-UUw" firstAttribute="bottom" secondItem="ebO-Ba-eKO" secondAttribute="bottom" constant="-3" id="yD7-ge-3x9"/>
                 </constraints>
@@ -81,10 +90,15 @@
                 <outlet property="cellDetailLabel" destination="fLL-gk-Yu5" id="QuR-a6-myJ"/>
                 <outlet property="cellHotImageView" destination="0HR-kY-UUw" id="nfa-CS-9Bl"/>
                 <outlet property="cellImageView" destination="ebO-Ba-eKO" id="nO9-42-u69"/>
-                <outlet property="cellTagLabel" destination="7Tp-wj-rJm" id="KNw-Oa-yT8"/>
+                <outlet property="cellTag1Label" destination="7Tp-wj-rJm" id="nfQ-OZ-BdI"/>
+                <outlet property="cellTag2Label" destination="tGy-TI-UN9" id="mGJ-Zp-eal"/>
                 <outlet property="cellTitleLabel" destination="6Pk-De-7kl" id="24p-iX-qpn"/>
                 <outlet property="cellViewCountLabel" destination="lL3-XX-I0b" id="D18-RI-9aS"/>
+                <outlet property="cellViewCountLeadingConstant" destination="Qyq-es-aPJ" id="09L-dB-7lL"/>
             </connections>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="ic_hot" width="16" height="16"/>
+    </resources>
 </document>

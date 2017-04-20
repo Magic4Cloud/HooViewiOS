@@ -226,6 +226,7 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 
 - (void)onReLogin:(NSNotification *)notification
 {
+    
     [EVLoginInfo cleanLoginInfo];
     [EVBaseToolManager resetSession];
 

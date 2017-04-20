@@ -266,9 +266,11 @@
         {
             self.contentTextField.text = settingItem.contentTitle;
             self.signatureLabel.text = self.settingItem.contentTitle;
+            self.contentTextField.textColor = [UIColor evTextColorH1];
             self.signatureLabel.hidden = YES;
             self.introduceLabel.hidden = YES;
             self.contentTextField.hidden = NO;
+            self.contentTextField.textColor = [UIColor evTextColorH1];
             self.headImageView.hidden = YES;
             self.contentTextField.hidden = NO;
              self.indicateImageView.hidden = NO;
@@ -330,8 +332,10 @@
         {
             self.contentTextField.text = settingItem.contentTitle;
             self.signatureLabel.text = self.settingItem.contentTitle;
+            self.contentTextField.textColor = [UIColor evTextColorH1];
             self.signatureLabel.hidden = YES;
             self.contentTextField.hidden = NO;
+            self.contentTextField.textColor = [UIColor evTextColorH1];
             self.headImageView.hidden = YES;
             self.contentTextField.hidden = NO;
             self.indicateImageView.hidden = YES;
@@ -356,6 +360,7 @@
         {
             self.contentTextField.text = settingItem.contentTitle;
             self.signatureLabel.text = self.settingItem.contentTitle;
+            self.contentTextField.textColor = [UIColor evTextColorH1];
             self.signatureLabel.hidden = YES;
             self.contentTextField.hidden = NO;
             self.headImageView.hidden = YES;

@@ -126,6 +126,23 @@
     NSLog(@"url:%@\nparams:%@",url,params);
     [EVBaseToolManager GETRequestWithUrl:url parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
 }
+//新版我的收藏
+- (void)GETUserCollectListsWithfail:(void(^)(NSError *error))failBlock
+                       success:(void(^)(NSDictionary *retinfo))successBlock
+                 sessionExpire:(void(^)())sessionExpireBlock
+{
+    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
+    if ( sessionID == nil )
+    {
+        return ;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValue:sessionID forKey:@"sessionid"];
+    
+//    NSString *url = [EVHttpURLManager fullURLStringWithURI:EVCollectListAPI
+//                                                    params:nil];
+    [EVBaseToolManager GETRequestWithUrl:@"http://demo2821846.mockable.io/user/favoritelist" parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+}
 
 
 - (void)GETUserHistoryType:(EVCollectType)type
@@ -169,6 +186,24 @@
     NSString *url = [EVHttpURLManager fullURLStringWithURI:EVHistoryList
                                                     params:nil];
     [EVBaseToolManager GETRequestWithUrl:url parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+}
+//新版历史记录
+- (void)GETUserHistoryListTypeNew:(int)type fail:(void(^)(NSError *error))failBlock success:(void(^)(NSDictionary *retinfo))successBlock
+                 sessionExpire:(void(^)())sessionExpireBlock
+{
+    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
+    if ( sessionID == nil )
+    {
+        return ;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValue:@(type) forKey:@"type"];
+//    [params setValue:sessionID forKey:@"sessionid"];
+//    NSString *url = [EVHttpURLManager fullURLStringWithURI:EVHistoryList
+//                                                    params:nil];
+    [EVBaseToolManager GETNotVerifyRequestWithUrl:@"http://demo2821846.mockable.io/user/historylist" parameters:params success:successBlock fail:failBlock];
+//    [EVBaseToolManager GETRequestWithUrl:@"http://demo2821846.mockable.io/user/historylist" parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+
 }
 
 

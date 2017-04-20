@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 @class EVVideoAndLiveModel;
+@class EVWatchVideoInfo;
 /**
  我的购买 视频直播cell
  */
@@ -17,7 +18,12 @@
 @property (weak, nonatomic) IBOutlet UILabel *cellViewCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *cellTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *cellDetailLabel;
-@property (weak, nonatomic) IBOutlet UILabel *cellTagLabel;
+@property (weak, nonatomic) IBOutlet UILabel *cellTag1Label;
+@property (weak, nonatomic) IBOutlet UILabel *cellTag2Label;
 
 @property (nonatomic, strong)EVVideoAndLiveModel * liveModel;
+@property (nonatomic, strong)EVWatchVideoInfo * watchModel;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *cellViewCountLeadingConstant;
+
 @end

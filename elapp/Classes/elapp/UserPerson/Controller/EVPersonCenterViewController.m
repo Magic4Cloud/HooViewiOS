@@ -31,6 +31,7 @@
 #import "EVRelationWith3rdAccoutModel.h"
 #import "EVMyReleaseViewController.h"//我的发布
 
+
 @interface EVPersonCenterViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
     NSArray * cellTitlesArray;
@@ -55,7 +56,7 @@
     
     [self initUI];
     
-    [self loadPersonalInfor];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -71,6 +72,7 @@
     
     [self loadAssetData];
     
+    [self loadPersonalInfor];
     
 }
 #pragma mark - 🙄 Private methods
@@ -91,6 +93,8 @@
     [EVNotificationCenter addObserver:self selector:@selector(loadPersonalInfor) name:@"modifyUserInfoSuccess" object:nil];
     [EVNotificationCenter addObserver:self selector:@selector(updateAuth:) name:EVUpdateAuthStatusNotification object:nil];
     [EVNotificationCenter addObserver:self selector:@selector(newMessage:) name:EVShouldUpdateNotifyUnread object:nil];
+    
+    
 }
 
 
@@ -286,12 +290,10 @@
             if (![EVLoginInfo hasLogged]) {
                 UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
 
-                [self presentViewController:navighaVC animated:YES completion:nil];
+                [weakself presentViewController:navighaVC animated:YES completion:nil];
                 return;
             }
 
-    
-            
 
             //点击  粉丝和关注
             EVFansOrFocusesTableViewController *fansOrFocusesTVC = [[EVFansOrFocusesTableViewController alloc] init];
@@ -312,18 +314,9 @@
     }
     
 
- 
 
 
     UITableViewCell * tempCell = [tableView dequeueReusableCellWithIdentifier:@"tempCell"];
-    
-//    if (indexPath.row == 4) {
-//        //暂时没有我的购买
-//        if (!tempCell) {
-//            tempCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"tempCell"];
-//        }
-//        return tempCell;
-//    }
     
     if (indexPath.row == 3) {
         if (![EVLoginInfo hasLogged] || self.userModel.vip != 1) {
@@ -414,13 +407,10 @@
         case 3:
         {
             //我的发布
-            EVMyVideoTableViewController *myVideoVC = [[EVMyVideoTableViewController alloc] init];
-            myVideoVC.userModel = self.userModel;
-            [self.navigationController pushViewController:myVideoVC animated:YES];
-            
-//            EVMyReleaseViewController * releaseVc = [[EVMyReleaseViewController alloc] init];
-//            releaseVc.hidesBottomBarWhenPushed = YES;
-//            [self.navigationController pushViewController:releaseVc animated:YES];
+            EVMyReleaseViewController * releaseVc = [[EVMyReleaseViewController alloc] init];
+            releaseVc.hidesBottomBarWhenPushed = YES;
+            releaseVc.userModel = self.userModel;
+            [self.navigationController pushViewController:releaseVc animated:YES];
             
         }
             break;

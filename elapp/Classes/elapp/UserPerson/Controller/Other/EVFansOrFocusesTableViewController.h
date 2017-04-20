@@ -15,5 +15,4 @@
 @property (assign, nonatomic) NSString *name;
 @property (assign, nonatomic) BOOL navitionHidden;
 
-
 @end
