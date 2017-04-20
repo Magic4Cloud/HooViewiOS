@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -15,7 +15,7 @@
             <rect key="frame" x="0.0" y="0.0" width="359" height="88"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="359" height="87"/>
+                <rect key="frame" x="0.0" y="0.0" width="359" height="87.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5mg-UF-xcJ" userLabel="nickname">
@@ -57,20 +57,19 @@
                         </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MNy-Iw-mvs" userLabel="intro">
-                        <rect key="frame" x="90" y="39" width="150" height="13"/>
+                        <rect key="frame" x="90" y="39" width="157" height="13"/>
                         <constraints>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="13" id="8xm-ct-PVT"/>
-                            <constraint firstAttribute="width" constant="150" id="Rp9-Du-Wxw"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.32584697008132935" green="0.32583719491958618" blue="0.32584273815155029" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_v" translatesAutoresizingMaskIntoConstraints="NO" id="ia0-sX-Q3q">
-                        <rect key="frame" x="54" y="54" width="20" height="20"/>
+                        <rect key="frame" x="52" y="52" width="30" height="30"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="20" id="nIH-mV-ND9"/>
-                            <constraint firstAttribute="height" constant="20" id="yz6-Jy-f8W"/>
+                            <constraint firstAttribute="width" constant="30" id="nIH-mV-ND9"/>
+                            <constraint firstAttribute="height" constant="30" id="yz6-Jy-f8W"/>
                         </constraints>
                     </imageView>
                 </subviews>
@@ -80,22 +79,18 @@
                     <constraint firstItem="MNy-Iw-mvs" firstAttribute="top" secondItem="5mg-UF-xcJ" secondAttribute="bottom" constant="8" id="BLI-pc-leb"/>
                     <constraint firstAttribute="trailing" secondItem="JOP-e4-9aE" secondAttribute="trailing" constant="25" id="D9N-UU-t01"/>
                     <constraint firstAttribute="centerY" secondItem="JOP-e4-9aE" secondAttribute="centerY" id="DrJ-Zm-6ng"/>
-                    <constraint firstItem="ia0-sX-Q3q" firstAttribute="bottom" secondItem="Z7U-In-M9Q" secondAttribute="bottom" id="T43-35-p9a"/>
+                    <constraint firstItem="ia0-sX-Q3q" firstAttribute="bottom" secondItem="Z7U-In-M9Q" secondAttribute="bottom" constant="8" id="T43-35-p9a"/>
                     <constraint firstItem="5mg-UF-xcJ" firstAttribute="leading" secondItem="Z7U-In-M9Q" secondAttribute="trailing" constant="16" id="Wct-9F-zYZ"/>
+                    <constraint firstAttribute="trailing" secondItem="MNy-Iw-mvs" secondAttribute="trailing" constant="112" id="ftq-xO-L65"/>
                     <constraint firstAttribute="centerY" secondItem="Z7U-In-M9Q" secondAttribute="centerY" id="kDS-Yd-hG7"/>
                     <constraint firstItem="Z7U-In-M9Q" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="14" id="q6c-0f-BnZ"/>
-                    <constraint firstItem="JOP-e4-9aE" firstAttribute="leading" secondItem="MNy-Iw-mvs" secondAttribute="trailing" id="uEI-oe-p3G"/>
-                    <constraint firstItem="ia0-sX-Q3q" firstAttribute="trailing" secondItem="Z7U-In-M9Q" secondAttribute="trailing" id="xZd-zK-gAR"/>
+                    <constraint firstItem="ia0-sX-Q3q" firstAttribute="trailing" secondItem="Z7U-In-M9Q" secondAttribute="trailing" constant="8" id="xZd-zK-gAR"/>
                 </constraints>
-                <variation key="default">
-                    <mask key="constraints">
-                        <exclude reference="uEI-oe-p3G"/>
-                    </mask>
-                </variation>
             </tableViewCellContentView>
             <connections>
                 <outlet property="avatar" destination="Z7U-In-M9Q" id="POC-zR-rcB"/>
                 <outlet property="changeState" destination="JOP-e4-9aE" id="5cX-GR-l4V"/>
+                <outlet property="introTrailing" destination="ftq-xO-L65" id="qfJ-Pl-9ls"/>
                 <outlet property="introduction" destination="MNy-Iw-mvs" id="Tpr-Zg-AY7"/>
                 <outlet property="name" destination="5mg-UF-xcJ" id="Mgh-2u-YXm"/>
                 <outlet property="vipImageView" destination="ia0-sX-Q3q" id="WUl-2M-Rg2"/>
@@ -104,6 +99,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="ic_v" width="20" height="20"/>
+        <image name="ic_v" width="30" height="30"/>
     </resources>
 </document>

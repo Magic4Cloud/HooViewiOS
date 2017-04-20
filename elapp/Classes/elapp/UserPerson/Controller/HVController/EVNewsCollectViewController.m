@@ -142,6 +142,10 @@
     EVNewsDetailWebController *newsVC = [[EVNewsDetailWebController alloc] init];
     newsVC.newsID = newsModel.newsID;
     newsModel.title = newsModel.title;
+    newsVC.refreshCollectBlock = ^()
+    {
+        [self loadData];
+    };
     [self.navigationController pushViewController:newsVC animated:YES];
     
 }

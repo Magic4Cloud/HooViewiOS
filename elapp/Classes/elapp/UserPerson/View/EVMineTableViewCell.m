@@ -49,8 +49,14 @@
     nameLabel.font = [UIFont textFontB2];
     [nameLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:iconImageView withOffset:8.f];
     [nameLabel autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
-    [nameLabel autoSetDimensionsToSize:CGSizeMake(100, 22)];
+//    [nameLabel autoSetDimensionsToSize:CGSizeMake(100, 22)];
     
+    _cellNewMessageImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_n"]];
+    [self.contentView addSubview:_cellNewMessageImageView];
+    [_cellNewMessageImageView autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:nameLabel withOffset:2];
+    [_cellNewMessageImageView autoPinEdge:ALEdgeTop toEdge:ALEdgeTop ofView:nameLabel withOffset:0];
+    [_cellNewMessageImageView autoSetDimensionsToSize:CGSizeMake(14, 14)];
+    _cellNewMessageImageView.hidden = YES;
     
     UIImageView *nextImageView = [[UIImageView alloc] init];
     [self.contentView addSubview:nextImageView];

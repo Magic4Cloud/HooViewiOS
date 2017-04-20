@@ -138,7 +138,16 @@
             self.name.text = self.model.nickname;
         }
         self.introduction.text = self.model.signature && ![self.model.signature isEqualToString:@""] ? self.model.signature : kDefaultSignature_other;
-        self.changeState.hidden =    self.type == FOCUSES ? NO : YES;
+    if (self.type == FOCUSES) {
+        self.changeState.hidden = NO;
+        self.introTrailing.constant = 112;
+    }
+    else
+    {
+        self.changeState.hidden = YES;
+        self.introTrailing.constant = 18;
+    }
+    
     
     
 }

@@ -114,6 +114,7 @@ static const NSString *const fansOrFocusCellID = @"fansOrFocus";
                 break;
             }
         }
+        
         [weakself.tableView reloadData];
         
     };

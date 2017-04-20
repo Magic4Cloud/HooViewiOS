@@ -26,4 +26,5 @@ typedef void(^eyesDetailBlock)(EVHVEyesModel *eyesModel);
 @property (nonatomic, strong) eyesDetailBlock eyesBlock;
 
 - (instancetype)initWithFrame:(CGRect)frame model:(EVHVEyesModel *)model;
+- (void)loadEyesStart:(NSString *)start count:(NSString *)count eyesModel:(EVHVEyesModel *)eyesModel;
 @end

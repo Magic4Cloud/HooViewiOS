@@ -32,6 +32,7 @@
         _cellNameLabel.text = userModel.nickname;
         _cellIntroduceLabel.text = userModel.signature;
         [_cellAvatarImageView cc_setImageWithURLString:userModel.logourl placeholderImage:nil];
+        
         _cellVipImageView.hidden = userModel.vip == 0?YES:NO;
         NSString * followString = [NSString stringWithFormat:@"%ld",(unsigned long)userModel.follow_count];
         NSString * fansString = [NSString stringWithFormat:@"%ld",(unsigned long)userModel.fans_count];
@@ -86,6 +87,7 @@
         
         _cellSexImageView.image  = nil;
         _cellAvatarImageView.image = nil;
+//        [UIImage imageNamed:@"placeHouderAvatar"]
         _cellVipImageView.hidden = YES;
         
         
