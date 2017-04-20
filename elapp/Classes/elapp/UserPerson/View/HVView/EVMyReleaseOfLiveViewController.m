@@ -64,10 +64,11 @@
     EVNullDataView *nullDataView = [[EVNullDataView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-108)];
     [self.view addSubview:nullDataView];
     self.nullDataView = nullDataView;
-    nullDataView.topImage = [UIImage imageNamed:@"ic_smile"];
-    nullDataView.title = @"他还没有直播";
+    nullDataView.topImage = [UIImage imageNamed:@"ic_cry"];
+    nullDataView.title = @"您还不是主播噢";
 
 }
+
 
 #pragma mark - 🌐Networks
 
@@ -79,34 +80,30 @@
 #pragma mark - 🌺 TableView Delegate & Datasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-//    if (self.textLiveState != 2 && section == 0) {
-//        return 1;
-//    }
-//    return self.videos.count;
-    return 1;
+    if (self.textLiveState != 2 && section == 0) {
+        return 1;
+    }
+    return self.videos.count;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-//    if (self.nullDataView.hidden == NO) {
-//        return 0;
-//    }
-//    if (self.textLiveState == 2) {
-//        return 1;
-//    }
-//    return 2;
-    return 1;
+    if (self.nullDataView.hidden == NO) {
+        return 0;
+    }
+    if (self.textLiveState == 2) {
+        return 1;
+    }
+    return 2;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    if (indexPath.section == 0 && self.textLiveState != 2) {
-//        return 96;
-//    }
-//    
-//    return 104;
+    if (indexPath.section == 0 && self.textLiveState != 2) {
+        return 96;
+    }
     
-    return 96;
+    return 104;
 }
 
 
