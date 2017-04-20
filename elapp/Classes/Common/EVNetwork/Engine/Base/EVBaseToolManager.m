@@ -385,10 +385,25 @@ static BOOL sessioncheck = NO;
 // 清空本地Session
 + (void)resetSession
 {
+     NSDictionary *dics = [CCUserDefault dictionaryRepresentation];
+    for(NSString *key in [dics allKeys]){
+        
+        NSLog(@"key:%@ value:%@",key,dics[key]);
+    }
+    
+    
     [CCUserDefault removeObjectForKey:SESSION_ID_STR];
+   
+
     [CCUserDefault setObject:nil
                       forKey:USER_DNAME_STR];
     [CCUserDefault synchronize];
+    
+    
+    for(NSString *key in [dics allKeys]){
+        NSLog(@"key:%@ value:%@",key,dics[key]);
+    }
+    
     [self setIMAccountHasLogin:NO];
     
     // 到主线程中执行下面这个block中的代码

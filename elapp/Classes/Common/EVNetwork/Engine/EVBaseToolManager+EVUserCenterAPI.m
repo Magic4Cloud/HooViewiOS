@@ -204,10 +204,10 @@
                sessionExpire:(void(^)())sessionExpireBlock
 {
     NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
-//    if ( sessionID == nil )
-//    {
-//        return;
-//    }
+    if ( sessionID == nil )
+    {
+        return;
+    }
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[kSessionIdKey] = sessionID;
     

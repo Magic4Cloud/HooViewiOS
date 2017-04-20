@@ -55,22 +55,23 @@
     
     [self initUI];
     
+    [self loadPersonalInfor];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    
-    
+
 }
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
     [self loadAssetData];
     
-    [self loadPersonalInfor];
+    
 }
 #pragma mark - 🙄 Private methods
 - (void)initData
@@ -87,7 +88,6 @@
     [EVNotificationCenter addObserver:self selector:@selector(loadPersonalInfor) name:@"newUserRefusterSuccess" object:nil];
     [EVNotificationCenter addObserver:self selector:@selector(logOutNotification:) name:NotifyOfLogout object:nil];
     [EVNotificationCenter addObserver:self selector:@selector(loadPersonalInfor) name:NotifyOfLogin object:nil];
-    [EVNotificationCenter addObserver:self selector:@selector(logOutNotification:) name:@"userLogoutSuccess" object:nil];
     [EVNotificationCenter addObserver:self selector:@selector(loadPersonalInfor) name:@"modifyUserInfoSuccess" object:nil];
     [EVNotificationCenter addObserver:self selector:@selector(updateAuth:) name:EVUpdateAuthStatusNotification object:nil];
     [EVNotificationCenter addObserver:self selector:@selector(newMessage:) name:EVShouldUpdateNotifyUnread object:nil];
@@ -268,10 +268,10 @@
             return 0;
         }
     }
-    if (indexPath.row == 4) {
-
-        return 0;//暂时没有我的购买
-    }
+//    if (indexPath.row == 4) {
+//
+//        return 0;//暂时没有我的购买
+//    }
 
     return 65;
 }
@@ -312,43 +312,18 @@
     }
     
 
-    UITableViewCell * placeCell = [tableView dequeueReusableCellWithIdentifier:@"placeCell"];
-    if (indexPath.row == 4) {
-        //暂时没有我的购买
-        
-        if (!placeCell) {
-            placeCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"placeCell"];
-        }
-        return placeCell;
-    }
-    
-    
-    
-    if (indexPath.row == 3) {
-        if (![EVLoginInfo hasLogged] || [EVLoginInfo localObject].vip != 1)
-        {
-            //不是大v
-            //没有我的发布
-            if (!placeCell) {
-                placeCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"placeCell"];
-            }
-            return placeCell;
-            
-        }
-    }
-    
-   
-    
+ 
+
 
     UITableViewCell * tempCell = [tableView dequeueReusableCellWithIdentifier:@"tempCell"];
     
-    if (indexPath.row == 4) {
-        //暂时没有我的购买
-        if (!tempCell) {
-            tempCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"tempCell"];
-        }
-        return tempCell;
-    }
+//    if (indexPath.row == 4) {
+//        //暂时没有我的购买
+//        if (!tempCell) {
+//            tempCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"tempCell"];
+//        }
+//        return tempCell;
+//    }
     
     if (indexPath.row == 3) {
         if (![EVLoginInfo hasLogged] || self.userModel.vip != 1) {
