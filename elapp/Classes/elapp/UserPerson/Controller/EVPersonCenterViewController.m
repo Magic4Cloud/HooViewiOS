@@ -30,6 +30,7 @@
 #import "EVRelationWith3rdAccoutModel.h"
 #import "EVMyReleaseViewController.h"//我的发布
 
+
 @interface EVPersonCenterViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
     NSArray * cellTitlesArray;
@@ -325,7 +326,6 @@
             EVMyReleaseViewController * releaseVc = [[EVMyReleaseViewController alloc] init];
             releaseVc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:releaseVc animated:YES];
-            
         }
             break;
         case 4:
