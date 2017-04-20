@@ -25,6 +25,7 @@
 
 - (void)setUserModel:(EVUserModel *)userModel
 {
+    _cellVipImageView.hidden = YES;
     if (userModel)
     {
         _userModel = userModel;
@@ -86,6 +87,8 @@
         _cellSexImageView.image  = nil;
         _cellAvatarImageView.image = nil;
         _cellVipImageView.hidden = YES;
+        
+        
     }
 }
 
