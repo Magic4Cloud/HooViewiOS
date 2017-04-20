@@ -171,13 +171,14 @@
         CGPoint velocity = [recognizer velocityInView:self.view];
         NSLog(@"%lf",velocity.y);
         CGFloat targetPoint = velocity.y < 0 ? kNavigationBarHeight : kNavigationBarHeight + self.viewHeight;
-//        NSTimeInterval duration = fabs((targetPoint - self.viewTop) / velocity.y);
+        NSTimeInterval duration = fabs((targetPoint - self.viewTop) / velocity.y);
         
         if (fabs(velocity.y) * 1.0 > fabs(targetPoint - self.viewTop)) {
-//            [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-//                self.viewTop = targetPoint;
-//            } completion:nil];
+            [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                self.viewTop = targetPoint;
+            } completion:nil];
             self.viewTop = targetPoint;
+            
             
             return;
         }
