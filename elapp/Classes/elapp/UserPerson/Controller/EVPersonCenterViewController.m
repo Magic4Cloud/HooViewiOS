@@ -66,7 +66,7 @@
 #pragma mark - 🙄 Private methods
 - (void)initData
 {
-    cellTitlesArray = @[@"我的消息",@"我的余额",@"我的发布",@"我的购买",@"我的收藏",@"历史记录",];
+    cellTitlesArray = @[@"我的消息",@"我的余额",@"我的直播",@"我的购买",@"我的收藏",@"历史记录",];
     
     cellTitleIconsArray = @[@"ic_message_new",@"ic_balance",@"ic_Release",@"ic_purchase",@"ic_collect_new",@"ic_History"];
 }
@@ -233,7 +233,9 @@
             return 0.01;
         }
     }
-    
+    if (indexPath.row == 4) {
+        return 0;//暂时没有我的购买
+    }
     return 65;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -243,6 +245,11 @@
         WEAK(self);
         headerCell.fansAndFollowClickBlock = ^(controllerType type)
         {
+            if (![EVLoginInfo hasLogged]) {
+                UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
+                [self presentViewController:navighaVC animated:YES completion:nil];
+                return;
+            }
             //点击  粉丝和关注
             EVFansOrFocusesTableViewController *fansOrFocusesTVC = [[EVFansOrFocusesTableViewController alloc] init];
             fansOrFocusesTVC.type = type;
@@ -260,14 +267,39 @@
         return headerCell;
     }
     
+    UITableViewCell * placeCell = [tableView dequeueReusableCellWithIdentifier:@"placeCell"];
+    if (indexPath.row == 4) {
+        //暂时没有我的购买
+        
+        if (!placeCell) {
+            placeCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"placeCell"];
+        }
+        return placeCell;
+    }
+    
+    
+    
+    if (indexPath.row == 3) {
+        if (![EVLoginInfo hasLogged] || [EVLoginInfo localObject].vip != 1)
+        {
+            //不是大v
+            //没有我的发布
+            if (!placeCell) {
+                placeCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"placeCell"];
+            }
+            return placeCell;
+            
+        }
+    }
+    
+   
+    
     EVMineTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"mineCell"];
     if (!cell) {
         cell = [[EVMineTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:@"mineCell"];
         cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     }
-    
     [cell setCellImage:cellTitleIconsArray[indexPath.row-1] name:cellTitlesArray[indexPath.row-1]];
-    
     return cell;
 }
 
@@ -357,30 +389,6 @@
     
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.row == 3) {
-        if ([EVLoginInfo hasLogged] && [EVLoginInfo localObject].vip == 1)
-        {
-            //是大v
-            //有我的发布
-            for (UIView * subViews in cell.contentView.subviews) {
-                subViews.hidden = NO;
-            }
-            
-        }
-        else
-        {
-            //不是大v
-            //没有我的发布
-            for (UIView * subViews in cell.contentView.subviews) {
-                subViews.hidden = YES;
-            }
-            
-        }
-    }
-    
-}
 
 #pragma mark - 👣 Target actions
 - (void)rightClick
