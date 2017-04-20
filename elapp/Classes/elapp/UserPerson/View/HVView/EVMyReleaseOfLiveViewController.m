@@ -57,12 +57,9 @@
     [self.view addSubview:self.tableView];
     [self.tableView autoPinEdgesToSuperviewEdges];
     [self.tableView registerNib:[UINib nibWithNibName:@"EVReleaseImageWithTextLiveCell" bundle:nil] forCellReuseIdentifier:@"EVReleaseImageWithTextLiveCell"];
-<<<<<<< HEAD
+
     [self.tableView registerNib:[UINib nibWithNibName:@"EVShopLiveCell" bundle:nil] forCellReuseIdentifier:@"EVShopLiveCell"];
-=======
-    [self.tableView registerNib:[UINib nibWithNibName:@"EVReleaseImageWithTextLiveCell" bundle:nil] forCellReuseIdentifier:@"EVReleaseImageWithTextLiveCell"];
-    
->>>>>>> master
+
 }
 
 - (void)addVipUI
@@ -218,19 +215,7 @@
         nameLabel.text = @"往期视频直播";
         return backView;
     }
-//    else if (section == 1) {
-//        UIView *backView = [[UIView alloc] init];
-//        backView.frame = CGRectMake(0, 0, ScreenWidth, 40);
-//        backView.backgroundColor = [UIColor whiteColor];
-//        
-//        UILabel *nameLabel  = [[UILabel alloc] init];
-//        nameLabel.frame = CGRectMake(16, 10, ScreenWidth, 20);
-//        nameLabel.font = [UIFont systemFontOfSize:14.f];
-//        nameLabel.textColor = [UIColor evTextColorH2];
-//        [backView addSubview:nameLabel];
-//        nameLabel.text = @"往期视频直播";
-//        return backView;
-//    }
+
     UIView *backView = [[UIView alloc] init];
     backView.frame = CGRectMake(0, 0, ScreenWidth, 10);
     backView.backgroundColor = [UIColor evBackgroundColor];

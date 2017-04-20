@@ -408,14 +408,14 @@
         {
             //我的发布
 
-            EVMyVideoTableViewController *myVideoVC = [[EVMyVideoTableViewController alloc] init];
-            myVideoVC.userModel = self.userModel;
-            [self.navigationController pushViewController:myVideoVC animated:YES];
+//            EVMyVideoTableViewController *myVideoVC = [[EVMyVideoTableViewController alloc] init];
+//            myVideoVC.userModel = self.userModel;
+//            [self.navigationController pushViewController:myVideoVC animated:YES];
             
-//            EVMyReleaseViewController * releaseVc = [[EVMyReleaseViewController alloc] init];
-//            releaseVc.hidesBottomBarWhenPushed = YES;
-//            releaseVc.userModel = self.userModel;
-//            [self.navigationController pushViewController:releaseVc animated:YES];
+            EVMyReleaseViewController * releaseVc = [[EVMyReleaseViewController alloc] init];
+            releaseVc.hidesBottomBarWhenPushed = YES;
+            releaseVc.userModel = self.userModel;
+            [self.navigationController pushViewController:releaseVc animated:YES];
             
 
             
