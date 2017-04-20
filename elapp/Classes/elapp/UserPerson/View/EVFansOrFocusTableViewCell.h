@@ -18,5 +18,6 @@ typedef void(^ICONCLICK)(EVFanOrFollowerModel *model);
 @property (strong, nonatomic) EVFanOrFollowerModel *model;
 
 @property (copy, nonatomic) ICONCLICK iconClick;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *introTrailing;
 
 @end

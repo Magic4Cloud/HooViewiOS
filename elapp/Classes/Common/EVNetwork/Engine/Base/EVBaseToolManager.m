@@ -362,7 +362,8 @@ static BOOL sessioncheck = NO;
 // 设置本地用户名
 + (void)setUserNameToLocal:(NSString *)name
 {
-    [CCUserDefault setObject:name
+    
+    [CCUserDefault setValue:name
                       forKey:CCUSER_NAME];
     [CCUserDefault synchronize];
     

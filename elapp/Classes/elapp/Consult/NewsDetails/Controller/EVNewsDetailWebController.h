@@ -17,6 +17,13 @@
 @property (nonatomic, copy) NSString *announcementTitle;
 @property (nonatomic, copy) NSString *announcementURL;
 
+/**
+ 刷新评论数
+ */
+@property (nonatomic, copy)void(^refreshViewCountBlock)();
 
-
+/**
+ 刷新收藏列表
+ */
+@property (nonatomic, copy)void(^refreshCollectBlock)();
 @end

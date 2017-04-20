@@ -450,6 +450,9 @@
     } sessionExpire:^{
         
     }];
+    if (self.refreshViewCountBlock) {
+        self.refreshViewCountBlock();
+    }
 }
 
 
@@ -484,6 +487,9 @@
                 [EVProgressHUD showMessage:@"成功"];
                 self.isCollect = !self.isCollect;
                 self.detailBottomView.isCollec = self.isCollect;
+                if (self.refreshCollectBlock) {
+                    self.refreshCollectBlock();
+                }
             } sessionExpire:^{
                 
             }];

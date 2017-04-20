@@ -89,6 +89,7 @@
     
     
     
+    
     WEAK(self)
     
     [_iNewsTableview addRefreshHeaderWithRefreshingBlock:^{
@@ -100,6 +101,8 @@
         [weakself loadMoreData];
     }];
     
+    [self loadNewData];
+    
     [self.iNewsTableview.mj_footer setHidden:YES];
     
 }
@@ -107,7 +110,7 @@
 {
     [super viewWillAppear:animated];
     
-    [self loadNewData];
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -518,13 +521,20 @@
     else
     {
         //普通新闻
+        
         EVNewsDetailWebController *newsWebVC = [[EVNewsDetailWebController alloc] init];
         newsWebVC.newsID = newsModel.newsID;
         newsWebVC.newsTitle = newsModel.title;
         if ([newsModel.newsID isEqualToString:@""] || newsModel.newsID == nil) {
             return;
         }
+        newsWebVC.refreshViewCountBlock = ^()
+        {
+            [self loadNewData];
+        };
         [self.navigationController pushViewController:newsWebVC animated:YES];
+        
+        
     }
 }
 

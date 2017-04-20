@@ -87,9 +87,9 @@
         [consultScrollView addSubview:oneDetail];
         oneDetail.backgroundColor = [UIColor evBackgroundColor];
         self.oneView = oneDetail;
-        
+        __weak typeof(EVHVEyesDetailView *) weakView = oneDetail;
         oneDetail.eyesBlock = ^(EVHVEyesModel *eyesModel) {
-            [self pushNewDetailVCModel:eyesModel];
+            [self pushNewDetailVCModel:eyesModel view:weakView model:self.eyesArray[0]];
         };
     }
     
@@ -98,9 +98,9 @@
         [consultScrollView addSubview:twoDetail];
         twoDetail.backgroundColor = [UIColor evBackgroundColor];
         self.twoView = twoDetail;
-        
+        __weak typeof(EVHVEyesDetailView *) weakView = twoDetail;
         twoDetail.eyesBlock = ^(EVHVEyesModel *eyesModel) {
-            [self pushNewDetailVCModel:eyesModel];
+            [self pushNewDetailVCModel:eyesModel view:weakView model:self.eyesArray[1]];
         };
         
     }
@@ -110,19 +110,23 @@
         [consultScrollView addSubview:threeDetail];
         threeDetail.backgroundColor = [UIColor evBackgroundColor];
         self.threeView = threeDetail;
-        
+        __weak typeof(EVHVEyesDetailView *) weakView = threeDetail;
         threeDetail.eyesBlock = ^(EVHVEyesModel *eyesModel) {
-            [self pushNewDetailVCModel:eyesModel];
+            [self pushNewDetailVCModel:eyesModel view:weakView model:self.eyesArray[2]];
         };
     }
 }
    
 
-- (void)pushNewDetailVCModel:(EVHVEyesModel *)eyesModel
+- (void)pushNewDetailVCModel:(EVHVEyesModel *)eyesModel view:(EVHVEyesDetailView *)view model:(EVHVEyesModel*)model
 {
     EVNewsDetailWebController *newsDetailVC = [[EVNewsDetailWebController alloc] init];
     newsDetailVC.newsID = eyesModel.eyesID;
     newsDetailVC.newsTitle = eyesModel.title;
+    newsDetailVC.refreshViewCountBlock = ^()
+    {
+        [view loadEyesStart:@"0" count:@"20" eyesModel:model];
+    };
     [self.navigationController pushViewController:newsDetailVC animated:YES];
 }
 
