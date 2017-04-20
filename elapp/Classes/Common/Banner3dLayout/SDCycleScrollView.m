@@ -211,8 +211,8 @@ static NSString *indentify = @"MKJCollectionViewCell";
         self.mainView.scrollEnabled = NO;
         self.pageLabel.hidden = YES;
     }
-    curentIndexDelegate = 0;
-    [self changePageShowWithIndex:0];
+//    curentIndexDelegate = 0;
+//    [self changePageShowWithIndex:0];
    
     
     [self.mainView reloadData];
