@@ -29,6 +29,8 @@
 @property (nonatomic, copy) NSString * duration;
 @property (nonatomic, copy) NSString * shareUrl;
 @property (nonatomic, copy) NSString * shareThumbUrl;
+@property (nonatomic, copy) NSString * live_start_time;
+
 @property (nonatomic, assign) BOOL isHot;
 @property (nonatomic, assign) BOOL isPaid;
 @property (nonatomic, assign) BOOL isUpload;

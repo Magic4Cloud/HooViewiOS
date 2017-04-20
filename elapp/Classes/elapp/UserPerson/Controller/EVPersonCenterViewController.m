@@ -409,6 +409,7 @@
             
 //            EVMyReleaseViewController * releaseVc = [[EVMyReleaseViewController alloc] init];
 //            releaseVc.hidesBottomBarWhenPushed = YES;
+//            releaseVc.userModel = self.userModel;
 //            [self.navigationController pushViewController:releaseVc animated:YES];
             
         }
