@@ -31,6 +31,7 @@
 #import "EVRelationWith3rdAccoutModel.h"
 #import "EVMyReleaseViewController.h"//我的发布
 
+
 @interface EVPersonCenterViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
     NSArray * cellTitlesArray;
@@ -269,9 +270,8 @@
         }
     }
     if (indexPath.row == 4) {
-        return 0;
+        return 0;//暂时没有我的购买
     }
-    
     return 65;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -284,10 +284,11 @@
         {
             if (![EVLoginInfo hasLogged]) {
                 UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
-                [weakself presentViewController:navighaVC animated:YES completion:nil];
+
+                [self presentViewController:navighaVC animated:YES completion:nil];
                 return;
             }
-            
+
             //点击  粉丝和关注
             EVFansOrFocusesTableViewController *fansOrFocusesTVC = [[EVFansOrFocusesTableViewController alloc] init];
             fansOrFocusesTVC.type = type;
@@ -306,6 +307,7 @@
         return headerCell;
     }
     
+
     UITableViewCell * tempCell = [tableView dequeueReusableCellWithIdentifier:@"tempCell"];
     
     if (indexPath.row == 4) {
@@ -326,13 +328,14 @@
         }
     }
     
+
     EVMineTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"mineCell"];
     if (!cell) {
         cell = [[EVMineTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:@"mineCell"];
         cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     }
-    
     [cell setCellImage:cellTitleIconsArray[indexPath.row-1] name:cellTitlesArray[indexPath.row-1]];
+
     if (indexPath.row == 1) {
         if (isNewMessage) {
             cell.cellNewMessageImageView.hidden = NO;
@@ -348,6 +351,7 @@
         cell.cellNewMessageImageView.hidden = YES;
     }
     
+
     return cell;
 }
 
@@ -403,6 +407,7 @@
         case 3:
         {
             //我的发布
+
             EVMyVideoTableViewController *myVideoVC = [[EVMyVideoTableViewController alloc] init];
             myVideoVC.userModel = self.userModel;
             [self.navigationController pushViewController:myVideoVC animated:YES];
@@ -411,6 +416,8 @@
 //            releaseVc.hidesBottomBarWhenPushed = YES;
 //            releaseVc.userModel = self.userModel;
 //            [self.navigationController pushViewController:releaseVc animated:YES];
+            
+
             
         }
             break;
@@ -442,7 +449,6 @@
     }
     
 }
-
 
 
 #pragma mark - 👣 Target actions

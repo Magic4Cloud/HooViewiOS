@@ -13,6 +13,8 @@
 
 #import "EVHVWatchViewController.h"
 
+#import "EVMyVideoTableViewController.h"
+
 @interface EVMyReleaseViewController ()
 
 @end
@@ -110,8 +112,6 @@
             liveVC.textLiveBlock= ^(EVUserModel *videoInfo) {
 //                [self loadTextLiveData:videoInfo];
             };
-
-            
             return liveVC;
         }
             break;

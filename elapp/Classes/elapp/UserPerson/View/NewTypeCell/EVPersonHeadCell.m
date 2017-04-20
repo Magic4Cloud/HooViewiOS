@@ -25,6 +25,7 @@
 
 - (void)setUserModel:(EVUserModel *)userModel
 {
+    _cellVipImageView.hidden = YES;
     if (userModel)
     {
         _userModel = userModel;
@@ -88,6 +89,8 @@
         _cellAvatarImageView.image = nil;
 //        [UIImage imageNamed:@"placeHouderAvatar"]
         _cellVipImageView.hidden = YES;
+        
+        
     }
 }
 

@@ -27,5 +27,4 @@ typedef void(^pushVideoBlock)(EVWatchVideoInfo *videoModel);
 
 
 
-
 @end
