@@ -7,8 +7,11 @@
 //
 
 #import "EVMyReleaseViewController.h"
-#import "EVMyReleaseCheatsViewController.h"
+#import "EVMyReleaseOfLiveViewController.h"//直播
+#import "EVMyReleaseCheatsViewController.h"//秘籍
 #import "UIViewController+Extension.h"
+
+#import "EVHVWatchViewController.h"
 
 @interface EVMyReleaseViewController ()
 
@@ -33,7 +36,7 @@
         self.menuItemWidth = 34;
         self.progressViewWidths = @[@16,@16,@16,@16];
         //        self.progressViewIsNaughty = YES;
-        self.titles = @[@"直播",@"秘籍",@"专栏"];
+        self.titles = @[@"直播",@"秘籍",@"文章"];
         float margin = 32;
         //        if (ScreenWidth == 320) {
         //            margin = 12;
@@ -95,9 +98,21 @@
     switch (index) {
         case 0:
         {
-            //秘籍
-            EVMyReleaseCheatsViewController * cheatsVC = [[EVMyReleaseCheatsViewController alloc] init];
-            return cheatsVC;
+            //直播
+            EVMyReleaseOfLiveViewController * liveVC = [[EVMyReleaseOfLiveViewController alloc] init];
+//            [liveVC getDataWithName:@"17123425"];
+            liveVC.videoBlock = ^(EVWatchVideoInfo *videoModel) {
+                EVHVWatchViewController *watchViewVC = [[EVHVWatchViewController alloc] init];
+                watchViewVC.watchVideoInfo = videoModel;
+                UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:watchViewVC];
+                [self presentViewController:nav animated:YES completion:nil];
+            };
+            liveVC.textLiveBlock= ^(EVUserModel *videoInfo) {
+//                [self loadTextLiveData:videoInfo];
+            };
+
+            
+            return liveVC;
         }
             break;
         case 1:
@@ -108,7 +123,7 @@
         }
         case 2:
         {
-            //专栏
+            //文章
             EVMyReleaseCheatsViewController * cheatsVC = [[EVMyReleaseCheatsViewController alloc] init];
             return cheatsVC;
         }
