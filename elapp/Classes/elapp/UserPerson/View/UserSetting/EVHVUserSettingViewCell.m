@@ -19,7 +19,7 @@
     self.tipImageView = nextImageView;
     [nextImageView autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:24];
     [nextImageView autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
-    [nextImageView autoSetDimensionsToSize:CGSizeMake(20, 20)];
+    [nextImageView autoSetDimensionsToSize:CGSizeMake(40, 40)];
     self.tipImageView.image = [UIImage imageNamed:@"btn_next_n"];
     self.tipImageView.backgroundColor = [UIColor clearColor];
 }

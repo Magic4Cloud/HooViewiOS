@@ -10,6 +10,6 @@
 
 @interface EVMineTableViewCell : UITableViewCell
 
-
+@property (nonatomic, strong)UIImageView * cellNewMessageImageView;
 - (void)setCellImage:(NSString *)image name:(NSString *)name;
 @end

@@ -388,7 +388,8 @@
 }
 
 + (BOOL)hasLogged {
-    NSString *session = [[EVLoginInfo localObject] sessionid];
+    
+    NSString *session = [CCUserDefault objectForKey:SESSION_ID_STR];
     if (session && session.length > 0) {
         return YES;
     }

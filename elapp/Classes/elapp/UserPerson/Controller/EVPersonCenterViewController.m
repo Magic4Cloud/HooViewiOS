@@ -16,6 +16,7 @@
 #import "EVNotifyListViewController.h"
 #import "EVMyShopViewController.h"
 #import "EVFansOrFocusesTableViewController.h"
+#import "EVMyVideoTableViewController.h"
 
 #import "EVMineTableViewCell.h"
 #import "EVPersonHeadCell.h"
@@ -34,6 +35,7 @@
 {
     NSArray * cellTitlesArray;
     NSArray * cellTitleIconsArray;
+    BOOL isNewMessage;
 }
 @property (strong, nonatomic) EVUserModel * userModel;
 @property (nonatomic, strong) UITableView * tableView;
@@ -48,27 +50,36 @@
     [super viewDidLoad];
     
     [self addObserVer];
-    
+
     [self initData];
     
     [self initUI];
     
-    [self loadPersonalInfor];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
+    
+    
+}
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
     [self loadAssetData];
     
+    [self loadPersonalInfor];
 }
 #pragma mark - 🙄 Private methods
 - (void)initData
 {
-    cellTitlesArray = @[@"我的消息",@"我的余额",@"我的发布",@"我的购买",@"我的收藏",@"历史记录",];
+    cellTitlesArray = @[@"我的消息",@"我的余额",@"我的直播",@"我的购买",@"我的收藏",@"历史记录",];
     
     cellTitleIconsArray = @[@"ic_message_new",@"ic_balance",@"ic_Release",@"ic_purchase",@"ic_collect_new",@"ic_History"];
+    
+    isNewMessage = NO;
 }
 
 - (void)addObserVer
@@ -79,6 +90,7 @@
     [EVNotificationCenter addObserver:self selector:@selector(logOutNotification:) name:@"userLogoutSuccess" object:nil];
     [EVNotificationCenter addObserver:self selector:@selector(loadPersonalInfor) name:@"modifyUserInfoSuccess" object:nil];
     [EVNotificationCenter addObserver:self selector:@selector(updateAuth:) name:EVUpdateAuthStatusNotification object:nil];
+    [EVNotificationCenter addObserver:self selector:@selector(newMessage:) name:EVShouldUpdateNotifyUnread object:nil];
 }
 
 
@@ -90,7 +102,11 @@
         __weak typeof(self) weakself = self;
         [EVUserModel getUserInfoModelWithName:name complete:^(EVUserModel *model) {
             if ( model ) {
-                weakself.userModel = model;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    weakself.userModel = model;
+                });
+                
             }
         }];
     }
@@ -148,8 +164,11 @@
      {
          NSString *errorStr = [error errorInfoWithPlacehold:kE_GlobalZH(@"user_data_fail")];
          if (![errorStr isEqualToString:@""]) {
-             // 默认从本地数据库中取数据
-             [self getUserInfoFromDB];
+             dispatch_async(dispatch_get_global_queue(0, 0), ^ {
+                 // 默认从本地数据库中取数据
+                 [self getUserInfoFromDB];
+             });
+             
          }
          [EVProgressHUD showError:errorStr toView:weakSelf.view];
          [EVProgressHUD hideHUDForView:weakSelf.view];
@@ -158,7 +177,6 @@
          if ( modelDict && [modelDict allKeys].count > 0 ) {
              EVUserModel *model = [EVUserModel objectWithDictionary:modelDict];
              weakSelf.userModel = model;
-             
              dispatch_async(dispatch_get_global_queue(0, 0), ^ {
                  EVLoginInfo *loginInfo = [EVLoginInfo localObject];
                  loginInfo.name = weakSelf.userModel.name;
@@ -175,10 +193,25 @@
      }];
 }
 #pragma mark - 📢Notifications
+- (void)newMessage:(NSNotification *)notification
+{
+    isNewMessage = NO;
+    if (notification.object) {
+        NSString * unreadCount = [notification.object description];
+        if ([unreadCount integerValue]>0) {
+            isNewMessage = YES;
+            
+        }
+    }
+    
+    [self.tableView reloadData];
+    
+}
+
 - (void)logOutNotification:(NSNotificationCenter *)notificationCenter
 {
     self.userModel = nil;
-    [self.tableView reloadData];
+    
 }
 
 - (void)updateAuth:(NSNotification *)notify {
@@ -209,6 +242,7 @@
 #pragma mark - 🌺 TableView Delegate & Datasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+
     return cellTitlesArray.count+1;
 }
 
@@ -218,10 +252,11 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+  
     if (indexPath.row == 0) {
         return 145;
     }
-    if ([EVLoginInfo hasLogged] && [EVLoginInfo localObject].vip == 1)
+    if ([EVLoginInfo hasLogged] && self.userModel.vip == 1)
     {
         //是大v
     }
@@ -230,22 +265,33 @@
         //不是大v
         if (indexPath.row == 3) {
             //没有我的发布
-            return 0.01;
+            return 0;
         }
+    }
+    if (indexPath.row == 4) {
+        return 0;
     }
     
     return 65;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     if (indexPath.row == 0) {
         EVPersonHeadCell * headerCell = [tableView dequeueReusableCellWithIdentifier:@"EVPersonHeadCell"];
         WEAK(self);
         headerCell.fansAndFollowClickBlock = ^(controllerType type)
         {
+            if (![EVLoginInfo hasLogged]) {
+                UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
+                [weakself presentViewController:navighaVC animated:YES completion:nil];
+                return;
+            }
+            
             //点击  粉丝和关注
             EVFansOrFocusesTableViewController *fansOrFocusesTVC = [[EVFansOrFocusesTableViewController alloc] init];
             fansOrFocusesTVC.type = type;
+            
             [weakself.navigationController pushViewController:fansOrFocusesTVC animated:YES];
             
         };
@@ -260,6 +306,26 @@
         return headerCell;
     }
     
+    UITableViewCell * tempCell = [tableView dequeueReusableCellWithIdentifier:@"tempCell"];
+    
+    if (indexPath.row == 4) {
+        //暂时没有我的购买
+        if (!tempCell) {
+            tempCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"tempCell"];
+        }
+        return tempCell;
+    }
+    
+    if (indexPath.row == 3) {
+        if (![EVLoginInfo hasLogged] || self.userModel.vip != 1) {
+            //不是大v  没有我的发布
+            if (!tempCell) {
+                tempCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"tempCell"];
+            }
+            return tempCell;
+        }
+    }
+    
     EVMineTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"mineCell"];
     if (!cell) {
         cell = [[EVMineTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:@"mineCell"];
@@ -267,6 +333,20 @@
     }
     
     [cell setCellImage:cellTitleIconsArray[indexPath.row-1] name:cellTitlesArray[indexPath.row-1]];
+    if (indexPath.row == 1) {
+        if (isNewMessage) {
+            cell.cellNewMessageImageView.hidden = NO;
+            [cell setCellImage:@"ic_newmessage_new" name:cellTitlesArray[indexPath.row-1]];
+        }
+        else
+        {
+            cell.cellNewMessageImageView.hidden = YES;
+        }
+    }
+    else
+    {
+        cell.cellNewMessageImageView.hidden = YES;
+    }
     
     return cell;
 }
@@ -308,6 +388,7 @@
             //我的消息
             EVNotifyListViewController *notiflast = [[EVNotifyListViewController alloc]init];
             notiflast.hidesBottomBarWhenPushed = YES;
+            isNewMessage = NO;
             [self.navigationController pushViewController:notiflast animated:YES];
         }
             break;
@@ -322,9 +403,13 @@
         case 3:
         {
             //我的发布
-            EVMyReleaseViewController * releaseVc = [[EVMyReleaseViewController alloc] init];
-            releaseVc.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:releaseVc animated:YES];
+            EVMyVideoTableViewController *myVideoVC = [[EVMyVideoTableViewController alloc] init];
+            myVideoVC.userModel = self.userModel;
+            [self.navigationController pushViewController:myVideoVC animated:YES];
+            
+//            EVMyReleaseViewController * releaseVc = [[EVMyReleaseViewController alloc] init];
+//            releaseVc.hidesBottomBarWhenPushed = YES;
+//            [self.navigationController pushViewController:releaseVc animated:YES];
             
         }
             break;
@@ -357,30 +442,7 @@
     
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.row == 3) {
-        if ([EVLoginInfo hasLogged] && [EVLoginInfo localObject].vip == 1)
-        {
-            //是大v
-            //有我的发布
-            for (UIView * subViews in cell.contentView.subviews) {
-                subViews.hidden = NO;
-            }
-            
-        }
-        else
-        {
-            //不是大v
-            //没有我的发布
-            for (UIView * subViews in cell.contentView.subviews) {
-                subViews.hidden = YES;
-            }
-            
-        }
-    }
-    
-}
+
 
 #pragma mark - 👣 Target actions
 - (void)rightClick
@@ -423,8 +485,8 @@
 {
     if (userModel) {
         _userModel = userModel;
-        [self.tableView reloadData];
     }
+    [self.tableView reloadData];
 }
 #pragma mark - 🗑 CleanUp
 - (void)didReceiveMemoryWarning {
