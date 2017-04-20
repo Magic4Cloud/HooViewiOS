@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EVUserModel.h"
 
 @interface EVReleaseImageWithTextLiveCell : UITableViewCell
 
@@ -15,6 +16,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *followNumberLabel;
 
 @property (weak, nonatomic) IBOutlet UILabel *tagsLabel;
+
+@property (nonatomic, strong) EVUserModel *userModel;
 
 
 @end

@@ -217,15 +217,15 @@
         NSDictionary *dic = (NSDictionary *)data;
         if ([dic isKindOfClass:[NSDictionary class]]) {
             NSString *name = [NSString stringWithFormat:@"%@", dic[@"name"]];
-            EVUserModel *usermodel = [EVUserModel new];
-            usermodel.name = name;
-//            EVVipCenterViewController *vipVC = [EVVipCenterViewController new];
-//            vipVC.watchVideoInfo = watchInfo;
-//            [self.navigationController pushViewController:vipVC animated:YES];
+            EVWatchVideoInfo *watchInfo = [EVWatchVideoInfo new];
+            watchInfo.name = name;
+            EVVipCenterViewController *vipVC = [EVVipCenterViewController new];
+            vipVC.watchVideoInfo = watchInfo;
+            [self.navigationController pushViewController:vipVC animated:YES];
             
-            EVVipCenterController *vc = [[EVVipCenterController alloc] init];
-            vc.usermodel = usermodel;
-            [self.navigationController pushViewController:vc animated:YES];
+//            EVVipCenterController *vc = [[EVVipCenterController alloc] init];
+//            vc.usermodel = usermodel;
+//            [self.navigationController pushViewController:vc animated:YES];
             
         }
         

@@ -291,9 +291,8 @@
                 return;
             }
 
-    
-            
 
+            
             //点击  粉丝和关注
             EVFansOrFocusesTableViewController *fansOrFocusesTVC = [[EVFansOrFocusesTableViewController alloc] init];
             fansOrFocusesTVC.type = type;
@@ -313,33 +312,6 @@
     }
     
 
-    UITableViewCell * placeCell = [tableView dequeueReusableCellWithIdentifier:@"placeCell"];
-    if (indexPath.row == 4) {
-        //暂时没有我的购买
-        
-        if (!placeCell) {
-            placeCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"placeCell"];
-        }
-        return placeCell;
-    }
-    
-    
-    
-    if (indexPath.row == 3) {
-        if (![EVLoginInfo hasLogged] || [EVLoginInfo localObject].vip != 1)
-        {
-            //不是大v
-            //没有我的发布
-            if (!placeCell) {
-                placeCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"placeCell"];
-            }
-            return placeCell;
-            
-        }
-    }
-    
-   
-    
 
     UITableViewCell * tempCell = [tableView dequeueReusableCellWithIdentifier:@"tempCell"];
     
@@ -441,10 +413,15 @@
         {
             //我的发布
 
+
+            
             EVMyReleaseViewController * releaseVc = [[EVMyReleaseViewController alloc] init];
             releaseVc.hidesBottomBarWhenPushed = YES;
-            
+            releaseVc.userModel = self.userModel;
             [self.navigationController pushViewController:releaseVc animated:YES];
+            
+
+            
 
         }
             break;

@@ -7,10 +7,14 @@
 //
 
 #import <WMPageController/WMPageController.h>
+#import "EVUserModel.h"
 
 /**
  我的发布
  */
 @interface EVMyReleaseViewController : WMPageController
+
+@property (nonatomic, strong) EVUserModel *userModel;
+
 
 @end
