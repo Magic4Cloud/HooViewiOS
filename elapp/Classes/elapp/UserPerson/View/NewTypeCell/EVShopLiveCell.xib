@@ -44,12 +44,12 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lL3-XX-I0b">
-                        <rect key="frame" x="12" y="65" width="125.5" height="17"/>
+                        <rect key="frame" x="20" y="65" width="117.5" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_hot" translatesAutoresizingMaskIntoConstraints="NO" id="0HR-kY-UUw">
+                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_hot" translatesAutoresizingMaskIntoConstraints="NO" id="0HR-kY-UUw">
                         <rect key="frame" x="16" y="66" width="16" height="16"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="16" id="Ai5-S7-30R"/>
@@ -63,7 +63,7 @@
                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
                     </button>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cNM-Jp-P0B">
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cNM-Jp-P0B">
                         <rect key="frame" x="196" y="59" width="38" height="27"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <state key="normal" title="Button">
@@ -77,7 +77,7 @@
                     <constraint firstItem="lL3-XX-I0b" firstAttribute="bottom" secondItem="ebO-Ba-eKO" secondAttribute="bottom" constant="-3" id="6mw-V0-amq"/>
                     <constraint firstItem="0HR-kY-UUw" firstAttribute="leading" secondItem="ebO-Ba-eKO" secondAttribute="leading" constant="4" id="6wO-5Z-2qZ"/>
                     <constraint firstItem="6Pk-De-7kl" firstAttribute="top" secondItem="ebO-Ba-eKO" secondAttribute="top" id="Amb-Tj-DpT"/>
-                    <constraint firstItem="lL3-XX-I0b" firstAttribute="leading" secondItem="ebO-Ba-eKO" secondAttribute="leading" id="Qyq-es-aPJ"/>
+                    <constraint firstItem="lL3-XX-I0b" firstAttribute="leading" secondItem="ebO-Ba-eKO" secondAttribute="leading" constant="8" id="Qyq-es-aPJ"/>
                     <constraint firstItem="K6Q-fB-C9T" firstAttribute="leading" secondItem="fLL-gk-Yu5" secondAttribute="leading" id="WDm-qB-nQd"/>
                     <constraint firstAttribute="trailingMargin" secondItem="6Pk-De-7kl" secondAttribute="trailing" constant="5" id="fae-bB-ioZ"/>
                     <constraint firstItem="fLL-gk-Yu5" firstAttribute="leading" secondItem="6Pk-De-7kl" secondAttribute="leading" id="kzf-Ph-cJ7"/>

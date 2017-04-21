@@ -69,6 +69,11 @@
 {
     return [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1];
 }
+//227 96 96
++ (UIColor *)evBackGroundDeepRedColor
+{
+    return [UIColor colorWithRed:227/255.0 green:96/255.0 blue:96/255.0 alpha:1];
+}
 
 + (UIColor *)evBackGroundDeepBlueColor
 {

@@ -27,7 +27,7 @@
     [_cellAvataerImageView cc_setImageWithURLString:videoModel.logourl placeholderImage:nil];
     [_cellCoverImageView cc_setImageWithURLString:videoModel.thumb placeholderImage:nil];
     _cellDateLabel.text = [videoModel.live_start_time timeFormatter2];
-    _cellDurationLabel.text = [videoModel.duration durationSeconsToMinute];
+    _cellDurationLabel.text = [videoModel.duration durationSeconsToHourAndMinute];
     
     _cellViewCountLabel.text = [NSString stringWithFormat:@"%@人观看",[videoModel.watch_count thousandsSeparatorString]];
     

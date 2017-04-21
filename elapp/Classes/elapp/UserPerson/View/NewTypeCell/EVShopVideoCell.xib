@@ -72,7 +72,7 @@
                             <constraint firstAttribute="width" secondItem="KHS-Vv-kvA" secondAttribute="height" multiplier="1.778:1" id="5d8-fy-oGb"/>
                         </constraints>
                     </imageView>
-                    <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="paG-O3-M4O">
+                    <view alpha="0.59999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="paG-O3-M4O">
                         <rect key="frame" x="15" y="75" width="345" height="194"/>
                         <color key="backgroundColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
@@ -84,9 +84,9 @@
                         </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="btn_play_n_new" translatesAutoresizingMaskIntoConstraints="NO" id="d3U-tb-7t7">
-                        <rect key="frame" x="320" y="229" width="40" height="40"/>
+                        <rect key="frame" x="300" y="209" width="60" height="60"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="40" id="APH-jX-Yy1"/>
+                            <constraint firstAttribute="width" constant="60" id="APH-jX-Yy1"/>
                             <constraint firstAttribute="width" secondItem="d3U-tb-7t7" secondAttribute="height" multiplier="1:1" id="Rz6-LC-SdK"/>
                         </constraints>
                     </imageView>

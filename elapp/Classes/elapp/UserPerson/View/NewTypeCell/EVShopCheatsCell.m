@@ -7,7 +7,7 @@
 //
 
 #import "EVShopCheatsCell.h"
-
+#import "EVCheatsModel.h"
 @implementation EVShopCheatsCell
 
 - (void)awakeFromNib {
@@ -17,6 +17,17 @@
     self.contentView.backgroundColor = [UIColor evBackGroundLightGrayColor];
 }
 
+- (void)setCheatsModel:(EVCheatsModel *)cheatsModel
+{
+    if (!cheatsModel) {
+        return;
+    }
+    _cheatsModel = cheatsModel;
+    _cellDateLabel.text = [cheatsModel.date timeFormatter3];
+    _cellBeansLabel.text = [NSString stringWithFormat:@"%@",cheatsModel.price];
+    _cellTitleLabel.text = cheatsModel.title;
+    _cellDetailLabel.text = cheatsModel.introduce;
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

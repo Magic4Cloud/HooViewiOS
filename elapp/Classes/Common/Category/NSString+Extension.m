@@ -153,17 +153,49 @@
     }
     return @"";
 }
+
+//2017-04-06 10:53:59 转换为 --  04/06
+- (NSString *)timeFormatter3
+{
+    NSString *timeStr = self;
+    NSString * oldTimeString = [NSString stringWithFormat:@"%@",self];
+    if (timeStr.length > 10) {
+        timeStr =   [timeStr substringToIndex:10];
+        
+        NSString *timeLbl = [NSString stringWithFormat:@"%@",oldTimeString];
+        if (timeLbl.length>10) {
+            NSString *lTime = [NSString stringWithFormat:@"%@/%@",[timeLbl substringWithRange:NSMakeRange(5, 2)],[timeLbl substringWithRange:NSMakeRange(8, 2)]];
+            return [NSString stringWithFormat:@"%@",lTime];
+        }
+    }
+    return @"";
+}
+
 //秒转分钟  123  转换为 2分3秒
-- (NSString *)durationSeconsToMinute
+- (NSString *)durationSeconsToHourAndMinute
 {
     NSString * duration = self;
     NSInteger seconds = [duration integerValue];
     
-    NSString *str_minute = [NSString stringWithFormat:@"%d",seconds/60];
+    NSString * strHour = [NSString stringWithFormat:@"%d",seconds/3600];
     
-    NSString *str_second = [NSString stringWithFormat:@"%d",seconds%60];
+    NSString * str_minute = [NSString stringWithFormat:@"%d",seconds%3600/60];
     
-    NSString *format_time = [NSString stringWithFormat:@"%@分%@秒",str_minute,str_second];
+    NSString * str_second = [NSString stringWithFormat:@"%d",seconds%60];
+    NSString *format_time;
+    if ([strHour integerValue] >0 )
+    {
+        format_time = [NSString stringWithFormat:@"%@小时%@分%@秒",strHour,str_minute,str_second];
+    }
+    else if([str_minute integerValue]>0)
+    {
+        format_time = [NSString stringWithFormat:@"%@分%@秒",str_minute,str_second];
+    }
+    else
+    {
+        format_time = [NSString stringWithFormat:@"%@秒",str_second];
+    }
+    
     return format_time;
 }
 + (NSString *)shortNumber:(NSUInteger)count

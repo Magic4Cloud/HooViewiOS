@@ -176,15 +176,15 @@
 #define EVSuccessPayToService       @"https://appgw.hooview.com/easyvaas/service/service/payecoin"
 
 //历史记录
-#define EVHVHistoryListAPI          @"http://192.168.8.125:8888/user/historylist"
+#define EVHVHistoryListAPI          @"http://192.168.8.125:8888/user/histories"
 //我的收藏
-#define EVHVFavoriteListAPI         @"http://192.168.8.125:8888/user/favoritelist"
+#define EVHVFavoriteListAPI         @"http://192.168.8.125:8888/user/favorites"
 
 //文章搜索
 #define EVSearchNews                @"http://192.168.8.125:8888/search/news"
 
 //我的购买
-#define EVMyShopsAPI                @"http://192.168.8.125:8888/user/purchase"
+#define EVMyShopsAPI                @"http://192.168.8.125:8888/user/purchases"
 
 
 
