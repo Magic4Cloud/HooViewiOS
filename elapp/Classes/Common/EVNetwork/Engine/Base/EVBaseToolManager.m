@@ -736,6 +736,12 @@ params:(NSMutableDictionary *)params
     return sessionID;
 }
 
+// 获取本地用户名
+- (NSString *)uidFromLocal
+{
+   return  [[self class] userNameFromLocal];
+}
+
 
 
 

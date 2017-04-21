@@ -14,4 +14,5 @@ typedef void(^pushWatchVC)(EVVideoAndLiveModel *watchVideoInfo);
 @interface EVWatchHistoryView : UIView
 
 @property (nonatomic, copy) pushWatchVC pushWatchBlock;
+- (void)loadData;
 @end

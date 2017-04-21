@@ -106,4 +106,15 @@ typedef NS_ENUM(NSUInteger, EVCollectType)
 - (void)GETUserHistoryListTypeNew:(int)type fail:(void(^)(NSError *error))failBlock success:(void(^)(NSDictionary *retinfo))successBlock
                     sessionExpire:(void(^)())sessionExpireBlock;
 
+/**
+ 清除历史记录
+
+ @param type 类型（0，直播记录；1，文章记录）
+ @param failBlock
+ @param successBlock
+ @param sessionExpireBlock
+ */
+- (void)GETCleanhistoryWithType:(NSString *)type fail:(void(^)(NSError *error))failBlock success:(void(^)(NSDictionary *retinfo))successBlock
+                  sessionExpire:(void(^)())sessionExpireBlock;
+
 @end

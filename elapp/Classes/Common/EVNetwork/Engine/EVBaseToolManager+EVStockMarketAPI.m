@@ -176,18 +176,44 @@
                  sessionExpire:(void(^)())sessionExpireBlock
 {
     NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
+    
+    
     if ( sessionID == nil )
     {
         return ;
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    NSString * uid = [self uidFromLocal];
+    [params setValue:uid forKey:@"userid"];
     [params setValue:@(type) forKey:@"type"];
-//    [params setValue:sessionID forKey:@"sessionid"];
+    [params setValue:sessionID forKey:@"sessionid"];
+    
 //    NSString *url = [EVHttpURLManager fullURLStringWithURI:EVHistoryList
 //                                                    params:nil];
     [EVBaseToolManager GETNotVerifyRequestWithUrl:EVHVHistoryListAPI parameters:params success:successBlock fail:failBlock];
 
+}
 
+//清除历史记录
+- (void)GETCleanhistoryWithType:(NSString *)type fail:(void(^)(NSError *error))failBlock success:(void(^)(NSDictionary *retinfo))successBlock
+                    sessionExpire:(void(^)())sessionExpireBlock
+{
+    
+    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
+    if ( sessionID == nil )
+    {
+        return ;
+    }
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValue:type forKey:@"type"];
+    NSString * uid = [self uidFromLocal];
+    [params setValue:uid forKey:@"userid"];
+    //    [params setValue:sessionID forKey:@"sessionid"];
+    //    NSString *url = [EVHttpURLManager fullURLStringWithURI:EVHistoryList
+    //                                                    params:nil];
+    [EVBaseToolManager GETNotVerifyRequestWithUrl:EVCleanHistoryListAPI parameters:params success:successBlock fail:failBlock];
+    
 }
 
 //新版我的收藏
@@ -202,6 +228,8 @@
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:sessionID forKey:@"sessionid"];
+    NSString * uid = [self uidFromLocal];
+    [params setValue:uid forKey:@"userid"];
     
     //    NSString *url = [EVHttpURLManager fullURLStringWithURI:EVCollectListAPI
     //                                                    params:nil];

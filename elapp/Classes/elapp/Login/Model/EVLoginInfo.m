@@ -49,6 +49,7 @@
 
 @implementation EVLoginInfo
 
+
 - (NSString *)phone
 {
     NSString *phoneTemp = _phone;
