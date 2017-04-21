@@ -107,6 +107,7 @@
 
 
 
+
 #define EVCollectListAPI            @"/user/collectlist"
 #define EVCollectAPI                @"/user/collect"
 #define EVHistoryAPI                @"/user/history"
@@ -121,8 +122,8 @@
 #define EVUserTagsSetAPI            @"/user/tagset"
 
 
-
-
+#pragma mark - *********** 测试环境api ******************
+//测试环境api
 #ifdef STATE_DEV
 
 //#define EVMarketQuotesAPI           @"http://openapi.hooview.com/tushare/get_index"           //大盘详情
@@ -135,7 +136,7 @@
 #define EVHVEyesDetailNewsAPI       @"http://dev.hooview.com/api/news/getlist"
 #define EVStockComment              @"http://dev.hooview.com/api/bbs/stockpost"
 #define EVNewsComment               @"http://dev.hooview.com/api/bbs/newspost"
-#define EVSearchNews                @"http://dev.hooview.com/api/search/news"
+
 #define EVSearchStock               @"http://dev.hooview.com/api/search/stock"
 #define EVVideoCommentAPI           @"http://dev.hooview.com/api/bbs/videopost"
 #define EVVideoCommentListAPI       @"http://dev.hooview.com/api/bbs/videoconversatons"
@@ -167,14 +168,34 @@
 //专题
 #define EVHVNewsTopicAPI            @"http://dev.hooview.com/api/v2/news/topic"
 
+//我的发布
+#define EVVipMyReleaseAPI           @"http://dev.hooview.com/api/v2/user/works"
+
 
 //支付成功回调给服务器
 #define EVSuccessPayToService       @"https://appgw.hooview.com/easyvaas/service/service/payecoin"
+
+//历史记录
+#define EVHVHistoryListAPI          @"http://192.168.8.125:8888/user/historylist"
+//我的收藏
+#define EVHVFavoriteListAPI         @"http://192.168.8.125:8888/user/favoritelist"
+
+//文章搜索
+#define EVSearchNews                @"http://192.168.8.125:8888/search/news"
+
+//我的购买
+#define EVMyShopsAPI                @"http://192.168.8.125:8888/user/purchase"
+
+
+
+
+
+
 #endif
 
 
-
-// 友盟事件开关
+#pragma mark - *********** 发布环境api ******************
+// 发布环境api
 #ifdef STATE_RELEASE
 #define EVTextLiveHaveAPI           @"http://openapi.hooview.com/api/textlive/streaminfo"
 
@@ -218,6 +239,13 @@
 //支付成功回调给服务器
 #define EVSuccessPayToService       @"https://appgw.hooview.com/easyvaas/service/service/payecoin"
 
+
+//历史记录
+#define EVHVHistoryListAPI          @"http://192.168.8.125:8888/user/historylist"
+//我的收藏
+#define EVHVFavoriteListAPI         @"http://192.168.8.125:8888/user/favoritelist"
+//文章搜索
+#define EVHVNewsSeachAPI            @"http://192.168.8.125:8888/search/news"
 
 #endif
 #endif

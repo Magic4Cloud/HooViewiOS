@@ -204,10 +204,10 @@
                sessionExpire:(void(^)())sessionExpireBlock
 {
     NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
-//    if ( sessionID == nil )
-//    {
-//        return;
-//    }
+    if ( sessionID == nil )
+    {
+        return;
+    }
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[kSessionIdKey] = sessionID;
     
@@ -515,6 +515,46 @@
     } sessionExpireBlock:sessionExpireBlock fail:failBlock];
 
 }
+
+//获取我的发布
+- (void)GETMyReleaseListWithUserid:(NSString *)userid
+                            type:(NSString *)type
+                           start:(NSInteger)start
+                           count:(NSInteger)count
+                      startBlock:(void(^)())startBlock
+                            fail:(void(^)(NSError *error))failBlock
+                         success:(void(^)(NSDictionary *videos))successBlock
+                    essionExpire:(void(^)())sessionExpireBlock
+{
+    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
+        if ( sessionID == nil )
+        {
+            return ;
+        }
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValue:sessionID forKey:kSessionIdKey];
+    [params setValue:userid forKey:kNameKey];
+    [params setValue:type forKey:kType];
+    [params setValue:@(start) forKey:kStart];
+    [params setValue:@(count) forKey:kCount];
+//    [self getGPSInfo:params];
+    
+    
+//    EVVipMyReleaseAPI
+    
+    [EVBaseToolManager GETRequestWithUrl:@"http://192.168.8.125:8888/user/works" parameters:params success:^(NSDictionary *successDict) {
+        if ( successBlock )
+        {
+            successBlock(successDict);
+        }
+
+    } sessionExpireBlock:sessionExpireBlock fail:failBlock];
+    
+}
+
+
+
+
 
 - (void)GETLogoutWithFail:(void(^)(NSError *error))failBlock
                   success:(void(^)())successBlock

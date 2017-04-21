@@ -7,14 +7,33 @@
 //
 
 #import "EVShopVideoCell.h"
-
+#import "EVVideoAndLiveModel.h"
 @implementation EVShopVideoCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    _cellAvataerImageView.layer.cornerRadius = 11;
+    _cellAvataerImageView.layer.masksToBounds = YES;
     // Initialization code
 }
 
+- (void)setVideoModel:(EVVideoAndLiveModel *)videoModel
+{
+    if (!videoModel) {
+        return;
+    }
+    _videoModel = videoModel;
+    _cellNameLabel.text = videoModel.nickname;
+    [_cellAvataerImageView cc_setImageWithURLString:videoModel.logourl placeholderImage:nil];
+    [_cellCoverImageView cc_setImageWithURLString:videoModel.thumb placeholderImage:nil];
+    _cellDateLabel.text = [videoModel.live_start_time timeFormatter2];
+    _cellDurationLabel.text = [videoModel.duration durationSeconsToMinute];
+    
+    _cellViewCountLabel.text = [NSString stringWithFormat:@"%@人观看",[videoModel.watch_count thousandsSeparatorString]];
+    
+    _cellIntroduceLabel.text = @"暂时没有简介";
+    
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

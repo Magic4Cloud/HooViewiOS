@@ -44,6 +44,7 @@
 @property (nonatomic, assign) BOOL foreground;
 
 @end
+
 @implementation EVHomeViewController
 
 //lock vertical
@@ -125,6 +126,7 @@
 }
 
 - (void)handleLogoutAction {
+    
     [EVNotificationCenter postNotificationName:@"userLogoutSuccess" object:nil];
     [_engine cancelAllOperation];
     [_engine GETLogoutWithFail:^(NSError *error) {
@@ -226,7 +228,7 @@ static NSInteger lastUnread = 0;
     
     i ++;
 //      每三十秒处理一次
-    if (i % 30 == 0) {
+    if (i % 60 == 0) {
         [self.engine GETMessageunreadcountStart:0 start:^{
             
         } fail:^(NSError *error) {
@@ -237,16 +239,30 @@ static NSInteger lastUnread = 0;
                 dic = (NSDictionary *)messageData;
             }
             NSInteger unread = [[dic objectForKey:@"unread"] integerValue];
+//            unread = 2;
+            NSString *unreadStr = [NSString stringWithFormat:@"%ld",(long)unread];
             
-            NSString *unreadStr = [NSString stringWithFormat:@"%ld",unread];
             // 当此次未读数跟上次未读数不一样时,发送刷新列表的通知
-            if ( unread != lastUnread ) {
+            if ( unread != 0 ) {
 
                 [EVNotificationCenter postNotificationName:EVShouldUpdateNotifyUnread object:unreadStr];
+                
+                [self showBadgeRedPoint];
+                
             }
             lastUnread = unread;
         }];
     }
+}
+
+- (void)showBadgeRedPoint{
+    self.homeTabbar.showRedPoint = YES;
+    self.isShowingBadgeRedPoint = YES;
+}
+
+- (void)hideBadgeRedPoint{
+    self.homeTabbar.showRedPoint = NO;
+    self.isShowingBadgeRedPoint = NO;
 }
 
 - (EVBaseToolManager *)engine

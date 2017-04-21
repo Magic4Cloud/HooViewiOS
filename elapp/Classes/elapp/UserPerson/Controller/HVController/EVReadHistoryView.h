@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@class EVBaseNewsModel;
-typedef void(^pushNewsDetailVC)(EVBaseNewsModel *baseNewsModel);
+@class EVNewsModel;
+typedef void(^pushNewsDetailVC)(EVNewsModel *baseNewsModel);
 @interface EVReadHistoryView : UIView
 @property (nonatomic, copy) pushNewsDetailVC pushWatchBlock;
 @end

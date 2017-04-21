@@ -128,6 +128,7 @@
 }
 
 
+
 - (void)GETUserHistoryType:(EVCollectType)type
                       code:(NSString *)code
                     action:(int)action
@@ -169,6 +170,42 @@
     NSString *url = [EVHttpURLManager fullURLStringWithURI:EVHistoryList
                                                     params:nil];
     [EVBaseToolManager GETRequestWithUrl:url parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+}
+//新版历史记录
+- (void)GETUserHistoryListTypeNew:(int)type fail:(void(^)(NSError *error))failBlock success:(void(^)(NSDictionary *retinfo))successBlock
+                 sessionExpire:(void(^)())sessionExpireBlock
+{
+    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
+    if ( sessionID == nil )
+    {
+        return ;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValue:@(type) forKey:@"type"];
+//    [params setValue:sessionID forKey:@"sessionid"];
+//    NSString *url = [EVHttpURLManager fullURLStringWithURI:EVHistoryList
+//                                                    params:nil];
+    [EVBaseToolManager GETNotVerifyRequestWithUrl:EVHVHistoryListAPI parameters:params success:successBlock fail:failBlock];
+
+
+}
+
+//新版我的收藏
+- (void)GETUserCollectListsWithfail:(void(^)(NSError *error))failBlock
+                            success:(void(^)(NSDictionary *retinfo))successBlock
+                      sessionExpire:(void(^)())sessionExpireBlock
+{
+    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
+    if ( sessionID == nil )
+    {
+        return ;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValue:sessionID forKey:@"sessionid"];
+    
+    //    NSString *url = [EVHttpURLManager fullURLStringWithURI:EVCollectListAPI
+    //                                                    params:nil];
+    [EVBaseToolManager GETRequestWithUrl:EVHVFavoriteListAPI parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
 }
 
 

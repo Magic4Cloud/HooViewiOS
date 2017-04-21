@@ -203,6 +203,17 @@ typedef enum : NSUInteger {
                     essionExpire:(void(^)())sessionExpireBlock;
 
 
+//获取我的发布
+- (void)GETMyReleaseListWithUserid:(NSString *)userid
+                              type:(NSString *)type
+                             start:(NSInteger)start
+                             count:(NSInteger)count
+                        startBlock:(void(^)())startBlock
+                              fail:(void(^)(NSError *error))failBlock
+                           success:(void(^)(NSDictionary *videos))successBlock
+                      essionExpire:(void(^)())sessionExpireBlock;
+
+
 
 /** 退出登录，注销账号 */
 - (void)GETLogoutWithFail:(void(^)(NSError *error))failBlock

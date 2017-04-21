@@ -57,6 +57,7 @@
 		7A1CD92A1EA6F3430087BDB0 /* EVShopCheatsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7A1CD9281EA6F3430087BDB0 /* EVShopCheatsCell.xib */; };
 		7A1CD92E1EA755BD0087BDB0 /* EVCheatsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A1CD92D1EA755BD0087BDB0 /* EVCheatsModel.m */; };
 		7A1CD9311EA756460087BDB0 /* EVVideoAndLiveModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A1CD9301EA756460087BDB0 /* EVVideoAndLiveModel.m */; };
+		7A32C1601EA9D739003089BA /* EVBaseToolManager+MyShopAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A32C15F1EA9D739003089BA /* EVBaseToolManager+MyShopAPI.m */; };
 		7A3AFE461E88B2ED00454C9D /* EVStartPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3AFE451E88B2ED00454C9D /* EVStartPageViewController.m */; };
 		7A3AFE491E88ED0500454C9D /* EVStartPageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3AFE481E88ED0500454C9D /* EVStartPageModel.m */; };
 		7A3E0E291E9B3148000D64F6 /* EVStockMarketModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E0E281E9B3148000D64F6 /* EVStockMarketModel.m */; };
@@ -840,6 +841,9 @@
 		7A1CD92D1EA755BD0087BDB0 /* EVCheatsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVCheatsModel.m; sourceTree = "<group>"; };
 		7A1CD92F1EA756460087BDB0 /* EVVideoAndLiveModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVVideoAndLiveModel.h; sourceTree = "<group>"; };
 		7A1CD9301EA756460087BDB0 /* EVVideoAndLiveModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVVideoAndLiveModel.m; sourceTree = "<group>"; };
+		7A2A52171EA8AE15003C3FC8 /* NSNotificationName_header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSNotificationName_header.h; sourceTree = "<group>"; };
+		7A32C15E1EA9D739003089BA /* EVBaseToolManager+MyShopAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EVBaseToolManager+MyShopAPI.h"; sourceTree = "<group>"; };
+		7A32C15F1EA9D739003089BA /* EVBaseToolManager+MyShopAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EVBaseToolManager+MyShopAPI.m"; sourceTree = "<group>"; };
 		7A3AFE441E88B2ED00454C9D /* EVStartPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVStartPageViewController.h; sourceTree = "<group>"; };
 		7A3AFE451E88B2ED00454C9D /* EVStartPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVStartPageViewController.m; sourceTree = "<group>"; };
 		7A3AFE471E88ED0500454C9D /* EVStartPageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVStartPageModel.h; sourceTree = "<group>"; };
@@ -2291,6 +2295,15 @@
 			name = NewTypeModel;
 			sourceTree = "<group>";
 		};
+		7A32C15D1EA9D6FF003089BA /* NewTypeApi */ = {
+			isa = PBXGroup;
+			children = (
+				7A32C15E1EA9D739003089BA /* EVBaseToolManager+MyShopAPI.h */,
+				7A32C15F1EA9D739003089BA /* EVBaseToolManager+MyShopAPI.m */,
+			);
+			name = NewTypeApi;
+			sourceTree = "<group>";
+		};
 		7A3AFE401E88B26D00454C9D /* StartPage */ = {
 			isa = PBXGroup;
 			children = (
@@ -2922,6 +2935,7 @@
 		9F1F98EA9E07F3F8575F04C9 /* Engine */ = {
 			isa = PBXGroup;
 			children = (
+				7A32C15D1EA9D6FF003089BA /* NewTypeApi */,
 				9F1F9B27BCF570C9B4959E72 /* Base */,
 				9F1F91960E2C37033A70E501 /* EVBaseToolManager+EVAccountAPI.h */,
 				9F1F91476BA829DF4ECBBA92 /* EVBaseToolManager+EVAccountAPI.m */,
@@ -4709,6 +4723,7 @@
 				E862FF3C1D6BE8540081E72F /* main.m */,
 				E862FF3D1D6BE8540081E72F /* elapp_config.h */,
 				E862FF3E1D6BE8540081E72F /* elapp_util.h */,
+				7A2A52171EA8AE15003C3FC8 /* NSNotificationName_header.h */,
 				E862FF3F1D6BE8540081E72F /* SuperClass */,
 			);
 			path = Main;
@@ -5967,6 +5982,7 @@
 				E8B2161F1E123F51000FD19A /* EVRefreshTimeViewCell.m in Sources */,
 				E862FF951D6BE8540081E72F /* UILabel+Extension.m in Sources */,
 				7AD37FE51E963BFA0020B794 /* EVRecommendCell.m in Sources */,
+				7A32C1601EA9D739003089BA /* EVBaseToolManager+MyShopAPI.m in Sources */,
 				E862FF8F1D6BE8540081E72F /* UIButton+Extension.m in Sources */,
 				E8695C3F1E138E5900CCA323 /* EVVerifyCodeViewController.m in Sources */,
 				E8943E5F1E24C485008E5D97 /* EVHVChatModel.m in Sources */,

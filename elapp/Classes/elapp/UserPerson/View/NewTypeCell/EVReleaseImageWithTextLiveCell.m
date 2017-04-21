@@ -17,6 +17,18 @@
     self.contentView.backgroundColor = [UIColor whiteColor];
 }
 
+-(void)setUserModel:(EVUserModel *)userModel {
+    if (!userModel) {
+        return;
+    }
+    _userModel = userModel;
+    _namelabel.text = userModel.nickname;
+    _followNumberLabel.text = [NSString stringWithFormat:@"%ld人关注",userModel.follow_count];
+    
+}
+
+
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

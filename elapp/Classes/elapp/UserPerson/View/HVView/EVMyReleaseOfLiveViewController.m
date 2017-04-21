@@ -16,7 +16,7 @@
 #import "EVBaseToolManager+EVLiveAPI.h"
 #import "EVNullDataView.h"
 //
-
+#import "EVVideoAndLiveModel.h"
 #import "EVShopLiveCell.h"
 
 //#import "EVHVCenterImageLiveViewCell.h"
@@ -76,63 +76,109 @@
 #pragma mark - 🌐Networks
 
 - (void)initDatasource {
-    NSString *type = @"video";
+    NSString *type = @"0";
     NSInteger start = 0;
-    __weak typeof(self) weakself = self;
-    [self.baseToolManager GETUserVideoListWithName:@"17123425" type:type start:start count:20 startBlock:^{
+    
+    
+    [self.baseToolManager GETMyReleaseListWithUserid:@"17123425" type:type start:start count:20 startBlock:^{
         
     } fail:^(NSError *error) {
-        [weakself.tableView endHeaderRefreshing];
-        [weakself.tableView endFooterRefreshing];
-    } success:^(NSArray *videos) {
-        
-        
-        if (start == 0)
-        {
-            [weakself.videos removeAllObjects];
-        }
-        [weakself.videos addObjectsFromArray:videos];
-        [weakself.tableView reloadData];
-        [weakself.tableView endHeaderRefreshing];
-        [weakself.tableView endFooterRefreshing];
-        
-        if ( weakself.videos.count )
-        {
-            [weakself.tableView showFooter];
-        }
-        else
-        {
-            [weakself.tableView hideFooter];
-        }
-        if (weakself.videos.count)
-        {
-            
-            if (videos.count < 20)
-            {
-                [weakself.tableView setFooterState:CCRefreshStateNoMoreData];
-            }
-            else
-            {
-                [weakself.tableView setFooterState:CCRefreshStateIdle];
-            }
-            
-            
-        }
-        
-        if (start == 0 && videos.count == 0) {
-            weakself.nullDataView.hidden = NO;
-        }
-        else
-        {
-            weakself.nullDataView.hidden = YES;
-        }
-        [weakself.tableView reloadData];
-    } essionExpire:^{
-        [weakself.tableView endHeaderRefreshing];
-        [weakself.tableView endFooterRefreshing];
-        EVRelogin(weakself);
-    }];
+        NSLog(@"error = %@",error);
+    } success:^(NSDictionary *videos) {
+        NSLog(@"videos = %@",videos);
+        NSDictionary *dictionary = videos[@"textlive"];
+        NSArray *array = videos[@"videolive"];
+        EVUserModel *textLiveModel = [EVUserModel yy_modelWithDictionary:dictionary];
+        self.userModel = textLiveModel;
+        self.textLiveState = [videos[@"textlive"][@"state"] integerValue];
 
+        
+        if (array && array.count>0) {
+            __weak typeof(self) weakSelf = self;
+            [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                EVVideoAndLiveModel * livemodel = [EVVideoAndLiveModel yy_modelWithDictionary:obj];
+                [weakSelf.videos addObject:livemodel];
+                
+                
+            }];
+        }
+        
+        if (start == 0 && array.count == 0) {
+            self.nullDataView.hidden = NO;
+        }
+        else
+        {
+            self.nullDataView.hidden = YES;
+        }
+    
+        [self.tableView reloadData];
+     
+    } essionExpire:^{
+        
+    }];
+    
+    
+    
+    
+    
+    
+    
+    
+//    [self.baseToolManager GETUserVideoListWithName:@"17123425" type:type start:start count:20 startBlock:^{
+//        
+//    } fail:^(NSError *error) {
+//        [weakself.tableView endHeaderRefreshing];
+//        [weakself.tableView endFooterRefreshing];
+//    } success:^(NSArray *videos) {
+//        
+//        
+//        
+//        if (start == 0)
+//        {
+//            [weakself.videos removeAllObjects];
+//        }
+//        [weakself.videos addObjectsFromArray:videos];
+//        [weakself.tableView reloadData];
+//        [weakself.tableView endHeaderRefreshing];
+//        [weakself.tableView endFooterRefreshing];
+//        
+//        if ( weakself.videos.count )
+//        {
+//            [weakself.tableView showFooter];
+//        }
+//        else
+//        {
+//            [weakself.tableView hideFooter];
+//        }
+//        if (weakself.videos.count)
+//        {
+//            
+//            if (videos.count < 20)
+//            {
+//                [weakself.tableView setFooterState:CCRefreshStateNoMoreData];
+//            }
+//            else
+//            {
+//                [weakself.tableView setFooterState:CCRefreshStateIdle];
+//            }
+//            
+//            
+//        }
+//        
+//        if (start == 0 && videos.count == 0) {
+//            weakself.nullDataView.hidden = NO;
+//        }
+//        else
+//        {
+//            weakself.nullDataView.hidden = YES;
+//        }
+//        [weakself.tableView reloadData];
+//    } essionExpire:^{
+//        [weakself.tableView endHeaderRefreshing];
+//        [weakself.tableView endFooterRefreshing];
+//        EVRelogin(weakself);
+//    }];
+//
 }
 
 
@@ -236,7 +282,7 @@
     
     static NSString * identifer = @"EVShopLiveCell";
     EVShopLiveCell * cell = [tableView dequeueReusableCellWithIdentifier:identifer];
-    cell.watchModel = self.videos[indexPath.row];
+    cell.liveModel = self.videos[indexPath.row];
     return cell;
 
 }
@@ -280,12 +326,12 @@
     _watchVideoInfo = watchVideoInfo;
 }
 
-- (void)setUserModel:(EVUserModel *)userModel
-{
-    _userModel = userModel;
-    [self loadIsHaveTextLive];
-    [self.tableView reloadData];
-}
+//- (void)setUserModel:(EVUserModel *)userModel
+//{
+//    _userModel = userModel;
+//    [self loadIsHaveTextLive];
+//    [self.tableView reloadData];
+//}
 
 
 

@@ -137,6 +137,7 @@
 #import "EVAppSetting.h"
 #import "elapp_util.h"
 #import "constants.h"
+#import "NSNotificationName_header.h"
 #import <PureLayout.h>
 #import "UIFont+EVExtension.h"
 #import "UIScrollView+GifRefresh.h"

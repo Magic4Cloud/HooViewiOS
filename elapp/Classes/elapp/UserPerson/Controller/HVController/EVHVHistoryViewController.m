@@ -15,6 +15,8 @@
 #import "EVNewsDetailWebController.h"
 #import "EVBaseNewsModel.h"
 
+#import "EVNewsModel.h"
+#import "EVVideoAndLiveModel.h"
 @interface EVHVHistoryViewController ()<SGSegmentedControlStaticDelegate,UIScrollViewDelegate>
 
 @property (nonatomic, strong) SGSegmentedControlStatic *topSView;
@@ -78,8 +80,10 @@
     EVWatchHistoryView *watchHistoryView = [[EVWatchHistoryView alloc] init];
     [backScrollView addSubview:watchHistoryView];
     watchHistoryView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight - 44);
-    watchHistoryView.pushWatchBlock = ^(EVWatchVideoInfo *watchVideoInfo) {
+    watchHistoryView.pushWatchBlock = ^(EVVideoAndLiveModel * model) {
         EVHVWatchViewController *watchViewVC = [[EVHVWatchViewController alloc] init];
+        EVWatchVideoInfo * watchVideoInfo = [[EVWatchVideoInfo alloc] init];
+        
         watchViewVC.watchVideoInfo = watchVideoInfo;
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:watchViewVC];
         [weakself presentViewController:nav animated:YES completion:nil];
@@ -88,7 +92,7 @@
     EVReadHistoryView *readHistoryView = [[EVReadHistoryView alloc] init];
     [backScrollView addSubview:readHistoryView];
     readHistoryView.frame = CGRectMake(ScreenWidth, 0, ScreenWidth, ScreenHeight - 44);
-    readHistoryView.pushWatchBlock = ^(EVBaseNewsModel *baseNewsModel) {
+    readHistoryView.pushWatchBlock = ^(EVNewsModel *baseNewsModel) {
         EVNewsDetailWebController *newsDetail = [[EVNewsDetailWebController alloc] init];
         newsDetail.newsID = baseNewsModel.newsID;
         newsDetail.title = baseNewsModel.title;

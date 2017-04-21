@@ -14,6 +14,8 @@
 #import "EVHVWatchViewController.h"
 #import "EVBaseToolManager+EVLiveAPI.h"
 #import "EVNullDataView.h"
+#import "EVReleaseImageWithTextLiveCell.h"
+#import "EVShopLiveCell.h"
 
 @interface EVHVCenterLiveView ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -38,8 +40,11 @@
     if (self) {
         self.delegate = self;
         self.dataSource = self;
-        [self registerClass:UITableViewCell.class forCellReuseIdentifier:@"livecell"];
+        self.separatorStyle = UITableViewCellSeparatorStyleNone;
+//        [self registerClass:UITableViewCell.class forCellReuseIdentifier:@"livecell"];
         self.tableFooterView = [UIView new];
+        [self registerNib:[UINib nibWithNibName:@"EVReleaseImageWithTextLiveCell" bundle:nil] forCellReuseIdentifier:@"EVReleaseImageWithTextLiveCell"];
+        [self registerNib:[UINib nibWithNibName:@"EVShopLiveCell" bundle:nil] forCellReuseIdentifier:@"EVShopLiveCell"];
         WEAK(self)
 
         [self getDataWithName:weakself.name start:0 count:20];
@@ -199,19 +204,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    if (self.textLiveState == 2 && section == 0) {
-        UIView *backView = [[UIView alloc] init];
-        backView.frame = CGRectMake(0, 0, ScreenWidth, 40);
-        backView.backgroundColor = [UIColor whiteColor];
-        
-        UILabel *nameLabel  = [[UILabel alloc] init];
-        nameLabel.frame = CGRectMake(16, 10, ScreenWidth, 20);
-        nameLabel.font = [UIFont systemFontOfSize:14.f];
-        nameLabel.textColor = [UIColor evTextColorH2];
-        [backView addSubview:nameLabel];
-        nameLabel.text = @"往期视频直播";
-        return backView;
-    }else if (section == 1) {
+    if ((self.textLiveState == 2 && section == 0) || (section == 1)) {
         UIView *backView = [[UIView alloc] init];
         backView.frame = CGRectMake(0, 0, ScreenWidth, 40);
         backView.backgroundColor = [UIColor whiteColor];
@@ -236,23 +229,17 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0 && self.textLiveState != 2) {
-        EVHVCenterImageLiveViewCell *Cell = [tableView dequeueReusableCellWithIdentifier:@"imageCell"];
-        if (Cell == nil) {
-            Cell = [[NSBundle mainBundle] loadNibNamed:@"EVHVCenterImageLiveViewCell" owner:nil options:nil].firstObject;
-        }
-        Cell.userModel = self.userModel;
-        Cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        return Cell;
+        static NSString * identifer = @"EVReleaseImageWithTextLiveCell";
+        EVReleaseImageWithTextLiveCell * cell = [tableView dequeueReusableCellWithIdentifier:identifer];
+        cell.userModel = self.userModel;
+        return cell;
     }
-    EVMyVideoTableViewCell *videoCell = [tableView dequeueReusableCellWithIdentifier:@"videoCell"];
-    if (videoCell == nil) {
-        videoCell = [[NSBundle mainBundle] loadNibNamed:@"EVMyVideoTableViewCell_6" owner:nil options:nil].firstObject;
-        [videoCell setValue:@"videoCell" forKey:@"reuseIdentifier"];
-        videoCell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
-    videoCell.videoModel = self.videos[indexPath.row];
     
-    return videoCell;
+    
+    static NSString * identifer = @"EVShopLiveCell";
+    EVShopLiveCell * cell = [tableView dequeueReusableCellWithIdentifier:identifer];
+    cell.watchModel = self.videos[indexPath.row];
+    return cell;
 }
 
 

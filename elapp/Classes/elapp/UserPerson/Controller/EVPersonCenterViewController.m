@@ -7,6 +7,7 @@
 //
 
 #import "EVPersonCenterViewController.h"
+#import "EVHomeViewController.h"
 #import "EVUserSettingViewController.h"
 #import "EVHVUserSettingController.h"
 #import "EVLoginViewController.h"
@@ -30,6 +31,7 @@
 #import "EVUserModel.h"
 #import "EVRelationWith3rdAccoutModel.h"
 #import "EVMyReleaseViewController.h"//我的发布
+
 
 
 @interface EVPersonCenterViewController ()<UITableViewDelegate,UITableViewDataSource>
@@ -56,15 +58,21 @@
     
     [self initUI];
     
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    
-    
+    EVHomeViewController * tabbarController = (EVHomeViewController *)self.tabBarController;
+    if (tabbarController.isShowingBadgeRedPoint) {
+        isNewMessage = YES;
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+    }
+
 }
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -72,6 +80,8 @@
     [self loadAssetData];
     
     [self loadPersonalInfor];
+    
+    
 }
 #pragma mark - 🙄 Private methods
 - (void)initData
@@ -88,10 +98,11 @@
     [EVNotificationCenter addObserver:self selector:@selector(loadPersonalInfor) name:@"newUserRefusterSuccess" object:nil];
     [EVNotificationCenter addObserver:self selector:@selector(logOutNotification:) name:NotifyOfLogout object:nil];
     [EVNotificationCenter addObserver:self selector:@selector(loadPersonalInfor) name:NotifyOfLogin object:nil];
-    [EVNotificationCenter addObserver:self selector:@selector(logOutNotification:) name:@"userLogoutSuccess" object:nil];
     [EVNotificationCenter addObserver:self selector:@selector(loadPersonalInfor) name:@"modifyUserInfoSuccess" object:nil];
     [EVNotificationCenter addObserver:self selector:@selector(updateAuth:) name:EVUpdateAuthStatusNotification object:nil];
     [EVNotificationCenter addObserver:self selector:@selector(newMessage:) name:EVShouldUpdateNotifyUnread object:nil];
+    
+    
 }
 
 
@@ -201,11 +212,9 @@
         NSString * unreadCount = [notification.object description];
         if ([unreadCount integerValue]>0) {
             isNewMessage = YES;
-            
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
         }
     }
-    
-    [self.tableView reloadData];
     
 }
 
@@ -269,10 +278,10 @@
             return 0;
         }
     }
-    if (indexPath.row == 4) {
-
-        return 0;//暂时没有我的购买
-    }
+//    if (indexPath.row == 4) {
+//
+//        return 0;//暂时没有我的购买
+//    }
 
     return 65;
 }
@@ -287,12 +296,11 @@
             if (![EVLoginInfo hasLogged]) {
                 UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
 
-                [self presentViewController:navighaVC animated:YES completion:nil];
+                [weakself presentViewController:navighaVC animated:YES completion:nil];
                 return;
             }
 
 
-            
             //点击  粉丝和关注
             EVFansOrFocusesTableViewController *fansOrFocusesTVC = [[EVFansOrFocusesTableViewController alloc] init];
             fansOrFocusesTVC.type = type;
@@ -313,15 +321,8 @@
     
 
 
+
     UITableViewCell * tempCell = [tableView dequeueReusableCellWithIdentifier:@"tempCell"];
-    
-    if (indexPath.row == 4) {
-        //暂时没有我的购买
-        if (!tempCell) {
-            tempCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"tempCell"];
-        }
-        return tempCell;
-    }
     
     if (indexPath.row == 3) {
         if (![EVLoginInfo hasLogged] || self.userModel.vip != 1) {
@@ -398,6 +399,11 @@
             EVNotifyListViewController *notiflast = [[EVNotifyListViewController alloc]init];
             notiflast.hidesBottomBarWhenPushed = YES;
             isNewMessage = NO;
+            
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+            EVHomeViewController * tabbarController = (EVHomeViewController *)self.tabBarController;
+            [tabbarController hideBadgeRedPoint];
+            
             [self.navigationController pushViewController:notiflast animated:YES];
         }
             break;
@@ -412,17 +418,11 @@
         case 3:
         {
             //我的发布
-
-
-            
             EVMyReleaseViewController * releaseVc = [[EVMyReleaseViewController alloc] init];
             releaseVc.hidesBottomBarWhenPushed = YES;
             releaseVc.userModel = self.userModel;
             [self.navigationController pushViewController:releaseVc animated:YES];
             
-
-            
-
         }
             break;
         case 4:
@@ -505,5 +505,9 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 @end

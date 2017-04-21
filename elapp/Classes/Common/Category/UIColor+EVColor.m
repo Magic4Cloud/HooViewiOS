@@ -64,6 +64,16 @@
 {
     return [UIColor colorWithRed:247/255.0 green:247/255.0 blue:247/255.0 alpha:1];
 }
+
++ (UIColor *)evBackGroundDeepGrayColor
+{
+    return [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1];
+}
+
++ (UIColor *)evBackGroundDeepBlueColor
+{
+    return [UIColor colorWithRed:101/255.0 green:154/255.0 blue:224/255.0 alpha:1];
+}
 //------------------------------------------------
 //------------------- 字体颜色 --------------------
 //------------------------------------------------
@@ -122,7 +132,11 @@
 {
      return [UIColor colorWithHexString:@"#FF6820"];
 }
-
+//rgb 255 158 0
++ (UIColor *)evOrangeBgColor
+{
+    return [UIColor colorWithHexString:@"#FF9E00"];
+}
 //255 126 40
 + (UIColor *)evEcoinColor
 {
