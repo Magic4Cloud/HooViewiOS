@@ -12,13 +12,6 @@
  秘籍 model
  */
 @interface EVCheatsModel : NSObject
-/*"id": "000hPZYLUqmY",
- "userid": "19821111",
- "date": "2017年11月12日 11:52:00",
- "title": "秘籍标题",
- "introduce": "秘籍介绍",
- "price": 18000,
- "salesCount": 1371*/
 @property (nonatomic, copy) NSString * id;
 @property (nonatomic, copy) NSString * userid;
 @property (nonatomic, copy) NSString * date;

@@ -37,14 +37,17 @@
         return;
     }
     _liveModel = liveModel;
+    
+    _cellTag2Button.hidden = YES;
+    
     [_cellImageView cc_setImageWithURLString:liveModel.thumb placeholderImage:nil];
     _cellTitleLabel.text = liveModel.title;
     
     _cellDetailLabel.text = [NSString stringWithFormat:@"%@  %@",liveModel.nickname,[liveModel.live_start_time timeFormatter]];
     
-    _cellViewCountLabel.text = [NSString stringWithFormat:@"%@观看",[liveModel.watch_count thousandsSeparatorString]];
+    _cellViewCountLabel.text = [NSString stringWithFormat:@"%@人观看",[liveModel.watch_count thousandsSeparatorString]];
     
-    if (![liveModel.living boolValue]) {
+    if ([liveModel.living boolValue]) {
         _cellTag1Button.backgroundColor = [UIColor evOrangeBgColor];
         
         [_cellTag1Button setTitle:@"直播中" forState:UIControlStateNormal];
@@ -55,6 +58,16 @@
         [_cellTag1Button setTitle:@"回放" forState:UIControlStateNormal];
         
     }
+    if ([liveModel.mode integerValue] == 2) {
+        //精品视频
+        [_cellTag1Button setTitle:@"精品" forState:UIControlStateNormal];
+        _cellTag1Button.backgroundColor = [UIColor evBackGroundDeepRedColor];
+    }
+    if ([liveModel.permission isEqualToString:@"PayLive"]) {
+        //付费
+        _cellTag2Button.hidden = NO;
+    }
+    
 //    if (liveModel.isHot) {
 //        _cellHotImageView.hidden = NO;
 //        _cellViewCountLeadingConstant.constant = 120;

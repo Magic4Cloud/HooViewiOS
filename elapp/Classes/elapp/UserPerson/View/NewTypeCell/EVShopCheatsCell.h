@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class EVCheatsModel;
 /**
  我的购买  秘籍cell
  */
@@ -15,7 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *cellDateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *cellTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *cellDetailLabel;
-@property (weak, nonatomic) IBOutlet UILabel *cellReadLabel;
 @property (weak, nonatomic) IBOutlet UILabel *cellBeansLabel;
 
+@property (nonatomic, strong) EVCheatsModel * cheatsModel;
 @end

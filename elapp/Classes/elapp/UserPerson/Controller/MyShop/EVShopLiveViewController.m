@@ -7,9 +7,21 @@
 //
 
 #import "EVShopLiveViewController.h"
+#import "EVHVWatchViewController.h"
 #import "EVShopLiveCell.h"
+
+#import "EVVideoAndLiveModel.h"
+#import "EVWatchVideoInfo.h"
+
+#import "EVBaseToolManager+MyShopAPI.h"
+
 @interface EVShopLiveViewController ()<UITableViewDelegate,UITableViewDataSource>
+{
+    NSInteger start;
+}
 @property (nonatomic, strong) UITableView * tableView;
+@property (nonatomic, strong) EVBaseToolManager *baseToolManager;
+@property (nonatomic, strong) NSMutableArray * dataArray;
 @end
 
 @implementation EVShopLiveViewController
@@ -19,6 +31,8 @@
     [super viewDidLoad];
     
     [self initUI];
+    
+    [self.tableView startHeaderRefreshing];
 }
 
 
@@ -28,10 +42,83 @@
     [self.view addSubview:self.tableView];
     [self.tableView autoPinEdgesToSuperviewEdges];
     [self.tableView registerNib:[UINib nibWithNibName:@"EVShopLiveCell" bundle:nil] forCellReuseIdentifier:@"EVShopLiveCell"];
+    
+    [self.tableView addRefreshHeaderWithTarget:self action:@selector(loadNewData)];
+    [self.tableView addRefreshFooterWithiTarget:self action:@selector(loadMoreData)];
+    [self.tableView hideFooter];
 }
+
 #pragma mark - 🌐Networks
 - (void)loadNewData
 {
+    start = 0;
+    [self.baseToolManager  GETMyShopsWithType:@"0" start:@"0" count:@"20" fail:^(NSError * error) {
+        [self.tableView endHeaderRefreshing];
+    } success:^(NSDictionary * retinfo) {
+        [self.tableView endHeaderRefreshing];
+        NSArray * videos = retinfo[@"videolive"];
+        [self.dataArray removeAllObjects];
+        if ([videos isKindOfClass:[NSArray class]] && videos.count >0) {
+            
+            [videos enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                EVVideoAndLiveModel * model = [EVVideoAndLiveModel yy_modelWithDictionary:obj];
+                [self.dataArray addObject:model];
+            }];
+            
+            if (videos.count<20)
+            {
+                [self.tableView hideFooter];
+            }
+            else
+            {
+                [self.tableView showFooter];
+            }
+            start += 20;
+        }
+        else
+        {
+            [self.tableView hideFooter];
+        }
+        [self.tableView reloadData];
+    } sessionExpire:^{
+        [self.tableView endHeaderRefreshing];
+    }];
+    
+}
+
+- (void)loadMoreData
+{
+    [self.baseToolManager  GETMyShopsWithType:@"0" start:[NSString stringWithFormat:@"%d",start] count:@"20" fail:^(NSError * error) {
+        [self.tableView endFooterRefreshing];
+    } success:^(NSDictionary * retinfo) {
+        [self.tableView endFooterRefreshing];
+        NSArray * videos = retinfo[@"videolive"];
+        [self.dataArray removeAllObjects];
+        if ([videos isKindOfClass:[NSArray class]] && videos.count >0) {
+            
+            [videos enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                EVVideoAndLiveModel * model = [EVVideoAndLiveModel yy_modelWithDictionary:obj];
+                [self.dataArray addObject:model];
+            }];
+            
+            if (videos.count<20)
+            {
+                [self.tableView setFooterState:CCRefreshStateNoMoreData];
+            }
+            else
+            {
+                [self.tableView setFooterState:CCRefreshStateIdle];
+            }
+            start += 20;
+        }
+        else
+        {
+            [self.tableView setFooterState:CCRefreshStateNoMoreData];
+        }
+        [self.tableView reloadData];
+    } sessionExpire:^{
+        [self.tableView endFooterRefreshing];
+    }];
     
 }
 
@@ -40,7 +127,7 @@
 #pragma mark - 🌺 TableView Delegate & Datasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return self.dataArray.count;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -52,12 +139,20 @@
 {
     static NSString * identifer = @"EVShopLiveCell";
     EVShopLiveCell * cell = [tableView dequeueReusableCellWithIdentifier:identifer];
+    EVVideoAndLiveModel * model = _dataArray[indexPath.row];
+    cell.liveModel = model;
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    EVVideoAndLiveModel * model = _dataArray[indexPath.row];
+    EVWatchVideoInfo * watchInfo = [[EVWatchVideoInfo alloc] init];
+    watchInfo.vid = model.vid;
+    EVHVWatchViewController *watchViewVC = [[EVHVWatchViewController alloc] init];
+    watchViewVC.watchVideoInfo = watchInfo;
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:watchViewVC];
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 #pragma mark - ✍️ Setters & Getters
@@ -75,7 +170,21 @@
     }
     return _tableView;
 }
+- (NSMutableArray *)dataArray
+{
+    if (!_dataArray) {
+        _dataArray = [NSMutableArray array];
+    }
+    return _dataArray;
+}
 
+- (EVBaseToolManager *)baseToolManager
+{
+    if (!_baseToolManager) {
+        _baseToolManager = [[EVBaseToolManager alloc] init];
+    }
+    return _baseToolManager;
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

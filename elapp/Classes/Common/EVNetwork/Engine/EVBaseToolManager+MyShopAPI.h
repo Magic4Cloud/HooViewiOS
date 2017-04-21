@@ -13,14 +13,17 @@
  */
 @interface EVBaseToolManager (MyShopAPI)
 
+
 /**
  我的购买
 
  @param type 类型（0，直播；1，精品视频；2，秘籍）
+ @param start 起始点
+ @param count 数量
  @param failBlock
  @param successBlock
- @param sessionExpireBlock 
+ @param sessionExpireBlock
  */
-- (void)GETMyShopsWithType:(NSString *)type fail:(void (^)(NSError * error))failBlock success:(void (^)(NSDictionary * retinfo))successBlock
+- (void)GETMyShopsWithType:(NSString *)type start:(NSString *)start count:(NSString *)count fail:(void (^)(NSError * error))failBlock success:(void (^)(NSDictionary * retinfo))successBlock
              sessionExpire:(void (^)())sessionExpireBlock;
 @end

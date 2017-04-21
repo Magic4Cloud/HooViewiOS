@@ -10,11 +10,13 @@
 
 @implementation EVBaseToolManager (MyShopAPI)
 
-- (void)GETMyShopsWithType:(NSString *)type fail:(void (^)(NSError * error))failBlock success:(void (^)(NSDictionary * retinfo))successBlock
+- (void)GETMyShopsWithType:(NSString *)type start:(NSString *)start count:(NSString *)count fail:(void (^)(NSError * error))failBlock success:(void (^)(NSDictionary * retinfo))successBlock
                  sessionExpire:(void (^)())sessionExpireBlock
 {
     NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValue:start forKey:@"start"];
+    [params setValue:count forKey:@"count"];
     [params setValue:type forKey:@"type"];
     if ([sessionID isKindOfClass:[NSString class]]&&
         sessionID.length > 0)
