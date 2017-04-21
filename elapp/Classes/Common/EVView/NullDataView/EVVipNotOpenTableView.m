@@ -26,7 +26,7 @@
         self.backgroundColor = [UIColor evBackgroundColor];
         
         EVNotOpenView *notOpenView = [[EVNotOpenView alloc] init];
-        notOpenView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight - 200);
+        notOpenView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight - 400);
         self.tableFooterView = notOpenView;
     }
     return self;

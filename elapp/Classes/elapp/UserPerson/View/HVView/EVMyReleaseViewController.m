@@ -9,6 +9,7 @@
 #import "EVMyReleaseViewController.h"
 #import "EVMyReleaseOfLiveViewController.h"//直播
 #import "EVMyReleaseCheatsViewController.h"//秘籍
+#import "EVMyReleaseArticleViewController.h"//文章
 #import "UIViewController+Extension.h"
 
 #import "EVHVWatchViewController.h"
@@ -124,8 +125,8 @@
         case 2:
         {
             //文章
-            EVMyReleaseCheatsViewController * cheatsVC = [[EVMyReleaseCheatsViewController alloc] init];
-            return cheatsVC;
+            EVMyReleaseArticleViewController *articleCollectVC = [[EVMyReleaseArticleViewController alloc] init];
+            return articleCollectVC;
         }
             
         default:

@@ -57,7 +57,7 @@
 - (void)addVipUI
 {
 
-    EVNullDataView *nullDataView = [[EVNullDataView alloc] initWithFrame:CGRectMake(0, 100, ScreenWidth, ScreenHeight-108)];
+    EVNullDataView *nullDataView = [[EVNullDataView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-400)];
 
     [self addSubview:nullDataView];
     self.nullDataView = nullDataView;

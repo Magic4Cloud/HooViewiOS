@@ -217,15 +217,15 @@
         NSDictionary *dic = (NSDictionary *)data;
         if ([dic isKindOfClass:[NSDictionary class]]) {
             NSString *name = [NSString stringWithFormat:@"%@", dic[@"name"]];
-            EVWatchVideoInfo *watchInfo = [EVWatchVideoInfo new];
-            watchInfo.name = name;
-            EVVipCenterViewController *vipVC = [EVVipCenterViewController new];
-            vipVC.watchVideoInfo = watchInfo;
-            [self.navigationController pushViewController:vipVC animated:YES];
+            EVWatchVideoInfo *watchVideoInfo = [EVWatchVideoInfo new];
+            watchVideoInfo.name = @"17123425";
+//            EVVipCenterViewController *vipVC = [EVVipCenterViewController new];
+//            vipVC.watchVideoInfo = watchInfo;
+//            [self.navigationController pushViewController:vipVC animated:YES];
             
-//            EVVipCenterController *vc = [[EVVipCenterController alloc] init];
-//            vc.usermodel = usermodel;
-//            [self.navigationController pushViewController:vc animated:YES];
+            EVVipCenterController *vc = [[EVVipCenterController alloc] init];
+            vc.watchVideoInfo = watchVideoInfo;
+            [self.navigationController pushViewController:vc animated:YES];
             
         }
         
@@ -444,7 +444,7 @@
     [self.baseToolManager GETUserHistoryType:EVCollectTypeNews code:self.newsID action:1 start:^{
         
     } fail:^(NSError *error) {
-        
+        NSLog(@"error = %@",error);
     } success:^(NSDictionary *retinfo) {
         
     } sessionExpire:^{

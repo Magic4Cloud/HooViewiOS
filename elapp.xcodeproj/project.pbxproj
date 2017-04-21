@@ -116,6 +116,8 @@
 		9E08B7AA1EA75ACA00721EE8 /* EVMyReleaseOfLiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E08B7A91EA75ACA00721EE8 /* EVMyReleaseOfLiveViewController.m */; };
 		9E08B7AE1EA76FAD00721EE8 /* EVReleaseImageWithTextLiveCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E08B7AC1EA76FAD00721EE8 /* EVReleaseImageWithTextLiveCell.m */; };
 		9E08B7AF1EA76FAD00721EE8 /* EVReleaseImageWithTextLiveCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E08B7AD1EA76FAD00721EE8 /* EVReleaseImageWithTextLiveCell.xib */; };
+		9E08B7B71EA8BEAE00721EE8 /* EVMyReleaseArticleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E08B7B61EA8BEAE00721EE8 /* EVMyReleaseArticleViewController.m */; };
+		9E08B7BA1EA99DAC00721EE8 /* EVNormalPersonCenterController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E08B7B91EA99DAC00721EE8 /* EVNormalPersonCenterController.m */; };
 		9E66728D1E8136D700933C92 /* UIFont+swizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E66728B1E8136D700933C92 /* UIFont+swizzle.m */; };
 		9E7E6C191E9B219D009CBD6F /* EVSpeciaColumnCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E7E6C171E9B219D009CBD6F /* EVSpeciaColumnCell.m */; };
 		9E7E6C1A1E9B219D009CBD6F /* EVSpeciaColumnCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E7E6C181E9B219D009CBD6F /* EVSpeciaColumnCell.xib */; };
@@ -946,6 +948,10 @@
 		9E08B7AB1EA76FAD00721EE8 /* EVReleaseImageWithTextLiveCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVReleaseImageWithTextLiveCell.h; sourceTree = "<group>"; };
 		9E08B7AC1EA76FAD00721EE8 /* EVReleaseImageWithTextLiveCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVReleaseImageWithTextLiveCell.m; sourceTree = "<group>"; };
 		9E08B7AD1EA76FAD00721EE8 /* EVReleaseImageWithTextLiveCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVReleaseImageWithTextLiveCell.xib; sourceTree = "<group>"; };
+		9E08B7B51EA8BEAE00721EE8 /* EVMyReleaseArticleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EVMyReleaseArticleViewController.h; path = elapp/Classes/elapp/UserPerson/Controller/EVMyReleaseArticleViewController.h; sourceTree = SOURCE_ROOT; };
+		9E08B7B61EA8BEAE00721EE8 /* EVMyReleaseArticleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EVMyReleaseArticleViewController.m; path = elapp/Classes/elapp/UserPerson/Controller/EVMyReleaseArticleViewController.m; sourceTree = SOURCE_ROOT; };
+		9E08B7B81EA99DAC00721EE8 /* EVNormalPersonCenterController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVNormalPersonCenterController.h; sourceTree = "<group>"; };
+		9E08B7B91EA99DAC00721EE8 /* EVNormalPersonCenterController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVNormalPersonCenterController.m; sourceTree = "<group>"; };
 		9E66728B1E8136D700933C92 /* UIFont+swizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+swizzle.m"; sourceTree = "<group>"; };
 		9E66728C1E8136D700933C92 /* UIFont+swizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+swizzle.h"; sourceTree = "<group>"; };
 		9E7E6C161E9B219D009CBD6F /* EVSpeciaColumnCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSpeciaColumnCell.h; sourceTree = "<group>"; };
@@ -2396,6 +2402,8 @@
 				9E08B7A91EA75ACA00721EE8 /* EVMyReleaseOfLiveViewController.m */,
 				9E08B7A21EA7506A00721EE8 /* EVMyReleaseCheatsViewController.h */,
 				9E08B7A31EA7506A00721EE8 /* EVMyReleaseCheatsViewController.m */,
+				9E08B7B51EA8BEAE00721EE8 /* EVMyReleaseArticleViewController.h */,
+				9E08B7B61EA8BEAE00721EE8 /* EVMyReleaseArticleViewController.m */,
 			);
 			path = MyRelease;
 			sourceTree = "<group>";
@@ -2505,6 +2513,24 @@
 				9E08B79F1EA6181800721EE8 /* WMPanGestureRecognizer.m */,
 			);
 			path = Gesture;
+			sourceTree = "<group>";
+		};
+		9E08B7B01EA8B09C00721EE8 /* VipPersonCenter */ = {
+			isa = PBXGroup;
+			children = (
+				9E08B7901EA5AF1E00721EE8 /* EVVipCenterController.h */,
+				9E08B7911EA5AF1E00721EE8 /* EVVipCenterController.m */,
+			);
+			name = VipPersonCenter;
+			sourceTree = "<group>";
+		};
+		9E08B7B11EA8B0B900721EE8 /* NormalPersonCenter */ = {
+			isa = PBXGroup;
+			children = (
+				9E08B7B81EA99DAC00721EE8 /* EVNormalPersonCenterController.h */,
+				9E08B7B91EA99DAC00721EE8 /* EVNormalPersonCenterController.m */,
+			);
+			name = NormalPersonCenter;
 			sourceTree = "<group>";
 		};
 		9F1F90868CFFE76B8E2E5AA8 /* Danmu */ = {
@@ -3198,8 +3224,8 @@
 				E8B59B691E5BF70F000DD2A4 /* EVWatchHistoryView.m */,
 				E8B59B6B1E5BF72A000DD2A4 /* EVReadHistoryView.h */,
 				E8B59B6C1E5BF72A000DD2A4 /* EVReadHistoryView.m */,
-				9E08B7901EA5AF1E00721EE8 /* EVVipCenterController.h */,
-				9E08B7911EA5AF1E00721EE8 /* EVVipCenterController.m */,
+				9E08B7B11EA8B0B900721EE8 /* NormalPersonCenter */,
+				9E08B7B01EA8B09C00721EE8 /* VipPersonCenter */,
 			);
 			path = HVController;
 			sourceTree = "<group>";
@@ -5705,6 +5731,7 @@
 				E8943E591E24AFCE008E5D97 /* EVHVVideoCommentView.m in Sources */,
 				E862009C1D6BE8540081E72F /* EVLoginViewController.m in Sources */,
 				E86200CA1D6BE8540081E72F /* EVPhoneFAQViewController.m in Sources */,
+				9E08B7B71EA8BEAE00721EE8 /* EVMyReleaseArticleViewController.m in Sources */,
 				E84932891E5309FE00E6D0D3 /* EVNewsCollectTableViewCell.m in Sources */,
 				7A3E4AB41EA4BD6000DC6548 /* EVPersonCenterViewController.m in Sources */,
 				7A3E985C1EA5F78500F24E23 /* EVBindWeixinCtrl.m in Sources */,
@@ -5767,6 +5794,7 @@
 				E862FF921D6BE8540081E72F /* UIImage+animatedGIF.m in Sources */,
 				E8B216141E1207F3000FD19A /* EVHVUserSettingViewCell.m in Sources */,
 				E86200F71D6BE8540081E72F /* EVFansOrFocusTableViewCell.m in Sources */,
+				9E08B7BA1EA99DAC00721EE8 /* EVNormalPersonCenterController.m in Sources */,
 				E86200AF1D6BE8540081E72F /* EVNotifyItem.m in Sources */,
 				9E7E6C191E9B219D009CBD6F /* EVSpeciaColumnCell.m in Sources */,
 				E86BED331E2A27110019620D /* EVHVLiveShareView.m in Sources */,

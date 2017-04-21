@@ -1,12 +1,12 @@
 //
-//  EVNewsCollectViewController.m
+//  EVMyReleaseArticleViewController.m
 //  elapp
 //
-//  Created by 杨尚彬 on 2017/2/14.
+//  Created by 周恒 on 2017/4/20.
 //  Copyright © 2017年 easyvaas. All rights reserved.
 //
 
-#import "EVNewsCollectViewController.h"
+#import "EVMyReleaseArticleViewController.h"
 #import "EVNewsListViewCell.h"
 #import "EVBaseToolManager+EVStockMarketAPI.h"
 #import "EVNullDataView.h"
@@ -14,7 +14,7 @@
 #import "EVBaseNewsModel.h"
 #import "EVNewsDetailWebController.h"
 
-@interface EVNewsCollectViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface EVMyReleaseArticleViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, weak) UITableView *iNewsTableview;
 
@@ -26,7 +26,7 @@
 
 @end
 
-@implementation EVNewsCollectViewController
+@implementation EVMyReleaseArticleViewController
 
 - (instancetype)init
 {
@@ -40,14 +40,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"我的发布";
     [self addTableView];
     
     [self loadData];
     
-//    [self.iNewsTableview addRefreshFooterWithRefreshingBlock:^{
-//        
-//    }];
+    //    [self.iNewsTableview addRefreshFooterWithRefreshingBlock:^{
+    //
+    //    }];
 }
 
 
@@ -84,7 +83,7 @@
     iNewsTableview.backgroundColor = [UIColor colorWithHexString:@"#f8f8f8"];
     iNewsTableview.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:iNewsTableview];
-   
+    
     _iNewsTableview = iNewsTableview;
     iNewsTableview.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
@@ -170,15 +169,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

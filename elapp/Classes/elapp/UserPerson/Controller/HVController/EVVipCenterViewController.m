@@ -230,6 +230,8 @@
         self.userModel = userModel;
         self.hvCenterLiveView.userModel = userModel;
         self.vipCenterView.userModel = userModel;
+        
+        
     } sessionExpire:^{
         
     }];
@@ -401,6 +403,7 @@
     }
     return _centerFansTableView;
 }
+
 - (EVBaseToolManager *)baseToolManager
 {
     if (!_baseToolManager) {
@@ -408,6 +411,7 @@
     }
     return _baseToolManager;
 }
+
 
 - (void)dealloc
 {

@@ -10,12 +10,15 @@
 #import "EVBaseToolManager+EVUserCenterAPI.h"
 #import "EVFansOrFocusTableViewCell.h"
 #import "EVLoginInfo.h"
+#import "EVNullDataView.h"
 
 @interface EVHVCenterFansTableView ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) EVBaseToolManager *baseToolManager;
 
 @property (nonatomic, strong) NSMutableArray *fansOrFollowers;
+
+@property (nonatomic, strong) EVNullDataView *nullDataView;
 
 
 @end
@@ -32,6 +35,7 @@
         [self registerNib:[UINib nibWithNibName:@"EVFansOrFocusTableViewCell" bundle:nil] forCellReuseIdentifier:@"fansCell"];
         self.tableFooterView = [UIView new];
         self.separatorStyle = UITableViewCellSeparatorStyleNone;
+        [self addVipUI];
         WEAK(self)
         
         [self addRefreshFooterWithRefreshingBlock:^{
@@ -41,6 +45,19 @@
     }
     return self;
 }
+
+- (void)addVipUI
+{
+    
+    EVNullDataView *nullDataView = [[EVNullDataView alloc] initWithFrame:CGRectMake(0, 300, ScreenWidth, ScreenHeight-108)];
+    
+    [self addSubview:nullDataView];
+    self.nullDataView = nullDataView;
+    
+    nullDataView.topImage = [UIImage imageNamed:@"ic_smile"];
+    nullDataView.title = @"他还没有粉丝";
+}
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -74,20 +91,16 @@
     __weak typeof(self) weakself = self;
 
     [self.baseToolManager GETFansListWithName:name startID:start count:count start:^{
-                
-                
-                
+        
             } fail:^(NSError *error) {
                 [weakself endHeaderRefreshing];
                 [weakself endFooterRefreshing];
               
             } success:^(NSArray *fans){
                 
-                
                 if (start == 0) {
                     weakself.fansOrFollowers = nil;
                 }
-                
                 [weakself.fansOrFollowers addObjectsFromArray:fans];
                 [weakself reloadData];
                 [weakself endHeaderRefreshing];
@@ -96,17 +109,17 @@
                 // 处理数据列表为空的情况，当前页面显示为没有粉丝
                 if ( weakself.fansOrFollowers.count )
                 {
+                    weakself.nullDataView.hidden = YES;
                     [weakself showFooter];
                 }
                 else
                 {
+                    weakself.nullDataView.hidden = NO;
                     [weakself hideFooter];
                 }
                 
                 if (weakself.fansOrFollowers.count)
                 {
-    
-                    
                     if (fans.count < count)
                     {
                         [weakself setFooterState:CCRefreshStateNoMoreData];
