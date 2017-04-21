@@ -67,6 +67,7 @@
     
     [self loadNewData];
 }
+
 - (void)loadNewData
 {
     WEAK(self)

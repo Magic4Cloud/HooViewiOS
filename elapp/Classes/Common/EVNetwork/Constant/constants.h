@@ -177,6 +177,10 @@
 
 //历史记录
 #define EVHVHistoryListAPI          @"http://192.168.8.125:8888/user/histories"
+
+//清除历史记录
+#define EVCleanHistoryListAPI       @"http://dev.hooview.com/api/v2/user/cleanhistory"
+
 //我的收藏
 #define EVHVFavoriteListAPI         @"http://192.168.8.125:8888/user/favorites"
 

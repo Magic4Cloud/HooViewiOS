@@ -146,6 +146,8 @@ NS_ASSUME_NONNULL_BEGIN
 // 获得推送信息字典
 - (void)getPushInfo:(NSMutableDictionary *)params;
 
+// 获取本地用户名称 uid
+- (NSString *)uidFromLocal;
 NS_ASSUME_NONNULL_END
 
 @end

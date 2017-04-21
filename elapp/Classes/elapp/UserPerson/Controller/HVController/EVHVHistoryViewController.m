@@ -17,11 +17,22 @@
 
 #import "EVNewsModel.h"
 #import "EVVideoAndLiveModel.h"
+
+#import "EVBaseToolManager+EVStockMarketAPI.h"
 @interface EVHVHistoryViewController ()<SGSegmentedControlStaticDelegate,UIScrollViewDelegate>
+{
+    int currentIndex;
+}
 
 @property (nonatomic, strong) SGSegmentedControlStatic *topSView;
 
 @property (nonatomic, weak) UIScrollView *backScrollView;
+
+@property (nonatomic, strong) EVBaseToolManager *baseToolManager;
+
+@property (nonatomic, weak)EVWatchHistoryView * watchHistoryView;
+
+@property (nonatomic, weak)EVReadHistoryView *readHistoryView;
 
 @end
 
@@ -46,12 +57,20 @@
 
 - (void)addUpView
 {
+    UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setImage:[UIImage imageNamed:@"btn_clear_n"] forState:UIControlStateNormal];
+    button.frame = CGRectMake(6, 0, 44, 44);
+    [button addTarget:self action:@selector(cleanButtonClick) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem * cleanButton = [[UIBarButtonItem alloc] initWithCustomView:button];
+
+    self.navigationItem.rightBarButtonItem = cleanButton;
+    
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 44)];
     [self.view addSubview:backView];
     backView.backgroundColor = [UIColor whiteColor];
     NSArray *titleArray = @[@"观看历史",@"阅读历史"];
     
-    self.topSView = [SGSegmentedControlStatic segmentedControlWithFrame:CGRectMake(0, 0, ScreenWidth/2, 44) delegate:self childVcTitle:titleArray indicatorIsFull:NO];
+    self.topSView = [SGSegmentedControlStatic segmentedControlWithFrame:CGRectMake(26, 0, ScreenWidth/2, 44) delegate:self childVcTitle:titleArray indicatorIsFull:NO];
     
     // 必须实现的方法
     [self.topSView SG_setUpSegmentedControlType:^(SGSegmentedControlStaticType *segmentedControlStaticType, NSArray *__autoreleasing *nomalImageArr, NSArray *__autoreleasing *selectedImageArr) {
@@ -65,6 +84,7 @@
         *indicatorColor = [UIColor evMainColor];
     }];
     self.topSView.selectedIndex = 0;
+    currentIndex = 0;
     [self.view addSubview:_topSView];
     
     
@@ -79,6 +99,7 @@
     WEAK(self)
     EVWatchHistoryView *watchHistoryView = [[EVWatchHistoryView alloc] init];
     [backScrollView addSubview:watchHistoryView];
+    _watchHistoryView = watchHistoryView;
     watchHistoryView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight - 44);
     watchHistoryView.pushWatchBlock = ^(EVVideoAndLiveModel * model) {
         EVHVWatchViewController *watchViewVC = [[EVHVWatchViewController alloc] init];
@@ -91,6 +112,7 @@
     
     EVReadHistoryView *readHistoryView = [[EVReadHistoryView alloc] init];
     [backScrollView addSubview:readHistoryView];
+    _readHistoryView = readHistoryView;
     readHistoryView.frame = CGRectMake(ScreenWidth, 0, ScreenWidth, ScreenHeight - 44);
     readHistoryView.pushWatchBlock = ^(EVNewsModel *baseNewsModel) {
         EVNewsDetailWebController *newsDetail = [[EVNewsDetailWebController alloc] init];
@@ -101,17 +123,47 @@
     
 }
 
+- (void)cleanButtonClick
+{
+    [EVProgressHUD showIndeterminateForView:self.view];
+    [self.baseToolManager GETCleanhistoryWithType:[NSString stringWithFormat:@"%d",currentIndex] fail:^(NSError *error) {
+        [EVProgressHUD hideHUDForView:self.view];
+    } success:^(NSDictionary *retinfo) {
+        [EVProgressHUD hideHUDForView:self.view];
+        if (currentIndex == 0) {
+            [self.watchHistoryView loadData];
+        }
+        else
+        {
+            [self.readHistoryView loadNewData];
+        }
+    } sessionExpire:^{
+        [EVProgressHUD hideHUDForView:self.view];
+    }];
+}
+
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
+    currentIndex =  scrollView.contentOffset.x / scrollView.frame.size.width;
     [self.topSView changeThePositionOfTheSelectedBtnWithScrollView:scrollView];
 }
 
 // delegate 方法
 - (void)SGSegmentedControlStatic:(SGSegmentedControlStatic *)segmentedControlStatic didSelectTitleAtIndex:(NSInteger)index
 {
+    currentIndex = index;
     CGFloat offsetX = index * self.view.frame.size.width;
     self.backScrollView.contentOffset = CGPointMake(offsetX, 0);
 }
+
+- (EVBaseToolManager *)baseToolManager
+{
+    if (!_baseToolManager) {
+        _baseToolManager = [[EVBaseToolManager alloc] init];
+    }
+    return _baseToolManager;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
