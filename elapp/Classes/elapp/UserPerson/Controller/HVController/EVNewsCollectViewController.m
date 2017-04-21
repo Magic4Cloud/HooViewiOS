@@ -85,30 +85,6 @@
     }];
 }
 
-- (void)loadData
-{
-    [self.baseToolManager GETUserCollectListType:EVCollectTypeNews start:^{
-        
-    } fail:^(NSError *error) {
-        EVLog(@"error %@", error);
-    } success:^(NSDictionary *retinfo) {
-        NSLog(@"retingo----- %@",retinfo);
-        NSString *newsid = retinfo[@"collectlist"];
-        NSInteger newsCount = [retinfo[@"count"] integerValue];
-        if (newsCount<= 0) {
-            self.iNewsTableview.hidden = YES;
-            self.nullDataView.hidden = NO;
-        }else {
-            self.iNewsTableview.hidden = NO;
-            self.nullDataView.hidden = YES;
-            [self loadNewsDataNewsid:newsid];
-        }
-    } sessionExpire:^{
-        
-    }];
-}
-
-
 
 - (void)addTableView
 {

@@ -86,7 +86,7 @@
 #pragma mark - 🙄 Private methods
 - (void)initData
 {
-    cellTitlesArray = @[@"我的消息",@"我的余额",@"我的直播",@"我的购买",@"我的收藏",@"历史记录",];
+    cellTitlesArray = @[@"我的消息",@"我的余额",@"我的发布",@"我的购买",@"我的收藏",@"历史记录",];
     
     cellTitleIconsArray = @[@"ic_message_new",@"ic_balance",@"ic_Release",@"ic_purchase",@"ic_collect_new",@"ic_History"];
     

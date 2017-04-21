@@ -80,7 +80,7 @@
     NSInteger start = 0;
     
     
-    [self.baseToolManager GETMyReleaseListWithUserid:@"17123425" type:type start:start count:20 startBlock:^{
+    [self.baseToolManager GETMyReleaseListWithUserid:self.userModel.name type:type start:start count:20 startBlock:^{
         
     } fail:^(NSError *error) {
         NSLog(@"error = %@",error);
@@ -116,85 +116,22 @@
     } essionExpire:^{
         
     }];
-    
-    
-    
-    
-    
-    
-    
-    
-//    [self.baseToolManager GETUserVideoListWithName:@"17123425" type:type start:start count:20 startBlock:^{
-//        
-//    } fail:^(NSError *error) {
-//        [weakself.tableView endHeaderRefreshing];
-//        [weakself.tableView endFooterRefreshing];
-//    } success:^(NSArray *videos) {
-//        
-//        
-//        
-//        if (start == 0)
-//        {
-//            [weakself.videos removeAllObjects];
-//        }
-//        [weakself.videos addObjectsFromArray:videos];
-//        [weakself.tableView reloadData];
-//        [weakself.tableView endHeaderRefreshing];
-//        [weakself.tableView endFooterRefreshing];
-//        
-//        if ( weakself.videos.count )
-//        {
-//            [weakself.tableView showFooter];
-//        }
-//        else
-//        {
-//            [weakself.tableView hideFooter];
-//        }
-//        if (weakself.videos.count)
-//        {
-//            
-//            if (videos.count < 20)
-//            {
-//                [weakself.tableView setFooterState:CCRefreshStateNoMoreData];
-//            }
-//            else
-//            {
-//                [weakself.tableView setFooterState:CCRefreshStateIdle];
-//            }
-//            
-//            
-//        }
-//        
-//        if (start == 0 && videos.count == 0) {
-//            weakself.nullDataView.hidden = NO;
-//        }
-//        else
-//        {
-//            weakself.nullDataView.hidden = YES;
+}
+
+
+//- (void)loadIsHaveTextLive
+//{
+//    WEAK(self)
+//    [self.baseToolManager GETIsHaveTextLiveOwnerid:@"17123425" streamid:nil success:^(NSDictionary *retinfo) {
+//        if ([retinfo[@"retval"] isEqualToString:@"ok"]) {
+//            weakself.textLiveState = [retinfo[@"retinfo"][@"data"][@"state"] integerValue];
 //        }
 //        [weakself.tableView reloadData];
-//    } essionExpire:^{
-//        [weakself.tableView endHeaderRefreshing];
-//        [weakself.tableView endFooterRefreshing];
-//        EVRelogin(weakself);
+//    } error:^(NSError *error) {
+//        
 //    }];
+//}
 //
-}
-
-
-- (void)loadIsHaveTextLive
-{
-    WEAK(self)
-    [self.baseToolManager GETIsHaveTextLiveOwnerid:@"17123425" streamid:nil success:^(NSDictionary *retinfo) {
-        if ([retinfo[@"retval"] isEqualToString:@"ok"]) {
-            weakself.textLiveState = [retinfo[@"retinfo"][@"data"][@"state"] integerValue];
-        }
-        [weakself.tableView reloadData];
-    } error:^(NSError *error) {
-        
-    }];
-}
-
 
 
 #pragma mark -👣 Target actions
@@ -235,7 +172,7 @@
     if (section == 0 && self.textLiveState != 2) {
         return 10;
     }
-    return 40;
+    return 0.01;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -246,28 +183,28 @@
     return 0.01;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    if ((self.textLiveState == 2 && section == 0) || (section == 1)) {
-        UIView *backView = [[UIView alloc] init];
-        backView.frame = CGRectMake(0, 0, ScreenWidth, 40);
-        backView.backgroundColor = [UIColor whiteColor];
-        
-        UILabel *nameLabel  = [[UILabel alloc] init];
-        nameLabel.frame = CGRectMake(16, 10, ScreenWidth, 20);
-        nameLabel.font = [UIFont systemFontOfSize:14.f];
-        nameLabel.textColor = [UIColor evTextColorH2];
-        [backView addSubview:nameLabel];
-        nameLabel.text = @"往期视频直播";
-        return backView;
-    }
-
-    UIView *backView = [[UIView alloc] init];
-    backView.frame = CGRectMake(0, 0, ScreenWidth, 10);
-    backView.backgroundColor = [UIColor evBackgroundColor];
-    
-    return backView;
-}
+//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+//{
+//    if ((self.textLiveState == 2 && section == 0) || (section == 1)) {
+//        UIView *backView = [[UIView alloc] init];
+//        backView.frame = CGRectMake(0, 0, ScreenWidth, 40);
+//        backView.backgroundColor = [UIColor whiteColor];
+//        
+//        UILabel *nameLabel  = [[UILabel alloc] init];
+//        nameLabel.frame = CGRectMake(16, 10, ScreenWidth, 20);
+//        nameLabel.font = [UIFont systemFontOfSize:14.f];
+//        nameLabel.textColor = [UIColor evTextColorH2];
+//        [backView addSubview:nameLabel];
+//        nameLabel.text = @"往期视频直播";
+//        return backView;
+//    }
+//
+//    UIView *backView = [[UIView alloc] init];
+//    backView.frame = CGRectMake(0, 0, ScreenWidth, 10);
+//    backView.backgroundColor = [UIColor evBackgroundColor];
+//    
+//    return backView;
+//}
 
 
 
