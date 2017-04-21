@@ -479,7 +479,7 @@ static BOOL sessioncheck = NO;
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     NSURLSessionDataTask *task =  [manager GET:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        EVLog(@"url:%@\nresponseObject:%@",url,responseObject);
+        EVLog(@"responseObject:%@",responseObject);
         if (responseObject) {
             if ( [[responseObject[kRetvalKye] lowercaseString] isEqualToString:kRequestOK] )
             {

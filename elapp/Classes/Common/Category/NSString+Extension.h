@@ -67,6 +67,21 @@
  */
 - (NSString *)thousandsSeparatorString;
 
+/**
+ 时间转换   //2017-04-06 10:53:59 转换为 -- 今天  5:10   03/2 5:10
+ */
+- (NSString *)timeFormatter;
+
+/**
+ 时间转换2  2017-04-06 10:53:59 转换为 --  2017/04/06
+ */
+- (NSString *)timeFormatter2;
+
+/**
+ 秒转分钟  123  转换为 2分3秒
+
+ */
+- (NSString *)durationSeconsToMinute;
 /** 根据时间间隔（单位：s），计算视频距当前的时间：1分钟前、1小时前、1天前、1月前、1年前、年月日 */
 + (NSString *)timeStampWithStopSpan:(NSUInteger)stopSpan stopTime:(NSString *)stopTime;
 

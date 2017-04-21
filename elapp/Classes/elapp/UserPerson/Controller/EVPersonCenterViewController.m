@@ -7,6 +7,7 @@
 //
 
 #import "EVPersonCenterViewController.h"
+#import "EVHomeViewController.h"
 #import "EVUserSettingViewController.h"
 #import "EVHVUserSettingController.h"
 #import "EVLoginViewController.h"
@@ -30,6 +31,7 @@
 #import "EVUserModel.h"
 #import "EVRelationWith3rdAccoutModel.h"
 #import "EVMyReleaseViewController.h"//我的发布
+
 
 
 @interface EVPersonCenterViewController ()<UITableViewDelegate,UITableViewDataSource>
@@ -63,6 +65,11 @@
 {
     [super viewWillAppear:animated];
     
+    EVHomeViewController * tabbarController = (EVHomeViewController *)self.tabBarController;
+    if (tabbarController.isShowingBadgeRedPoint) {
+        isNewMessage = YES;
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+    }
 
 }
 
@@ -73,6 +80,7 @@
     [self loadAssetData];
     
     [self loadPersonalInfor];
+    
     
 }
 #pragma mark - 🙄 Private methods
@@ -204,11 +212,9 @@
         NSString * unreadCount = [notification.object description];
         if ([unreadCount integerValue]>0) {
             isNewMessage = YES;
-            
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
         }
     }
-    
-    [self.tableView reloadData];
     
 }
 
@@ -393,6 +399,11 @@
             EVNotifyListViewController *notiflast = [[EVNotifyListViewController alloc]init];
             notiflast.hidesBottomBarWhenPushed = YES;
             isNewMessage = NO;
+            
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+            EVHomeViewController * tabbarController = (EVHomeViewController *)self.tabBarController;
+            [tabbarController hideBadgeRedPoint];
+            
             [self.navigationController pushViewController:notiflast animated:YES];
         }
             break;
@@ -494,5 +505,9 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 @end

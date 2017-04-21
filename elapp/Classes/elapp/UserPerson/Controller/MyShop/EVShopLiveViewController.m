@@ -30,6 +30,10 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"EVShopLiveCell" bundle:nil] forCellReuseIdentifier:@"EVShopLiveCell"];
 }
 #pragma mark - 🌐Networks
+- (void)loadNewData
+{
+    
+}
 
 #pragma mark -👣 Target actions
 

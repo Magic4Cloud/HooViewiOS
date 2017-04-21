@@ -25,10 +25,21 @@
 + (UIColor *)evTipColor;        /**< 提示颜色-淡紫色:#5C2D7E */
 + (UIColor *)evDDDColor;
 
+
+/**
+ 深灰色  153  153  153
+ */
++ (UIColor *)evBackGroundDeepGrayColor;
 /**
  背景浅灰颜色
  */
 + (UIColor *)evBackGroundLightGrayColor;
+
+/**
+ 背景深蓝色  101 154 224
+
+ */
++ (UIColor *)evBackGroundDeepBlueColor;
 //------------------------------------------------
 //------------------- 字体颜色 --------------------
 //------------------------------------------------
@@ -50,6 +61,11 @@
 
 
 + (UIColor *)evOrangeColor; /**< 橘黄色 255 104 32  #FF6820*/
+
+/**
+ 橘黄色背景颜色
+ */
++ (UIColor *)evOrangeBgColor;
 
 + (UIColor *)evEcoinColor; /**< 橘黄色 255 126 40  #FF7E28*/
 @end

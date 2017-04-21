@@ -53,6 +53,7 @@
         }
 
         controller.tabBarItem = self;
+        
     }
     return self;
 }

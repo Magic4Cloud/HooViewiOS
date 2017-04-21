@@ -13,11 +13,11 @@ static CGFloat const kTitleBottom = 5.f;
 static CGFloat const kTitleTop = 3.f;
 static CGFloat const kImgWidth = 25.f;
 static CGFloat const kImgHeight = 24.f;
-static CGFloat const kRedPointSize = 6.f;
+static CGFloat const kRedPointSize = 14.f;
 
 @interface EVTabbarItem ()
 @property (nonatomic) UIView *content;
-@property (nonatomic) UIView *redPoint;
+@property (nonatomic) UIImageView * redPoint;
 @property (nonatomic) UIButton *touchBtn;
 @property (nonatomic) UIImageView *tabImg;
 @property (nonatomic) UILabel *tabTitle;
@@ -57,8 +57,8 @@ static CGFloat const kRedPointSize = 6.f;
     [self.tabImg autoAlignAxisToSuperviewAxis:ALAxisVertical];
     [self.tabImg autoSetDimensionsToSize:CGSizeMake(kImgWidth, kImgHeight)];
     
-    [self.redPoint autoPinEdge:ALEdgeTop toEdge:ALEdgeTop ofView:self.tabImg];
-    [self.redPoint autoPinEdge:ALEdgeRight toEdge:ALEdgeRight ofView:self.tabImg];
+    [self.redPoint autoPinEdge:ALEdgeTop toEdge:ALEdgeTop ofView:self.tabImg withOffset:-3];
+    [self.redPoint autoPinEdge:ALEdgeRight toEdge:ALEdgeRight ofView:self.tabImg withOffset:5];
     [self.redPoint autoSetDimensionsToSize:CGSizeMake(kRedPointSize, kRedPointSize)];
     
     [self.touchBtn autoPinEdgesToSuperviewEdges];
@@ -113,13 +113,13 @@ static CGFloat const kRedPointSize = 6.f;
     }
     return _content;
 }
-- (UIView *)redPoint {
+- (UIImageView *)redPoint {
     if (!_redPoint) {
-        _redPoint = [UIView new];
+        _redPoint = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_n"]];
         _redPoint.hidden = YES;
-        _redPoint.backgroundColor = [UIColor evMainColor];
-        _redPoint.layer.cornerRadius = .5 * kRedPointSize;
-        _redPoint.clipsToBounds = YES;
+//        _redPoint.backgroundColor = [UIColor evMainColor];
+//        _redPoint.layer.cornerRadius = .5 * kRedPointSize;
+//        _redPoint.clipsToBounds = YES;
     }
     return _redPoint;
 }

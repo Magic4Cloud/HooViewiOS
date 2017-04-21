@@ -60,7 +60,7 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="安邦举牌格力的可能性分析" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="emV-Yt-KPT">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="emV-Yt-KPT">
                         <rect key="frame" x="15" y="303" width="345" height="21.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                         <nil key="textColor"/>
@@ -72,6 +72,10 @@
                             <constraint firstAttribute="width" secondItem="KHS-Vv-kvA" secondAttribute="height" multiplier="1.778:1" id="5d8-fy-oGb"/>
                         </constraints>
                     </imageView>
+                    <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="paG-O3-M4O">
+                        <rect key="frame" x="15" y="75" width="345" height="194"/>
+                        <color key="backgroundColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kAr-s5-5pU">
                         <rect key="frame" x="244.5" y="277.5" width="20" height="20"/>
                         <constraints>
@@ -79,8 +83,8 @@
                             <constraint firstAttribute="width" secondItem="kAr-s5-5pU" secondAttribute="height" multiplier="1:1" id="UjO-dy-uak"/>
                         </constraints>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="d3U-tb-7t7">
-                        <rect key="frame" x="310" y="219" width="40" height="40"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="btn_play_n_new" translatesAutoresizingMaskIntoConstraints="NO" id="d3U-tb-7t7">
+                        <rect key="frame" x="320" y="229" width="40" height="40"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="40" id="APH-jX-Yy1"/>
                             <constraint firstAttribute="width" secondItem="d3U-tb-7t7" secondAttribute="height" multiplier="1:1" id="Rz6-LC-SdK"/>
@@ -99,17 +103,20 @@
                     <constraint firstItem="aYo-da-E4P" firstAttribute="trailing" secondItem="KHS-Vv-kvA" secondAttribute="trailing" id="5pQ-gI-qQq"/>
                     <constraint firstItem="aYo-da-E4P" firstAttribute="leading" secondItem="kAr-s5-5pU" secondAttribute="trailing" constant="3" id="9fT-52-QVX"/>
                     <constraint firstAttribute="trailingMargin" secondItem="Cat-ye-gcd" secondAttribute="trailing" constant="15" id="9ia-FB-jEz"/>
+                    <constraint firstItem="paG-O3-M4O" firstAttribute="leading" secondItem="KHS-Vv-kvA" secondAttribute="leading" id="9yg-Wg-m0B"/>
                     <constraint firstItem="zM7-iw-Jnr" firstAttribute="top" secondItem="KHS-Vv-kvA" secondAttribute="bottom" constant="8" id="DBP-Mn-Q26"/>
                     <constraint firstItem="Cat-ye-gcd" firstAttribute="top" secondItem="ume-dA-u8r" secondAttribute="bottom" constant="5" id="GHg-eF-zrj"/>
                     <constraint firstItem="tnM-nH-Fbv" firstAttribute="leading" secondItem="ume-dA-u8r" secondAttribute="trailing" id="JPR-NK-o4k"/>
-                    <constraint firstItem="d3U-tb-7t7" firstAttribute="bottom" secondItem="KHS-Vv-kvA" secondAttribute="bottom" constant="-10" id="JyR-BU-t9U"/>
+                    <constraint firstItem="d3U-tb-7t7" firstAttribute="bottom" secondItem="KHS-Vv-kvA" secondAttribute="bottom" id="JyR-BU-t9U"/>
                     <constraint firstItem="Cat-ye-gcd" firstAttribute="leading" secondItem="ume-dA-u8r" secondAttribute="leading" id="NMZ-Oh-hsN"/>
                     <constraint firstAttribute="trailing" secondItem="emV-Yt-KPT" secondAttribute="trailing" constant="15" id="RLz-JT-zJs"/>
                     <constraint firstItem="emV-Yt-KPT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="ReR-Rr-JEe"/>
+                    <constraint firstItem="paG-O3-M4O" firstAttribute="trailing" secondItem="KHS-Vv-kvA" secondAttribute="trailing" id="TGj-5i-db3"/>
                     <constraint firstItem="emV-Yt-KPT" firstAttribute="top" secondItem="aYo-da-E4P" secondAttribute="bottom" constant="5" id="TbT-LW-8yN"/>
                     <constraint firstItem="m82-Vq-8ru" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="US2-2E-xsY"/>
-                    <constraint firstItem="d3U-tb-7t7" firstAttribute="trailing" secondItem="KHS-Vv-kvA" secondAttribute="trailing" constant="-10" id="VOA-uH-5hA"/>
+                    <constraint firstItem="d3U-tb-7t7" firstAttribute="trailing" secondItem="KHS-Vv-kvA" secondAttribute="trailing" id="VOA-uH-5hA"/>
                     <constraint firstItem="ume-dA-u8r" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="X7j-0C-JAs"/>
+                    <constraint firstItem="paG-O3-M4O" firstAttribute="bottom" secondItem="KHS-Vv-kvA" secondAttribute="bottom" id="bK3-MZ-06d"/>
                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="emV-Yt-KPT" secondAttribute="bottom" id="dzo-5b-GsA"/>
                     <constraint firstItem="aYo-da-E4P" firstAttribute="centerY" secondItem="kAr-s5-5pU" secondAttribute="centerY" id="ffy-zs-ali"/>
                     <constraint firstItem="KHS-Vv-kvA" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="hHt-eT-Zy0"/>
@@ -117,6 +124,7 @@
                     <constraint firstItem="KHS-Vv-kvA" firstAttribute="top" secondItem="Cat-ye-gcd" secondAttribute="bottom" constant="8" id="qTd-XK-i7j"/>
                     <constraint firstItem="zM7-iw-Jnr" firstAttribute="leading" secondItem="KHS-Vv-kvA" secondAttribute="leading" id="sO4-Na-6aW"/>
                     <constraint firstAttribute="trailing" secondItem="m82-Vq-8ru" secondAttribute="trailing" id="ti2-ij-TKb"/>
+                    <constraint firstItem="paG-O3-M4O" firstAttribute="top" secondItem="KHS-Vv-kvA" secondAttribute="top" id="u6R-pp-swQ"/>
                     <constraint firstItem="m82-Vq-8ru" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="ufY-rH-RhI"/>
                     <constraint firstAttribute="trailingMargin" secondItem="tnM-nH-Fbv" secondAttribute="trailing" constant="15" id="xPz-a9-70m"/>
                     <constraint firstItem="aYo-da-E4P" firstAttribute="top" secondItem="zM7-iw-Jnr" secondAttribute="top" id="yVc-NB-GXv"/>
@@ -136,4 +144,7 @@
             <point key="canvasLocation" x="24.5" y="51.5"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="btn_play_n_new" width="60" height="60"/>
+    </resources>
 </document>

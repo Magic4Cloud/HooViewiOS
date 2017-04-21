@@ -13,6 +13,8 @@
 
 @property (nonatomic, weak) UIViewController *controller;
 @property (nonatomic,weak) UIViewController *sercontr;
+
+
 + (instancetype)homeTabBarItemWithController:(UIViewController *)controller;
 
 @end

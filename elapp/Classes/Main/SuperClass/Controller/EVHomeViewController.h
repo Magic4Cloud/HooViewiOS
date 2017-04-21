@@ -12,8 +12,14 @@
 
 @interface EVHomeViewController : UITabBarController
 
+
+
 @property ( strong, nonatomic ) NSMutableArray *allMessages; // 所有离线消息(给招呼页使用)
 
+/**
+ 判断是否显示小红点的状态
+ */
+@property (nonatomic, assign)BOOL isShowingBadgeRedPoint;
 
 /**
  *  init method
@@ -35,4 +41,7 @@
 - (void)showHomeTabbarWithAnimation;
 - (void)hideHomeTabbarWithAnimation;
 - (void)startLive;
+
+- (void)showBadgeRedPoint;
+- (void)hideBadgeRedPoint;
 @end

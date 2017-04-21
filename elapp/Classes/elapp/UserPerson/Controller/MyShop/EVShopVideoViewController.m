@@ -10,8 +10,12 @@
 #import "EVShopVideoCell.h"
 
 #import "EVVideoAndLiveModel.h"
+
+#import "EVBaseToolManager+MyShopAPI.h"
 @interface EVShopVideoViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView * tableView;
+@property (nonatomic, strong) EVBaseToolManager *baseToolManager;
+@property (nonatomic, strong) NSMutableArray * dataArray;
 @end
 
 @implementation EVShopVideoViewController
@@ -22,6 +26,8 @@
     [super viewDidLoad];
     
     [self initUI];
+    
+    [self loadNewData];
 }
 
 
@@ -35,7 +41,20 @@
 #pragma mark - 🌐Networks
 - (void)loadNewData
 {
-   
+   [self.baseToolManager  GETMyShopsWithType:@"1" fail:^(NSError * error) {
+       
+   } success:^(NSDictionary * retinfo) {
+       NSArray * videos = retinfo[@"videolive"];
+       if ([videos isKindOfClass:[NSArray class]] && videos.count >0) {
+           [videos enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+               EVVideoAndLiveModel * model = [EVVideoAndLiveModel yy_modelWithDictionary:obj];
+               [self.dataArray addObject:model];
+           }];
+           [self.tableView reloadData];
+       }
+   } sessionExpire:^{
+       
+   }];
    
 }
 
@@ -44,7 +63,7 @@
 #pragma mark - 🌺 TableView Delegate & Datasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return self.dataArray.count;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -56,6 +75,9 @@
 {
     static NSString * identifer = @"EVShopVideoCell";
     EVShopVideoCell * cell = [tableView dequeueReusableCellWithIdentifier:identifer];
+    
+    EVVideoAndLiveModel * model = _dataArray[indexPath.row];
+    cell.videoModel = model;
     return cell;
 }
 
@@ -77,6 +99,22 @@
         _tableView.rowHeight = 355-194+(ScreenWidth-30)/1.778;
     }
     return _tableView;
+}
+
+- (NSMutableArray *)dataArray
+{
+    if (!_dataArray) {
+        _dataArray = [NSMutableArray array];
+    }
+    return _dataArray;
+}
+
+- (EVBaseToolManager *)baseToolManager
+{
+    if (!_baseToolManager) {
+        _baseToolManager = [[EVBaseToolManager alloc] init];
+    }
+    return _baseToolManager;
 }
 
 - (void)didReceiveMemoryWarning {

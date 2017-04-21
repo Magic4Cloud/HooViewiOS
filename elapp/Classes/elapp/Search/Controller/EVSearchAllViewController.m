@@ -32,6 +32,11 @@
 #import "EVNewsDetailWebController.h"
 #import "EVMarketDetailsController.h"
 
+#import "EVNewsModel.h"
+
+#import "EVOnlyTextCell.h"
+#import "EVThreeImageCell.h"
+#import "EVNewsListViewCell.h"
 
 #define CCSearchAllViewControllerFooterHeight 40.0f
 #define CCSearchAllViewControllerHeaderHeight 30.0f
@@ -273,7 +278,7 @@
         }
         
     } success:^(NSDictionary *dict) {
-        EVLog(@"dict:%@ -------------- type %ld", dict,type);
+        
         [weakself endRefresh];
         [weakself.loadingView destroy];
         EVSearchResultModel *model = [EVSearchResultModel objectWithDictionary:dict];
@@ -284,9 +289,17 @@
                      [weakself.searchResult.news removeAllObjects];
                 }
                 weakself.newsInteger = [dict[@"next"] integerValue];
+                NSArray * news = dict[@"news"];
+                if ([news isKindOfClass:[NSArray class]] && news.count >0) {
+                    for (NSDictionary * dic in news) {
+                        EVNewsModel * model = [EVNewsModel yy_modelWithDictionary:dic];
+                        [weakself.searchResult.news addObject:model];
+                    }
+                }
                 [weakself.newsTableView setFooterState:([dict[@"count"] integerValue] < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
-
-                [weakself.searchResult.news addObjectsFromArray:model.news];
+                
+                
+//                [weakself.searchResult.news addObjectsFromArray:model.news];
                 self.newsLoaded = YES;
                 break;
             }
@@ -362,9 +375,36 @@
 {
 
     if (tableView == self.newsTableView) {
-        EVNewsListViewCell *newsCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsListViewCell" forIndexPath:indexPath];
-        newsCell.searchNewsModel = self.searchResult.news[indexPath.row];
-        return newsCell;
+        
+        //新闻列表
+        EVNewsModel * newsModel = _searchResult.news[indexPath.row];
+        
+            //普通新闻
+            if (newsModel.cover == nil || newsModel.cover.count == 0)
+            {
+                //没有图片
+                EVOnlyTextCell * textCell = [tableView dequeueReusableCellWithIdentifier:@"EVOnlyTextCell"];
+                textCell.newsModel = newsModel;
+                return textCell;
+            }
+            else if (newsModel.cover.count == 1)
+            {
+                //一张图片
+                EVNewsListViewCell *newsCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsListViewCell"];
+                newsCell.consultNewsModel = newsModel;
+                return newsCell;
+            }
+            else if (newsModel.cover.count == 3)
+            {
+                //三张图片
+                EVThreeImageCell * threeImageCell = [tableView dequeueReusableCellWithIdentifier:@"EVThreeImageCell"];
+                threeImageCell.newsModel = newsModel;
+                return threeImageCell;
+            }
+        
+        
+        
+        
     }else if (tableView == self.liveTableView) {
         EVLiveListViewCell *listCell  = [tableView dequeueReusableCellWithIdentifier:@"liveCell" forIndexPath:indexPath];
         listCell.watchVideoInfo = self.searchResult.videos[indexPath.row];
@@ -394,7 +434,11 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView == self.newsTableView || tableView == self.liveTableView) {
+    if (tableView == self.newsTableView) {
+        EVNewsModel * newsModel = _searchResult.news[indexPath.row];
+        return newsModel.cellHeight;
+    }
+    if (tableView == self.liveTableView) {
         return 100;
     }
     return 64;
@@ -404,7 +448,8 @@
 {
     
     if (tableView == self.newsTableView) {
-        EVBaseNewsModel *newsModel = self.searchResult.news[indexPath.row];
+        EVNewsModel * newsModel = _searchResult.news[indexPath.row];
+        
         EVNewsDetailWebController *news = [[EVNewsDetailWebController alloc] init];
         news.newsID = newsModel.newsID;
         news.title = newsModel.title;
@@ -530,6 +575,11 @@
     [searchScrollView addSubview:newsTableView];
     self.newsTableView = newsTableView;
     self.newsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    
+    [newsTableView registerNib:[UINib nibWithNibName:@"EVOnlyTextCell" bundle:nil] forCellReuseIdentifier:@"EVOnlyTextCell"];
+    [newsTableView registerNib:[UINib nibWithNibName:@"EVThreeImageCell" bundle:nil] forCellReuseIdentifier:@"EVThreeImageCell"];
+    [newsTableView registerNib:[UINib nibWithNibName:@"EVNewsListViewCell" bundle:nil] forCellReuseIdentifier:@"EVNewsListViewCell"];
+    
     // 设置展示列表的约束
     
     UITableView *liveTableView = [[UITableView alloc] initWithFrame:CGRectZero];

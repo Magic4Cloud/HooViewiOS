@@ -39,21 +39,7 @@
     }
     
     NSString *timeStr = [NSString stringWithFormat:@"%@",dic[@"time"]];
-    if (timeStr.length > 10) {
-        timeStr =   [timeStr substringToIndex:10];
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-        NSString *currentDateStr = [dateFormatter stringFromDate:[NSDate date]];
-        NSString *timeLbl = [NSString stringWithFormat:@"%@",dic[@"time"]];
-        if (timeLbl.length>10) {
-            NSString *lTime = [NSString stringWithFormat:@"%@/%@ %@",[timeLbl substringWithRange:NSMakeRange(5, 2)],[timeLbl substringWithRange:NSMakeRange(8, 2)],[timeLbl substringWithRange:NSMakeRange(11, 5)]];
-            if (![currentDateStr isEqualToString:timeStr]) {
-                self.time = [NSString stringWithFormat:@"%@",lTime];
-            }else {
-                self.time = [NSString stringWithFormat:@"今天 %@",[timeLbl substringWithRange:NSMakeRange(11, 5)]];
-            }
-        }
-    }
+    self.time = [timeStr timeFormatter];
    
     
     return YES;
