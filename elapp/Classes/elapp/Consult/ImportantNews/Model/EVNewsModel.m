@@ -18,24 +18,13 @@
 {
     _cellHeight = 100;
     
-    if ([dic[@"type"] floatValue] == 0)
-    {
-        NSArray * coverArray = dic[@"cover"];
+    
+    NSArray * coverArray = dic[@"cover"];
         
-        if ([coverArray isKindOfClass:[NSArray class]] && coverArray.count == 3)
-        {
+    if ([coverArray isKindOfClass:[NSArray class]] && coverArray.count == 3)
+    {
             //三张图片
-            _cellHeight = 180;
-            
-        }
-    }
-    else if([dic[@"type"] floatValue] == 1)
-    {
-        _cellHeight = 100;
-    }
-    else if([dic[@"type"] floatValue] == 2)
-    {
-        _cellHeight = 220;
+        _cellHeight = 180;
     }
     
     NSString *timeStr = [NSString stringWithFormat:@"%@",dic[@"time"]];

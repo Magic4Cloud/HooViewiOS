@@ -123,7 +123,7 @@
     } sessionExpire:^{
         
     }];
-
+    
 }
 
 - (void)loadNewsList:(NSString *)news
@@ -155,31 +155,30 @@
     //新闻列表
     EVNewsModel * newsModel = _dataArray[indexPath.row];
     
-    if ([newsModel.type isEqualToString:@"0"])
+    
+    //普通新闻
+    if (newsModel.cover == nil || newsModel.cover.count == 0)
     {
-        //普通新闻
-        if (newsModel.cover == nil || newsModel.cover.count == 0)
-        {
-            //没有图片
-            EVOnlyTextCell * textCell = [tableView dequeueReusableCellWithIdentifier:@"EVOnlyTextCell"];
-            textCell.newsModel = newsModel;
-            return textCell;
-        }
-        else if (newsModel.cover.count == 1)
-        {
-            //一张图片
-            EVNewsListViewCell *newsCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsListViewCell"];
-            newsCell.consultNewsModel = newsModel;
-            return newsCell;
-        }
-        else if (newsModel.cover.count == 3)
-        {
-            //三张图片
-            EVThreeImageCell * threeImageCell = [tableView dequeueReusableCellWithIdentifier:@"EVThreeImageCell"];
-            threeImageCell.newsModel = newsModel;
-            return threeImageCell;
-        }
+        //没有图片
+        EVOnlyTextCell * textCell = [tableView dequeueReusableCellWithIdentifier:@"EVOnlyTextCell"];
+        textCell.newsModel = newsModel;
+        return textCell;
     }
+    else if (newsModel.cover.count == 1)
+    {
+        //一张图片
+        EVNewsListViewCell *newsCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsListViewCell"];
+        newsCell.consultNewsModel = newsModel;
+        return newsCell;
+    }
+    else if (newsModel.cover.count == 3)
+    {
+        //三张图片
+        EVThreeImageCell * threeImageCell = [tableView dequeueReusableCellWithIdentifier:@"EVThreeImageCell"];
+        threeImageCell.newsModel = newsModel;
+        return threeImageCell;
+    }
+    
     
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (!cell) {
@@ -191,7 +190,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    EVBaseNewsModel *baseNewsModel = self.dataArray[indexPath.row];
+    //    EVBaseNewsModel *baseNewsModel = self.dataArray[indexPath.row];
     EVNewsModel * newsModel = _dataArray[indexPath.row];
     if (self.pushWatchBlock) {
         self.pushWatchBlock(newsModel);

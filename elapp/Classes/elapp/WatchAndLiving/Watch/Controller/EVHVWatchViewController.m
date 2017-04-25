@@ -45,7 +45,8 @@
 #import "YZInputView.h"
 #import "EVNetWorkStateManger.h"
 
-
+#import "EVPayVideoCoverView.h"
+#import "EVVideoPayBottomView.h"
 #define VideoWidth (ScreenWidth * 210)/375
 
 
@@ -108,6 +109,7 @@
 
 @property (nonatomic, strong) EVHVVideoCoverView *videoEndCoverView;
 
+@property (nonatomic, strong) EVPayVideoCoverView * videoPayCoverView;
 @property (nonatomic, weak) UIView *topViewContentView;
 
 @property (nonatomic, weak) UIView *videoPlayView;
@@ -122,6 +124,13 @@
 
 @property (nonatomic, strong) EVStartGoodModel *startGoodModel;
 
+//付费
+
+
+/**
+ 付费 支付底部弹窗view
+ */
+@property (nonatomic, strong) EVVideoPayBottomView * payBottomView;
 @end
 
 @implementation EVHVWatchViewController
@@ -378,7 +387,6 @@
     }
     [videoView addSubview:self.videoCoverView];
     [videoView addSubview:self.liveloadingView];
-   
   
     
     UITapGestureRecognizer* singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
@@ -392,6 +400,10 @@
     watchTopView.delegate = self;
     self.watchTopView = watchTopView;
     
+    
+    //如果为付费直播
+    [topViewContentView addSubview:self.videoPayCoverView];
+
  
     EVHVWatchCenterView *centerView = [[EVHVWatchCenterView alloc] init];
     centerView.frame = CGRectMake(0, VideoWidth+20, ScreenWidth, 44);
@@ -1197,6 +1209,57 @@
 {
     [_evPlayer shutdown];
     [_evPlayer.presentview removeFromSuperview];
+}
+
+- (EVPayVideoCoverView *)videoPayCoverView
+{
+    if (!_videoPayCoverView) {
+//        _videoPayCoverView = [[EVPayVideoCoverView alloc] initWithFrame:CGRectMake(0, 20, ScreenWidth, VideoWidth)];
+        _videoPayCoverView = [[EVPayVideoCoverView alloc] init];
+        _videoPayCoverView.frame = CGRectMake(0, 20, ScreenWidth, VideoWidth);
+        __weak typeof(self) weakSelf = self;
+        
+        _videoPayCoverView.payButtonClickBlock = ^()
+        {
+            if([EVBaseToolManager userHasLoginLogin])
+            {
+                [weakSelf.payBottomView showPayViewWithPayFee:20000 userAssetModel:weakSelf.asset];
+            }
+            else
+            {
+                UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
+                [weakSelf presentViewController:navighaVC animated:YES completion:nil];
+            }
+            
+        };
+        
+        
+        _videoPayCoverView.backButtonClickBlock = ^()
+        {
+            [weakSelf backButton];
+        };
+        
+        _videoPayCoverView.shareButtonClickBlock = ^()
+        {
+            [weakSelf shareViewShowAction];
+        };
+    }
+    return _videoPayCoverView;
+}
+
+- (EVVideoPayBottomView *)payBottomView
+{
+    if (!_payBottomView) {
+        _payBottomView = [[EVVideoPayBottomView alloc] init];
+        _payBottomView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
+        __weak typeof(self) weakSelf = self;
+        _payBottomView.payOrChargeButtonClick = ^(EVVideoPayBottomView * view)
+        {
+            weakSelf.videoPayCoverView.hidden = YES;
+            [view dismissPayView];
+        };
+    }
+    return _payBottomView;
 }
 
 - (EVHVVideoCoverView *)videoCoverView

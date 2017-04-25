@@ -188,13 +188,13 @@ static NSInteger const shareLabBaseTag = 888;
     self.coverBtnTopImageView.hidden = _coverImage != nil;
     self.coverBtnBottomLabel.hidden = _coverImage != nil;
 }
-
+#pragma mark - 布局************************
 - (void)setUp
 {
     UIImageView *backImageView = [[UIImageView alloc] init];
     [self addSubview:backImageView];
-    backImageView.backgroundColor = [UIColor clearColor];
-    backImageView.image = [UIImage imageNamed:@"IOS_bg"];
+    backImageView.backgroundColor = [UIColor evBackGroundLightGrayColor];
+//    backImageView.image = [UIImage imageNamed:@"IOS_bg"];
     [backImageView autoPinEdgesToSuperviewEdges];
     self.backImageView = backImageView;
     
@@ -223,16 +223,21 @@ static NSInteger const shareLabBaseTag = 888;
     self.cancelButton = cancelButton;
 
 
-    UILabel *titleLabel = [[UILabel alloc] init];
-    [self.settingContentView addSubview:titleLabel];
-    [titleLabel autoAlignAxisToSuperviewAxis:ALAxisVertical];
-    [titleLabel autoAlignAxis:ALAxisHorizontal toSameAxisOfView:cancelButton];
-    [titleLabel autoSetDimensionsToSize:CGSizeMake(100, 25)];
-    titleLabel.text = @"我的直播间";
-    titleLabel.font = [UIFont systemFontOfSize:18.f];
-    titleLabel.textColor = [UIColor evMainColor];
-    titleLabel.textAlignment = NSTextAlignmentCenter;
+//    UILabel *titleLabel = [[UILabel alloc] init];
+//    [self.settingContentView addSubview:titleLabel];
+//    [titleLabel autoAlignAxisToSuperviewAxis:ALAxisVertical];
+//    [titleLabel autoAlignAxis:ALAxisHorizontal toSameAxisOfView:cancelButton];
+//    [titleLabel autoSetDimensionsToSize:CGSizeMake(100, 25)];
+//    titleLabel.text = @"我的直播间";
+//    titleLabel.font = [UIFont systemFontOfSize:18.f];
+//    titleLabel.textColor = [UIColor evMainColor];
+//    titleLabel.textAlignment = NSTextAlignmentCenter;
     
+    UISegmentedControl * segment = [[UISegmentedControl alloc] initWithItems:@[@"免费",@"付费"]];
+    [self.settingContentView addSubview:segment];
+    [segment autoAlignAxisToSuperviewAxis:ALAxisVertical];
+    [segment autoAlignAxis:ALAxisHorizontal toSameAxisOfView:cancelButton];
+    [segment autoSetDimensionsToSize:CGSizeMake(120, 30)];
 //    CGFloat topBtnWith = 40.f;
 //    CGFloat topBtnHeight = 40.f;
     
@@ -268,31 +273,65 @@ static NSInteger const shareLabBaseTag = 888;
 //    [categoryButton autoAlignAxis:ALAxisHorizontal toSameAxisOfView:cancelButton];
 //    [categoryButton autoPinEdge:ALEdgeRight toEdge:ALEdgeLeft ofView:permissionButton withOffset: - 5.f];
     
-    UIView *editBackView = [[UIView alloc] init];
-    [self.settingContentView addSubview:editBackView];
-    editBackView.backgroundColor = [UIColor colorWithHexString:@"#5C2D7E"];
-    editBackView.alpha = 0.3;
-    [editBackView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:80];
-    [editBackView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
-    [editBackView autoPinEdgeToSuperviewEdge:ALEdgeRight];
-    [editBackView autoSetDimension:ALDimensionHeight toSize:100];
+    UIView * payFeeBackView = [[UIView alloc] init];
+    [self.settingContentView addSubview:payFeeBackView];
+    payFeeBackView.backgroundColor = [UIColor whiteColor];
+    payFeeBackView.alpha = 1;
+    [payFeeBackView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:80];
+    [payFeeBackView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
+    [payFeeBackView autoPinEdgeToSuperviewEdge:ALEdgeRight];
+    [payFeeBackView autoSetDimension:ALDimensionHeight toSize:64];
+    _payFeeBackView = payFeeBackView;
     
+    UITextField *payFeeTextFiled = [[UITextField alloc] init];
+    [payFeeBackView addSubview:payFeeTextFiled];
+    [payFeeTextFiled autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
+    [payFeeTextFiled autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:17];
+    [payFeeTextFiled autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:17];
+    [payFeeTextFiled autoSetDimension:ALDimensionHeight toSize:36];
+    payFeeTextFiled.backgroundColor = [UIColor colorWithRed:238/255.0 green:238/255.0 blue:238/255.0 alpha:1.0];
+    payFeeTextFiled.textColor = [UIColor evTextColorH2];
+    payFeeTextFiled.textAlignment = NSTextAlignmentLeft;
+    payFeeTextFiled.placeholder = @"请输入直播价格";
+    payFeeTextFiled.font = [UIFont systemFontOfSize:16.f];
+    payFeeTextFiled.alpha = 1;
+    payFeeTextFiled.borderStyle = UITextBorderStyleRoundedRect;
+    self.payFeeTextFiled = payFeeTextFiled;
+
+    
+    
+    UIView * titleBackView = [[UIView alloc] init];
+    [self.settingContentView addSubview:titleBackView];
+    titleBackView.backgroundColor = [UIColor whiteColor];
+    titleBackView.alpha = 1;
+    _topOfTitleBackViewConstraint = [titleBackView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:80+60+5];
+    [titleBackView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
+    [titleBackView autoPinEdgeToSuperviewEdge:ALEdgeRight];
+    [titleBackView autoSetDimension:ALDimensionHeight toSize:64];
+    _titleBackView = titleBackView;
     
     UITextField *editTextFiled = [[UITextField alloc] init];
-    [self.settingContentView addSubview:editTextFiled];
-    [editTextFiled autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:80];
-    [editTextFiled autoPinEdgeToSuperviewEdge:ALEdgeLeft];
-    [editTextFiled autoPinEdgeToSuperviewEdge:ALEdgeRight];
-    [editTextFiled autoSetDimension:ALDimensionHeight toSize:100];
+    [titleBackView addSubview:editTextFiled];
+    [editTextFiled autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:17];
+    [editTextFiled autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:17];
+    [editTextFiled autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:17];
+    [editTextFiled autoSetDimension:ALDimensionHeight toSize:36];
     editTextFiled.backgroundColor = [UIColor clearColor];
-    editTextFiled.textColor = [UIColor whiteColor];
-    editTextFiled.textAlignment = NSTextAlignmentCenter;
+    editTextFiled.textColor = [UIColor evTextColorH2];
+    editTextFiled.textAlignment = NSTextAlignmentLeft;
     editTextFiled.placeholder = @"好的标题会吸引更多的人噢";
     editTextFiled.font = [UIFont systemFontOfSize:16.f];
     editTextFiled.alpha = 1;
     self.editTextFiled = editTextFiled;
-//    [self.editTextFiled becomeFirstResponder];
 
+    UIView * lineView = [[UIView alloc] init];
+    lineView.backgroundColor = [UIColor evLineColor];
+    [titleBackView addSubview:lineView];
+    [lineView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:50];
+    [lineView autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:15];
+    [lineView autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:15];
+    [lineView autoSetDimension:ALDimensionHeight toSize:1];
+    
     
 
     // 添加封面

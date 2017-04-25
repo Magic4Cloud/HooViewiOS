@@ -18,5 +18,4 @@
 @property (nonatomic, strong) EVWatchVideoInfo *watchVideoInfo;
 
 
-
 @end

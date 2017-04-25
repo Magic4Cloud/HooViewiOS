@@ -39,8 +39,8 @@
     self.coverBtn = button;
     button.titleLabel.font = [UIFont systemFontOfSize:16.];
     [button setTitleColor:[UIColor evTextColorH2] forState:(UIControlStateNormal)];
-   self.widLayout = [button autoSetDimension:ALDimensionWidth toSize:207];
-     self.higLayout = [button autoSetDimension:ALDimensionHeight toSize:60];
+    self.widLayout = [button autoSetDimension:ALDimensionWidth toSize:207];
+    self.higLayout = [button autoSetDimension:ALDimensionHeight toSize:60];
     self.xLayout =   [button autoAlignAxisToSuperviewAxis:ALAxisVertical];
     [button autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
     button.userInteractionEnabled = NO;
@@ -49,6 +49,7 @@
     button.titleLabel.numberOfLines = 0;
     button.titleLabel.lineBreakMode = NSLineBreakByCharWrapping;
 }
+
 - (void)setTopImage:(UIImage *)topImage
 {
     _topImage = topImage;
@@ -62,6 +63,6 @@
 {
     _titleStr = titleStr;
     [self.coverBtn setTitle:titleStr forState:(UIControlStateNormal)];
-    
 }
+
 @end
