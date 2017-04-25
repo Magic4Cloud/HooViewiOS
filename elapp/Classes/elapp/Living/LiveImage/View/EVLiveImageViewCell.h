@@ -10,7 +10,7 @@
 #import "EVLineTableViewCell.h"
 @class EVWatchVideoInfo;
 typedef void(^hotListSeletedBlock)(EVWatchVideoInfo *watchVideoInfo,EVWatchVideoInfo *liveVideoInfo);
-@interface EVLiveImageViewCell : EVLineTableViewCell
+@interface EVLiveImageViewCell : UITableViewCell
 @property(nonatomic, strong) EVWatchVideoInfo *watchVideoInfo;
 
 @property (nonatomic, strong) NSMutableArray *dataArray;

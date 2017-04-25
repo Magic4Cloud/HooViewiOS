@@ -31,11 +31,11 @@
 - (void)setUpView
 {
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-    flowLayout.itemSize = CGSizeMake(ScreenWidth / 2.7, 88);
+    flowLayout.itemSize = CGSizeMake(220, 150);
     flowLayout.minimumLineSpacing = 20;
-    flowLayout.sectionInset = UIEdgeInsetsMake(0, 16, 0, 16);
+    flowLayout.sectionInset = UIEdgeInsetsMake(0, 14, 0, 14);
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    UICollectionView *hotCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0,ScreenWidth, 100) collectionViewLayout:flowLayout];
+    UICollectionView *hotCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 14,ScreenWidth, 150) collectionViewLayout:flowLayout];
     hotCollectionView.delegate = self;
     hotCollectionView.dataSource = self;
     [self addSubview:hotCollectionView];

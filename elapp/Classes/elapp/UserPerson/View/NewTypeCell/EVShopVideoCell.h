@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *cellViewCountLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *cellHotImageView;
 @property (weak, nonatomic) IBOutlet UILabel *cellIntroduceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *needPayLabel;
 
 @property (nonatomic, strong) EVVideoAndLiveModel * videoModel;
 @end

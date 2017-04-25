@@ -193,6 +193,7 @@
                  EVLoginInfo *loginInfo = [EVLoginInfo localObject];
                  loginInfo.name = weakSelf.userModel.name;
                  loginInfo.nickname = weakSelf.userModel.nickname;
+                 loginInfo.introduce = weakSelf.userModel.introduce;
                  loginInfo.logourl = modelDict[kLogourl];
                  loginInfo.location = modelDict[kLocation];
                  loginInfo.auth = [NSArray arrayWithArray:model.auth];
@@ -293,7 +294,7 @@
         WEAK(self);
         headerCell.fansAndFollowClickBlock = ^(controllerType type)
         {
-            if (![EVLoginInfo hasLogged]) {
+            if (![EVLoginInfo hasLogged] || _userModel == nil) {
                 UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
 
                 [weakself presentViewController:navighaVC animated:YES completion:nil];
@@ -364,7 +365,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (![EVLoginInfo hasLogged]) {
+    if (![EVLoginInfo hasLogged] || _userModel == nil) {
         UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
         [self presentViewController:navighaVC animated:YES completion:nil];
         return;
@@ -383,6 +384,7 @@
             userInfo.gender = self.userModel.gender;
             userInfo.auth = self.userModel.auth;
             userInfo.location = self.userModel.location;
+            userInfo.introduce = self.userModel.introduce;
             userInfo.credentials = self.userModel.credentials;
             
             EVUserSettingViewController *reeditUserInfoVC = [EVUserSettingViewController userSettingViewController];

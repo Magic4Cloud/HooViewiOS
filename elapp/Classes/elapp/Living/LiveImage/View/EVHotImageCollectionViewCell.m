@@ -35,13 +35,13 @@
 {
     UIImageView *headImageView = [[UIImageView alloc] init];
     [self addSubview:headImageView];
-    headImageView.layer.cornerRadius = 25;
+    headImageView.layer.cornerRadius = 40;
     headImageView.clipsToBounds = YES;
     self.headImageView = headImageView;
     headImageView.image = [UIImage imageNamed:@"Account_bitmap_user"];
     [headImageView autoAlignAxisToSuperviewAxis:ALAxisVertical];
     [headImageView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:0];
-    [headImageView autoSetDimensionsToSize:CGSizeMake(50, 50)];
+    [headImageView autoSetDimensionsToSize:CGSizeMake(80, 80)];
     
     UILabel *nameLabel = [[UILabel alloc] init];
     [self addSubview:nameLabel];
@@ -49,10 +49,19 @@
     nameLabel.font = [UIFont textFontB2];
     nameLabel.textAlignment = NSTextAlignmentCenter;
     nameLabel.textColor = [UIColor evTextColorH1];
-    [nameLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:headImageView withOffset:8];
-    [nameLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft];
-    [nameLabel autoPinEdgeToSuperviewEdge:ALEdgeRight];
+    [nameLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:headImageView withOffset:4];
+    [nameLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:12];
+    [nameLabel autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:3];
     [nameLabel autoSetDimension:ALDimensionHeight toSize:22];
+    
+    
+    UIImageView *ishotImage = [[UIImageView alloc] init];
+    [self addSubview:ishotImage];
+    ishotImage.image = [UIImage imageNamed:@"ic_hot"];
+    ishotImage.layer.cornerRadius = 4;
+    [ishotImage autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:25];
+    [ishotImage autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:nameLabel withOffset:8];
+    [ishotImage autoSetDimensionsToSize:CGSizeMake(16, 16)];
     
     
     UILabel *watchLabel = [[UILabel alloc] init];
@@ -61,9 +70,9 @@
     watchLabel.textColor = [UIColor evTextColorH2];
     self.watchLabel = watchLabel;
     watchLabel.textAlignment = NSTextAlignmentCenter;
-    [watchLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:nameLabel];
-    [watchLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft];
-    [watchLabel autoPinEdgeToSuperviewEdge:ALEdgeRight];
+    [watchLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:nameLabel withOffset:6];
+    [watchLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:ishotImage withOffset:4];
+//    [watchLabel autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:2];
     [watchLabel autoSetDimension:ALDimensionHeight toSize:20];
     
 }

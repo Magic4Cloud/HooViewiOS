@@ -88,7 +88,7 @@
 
 - (void)loadMoreData
 {
-    [self.baseToolManager  GETMyShopsWithType:@"0" start:[NSString stringWithFormat:@"%d",start] count:@"20" fail:^(NSError * error) {
+    [self.baseToolManager  GETMyShopsWithType:@"0" start:[NSString stringWithFormat:@"%ld",start] count:@"20" fail:^(NSError * error) {
         [self.tableView endFooterRefreshing];
     } success:^(NSDictionary * retinfo) {
         [self.tableView endFooterRefreshing];

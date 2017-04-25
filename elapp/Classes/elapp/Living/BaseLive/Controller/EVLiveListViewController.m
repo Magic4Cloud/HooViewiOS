@@ -40,29 +40,133 @@
 
 @implementation EVLiveListViewController
 
+
+- (instancetype)init {
+    if (self = [super init]) {
+        
+        
+        self.menuViewStyle = WMMenuViewStyleLine;
+        float addFont = 0;
+        if (ScreenWidth>375) {
+            addFont = 1;
+        }
+        self.titleSizeSelected = 16.0+addFont;
+        self.titleSizeNormal = 14.0+addFont;
+        
+        self.menuHeight = 44;
+        self.titleColorSelected = [UIColor evMainColor];
+        self.titleColorNormal = [UIColor evTextColorH2];
+        self.menuItemWidth = 45;
+        self.progressViewWidths = @[@16,@16,@16];
+        //        self.progressViewIsNaughty = YES;
+        self.titles = @[@"视频",@"图文",@"精品"];
+        float margin = 12;
+        if (ScreenWidth == 320) {
+            margin = 0;
+        }
+        
+        NSNumber * marginNum = [NSNumber numberWithFloat:margin];
+        float lastMargin = ScreenWidth - 50-margin*2-45*3;
+        NSNumber * number = [NSNumber numberWithFloat:lastMargin];
+        self.itemsMargins = @[@50,marginNum,marginNum,number];
+        self.menuBGColor = [UIColor whiteColor];
+        self.menuViewStyle = WMMenuViewLayoutModeLeft;
+    }
+    return self;
+}
+
+#pragma mark - ♻️Lifecycle
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
-    
+    [self.navigationController setNavigationBarHidden:YES];
     if ([[EVLoginInfo localObject].sessionid isEqualToString:@""] || [EVLoginInfo localObject].sessionid == nil || [EVLoginInfo localObject].vip == 0) {
         self.hvLiveView.hidden = YES;
     }else {
         self.hvLiveView.hidden = NO;
     }
-    
+
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    self.title = @"直播";
-    [self.navigationController setNavigationBarHidden:YES];
-    self.automaticallyAdjustsScrollViewInsets = YES;
+    [self setupView];
+    [self addUpView];
     [EVNotificationCenter addObserver:self selector:@selector(userLogoutSuccess) name:@"userLogoutSuccess" object:nil];
     [EVNotificationCenter addObserver:self selector:@selector(newUserRegisterSuccess) name:@"newUserRefusterSuccess" object:nil];
-    [self addUpView];
 }
+
+- (void)setupView {
+    self.viewFrame = CGRectMake(0, 20, ScreenWidth, ScreenHeight);
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    UIButton *searchButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    searchButton.frame = CGRectMake(ScreenWidth - 44 -10, 20, 44,44);
+    [searchButton setImage:[UIImage imageNamed:@"btn_news_search_n"] forState:(UIControlStateNormal)];
+    [searchButton addTarget:self action:@selector(searchClick) forControlEvents:(UIControlEventTouchUpInside)];
+    [self.view addSubview:searchButton];
+    
+    UIImageView * icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"huoyan_logo"]];
+    icon.frame = CGRectMake(20, 30, 23, 23);
+    [self.view addSubview:icon];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+
+#pragma mark - Datasource & Delegate
+- (NSInteger)numbersOfChildControllersInPageController:(WMPageController *)pageController {
+    return self.titles.count;
+}
+
+- (UIViewController *)pageController:(WMPageController *)pageController viewControllerAtIndex:(NSInteger)index {
+    
+    switch (index) {
+        case 0:
+        {
+            //视频直播
+            EVLiveVideoController *liveVideoVC = [[EVLiveVideoController alloc] init];
+//            liveVideoVC.view.frame = CGRectMake(0,0, ScreenWidth, EVContentHeight);
+            return liveVideoVC;
+        }
+            break;
+        case 1:
+        {
+            //图文直播
+            EVTextLiveListController *liveImageVC = [[EVTextLiveListController alloc] init];
+//            liveImageVC.view.frame = CGRectMake(ScreenWidth, 0, ScreenWidth, EVContentHeight);
+            return liveImageVC;
+        }
+        case 2:
+        {
+            //精品视频
+            EVRecorededVideoListController *recoredVideoVC = [[EVRecorededVideoListController alloc] init];
+//            recoredVideoVC.view.frame = CGRectMake(ScreenWidth * 2, 0, ScreenWidth, EVContentHeight);
+            return recoredVideoVC;
+        }
+        
+        default:
+        {
+            return nil;
+        }
+            break;
+    }
+    
+}
+
+- (NSString *)pageController:(WMPageController *)pageController titleAtIndex:(NSInteger)index {
+    return self.titles[index];
+}
+
+#pragma mark -👣 Target actions
+- (void)searchClick
+{
+    EVSearchAllViewController *searchVC = [[EVSearchAllViewController alloc] init];
+    [self.navigationController pushViewController:searchVC animated:YES];
+}
+
+
 
 - (void)userLogoutSuccess
 {
@@ -77,40 +181,40 @@
 
 - (void)addUpView
 {
-    EVLiveTopView *topView = [[EVLiveTopView alloc] init];
-    topView.frame = CGRectMake(0, 0, ScreenWidth, 108);
-    topView.delegate = self;
-    topView.backgroundColor = [UIColor evBackgroundColor];
-    [self.view addSubview:topView];
-    self.topView = topView;
-    
-    UIScrollView *backScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 108, ScreenWidth, EVContentHeight)];
-    backScrollView.backgroundColor = [UIColor evBackgroundColor];
-    backScrollView.delegate = self;
-    [self.view addSubview:backScrollView];
-    self.backScrollView = backScrollView;
-    backScrollView.pagingEnabled = YES;
-    backScrollView.showsHorizontalScrollIndicator = NO;
-    backScrollView.contentSize = CGSizeMake(ScreenWidth * 3, EVContentHeight);
-    
-    //视频直播
-    EVLiveVideoController *liveVideoVC = [[EVLiveVideoController alloc] init];
-    [self addChildViewController:liveVideoVC];
-    [backScrollView addSubview:liveVideoVC.view];
-    liveVideoVC.view.frame = CGRectMake(0,0, ScreenWidth, EVContentHeight);
-    
-    //图文直播
-    EVTextLiveListController *liveImageVC = [[EVTextLiveListController alloc] init];
-    [self addChildViewController:liveImageVC];
-    [backScrollView addSubview:liveImageVC.view];
-    liveImageVC.view.frame = CGRectMake(ScreenWidth, 0, ScreenWidth, EVContentHeight);
-    
-    //精品视频
-    EVRecorededVideoListController *recoredVideoVC = [[EVRecorededVideoListController alloc] init];
-    [self addChildViewController:recoredVideoVC];
-    [backScrollView addSubview:recoredVideoVC.view];
-    recoredVideoVC.view.frame = CGRectMake(ScreenWidth * 2, 0, ScreenWidth, EVContentHeight);
-    
+//    EVLiveTopView *topView = [[EVLiveTopView alloc] init];
+//    topView.frame = CGRectMake(0, 0, ScreenWidth, 108);
+//    topView.delegate = self;
+//    topView.backgroundColor = [UIColor evBackgroundColor];
+//    [self.view addSubview:topView];
+//    self.topView = topView;
+//    
+//    UIScrollView *backScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 108, ScreenWidth, EVContentHeight)];
+//    backScrollView.backgroundColor = [UIColor evBackgroundColor];
+//    backScrollView.delegate = self;
+//    [self.view addSubview:backScrollView];
+//    self.backScrollView = backScrollView;
+//    backScrollView.pagingEnabled = YES;
+//    backScrollView.showsHorizontalScrollIndicator = NO;
+//    backScrollView.contentSize = CGSizeMake(ScreenWidth * 3, EVContentHeight);
+//    
+//    //视频直播
+//    EVLiveVideoController *liveVideoVC = [[EVLiveVideoController alloc] init];
+//    [self addChildViewController:liveVideoVC];
+//    [backScrollView addSubview:liveVideoVC.view];
+//    liveVideoVC.view.frame = CGRectMake(0,0, ScreenWidth, EVContentHeight);
+//    
+//    //图文直播
+//    EVTextLiveListController *liveImageVC = [[EVTextLiveListController alloc] init];
+//    [self addChildViewController:liveImageVC];
+//    [backScrollView addSubview:liveImageVC.view];
+//    liveImageVC.view.frame = CGRectMake(ScreenWidth, 0, ScreenWidth, EVContentHeight);
+//    
+//    //精品视频
+//    EVRecorededVideoListController *recoredVideoVC = [[EVRecorededVideoListController alloc] init];
+//    [self addChildViewController:recoredVideoVC];
+//    [backScrollView addSubview:recoredVideoVC.view];
+//    recoredVideoVC.view.frame = CGRectMake(ScreenWidth * 2, 0, ScreenWidth, EVContentHeight);
+//    
     
     
     EVHVLiveView *liveButton = [[EVHVLiveView alloc] init];
@@ -415,10 +519,7 @@
 }
 
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+
 
 /*
 #pragma mark - Navigation

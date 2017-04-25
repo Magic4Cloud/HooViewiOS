@@ -17,6 +17,7 @@
 @property (nonatomic, strong) EVUserModel *userModel;
 @property (nonatomic, strong) EVWatchVideoInfo *watchVideoInfo;
 
-@property (nonatomic, strong) NSLayoutConstraint *introduceHig;
+@property (weak, nonatomic) IBOutlet UIButton *followOrNotButton;
+@property (nonatomic, copy) void(^fansAndFollowClickBlock)(controllerType type);
 
 @end

@@ -9,9 +9,20 @@
 #import "EVMyReleaseCheatsViewController.h"
 #import "EVShopCheatsCell.h"
 
+#import "EVBaseToolManager+MyShopAPI.h"
+#import "EVBaseToolManager+EVUserCenterAPI.h"
+
+#import "EVCheatsModel.h"
+
+
 
 @interface EVMyReleaseCheatsViewController ()<UITableViewDelegate,UITableViewDataSource>
+{
+    NSInteger start;
+}
 @property (nonatomic, strong) UITableView * tableView;
+@property (nonatomic, strong) EVBaseToolManager *baseToolManager;
+@property (nonatomic, strong) NSMutableArray * dataArray;
 
 @end
 
@@ -23,6 +34,8 @@
     [super viewDidLoad];
     
     [self initUI];
+    
+    [self.tableView startHeaderRefreshing];
 }
 
 
@@ -32,15 +45,106 @@
     [self.view addSubview:self.tableView];
     [self.tableView autoPinEdgesToSuperviewEdges];
     [self.tableView registerNib:[UINib nibWithNibName:@"EVShopCheatsCell" bundle:nil] forCellReuseIdentifier:@"EVShopCheatsCell"];
+    
+    [self.tableView addRefreshHeaderWithTarget:self action:@selector(loadNewData)];
+    [self.tableView addRefreshFooterWithiTarget:self action:@selector(loadMoreData)];
+    
+    [self.tableView hideFooter];
 }
 #pragma mark - 🌐Networks
+
+
+- (void)loadNewData
+{
+    start = 0;
+    
+    [self.baseToolManager GETMyReleaseListWithUserid:self.watchVideoInfo.name type:@"1" start:start count:20 startBlock:^{
+        
+    } fail:^(NSError *error) {
+        NSLog(@"error = %@",error);
+        [self.tableView endHeaderRefreshing];
+    } success:^(NSDictionary *videos) {
+        [self.tableView endHeaderRefreshing];
+        NSArray * cheats = videos[@"cheats"];
+        [self.dataArray removeAllObjects];
+        if ([cheats isKindOfClass:[NSArray class]] && cheats.count >0) {
+            
+            [cheats enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                EVCheatsModel * model = [EVCheatsModel yy_modelWithDictionary:obj];
+                [self.dataArray addObject:model];
+            }];
+            
+            if (cheats.count<20)
+            {
+                [self.tableView hideFooter];
+            }
+            else
+            {
+                [self.tableView showFooter];
+            }
+            start += 20;
+        }
+        else
+        {
+            [self.tableView hideFooter];
+        }
+        [self.tableView reloadData];
+        
+    } essionExpire:^{
+        [self.tableView endHeaderRefreshing];
+
+    }];
+
+}
+
+- (void)loadMoreData
+{
+    [self.baseToolManager GETMyReleaseListWithUserid:self.watchVideoInfo.name type:@"1" start:start count:20 startBlock:^{
+        
+    } fail:^(NSError *error) {
+        NSLog(@"error = %@",error);
+        [self.tableView endHeaderRefreshing];
+    } success:^(NSDictionary *videos) {
+        [self.tableView endFooterRefreshing];
+        NSArray * cheats = videos[@"cheats"];
+        [self.dataArray removeAllObjects];
+        if ([cheats isKindOfClass:[NSArray class]] && cheats.count >0) {
+            
+            [cheats enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                EVCheatsModel * model = [EVCheatsModel yy_modelWithDictionary:obj];
+                [self.dataArray addObject:model];
+            }];
+            
+            if (cheats.count<20)
+            {
+                [self.tableView setFooterState:CCRefreshStateNoMoreData];
+            }
+            else
+            {
+                [self.tableView setFooterState:CCRefreshStateIdle];
+            }
+            start += 20;
+        }
+        else
+        {
+            [self.tableView setFooterState:CCRefreshStateNoMoreData];
+        }
+        [self.tableView reloadData];
+        
+    } essionExpire:^{
+        [self.tableView endHeaderRefreshing];
+        
+    }];
+
+    
+}
 
 #pragma mark -👣 Target actions
 
 #pragma mark - 🌺 TableView Delegate & Datasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return self.dataArray.count;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -52,6 +156,8 @@
 {
     static NSString * identifer = @"EVShopCheatsCell";
     EVShopCheatsCell * cell = [tableView dequeueReusableCellWithIdentifier:identifer];
+    EVCheatsModel * model = _dataArray[indexPath.row];
+    cell.cheatsModel = model;
     return cell;
 }
 
@@ -80,6 +186,22 @@
         
     }
     return _tableView;
+}
+
+- (NSMutableArray *)dataArray
+{
+    if (!_dataArray) {
+        _dataArray = [NSMutableArray array];
+    }
+    return _dataArray;
+}
+
+- (EVBaseToolManager *)baseToolManager
+{
+    if (!_baseToolManager) {
+        _baseToolManager = [[EVBaseToolManager alloc] init];
+    }
+    return _baseToolManager;
 }
 
 - (void)didReceiveMemoryWarning {

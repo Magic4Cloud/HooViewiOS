@@ -23,7 +23,8 @@
 #import "EVShareManager.h"
 #import "EVVipCenterViewController.h"
 
-#import "EVVipCenterController.h"
+#import "EVVipCenterController.h" //大V
+#import "EVNormalPersonCenterController.h" //普通
 
 
 @interface EVNewsDetailWebController ()<WKNavigationDelegate,EVStockDetailBottomViewDelegate,UITextFieldDelegate,EVWebViewShareViewDelegate>
@@ -223,7 +224,13 @@
 //            vipVC.watchVideoInfo = watchInfo;
 //            [self.navigationController pushViewController:vipVC animated:YES];
             
-            EVVipCenterController *vc = [[EVVipCenterController alloc] init];
+//            //大V
+//            EVVipCenterController *vc = [[EVVipCenterController alloc] init];
+//            vc.watchVideoInfo = watchVideoInfo;
+//            [self.navigationController pushViewController:vc animated:YES];
+            
+            //普通用户
+            EVNormalPersonCenterController  *vc = [[EVNormalPersonCenterController alloc] init];
             vc.watchVideoInfo = watchVideoInfo;
             [self.navigationController pushViewController:vc animated:YES];
             

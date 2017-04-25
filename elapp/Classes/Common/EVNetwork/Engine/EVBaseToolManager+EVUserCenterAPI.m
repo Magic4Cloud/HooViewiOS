@@ -50,15 +50,16 @@
     {
         return;
     }
+    NSString *uid = [self uidFromLocal];
 #ifdef EVDEBUG
     NSAssert(sessionID, @"session id can not be nil");
 #endif
     
     params = [NSMutableDictionary dictionaryWithDictionary:params];
     params[kSessionIdKey] = sessionID;
-    NSString *urlString = [EVHttpURLManager fullURLStringWithURI:EVVideoUserEditInfoAPI
-                                              params:nil];
-    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+    params[@"userid"] = uid;
+
+    [EVBaseToolManager GETRequestWithUrl:EVVideoUserEditInfoAPI parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
 
 }
 
@@ -208,9 +209,10 @@
     {
         return;
     }
+    NSString * uid = [self uidFromLocal];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[kSessionIdKey] = sessionID;
-    
+    params[@"userid"] = uid;
     if ( uname )
     {
         params[kNameKey] = uname;
@@ -220,11 +222,8 @@
     {
         params[kImuser] = imuser;
     }
-    
-    NSString *urlString = [EVHttpURLManager fullURLStringWithURI:EVVideoUserInfoAPI
-                                              params:nil];
-    
-    [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+        
+    [EVBaseToolManager GETRequestWithUrl:EVVideoUserInfoAPI parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
 }
 
 
@@ -516,6 +515,36 @@
 
 }
 
+
+/** 获取个人中心主页直播列表数据 */
+- (void)GETHVCenterVideoListWithUserid:(NSString *)userid
+                                 start:(NSInteger)start
+                                 count:(NSInteger)count
+                            startBlock:(void(^)())startBlock
+                                  fail:(void(^)(NSError *error))failBlock
+                               success:(void(^)(NSDictionary *retinfo))successBlock
+                          essionExpire:(void(^)())sessionExpireBlock {
+    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
+    if ( sessionID == nil )
+    {
+        return ;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValue:sessionID forKey:kSessionIdKey];
+    [params setValue:userid forKey:kNameKey];
+    [params setValue:@(start) forKey:kStart];
+    [params setValue:@(count) forKey:kCount];
+    
+    [EVBaseToolManager GETRequestWithUrl:EVHVCenterLiveListAPI parameters:params success:^(NSDictionary *successDict) {
+        if ( successBlock )
+        {
+            successBlock(successDict);
+        }
+        
+    } sessionExpireBlock:sessionExpireBlock fail:failBlock];
+    
+}
+
 //获取我的发布
 - (void)GETMyReleaseListWithUserid:(NSString *)userid
                             type:(NSString *)type
@@ -542,7 +571,7 @@
     
 //    EVVipMyReleaseAPI
     
-    [EVBaseToolManager GETRequestWithUrl:@"http://192.168.8.125:8888/user/works" parameters:params success:^(NSDictionary *successDict) {
+    [EVBaseToolManager GETRequestWithUrl:EVMyReleaseAPI parameters:params success:^(NSDictionary *successDict) {
         if ( successBlock )
         {
             successBlock(successDict);
