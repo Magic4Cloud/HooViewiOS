@@ -16,9 +16,12 @@
 #import "EVNullDataView.h"
 #import "EVReleaseImageWithTextLiveCell.h"
 #import "EVShopLiveCell.h"
+#import "EVVideoAndLiveModel.h"
 
 @interface EVHVCenterLiveView ()<UITableViewDelegate,UITableViewDataSource>
-
+{
+    NSInteger start;
+}
 @property (nonatomic, strong) EVBaseToolManager *baseToolManager;
 
 @property (nonatomic, strong) NSMutableArray *videos;
@@ -45,16 +48,14 @@
         self.tableFooterView = [UIView new];
         [self registerNib:[UINib nibWithNibName:@"EVReleaseImageWithTextLiveCell" bundle:nil] forCellReuseIdentifier:@"EVReleaseImageWithTextLiveCell"];
         [self registerNib:[UINib nibWithNibName:@"EVShopLiveCell" bundle:nil] forCellReuseIdentifier:@"EVShopLiveCell"];
-        WEAK(self)
 
-        [self getDataWithName:weakself.name start:0 count:20];
-        [self addRefreshFooterWithRefreshingBlock:^{
-            [weakself getDataWithName:weakself.name start:weakself.videos.count count:20];
-        }];
+
         
-        
-     
+        [self addRefreshHeaderWithTarget:self action:@selector(loadNewData)];
+        [self addRefreshFooterWithiTarget:self action:@selector(loadMoreData)];
+        [self hideFooter];
         [self addVipUI];
+        [self startHeaderRefreshing];
     }
     return self;
 }
@@ -79,83 +80,126 @@
 //    [EVProgressHUD showSuccess:@"申请成功"];
 //}
 
-- (void)getDataWithName:(NSString *)name {
-    _name = name;
-    [self getDataWithName:name start:0 count:20];
-}
 
-- (void)getDataWithName:(NSString *)name start:(NSInteger)start count:(NSInteger)count
-{
-    NSString *type = @"video";
+
+
+- (void)loadNewData {
+    start = 0;
     
-    __weak typeof(self) weakself = self;
-    [self.baseToolManager GETUserVideoListWithName:name type:type start:start count:count startBlock:^{
+    [self.baseToolManager GETHVCenterVideoListWithUserid:self.userModel.name start:start count:20 startBlock:^{
         
     } fail:^(NSError *error) {
-        [weakself endHeaderRefreshing];
-        [weakself endFooterRefreshing];
-    } success:^(NSArray *videos) {
+        NSLog(@"error = %@",error);
+        [self endHeaderRefreshing];
+    } success:^(NSDictionary *retinfo) {
+        NSLog(@"videos = %@",retinfo);
+        [self endHeaderRefreshing];
+        NSDictionary *dictionary = retinfo[@"textlive"];
+        [self.videos removeAllObjects];
+        NSArray *array = retinfo[@"videolive"];
+        EVUserModel *textLiveModel = [EVUserModel yy_modelWithDictionary:dictionary];
+        self.userModel = textLiveModel;
+        self.textLiveState = [retinfo[@"textlive"][@"state"] integerValue];
         
-        
-        if (start == 0)
-        {
-            [weakself.videos removeAllObjects];
-        }
-        [weakself.videos addObjectsFromArray:videos];
-        [weakself reloadData];
-        [weakself endHeaderRefreshing];
-        [weakself endFooterRefreshing];
-        
-        if ( weakself.videos.count )
-        {
-            [weakself showFooter];
-        }
-        else
-        {
-            [weakself hideFooter];
-        }
-        if (weakself.videos.count)
-        {
-            
-            if (videos.count < count)
+        if (array && array.count>0) {
+            __weak typeof(self) weakSelf = self;
+            [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                EVVideoAndLiveModel * livemodel = [EVVideoAndLiveModel yy_modelWithDictionary:obj];
+                [weakSelf.videos addObject:livemodel];
+            }];
+            if (array.count<20)
             {
-                [weakself setFooterState:CCRefreshStateNoMoreData];
+                [self hideFooter];
             }
             else
             {
-                [weakself setFooterState:CCRefreshStateIdle];
+                [self showFooter];
             }
-            
-            
+            start += 20;
+        } else {
+            [self hideFooter];
         }
         
-        if (start == 0 && videos.count == 0) {
-            weakself.nullDataView.hidden = NO;
+        if (start == 0 && array.count == 0) {
+            self.nullDataView.hidden = NO;
         }
         else
         {
-            weakself.nullDataView.hidden = YES;
+            self.nullDataView.hidden = YES;
         }
         
+        [self reloadData];
+        
     } essionExpire:^{
-        [weakself endHeaderRefreshing];
-        [weakself endFooterRefreshing];
-        EVRelogin(weakself);
+        [self endHeaderRefreshing];
     }];
 }
 
-- (void)loadIsHaveTextLive
+
+- (void)loadMoreData
 {
-    WEAK(self)
-    [self.baseToolManager GETIsHaveTextLiveOwnerid:self.userModel.name streamid:nil success:^(NSDictionary *retinfo) {
-        if ([retinfo[@"retval"] isEqualToString:@"ok"]) {
-           weakself.textLiveState = [retinfo[@"retinfo"][@"data"][@"state"] integerValue];
-        }
-        [weakself reloadData];
-    } error:^(NSError *error) {
+    [self.baseToolManager GETHVCenterVideoListWithUserid:self.userModel.name start:start count:20 startBlock:^{
         
+    } fail:^(NSError *error) {
+        NSLog(@"error = %@",error);
+        [self endHeaderRefreshing];
+    } success:^(NSDictionary *retinfo) {
+        NSLog(@"videos = %@",retinfo);
+        [self endHeaderRefreshing];
+        [self.videos removeAllObjects];
+        NSDictionary *dictionary = retinfo[@"textlive"];
+        NSArray *array = retinfo[@"videolive"];
+        EVUserModel *textLiveModel = [EVUserModel yy_modelWithDictionary:dictionary];
+        self.userModel = textLiveModel;
+        self.textLiveState = [retinfo[@"textlive"][@"state"] integerValue];
+        
+        if (array && array.count>0) {
+            __weak typeof(self) weakSelf = self;
+            [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                EVVideoAndLiveModel * livemodel = [EVVideoAndLiveModel yy_modelWithDictionary:obj];
+                [weakSelf.videos addObject:livemodel];
+            }];
+            if (array.count<20)
+            {
+                [self hideFooter];
+            }
+            else
+            {
+                [self showFooter];
+            }
+            start += 20;
+        } else {
+            [self hideFooter];
+        }
+        
+        if (start == 0 && array.count == 0) {
+            self.nullDataView.hidden = NO;
+        }
+        else
+        {
+            self.nullDataView.hidden = YES;
+        }
+        
+        [self reloadData];
+        
+    } essionExpire:^{
+        [self endHeaderRefreshing];
     }];
 }
+
+
+//- (void)loadIsHaveTextLive
+//{
+//    WEAK(self)
+//    [self.baseToolManager GETIsHaveTextLiveOwnerid:self.userModel.name streamid:nil success:^(NSDictionary *retinfo) {
+//        if ([retinfo[@"retval"] isEqualToString:@"ok"]) {
+//           weakself.textLiveState = [retinfo[@"retinfo"][@"data"][@"state"] integerValue];
+//        }
+//        [weakself reloadData];
+//    } error:^(NSError *error) {
+//        
+//    }];
+//}
 #pragma mark - UITableView M
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -191,7 +235,7 @@
     if (section == 0 && self.textLiveState != 2) {
         return 10;
     }
-    return 40;
+    return 0.01;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -202,28 +246,28 @@
     return 0.01;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    if ((self.textLiveState == 2 && section == 0) || (section == 1)) {
-        UIView *backView = [[UIView alloc] init];
-        backView.frame = CGRectMake(0, 0, ScreenWidth, 40);
-        backView.backgroundColor = [UIColor whiteColor];
-        
-        UILabel *nameLabel  = [[UILabel alloc] init];
-        nameLabel.frame = CGRectMake(16, 10, ScreenWidth, 20);
-        nameLabel.font = [UIFont systemFontOfSize:14.f];
-        nameLabel.textColor = [UIColor evTextColorH2];
-        [backView addSubview:nameLabel];
-        nameLabel.text = @"往期视频直播";
-        return backView;
-    }
-    UIView *backView = [[UIView alloc] init];
-    backView.frame = CGRectMake(0, 0, ScreenWidth, 10);
-    backView.backgroundColor = [UIColor evBackgroundColor];
-    
-    return backView;
-}
-
+//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+//{
+//    if ((self.textLiveState == 2 && section == 0) || (section == 1)) {
+//        UIView *backView = [[UIView alloc] init];
+//        backView.frame = CGRectMake(0, 0, ScreenWidth, 40);
+//        backView.backgroundColor = [UIColor whiteColor];
+//        
+//        UILabel *nameLabel  = [[UILabel alloc] init];
+//        nameLabel.frame = CGRectMake(16, 10, ScreenWidth, 20);
+//        nameLabel.font = [UIFont systemFontOfSize:14.f];
+//        nameLabel.textColor = [UIColor evTextColorH2];
+//        [backView addSubview:nameLabel];
+//        nameLabel.text = @"往期视频直播";
+//        return backView;
+//    }
+//    UIView *backView = [[UIView alloc] init];
+//    backView.frame = CGRectMake(0, 0, ScreenWidth, 10);
+//    backView.backgroundColor = [UIColor evBackgroundColor];
+//    
+//    return backView;
+//}
+//
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -238,7 +282,7 @@
     
     static NSString * identifer = @"EVShopLiveCell";
     EVShopLiveCell * cell = [tableView dequeueReusableCellWithIdentifier:identifer];
-    cell.watchModel = self.videos[indexPath.row];
+    cell.liveModel = self.videos[indexPath.row];
     return cell;
 }
 
@@ -251,6 +295,7 @@
             self.textLiveBlock(self.userModel);
         }
     }else {
+        NSLog(@"dianji = %ld",indexPath.row);
         EVWatchVideoInfo *videoModel = self.videos[indexPath.row];
         if (self.videoBlock) {
             self.videoBlock(videoModel);
@@ -267,8 +312,8 @@
 - (void)setUserModel:(EVUserModel *)userModel
 {
     _userModel = userModel;
-    [self loadIsHaveTextLive];
-    [self reloadData];
+//    [self loadIsHaveTextLive];
+//    [self reloadData];
 }
 
 

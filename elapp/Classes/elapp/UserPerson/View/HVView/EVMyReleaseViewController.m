@@ -104,12 +104,7 @@
             //直播
             EVMyReleaseOfLiveViewController * liveVC = [[EVMyReleaseOfLiveViewController alloc] init];
             liveVC.userModel = self.userModel;
-            liveVC.videoBlock = ^(EVWatchVideoInfo *videoModel) {
-                EVHVWatchViewController *watchViewVC = [[EVHVWatchViewController alloc] init];
-                watchViewVC.watchVideoInfo = videoModel;
-                UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:watchViewVC];
-                [self presentViewController:nav animated:YES completion:nil];
-            };
+            
             liveVC.textLiveBlock= ^(EVUserModel *videoInfo) {
 //                [self loadTextLiveData:videoInfo];
             };

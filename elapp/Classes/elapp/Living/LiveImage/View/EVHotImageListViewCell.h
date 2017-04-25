@@ -10,7 +10,7 @@
 #import "EVWatchVideoInfo.h"
 #import "EVLineTableViewCell.h"
 
-@interface EVHotImageListViewCell : EVLineTableViewCell
+@interface EVHotImageListViewCell : UITableViewCell
 
 @property (nonatomic, strong) EVWatchVideoInfo *watchVideoInfo;
 

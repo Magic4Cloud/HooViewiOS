@@ -14,6 +14,8 @@
 #import "UIViewController+Extension.h"
 #import "EVHVWatchViewController.h"
 #import "EVLoginViewController.h"
+#import "EVShopLiveCell.h"
+#import "EVVideoAndLiveModel.h"
 
 @interface EVLiveVideoController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -53,7 +55,7 @@
 
 - (void)addUpView
 {
-    UITableView *liveTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, EVContentHeight) style:(UITableViewStyleGrouped)];
+    UITableView *liveTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 113) style:(UITableViewStyleGrouped)];
     liveTableView.delegate = self;
     liveTableView.dataSource = self;
     [self.view addSubview:liveTableView];
@@ -61,7 +63,8 @@
     liveTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.liveTableView = liveTableView;
     
-    
+    [self.liveTableView registerNib:[UINib nibWithNibName:@"EVShopLiveCell" bundle:nil] forCellReuseIdentifier:@"EVShopLiveCell"];
+
 //    UIButton *liveButton = [[UIButton alloc] init];
 //    liveButton.frame = CGRectMake(ScreenWidth - 60, ScreenHeight - 54, 44, 44);
 //    [self.view addSubview:liveButton];
@@ -92,12 +95,24 @@
         if (start == 0) {
             [self.dataArray removeAllObjects];
         }
-        NSArray *videos_model_temp = [EVWatchVideoInfo objectWithDictionaryArray:videoInfo[@"recommend"]];
-        [self.dataArray addObjectsFromArray:videos_model_temp];
-        [self.liveTableView reloadData];
+//        NSArray *videos_model_temp = [EVWatchVideoInfo objectWithDictionaryArray:videoInfo[@"recommend"]];
+//        [self.dataArray addObjectsFromArray:videos_model_temp];
+//        [self.liveTableView reloadData];
+        
+        NSArray *array = videoInfo[@"recommend"];
+        
+        if (array && array.count>0) {
+            __weak typeof(self) weakSelf = self;
+            [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                EVVideoAndLiveModel * livemodel = [EVVideoAndLiveModel yy_modelWithDictionary:obj];
+                [weakSelf.dataArray addObject:livemodel];
+                [self.liveTableView reloadData];
+            }];
+        }
+
         
         [self.liveTableView showFooter];
-        [self.liveTableView setFooterState:(videos_model_temp.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
+        [self.liveTableView setFooterState:(array.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
     } sessionExpired:^{
         EVRelogin(weakself);
     }];
@@ -135,7 +150,6 @@
         }
         Cell.dataArray = self.hotArray;
         Cell.listSeletedBlock = ^(EVWatchVideoInfo *videoInfo) {
-
             EVHVWatchViewController *watchViewVC = [[EVHVWatchViewController alloc] init];
             watchViewVC.watchVideoInfo = videoInfo;
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:watchViewVC];
@@ -145,21 +159,30 @@
         return Cell;
     }
   
-    EVLiveListViewCell *liveCell =[tableView dequeueReusableCellWithIdentifier:@"liveCell"];
-    if (!liveCell) {
-        liveCell = [[NSBundle mainBundle] loadNibNamed:@"EVLiveListViewCell" owner:nil options:nil].firstObject;
-        [liveCell setValue:@"liveCell" forKey:@"reuseIdentifier"];
-        liveCell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
-    liveCell.watchVideoInfo = self.dataArray[indexPath.row];
-    
-    return liveCell;
+//    EVLiveListViewCell *liveCell =[tableView dequeueReusableCellWithIdentifier:@"liveCell"];
+//    if (!liveCell) {
+//        liveCell = [[NSBundle mainBundle] loadNibNamed:@"EVLiveListViewCell" owner:nil options:nil].firstObject;
+//        [liveCell setValue:@"liveCell" forKey:@"reuseIdentifier"];
+//        liveCell.selectionStyle = UITableViewCellSelectionStyleNone;
+//    }
+//    liveCell.watchVideoInfo = self.dataArray[indexPath.row];
+//    
+//    return liveCell;
+    static NSString * identifer = @"EVShopLiveCell";
+    EVShopLiveCell * cell = [tableView dequeueReusableCellWithIdentifier:identifer];
+    cell.liveModel = self.dataArray[indexPath.row];
+    return cell;
+
 }
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == 0) {
+        return 178;
+    } else {
     return 100;
+    }
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -182,6 +205,9 @@
     imageButton.titleLabel.font = [UIFont textFontB2];
     imageButton.frame = CGRectMake(16, 9, 100, 22);
     imageButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    if (section == 0) {
+        backView.hidden = YES;
+    }
     
     return backView;
 }
@@ -192,7 +218,11 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
+    if (section == 0) {
+        return 0.01;
+    } else {
     return 50;
+    }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -201,11 +231,13 @@
         return;
     }
 
-    
     EVWatchVideoInfo *watchVideoInfo = self.dataArray[indexPath.row];
 
+    EVWatchVideoInfo * watchInfo = [[EVWatchVideoInfo alloc] init];
+    watchInfo.vid = watchVideoInfo.vid;
+    
     EVHVWatchViewController *watchViewVC = [[EVHVWatchViewController alloc] init];
-    watchViewVC.watchVideoInfo = watchVideoInfo;
+    watchViewVC.watchVideoInfo = watchInfo;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:watchViewVC];
     [self presentViewController:nav animated:YES completion:nil];
 

@@ -46,6 +46,8 @@
 #define kRefresh_token              @"refresh_token"
 #define kExpires_in                 @"expires_in"
 #define kSignature                  @"signature"
+#define kIntroduce                  @"introduce"
+
 
 // 推送
 #define kData                       @"data"

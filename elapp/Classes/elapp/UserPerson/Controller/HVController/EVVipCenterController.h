@@ -7,14 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "WMPageController.h"
 #import "EVVipDetailCenterView.h"
 #import "EVWatchVideoInfo.h"
 
 
 static CGFloat const kNavigationBarHeight = 64;
 
-@interface EVVipCenterController : WMPageController
+@interface EVVipCenterController : UIViewController
 
 @property (nonatomic, strong) EVVipDetailCenterView *vipCenterView;
 @property (nonatomic, strong) EVWatchVideoInfo *watchVideoInfo;

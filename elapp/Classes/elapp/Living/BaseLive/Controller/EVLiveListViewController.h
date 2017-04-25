@@ -7,10 +7,11 @@
 //
 
 #import "EVViewController.h"
+#import "WMPageController.h"
 
 /**
  直播首页
  */
-@interface EVLiveListViewController : EVViewController
+@interface EVLiveListViewController : WMPageController
 
 @end

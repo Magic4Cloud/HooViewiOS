@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "WMPageController.h"
-#import "EVUserModel.h"
-static CGFloat const kNavigationBarHeight = 64;
+#import "EVVipDetailCenterView.h"
+#import "EVWatchVideoInfo.h"
 
-@interface EVNormalPersonCenterController : WMPageController
-@property (nonatomic, assign) CGFloat viewTop;
-@property (nonatomic, strong) EVUserModel *usermodel;
+
+@interface EVNormalPersonCenterController : UIViewController
+@property (nonatomic, strong) EVVipDetailCenterView *vipCenterView;
+@property (nonatomic, strong) EVWatchVideoInfo *watchVideoInfo;
+
+@property (nonatomic, assign) BOOL isFollow;
 
 @end

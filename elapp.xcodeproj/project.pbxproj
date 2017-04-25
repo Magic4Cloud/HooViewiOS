@@ -124,6 +124,12 @@
 		9E08B7AF1EA76FAD00721EE8 /* EVReleaseImageWithTextLiveCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E08B7AD1EA76FAD00721EE8 /* EVReleaseImageWithTextLiveCell.xib */; };
 		9E08B7B71EA8BEAE00721EE8 /* EVMyReleaseArticleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E08B7B61EA8BEAE00721EE8 /* EVMyReleaseArticleViewController.m */; };
 		9E08B7BA1EA99DAC00721EE8 /* EVNormalPersonCenterController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E08B7B91EA99DAC00721EE8 /* EVNormalPersonCenterController.m */; };
+		9E08B7BD1EAD9B5000721EE8 /* EVHVCenterArticleTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E08B7BC1EAD9B4F00721EE8 /* EVHVCenterArticleTableView.m */; };
+		9E08B7C01EADCDB100721EE8 /* EVHVCenterCommentTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E08B7BF1EADCDB100721EE8 /* EVHVCenterCommentTableView.m */; };
+		9E08B7C41EADCE3F00721EE8 /* EVHVCenterCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E08B7C21EADCE3F00721EE8 /* EVHVCenterCommentTableViewCell.m */; };
+		9E08B7C51EADCE3F00721EE8 /* EVHVCenterCommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E08B7C31EADCE3F00721EE8 /* EVHVCenterCommentTableViewCell.xib */; };
+		9E08B7C81EADDEB900721EE8 /* EVHVCenterCommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E08B7C71EADDEB900721EE8 /* EVHVCenterCommentModel.m */; };
+		9E08B7CB1EADDF7B00721EE8 /* EVCommentTopicModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E08B7CA1EADDF7B00721EE8 /* EVCommentTopicModel.m */; };
 		9E66728D1E8136D700933C92 /* UIFont+swizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E66728B1E8136D700933C92 /* UIFont+swizzle.m */; };
 		9E7E6C191E9B219D009CBD6F /* EVSpeciaColumnCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E7E6C171E9B219D009CBD6F /* EVSpeciaColumnCell.m */; };
 		9E7E6C1A1E9B219D009CBD6F /* EVSpeciaColumnCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E7E6C181E9B219D009CBD6F /* EVSpeciaColumnCell.xib */; };
@@ -968,6 +974,17 @@
 		9E08B7B61EA8BEAE00721EE8 /* EVMyReleaseArticleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EVMyReleaseArticleViewController.m; path = elapp/Classes/elapp/UserPerson/Controller/EVMyReleaseArticleViewController.m; sourceTree = SOURCE_ROOT; };
 		9E08B7B81EA99DAC00721EE8 /* EVNormalPersonCenterController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVNormalPersonCenterController.h; sourceTree = "<group>"; };
 		9E08B7B91EA99DAC00721EE8 /* EVNormalPersonCenterController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVNormalPersonCenterController.m; sourceTree = "<group>"; };
+		9E08B7BB1EAD9B4F00721EE8 /* EVHVCenterArticleTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVHVCenterArticleTableView.h; sourceTree = "<group>"; };
+		9E08B7BC1EAD9B4F00721EE8 /* EVHVCenterArticleTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVHVCenterArticleTableView.m; sourceTree = "<group>"; };
+		9E08B7BE1EADCDB100721EE8 /* EVHVCenterCommentTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVHVCenterCommentTableView.h; sourceTree = "<group>"; };
+		9E08B7BF1EADCDB100721EE8 /* EVHVCenterCommentTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVHVCenterCommentTableView.m; sourceTree = "<group>"; };
+		9E08B7C11EADCE3F00721EE8 /* EVHVCenterCommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVHVCenterCommentTableViewCell.h; sourceTree = "<group>"; };
+		9E08B7C21EADCE3F00721EE8 /* EVHVCenterCommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVHVCenterCommentTableViewCell.m; sourceTree = "<group>"; };
+		9E08B7C31EADCE3F00721EE8 /* EVHVCenterCommentTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVHVCenterCommentTableViewCell.xib; sourceTree = "<group>"; };
+		9E08B7C61EADDEB900721EE8 /* EVHVCenterCommentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVHVCenterCommentModel.h; sourceTree = "<group>"; };
+		9E08B7C71EADDEB900721EE8 /* EVHVCenterCommentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVHVCenterCommentModel.m; sourceTree = "<group>"; };
+		9E08B7C91EADDF7B00721EE8 /* EVCommentTopicModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVCommentTopicModel.h; sourceTree = "<group>"; };
+		9E08B7CA1EADDF7B00721EE8 /* EVCommentTopicModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVCommentTopicModel.m; sourceTree = "<group>"; };
 		9E66728B1E8136D700933C92 /* UIFont+swizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+swizzle.m"; sourceTree = "<group>"; };
 		9E66728C1E8136D700933C92 /* UIFont+swizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+swizzle.h"; sourceTree = "<group>"; };
 		9E7E6C161E9B219D009CBD6F /* EVSpeciaColumnCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSpeciaColumnCell.h; sourceTree = "<group>"; };
@@ -4157,6 +4174,10 @@
 				E8B216171E121547000FD19A /* EVUserSettingModel.m */,
 				E8583D461E62C7CB00481673 /* EVUserTagsModel.h */,
 				E8583D471E62C7CB00481673 /* EVUserTagsModel.m */,
+				9E08B7C61EADDEB900721EE8 /* EVHVCenterCommentModel.h */,
+				9E08B7C71EADDEB900721EE8 /* EVHVCenterCommentModel.m */,
+				9E08B7C91EADDF7B00721EE8 /* EVCommentTopicModel.h */,
+				9E08B7CA1EADDF7B00721EE8 /* EVCommentTopicModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -4871,6 +4892,13 @@
 				E879AB741E5576D200D6D301 /* EVHVCenterImageLiveViewCell.xib */,
 				E8A873EE1E56AC30004C6BB5 /* EVHVCenterFansTableView.h */,
 				E8A873EF1E56AC30004C6BB5 /* EVHVCenterFansTableView.m */,
+				9E08B7BB1EAD9B4F00721EE8 /* EVHVCenterArticleTableView.h */,
+				9E08B7BC1EAD9B4F00721EE8 /* EVHVCenterArticleTableView.m */,
+				9E08B7BE1EADCDB100721EE8 /* EVHVCenterCommentTableView.h */,
+				9E08B7BF1EADCDB100721EE8 /* EVHVCenterCommentTableView.m */,
+				9E08B7C11EADCE3F00721EE8 /* EVHVCenterCommentTableViewCell.h */,
+				9E08B7C21EADCE3F00721EE8 /* EVHVCenterCommentTableViewCell.m */,
+				9E08B7C31EADCE3F00721EE8 /* EVHVCenterCommentTableViewCell.xib */,
 				E859C3511E6136C6003AFCFF /* EVConsumptionDetailsViewCell.h */,
 				E859C3521E6136C6003AFCFF /* EVConsumptionDetailsViewCell.m */,
 				E859C3531E6136C6003AFCFF /* EVConsumptionDetailsViewCell.xib */,
@@ -5536,6 +5564,7 @@
 				9F1F93EC89B6E7C36A057740 /* Expression_28@2x.png in Resources */,
 				7A00AD641EAEF6510081669B /* EVPayVideoCoverView.xib in Resources */,
 				9F1F9B78F4152C63D5D4DF7F /* Expression_29@2x.png in Resources */,
+				9E08B7C51EADCE3F00721EE8 /* EVHVCenterCommentTableViewCell.xib in Resources */,
 				9F1F99974C755A45816142B4 /* Expression_2@2x.png in Resources */,
 				9F1F9B3010A5FF039BCCB888 /* Expression_30@2x.png in Resources */,
 				9F1F998422959FAD273F7F7A /* Expression_31@2x.png in Resources */,
@@ -5699,7 +5728,9 @@
 				E8CDBB1F1E1B486400586CBF /* EVMarketDetailsController.m in Sources */,
 				E86201BD1D6BE8550081E72F /* EVHomeTabbar.m in Sources */,
 				E86201111D6BE8540081E72F /* EVSDKLiveMessageEngine.m in Sources */,
+				9E08B7C81EADDEB900721EE8 /* EVHVCenterCommentModel.m in Sources */,
 				E8A873ED1E569F31004C6BB5 /* EVVipNotOpenTableView.m in Sources */,
+				9E08B7CB1EADDF7B00721EE8 /* EVCommentTopicModel.m in Sources */,
 				E86200B21D6BE8540081E72F /* EVNotifyViewCell.m in Sources */,
 				E89470EB1E07CED90074F621 /* EVSelectMarketViewController.m in Sources */,
 				E8BD29801D87B0DD00CBAD82 /* EMAudioRecorderUtil.m in Sources */,
@@ -5758,6 +5789,7 @@
 				E8A4F87A1E10C13A00655272 /* EVImportantNewsViewController.m in Sources */,
 				E86200A91D6BE8540081E72F /* EVNotifyListViewController.m in Sources */,
 				E85DFE541E78D42A005667DD /* EVTextLiveChatTableView.m in Sources */,
+				9E08B7C41EADCE3F00721EE8 /* EVHVCenterCommentTableViewCell.m in Sources */,
 				E8B2161B1E123B2A000FD19A /* EVRefreshTimeViewController.m in Sources */,
 				E853DF711DA8DDF00041D8CC /* EVNetWorkManager.m in Sources */,
 				E8943E591E24AFCE008E5D97 /* EVHVVideoCommentView.m in Sources */,
@@ -5959,6 +5991,7 @@
 				E8EF9D331D82B294001AF7B0 /* EVSearchTextField.m in Sources */,
 				E862FF9F1D6BE8540081E72F /* NSArray+Log.m in Sources */,
 				E86200EC1D6BE8540081E72F /* EVUserAsset.m in Sources */,
+				9E08B7C01EADCDB100721EE8 /* EVHVCenterCommentTableView.m in Sources */,
 				E86200FA1D6BE8540081E72F /* EVLineView.m in Sources */,
 				E862011B1D6BE8540081E72F /* EVRecoderInfo.m in Sources */,
 				E89470E01E07B5BE0074F621 /* EVNavigationView.m in Sources */,
@@ -5972,6 +6005,7 @@
 				E8033DA81E3384C500A81A37 /* WKWebViewJavascriptBridge.m in Sources */,
 				E86201121D6BE8540081E72F /* EVFantuanContributionListVC.m in Sources */,
 				E862FFB11D6BE8540081E72F /* EMVoiceConverter.mm in Sources */,
+				9E08B7BD1EAD9B5000721EE8 /* EVHVCenterArticleTableView.m in Sources */,
 				E8B4A8A41E4AADDF00C75178 /* EVHVVipCenterView.m in Sources */,
 				E81261761E14E48F0021C305 /* EVGlobalView.m in Sources */,
 				E862FFB01D6BE8540081E72F /* wav.mm in Sources */,

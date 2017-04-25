@@ -207,7 +207,6 @@
 //}
 
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0 && self.textLiveState != 2) {
@@ -233,10 +232,13 @@
             self.textLiveBlock(self.userModel);
         }
     }else {
-        EVWatchVideoInfo *videoModel = self.videos[indexPath.row];
-        if (self.videoBlock) {
-            self.videoBlock(videoModel);
-        }
+        EVVideoAndLiveModel * model = self.videos[indexPath.row];
+        EVWatchVideoInfo * watchInfo = [[EVWatchVideoInfo alloc] init];
+        watchInfo.vid = model.vid;
+        EVHVWatchViewController *watchViewVC = [[EVHVWatchViewController alloc] init];
+        watchViewVC.watchVideoInfo = watchInfo;
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:watchViewVC];
+        [self presentViewController:nav animated:YES completion:nil];
     }
 }
 

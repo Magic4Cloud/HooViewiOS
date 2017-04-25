@@ -7,7 +7,7 @@
 //
 
 #import "EVVipCenterController.h"
-#import "EVVipDetailCenterView.h"
+
 
 #import "SwipeTableView.h"
 #import "SGSegmentedControl.h"
@@ -28,10 +28,13 @@
 #import "EVHVCenterFansTableView.h"// 粉丝
 #import "EVFansOrFocusesTableViewController.h"//我的粉丝
 #import "EVMyReleaseCheatsViewController.h"//秘籍
+#import "EVHVCenterArticleTableView.h"//文章
+
 
 #import "EVLoginInfo.h"
 #import "EVLoginViewController.h"
-
+#import "EVNewsModel.h"
+#import "EVNewsDetailWebController.h"
 
 @interface EVVipCenterController ()<EVHVVipCenterDelegate,SwipeTableViewDataSource,SwipeTableViewDelegate,UIGestureRecognizerDelegate,UIViewControllerTransitioningDelegate,SGSegmentedControlStaticDelegate>
 
@@ -62,6 +65,8 @@
 @property (nonatomic, strong) EVVipNotOpenTableView *vipNotOpenTableView;
 
 @property (nonatomic, strong) EVHVCenterFansTableView *centerFansTableView;
+
+@property (nonatomic, strong) EVHVCenterArticleTableView *centerArticleView;
 
 
 @end
@@ -110,7 +115,20 @@
     EVVipDetailCenterView * vipCenterView = [[EVVipDetailCenterView alloc] init];
     vipCenterView.frame = CGRectMake(0, 0, ScreenWidth, 450);
     self.vipCenterView = vipCenterView;
-    vipCenterView.backgroundColor = [UIColor orangeColor];
+    vipCenterView.fansAndFollowClickBlock = ^(controllerType type)
+    {
+        if (![EVLoginInfo hasLogged]) {
+            UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
+            [self presentViewController:navighaVC animated:YES completion:nil];
+            return;
+        }
+        //点击  粉丝和关注
+        EVFansOrFocusesTableViewController *fansOrFocusesTVC = [[EVFansOrFocusesTableViewController alloc] init];
+        fansOrFocusesTVC.type = type;
+        fansOrFocusesTVC.name = self.userModel.name;
+        [self.navigationController pushViewController:fansOrFocusesTVC animated:YES];
+    };
+
     
     // init swipetableview
     self.swipeTableView = [[SwipeTableView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
@@ -294,6 +312,22 @@
     [_swipeTableView scrollToItemAtIndex:index animated:NO];
 }
 
+
+- (void)loadTextLiveData:(EVUserModel *)userModel
+{
+    WEAK(self)
+    [self.baseToolManager GETCreateTextLiveUserid:userModel.name nickName:userModel.nickname easemobid:userModel.name success:^(NSDictionary *retinfo) {
+        EVLog(@"LIVETEXT--------- %@",retinfo);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            EVTextLiveModel *textLiveModel = [EVTextLiveModel objectWithDictionary:retinfo[@"retinfo"][@"data"]];
+            [weakself pushLiveImageVCModel:textLiveModel userModel:userModel];
+        });
+    } error:^(NSError *error) {
+        //         [weakself pushLiveImageVCModel:nil];
+        [EVProgressHUD showMessage:@"创建失败"];
+    }];
+}
+
 - (void)pushLiveImageVCModel:(EVTextLiveModel *)model userModel:(EVUserModel *)usermodel
 {
     EVHVWatchTextViewController *watchImageVC = [[EVHVWatchTextViewController alloc] init];
@@ -346,15 +380,18 @@
         {
             WEAK(self)
             EVHVCenterLiveView *hvCenterLiveView = self.hvCenterLiveView;
-            [hvCenterLiveView getDataWithName:self.watchVideoInfo.name];
+            hvCenterLiveView.userModel = self.userModel;
+            
             hvCenterLiveView.videoBlock = ^(EVWatchVideoInfo *videoModel) {
+                EVWatchVideoInfo * watchInfo = [[EVWatchVideoInfo alloc] init];
+                watchInfo.vid = videoModel.vid;
                 EVHVWatchViewController *watchViewVC = [[EVHVWatchViewController alloc] init];
-                watchViewVC.watchVideoInfo = videoModel;
+                watchViewVC.watchVideoInfo = watchInfo;
                 UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:watchViewVC];
                 [weakself presentViewController:nav animated:YES completion:nil];
             };
             hvCenterLiveView.textLiveBlock= ^(EVUserModel *videoInfo) {
-//                [weakself loadTextLiveData:videoInfo];
+                [weakself loadTextLiveData:videoInfo];
             };
             view = hvCenterLiveView;
         }
@@ -368,9 +405,15 @@
             break;
         case 2:
         {
-            EVHVCenterFansTableView *centerFansView = self.centerFansTableView;
-            centerFansView.WatchVideoInfo = self.watchVideoInfo;
-            view = centerFansView;
+            EVHVCenterArticleTableView *centerArticleView = self.centerArticleView;
+            centerArticleView.WatchVideoInfo = self.watchVideoInfo;
+            centerArticleView.ArticleBlock = ^(EVNewsModel *newsModel) {
+                EVNewsDetailWebController *newsVC = [[EVNewsDetailWebController alloc] init];
+                newsVC.newsID = newsModel.newsID;
+                //    newsVC.title = model.title;
+                [self.navigationController pushViewController:newsVC animated:YES];
+            };
+            view = centerArticleView;
         }
             break;
         case 3:
@@ -428,6 +471,17 @@
         _centerFansTableView.backgroundColor = [UIColor evBackgroundColor];
     }
     return _centerFansTableView;
+}
+
+
+
+- (EVHVCenterArticleTableView *)centerArticleView
+{
+    if (nil == _centerArticleView) {
+        _centerArticleView = [[EVHVCenterArticleTableView alloc] initWithFrame:_swipeTableView.bounds style:(UITableViewStyleGrouped)];
+        _centerArticleView.backgroundColor = [UIColor evBackgroundColor];
+    }
+    return _centerArticleView;
 }
 
 - (EVVipDetailCenterView * )vipCenterView

@@ -192,6 +192,12 @@
         params[kLocation] = self.location;
     }
     
+    if ( self.introduce.length )
+    {
+        params[kIntroduce] = self.introduce;
+    }
+
+    
     if (self.unionid.length)
     {
         params[kUnionid] = self.unionid;

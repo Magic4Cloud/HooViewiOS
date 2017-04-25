@@ -13,13 +13,18 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EVVipDetailCenterView">
             <connections>
                 <outlet property="credentialsLabel" destination="4rN-Th-yU1" id="YQW-M8-CFe"/>
-                <outlet property="followButton" destination="aLN-jS-H9e" id="gdc-fi-f41"/>
+                <outlet property="fansNumberButton" destination="t97-uU-rPm" id="GHZ-IU-fpZ"/>
+                <outlet property="followLabel" destination="bfL-85-zSh" id="tYd-Ef-udQ"/>
+                <outlet property="followNumberButton" destination="AoA-rK-yXH" id="Qux-Vg-8E6"/>
+                <outlet property="followOrNotButton" destination="aLN-jS-H9e" id="y4n-BS-9Ua"/>
                 <outlet property="headerCoverImage" destination="ipr-le-5Ic" id="Emh-i0-skd"/>
                 <outlet property="introduceLabel" destination="1HI-1G-qEc" id="8Dd-BP-ffH"/>
                 <outlet property="nameLabel" destination="bv6-Wi-Y5T" id="0rl-Qg-GEG"/>
                 <outlet property="numberOfFans" destination="qMa-qx-Uio" id="EVO-xE-Bub"/>
+                <outlet property="numberOfFollow" destination="Nl4-TV-oAv" id="A7c-oZ-ik1"/>
                 <outlet property="signatureLabel" destination="niV-xB-p5D" id="QT9-li-mhY"/>
                 <outlet property="tagOfVipLabel" destination="Z02-T6-arJ" id="zNf-1J-ig0"/>
+                <outlet property="vipImage" destination="jVw-6j-iGI" id="PKo-AO-xrv"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -53,7 +58,7 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                             <connections>
-                                <action selector="action_follow:" destination="-1" eventType="touchUpInside" id="rMW-cP-imO"/>
+                                <action selector="followOrNot:" destination="-1" eventType="touchUpInside" id="0ho-UQ-eMu"/>
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="粉丝" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3dO-qo-0St">
@@ -62,8 +67,14 @@
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="关注" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bfL-85-zSh" userLabel="关注">
+                            <rect key="frame" x="334" y="48" width="29" height="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2839" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qMa-qx-Uio">
-                            <rect key="frame" x="285" y="17.5" width="49" height="24"/>
+                            <rect key="frame" x="285" y="14.5" width="49" height="30"/>
                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                             <color key="textColor" red="1" green="0.42352941176470588" blue="0.14117647058823529" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -86,26 +97,56 @@
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_v" translatesAutoresizingMaskIntoConstraints="NO" id="jVw-6j-iGI" userLabel="大V图标" customClass="ic_v">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_v" translatesAutoresizingMaskIntoConstraints="NO" id="jVw-6j-iGI" userLabel="大V图标">
                             <rect key="frame" x="89" y="129" width="30" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="30" id="Pqh-aF-egZ"/>
                                 <constraint firstAttribute="height" constant="30" id="erp-ve-A4Q"/>
                             </constraints>
                         </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t97-uU-rPm" userLabel="fansButton">
+                            <rect key="frame" x="285" y="14" width="78" height="30"/>
+                            <connections>
+                                <action selector="toFansVC:" destination="-1" eventType="touchUpInside" id="aQc-GT-1rj"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="156" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nl4-TV-oAv">
+                            <rect key="frame" x="300" y="41.5" width="34" height="30"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                            <color key="textColor" red="1" green="0.42352941179999998" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AoA-rK-yXH" userLabel="followButton">
+                            <rect key="frame" x="300" y="41.5" width="63" height="30"/>
+                            <connections>
+                                <action selector="toFollowVC:" destination="-1" eventType="touchUpInside" id="bmW-tg-pZE"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
                     <constraints>
+                        <constraint firstItem="t97-uU-rPm" firstAttribute="bottom" secondItem="qMa-qx-Uio" secondAttribute="bottom" id="1B0-5F-0mc"/>
+                        <constraint firstItem="bfL-85-zSh" firstAttribute="top" secondItem="3dO-qo-0St" secondAttribute="bottom" constant="10" id="4NA-aC-qxs"/>
+                        <constraint firstItem="3dO-qo-0St" firstAttribute="leading" secondItem="bfL-85-zSh" secondAttribute="leading" id="7D8-jG-zpO"/>
+                        <constraint firstItem="bfL-85-zSh" firstAttribute="centerY" secondItem="Nl4-TV-oAv" secondAttribute="centerY" id="7dr-sa-Y9G"/>
+                        <constraint firstItem="AoA-rK-yXH" firstAttribute="top" secondItem="Nl4-TV-oAv" secondAttribute="top" id="8TQ-zH-9Ca"/>
                         <constraint firstItem="niV-xB-p5D" firstAttribute="bottom" secondItem="4rN-Th-yU1" secondAttribute="top" id="AzD-RY-DVQ"/>
+                        <constraint firstItem="t97-uU-rPm" firstAttribute="trailing" secondItem="3dO-qo-0St" secondAttribute="trailing" id="DVe-vg-UYB"/>
+                        <constraint firstItem="AoA-rK-yXH" firstAttribute="trailing" secondItem="bfL-85-zSh" secondAttribute="trailing" id="P4D-9Q-jff"/>
                         <constraint firstItem="bv6-Wi-Y5T" firstAttribute="leading" secondItem="ptS-Kd-JUX" secondAttribute="leading" constant="16" id="Pj4-eN-cxP"/>
                         <constraint firstItem="qMa-qx-Uio" firstAttribute="centerY" secondItem="3dO-qo-0St" secondAttribute="centerY" id="TLG-vg-Nbf"/>
+                        <constraint firstItem="AoA-rK-yXH" firstAttribute="bottom" secondItem="Nl4-TV-oAv" secondAttribute="bottom" id="Yen-9w-KKn"/>
                         <constraint firstItem="niV-xB-p5D" firstAttribute="trailing" secondItem="aLN-jS-H9e" secondAttribute="leading" constant="-20" id="arM-ZO-nVz"/>
                         <constraint firstItem="jVw-6j-iGI" firstAttribute="leading" secondItem="bv6-Wi-Y5T" secondAttribute="trailing" id="cJO-OO-pid"/>
                         <constraint firstItem="bv6-Wi-Y5T" firstAttribute="bottom" secondItem="niV-xB-p5D" secondAttribute="top" id="d09-p9-emf"/>
+                        <constraint firstItem="t97-uU-rPm" firstAttribute="leading" secondItem="qMa-qx-Uio" secondAttribute="leading" id="esA-Bq-hI5"/>
                         <constraint firstItem="jVw-6j-iGI" firstAttribute="bottom" secondItem="niV-xB-p5D" secondAttribute="top" id="gfC-Y7-Kxj"/>
                         <constraint firstItem="niV-xB-p5D" firstAttribute="leading" secondItem="bv6-Wi-Y5T" secondAttribute="leading" id="k8j-lj-3bG"/>
+                        <constraint firstItem="Nl4-TV-oAv" firstAttribute="trailing" secondItem="bfL-85-zSh" secondAttribute="leading" id="n7M-Sl-d9R"/>
                         <constraint firstItem="4rN-Th-yU1" firstAttribute="leading" secondItem="bv6-Wi-Y5T" secondAttribute="leading" id="tNb-Oo-qxZ"/>
                         <constraint firstItem="qMa-qx-Uio" firstAttribute="trailing" secondItem="3dO-qo-0St" secondAttribute="leading" id="vCD-eN-8bp"/>
+                        <constraint firstItem="AoA-rK-yXH" firstAttribute="leading" secondItem="Nl4-TV-oAv" secondAttribute="leading" id="wzU-MW-gxb"/>
+                        <constraint firstItem="t97-uU-rPm" firstAttribute="top" secondItem="qMa-qx-Uio" secondAttribute="top" id="yGa-pV-i3W"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lnt-ae-o42" userLabel="lineView">

@@ -71,6 +71,15 @@
                     <color key="textColor" red="0.56470588235294117" green="0.56470588235294117" blue="0.56470588235294117" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="简介" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rCf-eg-1Cd">
+                    <rect key="frame" x="120" y="30" width="245" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="vw3-Bs-1SW"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
@@ -81,15 +90,19 @@
                 <constraint firstItem="tsM-Ti-Zdj" firstAttribute="leading" secondItem="V8b-u2-hoz" secondAttribute="trailing" constant="8" id="LOH-hh-6Dc"/>
                 <constraint firstItem="j1L-cW-1M3" firstAttribute="leading" secondItem="5KE-uR-XSu" secondAttribute="trailing" constant="24" id="LnV-UR-Zew"/>
                 <constraint firstItem="E31-4E-4nq" firstAttribute="centerY" secondItem="5KE-uR-XSu" secondAttribute="centerY" id="N3z-J5-gWT"/>
+                <constraint firstItem="rCf-eg-1Cd" firstAttribute="leading" secondItem="WyI-7w-aSH" secondAttribute="leading" id="PuA-a3-dKR"/>
                 <constraint firstItem="V8b-u2-hoz" firstAttribute="centerY" secondItem="E31-4E-4nq" secondAttribute="centerY" id="R4j-hq-S0X"/>
                 <constraint firstItem="E31-4E-4nq" firstAttribute="leading" secondItem="WyI-7w-aSH" secondAttribute="leading" id="RUp-Av-s2k"/>
                 <constraint firstItem="5KE-uR-XSu" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="cWG-1q-fq3"/>
                 <constraint firstItem="WyI-7w-aSH" firstAttribute="leading" secondItem="5KE-uR-XSu" secondAttribute="trailing" constant="24" id="eSS-qW-OgY"/>
+                <constraint firstAttribute="trailing" secondItem="rCf-eg-1Cd" secondAttribute="trailing" constant="10" id="fy9-a0-dXk"/>
                 <constraint firstItem="WyI-7w-aSH" firstAttribute="top" secondItem="5KE-uR-XSu" secondAttribute="top" id="hsT-1P-wx2"/>
+                <constraint firstItem="rCf-eg-1Cd" firstAttribute="centerY" secondItem="5KE-uR-XSu" secondAttribute="centerY" id="s6b-6o-KgU"/>
                 <constraint firstItem="5KE-uR-XSu" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="yXd-cc-j7n"/>
             </constraints>
             <connections>
                 <outlet property="headImageView" destination="5KE-uR-XSu" id="vJo-Rk-wab"/>
+                <outlet property="introduceLabel" destination="rCf-eg-1Cd" id="fzL-gR-v8G"/>
                 <outlet property="nameLabel" destination="WyI-7w-aSH" id="BcG-bh-1O9"/>
                 <outlet property="oneTagLabel" destination="E31-4E-4nq" id="cyB-DF-479"/>
                 <outlet property="oneTagWid" destination="n2W-xB-iQC" id="7pc-7U-7x4"/>

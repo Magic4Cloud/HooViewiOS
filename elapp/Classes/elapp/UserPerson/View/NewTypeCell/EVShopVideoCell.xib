@@ -97,6 +97,23 @@
                             <constraint firstAttribute="height" constant="4" id="eDi-Fb-Ll0"/>
                         </constraints>
                     </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="付费" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N7X-2K-fZ4">
+                        <rect key="frame" x="322" y="47" width="38" height="20"/>
+                        <color key="backgroundColor" red="0.396078431372549" green="0.60392156862745094" blue="0.8784313725490196" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="0pe-3S-kLg"/>
+                            <constraint firstAttribute="width" constant="38" id="lem-a9-xZ1"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="4"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                        </userDefinedRuntimeAttributes>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="tnM-nH-Fbv" firstAttribute="centerY" secondItem="ume-dA-u8r" secondAttribute="centerY" id="1Dd-Gb-VIi"/>
@@ -104,7 +121,9 @@
                     <constraint firstItem="aYo-da-E4P" firstAttribute="leading" secondItem="kAr-s5-5pU" secondAttribute="trailing" constant="3" id="9fT-52-QVX"/>
                     <constraint firstAttribute="trailingMargin" secondItem="Cat-ye-gcd" secondAttribute="trailing" constant="15" id="9ia-FB-jEz"/>
                     <constraint firstItem="paG-O3-M4O" firstAttribute="leading" secondItem="KHS-Vv-kvA" secondAttribute="leading" id="9yg-Wg-m0B"/>
+                    <constraint firstItem="N7X-2K-fZ4" firstAttribute="trailing" secondItem="paG-O3-M4O" secondAttribute="trailing" id="Cw8-4X-CSG"/>
                     <constraint firstItem="zM7-iw-Jnr" firstAttribute="top" secondItem="KHS-Vv-kvA" secondAttribute="bottom" constant="8" id="DBP-Mn-Q26"/>
+                    <constraint firstItem="N7X-2K-fZ4" firstAttribute="centerY" secondItem="Cat-ye-gcd" secondAttribute="centerY" id="Ep1-By-4tw"/>
                     <constraint firstItem="Cat-ye-gcd" firstAttribute="top" secondItem="ume-dA-u8r" secondAttribute="bottom" constant="5" id="GHg-eF-zrj"/>
                     <constraint firstItem="tnM-nH-Fbv" firstAttribute="leading" secondItem="ume-dA-u8r" secondAttribute="trailing" id="JPR-NK-o4k"/>
                     <constraint firstItem="d3U-tb-7t7" firstAttribute="bottom" secondItem="KHS-Vv-kvA" secondAttribute="bottom" id="JyR-BU-t9U"/>
@@ -140,6 +159,7 @@
                 <outlet property="cellIntroduceLabel" destination="emV-Yt-KPT" id="ivh-Pr-UZk"/>
                 <outlet property="cellNameLabel" destination="tnM-nH-Fbv" id="btd-lK-UJe"/>
                 <outlet property="cellViewCountLabel" destination="aYo-da-E4P" id="Gl7-Ni-ph7"/>
+                <outlet property="needPayLabel" destination="N7X-2K-fZ4" id="Urp-Jl-r9u"/>
             </connections>
             <point key="canvasLocation" x="24.5" y="51.5"/>
         </tableViewCell>

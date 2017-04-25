@@ -54,7 +54,7 @@
 
 - (void)addUpView
 {
-    UITableView *liveTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, EVContentHeight) style:(UITableViewStyleGrouped)];
+    UITableView *liveTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 64 -49) style:(UITableViewStyleGrouped)];
     liveTableView.delegate = self;
     liveTableView.dataSource = self;
     [self.view addSubview:liveTableView];
@@ -226,7 +226,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-      return  125;
+      return  172;
     }
     return 100;
 }
@@ -256,6 +256,9 @@
         [imageButton setTitle:titleArray[1] forState:(UIControlStateNormal)];
         [imageButton setImage:[UIImage imageNamed:imageArray[1]] forState:(UIControlStateNormal)];
     }
+    if (section == 0) {
+        backView.hidden = YES;
+    }
     return backView;
 }
 
@@ -266,7 +269,11 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
+    if (section == 0) {
+        return 0.01;
+    } else {
     return 50;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

@@ -7,34 +7,59 @@
 //
 
 #import "EVNormalPersonCenterController.h"
-#import "EVVipDetailCenterView.h"
-#import "WMPanGestureRecognizer.h"
-
-
-#import "EVSelfStockViewController.h"
-#import "EVHVCenterLiveView.h"
-#import "EVVipNotOpenTableView.h"
-#import "EVHVWatchViewController.h"
+#import "SwipeTableView.h"
+#import "SGSegmentedControl.h"
+#import "EVLineView.h"
+#import "EVUserTagsView.h"
 #import "EVBaseToolManager+EVUserCenterAPI.h"
+#import "EVUserModel.h"
 #import "EVNotOpenView.h"
-#import "EVFansOrFocusesTableViewController.h"//我的粉丝
-#import "EVMyReleaseCheatsViewController.h"//秘籍
+#import "EVVipNotOpenTableView.h"
+#import "EVHVWatchTextViewController.h"
+#import "EVBaseToolManager+EVLiveAPI.h"
+#import "EVHVWatchViewController.h"
+
+#import "EVHVCenterArticleTableView.h"//文章
+#import "EVFansOrFocusesTableViewController.h"
+
+#import "EVLoginInfo.h"
+#import "EVLoginViewController.h"
+#import "EVNewsModel.h"
+#import "EVNewsDetailWebController.h"
+#import "EVHVCenterCommentTableView.h"
 
 
-@interface EVNormalPersonCenterController ()<UIGestureRecognizerDelegate>
-@property (nonatomic, strong) NSArray *musicCategories;
-@property (nonatomic, strong) WMPanGestureRecognizer *panGesture;
-@property (nonatomic, assign) CGPoint lastPoint;
-@property (nonatomic, strong) EVBaseToolManager *baseToolManager;
-
-@property (nonatomic, strong) EVVipDetailCenterView *vipCenterView;
+@interface EVNormalPersonCenterController ()<EVHVVipCenterDelegate,SwipeTableViewDataSource,SwipeTableViewDelegate,UIGestureRecognizerDelegate,UIViewControllerTransitioningDelegate,SGSegmentedControlStaticDelegate>
 
 @property (nonatomic, strong) EVVipDetailCenterView *hvCenterView;
 
 @property (nonatomic, weak) UIButton *followButton;
 
-@property (nonatomic, assign) CGFloat viewHeight;
 
+@property (nonatomic, strong) SwipeTableView * swipeTableView;
+@property (nonatomic, strong) STHeaderView * tableViewHeader;
+
+
+@property (nonatomic, strong) SGSegmentedControlStatic *topSView;
+
+
+@property (nonatomic, strong) UIView *sementedBackView;
+
+@property (nonatomic, strong) UIView *navigationView;
+
+@property (nonatomic, strong) EVBaseToolManager *baseToolManager;
+
+@property (nonatomic, strong) EVUserModel *userModel;
+
+
+@property (nonatomic, weak) EVNotOpenView *notOpenView;
+
+@property (nonatomic, strong) EVVipNotOpenTableView *vipNotOpenTableView;
+
+
+@property (nonatomic, strong) EVHVCenterArticleTableView *centerArticleView;
+
+@property (nonatomic, strong) EVHVCenterCommentTableView *CenterCommentView;
 
 @end
 
@@ -44,11 +69,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self addBackTableView];
     [self loadData];
-    [self setupView];
-    self.panGesture = [[WMPanGestureRecognizer alloc] initWithTarget:self action:@selector(panOnView:)];
-    [self.view addGestureRecognizer:self.panGesture];
-    
     //    [self loadImageCarousel];
     //
     //    WEAK(self)
@@ -67,8 +89,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES];
-    //    [self loadNewData];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -79,208 +101,268 @@
 
 
 #pragma mark - 🖍 User Interface layout
-- (instancetype)init {
-    if (self = [super init]) {
-        self.titleSizeNormal = 16;
-        self.titleSizeSelected = 16;
-        self.menuViewStyle = WMMenuViewStyleLine;
-        self.progressViewWidths = @[@16,@16,@16,@16];
-        self.menuItemWidth = [UIScreen mainScreen].bounds.size.width / self.musicCategories.count;
-        self.menuHeight = 44;
-        //        self.viewTop = kNavigationBarHeight + kWMHeaderViewHeight;
-        self.titleColorSelected = [UIColor evMainColor];
-        self.titleColorNormal = [UIColor evTextColorH2];
+- (void)addBackTableView
+{
+    EVVipDetailCenterView * vipCenterView = [[EVVipDetailCenterView alloc] init];
+    vipCenterView.frame = CGRectMake(0, 0, ScreenWidth, 450);
+    self.vipCenterView = vipCenterView;
+    vipCenterView.fansAndFollowClickBlock = ^(controllerType type)
+    {
+        if (![EVLoginInfo hasLogged]) {
+            UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
+            [self presentViewController:navighaVC animated:YES completion:nil];
+            return;
+        }
+        //点击  粉丝和关注
+        EVFansOrFocusesTableViewController *fansOrFocusesTVC = [[EVFansOrFocusesTableViewController alloc] init];
+        fansOrFocusesTVC.type = type;
+        [self.navigationController pushViewController:fansOrFocusesTVC animated:YES];
+    };
+    
+    
+    // init swipetableview
+    self.swipeTableView = [[SwipeTableView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+    _swipeTableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    _swipeTableView.delegate = self;
+    _swipeTableView.dataSource = self;
+    _swipeTableView.shouldAdjustContentSize = YES;
+    _swipeTableView.alwaysBounceHorizontal = YES;
+    _swipeTableView.swipeHeaderBar = self.sementedBackView;
+    _swipeTableView.swipeHeaderBarScrollDisabled = YES;
+    _swipeTableView.swipeHeaderTopInset = 64;
+    [self.view addSubview:_swipeTableView];
+    self.vipCenterView.watchVideoInfo = self.watchVideoInfo;
+    
+    
+    self.navigationView = [[UIView alloc] init];
+    _navigationView.frame = CGRectMake(0, 0, ScreenWidth, 64);
+    _navigationView.backgroundColor = [UIColor whiteColor];
+    [EVLineView addTopLineToView:_navigationView];
+    [self.view addSubview:_navigationView];
+    
+    
+    UIButton *popButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    [_navigationView addSubview:popButton];
+    [popButton autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:12];
+    [popButton autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:27];
+    [popButton autoSetDimensionsToSize:CGSizeMake(30,30)];
+    [popButton setImage:[UIImage imageNamed:@"btn_return_n"] forState:(UIControlStateNormal)];
+    [popButton addTarget:self action:@selector(popClick) forControlEvents:(UIControlEventTouchUpInside)];
+    
+    //举报
+    UIButton *reportButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    [_navigationView addSubview:reportButton];
+    [reportButton autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:4];
+    [reportButton autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:20];
+    [reportButton autoSetDimensionsToSize:CGSizeMake(44,44)];
+    [reportButton setImage:[UIImage imageNamed:@"btn_report_n"] forState:(UIControlStateNormal)];
+    [reportButton addTarget:self action:@selector(reportClick) forControlEvents:(UIControlEventTouchUpInside)];
+    
+}
+
+
+- (UIView *)sementedBackView
+{
+    if (nil == _sementedBackView) {
+        self.sementedBackView  = [[UIView alloc] init];
+        _sementedBackView.frame = CGRectMake(0, 0, ScreenWidth, 44);
+        _sementedBackView.backgroundColor = [UIColor whiteColor];
+        
+        
+        NSArray *titleArray = @[@"评论",@"收藏"];
+        
+        self.topSView = [SGSegmentedControlStatic segmentedControlWithFrame:CGRectMake(0, 0, ScreenWidth / 2, 44) delegate:self childVcTitle:titleArray indicatorIsFull:NO];
+        
+        // 必须实现的方法
+        [_topSView SG_setUpSegmentedControlType:^(SGSegmentedControlStaticType *segmentedControlStaticType, NSArray *__autoreleasing *nomalImageArr, NSArray *__autoreleasing *selectedImageArr) {
+            
+        }];
+        
+        [_topSView SG_setUpSegmentedControlStyle:^(UIColor *__autoreleasing *segmentedControlColor, UIColor *__autoreleasing *titleColor, UIColor *__autoreleasing *selectedTitleColor, UIColor *__autoreleasing *indicatorColor, BOOL *isShowIndicor) {
+            *segmentedControlColor = [UIColor whiteColor];
+            *titleColor = [UIColor evTextColorH2];
+            *selectedTitleColor = [UIColor evMainColor];
+            *indicatorColor = [UIColor evMainColor];
+        }];
+        _topSView.selectedIndex = 0;
+        [_sementedBackView addSubview:_topSView];
     }
-    return self;
+    return _sementedBackView;
 }
 
 
-- (void)setupView {
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    
-    UIView *navigationView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 64)];
-    navigationView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:navigationView];
-    
-    UIButton *toReportButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    toReportButton.frame = CGRectMake(ScreenWidth - 44 -10, 20, 44,44);
-    [toReportButton setImage:[UIImage imageNamed:@"btn_report_n"] forState:(UIControlStateNormal)];
-    [toReportButton addTarget:self action:@selector(toReport:) forControlEvents:(UIControlEventTouchUpInside)];
-    [navigationView addSubview:toReportButton];
-    
-    UIButton *returnButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    returnButton.frame = CGRectMake(4, 20, 44, 44);
-    [returnButton setImage:[UIImage imageNamed:@"btn_return_n"] forState:(UIControlStateNormal)];
-    [returnButton addTarget:self action:@selector(returnButton:) forControlEvents:(UIControlEventTouchUpInside)];
-    [navigationView addSubview:returnButton];
-    
-    
-    
-    EVVipDetailCenterView * hvCenterView = [[EVVipDetailCenterView alloc] init];
-    hvCenterView.frame = CGRectMake(0, 0, ScreenWidth, 120);
-    self.hvCenterView = hvCenterView;
-    hvCenterView.backgroundColor = [UIColor orangeColor];
-    [self.view insertSubview:hvCenterView atIndex:0];
-    
-}
+
 
 
 
 #pragma mark - 🌐Networks
-
-- (void)loadData {
-    NSLog(@"self.watchVideoInfo.name:%@",self.usermodel.name);
-    [self.baseToolManager GETBaseUserInfoWithUname:@"19215469" start:^{
+- (void)loadData
+{
+    [self.baseToolManager GETUserInfoWithUname:self.watchVideoInfo.name orImuser:nil start:^{
         
     } fail:^(NSError *error) {
-        NSLog(@"eeeeeee = %@",error);
+        NSLog(@"error = %@",error);
     } success:^(NSDictionary *modelDict) {
-        self.usermodel = [EVUserModel objectWithDictionary:modelDict];
-        self.hvCenterView.userModel = self.usermodel;
+        EVUserModel *userModel = [EVUserModel objectWithDictionary:modelDict];
+        self.userModel = userModel;
+        self.vipCenterView.userModel = userModel;
         
         NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
         paragraphStyle.alignment = NSTextAlignmentLeft;
         NSDictionary *attributes = @{ NSFontAttributeName : [UIFont systemFontOfSize:12],
                                       NSParagraphStyleAttributeName: paragraphStyle};
-        CGSize contentSize = [@"火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经" boundingRectWithSize:CGSizeMake(ScreenWidth - 51 , CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading  attributes:attributes context:nil].size;
+        CGSize contentSize = [@"火眼财经火眼财经" boundingRectWithSize:CGSizeMake(ScreenWidth - 51 , CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading  attributes:attributes context:nil].size;
         NSLog(@"cont = %@",NSStringFromCGSize(contentSize));
         
-        self.viewHeight = contentSize.height + 75 + ScreenWidth * 210 / 375;
-        self.viewTop = kNavigationBarHeight + contentSize.height + 75 + ScreenWidth * 210 / 375;
-        
-        [self updateIsFollow:self.usermodel.followed];
+        CGFloat viewHeight = contentSize.height + 75 + ScreenWidth * 210 / 375;
+        self.vipCenterView.frame = CGRectMake(0, 0, ScreenWidth, viewHeight);
+        _swipeTableView.swipeHeaderView = self.vipCenterView;
     } sessionExpire:^{
         
     }];
-    
 }
 
 
 
 
 #pragma mark -👣 Target actions
-- (void)panOnView:(WMPanGestureRecognizer *)recognizer {
-    
-    CGPoint currentPoint = [recognizer locationInView:self.view];
-    
-    if (recognizer.state == UIGestureRecognizerStateBegan) {
-        self.lastPoint = currentPoint;
-    } else if (recognizer.state == UIGestureRecognizerStateEnded) {
-        
-        CGPoint velocity = [recognizer velocityInView:self.view];
-        NSLog(@"%lf",velocity.y);
-        CGFloat targetPoint = velocity.y < 0 ? kNavigationBarHeight : kNavigationBarHeight + self.viewHeight;
-        NSTimeInterval duration = fabs((targetPoint - self.viewTop) / velocity.y);
-        
-        if (fabs(velocity.y) * 1.0 > fabs(targetPoint - self.viewTop)) {
-            [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-                self.viewTop = targetPoint;
-            } completion:nil];
-            self.viewTop = targetPoint;
-            
-            
-            return;
-        }
-        
-    }
-    CGFloat yChange = currentPoint.y - self.lastPoint.y;
-    self.viewTop += yChange;
-    self.lastPoint = currentPoint;
-    
-    
-}
-
-//返回
-- (void)returnButton:(UIButton *)sender {
-    [self.navigationController popViewControllerAnimated:YES];
+- (void)popClick
+{
+    [self backButton];
 }
 
 //举报
-- (void)toReport:(UIButton *)sender {
-    NSLog(@"举报");
-}
-
-
-
-- (void)updateIsFollow:(BOOL)follow
+- (void)reportClick
 {
-    NSString *imageStr = follow ? @"btn_concerned_s": @"btn_unconcerned_n";
-    [self.followButton setImage:[UIImage imageNamed:imageStr] forState:(UIControlStateNormal)];
-    NSString *titleStr = follow ? @"已关注" : @"关注";
-    [self.followButton setTitle:titleStr forState:(UIControlStateNormal)];
-}
-
-
-
-#pragma mark - 🌺  Delegate & Datasource
-- (NSInteger)numbersOfChildControllersInPageController:(WMPageController *)pageController {
-    return self.musicCategories.count;
-}
-
-- (UIViewController *)pageController:(WMPageController *)pageController viewControllerAtIndex:(NSInteger)index {
-    switch (index) {
-        case 0:
-        {
-            //自选
-            EVSelfStockViewController *allStockVC = [[EVSelfStockViewController alloc] init];
-            allStockVC.view.frame = CGRectMake(0, 10, ScreenWidth, ScreenHeight - 113 -10);
-            allStockVC.stockType = EVSelfStockTypeAll;
-            return allStockVC;
-        }
-            break;
-        case 1:
-        {
-            EVMyReleaseCheatsViewController *cheatVC = [[EVMyReleaseCheatsViewController alloc] init];
-            return cheatVC;
-        }
-        case 2:
-        {
-            EVFansOrFocusesTableViewController *fansVC = [[EVFansOrFocusesTableViewController alloc] init];
-            fansVC.type = FANS;
-            fansVC.navitionHidden = YES;
-            return fansVC;
-        }
-        case 3:
-        {
-            //我的粉丝
-            EVFansOrFocusesTableViewController *fansVC = [[EVFansOrFocusesTableViewController alloc] init];
-            fansVC.type = FANS;
-            fansVC.navitionHidden = YES;
-            return fansVC;
-        }
-        default:
-        {
-            return nil;
-        }
-            break;
-    }
     
 }
 
-- (NSString *)pageController:(WMPageController *)pageController titleAtIndex:(NSInteger)index {
-    return self.musicCategories[index];
+- (void)backButton
+{
+    if (self.navigationController.viewControllers.count>1) {
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
+    
+    if (self.presentingViewController) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
+
+
+- (void)shareClick
+{
+    EVLog(@"shareClick--------- ");
+}
+
+- (void)followClick:(UIButton *)btn
+{
+    if (![EVLoginInfo hasLogged]) {
+        UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
+        [self presentViewController:navighaVC animated:YES completion:nil];
+        return;
+    }
+    
+    WEAK(self)
+    BOOL followType = self.watchVideoInfo.followed ? NO : YES;
+    [self.baseToolManager GETFollowUserWithName:self.watchVideoInfo.name followType:followType start:^{
+        
+    } fail:^(NSError *error) {
+        
+    } success:^{
+        btn.selected = !btn.selected;
+        [weakself buttonStatus:btn.selected button:btn];
+        weakself.watchVideoInfo.followed = followType;
+    }
+                                   essionExpire:^{
+                                       
+                                   }];
+}
+
+- (void)buttonStatus:(BOOL)status button:(UIButton *)button
+{
+    if (status == YES) {
+        [button setImage:[UIImage imageNamed:@"btn_concerned_s"] forState:(UIControlStateNormal)];
+        [button setTitle:@"已关注" forState:(UIControlStateNormal)];
+    }else {
+        [button setImage:[UIImage imageNamed:@"btn_unconcerned_n"] forState:(UIControlStateNormal)];
+        
+        [button setTitle:@"关注" forState:(UIControlStateNormal)];
+    }
+}
+
+
+
+- (void)SGSegmentedControlStatic:(SGSegmentedControlStatic *)segmentedControlStatic didSelectTitleAtIndex:(NSInteger)index
+{
+    [_swipeTableView scrollToItemAtIndex:index animated:NO];
+}
+
+
+// swipetableView index变化，改变seg的index
+- (void)swipeTableViewCurrentItemIndexDidChange:(SwipeTableView *)swipeView {
+    
+    //    _topSView.selectedIndex = swipeView.currentItemIndex;
+    [self.topSView changeSelectButtonIndex:swipeView.currentItemIndex];
+}
+
+
+#pragma mark - 🌺  Delegate & Datasource
+- (void)updateTableViewFloat:(CGFloat)vfloat
+{
+    //    if (vfloat > 150) {
+    //        self.navigationView.alpha = 1;
+    //    }else {
+    //        self.navigationView.alpha = 0.0;
+    //    }
+    
+}
+
+- (NSInteger)numberOfItemsInSwipeTableView:(SwipeTableView *)swipeView {
+    return 2;
+}
+
+- (UIScrollView *)swipeTableView:(SwipeTableView *)swipeView viewForItemAtIndex:(NSInteger)index reusingView:(UIScrollView *)view {
+    
+    switch (index) {
+        case 0:
+            
+        {
+            EVHVCenterCommentTableView *CenterCommentView = self.CenterCommentView;
+            CenterCommentView.WatchVideoInfo = self.watchVideoInfo;
+            view = CenterCommentView;
+
+        }
+            break;
+        
+        case 1:
+        {
+            EVHVCenterArticleTableView *centerArticleView = self.centerArticleView;
+            centerArticleView.WatchVideoInfo = self.watchVideoInfo;
+            centerArticleView.ArticleBlock = ^(EVNewsModel *newsModel) {
+                EVNewsDetailWebController *newsVC = [[EVNewsDetailWebController alloc] init];
+                newsVC.newsID = newsModel.newsID;
+                //    newsVC.title = model.title;
+                [self.navigationController pushViewController:newsVC animated:YES];
+            };
+            view = centerArticleView;
+        }
+            break;
+        
+        default:
+            break;
+    }
+    
+    return view;
+}
+
 
 
 
 #pragma mark -   Getter
-- (NSArray *)musicCategories {
-    if (!_musicCategories) {
-        _musicCategories = @[@"直播", @"秘籍", @"专栏", @"粉丝"];
-    }
-    return _musicCategories;
-}
-
-- (EVVipDetailCenterView *)hvCenterView {
-    if (!_hvCenterView) {
-        _hvCenterView = [[EVVipDetailCenterView alloc] init];
-    }
-    return _hvCenterView;
-}
-
-
-
 - (EVBaseToolManager *)baseToolManager
 {
     if (!_baseToolManager) {
@@ -289,25 +371,67 @@
     return _baseToolManager;
 }
 
-
-#pragma mark -   Setter
-- (void)setViewTop:(CGFloat)viewTop {
-    
-    _viewTop = viewTop;
-    
-    if (_viewTop <= kNavigationBarHeight) {
-        _viewTop = kNavigationBarHeight;
+- (EVVipNotOpenTableView *)vipNotOpenTableView
+{
+    if (nil == _vipNotOpenTableView) {
+        _vipNotOpenTableView = [[EVVipNotOpenTableView alloc] initWithFrame:_swipeTableView.bounds style:(UITableViewStyleGrouped)];
+        _vipNotOpenTableView.backgroundColor = [UIColor evBackgroundColor];
     }
-    
-    if (_viewTop > self.viewHeight + kNavigationBarHeight) {
-        _viewTop = self.viewHeight + kNavigationBarHeight;
-    }
-    
-    self.viewFrame = CGRectMake(0, _viewTop, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - _viewTop);
-    self.hvCenterView.frame = CGRectMake(0, _viewTop - self.viewHeight, [UIScreen mainScreen].bounds.size.width, self.viewHeight);
+    return _vipNotOpenTableView;
 }
 
 
+- (EVHVCenterCommentTableView *)CenterCommentView
+{
+    if (nil == _CenterCommentView) {
+        _CenterCommentView = [[EVHVCenterCommentTableView alloc] initWithFrame:_swipeTableView.bounds style:(UITableViewStyleGrouped)];
+        _CenterCommentView.backgroundColor = [UIColor evBackgroundColor];
+    }
+    return _CenterCommentView;
+}
+
+
+- (EVHVCenterArticleTableView *)centerArticleView
+{
+    if (nil == _centerArticleView) {
+        _centerArticleView = [[EVHVCenterArticleTableView alloc] initWithFrame:_swipeTableView.bounds style:(UITableViewStyleGrouped)];
+        _centerArticleView.backgroundColor = [UIColor evBackgroundColor];
+    }
+    return _centerArticleView;
+}
+
+
+
+- (EVVipDetailCenterView * )vipCenterView
+{
+    if (!_vipCenterView) {
+        _vipCenterView = [[EVVipDetailCenterView alloc] init];
+    }
+    return _vipCenterView;
+}
+
+
+#pragma mark -   Setter
+- (void)setWatchVideoInfo:(EVWatchVideoInfo *)watchVideoInfo
+{
+    _watchVideoInfo = watchVideoInfo;
+}
+
+- (void)setIsFollow:(BOOL)isFollow
+{
+    _isFollow = isFollow;
+}
+
+
+- (void)dealloc
+{
+    EVLog(@"---------EVVipCenterViewController dealloc");
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 
 
 
