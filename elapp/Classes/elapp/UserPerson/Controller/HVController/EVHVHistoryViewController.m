@@ -125,21 +125,37 @@
 
 - (void)cleanButtonClick
 {
-    [EVProgressHUD showIndeterminateForView:self.view];
-    [self.baseToolManager GETCleanhistoryWithType:[NSString stringWithFormat:@"%d",currentIndex] fail:^(NSError *error) {
-        [EVProgressHUD hideHUDForView:self.view];
-    } success:^(NSDictionary *retinfo) {
-        [EVProgressHUD hideHUDForView:self.view];
-        if (currentIndex == 0) {
-            [self.watchHistoryView loadData];
-        }
-        else
-        {
-            [self.readHistoryView loadNewData];
-        }
-    } sessionExpire:^{
-        [EVProgressHUD hideHUDForView:self.view];
+    NSString * typeString;
+    if (currentIndex == 0)
+    {
+        typeString = @"观看";
+    }
+    else
+    {
+        typeString = @"阅读";
+    }
+    
+    [self showAlertWithTitle:[NSString stringWithFormat:@"确定要清除所有%@历史记录吗？",typeString] message:nil okHandler:^(UIAlertAction * _Nullable okaction) {
+        [EVProgressHUD showIndeterminateForView:self.view];
+        [self.baseToolManager GETCleanhistoryWithType:[NSString stringWithFormat:@"%d",currentIndex] fail:^(NSError *error) {
+            [EVProgressHUD hideHUDForView:self.view];
+        } success:^(NSDictionary *retinfo) {
+            [EVProgressHUD hideHUDForView:self.view];
+            if (currentIndex == 0) {
+                [self.watchHistoryView loadNewData];
+            }
+            else
+            {
+                [self.readHistoryView loadNewData];
+            }
+        } sessionExpire:^{
+            [EVProgressHUD hideHUDForView:self.view];
+        }];
+        
+    } cancelHandler:^(UIAlertAction * _Nullable canCelaction) {
+        
     }];
+    
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView

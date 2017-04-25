@@ -33,14 +33,12 @@
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
     [self handleButtonstyle:_avatar];
-//    [_changeState setBackgroundImage:[UIImage imageNamed:@"home_person_icon_add"] forState:UIControlStateNormal];
-//    [self addVipImageView];
     self.changeState.layer.cornerRadius = 12.5;
     self.changeState.layer.masksToBounds = YES;
     self.changeState.backgroundColor = [UIColor  evMainColor];
-    
-    
+
 }
 
 - (void)dealloc
@@ -70,36 +68,23 @@
 
 - (IBAction)changeState:(UIButton *)sender
 {
-    if (self.iconClick)
-    {
-        self.iconClick(self.model);
-    }
+    
     __weak typeof(self) weakself = self;
     [self.engine GETFollowUserWithName:self.model.name followType:!self.model.followed start:nil fail:^(NSError *error) {
-        
+        [EVProgressHUD showSuccess:@"失败"];
     } success:^{
         weakself.model.followed = !weakself.model.followed;
         self.changeState.selected = weakself.model.followed;
-        [EVProgressHUD showSuccess:@"已取消关注"];
+        self.changeState.backgroundColor = weakself.model.followed ?[UIColor  evBackGroundDeepGrayColor]:[UIColor  evMainColor];
+        [EVProgressHUD showSuccess:@"成功"];
+        if (weakself.iconClick)
+        {
+            weakself.iconClick(weakself.model);
+        }
     } essionExpire:^{
-        
+        [EVProgressHUD showSuccess:@"失败"];
     }];
-//    if (self.model.followed)
-//    {
-//        UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:kE_GlobalZH(@"provoke_unhappy_cancel_follow") delegate:self cancelButtonTitle:kCancel destructiveButtonTitle:kOK otherButtonTitles:nil, nil];
-//        [sheet showInView:self.superview];
-//    }
-//    else
-//    {
-//        __weak typeof(self) weakself = self;
-//        [self.engine GETFollowUserWithName:self.model.name followType:!self.model.followed start:nil fail:^(NSError *error) {
-//        } success:^{
-//            weakself.model.followed = !weakself.model.followed;
-//            self.changeState.selected = weakself.model.followed;
-//        } essionExpire:^{
-//            
-//        }];
-//    }
+
 }
 
 #pragma mark - private methods
@@ -110,15 +95,6 @@
     btn.layer.masksToBounds = YES;
 }
 
-- (void)addVipImageView
-{
-    UIImageView *vipImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"person_ medium_vip"]];
-    [self.contentView addSubview:vipImageView];
-    self.vipImageView = vipImageView;
-    self.vipImageView.hidden = YES;
-    
-    self.vipImageView.center = CGPointMake(CGRectGetMaxX(self.avatar.frame) - CGRectGetWidth(self.avatar.frame) / 8, CGRectGetMaxY(self.avatar.frame) - CGRectGetWidth(self.avatar.frame) / 8);
-}
 
 
 #pragma mark - setter and getter
@@ -138,18 +114,8 @@
             self.name.text = self.model.nickname;
         }
         self.introduction.text = self.model.signature && ![self.model.signature isEqualToString:@""] ? self.model.signature : kDefaultSignature_other;
-    if (self.type == FOCUSES) {
-        self.changeState.hidden = NO;
-        self.introTrailing.constant = 112;
-    }
-    else
-    {
-        self.changeState.hidden = YES;
-        self.introTrailing.constant = 18;
-    }
-    
-    
-    
+        self.changeState.selected = model.followed;
+        self.changeState.backgroundColor = model.followed ?[UIColor  evBackGroundDeepGrayColor]:[UIColor  evMainColor];
 }
 
 - (EVBaseToolManager *)engine

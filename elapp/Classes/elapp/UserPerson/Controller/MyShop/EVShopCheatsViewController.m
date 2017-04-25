@@ -13,6 +13,7 @@
 
 #import "EVCheatsModel.h"
 
+#import "EVNullDataView.h"
 @interface EVShopCheatsViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
     NSInteger start;
@@ -21,7 +22,7 @@
 @property (nonatomic, strong) EVBaseToolManager *baseToolManager;
 @property (nonatomic, strong) NSMutableArray * dataArray;
 
-
+@property (nonatomic, strong) EVNullDataView * nullDataView;
 @end
 
 @implementation EVShopCheatsViewController
@@ -57,6 +58,7 @@
     start = 0;
     [self.baseToolManager  GETMyShopsWithType:@"2" start:@"0" count:@"20" fail:^(NSError * error) {
         [self.tableView endHeaderRefreshing];
+        self.nullDataView.hidden = NO;
     } success:^(NSDictionary * retinfo) {
         [self.tableView endHeaderRefreshing];
         NSArray * cheats = retinfo[@"cheats"];
@@ -83,8 +85,10 @@
             [self.tableView hideFooter];
         }
         [self.tableView reloadData];
+        self.nullDataView.hidden = self.dataArray.count == 0? NO:YES;
     } sessionExpire:^{
         [self.tableView endHeaderRefreshing];
+        self.nullDataView.hidden = NO;
     }];
     
 }
@@ -169,7 +173,8 @@
         {
             _tableView.rowHeight = 140;
         }
-        
+        [_tableView addSubview:self.nullDataView];
+        self.nullDataView.hidden = YES;
     }
     return _tableView;
 }
@@ -190,6 +195,15 @@
     return _baseToolManager;
 }
 
+- (EVNullDataView *)nullDataView
+{
+    if (!_nullDataView) {
+        _nullDataView = [[EVNullDataView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 64 - 50)];
+        _nullDataView.topImage = [UIImage imageNamed:@"ic_cry"];
+        _nullDataView.title = @"暂无购买的秘籍";
+    }
+    return _nullDataView;
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

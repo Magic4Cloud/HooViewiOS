@@ -1,30 +1,32 @@
 //
-//  EVLiveViewController.h
+//  EVNewLiveViewController.h
 //  elapp
 //
-//  http://www.easyvaas.com
-//  Copyright (c) 2016 EasyVass. All rights reserved.
+//  Created by 唐超 on 4/25/17.
+//  Copyright © 2017 easyvaas. All rights reserved.
 //
+
+#import "EVVideoViewController.h"
 
 #import "EVVideoViewController.h"
 #import "EVEnums.h"
 #import "EVLivePrePareView.h"
 
-@class CCForeShowItem, EVLiveViewController;
+@class CCForeShowItem, EVNewLiveViewController;
 
-//typedef NS_ENUM(NSInteger, CCLiveControllerStyle) {
-//    CCLiveControllerStyleDefault,
-//    CCLiveControllerStyleRemoveSetting
-//};
+typedef NS_ENUM(NSInteger, CCLiveControllerStyle) {
+    CCLiveControllerStyleDefault,
+    CCLiveControllerStyleRemoveSetting
+};
 
 @protocol CCLiveViewControllerDelegate <NSObject>
 
 @optional
 // 直播需要绑定手机, 请监听改回调
-- (void)liveNeedToBindPhone:(EVLiveViewController *)liveVC;
+- (void)liveNeedToBindPhone:(EVNewLiveViewController *)liveVC;
 
 // session过期需要重新登录
-- (void)liveNeedToRelogin:(EVLiveViewController *)liveVC;
+- (void)liveNeedToRelogin:(EVNewLiveViewController *)liveVC;
 
 /**
  *  info
@@ -32,16 +34,15 @@
  *      thumb   : 可能为空
  *
  */
-- (void)liveDidStart:(EVLiveViewController *)liveVC info:(NSDictionary *)info;
+- (void)liveDidStart:(EVNewLiveViewController *)liveVC info:(NSDictionary *)info;
 
 @end
 
 /**
- *  使用此控制器之前请包一个导航控制器  开启直播 (旧版  废弃)
+ 新版开启直播控制器
  */
-@interface EVLiveViewController : EVVideoViewController
-
-//@property(nonatomic, assign) CCLiveControllerStyle style;
+@interface EVNewLiveViewController : EVVideoViewController
+@property(nonatomic, assign) CCLiveControllerStyle style;
 
 @property(nonatomic, weak) EVLivePrePareView *prepareView;
 

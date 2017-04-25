@@ -10,6 +10,7 @@
 #import "EVWatchVideoInfo.h"
 #import "EVAlertManager.h"
 #import "EVLiveViewController.h"
+#import "EVNewLiveViewController.h"
 #import "EVSettingLivingPWDView.h"
 #import "EVPayVideoViewController.h"
 #import "EVYunBiViewController.h"
@@ -251,7 +252,8 @@
                                     audioOnly:(BOOL)audioOnly
                                      delegate:(id)delegate
 {
-    EVLiveViewController *liveVC = [[EVLiveViewController alloc] init];
+//    EVLiveViewController *liveVC = [[EVLiveViewController alloc] init];
+    EVNewLiveViewController * liveVC = [[EVNewLiveViewController alloc] init];
     liveVC.foreCapture = forceImage;
     liveVC.delegate = delegate;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:liveVC];
@@ -304,6 +306,33 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)showAlertWithTitle:(NSString *)title message:(NSString *)message okHandler:(void (^ __nullable)(UIAlertAction * _Nullable okaction))okhandler cancelHandler:(void (^ __nullable)(UIAlertAction * _Nullable canCelaction))cancelhandler
+{
+    UIAlertController * alertVc = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction * actionOk = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [alertVc dismissViewControllerAnimated:YES completion:^{
+            
+        }];
+        if (okhandler) {
+            okhandler(action);
+        }
+    }];
+    
+    UIAlertAction * actionCancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [alertVc dismissViewControllerAnimated:YES completion:^{
+            
+        }];
+        if (cancelhandler) {
+            cancelhandler(action);
+        }
+    }];
+    
+    [alertVc addAction:actionOk];
+    [alertVc addAction:actionCancel];
+    [self presentViewController:alertVc animated:YES completion:^{
+        
+    }];
+}
 
 #pragma mark - private methods
 @end

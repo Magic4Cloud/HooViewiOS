@@ -105,11 +105,16 @@
 
 
 
-
+//废弃
 #define EVCollectListAPI            @"/user/collectlist"
 #define EVCollectAPI                @"/user/collect"
 #define EVHistoryAPI                @"/user/history"
 #define EVHistoryList               @"/user/historylist"
+//
+
+
+
+
 #define EVSearchVideoAPI            @"https://dev.yizhibo.tv/hooview/appgw/video/search"
 
 #define EVGoodVideoListAPI          @"/video/vodlist"
@@ -124,11 +129,10 @@
 //测试环境api
 #ifdef STATE_DEV
 
-//#define EVMarketQuotesAPI           @"http://openapi.hooview.com/tushare/get_index"           //大盘详情
+
 #define EVMarketQuotesAPI           @"http://dev.hooview.com/api/stock/market"           //大盘详情
-//#define EVAllTodayAPI               @"http://openapi.hooview.com/tushare/get_today_all"       //涨幅榜
 #define EVAllTodayAPI               @"http://dev.hooview.com/api/stock/changelist"
-//#define EVQueryQuotesAPI            @"http://dev.hooview.com/tushare/get_realtime_quotes"
+
 #define EVQueryQuotesAPI            @"http://dev.hooview.com/api/stock/realtime"
 #define EVHVFastNewsAPI             @"http://dev.hooview.com/api/news/getnewsflash"
 #define EVHVEyesDetailNewsAPI       @"http://dev.hooview.com/api/news/getlist"
@@ -173,18 +177,19 @@
 //支付成功回调给服务器
 #define EVSuccessPayToService       @"https://appgw.hooview.com/easyvaas/service/service/payecoin"
 
-//历史记录
-#define EVHVHistoryListAPI          @"http://192.168.8.179:8888/user/histories"
 
-//清除历史记录
-#define EVCleanHistoryListAPI       @"http://dev.hooview.com/api/v2/user/cleanhistory"
-
-//我的收藏
-#define EVHVFavoriteListAPI         @"http://192.168.8.179:8888/user/favorites"
 
 //文章搜索
 #define EVSearchNews                @"http://192.168.8.179:8888/search/news"
 
+//我的收藏
+#define EVHVFavoriteListAPI         @"http://dev.hooview.com/api/v2/news/favorite"
+//获取历史记录
+#define EVHVHistoryListAPI          @"http://dev.hooview.com/api/v2/user/histories"
+//添加浏览历史记录
+#define EVADDNewsHistoryAPI         @"http://dev.hooview.com/api/v2/news/history"
+//清除历史记录
+#define EVCleanHistoryListAPI       @"http://dev.hooview.com/api/v2/user/clean"
 //我的购买
 #define EVMyShopsAPI                @"http://192.168.8.179:8888/user/purchases"
 
@@ -195,13 +200,10 @@
 //#define EVHVCenterLiveListAPI       @"http://dev.hooview.com/api/v2/user/videolive"
 #define EVHVCenterLiveListAPI       @"http://192.168.3.29:8888/user/videos"
 
-
-
-
 #endif
 
 
-#pragma mark - *********** 发布环境api ******************
+#pragma mark - *********** 正式环境api ******************
 // 发布环境api
 #ifdef STATE_RELEASE
 #define EVTextLiveHaveAPI           @"http://openapi.hooview.com/api/textlive/streaminfo"
@@ -247,10 +249,13 @@
 #define EVSuccessPayToService       @"https://appgw.hooview.com/easyvaas/service/service/payecoin"
 
 
+<<<<<<< HEAD
 //历史记录
 #define EVHVHistoryListAPI          @"http://192.168.8.179:8888/user/historylist"
 //我的收藏
 #define EVHVFavoriteListAPI         @"http://192.168.8.179:8888/user/favoritelist"
+=======
+>>>>>>> 6cd798db32152724bf4224d394534cc618dbd5a2
 //文章搜索
 #define EVHVNewsSeachAPI            @"http://192.168.8.179:8888/search/news"
 
@@ -260,6 +265,16 @@
 //个人主页直播列表
 #define EVHVCenterLiveListAPI       @"http://openapi.hooview.com/api/v2/user/videolive"
 
+
+
+//我的收藏
+#define EVHVFavoriteListAPI         @"http://dev.hooview.com/api/v2/news/favorite"
+//历史记录
+#define EVHVHistoryListAPI          @"http://dev.hooview.com/api/v2/user/histories"
+//清除历史记录
+#define EVCleanHistoryListAPI       @"http://dev.hooview.com/api/v2/user/clean"
+//我的购买
+#define EVMyShopsAPI                @"http://192.168.8.125:8888/user/purchases"
 
 
 #endif

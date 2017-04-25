@@ -99,23 +99,27 @@ static const NSString *const fansOrFocusCellID = @"fansOrFocus";
         return cell;
     }
     EVFanOrFollowerModel *fanOrFollower = self.fansOrFollowers[indexPath.row];
-    EVLog(@"[indexPath.row]:%@, model:%@", self.fansOrFollowers[indexPath.row], fanOrFollower);
+    
     cell.model = fanOrFollower;
     __weak typeof(self) weakself = self;
-    cell.iconClick = ^(EVFanOrFollowerModel *model){
-//        EVOtherPersonViewController *otherPersonVC = [EVOtherPersonViewController instanceWithName:model.name];
-//        otherPersonVC.fromLivingRoom = NO;
-//        [weakself.navigationController pushViewController:otherPersonVC animated:YES];
-        NSMutableArray *fanModel = [NSMutableArray arrayWithArray:self.fansOrFollowers];
-        for (NSInteger i = 0; i < fanModel.count; i++) {
-            EVFanOrFollowerModel *fanOrFollModel = weakself.fansOrFollowers[i];
-            if ([fanOrFollModel.name isEqualToString:model.name]) {
-                [weakself.fansOrFollowers removeObjectAtIndex:i];
-                break;
+    cell.iconClick = ^(EVFanOrFollowerModel *model)
+    {
+        if (self.type == FOCUSES) {
+            if (!model.followed) {
+                NSMutableArray *fanModel = [NSMutableArray arrayWithArray:self.fansOrFollowers];
+                for (NSInteger i = 0; i < fanModel.count; i++) {
+                    EVFanOrFollowerModel *fanOrFollModel = weakself.fansOrFollowers[i];
+                    if ([fanOrFollModel.name isEqualToString:model.name]) {
+                        [weakself.fansOrFollowers removeObjectAtIndex:i];
+                        break;
+                    }
+                }
+                if (weakself.fansOrFollowers.count == 0) {
+                    weakself.noDataView.hidden = NO;
+                }
+                [weakself.tableView reloadData];
             }
         }
-        
-        [weakself.tableView reloadData];
         
     };
     return cell;
@@ -179,7 +183,8 @@ static const NSString *const fansOrFocusCellID = @"fansOrFocus";
 
 #pragma mark - private methods
 
-- (void)setUI{
+- (void)setUI
+{
     switch (self.type)
     {
         case FANS:
@@ -263,7 +268,7 @@ static const NSString *const fansOrFocusCellID = @"fansOrFocus";
                 if (weakself.fansOrFollowers.count)
                 {
                     weakself.noDataView.hidden = YES;
-                    [weakself.noDataView removeFromSuperview];
+                    
                     
                     if (fans.count < count)
                     {
@@ -277,7 +282,8 @@ static const NSString *const fansOrFocusCellID = @"fansOrFocus";
                     if((ScreenHeight - cellsize) / cellsize >= weakself.fansOrFollowers.count && fans.count < count)
                     {
                         [weakself.tableView hideFooter];
-                    }else
+                    }
+                    else
                     {
                         [weakself.tableView showFooter];
                     }
@@ -344,7 +350,7 @@ static const NSString *const fansOrFocusCellID = @"fansOrFocus";
                 if (weakself.fansOrFollowers.count)
                 {
                     weakself.noDataView.hidden = YES;
-                    [weakself.noDataView removeFromSuperview];
+                    
                     
                     if (fans.count < count)
                     {

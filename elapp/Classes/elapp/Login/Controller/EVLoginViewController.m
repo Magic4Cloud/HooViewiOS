@@ -18,7 +18,6 @@
 #import "EVPhoneLoginViewController.h"
 #import "EVBugly.h"
 #import "EV3rdPartAPIManager.h"
-#import "EVTextViewController.h"
 #import "EVSDKInitManager.h"
 #import "EVHVLoginView.h"
 #import "EVProgressHUD.h"

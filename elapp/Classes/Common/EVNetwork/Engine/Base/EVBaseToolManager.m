@@ -19,6 +19,7 @@
 
 #define kSessionActionCheckAction @"/user/sessioncheck"
 
+#define AFtimeoutInterval 8.0f //网络请求超时时间
 @interface EVBaseToolManager ()
 
 
@@ -475,6 +476,7 @@ static BOOL sessioncheck = NO;
 + (void)GETNotVerifyRequestWithUrl:(NSString *)url parameters:(nullable id)parameters success:(nullable void (^)(NSDictionary *successDict))success fail:(nullable void(^)(NSError  * error))fail
 {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer.timeoutInterval = AFtimeoutInterval;
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json",@"text/plain",nil];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     NSURLSessionDataTask *task =  [manager GET:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
@@ -500,7 +502,7 @@ static BOOL sessioncheck = NO;
         }
     }];
     EVLog(@"------- %@",task.currentRequest);
-//    [task resume];
+    [task resume];
 }
 
 + (void)GETRequestWithUrl:(nullable NSString *)url parameters:(nullable id)parameters success:(nullable void (^)(NSDictionary *successDict))success sessionExpireBlock:(void(^)())sessionExpireBlock fail:(nullable void(^)(NSError  * error))fail
@@ -510,6 +512,7 @@ static BOOL sessioncheck = NO;
         parameters[@"device"] = @"ios";
     }
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer.timeoutInterval = AFtimeoutInterval;
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json",@"text/plain",nil];
     NSURLSessionDataTask *task =  [manager GET:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
         
@@ -546,6 +549,7 @@ static BOOL sessioncheck = NO;
 + (void)POSTRequestWithUrl:(NSString *)url params:(id)param fileData:(NSData *)fileData fileMineType:(NSString *)fileMineType fileName:(NSString *)filename success:(void (^)(NSDictionary *successDict))success sessionExpireBlock:(void(^)())sessionExpireBlock failError:(void(^)(NSError  * error))failError
 {
     AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    manager.requestSerializer.timeoutInterval = AFtimeoutInterval;
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", nil];
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
     
@@ -569,6 +573,7 @@ static BOOL sessioncheck = NO;
 + (void)POSTNotSessionWithUrl:(NSString *)url params:(NSDictionary *)param fileData:(NSData *)fileData fileMineType:(NSString *)fileMineType fileName:(NSString *)filename success:(void (^)(NSDictionary *successDict))success failError:(void(^)(NSError  * error))failError
 {
     AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    manager.requestSerializer.timeoutInterval = AFtimeoutInterval;
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json",@"text/javascript", @"text/plain", @"text/html", nil];
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
     manager.requestSerializer.HTTPMethodsEncodingParametersInURI = [NSSet setWithArray:@[@"POST", @"GET", @"HEAD"]];
@@ -593,6 +598,7 @@ static BOOL sessioncheck = NO;
         parameters[@"device"] = @"ios";
     }
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer.timeoutInterval = AFtimeoutInterval;
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json",@"text/plain",nil];
     NSURLSessionDataTask *task =  [manager GET:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
         

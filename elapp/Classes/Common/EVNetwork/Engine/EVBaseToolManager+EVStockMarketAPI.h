@@ -13,7 +13,7 @@
 // 定义解除绑定的类型
 typedef NS_ENUM(NSUInteger, EVCollectType)
 {
-    EVCollectTypeNews = 1,//咨询
+    EVCollectTypeNews = 1,//资讯
     EVCollectTypeVideo,//视频
     EVCollectTypeIndex,//指数
     EVCollectTypeStock,//股票
@@ -83,18 +83,30 @@ typedef NS_ENUM(NSUInteger, EVCollectType)
                            fail:(void(^)(NSError *error))failBlock
                         success:(void(^)(NSDictionary *retinfo))successBlock;
 
-
 /**
  新版我的收藏
 
+ @param start 开始位置
+ @param count 数据条数
+ @param userId 查询对象的用户ID
  @param failBlock
  @param successBlock
  @param sessionExpireBlock
  */
-- (void)GETUserCollectListsWithfail:(void(^)(NSError *error))failBlock
-                            success:(void(^)(NSDictionary *retinfo))successBlock
-                      sessionExpire:(void(^)())sessionExpireBlock;
+- (void)GETUserCollectListsWithStart:(NSString *)start count:(NSString *)count userId:(NSString *)userId fail:(void(^)(NSError *error))failBlock
+                             success:(void(^)(NSDictionary *retinfo))successBlock
+                       sessionExpire:(void(^)())sessionExpireBlock;
 
+/**
+ 新版添加浏览历史记录
+
+ @param newsId 新闻id
+ @param failBlock
+ @param successBlock
+ @param sessionExpireBlock
+ */
+- (void)ADDHistoryWithNewsId:(NSString *)newsId fail:(void(^)(NSError *error))failBlock success:(void(^)(NSDictionary *retinfo))successBlock
+               sessionExpire:(void(^)())sessionExpireBlock;
 /**
  新版历史记录
 

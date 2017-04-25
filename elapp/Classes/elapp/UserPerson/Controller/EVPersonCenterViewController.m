@@ -365,7 +365,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (![EVLoginInfo hasLogged] || _userModel == nil) {
+
+    if (![EVLoginInfo hasLogged] || !_userModel) {
+
         UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
         [self presentViewController:navighaVC animated:YES completion:nil];
         return;

@@ -20,7 +20,7 @@
  *  @param mode 如果play_url 不为空 mode必须传进来
  *  @param permission 视频的权限
  */
-- (void)playVideoWithVideoInfo:(EVWatchVideoInfo *)videoInfo permission:(EVLivePermission)permission;
+- (void)playVideoWithVideoInfo:(EVWatchVideoInfo *_Nullable)videoInfo permission:(EVLivePermission)permission;
 
 /**
  *  开始一个直播
@@ -80,4 +80,14 @@
  为导航控制器添加统一样式的返回按钮
  */
 - (void)setSystemBackButton;
+
+/**
+ 显示系统alert
+
+ @param title 标题
+ @param message 信息
+ @param okhandler 确定回调
+ @param cancelhandler 取消回调
+ */
+- (void)showAlertWithTitle:(NSString *)title message:(NSString *)message okHandler:(void (^ __nullable)(UIAlertAction * _Nullable okaction))okhandler cancelHandler:(void (^ __nullable)(UIAlertAction * _Nullable canCelaction))cancelhandler;
 @end
