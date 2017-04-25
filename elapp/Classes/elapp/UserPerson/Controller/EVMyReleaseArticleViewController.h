@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EVWatchVideoInfo.h"
 
 @interface EVMyReleaseArticleViewController : UIViewController
+
+@property (nonatomic, strong) EVWatchVideoInfo *watchVideoInfo;
+
 
 @end

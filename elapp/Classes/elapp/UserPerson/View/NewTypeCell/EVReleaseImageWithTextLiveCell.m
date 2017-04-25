@@ -22,8 +22,8 @@
         return;
     }
     _userModel = userModel;
-    _namelabel.text = userModel.nickname;
-    _followNumberLabel.text = [NSString stringWithFormat:@"%ld人关注",userModel.follow_count];
+    _namelabel.text = userModel.name;
+    _followNumberLabel.text = [NSString stringWithFormat:@"%ld人参与",userModel.viewcount];
     
 }
 

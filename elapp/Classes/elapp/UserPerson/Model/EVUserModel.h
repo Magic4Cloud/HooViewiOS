@@ -54,6 +54,9 @@
 @property (nonatomic, strong) NSArray *tags;
 @property (nonatomic, copy) NSString *credentials;          /**< 执业证号 */
 
+
+@property (nonatomic, assign) NSInteger viewcount;
+
 /**
  *  根据用户的云播号来从本地数据库查询对应的用户基本信息
  *

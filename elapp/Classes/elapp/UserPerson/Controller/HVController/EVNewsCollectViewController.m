@@ -126,6 +126,7 @@
 }
 
 
+
 - (void)loadData
 {
     [self.baseToolManager GETUserCollectListType:EVCollectTypeNews start:^{
@@ -148,6 +149,7 @@
         
     }];
 }
+
 
 
 
