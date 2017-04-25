@@ -51,6 +51,7 @@
 		3116F62A1D07F7EE00DC122E /* libiconv.2.4.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3116F6291D07F7EE00DC122E /* libiconv.2.4.0.tbd */; };
 		3116F62E1D07F81000DC122E /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3116F62D1D07F81000DC122E /* libstdc++.6.0.9.tbd */; };
 		31D028521C1EA45300F080B0 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31D028511C1EA45300F080B0 /* StoreKit.framework */; };
+		7A00AD5F1EAEDF4A0081669B /* EVNewLiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A00AD5E1EAEDF4A0081669B /* EVNewLiveViewController.m */; };
 		7A1CD9241EA6EEEA0087BDB0 /* EVShopVideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A1CD9221EA6EEEA0087BDB0 /* EVShopVideoCell.m */; };
 		7A1CD9251EA6EEEA0087BDB0 /* EVShopVideoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7A1CD9231EA6EEEA0087BDB0 /* EVShopVideoCell.xib */; };
 		7A1CD9291EA6F3430087BDB0 /* EVShopCheatsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A1CD9271EA6F3430087BDB0 /* EVShopCheatsCell.m */; };
@@ -831,6 +832,8 @@
 		3116F62D1D07F81000DC122E /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		31D028511C1EA45300F080B0 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		4765F6D15BEC4925FA89C38D /* Pods-elapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-elapp.release.xcconfig"; path = "Pods/Target Support Files/Pods-elapp/Pods-elapp.release.xcconfig"; sourceTree = "<group>"; };
+		7A00AD5D1EAEDF4A0081669B /* EVNewLiveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVNewLiveViewController.h; sourceTree = "<group>"; };
+		7A00AD5E1EAEDF4A0081669B /* EVNewLiveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVNewLiveViewController.m; sourceTree = "<group>"; };
 		7A1CD9211EA6EEEA0087BDB0 /* EVShopVideoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVShopVideoCell.h; sourceTree = "<group>"; };
 		7A1CD9221EA6EEEA0087BDB0 /* EVShopVideoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVShopVideoCell.m; sourceTree = "<group>"; };
 		7A1CD9231EA6EEEA0087BDB0 /* EVShopVideoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVShopVideoCell.xib; sourceTree = "<group>"; };
@@ -4276,6 +4279,8 @@
 				E8AA9DE01E2102590024980D /* EVHVPrePareController.m */,
 				E828F4911E2230A100936194 /* EVHVLiveViewController.h */,
 				E828F4921E2230A100936194 /* EVHVLiveViewController.m */,
+				7A00AD5D1EAEDF4A0081669B /* EVNewLiveViewController.h */,
+				7A00AD5E1EAEDF4A0081669B /* EVNewLiveViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -5769,6 +5774,7 @@
 				E86200E71D6BE8540081E72F /* EVConsumptionModel.m in Sources */,
 				9E66728D1E8136D700933C92 /* UIFont+swizzle.m in Sources */,
 				7A3E986B1EA5F9EA00F24E23 /* EVMyShopViewController.m in Sources */,
+				7A00AD5F1EAEDF4A0081669B /* EVNewLiveViewController.m in Sources */,
 				E8BF48401E28F08D00FDB000 /* EVFastNewsModel.m in Sources */,
 				E85DFE531E78D42A005667DD /* EVSendImageView.m in Sources */,
 				E812617C1E1520EF0021C305 /* UIFont+EVExtension.m in Sources */,

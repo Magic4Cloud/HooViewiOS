@@ -9,6 +9,9 @@
 #import "EVTableViewController.h"
 #include "EVEnums.h"
 
+/**
+ 我的关注   我的粉丝  根据type区分
+ */
 @interface EVFansOrFocusesTableViewController : EVTableViewController
 
 @property (assign, nonatomic) controllerType type;

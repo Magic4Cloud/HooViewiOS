@@ -31,13 +31,12 @@
  */
 + (UIColor *)evBackGroundDeepGrayColor;
 /**
- 背景浅灰颜色
+ 背景浅灰颜色 248 248 248
  */
 + (UIColor *)evBackGroundLightGrayColor;
 
 /**
  背景深蓝色  101 154 224
-
  */
 + (UIColor *)evBackGroundDeepBlueColor;
 

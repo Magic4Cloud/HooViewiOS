@@ -15,6 +15,9 @@
 
 #import "EVBaseToolManager+MyShopAPI.h"
 
+
+#import "EVNullDataView.h"
+
 @interface EVShopLiveViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
     NSInteger start;
@@ -22,6 +25,8 @@
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) EVBaseToolManager *baseToolManager;
 @property (nonatomic, strong) NSMutableArray * dataArray;
+
+@property (nonatomic, strong) EVNullDataView * nullDataView;
 @end
 
 @implementation EVShopLiveViewController
@@ -54,6 +59,7 @@
     start = 0;
     [self.baseToolManager  GETMyShopsWithType:@"0" start:@"0" count:@"20" fail:^(NSError * error) {
         [self.tableView endHeaderRefreshing];
+        self.nullDataView.hidden =  NO;
     } success:^(NSDictionary * retinfo) {
         [self.tableView endHeaderRefreshing];
         NSArray * videos = retinfo[@"videolive"];
@@ -80,8 +86,10 @@
             [self.tableView hideFooter];
         }
         [self.tableView reloadData];
+        self.nullDataView.hidden = self.dataArray.count == 0? NO:YES;
     } sessionExpire:^{
         [self.tableView endHeaderRefreshing];
+        self.nullDataView.hidden =  NO;
     }];
     
 }
@@ -116,6 +124,7 @@
             [self.tableView setFooterState:CCRefreshStateNoMoreData];
         }
         [self.tableView reloadData];
+        
     } sessionExpire:^{
         [self.tableView endFooterRefreshing];
     }];
@@ -127,6 +136,7 @@
 #pragma mark - 🌺 TableView Delegate & Datasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    
     return self.dataArray.count;
 }
 
@@ -167,9 +177,12 @@
         _tableView.tableFooterView = [UIView new];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.rowHeight = 100;
+        [_tableView addSubview:self.nullDataView];
+        self.nullDataView.hidden = YES;
     }
     return _tableView;
 }
+
 - (NSMutableArray *)dataArray
 {
     if (!_dataArray) {
@@ -185,6 +198,17 @@
     }
     return _baseToolManager;
 }
+
+- (EVNullDataView *)nullDataView
+{
+    if (!_nullDataView) {
+        _nullDataView = [[EVNullDataView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 64 - 50)];
+        _nullDataView.topImage = [UIImage imageNamed:@"ic_cry"];
+        _nullDataView.title = @"暂无购买的视频直播";
+    }
+    return _nullDataView;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

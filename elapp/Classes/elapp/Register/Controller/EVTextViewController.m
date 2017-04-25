@@ -51,7 +51,11 @@
     textView.backgroundColor = [UIColor evBackgroundColor];
     textView.editable = NO;
     [self.view addSubview:textView];
-    [textView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
+    [textView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
+    [textView autoPinEdgeToSuperviewEdge:ALEdgeRight];
+    [textView autoPinEdgeToSuperviewEdge:ALEdgeBottom];
+    [textView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:64];
+
 
     UIView *navView = [[UIView alloc] initWithFrame:CGRectMake(0.f, 0.f, ScreenWidth, 64.f)];
     navView.backgroundColor = [UIColor evBackgroundColor];

@@ -21,6 +21,9 @@
 #import "EVThreeImageCell.h"
 #import "EVNewsListViewCell.h"
 @interface EVNewsCollectViewController ()<UITableViewDelegate,UITableViewDataSource>
+{
+    int start;
+}
 
 @property (nonatomic, weak) UITableView *iNewsTableview;
 
@@ -50,17 +53,20 @@
 
     [self addTableView];
     
-    [self loadNewData];
+    [self.iNewsTableview startHeaderRefreshing];
     
 }
 
 - (void)loadNewData
 {
-    [self.baseToolManager GETUserCollectListsWithfail:^(NSError *error) {
-        
+    start = 0;
+    NSString * uid = [CCUserDefault objectForKey:CCUSER_NAME];
+    [self.baseToolManager GETUserCollectListsWithStart:@"0" count:@"20" userId:uid fail:^(NSError *error) {
+        self.nullDataView.hidden = NO;
+        [self.iNewsTableview endHeaderRefreshing];
     } success:^(NSDictionary *retinfo) {
+        [self.iNewsTableview endHeaderRefreshing];
         NSArray * news = retinfo[@"news"];
-        
         if ([news isKindOfClass:[NSArray class]] && news.count>0) {
             [self.dataArray removeAllObjects];
             
@@ -68,22 +74,57 @@
                 EVNewsModel * model = [EVNewsModel yy_modelWithDictionary:obj];
                 [self.dataArray addObject:model];
             }];
-           
-            self.iNewsTableview.hidden = NO;
-            self.nullDataView.hidden = YES;
-            
-            [self.iNewsTableview reloadData];
+        }
+        
+        self.nullDataView.hidden = self.dataArray.count == 0?NO:YES;
+        if (self.dataArray.count == 20)
+        {
+            [self.iNewsTableview showFooter];
+            start += 20;
         }
         else
         {
-            self.iNewsTableview.hidden = YES;
-            self.nullDataView.hidden = NO;
+            [self.iNewsTableview hideFooter];
         }
         
+        [self.iNewsTableview reloadData];
+        
     } sessionExpire:^{
+        [self.iNewsTableview endHeaderRefreshing];
+        self.nullDataView.hidden = NO;
+    }];
+}
+
+- (void)loadMoreData
+{
+    NSString * uid = [CCUserDefault objectForKey:CCUSER_NAME];
+    [self.baseToolManager GETUserCollectListsWithStart:[NSString stringWithFormat:@"%d",start] count:@"20" userId:uid fail:^(NSError *error) {
+        [self.iNewsTableview endFooterRefreshing];
+    } success:^(NSDictionary *retinfo) {
+        [self.iNewsTableview endFooterRefreshing];
+        NSArray * news = retinfo[@"news"];
+        if ([news isKindOfClass:[NSArray class]] && news.count>0) {
+            [news enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                EVNewsModel * model = [EVNewsModel yy_modelWithDictionary:obj];
+                [self.dataArray addObject:model];
+            }];
+            
+            [self.iNewsTableview setFooterState:CCRefreshStateIdle];
+            start += news.count;
+        }
+        else
+        {
+            [self.iNewsTableview setFooterState:CCRefreshStateNoMoreData];
+        }
+        
+        [self.iNewsTableview reloadData];
+        
+    } sessionExpire:^{
+        [self.iNewsTableview endFooterRefreshing];
         
     }];
 }
+
 
 - (void)loadData
 {
@@ -126,11 +167,15 @@
     [_iNewsTableview registerNib:[UINib nibWithNibName:@"EVThreeImageCell" bundle:nil] forCellReuseIdentifier:@"EVThreeImageCell"];
     [_iNewsTableview registerNib:[UINib nibWithNibName:@"EVNewsListViewCell" bundle:nil] forCellReuseIdentifier:@"EVNewsListViewCell"];
     
+    [_iNewsTableview addRefreshHeaderWithTarget:self action:@selector(loadNewData)];
+    [_iNewsTableview addRefreshFooterWithiTarget:self action:@selector(loadMoreData)];
+    [_iNewsTableview hideFooter];
     
-    EVNullDataView *nullDataView = [[EVNullDataView alloc] initWithFrame:CGRectMake(0, 1, ScreenWidth, ScreenHeight - 44)];
+    EVNullDataView *nullDataView = [[EVNullDataView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 64)];
     nullDataView.topImage = [UIImage imageNamed:@"ic_cry"];
-    nullDataView.title = @"您还没有发布文章噢";
-    [self.view addSubview:nullDataView];
+    nullDataView.title = @"您还没有收藏资讯噢";
+    nullDataView.backgroundColor = [UIColor evBackGroundLightGrayColor];
+    [_iNewsTableview addSubview:nullDataView];
     self.nullDataView = nullDataView;
     self.nullDataView.hidden = YES;
 }
@@ -143,6 +188,7 @@
         [self.dataArray addObjectsFromArray:dataArray];
         
         [self.iNewsTableview reloadData];
+        self.nullDataView.hidden = self.dataArray.count == 0?NO:YES;
     } error:^(NSError *error) {
         self.iNewsTableview.hidden = YES;
         self.nullDataView.hidden = NO;
@@ -206,11 +252,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    EVBaseNewsModel *newsModel = self.dataArray[indexPath.row];
     EVNewsModel * model = self.dataArray[indexPath.row];
     EVNewsDetailWebController *newsVC = [[EVNewsDetailWebController alloc] init];
     newsVC.newsID = model.newsID;
-//    newsVC.title = model.title;
+    newsVC.title = model.title;
     newsVC.refreshCollectBlock = ^()
     {
         [self loadNewData];
