@@ -53,7 +53,7 @@
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20000  火眼豆" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5h9-Es-p5h">
                             <rect key="frame" x="17" y="31" width="341" height="52"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <color key="textColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>

@@ -65,21 +65,25 @@
         [_cellTag1Button setTitle:@"精品" forState:UIControlStateNormal];
         _cellTag1Button.backgroundColor = [UIColor evBackGroundDeepRedColor];
     }
-    if ([liveModel.permission isEqualToString:@"PayLive"]) {
+    if ([liveModel.permission integerValue] == 7) {
         //付费
         _cellTag2Button.hidden = NO;
     }
+    else
+    {
+        _cellTag2Button.hidden = YES;
+    }
     
-//    if (liveModel.isHot) {
-//        _cellHotImageView.hidden = NO;
-//        _cellViewCountLeadingConstant.constant = 120;
-//    }
-//    else
-//    {
+    if (liveModel.isHot) {
+        _cellHotImageView.hidden = NO;
+        _cellViewCountLeadingConstant.constant = 120;
+    }
+    else
+    {
         _cellHotImageView.hidden = YES;
         _cellViewCountLeadingConstant.constant = 8;
-//    }
-    
+    }
+
 }
 
 

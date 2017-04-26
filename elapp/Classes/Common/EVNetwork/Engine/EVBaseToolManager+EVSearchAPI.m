@@ -50,6 +50,18 @@
     EVLog(@"param ------- %@ -----------------  %@",params,urlString);
     [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
 }
+//新版搜索新闻
+- (void)searchNewsWithKeyword:(NSString *)keyword start:(NSInteger)start
+                     count:(NSInteger)count fail:(void(^)(NSError *error))failBlock
+                   success:(void(^)(NSDictionary *dict))successBlock
+             sessionExpire:(void(^)())sessionExpireBlock
+{
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValue:@(start) forKey:kStart];
+    [params setValue:@(count) forKey:kCount];
+    [params setValue:keyword forKey:@"title"];
+        [EVBaseToolManager GETRequestWithUrl:EVSearchNews parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+}
 
 
 //股票搜索

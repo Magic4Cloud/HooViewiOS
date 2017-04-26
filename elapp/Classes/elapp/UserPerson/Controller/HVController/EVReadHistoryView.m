@@ -22,7 +22,6 @@
 
 @property (nonatomic, weak) UITableView *nTableView;
 
-@property (nonatomic, strong) NSMutableArray *dataArray;
 
 @property (nonatomic, weak) EVNullDataView *nullDataView;
 
@@ -71,7 +70,7 @@
 - (void)loadNewData
 {
     WEAK(self)
-    [self.baseToolManager GETUserHistoryListTypeNew:1 fail:^(NSError *error) {
+    [self.baseToolManager GETUserHistoryListTypeNew:1 start:@"0" count:@"20" fail:^(NSError *error) {
         weakself.nullDataView.hidden = NO;
         weakself.nTableView.hidden = YES;
     } success:^(NSDictionary *retinfo) {

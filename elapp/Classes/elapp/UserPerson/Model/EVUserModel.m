@@ -24,7 +24,7 @@
 
 + (NSDictionary *)gp_dictionaryKeysMatchToPropertyNames
 {
-    return @{@"signed" : @"userSigned"};
+    return @{@"userid":@"name"};
 }
 
 

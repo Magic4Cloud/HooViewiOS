@@ -14,5 +14,8 @@ typedef void(^pushWatchVC)(EVVideoAndLiveModel *watchVideoInfo);
 @interface EVWatchHistoryView : UIView
 
 @property (nonatomic, copy) pushWatchVC pushWatchBlock;
+
+@property (nonatomic, strong) NSMutableArray *dataArray;
+
 - (void)loadNewData;
 @end

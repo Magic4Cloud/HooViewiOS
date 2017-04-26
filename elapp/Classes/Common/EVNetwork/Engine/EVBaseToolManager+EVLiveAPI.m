@@ -240,15 +240,16 @@
     {
         params[kVid] = videoparams[kVid];
     }
-//    if (videoparams[kPassword]) {
-//        params[kPassword] = videoparams[kPassword];
-//    }
-//
-//    
-//    if (videoparams[kPermissionKey]) {
-//        params[kPermissionKey] = videoparams[kPermissionKey];
-//    }
-//    
+    //付费直播  permission 为7 时   获取视频信息需要密码
+    if (videoparams[kPassword]) {
+        params[kPassword] = videoparams[kPassword];
+    }
+
+    
+    if (videoparams[kPermissionKey]) {
+        params[kPermissionKey] = videoparams[kPermissionKey];
+    }
+    
     NSString *urlString = [EVHttpURLManager fullURLStringWithURI:EVWatchUserstartwatchvideo
                                               params:nil];
     [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:nil fail:failBlock];

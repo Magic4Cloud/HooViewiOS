@@ -21,8 +21,6 @@
 
 @property (nonatomic, weak) EVNullDataView *nullDataView;
 
-@property (nonatomic, strong) NSMutableArray *dataArray;
-
 @property (nonatomic, copy) NSString *next;
 
 @property (nonatomic, strong) EVBaseToolManager *baseToolManager;
@@ -70,7 +68,7 @@
 - (void)loadNewData
 {
     WEAK(self)
-    [self.baseToolManager GETUserHistoryListTypeNew:0 fail:^(NSError *error) {
+    [self.baseToolManager GETUserHistoryListTypeNew:0 start:@"0" count:@"20" fail:^(NSError *error) {
         weakself.nullDataView.hidden = NO;
         weakself.nTableView.hidden = YES;
     } success:^(NSDictionary *retinfo) {
@@ -88,73 +86,76 @@
             self.nullDataView.hidden = YES;
             
             [self.nTableView reloadData];
-        }
+                    }
         else
         {
             self.nTableView.hidden = YES;
             self.nullDataView.hidden = NO;
         }
         
-    } sessionExpire:^{
         
+    } sessionExpire:^{
+        weakself.nullDataView.hidden = NO;
+        weakself.nTableView.hidden = YES;
     }];
 }
 
-- (void)loadData
-{
-    WEAK(self)
-    [self.baseToolManager GETUserHistoryListType:EVCollectTypeVideo start:^{
-        
-    } fail:^(NSError *error) {
-        weakself.nullDataView.hidden = NO;
-        weakself.nTableView.hidden = YES;
-    } success:^(NSDictionary *retinfo) {
-        NSLog(@"watchistory------  %@",retinfo);
-        NSString *historyList = retinfo[@"historylist"];
-        if (historyList.length > 0) {
-            weakself.nullDataView.hidden = YES;
-            weakself.nTableView.hidden = NO;
-            [weakself loadListData:historyList];
-        }else {
-            weakself.nullDataView.hidden = NO;
-            weakself.nTableView.hidden = YES;
-        }
-       
-    } sessionExpire:^{
-        
-    }];
-}
-
-- (void)loadListData:(NSString *)data
-{
-    WEAK(self)
-    [self.baseToolManager GETVideoInfosList:data fail:^(NSError *error) {
-            [weakself.nTableView endHeaderRefreshing];
-        weakself.nullDataView.hidden = NO;
-        weakself.nTableView.hidden = YES;
-    } success:^(NSDictionary *info) {
-        [weakself.nTableView endHeaderRefreshing];
-        weakself.nullDataView.hidden = YES;
-        weakself.nTableView.hidden = NO;
-  
-        [self.dataArray removeAllObjects];
-        
-        NSArray *dataArray = [EVWatchVideoInfo objectWithDictionaryArray:info[@"videos"]];
-        NSArray *dictAry = info[@"videos"];
-        for (NSInteger i = 0; i < dataArray.count; i++) {
-            EVWatchVideoInfo *info = dataArray[i];
-            NSDictionary *dict = dictAry[i];
-            info.nickname = dict[@"owner"][@"nickname"];
-            
-        }
-        [self.dataArray addObjectsFromArray:dataArray];
-        [self.nTableView reloadData];
-    }];
-}
+//- (void)loadData
+//{
+//    WEAK(self)
+//    [self.baseToolManager GETUserHistoryListType:EVCollectTypeVideo start:^{
+//        
+//    } fail:^(NSError *error) {
+//        weakself.nullDataView.hidden = NO;
+//        weakself.nTableView.hidden = YES;
+//    } success:^(NSDictionary *retinfo) {
+//        NSLog(@"watchistory------  %@",retinfo);
+//        NSString *historyList = retinfo[@"historylist"];
+//        if (historyList.length > 0) {
+//            weakself.nullDataView.hidden = YES;
+//            weakself.nTableView.hidden = NO;
+//            [weakself loadListData:historyList];
+//        }else {
+//            weakself.nullDataView.hidden = NO;
+//            weakself.nTableView.hidden = YES;
+//        }
+//       
+//    } sessionExpire:^{
+//        
+//    }];
+//}
+//
+//- (void)loadListData:(NSString *)data
+//{
+//    WEAK(self)
+//    [self.baseToolManager GETVideoInfosList:data fail:^(NSError *error) {
+//            [weakself.nTableView endHeaderRefreshing];
+//        weakself.nullDataView.hidden = NO;
+//        weakself.nTableView.hidden = YES;
+//    } success:^(NSDictionary *info) {
+//        [weakself.nTableView endHeaderRefreshing];
+//        weakself.nullDataView.hidden = YES;
+//        weakself.nTableView.hidden = NO;
+//  
+//        [self.dataArray removeAllObjects];
+//        
+//        NSArray *dataArray = [EVWatchVideoInfo objectWithDictionaryArray:info[@"videos"]];
+//        NSArray *dictAry = info[@"videos"];
+//        for (NSInteger i = 0; i < dataArray.count; i++) {
+//            EVWatchVideoInfo *info = dataArray[i];
+//            NSDictionary *dict = dictAry[i];
+//            info.nickname = dict[@"owner"][@"nickname"];
+//            
+//        }
+//        [self.dataArray addObjectsFromArray:dataArray];
+//        [self.nTableView reloadData];
+//    }];
+//}
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    
     return self.dataArray.count;
 }
 

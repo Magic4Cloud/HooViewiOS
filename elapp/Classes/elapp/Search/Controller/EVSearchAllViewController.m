@@ -653,7 +653,7 @@
 
 - (void)loadingMoreData
 {
-    NSInteger startCount;
+    NSInteger startCount = 0;
     switch (self.scollViewIndex) {
         case 0:
             startCount = self.searchResult.news.count;
@@ -670,43 +670,60 @@
     }
     WEAK(self)
     NSArray *tableArray = @[self.newsTableView,self.liveTableView,self.stockTableView];
-    [self.engine getSearchInfosWith:self.lastSearchText type:self.scollViewIndex start:startCount count:20 startBlock:^{
-        
-    } fail:^(NSError *error) {
-        [EVProgressHUD showError:@"加载失败"];
-    } success:^(NSDictionary *dict) {
+    if (self.scollViewIndex == 0) {
+        //搜索新闻
+        [self.engine searchNewsWithKeyword:self.lastSearchText start:startCount count:20 fail:^(NSError *error) {
+            [EVProgressHUD showError:@"加载失败"];
+        } success:^(NSDictionary *dict) {
+            [tableArray[self.scollViewIndex] endFooterRefreshing];
+            EVSearchResultModel *model = [EVSearchResultModel objectWithDictionary:dict];
+            [weakself.newsTableView setFooterState:(model.news.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
+            [weakself.searchResult.news addObjectsFromArray:model.news];
+        } sessionExpire:^{
+            [EVProgressHUD showError:@"加载失败"];
+        }];
+    }
+    else
+    {
+        [self.engine getSearchInfosWith:self.lastSearchText type:self.scollViewIndex start:startCount count:20 startBlock:^{
+            
+        } fail:^(NSError *error) {
+            [EVProgressHUD showError:@"加载失败"];
+        } success:^(NSDictionary *dict) {
+            
+            [tableArray[self.scollViewIndex] endFooterRefreshing];
+            EVSearchResultModel *model = [EVSearchResultModel objectWithDictionary:dict];
+            switch (self.scollViewIndex) {
+                case 0:
+                {
+                    [weakself.newsTableView setFooterState:(model.news.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
+                    [weakself.searchResult.news addObjectsFromArray:model.news];
+                }
+                    break;
+                case 1:
+                {
+                    [weakself.liveTableView setFooterState:(model.videos.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
+                    [weakself.searchResult.videos addObjectsFromArray:model.videos];
+                }
+                    break;
+                case 2:
+                {
+                    [weakself.stockTableView setFooterState:(model.data.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
+                    [weakself.searchResult.data addObjectsFromArray:model.data];
+                }
+                    break;
+                    
+                default:
+                    break;
+            }
+            [tableArray[self.scollViewIndex] reloadData];
+        } sessionExpire:^{
+            [tableArray[self.scollViewIndex] endFooterRefreshing];
+        } reterrBlock:^(NSString *reterr) {
+            
+        }];
+    }
     
-        [tableArray[self.scollViewIndex] endFooterRefreshing];
-        EVSearchResultModel *model = [EVSearchResultModel objectWithDictionary:dict];
-        switch (self.scollViewIndex) {
-            case 0:
-            {
-                [weakself.newsTableView setFooterState:(model.news.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
-                [weakself.searchResult.news addObjectsFromArray:model.news];
-            }
-                break;
-            case 1:
-            {
-                [weakself.liveTableView setFooterState:(model.videos.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
-                [weakself.searchResult.videos addObjectsFromArray:model.videos];
-            }
-                break;
-            case 2:
-            {
-                [weakself.stockTableView setFooterState:(model.data.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
-                [weakself.searchResult.data addObjectsFromArray:model.data];
-            }
-                break;
-                
-            default:
-                break;
-        }
-        [tableArray[self.scollViewIndex] reloadData];
-    } sessionExpire:^{
-         [tableArray[self.scollViewIndex] endFooterRefreshing];
-    } reterrBlock:^(NSString *reterr) {
-        
-    }];
 }
 
 - (void)handleNoDataViewStatusWithNoticeSearch:(BOOL)noticeToSearch {

@@ -161,7 +161,9 @@
     [EVNotificationCenter addObserver:self selector:@selector(successLogin:) name:@"newUserRefusterSuccess" object:nil];
     [EVNotificationCenter addObserver:self selector:@selector(watchVideoNetworkChanged:) name:CCNetWorkChangeNotification object:nil];
     [self addUpView];
+    
     [self loadWatchStartData];
+    
     [self loadVideoData];
     [self loadMyAssetsData];
     WEAK(self)
@@ -204,6 +206,8 @@
     _liveMessageEngine.userData = [EVLoginInfo localObject].name;
     [_liveMessageEngine loginConnect];
 }
+
+#pragma mark - 获取视频信息   开始播放
 - (void)loadWatchStartData
 {
     WEAK(self)
@@ -217,6 +221,8 @@
     {
         param[kPassword] = self.watchVideoInfo.password;
     }
+    
+    
     
     // 获取视频信息
     [self.baseToolManager GETUserstartwatchvideoWithParams:param Start:^{
@@ -255,11 +261,10 @@
     }];
 }
 
+#pragma mark - 添加观看历史记录
 - (void)addWatchHistory
 {
-    [self.baseToolManager GETUserHistoryType:EVCollectTypeVideo code:self.watchVideoInfo.vid action:1 start:^{
-        
-    } fail:^(NSError *error) {
+    [self.baseToolManager ADDHistoryWithWatchVid:self.watchVideoInfo.vid fail:^(NSError *error) {
         
     } success:^(NSDictionary *retinfo) {
         
@@ -301,7 +306,6 @@
 
 - (void)successLivingDataVideoInfo:(NSDictionary *)videoInfo
 {
- 
     _watchVideoInfo = [EVWatchVideoInfo objectWithDictionary:videoInfo];
    
     [self addChatTextView];
@@ -353,7 +357,11 @@
 //    if ([self.watchVideoInfo.horizontal isEqualToString:@"1"]) {
 //        self.evPlayer.needRotate = YES;
 //    }
-    [self.evPlayer play];
+    if ([_watchVideoInfo.permission integerValue] != 7) {
+        //如果不是付费直播  则直接播放
+        [self.evPlayer play];
+    }
+    
     [self topViewHideView];
     [self.videoView addSubview:self.playCompleteView];
     
@@ -402,7 +410,9 @@
     
     
     //如果为付费直播
-    [topViewContentView addSubview:self.videoPayCoverView];
+    if ([_watchVideoInfo.permission integerValue] == 7) {
+        [topViewContentView addSubview:self.videoPayCoverView];
+    }
 
  
     EVHVWatchCenterView *centerView = [[EVHVWatchCenterView alloc] init];
@@ -811,6 +821,7 @@
     
     self.isPullScreen = NO;
 }
+#pragma mark - 屏幕旋转
 - (void)setNewOrientation:(BOOL)fullscreen
 
 {
@@ -819,7 +830,7 @@
         
         [[UIDevice currentDevice] setValue:resetOrientationTarget forKey:@"orientation"];
         
-        NSNumber *orientationTarget = [NSNumber numberWithInt:UIInterfaceOrientationLandscapeLeft];
+        NSNumber *orientationTarget = [NSNumber numberWithInt:UIInterfaceOrientationLandscapeRight];
         
         [[UIDevice currentDevice] setValue:orientationTarget forKey:@"orientation"];
         
@@ -1214,22 +1225,23 @@
 - (EVPayVideoCoverView *)videoPayCoverView
 {
     if (!_videoPayCoverView) {
-//        _videoPayCoverView = [[EVPayVideoCoverView alloc] initWithFrame:CGRectMake(0, 20, ScreenWidth, VideoWidth)];
         _videoPayCoverView = [[EVPayVideoCoverView alloc] init];
         _videoPayCoverView.frame = CGRectMake(0, 20, ScreenWidth, VideoWidth);
         __weak typeof(self) weakSelf = self;
         
-        _videoPayCoverView.payButtonClickBlock = ^()
+        _videoPayCoverView.payButtonClickBlock = ^(void)
         {
-            if([EVBaseToolManager userHasLoginLogin])
-            {
-                [weakSelf.payBottomView showPayViewWithPayFee:20000 userAssetModel:weakSelf.asset];
-            }
-            else
-            {
-                UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
-                [weakSelf presentViewController:navighaVC animated:YES completion:nil];
-            }
+            
+                if([EVBaseToolManager userHasLoginLogin])
+                {
+                    [weakSelf.payBottomView showPayViewWithPayFee:2 userAssetModel:weakSelf.asset addtoView:weakSelf.view];
+                }
+                else
+                {
+                    UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
+                    [weakSelf presentViewController:navighaVC animated:YES completion:nil];
+                }
+
             
         };
         
@@ -1255,8 +1267,34 @@
         __weak typeof(self) weakSelf = self;
         _payBottomView.payOrChargeButtonClick = ^(EVVideoPayBottomView * view)
         {
-            weakSelf.videoPayCoverView.hidden = YES;
-            [view dismissPayView];
+            if ([view.viewchargeButton.currentTitle isEqualToString:@"充值"])
+            {
+                //充值
+                EVYunBiViewController *yunbiVC = [[EVYunBiViewController alloc] init];
+                yunbiVC.asset = weakSelf.asset;
+                yunbiVC.updateEcionBlock = ^(NSString *ecion) {
+                    weakSelf.asset.ecoin = ecion.integerValue;
+                    view.assetModel = weakSelf.asset;
+                };
+                [weakSelf.navigationController pushViewController:yunbiVC animated:YES];
+            }
+            else
+            {
+                //购买
+                [weakSelf.baseToolManager GETLivePayWithVid:weakSelf.watchVideoInfo.vid start:nil fail:^(NSError *error) {
+                    NSLog(@"购买失败");
+                } successBlock:^(NSDictionary *retinfo) {
+                    //购买成功
+                    NSLog(@"购买成功");
+                    [weakSelf.evPlayer play];
+                    weakSelf.videoPayCoverView.hidden = YES;
+                    } sessionExpire:^{
+                    NSLog(@"购买失败");
+                }];
+                
+            }
+//            weakSelf.videoPayCoverView.hidden = YES;
+//            [view dismissPayView];
         };
     }
     return _payBottomView;
@@ -1334,6 +1372,7 @@
 {
     return NO;
 }
+
 
 /*
 #pragma mark - Navigation

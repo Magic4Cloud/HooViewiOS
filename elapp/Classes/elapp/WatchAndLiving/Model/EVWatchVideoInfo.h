@@ -48,6 +48,9 @@ typedef NS_ENUM(NSInteger, CCLiveStatus) {
 @property (nonatomic, copy) NSString *live_start_time;
 
 @property (nonatomic, assign) NSInteger status;
+
+@property (nonatomic, copy) NSString * permission;
+
 /**
  *  permission = 6的时候必填参数
  */

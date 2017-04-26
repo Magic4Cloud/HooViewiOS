@@ -18,11 +18,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *viewBeansShortLabel;
 @property (weak, nonatomic) IBOutlet UIButton *viewchargeButton;
 @property (nonatomic, strong) EVUserAsset * assetModel;
-@property (nonatomic, assign) float payFee;
+@property (nonatomic, assign) NSInteger payFee;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *backBottomContraint;
 
 @property (nonatomic, copy)void(^payOrChargeButtonClick)(EVVideoPayBottomView * view);
 - (void)dismissPayView;
-- (void)showPayViewWithPayFee:(NSInteger )fee userAssetModel:(EVUserAsset *)assetModel;
+- (void)showPayViewWithPayFee:(NSInteger )fee userAssetModel:(EVUserAsset *)assetModel addtoView:(UIView *)view;
 @end

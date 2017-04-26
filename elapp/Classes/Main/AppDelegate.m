@@ -824,7 +824,7 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 {
     if (_allowRotation == YES) {
         
-        return UIInterfaceOrientationMaskLandscapeLeft;
+        return UIInterfaceOrientationMaskLandscapeRight;
         
     }else{
         

@@ -9,6 +9,9 @@
 
 #import "EVViewController.h"
 
+/**
+ 搜索
+ */
 @interface EVSearchAllViewController :EVViewController
 
 @end

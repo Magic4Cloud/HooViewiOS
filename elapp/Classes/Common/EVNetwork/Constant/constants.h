@@ -180,14 +180,16 @@
 
 
 //文章搜索
-#define EVSearchNews                @"http://192.168.8.179:8888/search/news"
+#define EVSearchNews                @"http://dev.hooview.com/api/v2/search/news"
 
 //我的收藏
-#define EVHVFavoriteListAPI         @"http://dev.hooview.com/api/v2/news/favorite"
+#define EVHVFavoriteListAPI         @"http://dev.hooview.com/api/v2/user/favorites"
 //获取历史记录
 #define EVHVHistoryListAPI          @"http://dev.hooview.com/api/v2/user/histories"
-//添加浏览历史记录
+//添加新闻浏览历史记录
 #define EVADDNewsHistoryAPI         @"http://dev.hooview.com/api/v2/news/history"
+//添加视频浏览历史记录
+#define EVADDVideoHistoryAPI        @"http://dev.hooview.com/api/v2/video/history"
 //清除历史记录
 #define EVCleanHistoryListAPI       @"http://dev.hooview.com/api/v2/user/clean"
 //我的购买

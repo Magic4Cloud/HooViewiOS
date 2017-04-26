@@ -151,7 +151,8 @@
                                                     params:nil];
     [EVBaseToolManager GETRequestWithUrl:url parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
 }
-//新版添加浏览历史记录
+
+//新版添加新闻浏览历史记录
 - (void)ADDHistoryWithNewsId:(NSString *)newsId fail:(void(^)(NSError *error))failBlock success:(void(^)(NSDictionary *retinfo))successBlock
              sessionExpire:(void(^)())sessionExpireBlock
 {
@@ -166,9 +167,28 @@
     [params setValue:sessionID forKey:@"sessionid"];
     [params setValue:uid forKey:@"userid"];
     
-    NSString *url = [EVHttpURLManager fullURLStringWithURI:EVHistoryAPI
-                                                    params:nil];
-    [EVBaseToolManager GETRequestWithUrl:url parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+//    NSString *url = [EVHttpURLManager fullURLStringWithURI:EVHistoryAPI
+//                                                    params:nil];
+    [EVBaseToolManager GETRequestWithUrl:EVADDNewsHistoryAPI parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+}
+//新版添加视频浏览历史记录
+- (void)ADDHistoryWithWatchVid:(NSString *)vid fail:(void(^)(NSError *error))failBlock success:(void(^)(NSDictionary *retinfo))successBlock
+               sessionExpire:(void(^)())sessionExpireBlock
+{
+    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
+    if ( sessionID == nil )
+    {
+        return ;
+    }
+    NSString * uid = [self uidFromLocal];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValue:vid forKey:@"videoid"];
+    [params setValue:sessionID forKey:@"sessionid"];
+    [params setValue:uid forKey:@"userid"];
+    
+//    NSString *url = [EVHttpURLManager fullURLStringWithURI:EVHistoryAPI
+//                                                    params:nil];
+    [EVBaseToolManager GETRequestWithUrl:EVADDVideoHistoryAPI parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
 }
 
 
@@ -191,7 +211,7 @@
     [EVBaseToolManager GETRequestWithUrl:url parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
 }
 //新版历史记录
-- (void)GETUserHistoryListTypeNew:(int)type fail:(void(^)(NSError *error))failBlock success:(void(^)(NSDictionary *retinfo))successBlock
+- (void)GETUserHistoryListTypeNew:(int)type start:(NSString *)start count:(NSString *)count fail:(void(^)(NSError *error))failBlock success:(void(^)(NSDictionary *retinfo))successBlock
                  sessionExpire:(void(^)())sessionExpireBlock
 {
     NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
@@ -203,9 +223,12 @@
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     NSString * uid = [self uidFromLocal];
+    
     [params setValue:uid forKey:@"userid"];
     [params setValue:@(type) forKey:@"type"];
     [params setValue:sessionID forKey:@"sessionid"];
+    [params setValue:start forKey:@"start"];
+    [params setValue:count forKey:@"count"];
     
 //    NSString *url = [EVHttpURLManager fullURLStringWithURI:EVHVHistoryListAPI
 //                                                    params:nil];

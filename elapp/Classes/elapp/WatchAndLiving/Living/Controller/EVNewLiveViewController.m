@@ -280,7 +280,7 @@ static inline long long getcurrsecond()
 {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
     
 }
 
@@ -337,13 +337,7 @@ static inline long long getcurrsecond()
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     
-    EVLog(@"-------------  %d",[UIApplication sharedApplication].idleTimerDisabled);
-    //    if ([UIApplication sharedApplication].idleTimerDisabled == YES) {
-    //        [[EVAlertManager shareInstance] configAlertViewWithTitle:@"123" message:@"123" cancelTitle:@"123" WithCancelBlock:^(UIAlertView *alertView) {
-    //
-    //        }];
-    //    }
-    
+  
     [self initContacterListener];
     
     [self setUpNotification];
@@ -351,14 +345,6 @@ static inline long long getcurrsecond()
     [self getMyAssets];
     
     [self updateAnchorInfo];
-    
-    //    self.videoInfoView.item.mode = EVAudienceInfoItemLiving;
-    
-    //    self.countTimeQueue = dispatch_queue_create("live count queue", DISPATCH_QUEUE_SERIAL);
-    
-    //    [self setUpAudioPlayer];
-    
-    //    self.linkManager.delegate = self;
     
     UIImageView *startAniImageView = [[UIImageView alloc] init];
     [self.contentView addSubview:startAniImageView];
@@ -985,6 +971,7 @@ static inline long long getcurrsecond()
     [self.view addSubview:prepareView];
     prepareView.frame = self.view.bounds;
     prepareView.editTextFiled.delegate = self;
+    prepareView.payFeeTextFiled.delegate = self;
     prepareView.delegate = self;
     
     self.prepareView = prepareView;
@@ -1073,6 +1060,9 @@ static inline long long getcurrsecond()
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
+    if (textField == _prepareView.payFeeTextFiled) {
+        return;
+    }
     if (textField.text.length > 0 && self.prepareView.coverImage != nil) {
         [self enableButton];
     }else {
@@ -1085,23 +1075,28 @@ static inline long long getcurrsecond()
 {
     if ( [string isEqualToString:@"\n"] )
     {
-        [self.prepareView.editTextFiled resignFirstResponder];
+        [textField resignFirstResponder];
         return NO;
     }
     else
     {
         NSString * replacedText = [textField.text stringByReplacingCharactersInRange:range withString:string];
-        if ( replacedText.length > 20 )
+        int maxCount = 20;
+        if (textField == _prepareView.payFeeTextFiled) {
+            maxCount = 6;
+        }
+        if ( replacedText.length > maxCount )
         {
-            textField.text = [replacedText substringToIndex:20];
+            textField.text = [replacedText substringToIndex:maxCount];
             return NO;
         }
-        if (range.length == 1) {
-            return YES;
-        }
     }
+    
     return YES;
 }
+
+
+
 
 #pragma mark - pickLiveCover - UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -1309,6 +1304,7 @@ static inline long long getcurrsecond()
     }
 }
 #pragma mark - EVLivePrePareViewDelegate
+#pragma mark - 开启直播
 - (void)livePrePareView:(EVLivePrePareView *)view didClickButton:(EVLivePrePareViewButtonType)type
 {
     
@@ -1396,7 +1392,7 @@ static inline long long getcurrsecond()
     }
 }
 
-
+#pragma mark - 开启直播
 - (void)startLiving
 {
     self.isStartBtnClicked = YES;
@@ -1407,10 +1403,28 @@ static inline long long getcurrsecond()
         [EVProgressHUD showError:@"请填写标题和上传封面"];
         return;
     }
-    [EVProgressHUD showMessage:@"加载中" toView:self.view];
-    WEAK(self)
-    NSMutableDictionary *params = [self.recoderInfo liveStartParams];
     
+        WEAK(self)
+    NSMutableDictionary *params = [self.recoderInfo liveStartParams];
+    //测试付费直播
+    if (_prepareView.payButton.selected) {
+        [params setValue:@"7" forKey:@"permission"];
+        [params setValue:@"123456" forKey:@"password"];
+        NSString * price = _prepareView.payFeeTextFiled.text;
+        if (!price || price.length == 0) {
+            [EVProgressHUD showError:@"请填写付费直播价格"];
+            return;
+        }
+        else
+        {
+            [params setValue:price forKey:@"price"];
+        }
+        [params setValue:@"20000" forKey:@"price"];
+    }
+    
+    
+    [EVProgressHUD showMessage:@"加载中" toView:self.view];
+
     [self.engine GETLivePreStartParams:params Start:^{
         [EVProgressHUD showSuccess:@"请等待" toView:self.view];
     } fail:^(NSError *error) {

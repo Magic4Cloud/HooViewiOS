@@ -107,6 +107,17 @@ typedef NS_ENUM(NSUInteger, EVCollectType)
  */
 - (void)ADDHistoryWithNewsId:(NSString *)newsId fail:(void(^)(NSError *error))failBlock success:(void(^)(NSDictionary *retinfo))successBlock
                sessionExpire:(void(^)())sessionExpireBlock;
+
+/**
+ 新版视频浏览历史记录添加
+
+ @param vid 视频id
+ @param failBlock
+ @param successBlock
+ @param sessionExpireBlock
+ */
+- (void)ADDHistoryWithWatchVid:(NSString *)vid fail:(void(^)(NSError *error))failBlock success:(void(^)(NSDictionary *retinfo))successBlock
+                 sessionExpire:(void(^)())sessionExpireBlock;
 /**
  新版历史记录
 
@@ -115,7 +126,7 @@ typedef NS_ENUM(NSUInteger, EVCollectType)
  @param successBlock
  @param sessionExpireBlock
  */
-- (void)GETUserHistoryListTypeNew:(int)type fail:(void(^)(NSError *error))failBlock success:(void(^)(NSDictionary *retinfo))successBlock
+- (void)GETUserHistoryListTypeNew:(int)type start:(NSString *)start count:(NSString *)count fail:(void(^)(NSError *error))failBlock success:(void(^)(NSDictionary *retinfo))successBlock
                     sessionExpire:(void(^)())sessionExpireBlock;
 
 /**

@@ -12,5 +12,7 @@
 typedef void(^pushNewsDetailVC)(EVNewsModel *baseNewsModel);
 @interface EVReadHistoryView : UIView
 @property (nonatomic, copy) pushNewsDetailVC pushWatchBlock;
+@property (nonatomic, copy) void(^loadNewDataFinishBlock)(NSArray * dataArray);
+@property (nonatomic, strong) NSMutableArray *dataArray;
 - (void)loadNewData;
 @end

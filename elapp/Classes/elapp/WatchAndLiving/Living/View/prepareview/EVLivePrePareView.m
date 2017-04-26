@@ -31,7 +31,7 @@ static NSInteger const shareLabBaseTag = 888;
 #define kMaxWordCount 20
 
 
-@interface EVLivePrePareView () <UITextViewDelegate>
+@interface EVLivePrePareView () <UITextViewDelegate,UITextFieldDelegate>
 
 @property (nonatomic,weak) UILabel *locationLabel;
 
@@ -75,6 +75,14 @@ static NSInteger const shareLabBaseTag = 888;
 @property (nonatomic,weak) UIView *captureView;
 
 @property (nonatomic, weak) UIImageView *backImageView;
+
+
+
+
+/**
+ 免费付费 背景视图高度约束
+ */
+@property ( strong, nonatomic ) NSLayoutConstraint *payBackViewHeightConstraint;
 @end
 
 @implementation EVLivePrePareView
@@ -194,7 +202,6 @@ static NSInteger const shareLabBaseTag = 888;
     UIImageView *backImageView = [[UIImageView alloc] init];
     [self addSubview:backImageView];
     backImageView.backgroundColor = [UIColor evBackGroundLightGrayColor];
-//    backImageView.image = [UIImage imageNamed:@"IOS_bg"];
     [backImageView autoPinEdgesToSuperviewEdges];
     self.backImageView = backImageView;
     
@@ -206,39 +213,35 @@ static NSInteger const shareLabBaseTag = 888;
     self.settingContentView = settingContentView;
     [settingContentView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
     
-//    UIView *bgView = [[UIView alloc] init];
-//    [self.settingContentView addSubview:bgView];
-//    [bgView autoPinEdgesToSuperviewEdges];
-//    bgView.backgroundColor = [UIColor colorWithHexString:@"#000000" alpha:0.3];
-    
     
     UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
     cancelButton.tag = EVLivePrePareViewButtonCancel;
     cancelButton.backgroundColor = [UIColor clearColor];
     [cancelButton setImage:[UIImage imageNamed:@"hv_back_return"] forState:UIControlStateNormal];
     [self.settingContentView addSubview:cancelButton];
-    [cancelButton autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:35];
+    [cancelButton autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:24];
     [cancelButton autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:10];
     [cancelButton autoSetDimensionsToSize:CGSizeMake(40, 40)];
     self.cancelButton = cancelButton;
 
 
-//    UILabel *titleLabel = [[UILabel alloc] init];
-//    [self.settingContentView addSubview:titleLabel];
-//    [titleLabel autoAlignAxisToSuperviewAxis:ALAxisVertical];
-//    [titleLabel autoAlignAxis:ALAxisHorizontal toSameAxisOfView:cancelButton];
-//    [titleLabel autoSetDimensionsToSize:CGSizeMake(100, 25)];
-//    titleLabel.text = @"我的直播间";
-//    titleLabel.font = [UIFont systemFontOfSize:18.f];
-//    titleLabel.textColor = [UIColor evMainColor];
-//    titleLabel.textAlignment = NSTextAlignmentCenter;
+    UILabel *titleLabel = [[UILabel alloc] init];
+    [self.settingContentView addSubview:titleLabel];
+    [titleLabel autoAlignAxisToSuperviewAxis:ALAxisVertical];
+    [titleLabel autoAlignAxis:ALAxisHorizontal toSameAxisOfView:cancelButton];
+    [titleLabel autoSetDimensionsToSize:CGSizeMake(100, 25)];
+    titleLabel.text = @"发起直播";
+    titleLabel.font = [UIFont systemFontOfSize:16.f];
+    titleLabel.textColor = [UIColor evTextColorH2];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
     
-    UISegmentedControl * segment = [[UISegmentedControl alloc] initWithItems:@[@"免费",@"付费"]];
-    [self.settingContentView addSubview:segment];
-    [segment autoAlignAxisToSuperviewAxis:ALAxisVertical];
-    [segment autoAlignAxis:ALAxisHorizontal toSameAxisOfView:cancelButton];
-    [segment autoSetDimensionsToSize:CGSizeMake(120, 30)];
-//    CGFloat topBtnWith = 40.f;
+    
+    UIView * navBackView = [UIView new];
+    navBackView.frame = CGRectMake(0, 0, ScreenWidth, 64);
+    navBackView.backgroundColor = [UIColor whiteColor];
+    [self.settingContentView insertSubview:navBackView atIndex:0];
+    
+    //    CGFloat topBtnWith = 40.f;
 //    CGFloat topBtnHeight = 40.f;
     
 //    // 切换摄像头
@@ -273,66 +276,37 @@ static NSInteger const shareLabBaseTag = 888;
 //    [categoryButton autoAlignAxis:ALAxisHorizontal toSameAxisOfView:cancelButton];
 //    [categoryButton autoPinEdge:ALEdgeRight toEdge:ALEdgeLeft ofView:permissionButton withOffset: - 5.f];
     
-    UIView * payFeeBackView = [[UIView alloc] init];
-    [self.settingContentView addSubview:payFeeBackView];
-    payFeeBackView.backgroundColor = [UIColor whiteColor];
-    payFeeBackView.alpha = 1;
-    [payFeeBackView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:80];
-    [payFeeBackView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
-    [payFeeBackView autoPinEdgeToSuperviewEdge:ALEdgeRight];
-    [payFeeBackView autoSetDimension:ALDimensionHeight toSize:64];
-    _payFeeBackView = payFeeBackView;
-    
-    UITextField *payFeeTextFiled = [[UITextField alloc] init];
-    [payFeeBackView addSubview:payFeeTextFiled];
-    [payFeeTextFiled autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
-    [payFeeTextFiled autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:17];
-    [payFeeTextFiled autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:17];
-    [payFeeTextFiled autoSetDimension:ALDimensionHeight toSize:36];
-    payFeeTextFiled.backgroundColor = [UIColor colorWithRed:238/255.0 green:238/255.0 blue:238/255.0 alpha:1.0];
-    payFeeTextFiled.textColor = [UIColor evTextColorH2];
-    payFeeTextFiled.textAlignment = NSTextAlignmentLeft;
-    payFeeTextFiled.placeholder = @"请输入直播价格";
-    payFeeTextFiled.font = [UIFont systemFontOfSize:16.f];
-    payFeeTextFiled.alpha = 1;
-    payFeeTextFiled.borderStyle = UITextBorderStyleRoundedRect;
-    self.payFeeTextFiled = payFeeTextFiled;
-
-    
-    
     UIView * titleBackView = [[UIView alloc] init];
     [self.settingContentView addSubview:titleBackView];
     titleBackView.backgroundColor = [UIColor whiteColor];
     titleBackView.alpha = 1;
-    _topOfTitleBackViewConstraint = [titleBackView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:80+60+5];
+    [titleBackView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:64+4];
     [titleBackView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
     [titleBackView autoPinEdgeToSuperviewEdge:ALEdgeRight];
-    [titleBackView autoSetDimension:ALDimensionHeight toSize:64];
-    _titleBackView = titleBackView;
+    [titleBackView autoSetDimension:ALDimensionHeight toSize:135];
+
     
     UITextField *editTextFiled = [[UITextField alloc] init];
     [titleBackView addSubview:editTextFiled];
-    [editTextFiled autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:17];
+    [editTextFiled autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:0];
     [editTextFiled autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:17];
     [editTextFiled autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:17];
-    [editTextFiled autoSetDimension:ALDimensionHeight toSize:36];
+    [editTextFiled autoSetDimension:ALDimensionHeight toSize:46];
     editTextFiled.backgroundColor = [UIColor clearColor];
     editTextFiled.textColor = [UIColor evTextColorH2];
     editTextFiled.textAlignment = NSTextAlignmentLeft;
     editTextFiled.placeholder = @"好的标题会吸引更多的人噢";
+    editTextFiled.delegate = self;
     editTextFiled.font = [UIFont systemFontOfSize:16.f];
-    editTextFiled.alpha = 1;
     self.editTextFiled = editTextFiled;
-
+    
     UIView * lineView = [[UIView alloc] init];
     lineView.backgroundColor = [UIColor evLineColor];
     [titleBackView addSubview:lineView];
-    [lineView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:50];
+    [lineView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:45];
     [lineView autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:15];
     [lineView autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:15];
     [lineView autoSetDimension:ALDimensionHeight toSize:1];
-    
-    
 
     // 添加封面
     UIButton *coverButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -340,13 +314,88 @@ static NSInteger const shareLabBaseTag = 888;
     coverButton.backgroundColor = [UIColor clearColor];
     UIImage *coverImage = [UIImage imageNamed:@"btn__live_cover_n"];
     [coverButton setBackgroundImage:coverImage forState:(UIControlStateNormal)];
-    [self.settingContentView addSubview:coverButton];
+    [coverButton addTarget:self action:@selector(buttonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [titleBackView addSubview:coverButton];
     self.coverButton = coverButton;
-    [coverButton autoAlignAxisToSuperviewAxis:ALAxisVertical];
-    [coverButton autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:_editTextFiled withOffset:40];
-    [coverButton autoSetDimensionsToSize:CGSizeMake(coverImage.size.width, coverImage.size.height)];
+    [coverButton autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:17];
+    [coverButton autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:16];
+    [coverButton autoSetDimensionsToSize:CGSizeMake(100, 56)];
     coverButton.layer.cornerRadius = 7.5f;
     coverButton.layer.masksToBounds = YES;
+
+    
+    
+    UIView * payFeeBackView = [[UIView alloc] init];
+    [self.settingContentView addSubview:payFeeBackView];
+    payFeeBackView.backgroundColor = [UIColor whiteColor];
+    payFeeBackView.clipsToBounds = YES;
+    [payFeeBackView autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:titleBackView withOffset:4];
+    [payFeeBackView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
+    [payFeeBackView autoPinEdgeToSuperviewEdge:ALEdgeRight];
+    _payBackViewHeightConstraint = [payFeeBackView autoSetDimension:ALDimensionHeight toSize:50];
+    
+    _payFeeBackView = payFeeBackView;
+    
+    UIButton * freeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [freeButton setTitle:@"免费" forState:UIControlStateNormal];
+    [freeButton setTitleColor:[UIColor evTextColorH2] forState:UIControlStateNormal];
+    [freeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    freeButton.titleLabel.font = [UIFont systemFontOfSize:16];
+    freeButton.layer.cornerRadius = 4;
+    freeButton.layer.masksToBounds = YES;
+    [freeButton setBackgroundColor:[UIColor evMainColor]];
+    [freeButton addTarget:self action:@selector(freeOrPayButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    freeButton.selected = YES;
+    _freeButton = freeButton;
+    
+    [payFeeBackView addSubview:freeButton];
+    [freeButton autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:32];
+    [freeButton autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:14];
+    [freeButton autoSetDimensionsToSize:CGSizeMake(48, 26)];
+    
+    UIButton * payButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [payButton setTitle:@"付费" forState:UIControlStateNormal];
+    [payButton setTitleColor:[UIColor evTextColorH2] forState:UIControlStateNormal];
+    [payButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    payButton.titleLabel.font = [UIFont systemFontOfSize:16];
+    payButton.layer.cornerRadius = 4;
+    payButton.layer.masksToBounds = YES;
+    [payButton addTarget:self action:@selector(freeOrPayButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    _payButton = payButton;
+    
+    [payFeeBackView addSubview:payButton];
+    [payButton autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:freeButton withOffset:20];
+    [payButton autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:14];
+    [payButton autoSetDimensionsToSize:CGSizeMake(48, 26)];
+
+    
+    UITextField *payFeeTextFiled = [[UITextField alloc] init];
+    [payFeeBackView addSubview:payFeeTextFiled];
+//    [payFeeTextFiled autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:16];
+    [payFeeTextFiled autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:freeButton withOffset:18];
+    [payFeeTextFiled autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:17];
+    [payFeeTextFiled autoSetDimension:ALDimensionWidth toSize:200];
+    [payFeeTextFiled autoSetDimension:ALDimensionHeight toSize:33];
+    payFeeTextFiled.backgroundColor = [UIColor colorWithRed:238/255.0 green:238/255.0 blue:238/255.0 alpha:1.0];
+    payFeeTextFiled.textColor = [UIColor evTextColorH2];
+    payFeeTextFiled.keyboardType = UIKeyboardTypeNumberPad;
+//    payFeeTextFiled.delegate = self;
+    payFeeTextFiled.textAlignment = NSTextAlignmentLeft;
+    payFeeTextFiled.delegate = self;
+    payFeeTextFiled.placeholder = @"请输入直播价格(火眼豆)";
+    payFeeTextFiled.font = [UIFont systemFontOfSize:16.f];
+    payFeeTextFiled.borderStyle = UITextBorderStyleRoundedRect;
+    self.payFeeTextFiled = payFeeTextFiled;
+    payFeeTextFiled.hidden = YES;
+
+    
+    
+    
+    
+
+    
+    
+
     
 //    UILabel *bottomLabel = [[UILabel alloc] init];
 //    [coverButton addSubview:bottomLabel];
@@ -433,6 +482,7 @@ static NSInteger const shareLabBaseTag = 888;
     
 }
 #pragma mark - UITextViewDelegate
+
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
     if ( [text isEqualToString:@"\n"] )
@@ -469,7 +519,7 @@ static NSInteger const shareLabBaseTag = 888;
     [startButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     startButton.layer.cornerRadius =20.f;
     
-    self.startButtonBottomConstraint = [startButton autoPinEdge:ALEdgeBottom toEdge:ALEdgeBottom ofView:self.settingContentView withOffset:-140];
+    self.startButtonBottomConstraint = [startButton autoPinEdge:ALEdgeBottom toEdge:ALEdgeBottom ofView:self.settingContentView withOffset:-117];
     [startButton autoSetDimensionsToSize:CGSizeMake(124, 40)];
     [startButton autoAlignAxisToSuperviewAxis:ALAxisVertical];
     [startButton autoSetDimension:ALDimensionHeight toSize:startButtonHeight];
@@ -525,9 +575,10 @@ static NSInteger const shareLabBaseTag = 888;
     [shareTitle setTextColor:[UIColor evTextColorH2]];
     [shareTitle setFont:[UIFont systemFontOfSize:16.f]];
     [shareTitle setText:@"分享到这里获得更高人气"];
-    [shareTitle autoAlignAxisToSuperviewAxis:ALAxisVertical];
+    
     [shareTitle autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:midContentView withOffset:-10];
-    [shareTitle autoSetDimensionsToSize:CGSizeMake(200, 22)];
+    [shareTitle autoAlignAxisToSuperviewAxis:ALAxisVertical];
+    [shareTitle autoSetDimensionsToSize:CGSizeMake(250, 22)];
 
     for (int i = 0; i < shareImageNormalArray.count; i ++)
     {
@@ -664,6 +715,35 @@ static NSInteger const shareLabBaseTag = 888;
 }
 
 #pragma mark - actions
+#pragma mark - 免费 付费切换
+- (void)freeOrPayButtonClick:(UIButton *)button
+{
+    button.selected = YES;
+    [button setBackgroundColor:[UIColor evMainColor]];
+    if (button == _freeButton) {
+        //免费按钮点击
+        [_payButton setBackgroundColor:[UIColor whiteColor]];
+        _payButton.selected = NO;
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            _payBackViewHeightConstraint.constant = 50;
+            [self.settingContentView layoutIfNeeded];
+        }];
+        self.payFeeTextFiled.hidden = YES;
+    }
+    else
+    {
+        //付费按钮点击
+        [_freeButton setBackgroundColor:[UIColor whiteColor]];
+        _freeButton.selected = NO;
+        [UIView animateWithDuration:0.3 animations:^{
+            _payBackViewHeightConstraint.constant = 102;
+            [self.settingContentView layoutIfNeeded];
+        }];
+        
+        self.payFeeTextFiled.hidden = NO;
+    }
+}
 
 - (void)buttonDidClicked:(UIButton *)button
 {

@@ -47,4 +47,19 @@ typedef NS_ENUM(NSInteger ,EVSearchType){
                   sessionExpire:(void(^)())sessionExpireBlock
                     reterrBlock:(void(^)(NSString *reterr))reterrBlock;
 
+/**
+ 新版搜索新闻
+
+ @param keyword 新闻关键词
+ @param start
+ @param count
+ @param failBlock
+ @param successBlock
+ @param sessionExpireBlock
+ */
+- (void)searchNewsWithKeyword:(NSString *)keyword start:(NSInteger)start
+                        count:(NSInteger)count fail:(void(^)(NSError *error))failBlock
+                      success:(void(^)(NSDictionary *dict))successBlock
+                sessionExpire:(void(^)())sessionExpireBlock;
+
 @end

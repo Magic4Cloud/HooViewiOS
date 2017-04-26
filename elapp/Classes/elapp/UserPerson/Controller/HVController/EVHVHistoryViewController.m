@@ -34,6 +34,7 @@
 
 @property (nonatomic, weak)EVReadHistoryView *readHistoryView;
 
+@property (nonatomic, strong) UIButton * cleanButton;
 @end
 
 @implementation EVHVHistoryViewController
@@ -59,6 +60,7 @@
 {
     UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setImage:[UIImage imageNamed:@"btn_clear_n"] forState:UIControlStateNormal];
+    _cleanButton = button;
     button.frame = CGRectMake(6, 0, 44, 44);
     [button addTarget:self action:@selector(cleanButtonClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * cleanButton = [[UIBarButtonItem alloc] initWithCustomView:button];
@@ -110,6 +112,7 @@
         [weakself presentViewController:nav animated:YES completion:nil];
     };
     
+   
     EVReadHistoryView *readHistoryView = [[EVReadHistoryView alloc] init];
     [backScrollView addSubview:readHistoryView];
     _readHistoryView = readHistoryView;

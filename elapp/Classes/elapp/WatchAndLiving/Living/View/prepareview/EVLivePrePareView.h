@@ -42,14 +42,17 @@ typedef NS_ENUM(NSInteger, EVLivePrePareViewShareType) {
 @end
 
 
-// 准备界面
+
+/**
+ 发起直播页面
+ */
 @interface EVLivePrePareView : UIView
-@property (nonatomic,weak) EVLiveTitleTextView *editView;
+@property (nonatomic, weak) EVLiveTitleTextView *editView;
 
 @property (nonatomic, weak) UIButton *categoryButton;
-@property (nonatomic,weak) UIButton *startLiveButton;
+@property (nonatomic, weak) UIButton *startLiveButton;
 
-@property (nonatomic, weak) UITextField *editTextFiled;
+@property (nonatomic, strong) UITextField *editTextFiled;
 
 @property (nonatomic, strong) UITextField *payFeeTextFiled;
 
@@ -62,6 +65,17 @@ typedef NS_ENUM(NSInteger, EVLivePrePareViewShareType) {
  标题背景视图
  */
 @property (nonatomic, strong) UIView * titleBackView;
+
+/**
+ 免费按钮
+ */
+@property (nonatomic, strong) UIButton * freeButton;
+
+/**
+ 付费按钮
+ */
+@property (nonatomic, strong) UIButton * payButton;
+
 
 /**
  标题输入框的顶部约束  （付费和免费修改约束）

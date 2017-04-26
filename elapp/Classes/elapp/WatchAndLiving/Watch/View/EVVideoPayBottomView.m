@@ -40,10 +40,12 @@
     [self addSubview:view];
     
     view.translatesAutoresizingMaskIntoConstraints = NO;
-    NSDictionary *bindings = NSDictionaryOfVariableBindings(@"view", view);
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|" options:0 metrics:nil views:bindings]];
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|" options:0 metrics:nil views:bindings]];
-    self.bounds = view.bounds;
+    
+    [view autoPinEdgesToSuperviewEdges];
+//    NSDictionary *bindings = NSDictionaryOfVariableBindings(@"view", view);
+//    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|" options:0 metrics:nil views:bindings]];
+//    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|" options:0 metrics:nil views:bindings]];
+//    self.bounds = view.bounds;
     
     _viewchargeButton.layer.cornerRadius = 20;
     _viewchargeButton.layer.masksToBounds = YES;
@@ -57,12 +59,11 @@
     [self setNeedsLayout];
 }
 
-- (void)showPayViewWithPayFee:(NSInteger )fee userAssetModel:(EVUserAsset *)assetModel
+- (void)setAssetModel:(EVUserAsset *)assetModel
 {
-    
-    _payFee = fee;
     _assetModel = assetModel;
-    if (fee>assetModel.ecoin) {
+    _viewBalanceLabel.text = [NSString stringWithFormat:@"%ld",(long)assetModel.ecoin];
+    if (_payFee > assetModel.ecoin) {
         //余额不足
         [_viewchargeButton setTitle:@"充值" forState:UIControlStateNormal];
         _viewBeansShortLabel.hidden = NO;
@@ -72,11 +73,30 @@
         //余额充足
         [_viewchargeButton setTitle:@"购买" forState:UIControlStateNormal];
         _viewBeansShortLabel.hidden = YES;
-
+        
     }
+
+}
+
+- (void)setPayFee:(NSInteger )payFee
+{
+    _payFee = payFee;
+    NSString * priceString = [NSString stringWithFormat:@"%d",payFee];
+    NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@  火眼豆",priceString]];
+    [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:30] range:NSMakeRange(0, priceString.length)];
+    
+    _viewPriceLabel.attributedText = attributedString;
+
+}
+- (void)showPayViewWithPayFee:(NSInteger )fee userAssetModel:(EVUserAsset *)assetModel addtoView:(UIView *)view
+{
+    
+    self.payFee = fee;
+    
+    self.assetModel = assetModel;
     
     _backCoverView.alpha = 0;
-    [[UIApplication sharedApplication].keyWindow addSubview:self];
+    [view addSubview:self];
         [UIView animateWithDuration:0.5 animations:^{
         _backCoverView.alpha = 0.5;
         _backBottomContraint.constant = 0;
