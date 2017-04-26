@@ -239,7 +239,7 @@ static CGFloat const backToTopButtonHeight   = 40.0f;
         return;
     }
     __weak typeof(self) weakSelf = self;
-    [self.engine GETUserInfoWithUname:self.name
+    [self.engine GETUserInfoWithUserid:self.name
                           orImuser:nil
                              start:nil
                               fail:nil

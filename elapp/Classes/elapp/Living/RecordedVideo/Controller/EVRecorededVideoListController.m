@@ -128,8 +128,10 @@
 //    }
     
     EVWatchVideoInfo *WatchInfo = self.dataArray[indexPath.row];
+    EVWatchVideoInfo * watchInfo = [[EVWatchVideoInfo alloc] init];
+    watchInfo.vid = WatchInfo.vid;
     EVHVWatchViewController *watchViewVC = [[EVHVWatchViewController alloc] init];
-    watchViewVC.watchVideoInfo = WatchInfo;
+    watchViewVC.watchVideoInfo = watchInfo;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:watchViewVC];
     [self presentViewController:nav animated:YES completion:nil];
 }

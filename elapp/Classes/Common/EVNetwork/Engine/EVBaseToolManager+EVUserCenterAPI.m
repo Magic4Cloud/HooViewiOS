@@ -174,30 +174,36 @@
 }
 
 
-- (void)GETBaseUserInfoWithUname:(NSString *)uname
-                           start:(void(^)())startBlock
-                            fail:(void(^)(NSError *error))failBlock
-                         success:(void(^)(NSDictionary *modelDict))successBlock
-                   sessionExpire:(void(^)())sessionExpireBlock
+//  个人主页信息  baseinfo
+- (void)GETBaseUserInfoWithPersonid:(NSString *)personid
+                            start:(void(^)())startBlock
+                             fail:(void(^)(NSError *error))failBlock
+                          success:(void(^)(NSDictionary *modelDict))successBlock
+                    sessionExpire:(void(^)())sessionExpireBlock
 {
     NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
     if ( sessionID )
     {
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
         params[kSessionIdKey] = sessionID;
-        if ( uname )
+        
+        NSString *userid = [self uidFromLocal];
+        params[@"userid"] = userid;
+        
+        if ( personid )
         {
-            params[kNameKey] = uname;
+            params[@"personid"] = personid;
         }
-        NSString *urlString = [EVHttpURLManager fullURLStringWithURI:EVVideoUserInfoAPI
-                                                              params:nil];
-        [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+
+        [EVBaseToolManager GETRequestWithUrl:EVUserBaseInfoAPI parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
     }
 
 }
 
 
-- (void)GETUserInfoWithUname:(NSString *)uname
+
+
+- (void)GETUserInfoWithUserid:(NSString *)userid
                     orImuser:(NSString *)imuser
                        start:(void(^)())startBlock
                         fail:(void(^)(NSError *error))failBlock
@@ -213,16 +219,16 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[kSessionIdKey] = sessionID;
     params[@"userid"] = uid;
-    if ( uname )
+    if ( userid )
     {
-        params[kNameKey] = uname;
+        params[kNameKey] = userid;
     }
     
-    if ( imuser )
-    {
-        params[kImuser] = imuser;
-    }
-        
+//    if ( imuser )
+//    {
+//        params[kImuser] = imuser;
+//    }
+    
     [EVBaseToolManager GETRequestWithUrl:EVVideoUserInfoAPI parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
 }
 
@@ -531,7 +537,7 @@
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:sessionID forKey:kSessionIdKey];
-    [params setValue:userid forKey:kNameKey];
+    [params setValue:userid forKey:@"userid"];
     [params setValue:@(start) forKey:kStart];
     [params setValue:@(count) forKey:kCount];
     
@@ -544,6 +550,37 @@
     } sessionExpireBlock:sessionExpireBlock fail:failBlock];
     
 }
+
+
+///** 获取个人中心主页文章列表数据 */
+//- (void)GETHVCenterVideoListWithUserid:(NSString *)userid
+//                                 start:(NSInteger)start
+//                                 count:(NSInteger)count
+//                            startBlock:(void(^)())startBlock
+//                                  fail:(void(^)(NSError *error))failBlock
+//                               success:(void(^)(NSDictionary *retinfo))successBlock
+//                          essionExpire:(void(^)())sessionExpireBlock {
+//    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
+//    if ( sessionID == nil )
+//    {
+//        return ;
+//    }
+//    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+//    [params setValue:sessionID forKey:kSessionIdKey];
+//    [params setValue:userid forKey:@"userid"];
+//    [params setValue:@(start) forKey:kStart];
+//    [params setValue:@(count) forKey:kCount];
+//    
+//    [EVBaseToolManager GETRequestWithUrl:EVHVCenterLiveListAPI parameters:params success:^(NSDictionary *successDict) {
+//        if ( successBlock )
+//        {
+//            successBlock(successDict);
+//        }
+//        
+//    } sessionExpireBlock:sessionExpireBlock fail:failBlock];
+//    
+//}
+
 
 //获取我的发布
 - (void)GETMyReleaseListWithUserid:(NSString *)userid

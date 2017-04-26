@@ -172,7 +172,7 @@
 - (void)loadPersonalInfor
 {
     __weak typeof(self) weakSelf = self;
-    [self.engine GETUserInfoWithUname:nil orImuser:nil start:nil fail:^(NSError *error)
+    [self.engine GETUserInfoWithUserid:nil orImuser:nil start:nil fail:^(NSError *error)
      {
          NSString *errorStr = [error errorInfoWithPlacehold:kE_GlobalZH(@"user_data_fail")];
          if (![errorStr isEqualToString:@""]) {

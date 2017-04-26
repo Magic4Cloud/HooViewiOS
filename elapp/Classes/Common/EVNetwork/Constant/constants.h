@@ -23,7 +23,6 @@
 #define EVVideoUserBind             @"/user/bind"//用户绑定
 #define EVUserAuthUnbind            @"/user/unbind"//取消绑定
 #define EVVideoUserLogoutAPI        @"/user/logout"
-#define EVUserBaseInfoAPI           @"/user/baseinfo"     /**< 用户的基本信息接口，除个人中心都用这个 */
 #define EVVideoUserFansAPI          @"/user/fanslist"
 #define EVVideoFollowUserAPI        @"/user/follow"
 #define EVVideoUserPastVideoAPI     @"/user/videolist"//视频列表
@@ -166,6 +165,7 @@
 #define EVTextLiveHaveAPI           @"http://dev.hooview.com/api/textlive/streaminfo"
 
 #define EVVideoUserInfoAPI          @"http://dev.hooview.com/api/v2/user/info"//个人信息(个人中心使用)
+#define EVUserBaseInfoAPI           @"http://dev.hooview.com/api/v2/user/baseinfo"     /**< 用户的基本信息接口，除个人中心都用这个 */
 #define EVVideoUserEditInfoAPI      @"http://dev.hooview.com/api/v2/user/edit"//编辑个人信息
 
 //要闻
@@ -197,8 +197,7 @@
 #define EVMyReleaseAPI              @"http://192.168.3.29:8888/user/works"
 
 //个人主页直播列表
-//#define EVHVCenterLiveListAPI       @"http://dev.hooview.com/api/v2/user/videolive"
-#define EVHVCenterLiveListAPI       @"http://192.168.3.29:8888/user/videos"
+#define EVHVCenterLiveListAPI       @"http://dev.hooview.com/api/v2/user/videolive"
 
 #endif
 
@@ -249,21 +248,17 @@
 #define EVSuccessPayToService       @"https://appgw.hooview.com/easyvaas/service/service/payecoin"
 
 
-<<<<<<< HEAD
-//历史记录
-#define EVHVHistoryListAPI          @"http://192.168.8.179:8888/user/historylist"
-//我的收藏
-#define EVHVFavoriteListAPI         @"http://192.168.8.179:8888/user/favoritelist"
-=======
->>>>>>> 6cd798db32152724bf4224d394534cc618dbd5a2
-//文章搜索
-#define EVHVNewsSeachAPI            @"http://192.168.8.179:8888/search/news"
+
+
+
 
 //我的发布
 #define EVMyReleaseAPI              @"http://192.168.8.191:8888/user/works"
 
 //个人主页直播列表
 #define EVHVCenterLiveListAPI       @"http://openapi.hooview.com/api/v2/user/videolive"
+//个人主页文章列表
+#define EVHVCenterNewsListAPI       @"http://openapi.hooview.com/api/v2/user/news"
 
 
 

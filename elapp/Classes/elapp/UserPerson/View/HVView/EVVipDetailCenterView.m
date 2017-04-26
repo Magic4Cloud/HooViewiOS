@@ -10,6 +10,7 @@
 #import "NSString+Extension.h"
 #import "EVLoginInfo.h"
 #import "EVUserTagsModel.h"
+#import "EVBaseToolManager+EVUserCenterAPI.h"
 
 @interface EVVipDetailCenterView()
 
@@ -34,6 +35,7 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *vipImage;
 
+@property (nonatomic, strong) EVBaseToolManager *baseToolManager;
 
 
 
@@ -70,14 +72,48 @@
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|" options:0 metrics:nil views:bindings]];
 //    self.frame.size.height = view.frame.size.height;
     self.bounds = view.bounds;
+    self.followOrNotButton.layer.cornerRadius = 6;
     [self setNeedsLayout];
 }
 
 
 //关注 & 取消关注
-- (IBAction)followOrNot:(id)sender {
+- (IBAction)followOrNot:(UIButton *)sender {
+    if (![EVLoginInfo hasLogged]) {
+//        UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
+//        [self presentViewController:navighaVC animated:YES completion:nil];
+//        return;
+    }
+    
+    WEAK(self)
+    BOOL followType = self.watchVideoInfo.followed ? NO : YES;
+    [self.baseToolManager GETFollowUserWithName:self.watchVideoInfo.name followType:followType start:^{
+        
+    } fail:^(NSError *error) {
+        NSLog(@"error = %@",error);
+    } success:^{
+        sender.selected = !sender.selected;
+        [weakself buttonStatus:sender.selected button:sender];
+        weakself.watchVideoInfo.followed = followType;
+    }
+      essionExpire:^{
+                                       
+    }];
     
 }
+
+- (void)buttonStatus:(BOOL)status button:(UIButton *)button
+{
+    if (status == YES) {
+        [button setTitleColor:[UIColor colorWithRed:48/255.0 green:48/255.0 blue:48/255.0 alpha:1] forState:UIControlStateNormal];
+        [button setTitle:@"已关注" forState:(UIControlStateNormal)];
+    }else {
+        [button setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+        [button setTitle:@"+关注" forState:(UIControlStateNormal)];
+    }
+}
+
+
 
 
 //点击粉丝跳转
@@ -107,7 +143,7 @@
     _nameLabel.text = userModel.nickname;
     _signatureLabel.text = userModel.signature;
     _introduceLabel.text = @"火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经";//详细资料
-    _credentialsLabel.text = @"A11402385478";
+    _credentialsLabel.text = userModel.credentials;
     _numberOfFans.text = [NSString stringWithFormat:@"%ld",userModel.fans_count];
     
     NSMutableArray *titleAry = [NSMutableArray array];
@@ -139,6 +175,14 @@
     
 }
 
+
+- (EVBaseToolManager *)baseToolManager
+{
+    if (!_baseToolManager) {
+        _baseToolManager = [[EVBaseToolManager alloc] init];
+    }
+    return _baseToolManager;
+}
 
 
 

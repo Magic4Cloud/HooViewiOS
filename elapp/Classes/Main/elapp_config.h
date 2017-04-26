@@ -15,6 +15,11 @@
 
 #define EVURL_DEV                           @"http://appgwdev.hooview.com/easyvaas/appgw"
 #define EVURL_HTTPS_DEV                     @"http://appgwdev.hooview.com/easyvaas/appgw"
+
+//#define EVURL_DEV                           @"http://192.168.8.160/easyvaas/appgw"
+//#define EVURL_HTTPS_DEV                     @"http://192.168.8.160/easyvaas/appgw"
+
+
 #define EVURL_STATTE_DEV                    @"dev"
 /////////////////////////////////////////////////////////////////////////////////////
 
