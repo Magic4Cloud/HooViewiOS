@@ -44,6 +44,8 @@
 #import "EVBaseToolManager+EVStockMarketAPI.h"
 #import "YZInputView.h"
 #import "EVNetWorkStateManger.h"
+#import "EVVipCenterController.h"
+
 
 #import "EVPayVideoCoverView.h"
 #import "EVVideoPayBottomView.h"
@@ -245,7 +247,8 @@
 - (void)loadVideoData
 {
     WEAK(self)
-    [self.baseToolManager GETBaseUserInfoWithUname:self.watchVideoInfo.name start:^{
+
+    [self.baseToolManager GETBaseUserInfoWithPersonid:self.watchVideoInfo.name start:^{
         
     } fail:^(NSError *error) {
         
@@ -256,6 +259,7 @@
         if ([weakself.watchVideoInfo isKindOfClass:[EVWatchVideoInfo class]]) {
             weakself.watchVideoInfo.followed = [modelDict[@"followed"] boolValue];
         }
+
     } sessionExpire:^{
         
     }];
@@ -1172,10 +1176,13 @@
         case EVHVWatchCenterTypeHeadImage:
         {
             //TODO:点击头像进入个人中心
-            EVVipCenterViewController *vipCenterVC  = [[EVVipCenterViewController alloc] init];
-             [self.navigationController pushViewController:vipCenterVC animated:YES];
-            vipCenterVC.watchVideoInfo = self.watchVideoInfo;
-            vipCenterVC.isFollow = weakself.watchCenterView.isFollow;
+//            EVVipCenterViewController *vipCenterVC  = [[EVVipCenterViewController alloc] init];
+//             [self.navigationController pushViewController:vipCenterVC animated:YES];
+//            vipCenterVC.watchVideoInfo = self.watchVideoInfo;
+//            vipCenterVC.isFollow = weakself.watchCenterView.isFollow;
+            EVVipCenterController *vc = [[EVVipCenterController alloc] init];
+            vc.watchVideoInfo = self.watchVideoInfo;
+            [self.navigationController pushViewController:vc animated:YES];
         }
             break;
         case EVHVWatchCenterTypeFollow:

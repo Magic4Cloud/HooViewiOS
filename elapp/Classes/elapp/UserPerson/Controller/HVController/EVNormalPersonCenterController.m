@@ -116,6 +116,7 @@
         //点击  粉丝和关注
         EVFansOrFocusesTableViewController *fansOrFocusesTVC = [[EVFansOrFocusesTableViewController alloc] init];
         fansOrFocusesTVC.type = type;
+        fansOrFocusesTVC.name = self.userModel.name;
         [self.navigationController pushViewController:fansOrFocusesTVC animated:YES];
     };
     
@@ -198,7 +199,7 @@
 #pragma mark - 🌐Networks
 - (void)loadData
 {
-    [self.baseToolManager GETUserInfoWithUname:self.watchVideoInfo.name orImuser:nil start:^{
+    [self.baseToolManager GETUserInfoWithUserid:self.watchVideoInfo.name orImuser:nil start:^{
         
     } fail:^(NSError *error) {
         NSLog(@"error = %@",error);

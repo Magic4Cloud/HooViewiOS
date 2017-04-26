@@ -221,7 +221,7 @@
 
 - (void)loadData
 {
-    [self.baseToolManager GETUserInfoWithUname:self.watchVideoInfo.name orImuser:nil start:^{
+    [self.baseToolManager GETUserInfoWithUserid:self.watchVideoInfo.name orImuser:nil start:^{
         
     } fail:^(NSError *error) {
         NSLog(@"error = %@",error);

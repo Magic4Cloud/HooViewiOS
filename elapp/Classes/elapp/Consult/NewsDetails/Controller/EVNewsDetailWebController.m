@@ -220,19 +220,20 @@
             NSString *name = [NSString stringWithFormat:@"%@", dic[@"name"]];
             EVWatchVideoInfo *watchVideoInfo = [EVWatchVideoInfo new];
             watchVideoInfo.name = @"17123425";
+//            watchVideoInfo.name = 
 //            EVVipCenterViewController *vipVC = [EVVipCenterViewController new];
 //            vipVC.watchVideoInfo = watchInfo;
 //            [self.navigationController pushViewController:vipVC animated:YES];
             
-//            //大V
-//            EVVipCenterController *vc = [[EVVipCenterController alloc] init];
-//            vc.watchVideoInfo = watchVideoInfo;
-//            [self.navigationController pushViewController:vc animated:YES];
-            
-            //普通用户
-            EVNormalPersonCenterController  *vc = [[EVNormalPersonCenterController alloc] init];
+            //大V
+            EVVipCenterController *vc = [[EVVipCenterController alloc] init];
             vc.watchVideoInfo = watchVideoInfo;
             [self.navigationController pushViewController:vc animated:YES];
+            
+//            //普通用户
+//            EVNormalPersonCenterController  *vc = [[EVNormalPersonCenterController alloc] init];
+//            vc.watchVideoInfo = watchVideoInfo;
+//            [self.navigationController pushViewController:vc animated:YES];
             
         }
         

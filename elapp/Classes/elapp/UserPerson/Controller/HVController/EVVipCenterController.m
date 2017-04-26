@@ -208,7 +208,7 @@
 #pragma mark - 🌐Networks
 - (void)loadData
 {
-    [self.baseToolManager GETUserInfoWithUname:self.watchVideoInfo.name orImuser:nil start:^{
+    [self.baseToolManager GETBaseUserInfoWithPersonid:self.watchVideoInfo.name start:^{
         
     } fail:^(NSError *error) {
         NSLog(@"error = %@",error);
@@ -229,9 +229,11 @@
         CGFloat viewHeight = contentSize.height + 75 + ScreenWidth * 210 / 375;
         self.vipCenterView.frame = CGRectMake(0, 0, ScreenWidth, viewHeight);
         _swipeTableView.swipeHeaderView = self.vipCenterView;
+
     } sessionExpire:^{
         
     }];
+    
 }
 
 

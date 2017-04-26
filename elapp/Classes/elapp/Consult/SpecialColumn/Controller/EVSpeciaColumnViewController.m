@@ -16,7 +16,7 @@
 #import "EVWatchVideoInfo.h"
 #import "EVVipCenterViewController.h"
 #import "EVNullDataView.h"
-
+#import "EVVipCenterController.h"
 @interface EVSpeciaColumnViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,WaterFlowLayoutDelegate>
 @property (nonatomic, strong) EVBaseToolManager *baseToolManager;
 
@@ -180,9 +180,12 @@
         
         EVWatchVideoInfo *watchInfo = [EVWatchVideoInfo new];
         watchInfo.name = userInfo.nameID;
-        EVVipCenterViewController *vipVC = [EVVipCenterViewController new];
-        vipVC.watchVideoInfo = watchInfo;
-        [self.navigationController pushViewController:vipVC animated:YES];
+        EVVipCenterController *vc = [[EVVipCenterController alloc] init];
+        vc.watchVideoInfo = watchInfo;
+        [self.navigationController pushViewController:vc animated:YES];
+//        EVVipCenterViewController *vipVC = [EVVipCenterViewController new];
+//        vipVC.watchVideoInfo = watchInfo;
+//        [self.navigationController pushViewController:vipVC animated:YES];
         
     };
     return cell;

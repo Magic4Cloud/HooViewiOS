@@ -131,17 +131,24 @@ typedef enum : NSUInteger {
                    sessionExpire:(void(^)())sessionExpireBlock;
 
 
+// 个人主页用户信息
+- (void)GETBaseUserInfoWithPersonid:(NSString *)personid
+                              start:(void(^)())startBlock
+                               fail:(void(^)(NSError *error))failBlock
+                            success:(void(^)(NSDictionary *modelDict))successBlock
+                      sessionExpire:(void(^)())sessionExpireBlock;
+
 
 /**
- *  获取用户基本数据， uname 和 imuser 两者选其中之一
+ *  获取用户基本数据， uname 和 imuser 两者选其中之一 (个人中心)
  *
  */
-- (void)GETUserInfoWithUname:(NSString *)uname
-                    orImuser:(NSString *)imuser
-                       start:(void(^)())startBlock
-                        fail:(void(^)(NSError *error))failBlock
-                     success:(void(^)(NSDictionary *modelDict))successBlock
-               sessionExpire:(void(^)())sessionExpireBlock;
+- (void)GETUserInfoWithUserid:(NSString *)userid
+                     orImuser:(NSString *)imuser
+                        start:(void(^)())startBlock
+                         fail:(void(^)(NSError *error))failBlock
+                      success:(void(^)(NSDictionary *modelDict))successBlock
+                sessionExpire:(void(^)())sessionExpireBlock;
 
 
 
