@@ -1294,14 +1294,14 @@
                     //购买成功
                     NSLog(@"购买成功");
                     [weakSelf.evPlayer play];
+                    [view dismissPayView];
                     weakSelf.videoPayCoverView.hidden = YES;
                     } sessionExpire:^{
                     NSLog(@"购买失败");
                 }];
                 
             }
-//            weakSelf.videoPayCoverView.hidden = YES;
-//            [view dismissPayView];
+
         };
     }
     return _payBottomView;
