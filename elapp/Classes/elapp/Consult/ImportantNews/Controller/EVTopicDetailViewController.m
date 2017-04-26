@@ -102,16 +102,16 @@
     self.activityView.hidden = NO;
     [self.activityView startAnimating];
     [EVBaseToolManager GETNotVerifyRequestWithUrl:EVHVNewsTopicAPI parameters:@{@"id":_newsId} success:^(NSDictionary *successDict)
-    {
-        [self.activityView stopAnimating];
-        self.topicModel = [EVTopicModel yy_modelWithDictionary:successDict];
-        [self setUpTableView];
-        [self.tableView reloadData];
-        
-    } fail:^(NSError *error)
-    {
-        [self.activityView stopAnimating];
-    }];
+     {
+         [self.activityView stopAnimating];
+         self.topicModel = [EVTopicModel yy_modelWithDictionary:successDict];
+         [self setUpTableView];
+         [self.tableView reloadData];
+         
+     } fail:^(NSError *error)
+     {
+         [self.activityView stopAnimating];
+     }];
 }
 
 #pragma mark -👣 Target actions
@@ -142,31 +142,30 @@
     //新闻列表
     EVNewsModel * newsModel = _topicModel.news[indexPath.row];
     
-    if ([newsModel.type isEqualToString:@"0"])
+    
+    //普通新闻
+    if (newsModel.cover == nil || newsModel.cover.count == 0)
     {
-        //普通新闻
-        if (newsModel.cover == nil || newsModel.cover.count == 0)
-        {
-            //没有图片
-            EVOnlyTextCell * textCell = [tableView dequeueReusableCellWithIdentifier:@"EVOnlyTextCell"];
-            textCell.newsModel = newsModel;
-            return textCell;
-        }
-        else if (newsModel.cover.count == 1)
-        {
-            //一张图片
-            EVNewsListViewCell *newsCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsListViewCell"];
-            newsCell.consultNewsModel = newsModel;
-            return newsCell;
-        }
-        else if (newsModel.cover.count == 3)
-        {
-            //三张图片
-            EVThreeImageCell * threeImageCell = [tableView dequeueReusableCellWithIdentifier:@"EVThreeImageCell"];
-            threeImageCell.newsModel = newsModel;
-            return threeImageCell;
-        }
+        //没有图片
+        EVOnlyTextCell * textCell = [tableView dequeueReusableCellWithIdentifier:@"EVOnlyTextCell"];
+        textCell.newsModel = newsModel;
+        return textCell;
     }
+    else if (newsModel.cover.count == 1)
+    {
+        //一张图片
+        EVNewsListViewCell *newsCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsListViewCell"];
+        newsCell.consultNewsModel = newsModel;
+        return newsCell;
+    }
+    else if (newsModel.cover.count == 3)
+    {
+        //三张图片
+        EVThreeImageCell * threeImageCell = [tableView dequeueReusableCellWithIdentifier:@"EVThreeImageCell"];
+        threeImageCell.newsModel = newsModel;
+        return threeImageCell;
+    }
+    
     
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (!cell) {
@@ -194,13 +193,13 @@
 {
     if (scrollView == _tableView) {
         float y = scrollView.contentOffset.y;
-//        NSLog(@"y:%f",y);
+        //        NSLog(@"y:%f",y);
         if (y>100) {
             [UIView animateWithDuration:0.5 animations:^{
                 self.naviBarBgView.alpha = 1;
             } completion:^(BOOL finished) {
                 [_backButton setImage:[UIImage imageNamed:@"hv_back_return"] forState:UIControlStateNormal];
-                 [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+                [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
             }];
         }
         else
@@ -209,7 +208,7 @@
                 self.naviBarBgView.alpha = 0;
             } completion:^(BOOL finished) {
                 [_backButton setImage:[UIImage imageNamed:@"personal_nav_icon_return"] forState:UIControlStateNormal];
-                 [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+                [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
             }];
         }
     }
@@ -267,14 +266,14 @@
 -(CGFloat)getSpaceLabelHeight:(NSString*)str withFont:(UIFont*)font withWidth:(CGFloat)width
 {
     NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
-//    paraStyle.lineBreakMode = NSLineBreakByCharWrapping;
+    //    paraStyle.lineBreakMode = NSLineBreakByCharWrapping;
     paraStyle.alignment = NSTextAlignmentLeft;
     paraStyle.lineSpacing = 6;
-//    paraStyle.hyphenationFactor = 1.0;
-//    paraStyle.firstLineHeadIndent = 0.0;
-//    paraStyle.paragraphSpacingBefore = 0.0;
-//    paraStyle.headIndent = 0;
-//    paraStyle.tailIndent = 0;
+    //    paraStyle.hyphenationFactor = 1.0;
+    //    paraStyle.firstLineHeadIndent = 0.0;
+    //    paraStyle.paragraphSpacingBefore = 0.0;
+    //    paraStyle.headIndent = 0;
+    //    paraStyle.tailIndent = 0;
     NSDictionary *dic = @{NSFontAttributeName:font, NSParagraphStyleAttributeName:paraStyle, NSKernAttributeName:@1.5f};
     
     CGSize size = [str boundingRectWithSize:CGSizeMake(width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:dic context:nil].size;

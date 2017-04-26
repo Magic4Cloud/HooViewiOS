@@ -197,7 +197,7 @@
 #define EVMyReleaseAPI              @"http://192.168.3.29:8888/user/works"
 
 //个人主页直播列表
-#define EVHVCenterLiveListAPI       @"http://dev.hooview.com/api/v2/user/videolive"
+#define EVHVCenterLiveListAPI       @"http://dev.hooview.com/api/v2/user/videos"
 
 #endif
 

@@ -380,7 +380,7 @@ static BOOL sessioncheck = NO;
 // 用户是否已经登录
 + (BOOL)userHasLoginLogin
 {
-    return [self userSessionIDFromLocal] != nil;
+    return ([self userSessionIDFromLocal] != nil && [self userSessionIDFromLocal].length>0);
 }
 
 // 清空本地Session

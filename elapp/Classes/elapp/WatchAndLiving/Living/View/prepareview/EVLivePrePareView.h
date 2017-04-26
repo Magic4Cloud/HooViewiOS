@@ -50,6 +50,23 @@ typedef NS_ENUM(NSInteger, EVLivePrePareViewShareType) {
 @property (nonatomic,weak) UIButton *startLiveButton;
 
 @property (nonatomic, weak) UITextField *editTextFiled;
+
+@property (nonatomic, strong) UITextField *payFeeTextFiled;
+
+/**
+ 付费输入价格背景视图
+ */
+@property (nonatomic, strong) UIView * payFeeBackView;
+
+/**
+ 标题背景视图
+ */
+@property (nonatomic, strong) UIView * titleBackView;
+
+/**
+ 标题输入框的顶部约束  （付费和免费修改约束）
+ */
+@property (nonatomic, strong) NSLayoutConstraint * topOfTitleBackViewConstraint;
 /** 分享类型 */
 @property (nonatomic,assign) EVLivePrePareViewShareType currShareTye;
 
@@ -74,4 +91,8 @@ typedef NS_ENUM(NSInteger, EVLivePrePareViewShareType) {
 /** 代理 */
 @property (nonatomic, weak) id<EVLivePrePareViewDelegate>delegate;
 
+/**
+ 是否是付费直播
+ */
+@property (nonatomic, assign)BOOL isPayLive;
 @end

@@ -476,7 +476,7 @@
     
 }
 
-#pragma mark - delegate
+#pragma mark - delegate （收藏 分享 评论）
 - (void)detailBottomClick:(EVBottomButtonType)type button:(UIButton *)btn
 {
     switch (type) {
