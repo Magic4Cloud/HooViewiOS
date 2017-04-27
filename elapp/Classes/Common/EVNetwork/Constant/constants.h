@@ -200,6 +200,8 @@
 
 //个人主页直播列表
 #define EVHVCenterLiveListAPI       @"http://dev.hooview.com/api/v2/user/videos"
+//个人主页文章列表
+#define EVHVCenterNewsListAPI       @"http://dev.hooview.com/api/v2/user/news"
 
 #endif
 
@@ -259,8 +261,7 @@
 
 //个人主页直播列表
 #define EVHVCenterLiveListAPI       @"http://openapi.hooview.com/api/v2/user/videolive"
-//个人主页文章列表
-#define EVHVCenterNewsListAPI       @"http://openapi.hooview.com/api/v2/user/news"
+
 
 
 

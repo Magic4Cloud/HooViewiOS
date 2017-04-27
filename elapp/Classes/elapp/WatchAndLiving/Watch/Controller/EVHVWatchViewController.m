@@ -219,7 +219,7 @@
         param[kVid] = self.watchVideoInfo.vid;
     }
     
-    if ( self.watchVideoInfo.password )
+    if ( self.watchVideoInfo.password)
     {
         param[kPassword] = self.watchVideoInfo.password;
     }

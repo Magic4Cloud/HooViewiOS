@@ -46,7 +46,6 @@
         
         self.separatorStyle = UITableViewCellSeparatorStyleNone;
         [self addVipUI];
-        [self loadNewData];
         
 //        WEAK(self)
 //        [self addRefreshFooterWithRefreshingBlock:^{
@@ -72,16 +71,14 @@
 
 - (void)loadNewData
 {
-    NSString *type = @"2";
     NSInteger start = 0;
-    
-    [self.baseToolManager GETMyReleaseListWithUserid:self.WatchVideoInfo.name type:type start:start count:20 startBlock:^{
+    [self.baseToolManager GETHVCenterNewsListWithUserid:self.WatchVideoInfo.name start:start count:20 startBlock:^{
         
     } fail:^(NSError *error) {
         NSLog(@"error = %@",error);
-    } success:^(NSDictionary *videos) {
-        NSLog(@"videos = %@",videos);
-        NSArray * news = videos[@"news"];
+    } success:^(NSDictionary *retinfo) {
+        NSLog(@"videos = %@",retinfo);
+        NSArray * news = retinfo[@"news"];
         if ([news isKindOfClass:[NSArray class]] && news.count>0) {
             [self.fansOrFollowers removeAllObjects];
             
@@ -90,18 +87,17 @@
                 [self.fansOrFollowers addObject:model];
             }];
             
-            self.hidden = NO;
             self.nullDataView.hidden = YES;
             
             [self reloadData];
         }
         else
         {
-            self.hidden = YES;
             self.nullDataView.hidden = NO;
         }
-        
+
     } essionExpire:^{
+
     }];
 }
 
@@ -210,6 +206,7 @@
 - (void)setWatchVideoInfo:(EVWatchVideoInfo *)WatchVideoInfo
 {
     _WatchVideoInfo = WatchVideoInfo;
+    [self loadNewData];
 //    [self loadDataWithname:WatchVideoInfo.name Start:0 count:20];
 }
 

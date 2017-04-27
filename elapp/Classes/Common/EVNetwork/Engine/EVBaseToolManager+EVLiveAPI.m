@@ -229,12 +229,7 @@
                                  success:(void(^)(NSDictionary *videoInfo))successBlock
                            sessionExpire:(void(^)())sessionExpireBlock
 {
-//    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
-   
-//    if ( sessionID )
-//    {
-//        params[kSessionIdKey] = sessionID;
-//    }
+    
      NSMutableDictionary *params = [NSMutableDictionary dictionary];
     if ( videoparams[kVid] )
     {
@@ -250,6 +245,9 @@
         params[kPermissionKey] = videoparams[kPermissionKey];
     }
     
+    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
+    params[kSessionIdKey] = sessionID;
+
     NSString *urlString = [EVHttpURLManager fullURLStringWithURI:EVWatchUserstartwatchvideo
                                               params:nil];
     [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:nil fail:failBlock];

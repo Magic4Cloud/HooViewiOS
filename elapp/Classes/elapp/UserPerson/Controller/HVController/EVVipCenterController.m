@@ -36,6 +36,8 @@
 #import "EVNewsModel.h"
 #import "EVNewsDetailWebController.h"
 
+#import "EVMyTextLiveViewController.h"
+
 @interface EVVipCenterController ()<EVHVVipCenterDelegate,SwipeTableViewDataSource,SwipeTableViewDelegate,UIGestureRecognizerDelegate,UIViewControllerTransitioningDelegate,SGSegmentedControlStaticDelegate>
 
 @property (nonatomic, strong) EVVipDetailCenterView *hvCenterView;
@@ -325,10 +327,20 @@
             [weakself pushLiveImageVCModel:textLiveModel userModel:userModel];
         });
     } error:^(NSError *error) {
-        //         [weakself pushLiveImageVCModel:nil];
-        [EVProgressHUD showMessage:@"创建失败"];
+        [weakself pushLiveImageVCModel:nil];
+//        [EVProgressHUD showMessage:@"创建失败"];
     }];
 }
+
+#pragma mark - 跳转到我的直播间
+- (void)pushLiveImageVCModel:(EVTextLiveModel *)model
+{
+    EVMyTextLiveViewController *myLiveImageVC = [[EVMyTextLiveViewController alloc] init];
+    UINavigationController *navigationVc = [[UINavigationController alloc] initWithRootViewController:myLiveImageVC];
+    [self presentViewController:navigationVc animated:YES completion:nil];
+    myLiveImageVC.textLiveModel = model;
+}
+
 
 - (void)pushLiveImageVCModel:(EVTextLiveModel *)model userModel:(EVUserModel *)usermodel
 {

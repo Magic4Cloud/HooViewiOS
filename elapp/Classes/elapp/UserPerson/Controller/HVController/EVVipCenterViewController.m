@@ -221,20 +221,20 @@
 
 - (void)loadData
 {
-    [self.baseToolManager GETUserInfoWithUserid:self.watchVideoInfo.name orImuser:nil start:^{
-        
-    } fail:^(NSError *error) {
-        NSLog(@"error = %@",error);
-    } success:^(NSDictionary *modelDict) {
-        EVUserModel *userModel = [EVUserModel objectWithDictionary:modelDict];
-        self.userModel = userModel;
-        self.hvCenterLiveView.userModel = userModel;
-        self.vipCenterView.userModel = userModel;
-        
-        
-    } sessionExpire:^{
-        
-    }];
+//    [self.baseToolManager GETUserInfoWithUname:self.watchVideoInfo.name orImuser:nil start:^{
+//        
+//    } fail:^(NSError *error) {
+//        NSLog(@"error = %@",error);
+//    } success:^(NSDictionary *modelDict) {
+//        EVUserModel *userModel = [EVUserModel objectWithDictionary:modelDict];
+//        self.userModel = userModel;
+//        self.hvCenterLiveView.userModel = userModel;
+//        self.vipCenterView.userModel = userModel;
+//        
+//        
+//    } sessionExpire:^{
+//        
+//    }];
 }
 
 
