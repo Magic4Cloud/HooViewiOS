@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -35,9 +35,9 @@
                         <constraint firstAttribute="height" constant="40" id="nL6-4v-Oyp"/>
                     </constraints>
                 </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20000豆" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BE3-o2-l39">
-                    <rect key="frame" x="228" y="81.5" width="130" height="29"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BE3-o2-l39">
+                    <rect key="frame" x="228" y="110.5" width="130" height="0.0"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -63,18 +63,10 @@
                         <action selector="backButtonClick:" destination="-1" eventType="touchUpInside" id="0Nd-C0-yn9"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wmb-PS-nfe">
-                    <rect key="frame" x="318" y="14" width="40" height="40"/>
-                    <state key="normal" image="btn_share_w_n_back"/>
-                    <connections>
-                        <action selector="shareButtonClick:" destination="-1" eventType="touchUpInside" id="m4X-4x-IW9"/>
-                    </connections>
-                </button>
             </subviews>
             <color key="backgroundColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="pY7-09-nFe" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="GvD-j2-EHB"/>
-                <constraint firstItem="Wmb-PS-nfe" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="14" id="HFA-oG-Sf2"/>
                 <constraint firstItem="geH-NG-vZ4" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="40" id="JhY-Xj-cYE"/>
                 <constraint firstItem="pY7-09-nFe" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="14" id="NoW-eq-V7K"/>
                 <constraint firstItem="EHV-1J-JKL" firstAttribute="leading" secondItem="tiR-wW-JQc" secondAttribute="trailing" constant="22" id="P2T-do-8A9"/>
@@ -83,7 +75,6 @@
                 <constraint firstItem="tiR-wW-JQc" firstAttribute="top" secondItem="geH-NG-vZ4" secondAttribute="top" id="Zl7-ct-pPt"/>
                 <constraint firstAttribute="trailing" secondItem="BE3-o2-l39" secondAttribute="trailing" constant="17" id="ciE-fN-1ct"/>
                 <constraint firstItem="tiR-wW-JQc" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="10" id="mI1-BK-HV9"/>
-                <constraint firstAttribute="trailing" secondItem="Wmb-PS-nfe" secondAttribute="trailing" constant="17" id="mTk-JT-W7S"/>
                 <constraint firstItem="tiR-wW-JQc" firstAttribute="leading" secondItem="geH-NG-vZ4" secondAttribute="trailing" constant="20" id="q4j-Hm-nbq"/>
                 <constraint firstItem="tiR-wW-JQc" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" constant="20" id="qt7-WG-nUh"/>
                 <constraint firstItem="EHV-1J-JKL" firstAttribute="top" secondItem="BE3-o2-l39" secondAttribute="bottom" constant="2" id="rwo-P4-m2m"/>
@@ -95,6 +86,5 @@
     </objects>
     <resources>
         <image name="btn_return_watch_n" width="40" height="40"/>
-        <image name="btn_share_w_n_back" width="40" height="40"/>
     </resources>
 </document>

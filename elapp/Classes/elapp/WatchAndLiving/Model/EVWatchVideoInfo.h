@@ -51,6 +51,8 @@ typedef NS_ENUM(NSInteger, CCLiveStatus) {
 
 @property (nonatomic, copy) NSString * permission;
 
+@property (nonatomic, copy) NSString * price;
+
 /**
  *  permission = 6的时候必填参数
  */

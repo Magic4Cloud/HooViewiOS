@@ -32,7 +32,7 @@
 #import "EVMineBackgroundView.h"
 #import "EVLoginViewController.h"
 #import "EVHVUserSettingController.h"
-#import "EVLiveViewController.h"
+#import "EVNewLiveViewController.h"
 #import "EVHVPrePareController.h"
 #import "EVHVLiveViewController.h"
 #import "EVNotifyListViewController.h"

@@ -593,21 +593,22 @@
                     essionExpire:(void(^)())sessionExpireBlock
 {
     NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
-        if ( sessionID == nil )
-        {
-            return ;
-        }
+    if ( sessionID == nil )
+    {
+        return ;
+    }
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:sessionID forKey:kSessionIdKey];
+
+    if (!userid) {
+        userid = [self uidFromLocal];
+    }
+
     [params setValue:userid forKey:@"userid"];
     [params setValue:type forKey:kType];
     [params setValue:@(start) forKey:kStart];
     [params setValue:@(count) forKey:kCount];
-//    [self getGPSInfo:params];
-    
-    
-//    EVVipMyReleaseAPI
-    
+
     [EVBaseToolManager GETRequestWithUrl:EVMyReleaseAPI parameters:params success:^(NSDictionary *successDict) {
         if ( successBlock )
         {

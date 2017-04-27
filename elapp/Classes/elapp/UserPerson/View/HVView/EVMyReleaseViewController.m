@@ -105,9 +105,6 @@
             EVMyReleaseOfLiveViewController * liveVC = [[EVMyReleaseOfLiveViewController alloc] init];
             liveVC.userModel = self.userModel;
             
-            liveVC.textLiveBlock= ^(EVUserModel *videoInfo) {
-//                [self loadTextLiveData:videoInfo];
-            };
             return liveVC;
         }
             break;

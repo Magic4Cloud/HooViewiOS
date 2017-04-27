@@ -14,10 +14,12 @@
                  sessionExpire:(void (^)())sessionExpireBlock
 {
     NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
+    NSString * uid = [self uidFromLocal];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:start forKey:@"start"];
     [params setValue:count forKey:@"count"];
     [params setValue:type forKey:@"type"];
+    [params setValue:uid forKey:@"userid"];
     if ([sessionID isKindOfClass:[NSString class]]&&
         sessionID.length > 0)
     {

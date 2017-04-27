@@ -22,17 +22,24 @@
         [self.containView addSubview:self.cancelBtn];
         
         [_containView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
-        [_containView autoSetDimensionsToSize:CGSizeMake(ScreenWidth, 169)];
+        [_containView autoPinEdgeToSuperviewEdge:ALEdgeRight];
+        [_containView autoSetDimension:ALDimensionHeight toSize:169];
+//        [_containView autoSetDimensionsToSize:CGSizeMake(ScreenWidth, 169)];
         [_containView autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:0];
         
         [_eVWebViewShareView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
+        [_eVWebViewShareView autoPinEdgeToSuperviewEdge:ALEdgeRight];
+        [_eVWebViewShareView autoSetDimension:ALDimensionHeight toSize:110];
         [_eVWebViewShareView autoPinEdgeToSuperviewEdge:ALEdgeTop];
-        [_eVWebViewShareView autoSetDimensionsToSize:CGSizeMake(ScreenWidth, 110)];
+//        [_eVWebViewShareView autoSetDimensionsToSize:CGSizeMake(ScreenWidth, 110)];
         
         
         [_cancelBtn autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:120];
         [_cancelBtn autoPinEdgeToSuperviewEdge:ALEdgeLeft];
-        [_cancelBtn autoSetDimensionsToSize:CGSizeMake(ScreenWidth, 49)];
+        [_cancelBtn autoAlignAxisToSuperviewAxis:ALAxisVertical];
+        [_cancelBtn autoPinEdgeToSuperviewEdge:ALEdgeRight];
+        [_cancelBtn autoSetDimension:ALDimensionHeight toSize:49];
+//        [_cancelBtn autoSetDimensionsToSize:CGSizeMake(ScreenWidth, 49)];
         
         
     }
@@ -41,6 +48,10 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+//    [_containView autoSetDimensionsToSize:CGSizeMake(self.bounds.size.width, 169)];
+//    [_eVWebViewShareView autoSetDimensionsToSize:CGSizeMake(self.bounds.size.width, 110)];
+//    [_cancelBtn autoSetDimensionsToSize:CGSizeMake(self.bounds.size.width, 49)];
+    
 }
 
 #pragma mark - custom action 

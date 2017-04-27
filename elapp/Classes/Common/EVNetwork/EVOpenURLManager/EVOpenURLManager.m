@@ -11,7 +11,7 @@
 #import "UIViewController+Extension.h"
 #import "NSString+Extension.h"
 #import "EVWatchVideoInfo.h"
-#import "EVLiveViewController.h"
+#import "EVNewLiveViewController.h"
 #import "EVAlertManager.h"
 #import "UIWindow+Extension.h"
 #import "EVDetailWebViewController.h"
@@ -135,7 +135,7 @@ static EVOpenURLManager *_openURLManager;
         return;
     }
     
-    if ( [presenetVC isKindOfClass:[EVLiveViewController class]] )
+    if ( [presenetVC isKindOfClass:[EVNewLiveViewController class]] )
     {
         [[EVAlertManager shareInstance] performComfirmTitle:kTooltip message:kE_GlobalZH(@"quit_living_again_click_url") comfirmTitle:kOK WithComfirm:^{
             

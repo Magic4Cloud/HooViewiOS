@@ -96,12 +96,12 @@
 
 - (void)loadMoreData
 {
-    [self.baseToolManager  GETMyShopsWithType:@"0" start:[NSString stringWithFormat:@"%ld",start] count:@"20" fail:^(NSError * error) {
+    [self.baseToolManager  GETMyShopsWithType:@"0" start:[NSString stringWithFormat:@"%ld",(long)start] count:@"20" fail:^(NSError * error) {
         [self.tableView endFooterRefreshing];
     } success:^(NSDictionary * retinfo) {
         [self.tableView endFooterRefreshing];
         NSArray * videos = retinfo[@"videolive"];
-        [self.dataArray removeAllObjects];
+        
         if ([videos isKindOfClass:[NSArray class]] && videos.count >0) {
             
             [videos enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -136,7 +136,6 @@
 #pragma mark - 🌺 TableView Delegate & Datasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    
     return self.dataArray.count;
 }
 
@@ -159,6 +158,7 @@
     EVVideoAndLiveModel * model = _dataArray[indexPath.row];
     EVWatchVideoInfo * watchInfo = [[EVWatchVideoInfo alloc] init];
     watchInfo.vid = model.vid;
+    watchInfo.permission = model.permission;
     EVHVWatchViewController *watchViewVC = [[EVHVWatchViewController alloc] init];
     watchViewVC.watchVideoInfo = watchInfo;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:watchViewVC];

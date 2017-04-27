@@ -99,7 +99,6 @@
     } success:^(NSDictionary * retinfo) {
         [self.tableView endFooterRefreshing];
         NSArray * videos = retinfo[@"videolive"];
-        [self.dataArray removeAllObjects];
         if ([videos isKindOfClass:[NSArray class]] && videos.count >0) {
             
             [videos enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {

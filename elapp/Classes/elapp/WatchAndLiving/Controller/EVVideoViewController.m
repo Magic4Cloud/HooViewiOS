@@ -9,7 +9,7 @@
 #import "EVVideoViewController.h"
 #import <PureLayout.h>
 #import "NSString+Extension.h"
-#import "EVLiveViewController.h"
+#import "EVNewLiveViewController.h"
 #import "EVLoginInfo.h"
 #import "EVBaseToolManager.h"
 #import "EVNotifyConversationItem.h"
@@ -559,9 +559,9 @@
 {
     self.chatContainerView.hidden = YES;
     UIView *livePrepareView = nil;
-    if ( [self isKindOfClass:[EVLiveViewController class]] )
+    if ( [self isKindOfClass:[EVNewLiveViewController class]] )
     {
-        livePrepareView = ((EVLiveViewController *)self).prepareView;
+        livePrepareView = ((EVNewLiveViewController *)self).prepareView;
     }
     if ( livePrepareView.hidden || !livePrepareView )
     {

@@ -32,5 +32,9 @@ typedef NS_ENUM(NSInteger, EVHVWatchViewType) {
 @property (nonatomic, assign) BOOL pause;
 
 @property (nonatomic, weak) UIButton *pauseButton;
+
+@property (nonatomic, strong) UIButton * fullButton;
+
+@property (nonatomic, strong) UIButton * shareButton;
 - (void)gestureHideView;
 @end

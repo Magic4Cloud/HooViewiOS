@@ -19,10 +19,14 @@
 #import "EVVideoAndLiveModel.h"
 #import "EVShopLiveCell.h"
 
-//#import "EVHVCenterImageLiveViewCell.h"
-//#import "EVMyVideoTableViewCell.h"
+#import "EVMyTextLiveViewController.h"
+
+#import "EVLoginInfo.h"
 
 @interface EVMyReleaseOfLiveViewController ()<UITableViewDelegate,UITableViewDataSource>
+{
+    int start;
+}
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) EVBaseToolManager *baseToolManager;
 
@@ -35,7 +39,6 @@
 
 @property (nonatomic, assign) NSInteger textLiveState;
 
-
 @end
 
 @implementation EVMyReleaseOfLiveViewController
@@ -46,8 +49,10 @@
     [super viewDidLoad];
     
     [self initUI];
-    [self initDatasource];
+    
     [self addVipUI];
+    
+    [self.tableView startHeaderRefreshing];
 }
 
 
@@ -59,14 +64,17 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"EVReleaseImageWithTextLiveCell" bundle:nil] forCellReuseIdentifier:@"EVReleaseImageWithTextLiveCell"];
 
     [self.tableView registerNib:[UINib nibWithNibName:@"EVShopLiveCell" bundle:nil] forCellReuseIdentifier:@"EVShopLiveCell"];
-
+    [self.tableView addRefreshFooterWithiTarget:self action:@selector(loadMoreData)];
+    [self.tableView addRefreshHeaderWithTarget:self action:@selector(loadNewData)];
+    [self.tableView hideFooter];
 }
 
 - (void)addVipUI
 {
     EVNullDataView *nullDataView = [[EVNullDataView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-108)];
-    [self.view addSubview:nullDataView];
+    [self.tableView addSubview:nullDataView];
     self.nullDataView = nullDataView;
+    nullDataView.hidden = YES;
     nullDataView.topImage = [UIImage imageNamed:@"ic_cry"];
     nullDataView.title = @"您还不是主播噢";
 
@@ -74,49 +82,98 @@
 
 
 #pragma mark - 🌐Networks
-
-- (void)initDatasource {
-    NSString *type = @"0";
-    NSInteger start = 0;
-    
-    
-    [self.baseToolManager GETMyReleaseListWithUserid:self.userModel.name type:type start:start count:20 startBlock:^{
+- (void)loadNewData
+{
+    start = 0;
+    [self.baseToolManager GETMyReleaseListWithUserid:nil type:@"0" start:0 count:20 startBlock:^{
         
     } fail:^(NSError *error) {
-        NSLog(@"error = %@",error);
+        self.nullDataView.hidden = NO;
+        [self.tableView endHeaderRefreshing];
     } success:^(NSDictionary *videos) {
-        NSLog(@"videos = %@",videos);
+        [self.tableView endHeaderRefreshing];
         NSDictionary *dictionary = videos[@"textlive"];
-        NSArray *array = videos[@"videolive"];
-        EVUserModel *textLiveModel = [EVUserModel yy_modelWithDictionary:dictionary];
-        self.userModel = textLiveModel;
-        self.textLiveState = [videos[@"textlive"][@"state"] integerValue];
-
+        NSArray * videoArray = videos[@"videolive"];
+        if ([dictionary isKindOfClass:[NSDictionary class]]) {
+            EVUserModel *textLiveModel = [EVUserModel yy_modelWithDictionary:dictionary];
+            self.userModel = textLiveModel;
+        }
         
-        if (array && array.count>0) {
+        self.textLiveState = [videos[@"textlive"][@"state"] integerValue];
+        
+        if (videoArray && videoArray.count>0) {
             __weak typeof(self) weakSelf = self;
-            [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [weakSelf.videos removeAllObjects];
+            [videoArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 EVVideoAndLiveModel * livemodel = [EVVideoAndLiveModel yy_modelWithDictionary:obj];
                 [weakSelf.videos addObject:livemodel];
-                
                 
             }];
         }
         
-        if (start == 0 && array.count == 0) {
+        if (videoArray.count == 0)
+        {
             self.nullDataView.hidden = NO;
         }
         else
         {
             self.nullDataView.hidden = YES;
         }
-    
-        [self.tableView reloadData];
-     
-    } essionExpire:^{
         
+        if (videos.count<20)
+        {
+            [self.tableView hideFooter];
+        }
+        else
+        {
+            [self.tableView showFooter];
+        }
+        start += 20;
+
+        [self.tableView reloadData];
+        
+    } essionExpire:^{
+        [self.tableView endHeaderRefreshing];
+        self.nullDataView.hidden = NO;
+    }];
+
+}
+
+- (void)loadMoreData
+{
+    [self.baseToolManager GETMyReleaseListWithUserid:self.userModel.name type:@"0" start:start count:20 startBlock:^{
+        
+    } fail:^(NSError *error) {
+        [self.tableView endFooterRefreshing];
+    } success:^(NSDictionary *videos) {
+        [self.tableView endFooterRefreshing];
+
+        NSArray * videoArray = videos[@"videolive"];
+        if (videoArray && videoArray.count>0) {
+            __weak typeof(self) weakSelf = self;
+                        [videoArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                EVVideoAndLiveModel * livemodel = [EVVideoAndLiveModel yy_modelWithDictionary:obj];
+                [weakSelf.videos addObject:livemodel];
+                
+            }];
+        }
+        
+        if (videoArray && videoArray.count>0)
+        {
+            [self.tableView setFooterState:CCRefreshStateIdle];
+        }
+        else
+        {
+            [self.tableView setFooterState:CCRefreshStateNoMoreData];
+        }
+        start += 20;
+        [self.tableView reloadData];
+        
+    } essionExpire:^{
+        [self.tableView endFooterRefreshing];
     }];
 }
+
 
 
 //- (void)loadIsHaveTextLive
@@ -163,7 +220,7 @@
         return 96;
     }
     
-    return 104;
+    return 100;
 }
 
 
@@ -226,15 +283,41 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0 && self.textLiveState != 2) {
-        if (self.textLiveBlock) {
-            self.textLiveBlock(self.userModel);
+        //进自己的直播间
+        
+        EVLoginInfo *loginInfo = [EVLoginInfo localObject];
+        EVTextLiveModel * localModel = [EVTextLiveModel textLiveObject];
+        
+        if (localModel.streamid.length > 0)
+        {
+            //如果本地存到有  从本地取  否则 网络请求
+            
+            [self pushLiveImageVCModel:localModel];
+            return;
         }
-    }else {
+        NSString *easemobid = loginInfo.imuser.length <= 0 ? loginInfo.name : loginInfo.imuser;
+        WEAK(self)
+        [self.baseToolManager GETCreateTextLiveUserid:loginInfo.name nickName:loginInfo.nickname easemobid:easemobid success:^(NSDictionary *retinfo) {
+            EVLog(@"LIVETEXT--------- %@",retinfo);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                EVTextLiveModel *textLiveModel = [EVTextLiveModel objectWithDictionary:retinfo[@"retinfo"][@"data"]];
+                [textLiveModel synchronized];
+                [weakself pushLiveImageVCModel:textLiveModel];
+            });
+        } error:^(NSError *error) {
+            //         [weakself pushLiveImageVCModel:nil];
+            [EVProgressHUD showMessage:@"创建失败"];
+        }];
+        
+    }
+    else
+    {
         EVVideoAndLiveModel * model = self.videos[indexPath.row];
         EVWatchVideoInfo * watchInfo = [[EVWatchVideoInfo alloc] init];
         watchInfo.vid = model.vid;
+        watchInfo.permission = model.permission;
         EVHVWatchViewController *watchViewVC = [[EVHVWatchViewController alloc] init];
         watchViewVC.watchVideoInfo = watchInfo;
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:watchViewVC];
@@ -242,17 +325,24 @@
     }
 }
 
+#pragma mark - 跳转到我的直播间
+- (void)pushLiveImageVCModel:(EVTextLiveModel *)model
+{
+    EVMyTextLiveViewController *myLiveImageVC = [[EVMyTextLiveViewController alloc] init];
+    UINavigationController *navigationVc = [[UINavigationController alloc] initWithRootViewController:myLiveImageVC];
+    [self presentViewController:navigationVc animated:YES completion:nil];
+    myLiveImageVC.textLiveModel = model;
+}
 
 #pragma mark - ✍️ Setters & Getters
 - (UITableView *)tableView
 {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:(UITableViewStylePlain)];
-        _tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 4)];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:(UITableViewStyleGrouped)];
         _tableView.backgroundColor = [UIColor evBackGroundLightGrayColor];
         _tableView.delegate = self;
         _tableView.dataSource = self;
-//        _tableView.tableFooterView = [UIView new];
+        _tableView.tableFooterView = [UIView new];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     }
     return _tableView;

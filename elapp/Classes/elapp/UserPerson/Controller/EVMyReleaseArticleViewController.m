@@ -22,6 +22,9 @@
 #import "EVNewsListViewCell.h"
 
 @interface EVMyReleaseArticleViewController ()<UITableViewDelegate,UITableViewDataSource>
+{
+    NSInteger start;
+}
 
 @property (nonatomic, weak) UITableView *iNewsTableview;
 
@@ -29,7 +32,7 @@
 
 @property (nonatomic, strong) EVBaseToolManager *baseToolManager;
 
-@property (nonatomic, weak) EVNullDataView *nullDataView;
+@property (nonatomic, strong) EVNullDataView *nullDataView;
 
 @end
 
@@ -44,55 +47,14 @@
     return self;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
     [self addTableView];
     
-    [self loadNewData];
-    
-    //    [self.iNewsTableview addRefreshFooterWithRefreshingBlock:^{
-    //
-    //    }];
+    [self.iNewsTableview startHeaderRefreshing];
 }
-
-
-- (void)loadNewData
-{
-    NSString *type = @"2";
-    NSInteger start = 0;
-
-    [self.baseToolManager GETMyReleaseListWithUserid:self.watchVideoInfo.name type:type start:start count:20 startBlock:^{
-        
-    } fail:^(NSError *error) {
-        NSLog(@"error = %@",error);
-    } success:^(NSDictionary *videos) {
-        NSLog(@"videos = %@",videos);
-        NSArray * news = videos[@"news"];
-        if ([news isKindOfClass:[NSArray class]] && news.count>0) {
-            [self.dataArray removeAllObjects];
-            
-            [news enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                EVNewsModel * model = [EVNewsModel yy_modelWithDictionary:obj];
-                [self.dataArray addObject:model];
-            }];
-            
-            self.iNewsTableview.hidden = NO;
-            self.nullDataView.hidden = YES;
-            
-            [self.iNewsTableview reloadData];
-        }
-        else
-        {
-            self.iNewsTableview.hidden = YES;
-            self.nullDataView.hidden = NO;
-        }
-    
-    } essionExpire:^{
-    }];
-}
-
-
 
 - (void)addTableView
 {
@@ -105,18 +67,97 @@
     iNewsTableview.contentInset = UIEdgeInsetsMake(4, 0, 0, 0);
     _iNewsTableview = iNewsTableview;
     iNewsTableview.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    
     [_iNewsTableview registerNib:[UINib nibWithNibName:@"EVOnlyTextCell" bundle:nil] forCellReuseIdentifier:@"EVOnlyTextCell"];
     [_iNewsTableview registerNib:[UINib nibWithNibName:@"EVThreeImageCell" bundle:nil] forCellReuseIdentifier:@"EVThreeImageCell"];
     [_iNewsTableview registerNib:[UINib nibWithNibName:@"EVNewsListViewCell" bundle:nil] forCellReuseIdentifier:@"EVNewsListViewCell"];
     
+    [_iNewsTableview addRefreshHeaderWithTarget:self action:@selector(loadNewData)];
+    [_iNewsTableview addRefreshFooterWithiTarget:self action:@selector(loadMoreData)];
     
-    EVNullDataView *nullDataView = [[EVNullDataView alloc] initWithFrame:CGRectMake(0, 1, ScreenWidth, ScreenHeight - 44)];
-    nullDataView.topImage = [UIImage imageNamed:@"ic_cry"];
-    nullDataView.title = @"您还没有发布文章噢";
-    [self.view addSubview:nullDataView];
-    self.nullDataView = nullDataView;
-    self.nullDataView.hidden = YES;
+    [self.iNewsTableview addSubview:self.nullDataView];
+    
+}
+
+
+
+- (void)loadNewData
+{
+    start = 0;
+    
+    [self.baseToolManager GETMyReleaseListWithUserid:nil type:@"2" start:0 count:20 startBlock:^{
+    } fail:^(NSError *error) {
+        self.nullDataView.hidden = NO;
+        [self.iNewsTableview endHeaderRefreshing];
+    } success:^(NSDictionary *videos) {
+        [self.iNewsTableview endHeaderRefreshing];
+        NSArray * news = videos[@"news"];
+        if ([news isKindOfClass:[NSArray class]] && news.count>0) {
+            [self.dataArray removeAllObjects];
+            [news enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                EVNewsModel * model = [EVNewsModel yy_modelWithDictionary:obj];
+                [self.dataArray addObject:model];
+            }];
+            
+        }
+        
+        if (news.count == 0)
+        {
+            self.nullDataView.hidden = NO;
+        }
+        else
+        {
+            self.nullDataView.hidden = YES;
+        }
+        
+        if (news.count<20)
+        {
+            [self.iNewsTableview hideFooter];
+        }
+        else
+        {
+            [self.iNewsTableview showFooter];
+        }
+        start += 20;
+        
+        [self.iNewsTableview reloadData];
+        
+    } essionExpire:^{
+        [self.iNewsTableview endHeaderRefreshing];
+        self.nullDataView.hidden = NO;
+    }];
+    
+}
+
+- (void)loadMoreData
+{
+    [self.baseToolManager GETMyReleaseListWithUserid:nil type:@"2" start:start count:20 startBlock:^{
+    } fail:^(NSError *error) {
+        [self.iNewsTableview endFooterRefreshing];
+    } success:^(NSDictionary *videos) {
+        [self.iNewsTableview endFooterRefreshing];
+        NSArray * news = videos[@"news"];
+        if ([news isKindOfClass:[NSArray class]] && news.count>0) {
+            [news enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                EVNewsModel * model = [EVNewsModel yy_modelWithDictionary:obj];
+                [self.dataArray addObject:model];
+            }];
+            
+        }
+        
+        if (news && news.count>0)
+        {
+            [self.iNewsTableview setFooterState:CCRefreshStateIdle];
+            start += 20;
+        }
+        else
+        {
+            [self.iNewsTableview setFooterState:CCRefreshStateNoMoreData];
+        }
+        
+        [self.iNewsTableview reloadData];
+    } essionExpire:^{
+        [self.iNewsTableview endFooterRefreshing];
+    }];
 }
 
 
@@ -131,31 +172,29 @@
     //新闻列表
     EVNewsModel * newsModel = _dataArray[indexPath.row];
     
-    if ([newsModel.type isEqualToString:@"0"])
+    //普通新闻
+    if (newsModel.cover == nil || newsModel.cover.count == 0)
     {
-        //普通新闻
-        if (newsModel.cover == nil || newsModel.cover.count == 0)
-        {
-            //没有图片
-            EVOnlyTextCell * textCell = [tableView dequeueReusableCellWithIdentifier:@"EVOnlyTextCell"];
-            textCell.newsModel = newsModel;
-            return textCell;
-        }
-        else if (newsModel.cover.count == 1)
-        {
-            //一张图片
-            EVNewsListViewCell *newsCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsListViewCell"];
-            newsCell.consultNewsModel = newsModel;
-            return newsCell;
-        }
-        else if (newsModel.cover.count == 3)
-        {
-            //三张图片
-            EVThreeImageCell * threeImageCell = [tableView dequeueReusableCellWithIdentifier:@"EVThreeImageCell"];
-            threeImageCell.newsModel = newsModel;
-            return threeImageCell;
-        }
+        //没有图片
+        EVOnlyTextCell * textCell = [tableView dequeueReusableCellWithIdentifier:@"EVOnlyTextCell"];
+        textCell.newsModel = newsModel;
+        return textCell;
     }
+    else if (newsModel.cover.count == 1)
+    {
+        //一张图片
+        EVNewsListViewCell *newsCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsListViewCell"];
+        newsCell.consultNewsModel = newsModel;
+        return newsCell;
+    }
+    else if (newsModel.cover.count == 3)
+    {
+        //三张图片
+        EVThreeImageCell * threeImageCell = [tableView dequeueReusableCellWithIdentifier:@"EVThreeImageCell"];
+        threeImageCell.newsModel = newsModel;
+        return threeImageCell;
+    }
+    
     
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (!cell) {
@@ -176,15 +215,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //    EVBaseNewsModel *newsModel = self.dataArray[indexPath.row];
     EVNewsModel * model = self.dataArray[indexPath.row];
     EVNewsDetailWebController *newsVC = [[EVNewsDetailWebController alloc] init];
     newsVC.newsID = model.newsID;
-    //    newsVC.title = model.title;
-    newsVC.refreshCollectBlock = ^()
-    {
-        [self loadNewData];
-    };
+    newsVC.title = model.title;
     [self.navigationController pushViewController:newsVC animated:YES];
     
 }
@@ -197,6 +231,16 @@
     return _dataArray;
 }
 
+- (EVNullDataView *)nullDataView
+{
+    if (!_nullDataView) {
+        _nullDataView = [[EVNullDataView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-108)];
+        _nullDataView.hidden = YES;
+        _nullDataView.topImage = [UIImage imageNamed:@"ic_cry"];
+        _nullDataView.title = @"暂时还没发布文章噢";
+    }
+    return _nullDataView;
+}
 
 - (EVBaseToolManager *)baseToolManager
 {
@@ -205,6 +249,7 @@
     }
     return _baseToolManager;
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

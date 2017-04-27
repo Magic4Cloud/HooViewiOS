@@ -13,7 +13,7 @@ static NSString *identifier = @"EVShareViewCell";
 
 @interface EVWebViewShareView ()<UICollectionViewDelegate,UICollectionViewDataSource>
 
-@property (nonatomic, weak) UICollectionView *shareCollectionView;
+
 
 @property (nonatomic, strong) NSMutableArray *titleArray;
 

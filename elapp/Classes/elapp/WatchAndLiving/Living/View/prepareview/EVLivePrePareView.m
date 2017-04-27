@@ -77,8 +77,6 @@ static NSInteger const shareLabBaseTag = 888;
 @property (nonatomic, weak) UIImageView *backImageView;
 
 
-
-
 /**
  免费付费 背景视图高度约束
  */
@@ -97,8 +95,6 @@ static NSInteger const shareLabBaseTag = 888;
 {
     if ( self = [super initWithFrame:frame] )
     {
-//        self.backgroundColor = [UIColor colorWithHexString:@"#303030"];
-//        self.alpha = 0.56;
         [self setUp];
         [self setUpNoticaiton];
     }
@@ -139,7 +135,6 @@ static NSInteger const shareLabBaseTag = 888;
 - (BOOL)checkTitle
 {
     NSInteger wordCount = [self.editView.text numOfWordWithLimit:0];
-    EVLog(@"---%@",self.editView.text);
     if ( wordCount > kMaxWordCount )
     {
         [EVProgressHUD showError:kE_GlobalZH(@"topic_title_length") toView:self];
@@ -170,15 +165,10 @@ static NSInteger const shareLabBaseTag = 888;
 
 }
 
-//- (void)setTitle:(NSString *)title
-//{
-//    self.editView.text = title;
-//}
-
-//- (NSString *)title
-//{
-//    return self.editView.text;
-//}
+- (void)setTitle:(NSString *)title
+{
+    self.editTextFiled.text = title;
+}
 
 - (void)setCaptureSuccess:(BOOL)captureSuccess
 {
@@ -241,40 +231,6 @@ static NSInteger const shareLabBaseTag = 888;
     navBackView.backgroundColor = [UIColor whiteColor];
     [self.settingContentView insertSubview:navBackView atIndex:0];
     
-    //    CGFloat topBtnWith = 40.f;
-//    CGFloat topBtnHeight = 40.f;
-    
-//    // 切换摄像头
-//    UIButton *changeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//    self.changeCameraButton = changeButton;
-//    [settingContentView addSubview:changeButton];
-//    changeButton.tag = EVLivePrePareViewButtonToggleCamera;
-//    [changeButton autoSetDimensionsToSize:CGSizeMake(topBtnWith, topBtnHeight)];
-//    [changeButton autoAlignAxis:ALAxisHorizontal toSameAxisOfView:cancelButton];
-//    [changeButton autoPinEdge:ALEdgeRight toEdge:ALEdgeLeft ofView:cancelButton withOffset: - 5.f];
-//    [changeButton setImage:[UIImage imageNamed:@"setting_icon_change"] forState:UIControlStateNormal];
-    
-    
-//    UIButton *permissionButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-//    [settingContentView addSubview:permissionButton];
-//    permissionButton.tag = EVLivePrePareViewButtonPermission;
-//    [permissionButton setTitle:kE_GlobalZH(@"el_permission") forState:(UIControlStateNormal)];
-//    [permissionButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
-//    [permissionButton setBackgroundColor:[UIColor clearColor]];
-//    [permissionButton autoSetDimensionsToSize:CGSizeMake(topBtnWith, topBtnHeight)];
-//    [permissionButton autoAlignAxis:ALAxisHorizontal toSameAxisOfView:cancelButton];
-//    [permissionButton autoPinEdge:ALEdgeRight toEdge:ALEdgeLeft ofView:changeButton withOffset: - 5.f];
-    
-//    UIButton *categoryButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-//    [settingContentView addSubview:categoryButton];
-//    self.categoryButton = categoryButton;
-//    categoryButton.tag = EVLivePrePareViewButtonCategory;
-//    [categoryButton setTitle:kE_GlobalZH(@"el_topic") forState:(UIControlStateNormal)];
-//    [categoryButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
-//    [categoryButton setBackgroundColor:[UIColor clearColor]];
-//    [categoryButton autoSetDimensionsToSize:CGSizeMake(60, topBtnHeight)];
-//    [categoryButton autoAlignAxis:ALAxisHorizontal toSameAxisOfView:cancelButton];
-//    [categoryButton autoPinEdge:ALEdgeRight toEdge:ALEdgeLeft ofView:permissionButton withOffset: - 5.f];
     
     UIView * titleBackView = [[UIView alloc] init];
     [self.settingContentView addSubview:titleBackView];
@@ -388,55 +344,7 @@ static NSInteger const shareLabBaseTag = 888;
     self.payFeeTextFiled = payFeeTextFiled;
     payFeeTextFiled.hidden = YES;
 
-    
-    
-    
-    
 
-    
-    
-
-    
-//    UILabel *bottomLabel = [[UILabel alloc] init];
-//    [coverButton addSubview:bottomLabel];
-//    self.coverBtnBottomLabel = bottomLabel;
-//    [bottomLabel autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:7];
-//    [bottomLabel autoAlignAxisToSuperviewAxis:ALAxisVertical];
-//    bottomLabel.text = kE_GlobalZH(@"e_cover");
-//    bottomLabel.textColor = [UIColor whiteColor];
-//    bottomLabel.font = EVNormalFont(13);
-//    
-//    
-//    UIImageView *topImageView = [[UIImageView alloc] init];
-//    [coverButton addSubview:topImageView];
-//    self.coverBtnTopImageView = topImageView;
-//    [topImageView autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:10];
-//    [topImageView autoAlignAxisToSuperviewAxis:ALAxisVertical];
-//    topImageView.image = [UIImage imageNamed:@"setting_icon_photo"];
-    
-   
-    
-
-    
-//    // 直播标题
-//    EVLiveTitleTextView *editView = [[EVLiveTitleTextView alloc] init];
-//    editView.delegate = self;
-//    editView.returnKeyType = UIReturnKeyDone;
-//    editView.backgroundColor = [UIColor blackColor];
-//    editView.font = [UIFont systemFontOfSize:16.f];
-//    editView.placeholder = kE_GlobalZH(@"living_nickname");
-//    editView.textAlignment = NSTextAlignmentCenter;
-//    editView.tintColor = [UIColor evMainColor];
-//    editView.textColor = [UIColor whiteColor];
-//    [self.settingContentView addSubview:editView];
-//    [editView autoPinEdge:ALEdgeTop toEdge:ALEdgeTop ofView:settingContentView withOffset:80];
-//    [editView autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:0];
-//    [editView autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:0];
-//    [editView autoSetDimension:ALDimensionHeight toSize:60];
-//    self.editView = editView;
-//    [editView becomeFirstResponder];
-    
-    
     [self setUpMenuButtons];
     [self setUpCaptureView];
     
@@ -771,11 +679,11 @@ static NSInteger const shareLabBaseTag = 888;
 
 - (void)setLoadingInfo:(NSString *)loadingInfo canStart:(BOOL)start
 {
-    if ( !start )
+    if (!start )
     {
-        self.startLiveButton.userInteractionEnabled = NO;
+        self.startLiveButton.enabled = NO;
     } else {
-        self.startLiveButton.userInteractionEnabled = YES;
+        self.startLiveButton.enabled = YES;
     }
 }
 
@@ -822,8 +730,6 @@ static NSInteger const shareLabBaseTag = 888;
     [super layoutSubviews];
     
     CGPoint locationLabelCenter = self.locationLabel.center;
-//    locationLabelCenter.y = self.locationButton.frame.origin.y - self.locationLabel.frame.size.height * 0.5 - 4;
-//    locationLabelCenter.x = self.locationButton.center.x;
     self.locationLabel.center = locationLabelCenter;
 }
 @end

@@ -47,6 +47,7 @@
     
     UIButton *fullButton = [[UIButton alloc] init];
     [self addSubview:fullButton];
+    _fullButton = fullButton;
     fullButton.backgroundColor = [UIColor clearColor];
     fullButton.alpha = normalAlpha;
     fullButton.tag = EVHVWatchViewTypeFull;
@@ -63,6 +64,7 @@
     
     UIButton *shareButton = [[UIButton alloc] init];
     [self addSubview:shareButton];
+    _shareButton = shareButton;
     shareButton.backgroundColor = [UIColor clearColor];
     shareButton.alpha = normalAlpha;
     shareButton.tag = EVHVWatchViewTypeShare;

@@ -13,7 +13,7 @@
 #import "EVNetWorkStateManger.h"
 #import "EVPushBar.h"
 #import "UIWindow+Extension.h"
-#import "EVLiveViewController.h"
+#import "EVNewLiveViewController.h"
 #import "EVOpenURLManager.h"
 #import "NSString+Extension.h"
 #import "EVAlertManager.h"
@@ -688,7 +688,7 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
         return;
     }
     
-    if ( [presenetVC isKindOfClass:[EVLiveViewController class]] )
+    if ( [presenetVC isKindOfClass:[EVNewLiveViewController class]] )
     {
          [EVProgressHUD showMessageInAFlashWithMessage:kE_GlobalZH(@"self_living_not_push")];
         return;
@@ -824,7 +824,7 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 {
     if (_allowRotation == YES) {
         
-        return UIInterfaceOrientationMaskLandscapeRight;
+        return UIInterfaceOrientationMaskLandscapeRight |UIInterfaceOrientationMaskLandscapeLeft;
         
     }else{
         
