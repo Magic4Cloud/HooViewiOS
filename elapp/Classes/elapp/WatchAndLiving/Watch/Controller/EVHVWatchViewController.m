@@ -312,11 +312,19 @@
 {
     _watchVideoInfo = [EVWatchVideoInfo objectWithDictionary:videoInfo];
    
-    if ([_watchVideoInfo.permission integerValue] == 7 ) {
-        if ([_watchVideoInfo.price integerValue] == 0) {
+    if ([_watchVideoInfo.permission integerValue] == 7 )
+    {
+        if ([_watchVideoInfo.price integerValue] == 0)
+        {
             //付费直播 已经付费
             self.videoPayCoverView.hidden = YES;
         }
+        else
+        {
+            //付费直播 没付费
+            self.videoPayCoverView.hidden = NO;
+        }
+    }
         else
         {
             NSString * price = _watchVideoInfo.price;
@@ -326,7 +334,7 @@
             self.videoPayCoverView.viewPriceLabel.attributedText = attributeString;
         }
         
-    }
+    
     
     [self addChatTextView];
     [self addPresentListView];
@@ -1334,15 +1342,15 @@
             {
                 //购买
                 [weakSelf.baseToolManager GETLivePayWithVid:weakSelf.watchVideoInfo.vid start:nil fail:^(NSError *error) {
-                    NSLog(@"购买失败");
+                [EVProgressHUD showMessage:@"购买失败"];
                 } successBlock:^(NSDictionary *retinfo) {
                     //购买成功
-                    NSLog(@"购买成功");
+                    [EVProgressHUD showMessage:@"购买成功"];
                     [weakSelf.evPlayer play];
                     [view dismissPayView];
                     weakSelf.videoPayCoverView.hidden = YES;
                     } sessionExpire:^{
-                    NSLog(@"购买失败");
+                    [EVProgressHUD showMessage:@"购买失败"];
                 }];
                 
             }

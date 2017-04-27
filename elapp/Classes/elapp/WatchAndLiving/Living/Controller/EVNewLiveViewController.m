@@ -329,7 +329,7 @@ static inline long long getcurrsecond()
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+   
     [self setUpNotification];
     
     [self setUpView];
@@ -896,7 +896,7 @@ static inline long long getcurrsecond()
     [liveEndView dismiss];
 }
 
-
+#pragma mark -
 - (void)liveBottomItemViewButtonClick:(UIButton *)button
 {
     switch ( button.tag )
@@ -1189,6 +1189,7 @@ static inline long long getcurrsecond()
 }
 
 #pragma mark - EVAudienceViewControllerProtocol
+#pragma mark - 分享  切换摄像头  关闭麦克 按钮响应事件
 - (void)topViewButtonType:(EVHVLiveTopViewType)type button:(UIButton *)button
 {
     switch (type) {
@@ -1219,8 +1220,10 @@ static inline long long getcurrsecond()
             break;
         case EVHVLiveTopViewTypeShare:
         {
+            //MARK:分享按钮点击
             self.liveShareView.hidden = NO;
             self.giftAniView.hidden = YES;
+            [self showShareView:YES];
         }
             break;
         default:
@@ -1433,6 +1436,8 @@ static inline long long getcurrsecond()
     [self.engine GETLivePreStartParams:params Start:^{
         [EVProgressHUD showSuccess:@"请等待" toView:self.view];
     } fail:^(NSError *error) {
+        [EVProgressHUD showMessage:@"开启直播失败"];
+        
         NSString *customError = error.userInfo[kCustomErrorKey];
         if ( [customError isEqualToString:@"E_USER_PHONE_NOT_EXISTS"] ) {
             [weakself liveNeedToBindPhone];
@@ -1482,6 +1487,7 @@ static inline long long getcurrsecond()
         
         [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     } sessionExpire:^{
+        [EVProgressHUD hideHUDForView:self.view];
         EVRelogin(self);
     }];
     

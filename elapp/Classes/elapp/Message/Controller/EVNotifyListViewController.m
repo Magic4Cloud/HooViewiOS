@@ -160,7 +160,7 @@ const NSString *const notifyListCellID = @"notifyList";
     }fail:^(NSError *error) {
         [weakSelf.slimeView endRefresh];
         self.isLoading = NO;
-        [EVProgressHUD showError:@"" toView:weakSelf.view];
+        [EVProgressHUD showError:@"获取失败" toView:weakSelf.view];
     } success:^(id messageData) {
         [weakSelf.slimeView endRefresh];
         self.isLoading = NO;

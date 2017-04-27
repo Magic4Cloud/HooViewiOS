@@ -31,7 +31,7 @@
     
     _cellViewCountLabel.text = [NSString stringWithFormat:@"%@人观看",[videoModel.watch_count thousandsSeparatorString]];
     
-    _cellIntroduceLabel.text = @"暂时没有简介";
+    _cellIntroduceLabel.text = videoModel.title;
     if ([videoModel.permission integerValue] == 7) {
         _needPayLabel.hidden = NO;
     } else {
