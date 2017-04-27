@@ -209,7 +209,7 @@
         
         CCUserSettingItem *detInformation = [[CCUserSettingItem alloc] init];
         detInformation.settingTitle = @"详细资料";
-        detInformation.contentTitle = self.userInfo.introduce.length > 0 ? self.userInfo.credentials : @"请完善您的详细资料";
+        detInformation.contentTitle = self.userInfo.introduce.length > 0 ? self.userInfo.introduce : @"请完善您的详细资料";
         detInformation.access = YES;
         detInformation.hiddenLine = YES;
         detInformation.loginInfo = self.userInfo;

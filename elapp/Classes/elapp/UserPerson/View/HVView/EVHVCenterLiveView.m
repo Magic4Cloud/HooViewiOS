@@ -55,7 +55,7 @@
         [self addRefreshFooterWithiTarget:self action:@selector(loadMoreData)];
         [self hideFooter];
         [self addVipUI];
-        [self startHeaderRefreshing];
+//        [self startHeaderRefreshing];
     }
     return self;
 }
@@ -85,18 +85,21 @@
 
 - (void)loadNewData {
     start = 0;
-    
+//    [EVProgressHUD showIndeterminateForView:self];
     [self.baseToolManager GETHVCenterVideoListWithUserid:self.userModel.name start:start count:20 startBlock:^{
-        
+        [EVProgressHUD hideHUDForView:self];
     } fail:^(NSError *error) {
         NSLog(@"error = %@",error);
         [self endHeaderRefreshing];
+        [EVProgressHUD hideHUDForView:self];
     } success:^(NSDictionary *retinfo) {
         NSLog(@"videos = %@",retinfo);
         [self endHeaderRefreshing];
+        [EVProgressHUD hideHUDForView:self];
         NSDictionary *dictionary = retinfo[@"textlive"];
         [self.videos removeAllObjects];
         NSArray *array = retinfo[@"videolive"];
+        
         EVUserModel *textLiveModel = [EVUserModel yy_modelWithDictionary:dictionary];
         self.userModel = textLiveModel;
         self.textLiveState = [retinfo[@"textlive"][@"state"] integerValue];
@@ -132,6 +135,7 @@
         
     } essionExpire:^{
         [self endHeaderRefreshing];
+        [EVProgressHUD hideHUDForView:self];
     }];
 }
 
@@ -139,7 +143,6 @@
 - (void)loadMoreData
 {
     [self.baseToolManager GETHVCenterVideoListWithUserid:self.userModel.name start:start count:20 startBlock:^{
-        
     } fail:^(NSError *error) {
         NSLog(@"error = %@",error);
         [self endHeaderRefreshing];
@@ -276,6 +279,7 @@
         static NSString * identifer = @"EVReleaseImageWithTextLiveCell";
         EVReleaseImageWithTextLiveCell * cell = [tableView dequeueReusableCellWithIdentifier:identifer];
         cell.userModel = self.userModel;
+        cell.selectionStyle = UIAccessibilityTraitNone;
         return cell;
     }
     
@@ -313,6 +317,8 @@
 {
     _userModel = userModel;
 //    [self loadIsHaveTextLive];
+    [self loadNewData];
+    
 //    [self reloadData];
 }
 

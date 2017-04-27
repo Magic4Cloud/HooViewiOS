@@ -44,7 +44,6 @@
 - (instancetype)init {
     if (self = [super init]) {
         
-        
         self.menuViewStyle = WMMenuViewStyleLine;
         float addFont = 0;
         if (ScreenWidth>375) {
@@ -340,22 +339,23 @@
     [self requestNormalLivingPageForceImage:forceImage allowList:allowList audioOnly:audioOnly delegate:self];
 }
 
-- (void)segmentedDidSeletedIndex:(NSInteger)index
-{
-    CGFloat offsetX = index * self.view.frame.size.width;
-    self.backScrollView.contentOffset = CGPointMake(offsetX, 0);
-}
+//- (void)segmentedDidSeletedIndex:(NSInteger)index
+//{
+//    CGFloat offsetX = index * self.view.frame.size.width;
+//    self.backScrollView.contentOffset = CGPointMake(offsetX, 0);
+//}
 
-- (void)didSearchButton
-{
-    EVSearchAllViewController *searchVC = [[EVSearchAllViewController alloc] init];
-    [self.navigationController pushViewController:searchVC animated:YES];
-}
+//- (void)didSearchButton
+//{
+//    EVSearchAllViewController *searchVC = [[EVSearchAllViewController alloc] init];
+//    [self.navigationController pushViewController:searchVC animated:YES];
+//}
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    [self.topView changeThePositionOfTheSelectedBtnWithScrollView:scrollView];
-}
+//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+//{
+//    [self.topView changeThePositionOfTheSelectedBtnWithScrollView:scrollView];
+//}
+//
 
 - (EVBaseToolManager *)baseToolManager
 {

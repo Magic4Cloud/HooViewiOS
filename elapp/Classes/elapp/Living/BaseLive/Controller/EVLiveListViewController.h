@@ -6,9 +6,7 @@
 //  Copyright © 2016年 easyvaas. All rights reserved.
 //
 
-#import "EVViewController.h"
-#import "WMPageController.h"
-
+#import <WMPageController/WMPageController.h>
 /**
  直播首页
  */

@@ -552,34 +552,34 @@
 }
 
 
-///** 获取个人中心主页文章列表数据 */
-//- (void)GETHVCenterVideoListWithUserid:(NSString *)userid
-//                                 start:(NSInteger)start
-//                                 count:(NSInteger)count
-//                            startBlock:(void(^)())startBlock
-//                                  fail:(void(^)(NSError *error))failBlock
-//                               success:(void(^)(NSDictionary *retinfo))successBlock
-//                          essionExpire:(void(^)())sessionExpireBlock {
-//    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
-//    if ( sessionID == nil )
-//    {
-//        return ;
-//    }
-//    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-//    [params setValue:sessionID forKey:kSessionIdKey];
-//    [params setValue:userid forKey:@"userid"];
-//    [params setValue:@(start) forKey:kStart];
-//    [params setValue:@(count) forKey:kCount];
-//    
-//    [EVBaseToolManager GETRequestWithUrl:EVHVCenterLiveListAPI parameters:params success:^(NSDictionary *successDict) {
-//        if ( successBlock )
-//        {
-//            successBlock(successDict);
-//        }
-//        
-//    } sessionExpireBlock:sessionExpireBlock fail:failBlock];
-//    
-//}
+/** 获取个人中心主页文章列表数据 */
+- (void)GETHVCenterNewsListWithUserid:(NSString *)userid
+                                 start:(NSInteger)start
+                                 count:(NSInteger)count
+                            startBlock:(void(^)())startBlock
+                                  fail:(void(^)(NSError *error))failBlock
+                               success:(void(^)(NSDictionary *retinfo))successBlock
+                          essionExpire:(void(^)())sessionExpireBlock {
+    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
+    if ( sessionID == nil )
+    {
+        return ;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValue:sessionID forKey:kSessionIdKey];
+    [params setValue:userid forKey:@"userid"];
+    [params setValue:@(start) forKey:kStart];
+    [params setValue:@(count) forKey:kCount];
+    
+    [EVBaseToolManager GETRequestWithUrl:EVHVCenterNewsListAPI parameters:params success:^(NSDictionary *successDict) {
+        if ( successBlock )
+        {
+            successBlock(successDict);
+        }
+        
+    } sessionExpireBlock:sessionExpireBlock fail:failBlock];
+    
+}
 
 
 //获取我的发布
@@ -599,9 +599,11 @@
     }
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:sessionID forKey:kSessionIdKey];
+
     if (!userid) {
         userid = [self uidFromLocal];
     }
+
     [params setValue:userid forKey:@"userid"];
     [params setValue:type forKey:kType];
     [params setValue:@(start) forKey:kStart];

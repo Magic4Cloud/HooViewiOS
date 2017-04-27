@@ -384,8 +384,7 @@
 
 - (void)loadUserData
 {
-    NSLog(@"self.watchVideoInfo.name:%@",self.watchVideoInfo.name);
-    [self.baseToolManager GETBaseUserInfoWithUname:self.watchVideoInfo.name start:^{
+    [self.baseToolManager GETBaseUserInfoWithPersonid:self.watchVideoInfo.name start:^{
         
     } fail:^(NSError *error) {
         
@@ -393,9 +392,11 @@
         self.watchVideoInfo = [EVWatchVideoInfo objectWithDictionary:modelDict];
         
         [self updateIsFollow:self.watchVideoInfo.followed];
+
     } sessionExpire:^{
         
     }];
+    
 }
 
 

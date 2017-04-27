@@ -219,6 +219,15 @@ typedef enum : NSUInteger {
                          success:(void(^)(NSDictionary *retinfo))successBlock
                     essionExpire:(void(^)())sessionExpireBlock;
 
+/** 获取个人中心主页文章列表数据 */
+- (void)GETHVCenterNewsListWithUserid:(NSString *)userid
+                                start:(NSInteger)start
+                                count:(NSInteger)count
+                           startBlock:(void(^)())startBlock
+                                 fail:(void(^)(NSError *error))failBlock
+                              success:(void(^)(NSDictionary *retinfo))successBlock
+                         essionExpire:(void(^)())sessionExpireBlock;
+
 
 //获取我的发布
 - (void)GETMyReleaseListWithUserid:(NSString *)userid

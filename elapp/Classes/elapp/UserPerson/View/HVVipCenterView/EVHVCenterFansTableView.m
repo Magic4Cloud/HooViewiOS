@@ -149,6 +149,23 @@
             }];
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+//    if (indexPath.section == 0 && self.textLiveState != 2) {
+//        if (self.textLiveBlock) {
+//            self.textLiveBlock(self.userModel);
+//        }
+//    }else {
+//        NSLog(@"dianji = %ld",indexPath.row);
+//        EVWatchVideoInfo *videoModel = self.videos[indexPath.row];
+//        if (self.videoBlock) {
+//            self.videoBlock(videoModel);
+//        }
+//    }
+}
+
+
 - (void)setWatchVideoInfo:(EVWatchVideoInfo *)WatchVideoInfo
 {
     _WatchVideoInfo = WatchVideoInfo;

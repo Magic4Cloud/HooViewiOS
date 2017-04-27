@@ -110,7 +110,7 @@
     _isFollow = isFollow;
     NSString *imageStr = isFollow ? @"btn_concerned_s": @"btn_unconcerned_n";
     [self.followButton setImage:[UIImage imageNamed:imageStr] forState:(UIControlStateNormal)];
-    NSString *titleStr = isFollow ? @"已关注" : @"关注";
+    NSString *titleStr = isFollow ? @"已关注" : @"+关注";
     [self.followButton setTitle:titleStr forState:(UIControlStateNormal)];
 }
 

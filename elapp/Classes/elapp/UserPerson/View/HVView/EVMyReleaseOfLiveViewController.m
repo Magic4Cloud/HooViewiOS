@@ -85,7 +85,7 @@
 - (void)loadNewData
 {
     start = 0;
-    [self.baseToolManager GETMyReleaseListWithUserid:self.userModel.name type:@"0" start:0 count:20 startBlock:^{
+    [self.baseToolManager GETMyReleaseListWithUserid:nil type:@"0" start:0 count:20 startBlock:^{
         
     } fail:^(NSError *error) {
         self.nullDataView.hidden = NO;

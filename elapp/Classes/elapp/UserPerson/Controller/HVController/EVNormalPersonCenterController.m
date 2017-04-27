@@ -103,8 +103,9 @@
 #pragma mark - 🖍 User Interface layout
 - (void)addBackTableView
 {
+    CGFloat viewHeight =  ScreenWidth * 210 / 375;
     EVVipDetailCenterView * vipCenterView = [[EVVipDetailCenterView alloc] init];
-    vipCenterView.frame = CGRectMake(0, 0, ScreenWidth, 450);
+    vipCenterView.frame = CGRectMake(0, 0, ScreenWidth, viewHeight);
     self.vipCenterView = vipCenterView;
     vipCenterView.fansAndFollowClickBlock = ^(controllerType type)
     {
@@ -133,6 +134,8 @@
     _swipeTableView.swipeHeaderTopInset = 64;
     [self.view addSubview:_swipeTableView];
     self.vipCenterView.watchVideoInfo = self.watchVideoInfo;
+    
+    _swipeTableView.swipeHeaderView = self.vipCenterView;
     
     
     self.navigationView = [[UIView alloc] init];
@@ -207,18 +210,6 @@
         EVUserModel *userModel = [EVUserModel objectWithDictionary:modelDict];
         self.userModel = userModel;
         self.vipCenterView.userModel = userModel;
-        
-        NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-        paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
-        paragraphStyle.alignment = NSTextAlignmentLeft;
-        NSDictionary *attributes = @{ NSFontAttributeName : [UIFont systemFontOfSize:12],
-                                      NSParagraphStyleAttributeName: paragraphStyle};
-        CGSize contentSize = [@"火眼财经火眼财经" boundingRectWithSize:CGSizeMake(ScreenWidth - 51 , CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading  attributes:attributes context:nil].size;
-        NSLog(@"cont = %@",NSStringFromCGSize(contentSize));
-        
-        CGFloat viewHeight = contentSize.height + 75 + ScreenWidth * 210 / 375;
-        self.vipCenterView.frame = CGRectMake(0, 0, ScreenWidth, viewHeight);
-        _swipeTableView.swipeHeaderView = self.vipCenterView;
     } sessionExpire:^{
         
     }];

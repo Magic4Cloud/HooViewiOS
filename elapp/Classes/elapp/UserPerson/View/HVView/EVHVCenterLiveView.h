@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "EVWatchVideoInfo.h"
 #import "EVUserModel.h"
-
+#import "EVTextLiveModel.h"
 
 @class EVUserVideoModel;
 typedef void(^pushTextLiveBlock)(EVUserModel *watchVideoInfo);
