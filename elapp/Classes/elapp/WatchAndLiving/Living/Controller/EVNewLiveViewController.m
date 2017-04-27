@@ -896,7 +896,7 @@ static inline long long getcurrsecond()
     [liveEndView dismiss];
 }
 
-
+#pragma mark - 直播中 按钮点击响应
 - (void)liveBottomItemViewButtonClick:(UIButton *)button
 {
     switch ( button.tag )
@@ -1433,6 +1433,8 @@ static inline long long getcurrsecond()
     [self.engine GETLivePreStartParams:params Start:^{
         [EVProgressHUD showSuccess:@"请等待" toView:self.view];
     } fail:^(NSError *error) {
+        [EVProgressHUD showMessage:@"开启直播失败"];
+        
         NSString *customError = error.userInfo[kCustomErrorKey];
         if ( [customError isEqualToString:@"E_USER_PHONE_NOT_EXISTS"] ) {
             [weakself liveNeedToBindPhone];
@@ -1482,6 +1484,7 @@ static inline long long getcurrsecond()
         
         [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     } sessionExpire:^{
+        [EVProgressHUD hideHUDForView:self.view];
         EVRelogin(self);
     }];
     

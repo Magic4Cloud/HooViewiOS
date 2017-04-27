@@ -1303,6 +1303,12 @@
     [self showShareView:NO];
 }
 
+//新添加的   以前没有
+- (void)showShareView:(BOOL)YorN
+{
+    [self showliveShareViewDidClickButtonView:YorN];
+}
+
 - (void)sendDanmuSuccess
 {
     __weak typeof(self) wself = self;
