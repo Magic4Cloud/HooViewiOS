@@ -9,7 +9,7 @@
 #import "UIViewController+Extension.h"
 #import "EVWatchVideoInfo.h"
 #import "EVAlertManager.h"
-#import "EVLiveViewController.h"
+#import "EVNewLiveViewController.h"
 #import "EVNewLiveViewController.h"
 #import "EVSettingLivingPWDView.h"
 #import "EVPayVideoViewController.h"
@@ -264,7 +264,7 @@
 - (void)requestActivityLivingWithActivityInfo:(NSDictionary *)params
                                      delegate:(id)delegate
 {
-    EVLiveViewController *liveVC = [EVLiveViewController liveViewControllerWithActivityInfo:params];
+    EVNewLiveViewController *liveVC = [EVNewLiveViewController liveViewControllerWithActivityInfo:params];
     liveVC.delegate = delegate;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:liveVC];
     [self presentViewController:nav animated:YES completion:nil];

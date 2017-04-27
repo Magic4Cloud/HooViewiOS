@@ -44,7 +44,7 @@ typedef NS_ENUM(NSInteger, CCLiveControllerStyle) {
 @interface EVNewLiveViewController : EVVideoViewController
 @property(nonatomic, assign) CCLiveControllerStyle style;
 
-@property(nonatomic, weak) EVLivePrePareView *prepareView;
+@property(nonatomic, strong) EVLivePrePareView *prepareView;
 
 /**
  *  foreCapture ＝ YES ,代理方法 thumb 会把截图传出

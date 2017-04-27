@@ -195,16 +195,7 @@
                 Cell.dataArray = self.hotArray;
                 Cell.dataLiveArray = self.hotLiveArray;
                 Cell.listSeletedBlock = ^(EVWatchVideoInfo *videoInfo,EVWatchVideoInfo *liveVideoInfo) {
-                    //            NSString *sessionID = [self.baseToolManager getSessionIdWithBlock:nil];
-                    //            if (sessionID == nil || [sessionID isEqualToString:@""]) {
-                    //                [self loginView];
-                    //                return;
-                    //            }
-                    EVHVWatchTextViewController *watchViewVC = [[EVHVWatchTextViewController alloc] init];
-                    watchViewVC.watchVideoInfo = videoInfo;
-                    watchViewVC.liveVideoInfo = liveVideoInfo;
-                    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:watchViewVC];
-                    [self presentViewController:nav animated:YES completion:nil];
+                    [self pushTextLivingControllerWithWatchVideoInfo:videoInfo liveVideoInfo:liveVideoInfo];
                 };
                 Cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 return Cell;
@@ -271,27 +262,29 @@
 {
     if (section == 0) {
         return 0.01;
-    } else {
+    }
+    else
+    {
     return 50;
     }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    EVLog(@"-----------------------watchtextlive--------------");
     EVWatchVideoInfo *WatchVideoInfo = _dataArray[indexPath.row];
     EVWatchVideoInfo *liveVideoInfo = _dataLiveArray[indexPath.row];
-    
-    
-    
-    NSString *myId = [EVLoginInfo localObject].name;
+    [self pushTextLivingControllerWithWatchVideoInfo:WatchVideoInfo liveVideoInfo:liveVideoInfo];
+}
 
-    if ([liveVideoInfo.ownerid isEqualToString:myId]) {
+- (void)pushTextLivingControllerWithWatchVideoInfo:(EVWatchVideoInfo *)WatchVideoInfoModel liveVideoInfo:(EVWatchVideoInfo *)liveVideoInfoModel
+{
+    NSString *myId = [EVLoginInfo localObject].name;
+    
+    if ([liveVideoInfoModel.ownerid isEqualToString:myId]) {
         //是进自己的直播间
-        NSString *sessionID = [self.baseToolManager getSessionIdWithBlock:nil];
         EVLoginInfo *loginInfo = [EVLoginInfo localObject];
         EVTextLiveModel * localModel = [EVTextLiveModel textLiveObject];
-
+        
         if (localModel.streamid.length > 0)
         {
             //如果本地存到有  从本地取  否则 网络请求
@@ -312,21 +305,19 @@
             //         [weakself pushLiveImageVCModel:nil];
             [EVProgressHUD showMessage:@"创建失败"];
         }];
-    
+        
     }
     else
     {
         //进别人的直播间
         EVHVWatchTextViewController *watchImageVC = [[EVHVWatchTextViewController alloc] init];
         UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:watchImageVC];
-        watchImageVC.watchVideoInfo = WatchVideoInfo;
-        watchImageVC.liveVideoInfo = liveVideoInfo;
+        watchImageVC.watchVideoInfo = WatchVideoInfoModel;
+        watchImageVC.liveVideoInfo = liveVideoInfoModel;
         [self presentViewController:navigationVC animated:YES completion:nil];
     }
-    
-    
-}
 
+}
 
 #pragma mark - 跳转到我的直播间
 - (void)pushLiveImageVCModel:(EVTextLiveModel *)model

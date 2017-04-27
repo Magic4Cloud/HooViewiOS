@@ -11,7 +11,8 @@
 #import "EVLiveShareView.h"
 #import "EVShareManager.h"
 #import "UIViewController+Extension.h"
-#import "EVLiveViewController.h"
+//#import "EVLiveViewController.h"
+#import "EVNewLiveViewController.h"
 #import "EVAccountPhoneBindViewController.h"
 #import "NSString+Extension.h"
 #import "EVNullDataView.h"
@@ -119,8 +120,9 @@
 }
 
 #pragma mark - CCLiveViewControllerDelegate
+
 // 直播需要绑定手机, 请监听改回调
-- (void)liveNeedToBindPhone:(EVLiveViewController *)liveVC
+- (void)liveNeedToBindPhone:(EVNewLiveViewController *)liveVC
 {
     EVAccountPhoneBindViewController *phoneBindVC = [EVAccountPhoneBindViewController accountPhoneBindViewController];
     EVRelationWith3rdAccoutModel *model = [[EVRelationWith3rdAccoutModel alloc] init];

@@ -13,7 +13,7 @@
 #import "EVBaseToolManager+EVUserCenterAPI.h"
 
 #import "EVCheatsModel.h"
-
+#import "EVNullDataView.h"
 
 
 @interface EVMyReleaseCheatsViewController ()<UITableViewDelegate,UITableViewDataSource>
@@ -24,6 +24,7 @@
 @property (nonatomic, strong) EVBaseToolManager *baseToolManager;
 @property (nonatomic, strong) NSMutableArray * dataArray;
 
+@property (nonatomic, strong) EVNullDataView *nullDataView;
 @end
 
 @implementation EVMyReleaseCheatsViewController
@@ -35,9 +36,8 @@
     
     [self initUI];
     
-    [self.tableView startHeaderRefreshing];
+//    [self.tableView startHeaderRefreshing];
 }
-
 
 #pragma mark - 🖍 User Interface layout
 - (void)initUI
@@ -50,10 +50,11 @@
     [self.tableView addRefreshFooterWithiTarget:self action:@selector(loadMoreData)];
     
     [self.tableView hideFooter];
+    
+    [self.view addSubview:self.nullDataView];
 }
+
 #pragma mark - 🌐Networks
-
-
 - (void)loadNewData
 {
     start = 0;
@@ -61,10 +62,12 @@
     [self.baseToolManager GETMyReleaseListWithUserid:self.watchVideoInfo.name type:@"1" start:start count:20 startBlock:^{
         
     } fail:^(NSError *error) {
-        NSLog(@"error = %@",error);
         [self.tableView endHeaderRefreshing];
     } success:^(NSDictionary *videos) {
         [self.tableView endHeaderRefreshing];
+        if (![videos isKindOfClass:[NSDictionary class]]) {
+            return ;
+        }
         NSArray * cheats = videos[@"cheats"];
         [self.dataArray removeAllObjects];
         if ([cheats isKindOfClass:[NSArray class]] && cheats.count >0) {
@@ -195,6 +198,17 @@
     }
     return _dataArray;
 }
+
+- (EVNullDataView *)nullDataView
+{
+    if (!_nullDataView) {
+        _nullDataView = [[EVNullDataView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-108)];
+        _nullDataView.topImage = [UIImage imageNamed:@"ic_cry"];
+        _nullDataView.title = @"秘籍暂未开通";
+    }
+    return _nullDataView;
+}
+
 
 - (EVBaseToolManager *)baseToolManager
 {

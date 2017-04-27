@@ -22,4 +22,5 @@
 
 @property (nonatomic, weak) id<EVWebViewShareViewDelegate> delegate;
 
+@property (nonatomic, weak) UICollectionView *shareCollectionView;
 @end

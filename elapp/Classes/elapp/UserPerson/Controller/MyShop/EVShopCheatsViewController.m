@@ -33,8 +33,9 @@
     [super viewDidLoad];
     
     [self initUI];
-    
-    [self.tableView startHeaderRefreshing];
+    self.nullDataView.hidden = NO;
+
+//    [self.tableView startHeaderRefreshing];
 }
 
 
@@ -45,8 +46,8 @@
     [self.tableView autoPinEdgesToSuperviewEdges];
     [self.tableView registerNib:[UINib nibWithNibName:@"EVShopCheatsCell" bundle:nil] forCellReuseIdentifier:@"EVShopCheatsCell"];
     
-    [self.tableView addRefreshHeaderWithTarget:self action:@selector(loadNewData)];
-    [self.tableView addRefreshFooterWithiTarget:self action:@selector(loadMoreData)];
+//    [self.tableView addRefreshHeaderWithTarget:self action:@selector(loadNewData)];
+//    [self.tableView addRefreshFooterWithiTarget:self action:@selector(loadMoreData)];
     
     [self.tableView hideFooter];
 }
@@ -61,6 +62,10 @@
         self.nullDataView.hidden = NO;
     } success:^(NSDictionary * retinfo) {
         [self.tableView endHeaderRefreshing];
+        if (![retinfo isKindOfClass:[NSDictionary class]]) {
+            self.nullDataView.hidden = NO;
+                        return ;
+        }
         NSArray * cheats = retinfo[@"cheats"];
         [self.dataArray removeAllObjects];
         if ([cheats isKindOfClass:[NSArray class]] && cheats.count >0) {
@@ -100,7 +105,7 @@
     } success:^(NSDictionary * retinfo) {
         [self.tableView endFooterRefreshing];
         NSArray * cheats = retinfo[@"cheats"];
-        [self.dataArray removeAllObjects];
+        
         if ([cheats isKindOfClass:[NSArray class]] && cheats.count >0) {
             
             [cheats enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -200,7 +205,8 @@
     if (!_nullDataView) {
         _nullDataView = [[EVNullDataView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 64 - 50)];
         _nullDataView.topImage = [UIImage imageNamed:@"ic_cry"];
-        _nullDataView.title = @"暂无购买的秘籍";
+//        _nullDataView.title = @"暂无购买的秘籍";
+        _nullDataView.title = @"秘籍暂未开通";
     }
     return _nullDataView;
 }

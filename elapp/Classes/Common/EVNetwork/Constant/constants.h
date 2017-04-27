@@ -193,10 +193,10 @@
 //清除历史记录
 #define EVCleanHistoryListAPI       @"http://dev.hooview.com/api/v2/user/clean"
 //我的购买
-#define EVMyShopsAPI                @"http://192.168.8.179:8888/user/purchases"
+#define EVMyShopsAPI                @"http://dev.hooview.com/api/v2/user/purchases"
 
 //我的发布
-#define EVMyReleaseAPI              @"http://192.168.3.29:8888/user/works"
+#define EVMyReleaseAPI              @"http://dev.hooview.com/api/v2/user/works"
 
 //个人主页直播列表
 #define EVHVCenterLiveListAPI       @"http://dev.hooview.com/api/v2/user/videos"

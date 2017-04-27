@@ -90,7 +90,7 @@ typedef NS_ENUM(NSInteger, EVLivePrePareViewShareType) {
 
 /** 用来标识是否截图成功 */
 @property (nonatomic, assign) BOOL captureSuccess;
-@property (nonatomic,copy) NSString *title;
+@property (nonatomic, copy) NSString *title;
 @property ( strong, nonatomic ) UIImage *coverImage; /**< 封面图片 */
 
 

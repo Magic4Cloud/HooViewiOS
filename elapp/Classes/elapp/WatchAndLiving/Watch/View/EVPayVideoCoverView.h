@@ -17,5 +17,4 @@
 @property (weak, nonatomic) IBOutlet UILabel *viewLabel;
 @property (nonatomic, copy)void(^payButtonClickBlock)(void);
 @property (nonatomic, copy)void(^backButtonClickBlock)(void);
-@property (nonatomic, copy)void(^shareButtonClickBlock)(void);
 @end

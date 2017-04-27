@@ -312,6 +312,22 @@
 {
     _watchVideoInfo = [EVWatchVideoInfo objectWithDictionary:videoInfo];
    
+    if ([_watchVideoInfo.permission integerValue] == 7 ) {
+        if ([_watchVideoInfo.price integerValue] == 0) {
+            //付费直播 已经付费
+            self.videoPayCoverView.hidden = YES;
+        }
+        else
+        {
+            NSString * price = _watchVideoInfo.price;
+            NSMutableAttributedString * attributeString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@豆",price]];
+            [attributeString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:24] range:NSMakeRange(0, price.length)];
+            [attributeString addAttribute:NSForegroundColorAttributeName value:[UIColor evEcoinColor] range:NSMakeRange(0, price.length)];
+            self.videoPayCoverView.viewPriceLabel.attributedText = attributeString;
+        }
+        
+    }
+    
     [self addChatTextView];
     [self addPresentListView];
     if (self.watchVideoInfo.uri != nil) {
@@ -365,7 +381,11 @@
         //如果不是付费直播  则直接播放
         [self.evPlayer play];
     }
-    
+    else if ([_watchVideoInfo.price integerValue] == 0)
+    {
+        //已经付费了
+        [self.evPlayer play];
+    }
     [self topViewHideView];
     [self.videoView addSubview:self.playCompleteView];
     
@@ -416,6 +436,7 @@
     //如果为付费直播
     if ([_watchVideoInfo.permission integerValue] == 7) {
         [topViewContentView addSubview:self.videoPayCoverView];
+        watchTopView.shareButton.hidden = YES;
     }
 
  
@@ -749,17 +770,26 @@
     self.evPlayer = nil;
 }
 #pragma mark -delegate
+#pragma mark - 播放控件点击
 - (void)watchButttonClickType:(EVHVWatchViewType)type button:(UIButton *)button
 {
     switch (type) {
         case EVHVWatchViewTypeBack:
         {
-            [self backButton];
+            if (self.isPullScreen) {
+                //如果是全屏   旋转屏幕
+                [self watchButttonClickType:EVHVWatchViewTypeFull button:_watchTopView.fullButton];
+            }
+            else
+            {
+                [self backButton];
+            }
+            
         }
         break;
         
         case EVHVWatchViewTypeFull:
-        
+        //MARK:全屏按钮点击
             if (button.selected == NO) {
                 AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
                 
@@ -776,6 +806,8 @@
                 self.videoPlayView.frame =  CGRectMake(0, 0, ScreenWidth, ScreenHeight);
                 self.playCompleteView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
                 self.chatTextView.hidden = YES;
+                
+                self.eVSharePartView.frame = CGRectMake((ScreenWidth -ScreenHeight)/2, ScreenHeight, ScreenHeight, 169);
             }else {
                
                 [self ZoomOutView];
@@ -786,9 +818,9 @@
     
         case EVHVWatchViewTypeShare:
         {
-            if (self.isPullScreen == YES) {
-                [self ZoomOutView];
-            }
+//            if (self.isPullScreen == YES) {
+//                [self ZoomOutView];
+//            }
             [self shareViewShowAction];
             
         }
@@ -805,8 +837,16 @@
 }
 
 - (void)shareViewShowAction {
+    self.eVSharePartView.hidden = NO;
     [UIView animateWithDuration:0.3 animations:^{
-        self.eVSharePartView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
+        if (self.isPullScreen) {
+            self.eVSharePartView.frame = CGRectMake((ScreenWidth -ScreenHeight)/2, ScreenHeight - 169, ScreenHeight, 169);
+        }
+        else
+        {
+            self.eVSharePartView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
+        }
+        
     }];
 }
 - (void)ZoomOutView
@@ -822,14 +862,16 @@
     self.liveloadingView.frame = CGRectMake(0, 0, ScreenWidth, VideoWidth);
     self.videoPlayView.frame = CGRectMake(0, 0, ScreenWidth,VideoWidth);
     self.playCompleteView.frame = CGRectMake(0, 0, ScreenWidth, VideoWidth);
-    
+    self.eVSharePartView.frame = CGRectMake(0, ScreenHeight, ScreenWidth, ScreenHeight);
+    self.eVSharePartView.hidden = YES;
     self.isPullScreen = NO;
 }
 #pragma mark - 屏幕旋转
 - (void)setNewOrientation:(BOOL)fullscreen
 
 {
-    if (fullscreen) {
+    if (fullscreen)
+    {
         NSNumber *resetOrientationTarget = [NSNumber numberWithInt:UIInterfaceOrientationUnknown];
         
         [[UIDevice currentDevice] setValue:resetOrientationTarget forKey:@"orientation"];
@@ -1241,7 +1283,14 @@
             
                 if([EVBaseToolManager userHasLoginLogin])
                 {
-                    [weakSelf.payBottomView showPayViewWithPayFee:2 userAssetModel:weakSelf.asset addtoView:weakSelf.view];
+                    if (weakSelf.watchVideoInfo.price) {
+                        [weakSelf.payBottomView showPayViewWithPayFee:[weakSelf.watchVideoInfo.price integerValue] userAssetModel:weakSelf.asset addtoView:weakSelf.view];
+                    }
+                    else
+                    {
+                        [EVProgressHUD showMessage:@"未获取到价格"];
+                    }
+                    
                 }
                 else
                 {
@@ -1258,10 +1307,6 @@
             [weakSelf backButton];
         };
         
-        _videoPayCoverView.shareButtonClickBlock = ^()
-        {
-            [weakSelf shareViewShowAction];
-        };
     }
     return _videoPayCoverView;
 }
@@ -1345,10 +1390,21 @@
         _eVSharePartView.backgroundColor = [UIColor colorWithHexString:@"#303030" alpha:0.7];
         _eVSharePartView.eVWebViewShareView.delegate = self;
         [self.view addSubview:_eVSharePartView];
+        _eVSharePartView.hidden = YES;
             __weak typeof(self) weakSelf = self;
             self.eVSharePartView.cancelShareBlock = ^() {
+                
                 [UIView animateWithDuration:0.3 animations:^{
-                    weakSelf.eVSharePartView.frame = CGRectMake(0, ScreenHeight, ScreenHeight, ScreenHeight);
+                    if (weakSelf.isPullScreen) {
+                        weakSelf.eVSharePartView.frame = CGRectMake((ScreenWidth -ScreenHeight)/2, ScreenHeight, ScreenHeight, 169);
+                    }
+                    else
+                    {
+                        weakSelf.eVSharePartView.frame = CGRectMake(0, ScreenHeight, ScreenHeight, ScreenHeight);
+                    }
+                    
+                } completion:^(BOOL finished) {
+                    weakSelf.eVSharePartView.hidden = YES;
                 }];
             };
     }

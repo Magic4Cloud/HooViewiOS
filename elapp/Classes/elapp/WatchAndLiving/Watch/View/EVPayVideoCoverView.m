@@ -65,11 +65,6 @@
     }
 }
 
-- (IBAction)shareButtonClick:(id)sender {
-    if (self.shareButtonClickBlock) {
-        self.shareButtonClickBlock();
-    }
-}
 
 - (IBAction)payButtonClick:(UIButton *)sender {
     if (self.payButtonClickBlock) {

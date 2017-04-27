@@ -330,6 +330,8 @@ static inline long long getcurrsecond()
 {
     [super viewDidLoad];
     
+    [self setUpNotification];
+    
     [self setUpView];
     
     _isBeautyOn = YES;
@@ -337,10 +339,10 @@ static inline long long getcurrsecond()
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     
-  
+    
     [self initContacterListener];
     
-    [self setUpNotification];
+    
     
     [self getMyAssets];
     
@@ -407,7 +409,6 @@ static inline long long getcurrsecond()
 
 - (void)dealloc
 {
-    EVLog(@"EVLiveViewController is dealloc");
     _recoderInfo.needToReconnect = NO;
     [self removeObserver];
     [EVNotificationCenter removeObserver:self];
@@ -955,14 +956,13 @@ static inline long long getcurrsecond()
 - (void)noSeletedButton
 {
     [self.prepareView.startLiveButton setBackgroundColor:[UIColor grayColor]];
-    [self.prepareView.startLiveButton setEnabled:YES];
+    [self.prepareView.startLiveButton setEnabled:NO];
 }
 
 - (void)enableButton
 {
     self.prepareView.startLiveButton.backgroundColor = [UIColor evMainColor];
     [self.prepareView.startLiveButton setEnabled:YES];
-    self.prepareView.startLiveButton.userInteractionEnabled = YES;
 }
 
 - (void)prepareForeView
@@ -975,11 +975,16 @@ static inline long long getcurrsecond()
     prepareView.delegate = self;
     
     self.prepareView = prepareView;
-    [self noSeletedButton];
     
-    NSString *title = self.recoderInfo.title;
+    //    NSString *title = _recoderInfo.title;
+    NSString * nickName = [EVLoginInfo localObject].nickname;
+    NSString * title;
+    if (nickName && nickName.length>0) {
+        title = [NSString stringWithFormat:@"%@的直播间",nickName];
+    }
+    
     // 设置默认标题
-    if ( title != nil && self.recoderInfo.isDefaultTitle == NO ) {
+    if ( title != nil) {
         self.prepareView.title = title;
     }
 }
@@ -1063,7 +1068,7 @@ static inline long long getcurrsecond()
     if (textField == _prepareView.payFeeTextFiled) {
         return;
     }
-    if (textField.text.length > 0 && self.prepareView.coverImage != nil) {
+    if (textField.text.length > 0) {
         [self enableButton];
     }else {
         [self noSeletedButton];
@@ -1397,19 +1402,19 @@ static inline long long getcurrsecond()
 {
     self.isStartBtnClicked = YES;
     
-    NSString *liveTitle = self.prepareView.title;
+    NSString *liveTitle = self.prepareView.editTextFiled.text;
     self.recoderInfo.title = liveTitle;
-    if (liveTitle.length <= 0 || self.prepareView.coverImage == nil) {
-        [EVProgressHUD showError:@"请填写标题和上传封面"];
+    if (liveTitle.length <= 0 ) {
+        [EVProgressHUD showError:@"请填写标题"];
         return;
     }
     
-        WEAK(self)
+    WEAK(self)
     NSMutableDictionary *params = [self.recoderInfo liveStartParams];
     //测试付费直播
     if (_prepareView.payButton.selected) {
         [params setValue:@"7" forKey:@"permission"];
-        [params setValue:@"123456" forKey:@"password"];
+        //        [params setValue:@"123456" forKey:@"password"];
         NSString * price = _prepareView.payFeeTextFiled.text;
         if (!price || price.length == 0) {
             [EVProgressHUD showError:@"请填写付费直播价格"];
@@ -1419,12 +1424,12 @@ static inline long long getcurrsecond()
         {
             [params setValue:price forKey:@"price"];
         }
-        [params setValue:@"20000" forKey:@"price"];
+        //        [params setValue:@"20000" forKey:@"price"];
     }
     
     
     [EVProgressHUD showMessage:@"加载中" toView:self.view];
-
+    
     [self.engine GETLivePreStartParams:params Start:^{
         [EVProgressHUD showSuccess:@"请等待" toView:self.view];
     } fail:^(NSError *error) {
@@ -1476,11 +1481,6 @@ static inline long long getcurrsecond()
         [self initSDKMessage];
         
         [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
-        //        if ([UIApplication sharedApplication].idleTimerDisabled == NO) {
-        //            [[EVAlertManager shareInstance] configAlertViewWithTitle:@"2222222222" message:@"123" cancelTitle:@"123" WithCancelBlock:^(UIAlertView *alertView) {
-        //
-        //            }];
-        //        }
     } sessionExpire:^{
         EVRelogin(self);
     }];

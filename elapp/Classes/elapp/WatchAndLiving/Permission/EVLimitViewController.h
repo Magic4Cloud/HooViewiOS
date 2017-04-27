@@ -6,7 +6,8 @@
 //  Copyright (c) 2016 EasyVass. All rights reserved.
 //
 
-#import "EVLiveViewController.h"
+#import "EVNewLiveViewController.h"
+
 #import "EVTableViewController.h"
 
 @protocol EVLimitViewControllerDelegate <NSObject>

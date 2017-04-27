@@ -20,7 +20,7 @@
 #import "EVLoginInfo.h"
 #import "EVLoadingView.h"
 #import "EVTopicResponse.h"
-#import "EVLiveViewController.h"
+#import "EVNewLiveViewController.h"
 #import "EVWatchVideoInfo.h"
 #import "EVNullDataView.h"
 #import "EVAccountPhoneBindViewController.h"
@@ -756,7 +756,7 @@ static const NSString *const myVideoCellID = @"videoCell";
 }
 #pragma mark - 绑定手机号
 // 直播需要绑定手机, 请监听改回调
-- (void)liveNeedToBindPhone:(EVLiveViewController *)liveVC
+- (void)liveNeedToBindPhone:(EVNewLiveViewController *)liveVC
 {
     EVAccountPhoneBindViewController *phoneBindVC = [EVAccountPhoneBindViewController accountPhoneBindViewController];
     EVRelationWith3rdAccoutModel *model = [[EVRelationWith3rdAccoutModel alloc] init];
