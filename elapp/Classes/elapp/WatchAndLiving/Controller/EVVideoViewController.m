@@ -765,8 +765,9 @@
 //这块在修改 添加管理员
 - (void)floatingView:(EVFloatingView *)floatingView clickButton:(UIButton *)button
 {
+    NSLog(@"%s",__func__);
     NSString *vid = self.vid;
-    if ( vid == nil )
+    if ( vid == nil)
     {
         [EVProgressHUD showError:kE_GlobalZH(@"living_data_loading") toView:self.view];
         return;

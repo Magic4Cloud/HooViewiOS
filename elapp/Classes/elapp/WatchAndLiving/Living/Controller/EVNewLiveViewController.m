@@ -329,7 +329,7 @@ static inline long long getcurrsecond()
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+   
     [self setUpNotification];
     
     [self setUpView];
@@ -896,7 +896,7 @@ static inline long long getcurrsecond()
     [liveEndView dismiss];
 }
 
-#pragma mark - 直播中 按钮点击响应
+#pragma mark -
 - (void)liveBottomItemViewButtonClick:(UIButton *)button
 {
     switch ( button.tag )
@@ -1189,6 +1189,7 @@ static inline long long getcurrsecond()
 }
 
 #pragma mark - EVAudienceViewControllerProtocol
+#pragma mark - 分享  切换摄像头  关闭麦克 按钮响应事件
 - (void)topViewButtonType:(EVHVLiveTopViewType)type button:(UIButton *)button
 {
     switch (type) {
@@ -1219,8 +1220,10 @@ static inline long long getcurrsecond()
             break;
         case EVHVLiveTopViewTypeShare:
         {
+            //MARK:分享按钮点击
             self.liveShareView.hidden = NO;
             self.giftAniView.hidden = YES;
+            [self showShareView:YES];
         }
             break;
         default:
