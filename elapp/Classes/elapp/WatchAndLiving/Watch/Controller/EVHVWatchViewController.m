@@ -312,11 +312,19 @@
 {
     _watchVideoInfo = [EVWatchVideoInfo objectWithDictionary:videoInfo];
    
-    if ([_watchVideoInfo.permission integerValue] == 7 ) {
-        if ([_watchVideoInfo.price integerValue] == 0) {
+    if ([_watchVideoInfo.permission integerValue] == 7 )
+    {
+        if ([_watchVideoInfo.price integerValue] == 0)
+        {
             //付费直播 已经付费
             self.videoPayCoverView.hidden = YES;
         }
+        else
+        {
+            //付费直播 没付费
+            self.videoPayCoverView.hidden = NO;
+        }
+    }
         else
         {
             NSString * price = _watchVideoInfo.price;
@@ -326,7 +334,7 @@
             self.videoPayCoverView.viewPriceLabel.attributedText = attributeString;
         }
         
-    }
+    
     
     [self addChatTextView];
     [self addPresentListView];
