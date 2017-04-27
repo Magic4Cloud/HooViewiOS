@@ -19,11 +19,13 @@
                 <outlet property="followOrNotButton" destination="aLN-jS-H9e" id="y4n-BS-9Ua"/>
                 <outlet property="headerCoverImage" destination="ipr-le-5Ic" id="Emh-i0-skd"/>
                 <outlet property="introduceLabel" destination="1HI-1G-qEc" id="8Dd-BP-ffH"/>
+                <outlet property="lineView" destination="lnt-ae-o42" id="akI-dT-oIR"/>
                 <outlet property="nameLabel" destination="bv6-Wi-Y5T" id="0rl-Qg-GEG"/>
                 <outlet property="numberOfFans" destination="qMa-qx-Uio" id="EVO-xE-Bub"/>
                 <outlet property="numberOfFollow" destination="Nl4-TV-oAv" id="A7c-oZ-ik1"/>
                 <outlet property="signatureLabel" destination="niV-xB-p5D" id="QT9-li-mhY"/>
                 <outlet property="tagOfVipLabel" destination="Z02-T6-arJ" id="zNf-1J-ig0"/>
+                <outlet property="tagsLabel" destination="Z02-T6-arJ" id="brT-Vt-HgS"/>
                 <outlet property="vipImage" destination="jVw-6j-iGI" id="PKo-AO-xrv"/>
             </connections>
         </placeholder>
@@ -144,14 +146,14 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lnt-ae-o42" userLabel="lineView">
-                    <rect key="frame" x="17" y="257" width="340" height="1"/>
+                    <rect key="frame" x="17" y="258" width="340" height="1"/>
                     <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="bVH-Rs-E7h"/>
                     </constraints>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1HI-1G-qEc">
-                    <rect key="frame" x="26" y="272" width="324" height="57.5"/>
+                    <rect key="frame" x="26" y="273" width="324" height="57.5"/>
                     <string key="text"> 他和她已经分手两年了，两年來他每天下班习惯性地打开她
 的博客，看看她一天的心情。她有時候高兴，有時候悲伤，有時候失落，他只是靜靜地注視着，不做一点评论，甚至刪掉了自己的浏览记录。直到有一天她博客上挂满了...</string>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -159,7 +161,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="大盘解说，股票解析，个股分析" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z02-T6-arJ">
-                    <rect key="frame" x="0.0" y="226" width="375" height="17"/>
+                    <rect key="frame" x="0.0" y="227" width="375" height="17"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -174,6 +176,7 @@
                 <constraint firstItem="1HI-1G-qEc" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="26" id="EVs-Wb-21R"/>
                 <constraint firstAttribute="trailing" secondItem="ipr-le-5Ic" secondAttribute="trailing" id="GxD-Vc-NUX"/>
                 <constraint firstItem="ipr-le-5Ic" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="IIo-zi-F5P"/>
+                <constraint firstItem="lnt-ae-o42" firstAttribute="top" secondItem="ipr-le-5Ic" secondAttribute="bottom" constant="48" id="JRS-u2-ANX"/>
                 <constraint firstItem="lnt-ae-o42" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="17" id="NcW-Ar-5hn"/>
                 <constraint firstItem="ptS-Kd-JUX" firstAttribute="top" secondItem="ipr-le-5Ic" secondAttribute="top" id="Q81-Ih-gsJ"/>
                 <constraint firstItem="1HI-1G-qEc" firstAttribute="top" secondItem="lnt-ae-o42" secondAttribute="bottom" constant="14" id="Tk1-CK-h2p"/>
@@ -187,8 +190,6 @@
                 <constraint firstItem="ipr-le-5Ic" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="kZo-Gr-hdQ"/>
                 <constraint firstItem="ptS-Kd-JUX" firstAttribute="leading" secondItem="ipr-le-5Ic" secondAttribute="leading" id="mLN-ql-p26"/>
                 <constraint firstItem="ptS-Kd-JUX" firstAttribute="bottom" secondItem="ipr-le-5Ic" secondAttribute="bottom" id="sxO-NI-fsj"/>
-                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="1HI-1G-qEc" secondAttribute="bottom" id="uOw-B3-Fyp"/>
-                <constraint firstItem="lnt-ae-o42" firstAttribute="bottom" secondItem="ptS-Kd-JUX" secondAttribute="bottom" constant="48" id="xsb-IQ-CYh"/>
                 <constraint firstItem="aLN-jS-H9e" firstAttribute="bottom" secondItem="ipr-le-5Ic" secondAttribute="bottom" constant="-18" id="yq7-mM-rYJ"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

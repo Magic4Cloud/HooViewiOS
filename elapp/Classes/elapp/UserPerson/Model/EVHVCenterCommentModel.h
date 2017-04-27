@@ -17,8 +17,9 @@
 
 @property (nonatomic, copy) NSString * id; //评论Id
 @property (nonatomic, copy) NSString * time; //发布时间
-@property (nonatomic, copy) NSString * heats; //热度
+@property (nonatomic, copy) NSString * heats; //热度（点赞数）
 @property (nonatomic, copy) NSString * content; //内容
+@property (nonatomic, copy) NSString *like; //是否点赞
 
 @property (nonatomic, strong) EVUserModel *user;
 

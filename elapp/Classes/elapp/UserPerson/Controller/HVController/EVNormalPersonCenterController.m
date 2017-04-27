@@ -103,9 +103,8 @@
 #pragma mark - 🖍 User Interface layout
 - (void)addBackTableView
 {
-    CGFloat viewHeight =  ScreenWidth * 210 / 375;
     EVVipDetailCenterView * vipCenterView = [[EVVipDetailCenterView alloc] init];
-    vipCenterView.frame = CGRectMake(0, 0, ScreenWidth, viewHeight);
+    vipCenterView.frame = CGRectMake(0, 0, ScreenWidth, 450);
     self.vipCenterView = vipCenterView;
     vipCenterView.fansAndFollowClickBlock = ^(controllerType type)
     {
@@ -134,9 +133,7 @@
     _swipeTableView.swipeHeaderTopInset = 64;
     [self.view addSubview:_swipeTableView];
     self.vipCenterView.watchVideoInfo = self.watchVideoInfo;
-    
-    _swipeTableView.swipeHeaderView = self.vipCenterView;
-    
+        
     
     self.navigationView = [[UIView alloc] init];
     _navigationView.frame = CGRectMake(0, 0, ScreenWidth, 64);
@@ -202,7 +199,7 @@
 #pragma mark - 🌐Networks
 - (void)loadData
 {
-    [self.baseToolManager GETUserInfoWithUserid:self.watchVideoInfo.name orImuser:nil start:^{
+    [self.baseToolManager GETBaseUserInfoWithPersonid:self.watchVideoInfo.name start:^{
         
     } fail:^(NSError *error) {
         NSLog(@"error = %@",error);
@@ -210,9 +207,14 @@
         EVUserModel *userModel = [EVUserModel objectWithDictionary:modelDict];
         self.userModel = userModel;
         self.vipCenterView.userModel = userModel;
+        
+        CGFloat viewHeight = ScreenWidth * 210 / 375;
+        self.vipCenterView.frame = CGRectMake(0, 0, ScreenWidth, viewHeight);
+        _swipeTableView.swipeHeaderView = self.vipCenterView;
     } sessionExpire:^{
         
     }];
+    
 }
 
 

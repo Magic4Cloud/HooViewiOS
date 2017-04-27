@@ -37,8 +37,11 @@
 
 @property (nonatomic, strong) EVBaseToolManager *baseToolManager;
 
+@property (weak, nonatomic) IBOutlet UIView *lineView;
 
+@property (weak, nonatomic) IBOutlet UILabel *tagsLabel;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *coverImageHeight;
 
 
 @end
@@ -142,15 +145,27 @@
     [_headerCoverImage cc_setImageWithURLString:userModel.logourl placeholderImage:nil];
     _nameLabel.text = userModel.nickname;
     _signatureLabel.text = userModel.signature;
-    _introduceLabel.text = @"火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经";//详细资料
+    _introduceLabel.text = userModel.introduce;//详细资料
     _credentialsLabel.text = userModel.credentials;
     _numberOfFans.text = [NSString stringWithFormat:@"%ld",userModel.fans_count];
+    _numberOfFollow.text = [NSString stringWithFormat:@"%ld",userModel.follow_count];
     
     NSMutableArray *titleAry = [NSMutableArray array];
     for (EVUserTagsModel *model in userModel.tags) {
         [titleAry addObject:model.tagname];
     }
     _tagOfVipLabel.text = [NSString stringWithArray:titleAry];
+    
+    
+    if (userModel.followed == YES) {
+        [_followOrNotButton setTitleColor:[UIColor colorWithRed:48/255.0 green:48/255.0 blue:48/255.0 alpha:1] forState:UIControlStateNormal];
+        [_followOrNotButton setTitle:@"已关注" forState:(UIControlStateNormal)];
+    } else {
+        [_followOrNotButton setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+        [_followOrNotButton setTitle:@"+关注" forState:(UIControlStateNormal)];
+    }
+    
+    
     
     
     
@@ -166,6 +181,9 @@
         _followLabel.hidden = NO;
         _numberOfFollow.hidden = NO;
         _vipImage.hidden = YES;
+        _lineView.hidden = YES;
+        _tagsLabel.hidden = YES;
+        _coverImageHeight.constant = ScreenWidth * 210 / 375;
     }
     
     if ([EVLoginInfo hasLogged] && [userModel.name isEqualToString:[EVLoginInfo localObject].name]) {

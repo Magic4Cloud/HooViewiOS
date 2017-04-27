@@ -21,6 +21,10 @@
 #import "EVVipCenterViewController.h"
 #import "EVBaseHeaderViewController.h"
 
+#import "EVNormalPersonCenterController.h"
+#import "EVVipCenterController.h"
+
+
 #define tabandNav 113;
 #define cellsize 64
 static const NSString *const fansOrFocusCellID = @"fansOrFocus";
@@ -135,15 +139,25 @@ static const NSString *const fansOrFocusCellID = @"fansOrFocus";
     }
     EVFanOrFollowerModel *model = self.fansOrFollowers[indexPath.row];
     if (model.vip == 1) {
+//        EVWatchVideoInfo *watchInfo = [EVWatchVideoInfo new];
+//        watchInfo.name = model.name;
+//        EVVipCenterViewController *vipVC = [EVVipCenterViewController new];
+//        vipVC.watchVideoInfo = watchInfo;
+//        vipVC.isFollow = model.followed;
+//        [self.navigationController pushViewController:vipVC animated:YES];
+//        
         EVWatchVideoInfo *watchInfo = [EVWatchVideoInfo new];
         watchInfo.name = model.name;
-        EVVipCenterViewController *vipVC = [EVVipCenterViewController new];
-        vipVC.watchVideoInfo = watchInfo;
-        vipVC.isFollow = model.followed;
-        [self.navigationController pushViewController:vipVC animated:YES];
+        EVVipCenterController *vc = [[EVVipCenterController alloc] init];
+        vc.watchVideoInfo = watchInfo;
+        [self.navigationController pushViewController:vc animated:YES];
     }
     else {
-        [EVProgressHUD showOnlyTextMessage:@"此用户不是大V" forView:self.view];
+        EVWatchVideoInfo *watchInfo = [EVWatchVideoInfo new];
+        watchInfo.name = model.name;
+        EVNormalPersonCenterController  *vc = [[EVNormalPersonCenterController alloc] init];
+        vc.watchVideoInfo = watchInfo;
+        [self.navigationController pushViewController:vc animated:YES];
     }
 //    EVFansOrFocusTableViewCell *cell = (EVFansOrFocusTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
 //    EVOtherPersonViewController *otherPersonVC = [EVOtherPersonViewController instanceWithName:cell.model.name];

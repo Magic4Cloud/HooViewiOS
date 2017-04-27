@@ -17,9 +17,13 @@
 #import "EVOnlyTextCell.h"
 #import "EVThreeImageCell.h"
 #import "EVNewsListViewCell.h"
+#import "EVBaseToolManager+EVStockMarketAPI.h"
 
 
 @interface EVHVCenterArticleTableView ()<UITableViewDelegate,UITableViewDataSource>
+{
+    int start;
+}
 
 @property (nonatomic, strong) EVBaseToolManager *baseToolManager;
 
@@ -46,6 +50,10 @@
         
         self.separatorStyle = UITableViewCellSeparatorStyleNone;
         [self addVipUI];
+        [self addRefreshHeaderWithTarget:self action:@selector(loadNewData)];
+        [self addRefreshFooterWithiTarget:self action:@selector(loadMoreData)];
+        [self hideFooter];
+        [self startHeaderRefreshing];
         
 //        WEAK(self)
 //        [self addRefreshFooterWithRefreshingBlock:^{
@@ -59,7 +67,7 @@
 - (void)addVipUI
 {
     
-    EVNullDataView *nullDataView = [[EVNullDataView alloc] initWithFrame:CGRectMake(0, 300, ScreenWidth, ScreenHeight-108)];
+    EVNullDataView *nullDataView = [[EVNullDataView alloc] initWithFrame:CGRectMake(0, 100, ScreenWidth, ScreenHeight-108)];
     
     [self addSubview:nullDataView];
     self.nullDataView = nullDataView;
@@ -71,13 +79,13 @@
 
 - (void)loadNewData
 {
-    NSInteger start = 0;
-    [self.baseToolManager GETHVCenterNewsListWithUserid:self.WatchVideoInfo.name start:start count:20 startBlock:^{
-        
-    } fail:^(NSError *error) {
-        NSLog(@"error = %@",error);
+    start = 0;
+    NSString * uid = [CCUserDefault objectForKey:CCUSER_NAME];
+    [self.baseToolManager GETUserCollectListsWithStart:@"0" count:@"20" userId:uid fail:^(NSError *error) {
+        self.nullDataView.hidden = NO;
+        [self endHeaderRefreshing];
     } success:^(NSDictionary *retinfo) {
-        NSLog(@"videos = %@",retinfo);
+        [self endHeaderRefreshing];
         NSArray * news = retinfo[@"news"];
         if ([news isKindOfClass:[NSArray class]] && news.count>0) {
             [self.fansOrFollowers removeAllObjects];
@@ -86,20 +94,58 @@
                 EVNewsModel * model = [EVNewsModel yy_modelWithDictionary:obj];
                 [self.fansOrFollowers addObject:model];
             }];
-            
-            self.nullDataView.hidden = YES;
-            
-            [self reloadData];
+        }
+        
+        self.nullDataView.hidden = self.fansOrFollowers.count == 0?NO:YES;
+        if (self.fansOrFollowers.count == 20)
+        {
+            [self showFooter];
+            start += 20;
         }
         else
         {
-            self.nullDataView.hidden = NO;
+            [self hideFooter];
         }
-
-    } essionExpire:^{
-
+        
+        [self reloadData];
+        
+    } sessionExpire:^{
+        [self endHeaderRefreshing];
+        self.nullDataView.hidden = NO;
     }];
 }
+
+- (void)loadMoreData
+{
+    NSString * uid = [CCUserDefault objectForKey:CCUSER_NAME];
+    [self.baseToolManager GETUserCollectListsWithStart:[NSString stringWithFormat:@"%d",start] count:@"20" userId:uid fail:^(NSError *error) {
+        [self endFooterRefreshing];
+    } success:^(NSDictionary *retinfo) {
+        [self endFooterRefreshing];
+        NSArray * news = retinfo[@"news"];
+        if ([news isKindOfClass:[NSArray class]] && news.count>0) {
+            [news enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                EVNewsModel * model = [EVNewsModel yy_modelWithDictionary:obj];
+                [self.fansOrFollowers addObject:model];
+            }];
+            
+            [self setFooterState:CCRefreshStateIdle];
+            start += news.count;
+        }
+        else
+        {
+            [self setFooterState:CCRefreshStateNoMoreData];
+        }
+        
+        [self reloadData];
+        
+    } sessionExpire:^{
+        [self endFooterRefreshing];
+        
+    }];
+}
+
+
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

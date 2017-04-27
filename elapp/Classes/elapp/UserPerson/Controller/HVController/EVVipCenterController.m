@@ -225,7 +225,7 @@
         paragraphStyle.alignment = NSTextAlignmentLeft;
         NSDictionary *attributes = @{ NSFontAttributeName : [UIFont systemFontOfSize:12],
                                       NSParagraphStyleAttributeName: paragraphStyle};
-        CGSize contentSize = [@"火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经火眼财经" boundingRectWithSize:CGSizeMake(ScreenWidth - 51 , CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading  attributes:attributes context:nil].size;
+        CGSize contentSize = [userModel.introduce boundingRectWithSize:CGSizeMake(ScreenWidth - 51 , CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading  attributes:attributes context:nil].size;
         NSLog(@"cont = %@",NSStringFromCGSize(contentSize));
         
         CGFloat viewHeight = contentSize.height + 75 + ScreenWidth * 210 / 375;

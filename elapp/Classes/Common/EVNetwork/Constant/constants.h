@@ -255,16 +255,6 @@
 
 
 
-
-//我的发布
-#define EVMyReleaseAPI              @"http://192.168.8.191:8888/user/works"
-
-//个人主页直播列表
-#define EVHVCenterLiveListAPI       @"http://openapi.hooview.com/api/v2/user/videolive"
-
-
-
-
 //我的收藏
 #define EVHVFavoriteListAPI         @"http://dev.hooview.com/api/v2/news/favorite"
 //历史记录
