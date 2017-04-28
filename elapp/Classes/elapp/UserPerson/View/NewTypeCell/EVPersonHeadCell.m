@@ -31,7 +31,7 @@
         _userModel = userModel;
         _cellNameLabel.text = userModel.nickname;
         _cellIntroduceLabel.text = userModel.signature;
-        [_cellAvatarImageView cc_setImageWithURLString:userModel.logourl placeholderImage:nil];
+        [_cellAvatarImageView cc_setImageWithURLString:userModel.logourl placeholderImage: [UIImage imageNamed:@"avatar_place"]];
         
         _cellVipImageView.hidden = userModel.vip == 0?YES:NO;
         NSString * followString = [NSString stringWithFormat:@"%ld",(unsigned long)userModel.follow_count];
@@ -43,10 +43,6 @@
         
         NSRange fansRange = NSMakeRange(followString.length+4, fansString.length+2);
         [_cellFollowAndFansLabel addLinkToURL:[NSURL URLWithString:[NSString stringWithFormat:@"fansLink"]] withRange:fansRange];
-        
-       
-        
-        
         
         NSMutableAttributedString * followAndFansString = [[NSMutableAttributedString alloc] initWithString:newString];
         [followAndFansString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:255/255.0 green:108/255.0 blue:36/255.0 alpha:1] range:NSMakeRange(0, followString.length)];
@@ -86,10 +82,9 @@
         _cellFollowAndFansLabel.attributedText = followAndFansString;
         
         _cellSexImageView.image  = nil;
-        _cellAvatarImageView.image = nil;
-//        [UIImage imageNamed:@"placeHouderAvatar"]
-        _cellVipImageView.hidden = YES;
+        _cellAvatarImageView.image = [UIImage imageNamed:@"avatar_place"];
         
+        _cellVipImageView.hidden = YES;
         
     }
 }

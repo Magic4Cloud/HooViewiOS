@@ -212,7 +212,6 @@
 		9F1F95EA48DF7869E64D2D86 /* Expression_58@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F1F94987958A95A1D504E12 /* Expression_58@2x.png */; };
 		9F1F9633C9868D7D04554E92 /* EVNetWorkStateManger.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F1F9EB96D0BD3028D51C31A /* EVNetWorkStateManger.m */; };
 		9F1F96422CEA1E0A429C9AF3 /* EVBaseToolManager+EVDiscoverAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F1F92344B883C48C7E0FDF9 /* EVBaseToolManager+EVDiscoverAPI.m */; };
-		9F1F9654AA8A4C708C89703A /* guide_01@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F1F908B134F882366ABED55 /* guide_01@2x.png */; };
 		9F1F96911B87241D0AAE8001 /* EVCenterPresentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F1F940ECF57CE16D877221B /* EVCenterPresentView.m */; };
 		9F1F969FEB26B1F97D4D81EB /* EVSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F1F9A7F4B1C0A48001513CF /* EVSearchBar.m */; };
 		9F1F96AE0496430010F6E108 /* Expression_85@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F1F92B410A73FCF16BB9B97 /* Expression_85@2x.png */; };
@@ -1006,7 +1005,6 @@
 		9F1F9069B6EF16DC856F502A /* Expression_63@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Expression_63@2x.png"; sourceTree = "<group>"; };
 		9F1F906C3657D243B0D29391 /* Expression_91@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Expression_91@2x.png"; sourceTree = "<group>"; };
 		9F1F906ED69F8A71EBBF9F2A /* ARCHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARCHelper.h; sourceTree = "<group>"; };
-		9F1F908B134F882366ABED55 /* guide_01@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "guide_01@2x.png"; sourceTree = "<group>"; };
 		9F1F90AE1979DFCB29C079E8 /* CCConstKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCConstKeys.h; sourceTree = "<group>"; };
 		9F1F90D8B0D5DDAB324BF98C /* GPSingleTon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPSingleTon.h; sourceTree = "<group>"; };
 		9F1F90ECA45B9BD513DC49C2 /* EVFaceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVFaceCell.m; sourceTree = "<group>"; };
@@ -2693,7 +2691,6 @@
 				9F1F9C141B56CC7E39D2D2D1 /* Expression_98@2x.png */,
 				9F1F9DE9B06C08CBA801F4F2 /* Expression_99@2x.png */,
 				9F1F9E84816603D5F1D49EAD /* Expression_9@2x.png */,
-				9F1F908B134F882366ABED55 /* guide_01@2x.png */,
 			);
 			path = face;
 			sourceTree = "<group>";
@@ -5656,7 +5653,6 @@
 				E859C3551E6136C6003AFCFF /* EVConsumptionDetailsViewCell.xib in Resources */,
 				7A3E985A1EA5F78500F24E23 /* EVAccountPhoneBindViewController.storyboard in Resources */,
 				9F1F9ECB84D3F487797BB9E3 /* Expression_9@2x.png in Resources */,
-				9F1F9654AA8A4C708C89703A /* guide_01@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

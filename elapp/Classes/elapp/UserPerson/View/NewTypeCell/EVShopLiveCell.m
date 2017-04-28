@@ -50,7 +50,8 @@
     [_cellImageView cc_setImageWithURLString:liveModel.thumb placeholderImage:nil];
     _cellTitleLabel.text = liveModel.title;
     
-    _cellDetailLabel.text = [NSString stringWithFormat:@"%@  %@",liveModel.nickname,[liveModel.live_start_time timeFormatter]];
+    
+    
     
 
     _cellViewCountLabel.text = [NSString stringWithFormat:@"%@人观看",[liveModel.watch_count thousandsSeparatorString]];
@@ -60,12 +61,13 @@
         _cellTag1Button.backgroundColor = [UIColor evOrangeBgColor];
         
         [_cellTag1Button setTitle:@"直播中" forState:UIControlStateNormal];
+        _cellDetailLabel.text = [NSString stringWithFormat:@"%@",liveModel.nickname];
     }
     else
     {
         _cellTag1Button.backgroundColor = [UIColor evBackGroundDeepGrayColor];
         [_cellTag1Button setTitle:@"回放" forState:UIControlStateNormal];
-        
+        _cellDetailLabel.text = [NSString stringWithFormat:@"%@  %@",liveModel.nickname,[liveModel.live_start_time timeFormatter]];
     }
     if ([liveModel.mode integerValue] == 2) {
         //精品视频
