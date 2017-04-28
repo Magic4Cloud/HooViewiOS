@@ -315,11 +315,8 @@
     else
     {
         EVVideoAndLiveModel * model = self.videos[indexPath.row];
-        EVWatchVideoInfo * watchInfo = [[EVWatchVideoInfo alloc] init];
-        watchInfo.vid = model.vid;
-        watchInfo.permission = model.permission;
         EVHVWatchViewController *watchViewVC = [[EVHVWatchViewController alloc] init];
-        watchViewVC.watchVideoInfo = watchInfo;
+        watchViewVC.videoAndLiveModel = model;
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:watchViewVC];
         [self presentViewController:nav animated:YES completion:nil];
     }

@@ -42,7 +42,7 @@
     // Do any additional setup after loading the view.
     _next = @"0";
     [self addUpView];
-    [self loadDataStart:@"0"];
+    
     WEAK(self)
     [self.liveTableView addRefreshHeaderWithRefreshingBlock:^{
         [weakself loadDataStart:@"0"];
@@ -50,6 +50,8 @@
     [self.liveTableView addRefreshFooterWithRefreshingBlock:^{
         [weakself loadDataStart:_next];
     }];
+    [self.liveTableView hideFooter];
+    [self.liveTableView startHeaderRefreshing];
 }
 
 - (void)addUpView
@@ -87,7 +89,9 @@
             [weakself.dataLiveArray addObjectsFromArray:streamsArr];
             NSMutableString *sUserid = [weakself loadDataUserInfos:streamsArr];
             [weakself loadUserDataUserID:sUserid isHot:NO];
+            
             [weakself.liveTableView setFooterState:(streamsArr.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
+            
         }
     } fail:^(NSError *error) {
         [weakself.liveTableView endFooterRefreshing];
@@ -102,14 +106,15 @@
     [self.baseToolManager GETBaseUserInfoListWithUname:userid.mutableCopy start:^{
         
     } fail:^(NSError *error) {
-        
+        [self.liveTableView showFooter];
     } success:^(NSDictionary *modelDict) {
         NSLog(@"modelDict----- %@",modelDict);
         NSArray *userArr = [EVWatchVideoInfo objectWithDictionaryArray:modelDict[@"users"]];
         ishot == YES ? [self.hotArray addObjectsFromArray:userArr] : [self.dataArray addObjectsFromArray:userArr];
         [weakself.liveTableView reloadData];
+        [self.liveTableView showFooter];
     } sessionExpire:^{
-        
+        [self.liveTableView showFooter];
     }];
 }
 - (NSMutableString *)loadDataUserInfos:(NSArray *)array
@@ -293,16 +298,19 @@
             return;
         }
         NSString *easemobid = loginInfo.imuser.length <= 0 ? loginInfo.name : loginInfo.imuser;
+        [EVProgressHUD showIndeterminateForView:self.view];
+        
         WEAK(self)
         [self.baseToolManager GETCreateTextLiveUserid:loginInfo.name nickName:loginInfo.nickname easemobid:easemobid success:^(NSDictionary *retinfo) {
-            EVLog(@"LIVETEXT--------- %@",retinfo);
+            
             dispatch_async(dispatch_get_main_queue(), ^{
                 EVTextLiveModel *textLiveModel = [EVTextLiveModel objectWithDictionary:retinfo[@"retinfo"][@"data"]];
                 [textLiveModel synchronized];
+                [EVProgressHUD hideHUDForView:self.view];
                 [weakself pushLiveImageVCModel:textLiveModel];
             });
         } error:^(NSError *error) {
-            //         [weakself pushLiveImageVCModel:nil];
+            [EVProgressHUD hideHUDForView:self.view];
             [EVProgressHUD showMessage:@"创建失败"];
         }];
         

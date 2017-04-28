@@ -8,7 +8,7 @@
 
 #import "EVViewController.h"
 #import "EVWatchVideoInfo.h"
-
+#import "EVVideoAndLiveModel.h"
 
 /**
  视频直播详情页
@@ -17,5 +17,9 @@
 
 @property (nonatomic, strong) EVWatchVideoInfo *watchVideoInfo;
 
+/**
+ 新版model
+ */
+@property (nonatomic, strong) EVVideoAndLiveModel * videoAndLiveModel;
 
 @end

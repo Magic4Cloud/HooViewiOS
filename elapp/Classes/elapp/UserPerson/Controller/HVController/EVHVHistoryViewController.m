@@ -107,7 +107,7 @@
         EVHVWatchViewController *watchViewVC = [[EVHVWatchViewController alloc] init];
         EVWatchVideoInfo * watchVideoInfo = [[EVWatchVideoInfo alloc] init];
         
-        watchViewVC.watchVideoInfo = watchVideoInfo;
+        watchViewVC.videoAndLiveModel = model;
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:watchViewVC];
         [weakself presentViewController:nav animated:YES completion:nil];
     };

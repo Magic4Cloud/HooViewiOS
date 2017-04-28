@@ -27,6 +27,13 @@
     _cellTag2Button.contentEdgeInsets = UIEdgeInsetsMake(2, 5, 2, 5);
     if (ScreenWidth == 320) {
         _cellDetailLabel.font = [UIFont systemFontOfSize:_cellDetailLabel.font.pointSize-2];
+        _cellTitleLabel.font = [UIFont systemFontOfSize:_cellTitleLabel.font.pointSize-1];
+        _cellViewCountLabel.font = [UIFont systemFontOfSize:_cellViewCountLabel.font.pointSize-1];
+        [_cellImageView removeConstraint:_cellImageViewheightWidth];
+        CGFloat multiplier = 110.0/67.f;
+        NSLayoutConstraint * widthHeightScale = [NSLayoutConstraint constraintWithItem:_cellImageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:_cellImageView attribute:NSLayoutAttributeHeight multiplier:multiplier constant:0];
+        [_cellImageView addConstraint:widthHeightScale];
+        
     }
     
 }

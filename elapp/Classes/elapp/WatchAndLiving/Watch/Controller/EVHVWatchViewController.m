@@ -208,6 +208,19 @@
     _liveMessageEngine.userData = [EVLoginInfo localObject].name;
     [_liveMessageEngine loginConnect];
 }
+- (void)setVideoAndLiveModel:(EVVideoAndLiveModel *)videoAndLiveModel
+{
+    if (!videoAndLiveModel) {
+        return;
+    }
+    if (!_watchVideoInfo) {
+        _watchVideoInfo = [[EVWatchVideoInfo alloc] init];
+    }
+    _videoAndLiveModel = videoAndLiveModel;
+    _watchVideoInfo.vid = videoAndLiveModel.vid;
+    _watchVideoInfo.mode = [videoAndLiveModel.mode integerValue];
+    _watchVideoInfo.permission = videoAndLiveModel.permission;
+}
 
 #pragma mark - 获取视频信息   开始播放
 - (void)loadWatchStartData
@@ -225,7 +238,7 @@
     }
     
     
-    
+    [EVProgressHUD showIndeterminateForView:self.view];
     // 获取视频信息
     [self.baseToolManager GETUserstartwatchvideoWithParams:param Start:^{
         
@@ -236,14 +249,18 @@
             [self dismissViewControllerAnimated:YES completion:nil];
             return;
         }
+        [EVProgressHUD hideHUDForView:self.view];
         [EVProgressHUD showError:@"获取失败"];
     } success:^(NSDictionary *videoInfo) {
+        [EVProgressHUD hideHUDForView:self.view];
         [weakself successLivingDataVideoInfo:videoInfo];
     } sessionExpire:^{
+        [EVProgressHUD hideHUDForView:self.view];
         EVRelogin(weakself);
     }];
 }
 
+//获取关注信息
 - (void)loadVideoData
 {
     WEAK(self)
@@ -323,16 +340,13 @@
         {
             //付费直播 没付费
             self.videoPayCoverView.hidden = NO;
-        }
-    }
-        else
-        {
             NSString * price = _watchVideoInfo.price;
             NSMutableAttributedString * attributeString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@豆",price]];
             [attributeString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:24] range:NSMakeRange(0, price.length)];
             [attributeString addAttribute:NSForegroundColorAttributeName value:[UIColor evEcoinColor] range:NSMakeRange(0, price.length)];
             self.videoPayCoverView.viewPriceLabel.attributedText = attributeString;
         }
+    }
         
     
     
@@ -591,7 +605,16 @@
     WEAK(self)
     self.eVSharePartView.cancelShareBlock = ^() {
         [UIView animateWithDuration:0.3 animations:^{
-            weakself.eVSharePartView.frame = CGRectMake(0, ScreenHeight, ScreenWidth, ScreenHeight);
+            if (weakself.isPullScreen) {
+                weakself.eVSharePartView.frame = CGRectMake((ScreenWidth -ScreenHeight)/2, ScreenHeight, ScreenHeight, 169);
+            }
+            else
+            {
+                weakself.eVSharePartView.frame = CGRectMake(0, ScreenHeight, ScreenHeight, ScreenHeight);
+            }
+            
+        } completion:^(BOOL finished) {
+            weakself.eVSharePartView.hidden = YES;
         }];
     };
 }
@@ -1393,6 +1416,7 @@
     return _playCompleteView;
 }
 - (EVSharePartView *)eVSharePartView {
+    
     if (!_eVSharePartView) {
         _eVSharePartView = [[EVSharePartView alloc] initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, ScreenHeight)];
         _eVSharePartView.backgroundColor = [UIColor colorWithHexString:@"#303030" alpha:0.7];

@@ -35,7 +35,7 @@
     [self addUpView];
     
 
-    [self loadVideoDataStart:@"0" count:@"20"];
+    
 
     WEAK(self)
     [self.listTableView addRefreshHeaderWithRefreshingBlock:^{
@@ -45,6 +45,9 @@
     [self.listTableView addRefreshFooterWithRefreshingBlock:^{
         [weakself loadVideoDataStart:weakself.start count:@"20"];
     }];
+    
+    [self.listTableView startHeaderRefreshing];
+    [self.listTableView hideFooter];
 }
 
 - (void)addUpView
@@ -81,6 +84,7 @@
                 EVVideoAndLiveModel * model = [EVVideoAndLiveModel yy_modelWithDictionary:obj];
                 [self.dataArray addObject:model];
                 [self.listTableView reloadData];
+                [self.listTableView showFooter];
                 [self.listTableView setFooterState:(videos.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
             }];
         }
@@ -127,11 +131,11 @@
 //        return;
 //    }
     
-    EVWatchVideoInfo *WatchInfo = self.dataArray[indexPath.row];
-    EVWatchVideoInfo * watchInfo = [[EVWatchVideoInfo alloc] init];
-    watchInfo.vid = WatchInfo.vid;
+     EVVideoAndLiveModel *WatchInfo = self.dataArray[indexPath.row];
+
     EVHVWatchViewController *watchViewVC = [[EVHVWatchViewController alloc] init];
-    watchViewVC.watchVideoInfo = watchInfo;
+
+    watchViewVC.videoAndLiveModel = WatchInfo;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:watchViewVC];
     [self presentViewController:nav animated:YES completion:nil];
 }

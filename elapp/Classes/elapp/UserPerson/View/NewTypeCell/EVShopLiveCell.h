@@ -23,6 +23,7 @@
 
 @property (nonatomic, strong)EVVideoAndLiveModel * liveModel;
 @property (nonatomic, strong)EVWatchVideoInfo * watchModel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *cellImageViewheightWidth;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *cellViewCountLeadingConstant;
 
