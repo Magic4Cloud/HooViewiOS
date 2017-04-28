@@ -44,6 +44,9 @@ typedef NS_ENUM(NSInteger, CCLiveControllerStyle) {
 @interface EVNewLiveViewController : EVVideoViewController
 @property(nonatomic, assign) CCLiveControllerStyle style;
 
+/**
+ 开启直播时填信息view
+ */
 @property(nonatomic, strong) EVLivePrePareView *prepareView;
 
 /**

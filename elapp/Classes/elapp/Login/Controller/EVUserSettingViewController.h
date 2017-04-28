@@ -10,6 +10,9 @@
 @class EVLoginInfo;
 #import "EVTableViewController.h"
 
+/**
+ 修改用户信息控制器
+ */
 @interface EVUserSettingViewController : EVTableViewController
 
 /**

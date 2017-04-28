@@ -59,9 +59,7 @@
     self.nullDataView = nullDataView;
     nullDataView.topImage = [UIImage imageNamed:@"ic_cry"];
     nullDataView.title = @"您还没有收看视频/直播噢";
-    nullDataView.buttonTitle = @"去收看";
     nullDataView.frame = CGRectMake(0, 0,ScreenWidth,ScreenHeight - 108);
-    
     [self loadNewData];
 }
 

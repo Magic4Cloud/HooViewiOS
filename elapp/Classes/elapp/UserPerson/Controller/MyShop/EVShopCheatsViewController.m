@@ -206,7 +206,7 @@
         _nullDataView = [[EVNullDataView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 64 - 50)];
         _nullDataView.topImage = [UIImage imageNamed:@"ic_cry"];
 //        _nullDataView.title = @"暂无购买的秘籍";
-        _nullDataView.title = @"秘籍暂未开通";
+        _nullDataView.title = @"您还没有购买过秘籍噢";
     }
     return _nullDataView;
 }

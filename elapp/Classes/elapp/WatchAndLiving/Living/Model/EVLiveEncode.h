@@ -28,6 +28,8 @@ typedef NS_ENUM (NSInteger, EVEncodedState)
 };
 @protocol EVVideoCodingDelegate <NSObject>
 
+@optional
+
 - (void)codingStateChanged:(EVEncodedState)state;
 
 ////聚焦失败

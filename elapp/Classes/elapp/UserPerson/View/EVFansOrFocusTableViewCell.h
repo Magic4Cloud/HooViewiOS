@@ -10,14 +10,12 @@
 #include "EVEnums.h"
 @class EVFanOrFollowerModel;
 
-typedef void(^ICONCLICK)(EVFanOrFollowerModel *model);
 
 @interface EVFansOrFocusTableViewCell : UITableViewCell
 
 @property (assign, nonatomic) controllerType type;
 @property (strong, nonatomic) EVFanOrFollowerModel *model;
 
-@property (copy, nonatomic) ICONCLICK iconClick;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *introTrailing;
 
 @end

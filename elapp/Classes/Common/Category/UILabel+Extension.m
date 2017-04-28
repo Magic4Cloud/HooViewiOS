@@ -26,6 +26,7 @@ static NSInteger span = 0;
 
 - (void)animationWithCount:(NSInteger)count
 {
+    NSLog(@"count:%d",count);
     if ( count > 10000 )
     {
         self.text = [NSString shortNumber:count];
@@ -62,10 +63,10 @@ static NSInteger span = 0;
     {
         i = 0;
         span = 0;
-        self.text = [NSString stringWithFormat:@"%ld",count];
+        self.text = [NSString stringWithFormat:@"%ld",(long)count];
         return;
     }
-    self.text = [NSString stringWithFormat:@"%ld",currValue];
+    self.text = [NSString stringWithFormat:@"%ld",(long)currValue];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kAnimationTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self animationWithCount:count];
     });

@@ -1814,7 +1814,7 @@ static inline long long getcurrsecond()
     self.liveEndView.riceCountLabel.text = [NSString stringWithFormat:@"%lld",self.growwatch_count];
     self.liveEndView.audienceCountLabel.text = [NSString stringWithFormat:@"%lld",self.growwatching_count];
     self.liveEndView.likeCountLabel.text = [NSString stringWithFormat:@"%lld",self.growHuoyanbi];
-    if (self.isVideoTimer > 300) {
+    if (self.isVideoTimer > 120) {
         self.liveEndView.tipLabel.text = @"已保存至我的直播";
     }
 }
@@ -1826,30 +1826,34 @@ static inline long long getcurrsecond()
     [self.engine GETAppdevstopliveWithVid:self.recoderInfo.vid start:nil fail:nil success:nil sessionExpire:nil];
 }
 
+/**
+ 直播结束 展示结束页面
+
+ */
 - (void)showLiveEndViewWithInfo:(NSDictionary *)videoInfo
 {
     [self.view endEditing:YES];
     
-    //    EVLiveEndViewData *data = [[EVLiveEndViewData alloc] init];
-    //    if ( videoInfo )
-    //    {
-    //        self.recoderInfo.play_url = videoInfo[kPlay_url];
-    //        data.commentCount = [videoInfo[kComment_count] integerValue];
-    //        data.likeCount = self.like_count;
-    //        data.audienceCount = self.watch_count;
-    //        data.signature = self.recoderInfo.title;
-    //        data.playBackURLString = self.recoderInfo.play_url;
-    //    }
-    //    else
-    //    {
-    //        data.commentCount = self.recoderInfo.liveUserInfo.video_info.comment_count;
-    //        data.likeCount = self.recoderInfo.liveUserInfo.video_info.like_count;
-    //        data.audienceCount = self.recoderInfo.liveUserInfo.video_info.watch_count;
-    //        data.signature = self.recoderInfo.title;
-    //    }
-    //    data.riceCount = self.riceAmountView.lasttimeRiceCount;
-    //    self.recoderInfo.noCanSaveVideo = data.noCanKeepVideo;
-    //    self.liveEndView.liveViewData = data;
+        EVLiveEndViewData *data = [[EVLiveEndViewData alloc] init];
+        if ( videoInfo )
+        {
+            self.recoderInfo.play_url = videoInfo[kPlay_url];
+            data.commentCount = [videoInfo[kComment_count] integerValue];
+            data.likeCount = self.like_count;
+            data.audienceCount = self.watch_count;
+            data.signature = self.recoderInfo.title;
+            data.playBackURLString = self.recoderInfo.play_url;
+        }
+        else
+        {
+            data.commentCount = self.recoderInfo.liveUserInfo.video_info.comment_count;
+            data.likeCount = self.recoderInfo.liveUserInfo.video_info.like_count;
+            data.audienceCount = self.recoderInfo.liveUserInfo.video_info.watch_count;
+            data.signature = self.recoderInfo.title;
+        }
+        data.riceCount = self.riceAmountView.lasttimeRiceCount;
+        self.recoderInfo.noCanSaveVideo = data.noCanKeepVideo;
+        self.liveEndView.liveViewData = data;
 }
 
 // 对焦

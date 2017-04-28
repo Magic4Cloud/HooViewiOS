@@ -232,14 +232,10 @@
     }
 
     EVVideoAndLiveModel * watchVideoInfo = self.dataArray[indexPath.row];
-
-    EVWatchVideoInfo * watchInfo = [[EVWatchVideoInfo alloc] init];
-    watchInfo.vid = watchVideoInfo.vid;
-    watchInfo.password = watchVideoInfo.password;
-    watchInfo.permission = watchVideoInfo.permission;
     
     EVHVWatchViewController *watchViewVC = [[EVHVWatchViewController alloc] init];
-    watchViewVC.watchVideoInfo = watchInfo;
+
+    watchViewVC.videoAndLiveModel = watchVideoInfo;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:watchViewVC];
     [self presentViewController:nav animated:YES completion:nil];
 

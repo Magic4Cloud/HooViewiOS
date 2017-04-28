@@ -42,8 +42,8 @@
  *  @param normalStart    正常开市直播 ( 没有续播的情况; 有续播需要，但用户选择放弃续播 )
  *  @param continueLiving 开续续播流程
  */
-- (void)checkLiveNeedToContinueStart:(void(^)())normalStart
-                      continueLiving:(void(^)())continueLiving;
+- (void)checkLiveNeedToContinueStart:(void(^_Nullable)())normalStart
+                      continueLiving:(void(^_Nullable)())continueLiving;
 
 /**
  *  该方法用于活动详情开启直播
@@ -54,15 +54,15 @@
  *  @return
  */
 - (void)requestActivityLivingWithActivityInfo:(NSDictionary *)params
-                                     delegate:(id)delegate;
+                                     delegate:(id _Nullable )delegate;
 
 /**
  *  开始一个预告直播
  *
  *  @param item 
  */
-- (void)requestForecastLivingWithForecastItem:(CCForeShowItem *)item
-                                     delegate:(id)delegate;
+- (void)requestForecastLivingWithForecastItem:(CCForeShowItem *_Nullable)item
+                                     delegate:(id _Nullable )delegate;
 
 
 /**
@@ -72,9 +72,9 @@
  *  @param  y相对于底部的偏移量
  *  @param  按钮响应的block
  */
-- (UIButton *)addBackToTopButtonToSuperView:(UIView *)superView
+- (UIButton *_Nullable)addBackToTopButtonToSuperView:(UIView *)superView
                             OffsetYToBottom:(CGFloat)offsetY_Bottom
-                                     action:(SEL)action;
+                                     action:(SEL _Nullable )action;
 
 /**
  为导航控制器添加统一样式的返回按钮
@@ -89,5 +89,5 @@
  @param okhandler 确定回调
  @param cancelhandler 取消回调
  */
-- (void)showAlertWithTitle:(NSString *)title message:(NSString *)message okHandler:(void (^ __nullable)(UIAlertAction * _Nullable okaction))okhandler cancelHandler:(void (^ __nullable)(UIAlertAction * _Nullable canCelaction))cancelhandler;
+- (void)showAlertWithTitle:(NSString *_Nullable)title message:(NSString *)message okHandler:(void (^ __nullable)(UIAlertAction * _Nullable okaction))okhandler cancelHandler:(void (^ __nullable)(UIAlertAction * _Nullable canCelaction))cancelhandler;
 @end

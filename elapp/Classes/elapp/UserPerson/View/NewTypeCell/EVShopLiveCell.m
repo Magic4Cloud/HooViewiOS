@@ -27,6 +27,13 @@
     _cellTag2Button.contentEdgeInsets = UIEdgeInsetsMake(2, 5, 2, 5);
     if (ScreenWidth == 320) {
         _cellDetailLabel.font = [UIFont systemFontOfSize:_cellDetailLabel.font.pointSize-2];
+        _cellTitleLabel.font = [UIFont systemFontOfSize:_cellTitleLabel.font.pointSize-1];
+        _cellViewCountLabel.font = [UIFont systemFontOfSize:_cellViewCountLabel.font.pointSize-1];
+        [_cellImageView removeConstraint:_cellImageViewheightWidth];
+        CGFloat multiplier = 110.0/67.f;
+        NSLayoutConstraint * widthHeightScale = [NSLayoutConstraint constraintWithItem:_cellImageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:_cellImageView attribute:NSLayoutAttributeHeight multiplier:multiplier constant:0];
+        [_cellImageView addConstraint:widthHeightScale];
+        
     }
     
 }
@@ -43,7 +50,8 @@
     [_cellImageView cc_setImageWithURLString:liveModel.thumb placeholderImage:nil];
     _cellTitleLabel.text = liveModel.title;
     
-    _cellDetailLabel.text = [NSString stringWithFormat:@"%@  %@",liveModel.nickname,[liveModel.live_start_time timeFormatter]];
+    
+    
     
 
     _cellViewCountLabel.text = [NSString stringWithFormat:@"%@人观看",[liveModel.watch_count thousandsSeparatorString]];
@@ -53,12 +61,13 @@
         _cellTag1Button.backgroundColor = [UIColor evOrangeBgColor];
         
         [_cellTag1Button setTitle:@"直播中" forState:UIControlStateNormal];
+        _cellDetailLabel.text = [NSString stringWithFormat:@"%@",liveModel.nickname];
     }
     else
     {
         _cellTag1Button.backgroundColor = [UIColor evBackGroundDeepGrayColor];
         [_cellTag1Button setTitle:@"回放" forState:UIControlStateNormal];
-        
+        _cellDetailLabel.text = [NSString stringWithFormat:@"%@  %@",liveModel.nickname,[liveModel.live_start_time timeFormatter]];
     }
     if ([liveModel.mode integerValue] == 2) {
         //精品视频

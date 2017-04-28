@@ -23,6 +23,7 @@
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
     self.selectedButton.layer.cornerRadius = self.selectedButton.bounds.size.width * 0.5;
     self.selectedButton.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.selectedButton.imageView.contentMode = UIViewContentModeScaleAspectFit;

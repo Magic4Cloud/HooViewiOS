@@ -105,27 +105,6 @@ static const NSString *const fansOrFocusCellID = @"fansOrFocus";
     EVFanOrFollowerModel *fanOrFollower = self.fansOrFollowers[indexPath.row];
     
     cell.model = fanOrFollower;
-    __weak typeof(self) weakself = self;
-    cell.iconClick = ^(EVFanOrFollowerModel *model)
-    {
-        if (self.type == FOCUSES) {
-            if (!model.followed) {
-                NSMutableArray *fanModel = [NSMutableArray arrayWithArray:self.fansOrFollowers];
-                for (NSInteger i = 0; i < fanModel.count; i++) {
-                    EVFanOrFollowerModel *fanOrFollModel = weakself.fansOrFollowers[i];
-                    if ([fanOrFollModel.name isEqualToString:model.name]) {
-                        [weakself.fansOrFollowers removeObjectAtIndex:i];
-                        break;
-                    }
-                }
-                if (weakself.fansOrFollowers.count == 0) {
-                    weakself.noDataView.hidden = NO;
-                }
-                [weakself.tableView reloadData];
-            }
-        }
-        
-    };
     return cell;
 }
 
@@ -138,31 +117,22 @@ static const NSString *const fansOrFocusCellID = @"fansOrFocus";
         return;
     }
     EVFanOrFollowerModel *model = self.fansOrFollowers[indexPath.row];
-    if (model.vip == 1) {
-//        EVWatchVideoInfo *watchInfo = [EVWatchVideoInfo new];
-//        watchInfo.name = model.name;
-//        EVVipCenterViewController *vipVC = [EVVipCenterViewController new];
-//        vipVC.watchVideoInfo = watchInfo;
-//        vipVC.isFollow = model.followed;
-//        [self.navigationController pushViewController:vipVC animated:YES];
-//        
+    if (model.vip == 1)
+    {
         EVWatchVideoInfo *watchInfo = [EVWatchVideoInfo new];
         watchInfo.name = model.name;
         EVVipCenterController *vc = [[EVVipCenterController alloc] init];
         vc.watchVideoInfo = watchInfo;
         [self.navigationController pushViewController:vc animated:YES];
     }
-    else {
+    else
+    {
         EVWatchVideoInfo *watchInfo = [EVWatchVideoInfo new];
         watchInfo.name = model.name;
         EVNormalPersonCenterController  *vc = [[EVNormalPersonCenterController alloc] init];
         vc.watchVideoInfo = watchInfo;
         [self.navigationController pushViewController:vc animated:YES];
     }
-//    EVFansOrFocusTableViewCell *cell = (EVFansOrFocusTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-//    EVOtherPersonViewController *otherPersonVC = [EVOtherPersonViewController instanceWithName:cell.model.name];
-//    otherPersonVC.fromLivingRoom = NO;
-//    [self.navigationController pushViewController:otherPersonVC animated:YES];
 }
 
 - (BOOL)ev_beyondArray:(NSArray *)array index:(NSInteger)index {

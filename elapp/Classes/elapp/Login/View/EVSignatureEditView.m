@@ -17,7 +17,7 @@
 
 @property (nonatomic, weak) UITextView *inputTextView;
 
-@property (nonatomic, assign) NSInteger caninputlen;
+
 
 @end
 
@@ -48,7 +48,7 @@
     [self addSubview:backView];
     self.backView = backView;
     backView.backgroundColor = [UIColor evBackgroundColor];
-    backView.frame = CGRectMake(0, 200, ScreenWidth, 194);
+    backView.frame = CGRectMake(0, ScreenHeight, ScreenWidth, 194);
     
     
     UITextView  *inputView = [[UITextView alloc] init];
@@ -137,7 +137,9 @@
 - (void)keyBoardShow:(NSNotification *)notification
 {
     CGRect frame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    self.backView.frame = CGRectMake(0, ScreenHeight - frame.size.height - 194, ScreenWidth, 194);
+    [UIView animateWithDuration:0.3 animations:^{
+        self.backView.frame = CGRectMake(0, ScreenHeight - frame.size.height - 194, ScreenWidth, 194);
+    }];
     
 }
 
@@ -183,4 +185,9 @@
     _inputTextView.text = originText;
 }
 
+- (void)setInputPlaceholder:(NSString *)inputPlaceholder
+{
+    _inputPlaceholder = inputPlaceholder;
+    _inputTextView.placeholder = inputPlaceholder;
+}
 @end

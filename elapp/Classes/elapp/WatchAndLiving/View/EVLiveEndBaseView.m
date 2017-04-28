@@ -45,7 +45,7 @@
     
     //tip
     UILabel *tipLabel = [[UILabel alloc] init];
-    tipLabel.text = @"时长小于5分钟将不会被保存";
+    tipLabel.text = @"时长小于2分钟将不会被保存";
     tipLabel.textColor = [UIColor evTextColorH2];
     tipLabel.font = [UIFont systemFontOfSize:14.f];
     [bgImageView addSubview:tipLabel];

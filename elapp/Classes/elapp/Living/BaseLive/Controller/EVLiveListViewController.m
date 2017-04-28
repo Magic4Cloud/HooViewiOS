@@ -180,41 +180,6 @@
 
 - (void)addUpView
 {
-//    EVLiveTopView *topView = [[EVLiveTopView alloc] init];
-//    topView.frame = CGRectMake(0, 0, ScreenWidth, 108);
-//    topView.delegate = self;
-//    topView.backgroundColor = [UIColor evBackgroundColor];
-//    [self.view addSubview:topView];
-//    self.topView = topView;
-//    
-//    UIScrollView *backScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 108, ScreenWidth, EVContentHeight)];
-//    backScrollView.backgroundColor = [UIColor evBackgroundColor];
-//    backScrollView.delegate = self;
-//    [self.view addSubview:backScrollView];
-//    self.backScrollView = backScrollView;
-//    backScrollView.pagingEnabled = YES;
-//    backScrollView.showsHorizontalScrollIndicator = NO;
-//    backScrollView.contentSize = CGSizeMake(ScreenWidth * 3, EVContentHeight);
-//    
-//    //视频直播
-//    EVLiveVideoController *liveVideoVC = [[EVLiveVideoController alloc] init];
-//    [self addChildViewController:liveVideoVC];
-//    [backScrollView addSubview:liveVideoVC.view];
-//    liveVideoVC.view.frame = CGRectMake(0,0, ScreenWidth, EVContentHeight);
-//    
-//    //图文直播
-//    EVTextLiveListController *liveImageVC = [[EVTextLiveListController alloc] init];
-//    [self addChildViewController:liveImageVC];
-//    [backScrollView addSubview:liveImageVC.view];
-//    liveImageVC.view.frame = CGRectMake(ScreenWidth, 0, ScreenWidth, EVContentHeight);
-//    
-//    //精品视频
-//    EVRecorededVideoListController *recoredVideoVC = [[EVRecorededVideoListController alloc] init];
-//    [self addChildViewController:recoredVideoVC];
-//    [backScrollView addSubview:recoredVideoVC.view];
-//    recoredVideoVC.view.frame = CGRectMake(ScreenWidth * 2, 0, ScreenWidth, EVContentHeight);
-//    
-    
     
     EVHVLiveView *liveButton = [[EVHVLiveView alloc] init];
     [self.view addSubview:liveButton];
@@ -281,17 +246,22 @@
         return;
     }
     NSString *easemobid = loginInfo.imuser.length <= 0 ? loginInfo.name : loginInfo.imuser;
+    [EVProgressHUD showIndeterminateForView:self.view];
     [self.baseToolManager GETCreateTextLiveUserid:loginInfo.name nickName:loginInfo.nickname easemobid:easemobid success:^(NSDictionary *retinfo) {
-        EVLog(@"LIVETEXT--------- %@",retinfo);
+        [EVProgressHUD hideHUDForView:self.view];
         dispatch_async(dispatch_get_main_queue(), ^{
             EVTextLiveModel *textLiveModel = [EVTextLiveModel objectWithDictionary:retinfo[@"retinfo"][@"data"]];
             [textLiveModel synchronized];
+            
             [weakself pushLiveImageVCModel:textLiveModel];
         });
+        
     } error:^(NSError *error) {
 //         [weakself pushLiveImageVCModel:nil];
+        [EVProgressHUD hideHUDForView:self.view];
         [EVProgressHUD showMessage:@"创建失败"];
     }];
+    
 }
 
 #pragma mark - 跳转到我的直播间

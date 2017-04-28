@@ -20,7 +20,7 @@
 
 @property (weak, nonatomic) id<CCSettingLivingPWDViewDelegate> delegate;  /**< 代理 */
 
-- (void)showAndCatchResult:(void(^_Nullable)(NSString *_Nullable password)) complete;
+- (void)showAndCatchResult:(void(^)(NSString *_Nullable password)) complete;
 
 + (void)showAndCatchResultWithSuperView:(nonnull UIView *)superView offsetY:(CGFloat)offsetY complete:(void(^_Nullable)(NSString *_Nullable password))complete;
 

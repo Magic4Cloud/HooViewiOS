@@ -127,8 +127,11 @@
 
 - (void)updateAnimation
 {
-    [self.audienceCountLabel animationWithCount:self.liveViewData.audienceCount];
-    [self.commentCountLabel animationWithCount:self.liveViewData.commentCount];
+    if (!_liveViewData) {
+        return;
+    }
+    [self.audienceCountLabel animationWithCount:_liveViewData.audienceCount];
+    [self.commentCountLabel animationWithCount:_liveViewData.commentCount];
     [self.likeCountLabel animationWithCount:self.liveViewData.likeCount];
     [self.riceCountLabel animationWithCount:self.liveViewData.riceCount];
 }

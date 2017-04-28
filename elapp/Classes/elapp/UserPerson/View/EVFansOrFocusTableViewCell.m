@@ -58,13 +58,6 @@
 
 #pragma mark - event response
 
-- (IBAction)avatarClick:(UIButton *)sender
-{
-//    if (self.iconClick)
-//    {
-//        self.iconClick(self.model);
-//    }
-}
 
 - (IBAction)changeState:(UIButton *)sender
 {
@@ -77,10 +70,6 @@
         self.changeState.selected = weakself.model.followed;
         self.changeState.backgroundColor = weakself.model.followed ?[UIColor  evBackGroundDeepGrayColor]:[UIColor  evMainColor];
         [EVProgressHUD showSuccess:@"成功"];
-        if (weakself.iconClick)
-        {
-            weakself.iconClick(weakself.model);
-        }
     } essionExpire:^{
         [EVProgressHUD showSuccess:@"失败"];
     }];

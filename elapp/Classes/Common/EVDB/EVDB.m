@@ -172,7 +172,7 @@ static NSMutableDictionary *_sqliteDictionary = nil;
     }
     
     dispatch_async(_db_queue, ^{
-        NSArray *obj = [self _queryWithQueryObject:queryObj];
+        NSArray *obj = [self _queryWithQueryObject:(EVQueryObject *)queryObj];
         [self performBlockOnMainThread:^{
             complete(obj);
         }];
@@ -181,7 +181,7 @@ static NSMutableDictionary *_sqliteDictionary = nil;
 
 - (NSArray *)queryOnCurrThreadWithQueryObject:(CCQueryObject *)queryObj
 {
-    return [self _queryWithQueryObject:queryObj];
+    return [self _queryWithQueryObject:(EVQueryObject *)queryObj];
 }
 
 - (void)queryWithClass:(Class)clazz start:(NSInteger)start count:(NSInteger)count wholeCount:(NSInteger *)wholeCount complete:(void (^)(NSArray *))complete

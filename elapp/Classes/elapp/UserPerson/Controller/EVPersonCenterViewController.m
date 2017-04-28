@@ -302,7 +302,7 @@
             }
 
 
-            //点击  粉丝和关注
+            //MARK: 点击粉丝和关注
             EVFansOrFocusesTableViewController *fansOrFocusesTVC = [[EVFansOrFocusesTableViewController alloc] init];
             fansOrFocusesTVC.type = type;
             
@@ -377,7 +377,7 @@
         {
             //头像
             EVLoginInfo *userInfo = [[EVLoginInfo alloc] init];
-            userInfo.name = self.userModel.name;
+            userInfo.name = _userModel.name;
             userInfo.nickname = self.userModel.nickname;
             userInfo.logourl = self.userModel.logourl;
             userInfo.signature = self.userModel.signature;
