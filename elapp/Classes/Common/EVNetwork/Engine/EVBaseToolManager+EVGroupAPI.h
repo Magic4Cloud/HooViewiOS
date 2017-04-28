@@ -28,6 +28,8 @@
                          success:(void(^)())successBlock
                     essionExpire:(void(^)())sessionExpireBlock;
 
+
+
 - (void)logoUrlWithImuser:(NSString *)imuser completion:(void(^)(NSString *logourl,NSString *name))completion;
 
 - (void)userbasicinfolistWithNameList:(NSArray *)names

@@ -18,6 +18,8 @@
 
 @property (nonatomic, weak) UILabel *watchLabel;
 
+@property (nonatomic, strong) UIImageView *ishotImage;
+
 @end
 
 @implementation EVHotImageCollectionViewCell
@@ -57,6 +59,7 @@
     
     UIImageView *ishotImage = [[UIImageView alloc] init];
     [self addSubview:ishotImage];
+    self.ishotImage = ishotImage;
     ishotImage.image = [UIImage imageNamed:@"ic_hot"];
     ishotImage.layer.cornerRadius = 4;
     [ishotImage autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:25];
@@ -91,5 +94,13 @@
     self.nameLabel.text = [NSString stringWithFormat:@"%@",liveVideoInfo.name];
     NSString *WatchC = [NSString shortNumber:liveVideoInfo.viewcount];
     self.watchLabel.text = [NSString stringWithFormat:@"%@人参与",WatchC];
+    
+    if (liveVideoInfo.viewcount < 10000) {
+        _ishotImage.hidden = YES;
+    } else {
+        _ishotImage.hidden = NO;
+    }
+    
+    
 }
 @end

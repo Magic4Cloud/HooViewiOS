@@ -202,6 +202,11 @@
 #define EVHVCenterLiveListAPI       @"http://dev.hooview.com/api/v2/user/videos"
 //个人主页文章列表
 #define EVHVCenterNewsListAPI       @"http://dev.hooview.com/api/v2/user/news"
+//个人主页评论列表
+#define EVHVCenterCommentListAPI    @"http://dev.hooview.com/api/v2/users/posts"
+//个人主页评论列表点赞
+#define EVHVCommentLikeOrNotAPI     @"http://dev.hooview.com/api/v2/posts/like"
+
 
 #endif
 

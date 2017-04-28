@@ -14,4 +14,6 @@
 
 @property (nonatomic, strong) EVWatchVideoInfo *watchVideoInfo;
 
+@property (nonatomic, strong) UIImageView *ishotImage;
+
 @end

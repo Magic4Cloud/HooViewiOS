@@ -130,6 +130,7 @@
 		9E08B7C51EADCE3F00721EE8 /* EVHVCenterCommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E08B7C31EADCE3F00721EE8 /* EVHVCenterCommentTableViewCell.xib */; };
 		9E08B7C81EADDEB900721EE8 /* EVHVCenterCommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E08B7C71EADDEB900721EE8 /* EVHVCenterCommentModel.m */; };
 		9E08B7CB1EADDF7B00721EE8 /* EVCommentTopicModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E08B7CA1EADDF7B00721EE8 /* EVCommentTopicModel.m */; };
+		9E27F8EB1EB2F05A00468795 /* EVHVCenterNewsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E27F8EA1EB2F05A00468795 /* EVHVCenterNewsTableView.m */; };
 		9E66728D1E8136D700933C92 /* UIFont+swizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E66728B1E8136D700933C92 /* UIFont+swizzle.m */; };
 		9E7E6C191E9B219D009CBD6F /* EVSpeciaColumnCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E7E6C171E9B219D009CBD6F /* EVSpeciaColumnCell.m */; };
 		9E7E6C1A1E9B219D009CBD6F /* EVSpeciaColumnCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E7E6C181E9B219D009CBD6F /* EVSpeciaColumnCell.xib */; };
@@ -984,6 +985,8 @@
 		9E08B7C71EADDEB900721EE8 /* EVHVCenterCommentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVHVCenterCommentModel.m; sourceTree = "<group>"; };
 		9E08B7C91EADDF7B00721EE8 /* EVCommentTopicModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVCommentTopicModel.h; sourceTree = "<group>"; };
 		9E08B7CA1EADDF7B00721EE8 /* EVCommentTopicModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVCommentTopicModel.m; sourceTree = "<group>"; };
+		9E27F8E91EB2F05A00468795 /* EVHVCenterNewsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVHVCenterNewsTableView.h; sourceTree = "<group>"; };
+		9E27F8EA1EB2F05A00468795 /* EVHVCenterNewsTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVHVCenterNewsTableView.m; sourceTree = "<group>"; };
 		9E66728B1E8136D700933C92 /* UIFont+swizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+swizzle.m"; sourceTree = "<group>"; };
 		9E66728C1E8136D700933C92 /* UIFont+swizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+swizzle.h"; sourceTree = "<group>"; };
 		9E7E6C161E9B219D009CBD6F /* EVSpeciaColumnCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSpeciaColumnCell.h; sourceTree = "<group>"; };
@@ -4889,6 +4892,8 @@
 				E8A873EF1E56AC30004C6BB5 /* EVHVCenterFansTableView.m */,
 				9E08B7BB1EAD9B4F00721EE8 /* EVHVCenterArticleTableView.h */,
 				9E08B7BC1EAD9B4F00721EE8 /* EVHVCenterArticleTableView.m */,
+				9E27F8E91EB2F05A00468795 /* EVHVCenterNewsTableView.h */,
+				9E27F8EA1EB2F05A00468795 /* EVHVCenterNewsTableView.m */,
 				9E08B7BE1EADCDB100721EE8 /* EVHVCenterCommentTableView.h */,
 				9E08B7BF1EADCDB100721EE8 /* EVHVCenterCommentTableView.m */,
 				9E08B7C11EADCE3F00721EE8 /* EVHVCenterCommentTableViewCell.h */,
@@ -6017,6 +6022,7 @@
 				E862013D1D6BE8540081E72F /* EVMagicEmojiModel.m in Sources */,
 				E844F9441E08C6E400CCE0B0 /* MBProgressHUD.m in Sources */,
 				E86200FB1D6BE8540081E72F /* EVMyVideoTableViewCell.m in Sources */,
+				9E27F8EB1EB2F05A00468795 /* EVHVCenterNewsTableView.m in Sources */,
 				E862FF851D6BE8540081E72F /* NSDate+Utils.m in Sources */,
 				7A3AFE491E88ED0500454C9D /* EVStartPageModel.m in Sources */,
 				E86201B81D6BE8550081E72F /* EVLocationViewController.m in Sources */,

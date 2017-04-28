@@ -7,15 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "EVNewsModel.h"
+#import "EVCommentTopicModel.h"
 #import "EVWatchVideoInfo.h"
-typedef void(^pushArticleBlock)(EVNewsModel *newsModel);
+typedef void(^pushCommentBlock)(EVCommentTopicModel *topicModel);
 
 @interface EVHVCenterCommentTableView : UITableView
 
 @property (nonatomic, strong) EVWatchVideoInfo *WatchVideoInfo;
 
-@property (nonatomic, copy) pushArticleBlock ArticleBlock;
+@property (nonatomic, copy) pushCommentBlock commentBlock;
 
+
+- (void)loadData;
 
 @end

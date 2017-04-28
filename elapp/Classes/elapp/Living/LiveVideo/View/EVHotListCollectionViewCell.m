@@ -67,6 +67,7 @@
     
     UIImageView *ishotImage = [[UIImageView alloc] init];
     [self addSubview:ishotImage];
+    self.ishotImage = ishotImage;
     ishotImage.image = [UIImage imageNamed:@"ic_hot"];
     [ishotImage autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:6];
     [ishotImage autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:32];
@@ -78,13 +79,7 @@
     self.watch_countLabel = watch_countLabel;
     watch_countLabel.textColor = [UIColor whiteColor];
     watch_countLabel.font = [UIFont systemFontOfSize:14.f];
-    [watch_countLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:24];
-    [watch_countLabel autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:30];
-    [watch_countLabel autoSetDimension:ALDimensionHeight toSize:20];
-    
-    
-    
-    
+
 }
 
 - (void)setWatchVideoInfo:(EVWatchVideoInfo *)watchVideoInfo
@@ -96,6 +91,17 @@
     NSString *watch_count = [NSString stringWithFormat:@"%ld",watchVideoInfo.watch_count];
     _watch_countLabel.text = [NSString stringWithFormat:@"%@人观看",[watch_count thousandsSeparatorString]];
     
+    if (watchVideoInfo.watch_count < 10000) {
+        _ishotImage.hidden = YES;
+        [_watch_countLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:2];
+        [_watch_countLabel autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:30];
+        [_watch_countLabel autoSetDimension:ALDimensionHeight toSize:20];
+    } else {
+        _ishotImage.hidden = NO;
+        [_watch_countLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:24];
+        [_watch_countLabel autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:30];
+        [_watch_countLabel autoSetDimension:ALDimensionHeight toSize:20];
+    }
     
 //    NSString *timeStr = [NSString stringWithFormat:@"%@",watchVideoInfo.live_start_time];
 //    timeStr =   [timeStr substringToIndex:10];

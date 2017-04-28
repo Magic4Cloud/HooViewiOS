@@ -58,7 +58,7 @@
         self.menuItemWidth = 45;
         self.progressViewWidths = @[@16,@16,@16];
         //        self.progressViewIsNaughty = YES;
-        self.titles = @[@"视频",@"图文",@"精品"];
+        self.titles = @[@"直播",@"图文",@"精品"];
         float margin = 12;
         if (ScreenWidth == 320) {
             margin = 0;

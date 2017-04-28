@@ -18,15 +18,19 @@
 #import "EVThreeImageCell.h"
 #import "EVNewsListViewCell.h"
 #import "EVHVCenterCommentTableViewCell.h"
+#import "EVHVCenterCommentModel.h"
 
 
 @interface EVHVCenterCommentTableView ()<UITableViewDelegate,UITableViewDataSource>
+{
+    int start;
+}
 
 @property (nonatomic, strong) EVBaseToolManager *baseToolManager;
 
-@property (nonatomic, strong) NSMutableArray *fansOrFollowers;
-
 @property (nonatomic, strong) EVNullDataView *nullDataView;
+
+@property (nonatomic, strong) NSMutableArray *dataArray;
 
 
 @end
@@ -43,8 +47,8 @@
         
         self.tableFooterView = [UIView new];
         self.separatorStyle = UITableViewCellSeparatorStyleNone;
-//        [self addVipUI];
-
+        [self addVipUI];
+//        [self loadData];
         
     }
     return self;
@@ -53,39 +57,88 @@
 - (void)addVipUI
 {
     
-    EVNullDataView *nullDataView = [[EVNullDataView alloc] initWithFrame:CGRectMake(0, 300, ScreenWidth, ScreenHeight-108)];
+    EVNullDataView *nullDataView = [[EVNullDataView alloc] initWithFrame:CGRectMake(0, 100, ScreenWidth, ScreenHeight-108)];
     
     [self addSubview:nullDataView];
     self.nullDataView = nullDataView;
     
     nullDataView.topImage = [UIImage imageNamed:@"ic_smile"];
-    nullDataView.title = @"没有相关文章奥";
+    nullDataView.title = @"没有相关评论奥";
 }
+
+- (void)loadData {
+    start = 0;
+    [EVProgressHUD showIndeterminateForView:self];
+    [self.baseToolManager GETHVCenterCommentListWithUserid:nil personid:_WatchVideoInfo.name start:start count:20 startBlock:^{
+        
+    } fail:^(NSError *error) {
+        [EVProgressHUD hideHUDForView:self];
+        self.nullDataView.hidden =  NO;
+        
+    } success:^(NSDictionary *retinfo) {
+        [EVProgressHUD hideHUDForView:self];
+        NSArray * comments = retinfo[@"total"];
+        [self.dataArray removeAllObjects];
+        if ([comments isKindOfClass:[NSArray class]] && comments.count >0) {
+            
+            [comments enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                EVHVCenterCommentModel * model = [EVHVCenterCommentModel yy_modelWithDictionary:obj];
+                [self.dataArray addObject:model];
+            }];
+            
+            if (comments.count<20)
+            {
+                [self hideFooter];
+            }
+            else
+            {
+                [self showFooter];
+            }
+            start += 20;
+        }
+        else
+        {
+            [self hideFooter];
+        }
+        [self reloadData];
+        self.nullDataView.hidden = self.dataArray.count == 0? NO:YES;
+    } essionExpire:^{
+        [EVProgressHUD hideHUDForView:self];
+        self.nullDataView.hidden =  NO;
+    }];
+    
+}
+
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return self.dataArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    EVHVCenterCommentTableViewCell *fansCell = [tableView dequeueReusableCellWithIdentifier:@"EVHVCenterCommentTableViewCell" forIndexPath:indexPath];
-    
-    return fansCell;
+    EVHVCenterCommentTableViewCell *commentCell = [tableView dequeueReusableCellWithIdentifier:@"EVHVCenterCommentTableViewCell" forIndexPath:indexPath];
+    EVHVCenterCommentModel *model = _dataArray[indexPath.row];
+    commentCell.commentModel = model;
+    commentCell.selectionStyle = UIAccessibilityTraitNone;
+    return commentCell;
 }
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 186;
+    EVHVCenterCommentModel *model = _dataArray[indexPath.row];
+    CGRect rect = [model.content boundingRectWithSize:CGSizeMake(ScreenWidth - 81, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14]} context:nil];
+    
+    return rect.size.height + 130;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    EVNewsModel *articleModel = self.fansOrFollowers[indexPath.row];
-    if (self.ArticleBlock) {
-        self.ArticleBlock(articleModel);
+    EVHVCenterCommentModel *model = _dataArray[indexPath.row];
+    if (self.commentBlock) {
+        self.commentBlock(model.topic);
     }
 }
 
@@ -104,6 +157,15 @@
 - (void)setWatchVideoInfo:(EVWatchVideoInfo *)WatchVideoInfo
 {
     _WatchVideoInfo = WatchVideoInfo;
+//    [self loadData];
+}
+
+- (NSMutableArray *)dataArray
+{
+    if (!_dataArray) {
+        _dataArray = [NSMutableArray array];
+    }
+    return _dataArray;
 }
 
 

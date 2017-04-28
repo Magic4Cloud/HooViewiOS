@@ -56,6 +56,8 @@
 
 
 @property (nonatomic, assign) NSInteger viewcount;
+@property (nonatomic,copy) NSString *avatar;//用户头像
+@property (nonatomic,copy) NSString *id;//用户userid
 
 /**
  *  根据用户的云播号来从本地数据库查询对应的用户基本信息

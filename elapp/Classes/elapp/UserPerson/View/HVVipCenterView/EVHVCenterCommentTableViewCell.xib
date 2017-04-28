@@ -101,7 +101,9 @@
                             <constraint firstAttribute="width" constant="30" id="458-Qv-qzh"/>
                             <constraint firstAttribute="height" constant="30" id="VOW-9B-zk8"/>
                         </constraints>
-                        <state key="normal" image="btn_news_like_n"/>
+                        <connections>
+                            <action selector="action_likeOrNot:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="GT5-at-k5k"/>
+                        </connections>
                     </button>
                 </subviews>
                 <constraints>
@@ -142,7 +144,4 @@
             <point key="canvasLocation" x="62.5" y="145"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="btn_news_like_n" width="30" height="30"/>
-    </resources>
 </document>

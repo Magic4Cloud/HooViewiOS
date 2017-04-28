@@ -26,5 +26,6 @@ typedef void(^pushVideoBlock)(EVWatchVideoInfo *videoModel);
 @property (nonatomic, copy) pushTextLiveBlock textLiveBlock;
 
 - (void)getDataWithName:(NSString *)name;
+- (void)loadNewData;
 
 @end

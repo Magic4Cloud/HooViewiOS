@@ -95,6 +95,31 @@
     [EVBaseToolManager GETRequestWithUrl:url parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
 }
 
+//点赞
+- (void)GETLikeOrNotWithUserName:(NSString *)name
+                            Type:(NSString *)type
+                          action:(NSString *)action
+                          postid:(NSString *)postid
+                        start:(void(^)())startBlock
+                         fail:(void(^)(NSError *error))failBlock
+                      success:(void(^)())successBlock
+                 essionExpire:(void(^)())sessionExpireBlock
+{
+    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
+    if ( sessionID == nil )
+    {
+        return;
+    }
+    NSString *userid = [self uidFromLocal];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValue:sessionID forKey:kSessionIdKey];
+    [params setValue:userid forKey:@"userid"];
+    [params setValue:action forKey:kAction];
+    [params setValue:postid forKey:@"postid"];
+    [params setValue:type forKey:@"type"];
+    
+    [EVBaseToolManager GETRequestWithUrl:EVHVCommentLikeOrNotAPI parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+}
 
 
 

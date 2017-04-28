@@ -17,5 +17,5 @@ typedef void(^pushArticleBlock)(EVNewsModel *newsModel);
 
 @property (nonatomic, copy) pushArticleBlock ArticleBlock;
 
-
+- (void)loadNewData;
 @end

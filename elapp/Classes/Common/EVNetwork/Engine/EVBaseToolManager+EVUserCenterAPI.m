@@ -581,6 +581,39 @@
     
 }
 
+/** 获取个人中心主页评论列表数据 */
+- (void)GETHVCenterCommentListWithUserid:(NSString *)userid
+                                personid:(NSString *)personid
+                                start:(NSInteger)start
+                                count:(NSInteger)count
+                           startBlock:(void(^)())startBlock
+                                 fail:(void(^)(NSError *error))failBlock
+                              success:(void(^)(NSDictionary *retinfo))successBlock
+                         essionExpire:(void(^)())sessionExpireBlock {
+    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
+    if ( sessionID == nil )
+    {
+        return ;
+    }
+    NSString *uid = [self uidFromLocal];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValue:sessionID forKey:kSessionIdKey];
+    [params setValue:uid forKey:@"userid"];
+    [params setValue:personid forKey:@"personid"];
+    [params setValue:@(start) forKey:kStart];
+    [params setValue:@(count) forKey:kCount];
+    
+    [EVBaseToolManager GETRequestWithUrl:EVHVCenterCommentListAPI parameters:params success:^(NSDictionary *successDict) {
+        if ( successBlock )
+        {
+            successBlock(successDict);
+        }
+        
+    } sessionExpireBlock:sessionExpireBlock fail:failBlock];
+    
+}
+
+
 
 //获取我的发布
 - (void)GETMyReleaseListWithUserid:(NSString *)userid

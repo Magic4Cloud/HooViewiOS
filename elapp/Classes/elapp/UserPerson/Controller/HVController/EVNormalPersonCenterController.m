@@ -27,7 +27,7 @@
 #import "EVNewsModel.h"
 #import "EVNewsDetailWebController.h"
 #import "EVHVCenterCommentTableView.h"
-
+#import "EVMarketDetailsController.h"
 
 @interface EVNormalPersonCenterController ()<EVHVVipCenterDelegate,SwipeTableViewDataSource,SwipeTableViewDelegate,UIGestureRecognizerDelegate,UIViewControllerTransitioningDelegate,SGSegmentedControlStaticDelegate>
 
@@ -90,12 +90,14 @@
 {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
     
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
 }
 
 
@@ -144,10 +146,10 @@
     
     UIButton *popButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
     [_navigationView addSubview:popButton];
-    [popButton autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:12];
-    [popButton autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:27];
-    [popButton autoSetDimensionsToSize:CGSizeMake(30,30)];
-    [popButton setImage:[UIImage imageNamed:@"btn_return_n"] forState:(UIControlStateNormal)];
+    [popButton autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:5];
+    [popButton autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:20];
+    [popButton autoSetDimensionsToSize:CGSizeMake(44,44)];
+    [popButton setImage:[UIImage imageNamed:@"hv_back_return"] forState:(UIControlStateNormal)];
     [popButton addTarget:self action:@selector(popClick) forControlEvents:(UIControlEventTouchUpInside)];
     
     //举报
@@ -326,22 +328,13 @@
             
         {
             EVHVCenterCommentTableView *CenterCommentView = self.CenterCommentView;
-            CenterCommentView.WatchVideoInfo = self.watchVideoInfo;
             view = CenterCommentView;
-
         }
             break;
         
         case 1:
         {
             EVHVCenterArticleTableView *centerArticleView = self.centerArticleView;
-            centerArticleView.WatchVideoInfo = self.watchVideoInfo;
-            centerArticleView.ArticleBlock = ^(EVNewsModel *newsModel) {
-                EVNewsDetailWebController *newsVC = [[EVNewsDetailWebController alloc] init];
-                newsVC.newsID = newsModel.newsID;
-                //    newsVC.title = model.title;
-                [self.navigationController pushViewController:newsVC animated:YES];
-            };
             view = centerArticleView;
         }
             break;
@@ -380,6 +373,37 @@
     if (nil == _CenterCommentView) {
         _CenterCommentView = [[EVHVCenterCommentTableView alloc] initWithFrame:_swipeTableView.bounds style:(UITableViewStyleGrouped)];
         _CenterCommentView.backgroundColor = [UIColor evBackgroundColor];
+        _CenterCommentView.WatchVideoInfo = self.watchVideoInfo;
+        [_CenterCommentView loadData];
+        __weak typeof (self) weakself = self;
+        _CenterCommentView.commentBlock = ^(EVCommentTopicModel *topicModel) {
+            if ([topicModel.type isEqualToString:@"0"]) {
+                //新闻
+                EVNewsDetailWebController *newsVC = [[EVNewsDetailWebController alloc] init];
+                newsVC.newsID = topicModel.id;
+                //    newsVC.title = model.title;
+                [weakself.navigationController pushViewController:newsVC animated:YES];
+            } else if([topicModel.type isEqualToString:@"1"]) {
+                //视频
+                EVWatchVideoInfo * watchInfo = [[EVWatchVideoInfo alloc] init];
+                watchInfo.vid = topicModel.id;
+                watchInfo.mode = 2;
+                EVHVWatchViewController *watchViewVC = [[EVHVWatchViewController alloc] init];
+                watchViewVC.watchVideoInfo = watchInfo;
+                UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:watchViewVC];
+                [weakself presentViewController:nav animated:YES completion:nil];
+            } else if([topicModel.type isEqualToString:@"2"]) {
+                //股票
+                EVStockBaseModel *stockBaseModel = [[EVStockBaseModel alloc] init];
+                stockBaseModel.symbol = topicModel.id;
+                EVMarketDetailsController *marketDetailVC = [[EVMarketDetailsController alloc] init];
+                marketDetailVC.special = 1;
+                marketDetailVC.stockBaseModel = stockBaseModel;
+                [weakself.navigationController pushViewController:marketDetailVC animated:YES];
+            }
+            
+        };
+
     }
     return _CenterCommentView;
 }
@@ -390,6 +414,15 @@
     if (nil == _centerArticleView) {
         _centerArticleView = [[EVHVCenterArticleTableView alloc] initWithFrame:_swipeTableView.bounds style:(UITableViewStyleGrouped)];
         _centerArticleView.backgroundColor = [UIColor evBackgroundColor];
+        __weak typeof (self) weakself = self;
+        _centerArticleView.WatchVideoInfo = self.watchVideoInfo;
+        [_centerArticleView loadNewData];
+        _centerArticleView.ArticleBlock = ^(EVNewsModel *newsModel) {
+            EVNewsDetailWebController *newsVC = [[EVNewsDetailWebController alloc] init];
+            newsVC.newsID = newsModel.newsID;
+            newsVC.title = newsModel.title;
+            [weakself.navigationController pushViewController:newsVC animated:YES];
+        };
     }
     return _centerArticleView;
 }

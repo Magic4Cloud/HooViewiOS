@@ -116,6 +116,12 @@
         self.introduction.text = self.model.signature && ![self.model.signature isEqualToString:@""] ? self.model.signature : kDefaultSignature_other;
         self.changeState.selected = model.followed;
         self.changeState.backgroundColor = model.followed ?[UIColor  evBackGroundDeepGrayColor]:[UIColor  evMainColor];
+    
+    if ([model.name isEqualToString:[EVLoginInfo localObject].name]) {
+        _changeState.hidden = YES;
+    } else {
+        _changeState.hidden = NO;
+    }
 }
 
 - (EVBaseToolManager *)engine

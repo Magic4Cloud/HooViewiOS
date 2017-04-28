@@ -73,19 +73,22 @@
     self.nullDataView = nullDataView;
     
     nullDataView.topImage = [UIImage imageNamed:@"ic_smile"];
-    nullDataView.title = @"没有相关文章奥";
+    nullDataView.title = @"他没有收藏文章奥";
 }
 
 
 - (void)loadNewData
 {
     start = 0;
-    NSString * uid = [CCUserDefault objectForKey:CCUSER_NAME];
-    [self.baseToolManager GETUserCollectListsWithStart:@"0" count:@"20" userId:uid fail:^(NSError *error) {
+    [EVProgressHUD showIndeterminateForView:self];
+//    NSString * uid = [CCUserDefault objectForKey:CCUSER_NAME];
+    [self.baseToolManager GETUserCollectListsWithStart:@"0" count:@"20" userId:self.WatchVideoInfo.name fail:^(NSError *error) {
         self.nullDataView.hidden = NO;
         [self endHeaderRefreshing];
+        [EVProgressHUD hideHUDForView:self];
     } success:^(NSDictionary *retinfo) {
         [self endHeaderRefreshing];
+        [EVProgressHUD hideHUDForView:self];
         NSArray * news = retinfo[@"news"];
         if ([news isKindOfClass:[NSArray class]] && news.count>0) {
             [self.fansOrFollowers removeAllObjects];
@@ -111,14 +114,15 @@
         
     } sessionExpire:^{
         [self endHeaderRefreshing];
+        [EVProgressHUD hideHUDForView:self];
         self.nullDataView.hidden = NO;
     }];
 }
 
 - (void)loadMoreData
 {
-    NSString * uid = [CCUserDefault objectForKey:CCUSER_NAME];
-    [self.baseToolManager GETUserCollectListsWithStart:[NSString stringWithFormat:@"%d",start] count:@"20" userId:uid fail:^(NSError *error) {
+//    NSString * uid = [CCUserDefault objectForKey:CCUSER_NAME];
+    [self.baseToolManager GETUserCollectListsWithStart:[NSString stringWithFormat:@"%d",start] count:@"20" userId:self.WatchVideoInfo.name fail:^(NSError *error) {
         [self endFooterRefreshing];
     } success:^(NSDictionary *retinfo) {
         [self endFooterRefreshing];
@@ -216,44 +220,11 @@
     return 0.01;
 }
 
-//- (void)loadDataWithname:(NSString *)name Start:(NSInteger)start count:(NSInteger)count{
-//    NSString *type = @"2";
-//    
-//    [self.baseToolManager GETMyReleaseListWithUserid:self.WatchVideoInfo.name type:type start:0 count:20 startBlock:^{
-//        
-//    } fail:^(NSError *error) {
-//        NSLog(@"error = %@",error);
-//    } success:^(NSDictionary *videos) {
-//        NSLog(@"videos = %@",videos);
-//        NSArray * news = videos[@"news"];
-//        if ([news isKindOfClass:[NSArray class]] && news.count>0) {
-//            [self.fansOrFollowers removeAllObjects];
-//            
-//            [news enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//                EVNewsModel * model = [EVNewsModel yy_modelWithDictionary:obj];
-//                [self.fansOrFollowers addObject:model];
-//            }];
-//            
-//            self.hidden = NO;
-//            self.nullDataView.hidden = YES;
-//            
-//            [self reloadData];
-//        }
-//        else
-//        {
-//            self.hidden = YES;
-//            self.nullDataView.hidden = NO;
-//        }
-//        
-//    } essionExpire:^{
-//    }];
-//}
 
 - (void)setWatchVideoInfo:(EVWatchVideoInfo *)WatchVideoInfo
 {
     _WatchVideoInfo = WatchVideoInfo;
-    [self loadNewData];
-//    [self loadDataWithname:WatchVideoInfo.name Start:0 count:20];
+
 }
 
 - (NSMutableArray *)fansOrFollowers

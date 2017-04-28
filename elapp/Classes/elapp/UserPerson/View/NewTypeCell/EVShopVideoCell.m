@@ -38,6 +38,12 @@
         _needPayLabel.hidden = YES;
     }
     
+    if (videoModel.isHot) {
+        _cellHotImageView.hidden = NO;
+    } else {
+        _cellHotImageView.hidden = YES;
+    }
+    
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

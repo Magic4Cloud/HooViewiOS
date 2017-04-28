@@ -228,6 +228,25 @@ typedef enum : NSUInteger {
                               success:(void(^)(NSDictionary *retinfo))successBlock
                          essionExpire:(void(^)())sessionExpireBlock;
 
+/** 获取个人中心主页评论列表数据 */
+- (void)GETHVCenterCommentListWithUserid:(NSString *)userid
+                                personid:(NSString *)personid
+                                   start:(NSInteger)start
+                                   count:(NSInteger)count
+                              startBlock:(void(^)())startBlock
+                                    fail:(void(^)(NSError *error))failBlock
+                                 success:(void(^)(NSDictionary *retinfo))successBlock
+                            essionExpire:(void(^)())sessionExpireBlock;
+
+//点赞
+- (void)GETLikeOrNotWithUserName:(NSString *)name
+                            Type:(NSString *)type
+                          action:(NSString *)action
+                          postid:(NSString *)postid
+                           start:(void(^)())startBlock
+                            fail:(void(^)(NSError *error))failBlock
+                         success:(void(^)())successBlock
+                    essionExpire:(void(^)())sessionExpireBlock;
 
 //获取我的发布
 - (void)GETMyReleaseListWithUserid:(NSString *)userid
