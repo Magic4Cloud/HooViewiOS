@@ -7,6 +7,7 @@
 //
 
 #import "EVReleaseImageWithTextLiveCell.h"
+#import "EVUserTagsModel.h"
 
 @implementation EVReleaseImageWithTextLiveCell
 
@@ -22,9 +23,14 @@
         return;
     }
     _userModel = userModel;
-    _namelabel.text = userModel.name;
+    _namelabel.text = userModel.nickname;
     _followNumberLabel.text = [NSString stringWithFormat:@"%ld人参与",userModel.viewcount];
     
+    NSMutableArray *titleAry = [NSMutableArray array];
+    for (NSDictionary *dic in userModel.tags) {
+        [titleAry addObject:dic[@"name"]];
+    }
+    _tagsLabel.text = [NSString stringWithArray:titleAry];
 }
 
 

@@ -62,8 +62,8 @@
     [self addSubview:nullDataView];
     self.nullDataView = nullDataView;
     
-    nullDataView.topImage = [UIImage imageNamed:@"ic_smile"];
-    nullDataView.title = @"没有相关评论奥";
+    nullDataView.topImage = [UIImage imageNamed:@"ic_cry"];
+    nullDataView.title = @"没有相关评论噢";
 }
 
 - (void)loadData {

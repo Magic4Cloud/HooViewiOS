@@ -102,6 +102,8 @@
         
         EVUserModel *textLiveModel = [EVUserModel yy_modelWithDictionary:dictionary];
         textLiveModel.name = dictionary[@"ownerid"];
+        textLiveModel.nickname = dictionary[@"name"];
+        textLiveModel.viewcount = [dictionary[@"viewcount"] intValue];
         self.userModel = textLiveModel;
         self.textLiveState = [retinfo[@"textlive"][@"state"] integerValue];
         
@@ -155,6 +157,7 @@
         NSArray *array = retinfo[@"videolive"];
         EVUserModel *textLiveModel = [EVUserModel yy_modelWithDictionary:dictionary];
         textLiveModel.name = dictionary[@"ownerid"];
+        textLiveModel.nickname = dictionary[@"name"];
         self.userModel = textLiveModel;
         self.textLiveState = [retinfo[@"textlive"][@"state"] integerValue];
         
