@@ -351,21 +351,51 @@
 
 - (void)pushLiveImageVCModel:(EVTextLiveModel *)model userModel:(EVUserModel *)usermodel
 {
-    EVHVWatchTextViewController *watchImageVC = [[EVHVWatchTextViewController alloc] init];
     
-    //                if (videoInfo.liveID == nil || [videoInfo.liveID isEqualToString:@""]) {
-    //                    [EVProgressHUD showMessage:@"没有获取到房间号"];
-    //                    return;
-    //                }
-    EVWatchVideoInfo *watchVideoInfo = [[EVWatchVideoInfo alloc] init];
-    watchVideoInfo.liveID = model.streamid;
-    watchVideoInfo.name = model.name;
-    watchVideoInfo.viewcount = model.viewcount;
-    watchVideoInfo.nickname = usermodel.nickname;
-    watchImageVC.watchVideoInfo = watchVideoInfo;
-    watchImageVC.liveVideoInfo = watchVideoInfo;
-    UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:watchImageVC];
-    [self presentViewController:navigationVC animated:YES completion:nil];
+    NSString *myId = [EVLoginInfo localObject].name;
+    
+    if ([usermodel.name isEqualToString:myId]) {
+        //是进自己的直播间
+        EVLoginInfo *loginInfo = [EVLoginInfo localObject];
+        EVTextLiveModel * localModel = [EVTextLiveModel textLiveObject];
+        
+        if (localModel.streamid.length > 0)
+        {
+            //如果本地存到有  从本地取  否则 网络请求
+            
+            [self pushLiveImageVCModel:localModel];
+            return;
+        }
+        NSString *easemobid = loginInfo.imuser.length <= 0 ? loginInfo.name : loginInfo.imuser;
+        [EVProgressHUD showIndeterminateForView:self.view];
+        
+        WEAK(self)
+        [self.baseToolManager GETCreateTextLiveUserid:loginInfo.name nickName:loginInfo.nickname easemobid:easemobid success:^(NSDictionary *retinfo) {
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                EVTextLiveModel *textLiveModel = [EVTextLiveModel objectWithDictionary:retinfo[@"retinfo"][@"data"]];
+                [textLiveModel synchronized];
+                [EVProgressHUD hideHUDForView:self.view];
+                [weakself pushLiveImageVCModel:textLiveModel];
+            });
+        } error:^(NSError *error) {
+            [EVProgressHUD hideHUDForView:self.view];
+            [EVProgressHUD showMessage:@"创建失败"];
+        }];
+        
+    }
+    else {
+        EVHVWatchTextViewController *watchImageVC = [[EVHVWatchTextViewController alloc] init];
+        EVWatchVideoInfo *watchVideoInfo = [[EVWatchVideoInfo alloc] init];
+        watchVideoInfo.liveID = model.streamid;
+        watchVideoInfo.nickname = model.name;
+        watchVideoInfo.name = usermodel.name;
+        watchVideoInfo.viewcount = model.viewcount;
+        watchImageVC.watchVideoInfo = watchVideoInfo;
+        watchImageVC.liveVideoInfo = watchVideoInfo;
+        UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:watchImageVC];
+        [self presentViewController:navigationVC animated:YES completion:nil];
+    }
 }
 
 // swipetableView index变化，改变seg的index
@@ -489,7 +519,7 @@
                 //新闻
                 EVNewsDetailWebController *newsVC = [[EVNewsDetailWebController alloc] init];
                 newsVC.newsID = topicModel.id;
-                //    newsVC.title = model.title;
+                newsVC.title = topicModel.title;
                 [weakself.navigationController pushViewController:newsVC animated:YES];
             } else if([topicModel.type isEqualToString:@"1"]) {
                 //视频
@@ -504,6 +534,7 @@
                 //股票
                 EVStockBaseModel *stockBaseModel = [[EVStockBaseModel alloc] init];
                 stockBaseModel.symbol = topicModel.id;
+                stockBaseModel.name = topicModel.title;
                 EVMarketDetailsController *marketDetailVC = [[EVMarketDetailsController alloc] init];
                 marketDetailVC.special = 1;
                 marketDetailVC.stockBaseModel = stockBaseModel;
