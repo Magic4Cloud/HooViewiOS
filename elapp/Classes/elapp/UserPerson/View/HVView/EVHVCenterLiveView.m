@@ -64,13 +64,10 @@
 {
 
     EVNullDataView *nullDataView = [[EVNullDataView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-400)];
-
-    [self addSubview:nullDataView];
     self.nullDataView = nullDataView;
-//    [nullDataView autoPinEdgesToSuperviewEdges];
-    
-    nullDataView.topImage = [UIImage imageNamed:@"ic_smile"];
+    nullDataView.topImage = [UIImage imageNamed:@"ic_cry"];
     nullDataView.title = @"他还没有直播";
+    self.tableFooterView = nullDataView;
 //    [nullDataView addButtonTarget:self action:@selector(nullDataClick) forControlEvents:(UIControlEventTouchUpInside)];
 }
 

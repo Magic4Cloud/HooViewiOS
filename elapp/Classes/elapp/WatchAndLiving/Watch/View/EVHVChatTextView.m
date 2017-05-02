@@ -33,9 +33,9 @@ static NSUInteger const kMaxLimitNum = 140;
 - (void)addUpView
 {
     
-    UIView *vLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 1)];
-    vLineView.backgroundColor = [UIColor evBackgroundColor];
-    [self addSubview:vLineView];
+//    UIView *vLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 1)];
+//    vLineView.backgroundColor = [UIColor evBackgroundColor];
+//    [self addSubview:vLineView];
   
     UIButton *giftButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
 //    giftButton.frame = CGRectMake(ScreenWidth - 51, 7, 35, 35);
@@ -75,36 +75,40 @@ static NSUInteger const kMaxLimitNum = 140;
     self.commentBtn = commentBtn;
     commentBtn.delegate = self;
     commentBtn.returnKeyType = UIReturnKeySend;
-    [commentBtn autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:16];
-    [commentBtn autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:8];
-    [commentBtn autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:8];
- self.commentBtnRig = [commentBtn autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:119];
+    commentBtn.layer.borderWidth = 1;
+    commentBtn.layer.borderColor = [UIColor evLineColor].CGColor;
+    commentBtn.layer.cornerRadius = 6;
+    [commentBtn autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:10];
+    [commentBtn autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:4];
+    [commentBtn autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:5];
+//    self.commentBtnRig = [commentBtn autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:119];
+    self.commentBtnRig = [commentBtn autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:67];
 
     commentBtn.maxNumberOfLines = 4;
     
-    UIButton *sendImageView = [[UIButton alloc] init];
-    sendImageView.userInteractionEnabled = YES;
-    sendImageView.tag = EVHVChatTextViewTypeSend;
-//    sendImageView.frame = CGRectMake(ScreenWidth - 119, 0, 54, 40);
-    [sendImageView setImage:[UIImage imageNamed:@"btn_un-send_n"] forState:(UIControlStateNormal)];
-    [sendImageView setImage:[UIImage imageNamed:@"btn_send_s"] forState:UIControlStateSelected];
-    sendImageView.backgroundColor = [UIColor whiteColor];
-    [self addSubview:sendImageView];
-    self.sendButton = sendImageView;
-    [sendImageView addTarget:self action:@selector(buttonClick:) forControlEvents:(UIControlEventTouchUpInside)];
-    [sendImageView autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
-    [sendImageView autoSetDimension:ALDimensionHeight toSize:46];
-    [sendImageView autoSetDimension:ALDimensionWidth toSize:54];
-   self.sendImageViewRig =  [sendImageView autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:65];
-    
-    UIView *linkView = [[UIView alloc] init];
-//    linkView.frame = CGRectMake(0, 4, 2, 32); 
-    linkView.backgroundColor = [UIColor evLineColor];
-    [self addSubview:linkView];
-    [linkView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:8];
-    [linkView autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:8];
-    [linkView autoSetDimension:ALDimensionWidth toSize:2];
-    [linkView autoPinEdge:ALEdgeRight toEdge:ALEdgeLeft ofView:sendImageView];
+//    UIButton *sendImageView = [[UIButton alloc] init];
+//    sendImageView.userInteractionEnabled = YES;
+//    sendImageView.tag = EVHVChatTextViewTypeSend;
+////    sendImageView.frame = CGRectMake(ScreenWidth - 119, 0, 54, 40);
+//    [sendImageView setImage:[UIImage imageNamed:@"btn_un-send_n"] forState:(UIControlStateNormal)];
+//    [sendImageView setImage:[UIImage imageNamed:@"btn_send_s"] forState:UIControlStateSelected];
+//    sendImageView.backgroundColor = [UIColor whiteColor];
+//    [self addSubview:sendImageView];
+//    self.sendButton = sendImageView;
+//    [sendImageView addTarget:self action:@selector(buttonClick:) forControlEvents:(UIControlEventTouchUpInside)];
+//    [sendImageView autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
+//    [sendImageView autoSetDimension:ALDimensionHeight toSize:46];
+//    [sendImageView autoSetDimension:ALDimensionWidth toSize:54];
+//   self.sendImageViewRig =  [sendImageView autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:65];
+//    
+//    UIView *linkView = [[UIView alloc] init];
+////    linkView.frame = CGRectMake(0, 4, 2, 32); 
+//    linkView.backgroundColor = [UIColor evLineColor];
+//    [self addSubview:linkView];
+//    [linkView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:8];
+//    [linkView autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:8];
+//    [linkView autoSetDimension:ALDimensionWidth toSize:2];
+//    [linkView autoPinEdge:ALEdgeRight toEdge:ALEdgeLeft ofView:sendImageView];
     
 }
 

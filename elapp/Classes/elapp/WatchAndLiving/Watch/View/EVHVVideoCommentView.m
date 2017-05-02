@@ -94,29 +94,28 @@
 //}
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    EVHVVideoCommentModel *commentModel = self.dataArray[indexPath.row];
-    
-    if (self.listToVipCenterBlock) {
-        self.listToVipCenterBlock(commentModel);
-    }
-
-    
-    if ([commentModel.vip integerValue] == 1)
-    {
-        EVWatchVideoInfo *watchInfo = [EVWatchVideoInfo new];
-        watchInfo.name = commentModel.user_name;
-        EVVipCenterController *vc = [[EVVipCenterController alloc] init];
-        vc.watchVideoInfo = watchInfo;
-//        [self.navigationController pushViewController:vc animated:YES];
-    }
-    else
-    {
-        EVWatchVideoInfo *watchInfo = [EVWatchVideoInfo new];
-        watchInfo.name = commentModel.user_name;
-//        EVNormalPersonCenterController  *vc = [[EVNormalPersonCenterController alloc] init];
+//    EVHVVideoCommentModel *commentModel = self.dataArray[indexPath.row];
+//    
+//    if (self.listToVipCenterBlock) {
+//        self.listToVipCenterBlock(commentModel);
+//    }
+//
+//    if ([commentModel.vip integerValue] == 1)
+//    {
+//        EVWatchVideoInfo *watchInfo = [EVWatchVideoInfo new];
+//        watchInfo.name = commentModel.user_name;
+//        EVVipCenterController *vc = [[EVVipCenterController alloc] init];
 //        vc.watchVideoInfo = watchInfo;
-//        [self.navigationController pushViewController:vc animated:YES];
-    }
+////        [self.navigationController pushViewController:vc animated:YES];
+//    }
+//    else
+//    {
+//        EVWatchVideoInfo *watchInfo = [EVWatchVideoInfo new];
+//        watchInfo.name = commentModel.user_name;
+////        EVNormalPersonCenterController  *vc = [[EVNormalPersonCenterController alloc] init];
+////        vc.watchVideoInfo = watchInfo;
+////        [self.navigationController pushViewController:vc animated:YES];
+//    }
 
 }
 
