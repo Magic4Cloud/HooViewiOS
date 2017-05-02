@@ -243,13 +243,14 @@
     [self.baseToolManager GETUserstartwatchvideoWithParams:param Start:^{
         
     } fail:^(NSError *error) {
+        [EVProgressHUD hideHUDForView:self.view];
         if ([error.userInfo[@"reterr"] isEqualToString:@"晚到一步，已被主播焚掉啦"]) {
             [EVProgressHUD showError:error.userInfo[@"reterr"]];
               [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
             [self dismissViewControllerAnimated:YES completion:nil];
             return;
         }
-        [EVProgressHUD hideHUDForView:self.view];
+        
         [EVProgressHUD showError:@"获取失败"];
     } success:^(NSDictionary *videoInfo) {
         [EVProgressHUD hideHUDForView:self.view];

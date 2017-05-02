@@ -13,11 +13,12 @@ typedef void(^ConfirmBlock)(NSString *inputTextStr);
 
 @interface EVSignatureEditView : UIWindow
 
+@property (nonatomic, strong) UIButton * confirmButton;
 @property (nonatomic, copy) NSString *originText;
 @property (nonatomic, copy) NSString *type;
 @property (nonatomic, copy) NSString * inputPlaceholder;
 @property (nonatomic, copy) ConfirmBlock confirmBlock;
 @property (nonatomic,copy) HideViewBlock hideViewBlock;
 //最大输入长度
-@property (nonatomic, assign) NSInteger caninputlen;
+@property (nonatomic, assign) int caninputlen;
 @end

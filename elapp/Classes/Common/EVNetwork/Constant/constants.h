@@ -110,7 +110,7 @@
 #define EVCollectListAPI            @"/user/collectlist"
 #define EVHistoryAPI                @"/user/history"
 #define EVHistoryList               @"/user/historylist"
-//
+
 
 
 
@@ -209,6 +209,8 @@
 //个人主页评论列表点赞
 #define EVHVCommentLikeOrNotAPI     @"http://dev.hooview.com/api/v2/posts/like"
 
+//添加收藏和取消收藏
+#define EVCollectAPI                @"http://dev.hooview.com/api/v2/news/favorite"
 
 #endif
 
@@ -270,7 +272,8 @@
 #define EVCleanHistoryListAPI       @"http://dev.hooview.com/api/v2/user/clean"
 //我的购买
 #define EVMyShopsAPI                @"http://192.168.8.125:8888/user/purchases"
-
+//添加收藏和取消收藏
+#define EVCollectAPI                @"http://dev.hooview.com/api/v2/news/favorite"
 
 #endif
 #endif
