@@ -17,6 +17,7 @@
 @property (nonatomic, copy) NSString *user_name;
 @property (nonatomic, copy) NSString *user_avatar;
 @property (nonatomic, copy) NSString *content;
+@property (nonatomic, assign) NSString *vip;
 
 @property (nonatomic, assign) CGFloat cellHeight;
 

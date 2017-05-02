@@ -20,17 +20,13 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" alpha="0.5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ebO-Ba-eKO">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ebO-Ba-eKO">
                         <rect key="frame" x="12" y="15" width="125.5" height="70"/>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="ebO-Ba-eKO" secondAttribute="height" multiplier="120:67" id="kst-gZ-wce"/>
                         </constraints>
                     </imageView>
-                    <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zcl-BL-JAW">
-                        <rect key="frame" x="12" y="15" width="125.5" height="70"/>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Pk-De-7kl">
                         <rect key="frame" x="151.5" y="15" width="210.5" height="19.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -85,11 +81,7 @@
                     <constraint firstItem="fLL-gk-Yu5" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="ndO-fQ-02e"/>
                     <constraint firstItem="cNM-Jp-P0B" firstAttribute="leading" secondItem="K6Q-fB-C9T" secondAttribute="trailing" constant="7" id="olw-tT-XhU"/>
                     <constraint firstItem="ebO-Ba-eKO" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="osM-5P-C89"/>
-                    <constraint firstItem="Zcl-BL-JAW" firstAttribute="leading" secondItem="ebO-Ba-eKO" secondAttribute="leading" id="pO9-6B-lca"/>
-                    <constraint firstItem="Zcl-BL-JAW" firstAttribute="top" secondItem="ebO-Ba-eKO" secondAttribute="top" id="pnQ-a2-cZN"/>
                     <constraint firstItem="fLL-gk-Yu5" firstAttribute="trailing" secondItem="6Pk-De-7kl" secondAttribute="trailing" id="s1X-T6-5m2"/>
-                    <constraint firstItem="Zcl-BL-JAW" firstAttribute="bottom" secondItem="ebO-Ba-eKO" secondAttribute="bottom" id="xLJ-OL-I3h"/>
-                    <constraint firstItem="Zcl-BL-JAW" firstAttribute="trailing" secondItem="ebO-Ba-eKO" secondAttribute="trailing" id="xWD-t4-xsg"/>
                     <constraint firstItem="6Pk-De-7kl" firstAttribute="leading" secondItem="ebO-Ba-eKO" secondAttribute="trailing" constant="14" id="xqe-zA-wG9"/>
                     <constraint firstItem="cNM-Jp-P0B" firstAttribute="bottom" secondItem="K6Q-fB-C9T" secondAttribute="bottom" id="y8B-aR-31a"/>
                     <constraint firstItem="0HR-kY-UUw" firstAttribute="bottom" secondItem="ebO-Ba-eKO" secondAttribute="bottom" constant="-3" id="yD7-ge-3x9"/>

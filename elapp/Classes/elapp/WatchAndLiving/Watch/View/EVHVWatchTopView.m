@@ -73,7 +73,8 @@
     [shareButton setImage:[UIImage imageNamed:@"btn_share_watch_n"] forState:(UIControlStateNormal)];
     [shareButton addTarget:self action:@selector(buttonClick:) forControlEvents:(UIControlEventTouchUpInside)];
     [shareButton autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:10];
-    [shareButton autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:fullButton withOffset:-10];
+//    [shareButton autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:fullButton withOffset:-10];
+    [shareButton autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:10];
     [shareButton autoSetDimensionsToSize:CGSizeMake(40, 40)];
     
     
@@ -92,15 +93,15 @@
     [pauseButton autoSetDimensionsToSize:CGSizeMake(40, 40)];
     [pauseButton addTarget:self action:@selector(buttonClick:) forControlEvents:(UIControlEventTouchUpInside)];
     
-    
-    UIButton *reportButton = [[UIButton alloc] init];
-    [self addSubview:reportButton];
-    reportButton.tag = EVHVWatchViewTypeReport;
-    [reportButton setImage:[UIImage imageNamed:@"btn_report_n"] forState:(UIControlStateNormal)];
-    [reportButton autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:10];
-    [reportButton autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:10];
-    [reportButton autoSetDimensionsToSize:CGSizeMake(40, 40)];
-    [reportButton addTarget:self action:@selector(buttonClick:) forControlEvents:(UIControlEventTouchUpInside)];
+    //暂时隐藏举报
+//    UIButton *reportButton = [[UIButton alloc] init];
+//    [self addSubview:reportButton];
+//    reportButton.tag = EVHVWatchViewTypeReport;
+//    [reportButton setImage:[UIImage imageNamed:@"btn_report_n"] forState:(UIControlStateNormal)];
+//    [reportButton autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:10];
+//    [reportButton autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:10];
+//    [reportButton autoSetDimensionsToSize:CGSizeMake(40, 40)];
+//    [reportButton addTarget:self action:@selector(buttonClick:) forControlEvents:(UIControlEventTouchUpInside)];
     
     UITapGestureRecognizer* singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(gestureAppearView:)];
     [self addGestureRecognizer:singleTap];

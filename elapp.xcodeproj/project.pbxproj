@@ -327,7 +327,6 @@
 		E81261761E14E48F0021C305 /* EVGlobalView.m in Sources */ = {isa = PBXBuildFile; fileRef = E81261751E14E48F0021C305 /* EVGlobalView.m */; };
 		E81261791E14EBC80021C305 /* EVSelfGlobalViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E81261781E14EBC80021C305 /* EVSelfGlobalViewCell.m */; };
 		E812617C1E1520EF0021C305 /* UIFont+EVExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E812617B1E1520EF0021C305 /* UIFont+EVExtension.m */; };
-		E828F4931E2230A100936194 /* EVHVLiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E828F4921E2230A100936194 /* EVHVLiveViewController.m */; };
 		E82CE2401DC8407F00A2BAAA /* EVCornerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E82CE23F1DC8407F00A2BAAA /* EVCornerView.m */; };
 		E8328A641E35FC8400DA7CC1 /* libEVStreamer_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8328A631E35FC8400DA7CC1 /* libEVStreamer_static.a */; };
 		E8328A661E35FCD000DA7CC1 /* libEVPlayer_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8328A651E35FCD000DA7CC1 /* libEVPlayer_static.a */; };
@@ -698,7 +697,6 @@
 		E8AA9DD81E2087E60024980D /* EVHVWatchTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8AA9DD71E2087E60024980D /* EVHVWatchTopView.m */; };
 		E8AA9DDB1E20CC970024980D /* EVHVWatchBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8AA9DDA1E20CC970024980D /* EVHVWatchBottomView.m */; };
 		E8AA9DDE1E20CE070024980D /* EVHVWatchCenterView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8AA9DDD1E20CE070024980D /* EVHVWatchCenterView.m */; };
-		E8AA9DE11E2102590024980D /* EVHVPrePareController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8AA9DE01E2102590024980D /* EVHVPrePareController.m */; };
 		E8AEBE1C1D6D9D1000096EA6 /* EVYunBiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8AEBE1B1D6D9D1000096EA6 /* EVYunBiViewController.m */; };
 		E8AF7F351E1CF401001682EA /* EVHVEyeViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E8AF7F331E1CF401001682EA /* EVHVEyeViewCell.m */; };
 		E8AF7F361E1CF401001682EA /* EVHVEyeViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E8AF7F341E1CF401001682EA /* EVHVEyeViewCell.xib */; };
@@ -1274,8 +1272,6 @@
 		E81261781E14EBC80021C305 /* EVSelfGlobalViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVSelfGlobalViewCell.m; sourceTree = "<group>"; };
 		E812617A1E1520EF0021C305 /* UIFont+EVExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+EVExtension.h"; sourceTree = "<group>"; };
 		E812617B1E1520EF0021C305 /* UIFont+EVExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+EVExtension.m"; sourceTree = "<group>"; };
-		E828F4911E2230A100936194 /* EVHVLiveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVHVLiveViewController.h; sourceTree = "<group>"; };
-		E828F4921E2230A100936194 /* EVHVLiveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVHVLiveViewController.m; sourceTree = "<group>"; };
 		E82CE23E1DC8407F00A2BAAA /* EVCornerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVCornerView.h; sourceTree = "<group>"; };
 		E82CE23F1DC8407F00A2BAAA /* EVCornerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVCornerView.m; sourceTree = "<group>"; };
 		E8328A631E35FC8400DA7CC1 /* libEVStreamer_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libEVStreamer_static.a; sourceTree = "<group>"; };
@@ -1999,8 +1995,6 @@
 		E8AA9DDA1E20CC970024980D /* EVHVWatchBottomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVHVWatchBottomView.m; sourceTree = "<group>"; };
 		E8AA9DDC1E20CE070024980D /* EVHVWatchCenterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVHVWatchCenterView.h; sourceTree = "<group>"; };
 		E8AA9DDD1E20CE070024980D /* EVHVWatchCenterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVHVWatchCenterView.m; sourceTree = "<group>"; };
-		E8AA9DDF1E2102590024980D /* EVHVPrePareController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVHVPrePareController.h; sourceTree = "<group>"; };
-		E8AA9DE01E2102590024980D /* EVHVPrePareController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVHVPrePareController.m; sourceTree = "<group>"; };
 		E8AEBE1A1D6D9D1000096EA6 /* EVYunBiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVYunBiViewController.h; sourceTree = "<group>"; };
 		E8AEBE1B1D6D9D1000096EA6 /* EVYunBiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVYunBiViewController.m; sourceTree = "<group>"; };
 		E8AF7F321E1CF401001682EA /* EVHVEyeViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVHVEyeViewCell.h; sourceTree = "<group>"; };
@@ -4298,10 +4292,6 @@
 				E862FDBF1D6BE8530081E72F /* EVFantuanContributionListVC.h */,
 				E862FDC01D6BE8530081E72F /* EVFantuanContributionListVC.m */,
 				E862FDC11D6BE8530081E72F /* EVLiveEvents.h */,
-				E8AA9DDF1E2102590024980D /* EVHVPrePareController.h */,
-				E8AA9DE01E2102590024980D /* EVHVPrePareController.m */,
-				E828F4911E2230A100936194 /* EVHVLiveViewController.h */,
-				E828F4921E2230A100936194 /* EVHVLiveViewController.m */,
 				7A00AD5D1EAEDF4A0081669B /* EVNewLiveViewController.h */,
 				7A00AD5E1EAEDF4A0081669B /* EVNewLiveViewController.m */,
 			);
@@ -5852,7 +5842,6 @@
 				E85DFE4B1E78D42A005667DD /* EVEaseMessageModel.m in Sources */,
 				E86201691D6BE8540081E72F /* EVRecorderEndView.m in Sources */,
 				E86200A61D6BE8540081E72F /* EVPhoneLoginView.m in Sources */,
-				E828F4931E2230A100936194 /* EVHVLiveViewController.m in Sources */,
 				E862FF921D6BE8540081E72F /* UIImage+animatedGIF.m in Sources */,
 				E8B216141E1207F3000FD19A /* EVHVUserSettingViewCell.m in Sources */,
 				E86200F71D6BE8540081E72F /* EVFansOrFocusTableViewCell.m in Sources */,
@@ -5875,7 +5864,6 @@
 				E8EF9D241D82A431001AF7B0 /* EVFriend.m in Sources */,
 				E84C83151E12A64D00777C0C /* EVBaseLoginView.m in Sources */,
 				9E08B7A71EA7537400721EE8 /* EVMyReleaseViewController.m in Sources */,
-				E8AA9DE11E2102590024980D /* EVHVPrePareController.m in Sources */,
 				E8695C421E138EFE00CCA323 /* EVHVVerifyCodeView.m in Sources */,
 				E86200E91D6BE8540081E72F /* EVProductInfoModel.m in Sources */,
 				E86200C11D6BE8540081E72F /* EVTagListView.m in Sources */,

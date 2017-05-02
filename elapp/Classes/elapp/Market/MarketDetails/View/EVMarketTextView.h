@@ -20,4 +20,6 @@ typedef void(^userCommentBlock)(NSString *content);
 
 @property (nonatomic, weak) UIButton *sendButton;
 
+
+
 @end

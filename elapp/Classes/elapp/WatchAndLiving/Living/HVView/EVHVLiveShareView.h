@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@class EVEnums;
 typedef void(^liveShareTypeBlock)(EVLiveShareButtonType type);
 
 @interface EVHVLiveShareView : UIView

@@ -234,12 +234,7 @@
         param[kVid] = self.watchVideoInfo.vid;
     }
     
-    if ( self.watchVideoInfo.password)
-    {
-        param[kPassword] = self.watchVideoInfo.password;
-    }
-    
-    
+
     [EVProgressHUD showIndeterminateForView:self.view];
     // 获取视频信息
     [self.baseToolManager GETUserstartwatchvideoWithParams:param Start:^{

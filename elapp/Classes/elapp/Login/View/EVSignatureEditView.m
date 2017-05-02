@@ -88,20 +88,6 @@
     [confirmButton setTitleColor:[UIColor evTextColorH2] forState:(UIControlStateNormal)];
     _confirmButton = confirmButton;
     
-    //    UIButton *cancelButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    //    [backView addSubview:cancelButton];
-    //    [cancelButton setBackgroundColor:[UIColor evGlobalSeparatorColor]];
-    //    [cancelButton setTitleColor:[UIColor evTextColorH2] forState:(UIControlStateNormal)];
-    //    [cancelButton setTitle:@"取消" forState:(UIControlStateNormal)];
-    //    cancelButton.layer.cornerRadius = 6;
-    //    cancelButton.clipsToBounds = YES;
-    //    [cancelButton autoPinEdge:ALEdgeRight toEdge:ALEdgeLeft ofView:confirmButton withOffset:-16];
-    //    [cancelButton autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:inputView withOffset:12];
-    //    [cancelButton autoSetDimensionsToSize:CGSizeMake(79, 30)];
-    //    [cancelButton addTarget:self action:@selector(cancelClick:) forControlEvents:(UIControlEventTouchUpInside)];
-    
-    
-    
     [EVNotificationCenter addObserver:self selector:@selector(keyBoardShow:) name:UIKeyboardDidShowNotification object:nil];
 }
 
@@ -150,7 +136,7 @@
 - (void)keyBoardShow:(NSNotification *)notification
 {
     CGRect frame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    [UIView animateWithDuration:0.3 animations:^{
+    [UIView animateWithDuration:0.1 animations:^{
         self.backView.frame = CGRectMake(0, ScreenHeight - frame.size.height - 194, ScreenWidth, 194);
     }];
     

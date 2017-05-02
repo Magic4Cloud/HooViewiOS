@@ -81,7 +81,7 @@
 
 
 
-
+//判断文章收藏状态
 - (void)GETUserCollectType:(EVCollectType)type
                       code:(NSString *)code
                     action:(int)action
@@ -104,6 +104,31 @@
                                                     params:nil];
     [EVBaseToolManager GETRequestWithUrl:url parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
 }
+
+
+//收藏文章
+- (void)GETNewsCollectNewsid:(NSString *)newsid
+                    action:(int)action
+                     start:(void(^)())startBlock
+                      fail:(void(^)(NSError *error))failBlock
+                   success:(void(^)(NSDictionary *retinfo))successBlock
+             sessionExpire:(void(^)())sessionExpireBlock
+{
+    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
+    if ( sessionID == nil )
+    {
+        return ;
+    }
+    NSString *uid = [self uidFromLocal];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValue:sessionID forKey:@"sessionid"];
+    [params setValue:@(action) forKey:@"action"];
+    [params setValue:uid forKey:@"userid"];
+    [params setValue:newsid forKey:@"newsid"];
+
+    [EVBaseToolManager GETRequestWithUrl:EVNewsCollectAPI parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+}
+
 
 
 - (void)GETUserCollectListType:(EVCollectType)type

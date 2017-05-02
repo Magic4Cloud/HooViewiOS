@@ -18,43 +18,43 @@
     if (self) {
         //add subView
         [self addSubview:self.containView];
-        [self.containView addSubview:self.eVWebViewShareView];
-        [self.containView addSubview:self.cancelBtn];
-        
         [_containView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
         [_containView autoPinEdgeToSuperviewEdge:ALEdgeRight];
         [_containView autoSetDimension:ALDimensionHeight toSize:169];
-//        [_containView autoSetDimensionsToSize:CGSizeMake(ScreenWidth, 169)];
         [_containView autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:0];
+        
+        [self.containView addSubview:self.eVWebViewShareView];
         
         [_eVWebViewShareView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
         [_eVWebViewShareView autoPinEdgeToSuperviewEdge:ALEdgeRight];
         [_eVWebViewShareView autoSetDimension:ALDimensionHeight toSize:110];
         [_eVWebViewShareView autoPinEdgeToSuperviewEdge:ALEdgeTop];
-//        [_eVWebViewShareView autoSetDimensionsToSize:CGSizeMake(ScreenWidth, 110)];
         
-        
+        [self.containView addSubview:self.cancelBtn];
         [_cancelBtn autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:120];
         [_cancelBtn autoPinEdgeToSuperviewEdge:ALEdgeLeft];
-        [_cancelBtn autoAlignAxisToSuperviewAxis:ALAxisVertical];
         [_cancelBtn autoPinEdgeToSuperviewEdge:ALEdgeRight];
         [_cancelBtn autoSetDimension:ALDimensionHeight toSize:49];
-//        [_cancelBtn autoSetDimensionsToSize:CGSizeMake(ScreenWidth, 49)];
         
-        
+        UILabel * titleLabel = [[UILabel alloc] init];
+        titleLabel.textColor = [UIColor evMainColor];
+        titleLabel.font = [UIFont textFontB2];
+        titleLabel.text = @"取消";
+        titleLabel.textAlignment = NSTextAlignmentCenter;
+        [_cancelBtn addSubview:titleLabel];
+        titleLabel.frame = CGRectMake((ScreenWidth - 60)/2, 0, 60, 49);
     }
     return self;
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
-//    [_containView autoSetDimensionsToSize:CGSizeMake(self.bounds.size.width, 169)];
-//    [_eVWebViewShareView autoSetDimensionsToSize:CGSizeMake(self.bounds.size.width, 110)];
-//    [_cancelBtn autoSetDimensionsToSize:CGSizeMake(self.bounds.size.width, 49)];
+    
     
 }
 
-#pragma mark - custom action 
+#pragma mark - custom action
 //取消分享按钮的点击事件
 - (void)cancelBtnOnClick {
     if (self.cancelShareBlock) {
@@ -88,12 +88,14 @@
 
 - (UIButton *)cancelBtn {
     if (!_cancelBtn) {
-        _cancelBtn = [[UIButton alloc] init];
+        _cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _cancelBtn.backgroundColor = [UIColor whiteColor];
-//        _cancelBtn.frame = CGRectMake(0, 120, ScreenWidth, 49);
-        [_cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
-        _cancelBtn.titleLabel.font = [UIFont textFontB2];
-        [_cancelBtn setTitleColor:[UIColor evMainColor] forState:UIControlStateNormal];
+//        [_cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+//        _cancelBtn.backgroundColor = [UIColor redColor];
+//        _cancelBtn.titleLabel.font = [UIFont textFontB2];
+//        _cancelBtn.titleLabel.backgroundColor = [UIColor greenColor];
+//        _cancelBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+//        [_cancelBtn setTitleColor:[UIColor evMainColor] forState:UIControlStateNormal];
         [_cancelBtn addTarget:self action:@selector(cancelBtnOnClick) forControlEvents:UIControlEventTouchUpInside];
     }
     return _cancelBtn;

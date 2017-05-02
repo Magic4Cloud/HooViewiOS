@@ -29,18 +29,23 @@
     return self;
 }
 
-
 - (void)addUpView
 {
     UIView *contentView = [[UIView alloc] init];
     [self addSubview:contentView];
     contentView.frame = CGRectMake(0, 0, ScreenWidth, 49);
     
+    
+    
     UITextField *inputTextFiled = [[UITextField alloc] init];
     [self addSubview:inputTextFiled];
     [inputTextFiled autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
-    [inputTextFiled autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:16];
-    [inputTextFiled autoSetDimensionsToSize:CGSizeMake(ScreenWidth - 110, 25)];
+    
+    CGFloat width = ScreenWidth - 110.f;
+    CGFloat left = 16.f;
+    
+    [inputTextFiled autoSetDimensionsToSize:CGSizeMake(width, 25)];
+    [inputTextFiled autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:left];
     inputTextFiled.delegate = self;
     inputTextFiled.tintColor = [UIColor evMainColor];
     inputTextFiled.textColor = [UIColor evTextColorH1];
@@ -73,6 +78,7 @@
                                                 name:UITextFieldTextDidChangeNotification object:inputTextFiled];
     
 }
+
 
 - (void)dealloc {
     [EVNotificationCenter removeObserver:self name:UITextFieldTextDidChangeNotification object:_inPutTextFiled];

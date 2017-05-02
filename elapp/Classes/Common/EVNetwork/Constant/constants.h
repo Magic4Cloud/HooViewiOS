@@ -103,13 +103,17 @@
 #define CCColor(r,g,b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1]
 
 
+//检测文章是否收藏
+#define EVCollectAPI                @"/user/collect"
+
 
 //以前的
 #define EVCollectListAPI            @"/user/collectlist"
-#define EVCollectAPI                @"/user/collect"
+
+
 #define EVHistoryAPI                @"/user/history"
 #define EVHistoryList               @"/user/historylist"
-//
+
 
 
 
@@ -154,6 +158,9 @@
 #define EVTextLiveHistiryAPI        @"http://dev.hooview.com/api/textlive/history"
 
 #define EVStockListAPI              @"http://dev.hooview.com/api/user/stocks"//自选股列表
+//支付成功回调给服务器
+#define EVSuccessPayToService       @"https://appgw.hooview.com/easyvaas/service/service/payecoin"
+
 
 //api/news/banners/
 #define EVAddSelfStockAPI           @"http://dev.hooview.com/api/user/modifystocks"//添加 & 修改自选股
@@ -174,14 +181,13 @@
 #define EVHVNewsTopicAPI            @"http://dev.hooview.com/api/v2/news/topic"
 
 
-//支付成功回调给服务器
-#define EVSuccessPayToService       @"https://appgw.hooview.com/easyvaas/service/service/payecoin"
 
 
 
 //文章搜索
 #define EVSearchNews                @"http://dev.hooview.com/api/v2/search/news"
-
+//文章收藏
+#define EVNewsCollectAPI            @"http://dev.hooview.com/api/v2/news/favorite"
 //我的收藏
 #define EVHVFavoriteListAPI         @"http://dev.hooview.com/api/v2/user/favorites"
 //获取历史记录
@@ -207,8 +213,7 @@
 //个人主页评论列表点赞
 #define EVHVCommentLikeOrNotAPI     @"http://dev.hooview.com/api/v2/posts/like"
 
-//添加收藏和取消收藏
-//#define EVCollectAPI                @"http://dev.hooview.com/api/v2/news/favorite"
+
 
 #endif
 
@@ -250,10 +255,6 @@
 #define EVHoovviewNewsBannersAPI    @"http://openapi.hooview.com/api/news/banners"
 #define EVTextLiveHaveAPI           @"http://openapi.hooview.com/api/textlive/streaminfo"
 
-//要闻
-#define EVHVNewsConstantAPI         @"http://dev.hooview.com/api/v3/news/home"
-//专题
-#define EVHVNewsTopicAPI            @"http://dev.hooview.com/api/v2/news/topic"
 
 //支付成功回调给服务器
 #define EVSuccessPayToService       @"https://appgw.hooview.com/easyvaas/service/service/payecoin"
@@ -261,17 +262,44 @@
 
 
 
+//api/news/banners/
 
+
+#define EVVideoUserInfoAPI          @"http://openapi.hooview.com/api/v2/user/info"//个人信息(个人中心使用)
+#define EVUserBaseInfoAPI           @"http://openapi.hooview.com/api/v2/user/baseinfo"     /**< 用户的基本信息接口，除个人中心都用这个 */
+#define EVVideoUserEditInfoAPI      @"http://openapi.hooview.com/api/v2/user/edit"//编辑个人信息
+
+//要闻
+#define EVHVNewsConstantAPI         @"http://openapi.hooview.com/api/v3/news/home"
+//专题
+#define EVHVNewsTopicAPI            @"http://openapi.hooview.com/api/v2/news/topic"
+
+//文章收藏
+#define EVNewsCollectAPI            @"http://openapi.hooview.com/api/v2/news/favorite"
 //我的收藏
-#define EVHVFavoriteListAPI         @"http://dev.hooview.com/api/v2/news/favorite"
-//历史记录
-#define EVHVHistoryListAPI          @"http://dev.hooview.com/api/v2/user/histories"
+#define EVHVFavoriteListAPI         @"http://openapi.hooview.com/api/v2/user/favorites"
+//获取历史记录
+#define EVHVHistoryListAPI          @"http://openapi.hooview.com/api/v2/user/histories"
+//添加新闻浏览历史记录
+#define EVADDNewsHistoryAPI         @"http://openapi.hooview.com/api/v2/news/history"
+//添加视频浏览历史记录
+#define EVADDVideoHistoryAPI        @"http://openapi.hooview.com/api/v2/video/history"
 //清除历史记录
-#define EVCleanHistoryListAPI       @"http://dev.hooview.com/api/v2/user/clean"
+#define EVCleanHistoryListAPI       @"http://openapi.hooview.com/api/v2/user/clean"
 //我的购买
-#define EVMyShopsAPI                @"http://192.168.8.125:8888/user/purchases"
-//添加收藏和取消收藏
-//#define EVCollectAPI                @"http://dev.hooview.com/api/v2/news/favorite"
+#define EVMyShopsAPI                @"http://openapi.hooview.com/api/v2/user/purchases"
+
+//我的发布
+#define EVMyReleaseAPI              @"http://openapi.hooview.com/api/v2/user/works"
+
+//个人主页直播列表
+#define EVHVCenterLiveListAPI       @"http://openapi.hooview.com/api/v2/user/videos"
+//个人主页文章列表
+#define EVHVCenterNewsListAPI       @"http://openapi.hooview.com/api/v2/user/news"
+//个人主页评论列表
+#define EVHVCenterCommentListAPI    @"http://openapi.hooview.com/api/v2/users/posts"
+//个人主页评论列表点赞
+#define EVHVCommentLikeOrNotAPI     @"http://openapi.hooview.com/api/v2/posts/like"
 
 #endif
 #endif

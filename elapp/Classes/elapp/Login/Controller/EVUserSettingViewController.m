@@ -33,11 +33,6 @@
 
 @property (nonatomic, strong) EVBaseToolManager *engin;
 
-@property (nonatomic, copy) NSString *signature;
-@property (nonatomic, copy) NSString *introduce;
-
-@property (nonatomic, copy) NSString *credentials;
-
 @property (nonatomic,strong)CCUserSettingItem *UserSettingItem;
 
 @property (nonatomic, strong)CCUserSettingItem *headImageSettingItem;
@@ -183,7 +178,7 @@
     CCUserSettingItem *intro = [[CCUserSettingItem alloc] init];
     intro.settingTitle = @"介绍自己";
     intro.contentTitle = self.userInfo.signature;
-    intro.access = YES;
+    intro.access = NO;
     intro.loginInfo = self.userInfo;
     intro.placeHolder = @"火眼助你成为财经大师";
     intro.cellStyleType = EVCellStyleSignature;
@@ -257,7 +252,7 @@
 #pragma mark - network
 - (void)next
 {
-    NSLog(@"wancheng");
+    
     [self.view endEditing:YES];
     if ( !self.isReedit && !self.userInfo.selectImage && !self.userInfo.logourl )
     {
@@ -274,7 +269,7 @@
         return;
     }
     
-    if ( [nickNameNoSpace numOfWordWithLimit:10] > 10 )
+    if ( [nickNameNoSpace numOfWordWithLimit:20] > 20 )
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:kE_GlobalZH(@"not_length_ten_num_user_name") delegate:nil cancelButtonTitle:kOK otherButtonTitles:nil, nil];
         [alert show];
@@ -364,7 +359,7 @@
     [EVProgressHUD hideHUDForView:self.view];
     __weak typeof(self) wself = self;
     [self.engin GETUploadUserLogoWithImage:self.userInfo.selectImage uname:self.userInfo.nickname start:^{
-        [EVProgressHUD showMessage:kE_GlobalZH(@"update_image") toView:wself.view];
+        
         
     } fail:^(NSError *error) {
         [EVProgressHUD hideHUDForView:wself.view];
@@ -446,7 +441,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     for ( int i = 0; i < self.firstSectionItems.count; i++ )
     {
         EVUserSettingCell *firstGroupCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:i inSection:0]];
@@ -478,7 +472,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
    
     if ( [item.settingTitle isEqualToString:@"介绍自己"] )
     {
-        [self addSignatureView:item.contentTitle];
+        [self addSignatureView:_userInfo.signature];
         
 
     }
@@ -506,13 +500,13 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     
     if ( [item.settingTitle isEqualToString:@"详细资料"] )
     {
-        [self addIntroduceView:item.contentTitle];
+        [self addIntroduceView:_userInfo.introduce];
     }
     if ([item.settingTitle isEqualToString:@"昵称"]) {
-        [self addNikeNameEditView:item.contentTitle];
+        [self addNikeNameEditView:_userInfo.nickname];
     }
     if ([item.settingTitle isEqualToString:@"执业证号"]) {
-        [self addLicenseNoEditView:item.contentTitle];
+        [self addLicenseNoEditView:_userInfo.credentials];
     }
 }
 
@@ -521,7 +515,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     self.introduceView = [[EVSignatureEditView alloc] init];
     self.introduceView.originText = text;
-    self.introduceView.caninputlen = 15;
+    self.introduceView.caninputlen = 20;
     self.introduceView.inputPlaceholder = @"请输入昵称";
     self.introduceView.frame = [UIScreen mainScreen].bounds;
     self.introduceView.backgroundColor = [UIColor clearColor];
@@ -573,6 +567,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     self.introduceView = [[EVSignatureEditView alloc] init];
     self.introduceView.originText = text;
     self.introduceView.type = @"introduce";
+    self.introduceView.caninputlen = 100;
     self.introduceView.frame = [UIScreen mainScreen].bounds;
     self.introduceView.backgroundColor = [UIColor clearColor];
     WEAK(self)
@@ -581,7 +576,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
         [weakself.introduceView resignKeyWindow];
     };
     self.introduceView.confirmBlock = ^(NSString *inputStr) {
-        weakself.introduce = inputStr;
+        weakself.userInfo.introduce = inputStr;
         NSIndexPath *indexPath=[NSIndexPath indexPathForRow:5 inSection:1];
         [weakself.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
         [weakself.introduceView resignKeyWindow];
@@ -607,7 +602,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
         [weakself.signatureView resignKeyWindow];
     };
     self.signatureView.confirmBlock = ^(NSString *inputStr) {
-        weakself.signature = inputStr;
+        weakself.userInfo.signature = inputStr;
         NSIndexPath *indexPath=[NSIndexPath indexPathForRow:2 inSection:1];
         [weakself.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
         [weakself.signatureView resignKeyWindow];
@@ -656,20 +651,19 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     CCUserSettingItem *item = itemArray[indexPath.row];
     if ( [item.settingTitle isEqualToString:@"介绍自己"] )
     {
-        if ( self.signature )
+        if ( self.userInfo.signature )
         {
-            item.contentTitle = self.signature;
+            item.contentTitle = self.userInfo.signature;
         }
-        self.userInfo.signature = item.contentTitle;
+        
     }
     
     if ( [item.settingTitle isEqualToString:@"详细资料"] )
     {
-        if ( self.introduce )
+        if ( self.userInfo.introduce )
         {
-            item.contentTitle = self.introduce;
+            item.contentTitle = self.userInfo.introduce;
         }
-        self.userInfo.introduce = item.contentTitle;
     }
     
     if ([item.settingTitle isEqualToString:@"昵称"]) {
@@ -684,7 +678,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
         for (EVUserTagsModel *model in self.tagsAry) {
             [titleAry addObject:model.tagname];
         }
-        cell .userTagsView.dataArray = titleAry;
+        cell.userTagsView.dataArray = titleAry;
     }
     return cell;
 }
@@ -705,11 +699,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     return 60;
 }
 
-//- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-//    UIView *view =  [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 20)];
-//    view.backgroundColor = [UIColor evBackgroundColor];
-//    return view;
-//}
 
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView

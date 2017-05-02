@@ -75,6 +75,7 @@
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="0FG-ev-TXz" secondAttribute="trailing" constant="17" id="AJU-0z-iOS"/>
+                    <constraint firstItem="5an-JQ-Rr3" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="2Lk-JF-3cl" secondAttribute="trailing" id="DuR-cC-wDd"/>
                     <constraint firstAttribute="bottom" secondItem="hRB-nd-TxZ" secondAttribute="bottom" constant="31" id="EXL-qA-kqN"/>
                     <constraint firstItem="5an-JQ-Rr3" firstAttribute="leading" secondItem="mid-Rf-NCr" secondAttribute="trailing" constant="6" id="Fdt-bu-1Hz"/>
                     <constraint firstItem="2Lk-JF-3cl" firstAttribute="leading" secondItem="Zkr-II-Tws" secondAttribute="trailing" id="J1R-qN-noq"/>
