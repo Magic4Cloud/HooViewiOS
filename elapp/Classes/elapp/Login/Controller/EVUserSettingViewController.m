@@ -228,6 +228,7 @@
 {
     _tagsAry = tagsAry;
 }
+
 - (void)loadTagsData
 {
     [self.engin GETUserTagsListfail:^(NSError *error) {
@@ -526,15 +527,16 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     self.introduceView.backgroundColor = [UIColor clearColor];
     WEAK(self)
     self.introduceView.hideViewBlock = ^(NSString *inputStr){
-        weakself.introduceView = nil;
         [weakself.introduceView resignKeyWindow];
+        weakself.introduceView = nil;
     };
     self.introduceView.confirmBlock = ^(NSString *inputStr) {
         weakself.userInfo.nickname = inputStr;
         NSIndexPath *indexPath=[NSIndexPath indexPathForRow:1 inSection:0];
         [weakself.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-        weakself.introduceView = nil;
         [weakself.introduceView resignKeyWindow];
+        weakself.introduceView = nil;
+        
     };
     
 }
@@ -550,15 +552,17 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     self.introduceView.backgroundColor = [UIColor clearColor];
     WEAK(self)
     self.introduceView.hideViewBlock = ^(NSString *inputStr){
-        weakself.introduceView = nil;
         [weakself.introduceView resignKeyWindow];
+        weakself.introduceView = nil;
+        
     };
     self.introduceView.confirmBlock = ^(NSString *inputStr) {
         weakself.userInfo.credentials = inputStr;
         NSIndexPath *indexPath=[NSIndexPath indexPathForRow:3 inSection:1];
         [weakself.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-        weakself.introduceView = nil;
         [weakself.introduceView resignKeyWindow];
+        weakself.introduceView = nil;
+        
     };
     
 }
@@ -580,8 +584,9 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
         weakself.introduce = inputStr;
         NSIndexPath *indexPath=[NSIndexPath indexPathForRow:5 inSection:1];
         [weakself.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-        weakself.introduceView = nil;
         [weakself.introduceView resignKeyWindow];
+        weakself.introduceView = nil;
+        
     };
 
 }
@@ -592,7 +597,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     
     self.signatureView = [[EVSignatureEditView alloc] init];
     self.signatureView.originText = text;
-    self.introduceView.caninputlen = 15;
+    self.signatureView.caninputlen = 14;
+    self.signatureView.inputPlaceholder = @"介绍自己";
     self.signatureView.frame = [UIScreen mainScreen].bounds;
     self.signatureView.backgroundColor = [UIColor clearColor];
     WEAK(self)
@@ -604,8 +610,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
         weakself.signature = inputStr;
         NSIndexPath *indexPath=[NSIndexPath indexPathForRow:2 inSection:1];
         [weakself.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-        weakself.signatureView = nil;
         [weakself.signatureView resignKeyWindow];
+        weakself.signatureView = nil;
     };
 }
 

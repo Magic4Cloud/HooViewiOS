@@ -24,11 +24,11 @@
     }
     _userModel = userModel;
     _namelabel.text = userModel.nickname;
-    _followNumberLabel.text = [NSString stringWithFormat:@"%ld人参与",userModel.viewcount];
+    _followNumberLabel.text = [NSString stringWithFormat:@"%ld人参与",(long)userModel.viewcount];
     
     NSMutableArray *titleAry = [NSMutableArray array];
-    for (NSDictionary *dic in userModel.tags) {
-        [titleAry addObject:dic[@"name"]];
+    for (EVUserTagsModel * model in userModel.tags) {
+        [titleAry addObject:model.tagname];
     }
     _tagsLabel.text = [NSString stringWithArray:titleAry];
 }
