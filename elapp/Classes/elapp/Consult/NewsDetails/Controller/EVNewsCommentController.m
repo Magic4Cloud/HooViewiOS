@@ -11,8 +11,8 @@
 
 //#define webUrl @"http://dev.yizhibo.tv/hooview/stock/"
 
-@interface EVNewsCommentController ()<UIWebViewDelegate>
-@property (nonatomic, strong) UIWebView *newsWebView;
+@interface EVNewsCommentController ()<WKNavigationDelegate>
+@property (nonatomic, strong) WKWebView *newsWebView;
 @property (nonatomic, copy) NSString *urlStr;
 @end
 
@@ -23,8 +23,8 @@
     // Do any additional setup after loading the view.
     self.title = @"全部评论";
     
-    self.newsWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 1, ScreenWidth, ScreenHeight - 64)];
-    self.newsWebView.delegate = self;    // 将WKWebView添加到视图
+    self.newsWebView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 1, ScreenWidth, ScreenHeight - 64)];
+    self.newsWebView.navigationDelegate = self;    // 将WKWebView添加到视图
     
     [self.view addSubview:self.newsWebView];
     if (self.newsID != nil) {
@@ -65,7 +65,7 @@
     [self.newsWebView loadRequest:request];
 }
 
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+- (void)webView:(WKWebView *)webView didFailNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error
 {
     [EVProgressHUD showMessage:@"加载失败"];
 }

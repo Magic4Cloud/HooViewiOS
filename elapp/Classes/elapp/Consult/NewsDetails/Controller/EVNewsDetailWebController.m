@@ -167,8 +167,8 @@
     } fail:^(NSError *error) {
         [EVProgressHUD showMessage:@"失败"];
     } success:^(NSDictionary *retinfo) {
-        self.detailBottomView.isCollec = [retinfo[@"exist"] boolValue];
-        self.isCollect = [retinfo[@"exist"] boolValue];
+        weakSelf.detailBottomView.isCollec = [retinfo[@"exist"] boolValue];
+        weakSelf.isCollect = [retinfo[@"exist"] boolValue];
     } sessionExpire:^{
         
     }];
@@ -204,7 +204,7 @@
         
         NSString *newsid = [NSString stringWithFormat:@"%@",data[@"newsid"]];
        
-        [self pushCommentListVCID:newsid];
+        [weakself pushCommentListVCID:newsid];
     }];
     
     [_webViewBridge registerHandler:@"unLikeNews" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -228,7 +228,7 @@
             //大V
             EVVipCenterController *vc = [[EVVipCenterController alloc] init];
             vc.watchVideoInfo = watchVideoInfo;
-            [self.navigationController pushViewController:vc animated:YES];
+            [weakself.navigationController pushViewController:vc animated:YES];
             
 //            //普通用户
 //            EVNormalPersonCenterController  *vc = [[EVNormalPersonCenterController alloc] init];
@@ -245,7 +245,7 @@
         NSDictionary *bodyDict = data;
         detailWebVC.newsID = [bodyDict[@"newsid"] description];
         detailWebVC.newsTitle = bodyDict[@"newstitle"];
-        [self.navigationController pushViewController:detailWebVC animated:YES];
+        [weakself.navigationController pushViewController:detailWebVC animated:YES];
         
     }];
 }
@@ -316,10 +316,10 @@
     [self.baseToolManager POSTNewsCommentContent:str stockCode:self.newsID userID:loginInfo.name userName:loginInfo.nickname userAvatar:loginInfo.logourl start:^{
         
     } fail:^(NSError *error) {
-        [self hide];
+        [weakself hide];
         [EVProgressHUD showMessage:@"评论失败"];
     } success:^(NSDictionary *retinfo) {
-        [self hide];
+        [weakself hide];
         [EVProgressHUD showMessage:@"评论成功"];
         [weakself loadCommentListData];
     }];
