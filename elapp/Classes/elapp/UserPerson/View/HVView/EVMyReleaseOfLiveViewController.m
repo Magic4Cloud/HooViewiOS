@@ -95,8 +95,10 @@
         NSDictionary *dictionary = videos[@"textlive"];
         NSArray * videoArray = videos[@"videolive"];
         if ([dictionary isKindOfClass:[NSDictionary class]]) {
-            EVUserModel *textLiveModel = [EVUserModel yy_modelWithDictionary:dictionary];
-            self.userModel = textLiveModel;
+            EVUserModel *model = [EVUserModel objectWithDictionary:dictionary];
+            model.name = dictionary[@"ownerid"];
+            model.nickname = dictionary[@"name"];
+            self.userModel = model;
         }
         
         self.textLiveState = [videos[@"textlive"][@"state"] integerValue];

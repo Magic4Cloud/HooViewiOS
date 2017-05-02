@@ -100,11 +100,11 @@
         [self.videos removeAllObjects];
         NSArray *array = retinfo[@"videolive"];
         
-        EVUserModel *textLiveModel = [EVUserModel yy_modelWithDictionary:dictionary];
-        textLiveModel.name = dictionary[@"ownerid"];
-        textLiveModel.nickname = dictionary[@"name"];
-        textLiveModel.viewcount = [dictionary[@"viewcount"] intValue];
-        self.userModel = textLiveModel;
+        EVUserModel *model = [EVUserModel objectWithDictionary:dictionary];
+        model.name = dictionary[@"ownerid"];
+        model.nickname = dictionary[@"name"];
+        model.viewcount = [dictionary[@"viewcount"] intValue];
+        self.userModel = model;
         self.textLiveState = [retinfo[@"textlive"][@"state"] integerValue];
         
         if (array && array.count>0) {
@@ -155,10 +155,10 @@
         [self.videos removeAllObjects];
         NSDictionary *dictionary = retinfo[@"textlive"];
         NSArray *array = retinfo[@"videolive"];
-        EVUserModel *textLiveModel = [EVUserModel yy_modelWithDictionary:dictionary];
-        textLiveModel.name = dictionary[@"ownerid"];
-        textLiveModel.nickname = dictionary[@"name"];
-        self.userModel = textLiveModel;
+        EVUserModel *model = [EVUserModel objectWithDictionary:dictionary];
+        model.name = dictionary[@"ownerid"];
+        model.nickname = dictionary[@"name"];
+        self.userModel = model;
         self.textLiveState = [retinfo[@"textlive"][@"state"] integerValue];
         
         if (array && array.count>0) {

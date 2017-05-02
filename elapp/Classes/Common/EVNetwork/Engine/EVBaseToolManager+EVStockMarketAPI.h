@@ -42,7 +42,7 @@ typedef NS_ENUM(NSUInteger, EVCollectType)
                         Success:(void (^) (NSDictionary *retinfo))success
                           error:(void (^)(NSError *error))error;
 
-
+//判断文章是否收藏
 - (void)GETUserCollectType:(EVCollectType)type
                       code:(NSString *)code
                     action:(int)action
@@ -50,6 +50,15 @@ typedef NS_ENUM(NSUInteger, EVCollectType)
                       fail:(void(^)(NSError *error))failBlock
                    success:(void(^)(NSDictionary *retinfo))successBlock
              sessionExpire:(void(^)())sessionExpireBlock;
+
+//收藏文章
+- (void)GETNewsCollectNewsid:(NSString *)newsid
+                      action:(int)action
+                       start:(void(^)())startBlock
+                        fail:(void(^)(NSError *error))failBlock
+                     success:(void(^)(NSDictionary *retinfo))successBlock
+               sessionExpire:(void(^)())sessionExpireBlock;
+
 
 - (void)GETUserCollectListType:(EVCollectType)type
                      start:(void(^)())startBlock

@@ -491,26 +491,44 @@
             [self presentLoginVC];
             
             NSLog(@"---------%d",self.isCollect);
-            int action = self.isCollect ? 2 : 1;
+            int action = self.isCollect ? 0 : 1;
             
-            [self.baseToolManager GETUserCollectType:EVCollectTypeNews code:self.newsID action:action start:^{
-//                NSLog(@"ssss = %@",);
-            } fail:^(NSError *error) {
+            [self.baseToolManager GETNewsCollectNewsid:self.newsID action:action start:^{
                 
+            } fail:^(NSError *error) {
                 [EVProgressHUD showMessage:@"失败"];
             } success:^(NSDictionary *retinfo) {
-                
                 [EVProgressHUD showMessage:@"成功"];
                 self.isCollect = !self.isCollect;
                 self.detailBottomView.isCollec = self.isCollect;
                 if (self.refreshCollectBlock) {
                     self.refreshCollectBlock();
                 }
+
             } sessionExpire:^{
                 
             }];
+            
+            
+            
+//            [self.baseToolManager GETUserCollectType:EVCollectTypeNews code:self.newsID action:action start:^{
+////                NSLog(@"ssss = %@",);
+//            } fail:^(NSError *error) {
+//                
+//                [EVProgressHUD showMessage:@"失败"];
+//            } success:^(NSDictionary *retinfo) {
+//                
+//                [EVProgressHUD showMessage:@"成功"];
+//                self.isCollect = !self.isCollect;
+//                self.detailBottomView.isCollec = self.isCollect;
+//                if (self.refreshCollectBlock) {
+//                    self.refreshCollectBlock();
+//                }
+//            } sessionExpire:^{
+//                
+//            }];
         }
-//
+
             break;
         case EVBottomButtonTypeRefresh:
         {

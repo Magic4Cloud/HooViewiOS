@@ -102,11 +102,12 @@
 
 #define CCColor(r,g,b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1]
 
+//检测文章是否收藏
+#define EVCollectAPI                @"/user/collect"
 
 
 //废弃
 #define EVCollectListAPI            @"/user/collectlist"
-#define EVCollectAPI                @"/user/collect"
 #define EVHistoryAPI                @"/user/history"
 #define EVHistoryList               @"/user/historylist"
 //
@@ -181,7 +182,8 @@
 
 //文章搜索
 #define EVSearchNews                @"http://dev.hooview.com/api/v2/search/news"
-
+//文章收藏
+#define EVNewsCollectAPI            @"http://dev.hooview.com/api/v2/news/favorite"
 //我的收藏
 #define EVHVFavoriteListAPI         @"http://dev.hooview.com/api/v2/user/favorites"
 //获取历史记录
