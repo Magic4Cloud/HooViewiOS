@@ -140,12 +140,14 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
+   
     [self.evPlayer pause];
 }
 - (void)viewDidLoad {
@@ -153,7 +155,7 @@
 
     self.scrollViewIndex = 0;
 
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    
     self.automaticallyAdjustsScrollViewInsets = NO;
    
     
