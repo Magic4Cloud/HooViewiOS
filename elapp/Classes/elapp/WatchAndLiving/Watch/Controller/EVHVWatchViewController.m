@@ -464,12 +464,12 @@
 
  
     EVHVWatchCenterView *centerView = [[EVHVWatchCenterView alloc] init];
-    centerView.frame = CGRectMake(0, VideoWidth+20, ScreenWidth, 44);
+    centerView.frame = CGRectMake(0, VideoWidth+20, ScreenWidth, 91);
     [contentView addSubview:centerView];
     centerView.delegate = self;
     self.watchCenterView = centerView;
     
-    CGRect bottomView = CGRectMake(0, VideoWidth+69, ScreenWidth, ScreenHeight - VideoWidth - 49 - 20);
+    CGRect bottomView = CGRectMake(0, VideoWidth+116, ScreenWidth, ScreenHeight - VideoWidth - 116);
     NSMutableArray *titleArr = [NSMutableArray array];
     
     if (self.watchVideoInfo.mode == 2) {
@@ -679,7 +679,7 @@
 {
     self.chatTextView.giftButton.hidden = NO;
     self.chatTextView.sendImageViewRig.constant = 0;
-    self.chatTextView.commentBtnRig.constant = -67;
+    self.chatTextView.commentBtnRig.constant = -10;
 //    self.chatTextView.frame = CGRectMake(0, ScreenHeight - sizeHig - 49, ScreenWidth, 49);
 //    self.chatTextView.contentView.frame = CGRectMake(10, 4, ScreenWidth - 20, 40);
 //    self.chatTextView.commentBtn.frame = CGRectMake(10, 4, ScreenWidth - 64, 32);
@@ -690,7 +690,7 @@
 {
     self.chatTextView.giftButton.hidden = NO;
     self.chatTextView.sendImageViewRig.constant = -67;
-    self.chatTextView.commentBtnRig.constant = -119;
+    self.chatTextView.commentBtnRig.constant = -67;
 //    self.chatTextView.frame = CGRectMake(0, ScreenHeight - 49, ScreenWidth, 49);
 //    self.chatTextView.contentView.frame = CGRectMake(10, 5, ScreenWidth -65, 40);
 //    self.chatTextView.commentBtn.frame = CGRectMake(10, 0, ScreenWidth - 65, 40);

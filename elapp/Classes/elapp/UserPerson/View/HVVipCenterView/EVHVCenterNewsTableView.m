@@ -68,13 +68,11 @@
 - (void)addVipUI
 {
     
-    EVNullDataView *nullDataView = [[EVNullDataView alloc] initWithFrame:CGRectMake(0, 200, ScreenWidth, ScreenHeight-108)];
-    
-    [self addSubview:nullDataView];
+    EVNullDataView *nullDataView = [[EVNullDataView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-400)];
     self.nullDataView = nullDataView;
-    
     nullDataView.topImage = [UIImage imageNamed:@"ic_smile"];
     nullDataView.title = @"没有相关文章奥";
+    self.tableFooterView = nullDataView;
 }
 
 

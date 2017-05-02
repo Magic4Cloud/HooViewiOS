@@ -15,6 +15,8 @@
 
 @property (nonatomic, weak) UILabel *titleLabel;
 
+@property (nonatomic, weak) UILabel *nameLabel;
+
 @property (nonatomic, weak) UILabel *subtitleLabel;
 
 @property (nonatomic, weak) UIButton *followButton;
@@ -35,7 +37,7 @@
 
 - (void)addUpView
 {
-    UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 44)];
+    UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 91)];
     contentView.backgroundColor = [UIColor whiteColor];
     [self addSubview:contentView];
     
@@ -46,8 +48,9 @@
     headImageView.layer.masksToBounds = YES;
     headImageView.tag = EVHVWatchCenterTypeHeadImage;
     headImageView.backgroundColor = [UIColor whiteColor];
-    [headImageView autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:16];
-    [headImageView autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
+    [headImageView autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:12];
+    [headImageView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:46];
+    [headImageView autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:15];
     [headImageView autoSetDimensionsToSize:CGSizeMake(30, 30)];
     [headImageView addTarget:self action:@selector(buttonClick:) forControlEvents:(UIControlEventTouchUpInside)];
     
@@ -58,9 +61,21 @@
     self.titleLabel = titleLabel;
     titleLabel.textColor = [UIColor evTextColorH1];
     titleLabel.font = [UIFont textFontB2];
-    [titleLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeTop ofView:contentView withOffset:4];
-    [titleLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:headImageView withOffset:16];
+    [titleLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:12];
+    [titleLabel autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:10];
+    [titleLabel autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:11];
     [titleLabel autoSetDimensionsToSize:CGSizeMake(100, 22)];
+    [titleLabel autoSetDimension:ALDimensionHeight toSize:22];
+    
+    UILabel *nameLabel = [[UILabel alloc] init];
+    nameLabel.text = @"";
+    [contentView addSubview:nameLabel];
+    self.nameLabel = nameLabel;
+    nameLabel.textColor = [UIColor evTextColorH2];
+    nameLabel.font = [UIFont textFontB2];
+    [nameLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:titleLabel withOffset:10];
+    [nameLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:headImageView withOffset:10];
+    [nameLabel autoSetDimensionsToSize:CGSizeMake(200, 22)];
     
     UILabel *subtitleLabel = [[UILabel alloc] init];
     subtitleLabel.text = @"";
@@ -68,38 +83,37 @@
     self.subtitleLabel = subtitleLabel;
     subtitleLabel.textColor = [UIColor evTextColorH2];
     subtitleLabel.font = [UIFont systemFontOfSize:12.f];
-    [subtitleLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:titleLabel withOffset:0];
-    [subtitleLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:headImageView withOffset:16];
+    [subtitleLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:nameLabel withOffset:0];
+    [subtitleLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:headImageView withOffset:10];
     [subtitleLabel autoSetDimensionsToSize:CGSizeMake(100, 17)];
     
-    
-    
-    
+        
     UIButton  *followButton = [[UIButton alloc] init];
     [contentView addSubview:followButton];
     followButton.layer.cornerRadius = 4.f;
     followButton.layer.masksToBounds = YES;
-    followButton.layer.borderWidth = 1;
     followButton.tag = EVHVWatchCenterTypeFollow;
-    followButton.layer.borderColor = [UIColor evLineColor].CGColor;
-    [followButton setTitle:@"关注" forState:(UIControlStateNormal)];
+    [followButton setTitle:@"+关注" forState:(UIControlStateNormal)];
     followButton.titleLabel.font = [UIFont systemFontOfSize:16.f];
-    [followButton setTitleColor:[UIColor evTextColorH2] forState:(UIControlStateNormal)];
-    followButton.backgroundColor = [UIColor whiteColor];
+    [followButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
+    followButton.backgroundColor = [UIColor evMainColor];
     [followButton autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:16];
-    [followButton autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
-    [followButton autoSetDimensionsToSize:CGSizeMake(80, 30)];
+    [followButton autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:50];
+    [followButton autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:19];
+    
+    [followButton autoSetDimensionsToSize:CGSizeMake(50, 24)];
     [followButton addTarget:self action:@selector(buttonClick:) forControlEvents:(UIControlEventTouchUpInside)];
     self.followButton = followButton;
-    [self.followButton setImage:[UIImage imageNamed:@"btn_unconcerned_n"] forState:(UIControlStateNormal)];
+//    [self.followButton setImage:[UIImage imageNamed:@"btn_unconcerned_n"] forState:(UIControlStateNormal)];
 }
 
 - (void)setWatchVideoInfo:(EVWatchVideoInfo *)watchVideoInfo
 {
     _watchVideoInfo = watchVideoInfo;
     [self.headImageView cc_setImageURL:watchVideoInfo.logourl forState:(UIControlStateNormal) placeholderImage:[UIImage imageNamed:@""]];
-    self.titleLabel.text = watchVideoInfo.nickname;
-    self.subtitleLabel.text = watchVideoInfo.signature;
+    self.titleLabel.text = watchVideoInfo.title;
+    self.nameLabel.text = watchVideoInfo.nickname;
+    self.subtitleLabel.text = [NSString stringWithFormat:@"%ld人观看",watchVideoInfo.watch_count];
     if ([watchVideoInfo.name isEqualToString:[EVLoginInfo localObject].name]) {
         self.followButton.hidden = YES;
     }
@@ -108,10 +122,14 @@
 - (void)setIsFollow:(BOOL)isFollow
 {
     _isFollow = isFollow;
-    NSString *imageStr = isFollow ? @"btn_concerned_s": @"btn_unconcerned_n";
-    [self.followButton setImage:[UIImage imageNamed:imageStr] forState:(UIControlStateNormal)];
+//    NSString *imageStr = isFollow ? @"btn_concerned_s": @"btn_unconcerned_n";
+//    [self.followButton setImage:[UIImage imageNamed:imageStr] forState:(UIControlStateNormal)];
+    UIColor *textcolor = isFollow ? [UIColor whiteColor] : [UIColor whiteColor];
+    UIColor *backColor = isFollow ? [UIColor evTextColorH2] : [UIColor evMainColor];
     NSString *titleStr = isFollow ? @"已关注" : @"+关注";
     [self.followButton setTitle:titleStr forState:(UIControlStateNormal)];
+    [self.followButton setTitleColor:textcolor forState:UIControlStateNormal];
+    [self.followButton setBackgroundColor:backColor];
 }
 
 - (void)buttonClick:(UIButton *)btn
