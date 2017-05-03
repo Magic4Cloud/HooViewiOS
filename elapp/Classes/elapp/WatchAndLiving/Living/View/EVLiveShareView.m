@@ -100,7 +100,8 @@ static CGFloat const kItemWidth = 48.f;
     return self;
 }
 
-- (void)buildShareViewUI {
+- (void)buildShareViewUI
+{
     
     UIView *bgView = [UIView new];
     [self addSubview:bgView];

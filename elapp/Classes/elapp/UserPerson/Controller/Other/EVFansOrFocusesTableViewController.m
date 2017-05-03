@@ -62,7 +62,7 @@ static const NSString *const fansOrFocusCellID = @"fansOrFocus";
     self.times = 0;
     [self addNotification];
     [self setUI];
-    [self loadDataWithname:self.name Start:0 count:kCountNum];
+//    [self loadDataWithname:self.name Start:0 count:kCountNum];
     self.noDataView.hidden = YES;
 }
 
@@ -202,6 +202,7 @@ static const NSString *const fansOrFocusCellID = @"fansOrFocus";
         [weakself loadDataWithname:weakself.name Start:weakself.fansOrFollowers.count count:kCountNum];
     }];
     [self.tableView hideFooter];
+    [self.tableView startHeaderRefreshing];
 }
 
 - (void)loadDataWithname:(NSString *)name Start:(NSInteger)start count:(NSInteger)count{

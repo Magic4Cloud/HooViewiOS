@@ -61,11 +61,11 @@
         _cellTypeImage.image = [UIImage imageNamed:@"ic_user_new"];
     } else if([commentModel.topic.type isEqualToString:@"1"]) {
         //视频
-        _titleBackView.backgroundColor = CCColor(235, 188, 142);
+        _titleBackView.backgroundColor = CCColor(179, 162, 233);
         _cellTypeImage.image = [UIImage imageNamed:@"ic_user_video"];
     } else if([commentModel.topic.type isEqualToString:@"2"]) {
         //股票
-        _titleBackView.backgroundColor = CCColor(179, 162, 233);
+        _titleBackView.backgroundColor = CCColor(235, 188, 142);
         _cellTypeImage.image = [UIImage imageNamed:@"ic_user_shares"];
     }
     

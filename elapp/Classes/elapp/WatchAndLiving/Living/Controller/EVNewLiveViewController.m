@@ -33,7 +33,6 @@
 #import "EVMusicView.h"
 #import "EVLiveMessage.h"
 #import "EVLiveMessage.h"
-#import "EVHVPrePareController.h"
 #import "EVHVLiveShareView.h"
 #import "EVHVGiftAniView.h"
 #import "EVSDKLiveEngineParams.h"

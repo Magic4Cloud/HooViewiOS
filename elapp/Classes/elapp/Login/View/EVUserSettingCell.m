@@ -265,43 +265,38 @@
         case EVCellStyleNomal:
         {
             self.contentTextField.text = settingItem.contentTitle;
-            self.signatureLabel.text = self.settingItem.contentTitle;
             self.contentTextField.textColor = [UIColor evTextColorH1];
             self.signatureLabel.hidden = YES;
             self.introduceLabel.hidden = YES;
             self.contentTextField.hidden = NO;
             self.contentTextField.textColor = [UIColor evTextColorH1];
             self.headImageView.hidden = YES;
-            self.contentTextField.hidden = NO;
-             self.indicateImageView.hidden = NO;
-             self.userTagsView.hidden = YES;
+            self.indicateImageView.hidden = NO;
+            self.userTagsView.hidden = YES;
             self.TextFiledLeftCon.constant = 62;
         }
             break;
         case EVCellStyleSignature:
         {
-            self.contentTextField.text = settingItem.contentTitle;
             self.signatureLabel.text = self.settingItem.contentTitle;
             self.signatureLabel.textColor = [UIColor evTextColorH1];
             self.signatureLabel.hidden = NO;
             self.contentTextField.hidden = YES;
             self.headImageView.hidden = YES;
-             self.indicateImageView.hidden = NO;
-             self.userTagsView.hidden = YES;
+            self.indicateImageView.hidden = NO;
+            self.userTagsView.hidden = YES;
             self.TextFiledLeftCon.constant = 62;
         }
             break;
             
         case EVCellStyleIntroduce:
         {
-            self.contentTextField.text = settingItem.contentTitle;
-            self.signatureLabel.hidden = YES;
-            self.introduceLabel.text = self.settingItem.contentTitle;
-            self.introduceLabel.hidden = NO;
-            self.introduceLabel.textColor = [UIColor evTextColorH1];
+            self.signatureLabel.hidden = NO;
+            self.signatureLabel.text = self.settingItem.contentTitle;
+            self.introduceLabel.hidden = YES;
+            self.signatureLabel.textColor = [UIColor evTextColorH1];
             self.contentTextField.hidden = YES;
             self.headImageView.hidden = YES;
-            self.contentTextField.hidden = YES;
             self.indicateImageView.hidden = NO;
             self.userTagsView.hidden = YES;
             self.TextFiledLeftCon.constant = 62;
@@ -331,7 +326,6 @@
         case EVCellStyleName:
         {
             self.contentTextField.text = settingItem.contentTitle;
-//            self.signatureLabel.text = self.settingItem.contentTitle;
             self.contentTextField.textColor = [UIColor evTextColorH1];
             self.signatureLabel.hidden = YES;
             self.contentTextField.hidden = NO;
@@ -344,8 +338,6 @@
             break;
      case EVCellStyleTags:
         {
-            self.contentTextField.text = settingItem.contentTitle;
-            self.signatureLabel.text = self.settingItem.contentTitle;
             self.signatureLabel.hidden = YES;
             self.contentTextField.hidden = YES;
             self.headImageView.hidden = YES;
@@ -358,7 +350,6 @@
     case EVCellStylePreNum:
         {
             self.contentTextField.text = settingItem.contentTitle;
-            self.signatureLabel.text = self.settingItem.contentTitle;
             self.contentTextField.textColor = [UIColor evTextColorH1];
             self.signatureLabel.hidden = YES;
             self.contentTextField.hidden = NO;
@@ -629,7 +620,7 @@
     {
         UILabel *introduceLabel = [[UILabel alloc] init];
         introduceLabel.numberOfLines = 3;
-        introduceLabel.font = [[EVAppSetting shareInstance] normalFontWithSize:16.f];
+        introduceLabel.font = [UIFont systemFontOfSize:16.0];
         introduceLabel.textColor = [UIColor colorWithHexString:@"#cccccc"];
         introduceLabel.textAlignment = NSTextAlignmentLeft;
         [self.contentView addSubview:introduceLabel];

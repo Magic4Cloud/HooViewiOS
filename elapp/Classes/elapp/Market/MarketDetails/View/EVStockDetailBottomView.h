@@ -30,10 +30,15 @@ typedef NS_ENUM(NSInteger , EVBottomButtonType){
 - (void)addButtonTitleArray:(NSArray *)title seleteTitleArr:(NSArray *)seletetitle imageArray:(NSArray *)image seleteImage:(NSArray *)seleteimage;
 
 
+@property (nonatomic, copy) void(^backButtonClickBlock)();
+
 @property (nonatomic, assign) NSInteger commentCount;
 
 @property (nonatomic, assign) BOOL isCollec;
 
 @property (nonatomic, assign) BOOL isMarketCollect;
 
+@property (nonatomic, assign) BOOL isBottomBack;
+
+- (instancetype)initWithFrame:(CGRect)frame isBottomBack:(BOOL)isBottom;
 @end

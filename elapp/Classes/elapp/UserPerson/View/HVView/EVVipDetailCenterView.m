@@ -60,7 +60,8 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    
+//    _headerCoverImage.contentMode = UIViewContentModeRight;
+//    _headerCoverImage.layer.masksToBounds = YES;
 }
 
 - (void)setup
@@ -143,6 +144,7 @@
         return;
     }
     [_headerCoverImage cc_setImageWithURLString:userModel.logourl placeholderImage:nil];
+    
     _nameLabel.text = userModel.nickname;
     _signatureLabel.text = userModel.signature;
     _introduceLabel.text = userModel.introduce;//详细资料

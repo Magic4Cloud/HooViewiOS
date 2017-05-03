@@ -25,6 +25,12 @@
     _cellTag2Button.enabled = NO;
     _cellTag2Button.backgroundColor = [UIColor evBackGroundDeepBlueColor];
     _cellTag2Button.contentEdgeInsets = UIEdgeInsetsMake(2, 5, 2, 5);
+    
+    UIView * coverView = [[UIView alloc] init];
+    coverView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.4];
+    [_cellImageView insertSubview:coverView atIndex:0];
+    [coverView autoPinEdgesToSuperviewEdges];
+    
     if (ScreenWidth == 320) {
         _cellDetailLabel.font = [UIFont systemFontOfSize:_cellDetailLabel.font.pointSize-2];
         _cellTitleLabel.font = [UIFont systemFontOfSize:_cellTitleLabel.font.pointSize-1];
@@ -85,7 +91,7 @@
     
     if (liveModel.isHot) {
         _cellHotImageView.hidden = NO;
-        _cellViewCountLeadingConstant.constant = 120;
+        _cellViewCountLeadingConstant.constant = 20;
     }
     else
     {
@@ -106,7 +112,7 @@
     _cellTitleLabel.text = watchModel.title;
     [NSString stringWithFormat:@"%@  %@",watchModel.nickname,watchModel.live_start_time];
     _cellDetailLabel.text = [NSString stringWithFormat:@"%@  %@",watchModel.nickname,watchModel.live_start_time];
-    _cellViewCountLabel.text = [NSString stringWithFormat:@"%ld",watchModel.watch_count];
+    _cellViewCountLabel.text = [NSString stringWithFormat:@"%ld",(unsigned long)watchModel.watch_count];
 //    _cellTagLabel.text = watchModel.living_status;
     
 }

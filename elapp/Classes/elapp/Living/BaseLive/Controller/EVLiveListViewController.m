@@ -282,13 +282,7 @@
 
 - (void)liveButtonClick
 {
-    //    EVHVPrePareController *prePareVC  = [[EVHVPrePareController alloc] init];
-    //    [self presentViewController:prePareVC animated:YES completion:nil];
     [self requestNormalLivingPageForceImage:NO allowList:nil];
-    
-    //    EVHVLiveViewController *hvLiveVC = [[EVHVLiveViewController alloc] init];
-    //    [self presentViewController:hvLiveVC animated:YES completion:nil];
-    
 }
 
 

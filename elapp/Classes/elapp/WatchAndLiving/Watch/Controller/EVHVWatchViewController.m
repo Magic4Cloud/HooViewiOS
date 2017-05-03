@@ -140,12 +140,14 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
+   
     [self.evPlayer pause];
 }
 - (void)viewDidLoad {
@@ -153,7 +155,7 @@
 
     self.scrollViewIndex = 0;
 
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    
     self.automaticallyAdjustsScrollViewInsets = NO;
    
     
@@ -232,12 +234,7 @@
         param[kVid] = self.watchVideoInfo.vid;
     }
     
-    if ( self.watchVideoInfo.password)
-    {
-        param[kPassword] = self.watchVideoInfo.password;
-    }
-    
-    
+
     [EVProgressHUD showIndeterminateForView:self.view];
     // 获取视频信息
     [self.baseToolManager GETUserstartwatchvideoWithParams:param Start:^{

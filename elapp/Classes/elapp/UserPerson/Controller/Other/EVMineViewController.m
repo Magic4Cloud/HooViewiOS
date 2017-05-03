@@ -33,8 +33,7 @@
 #import "EVLoginViewController.h"
 #import "EVHVUserSettingController.h"
 #import "EVNewLiveViewController.h"
-#import "EVHVPrePareController.h"
-#import "EVHVLiveViewController.h"
+
 #import "EVNotifyListViewController.h"
 #import "EVBaseToolManager+EVMessageAPI.h"
 #import "EVNotifyItem.h"
@@ -251,13 +250,7 @@ static const NSString *const SettingCellID = @"settingCell";
 
 - (void)liveButtonClick
 {
-//    EVHVPrePareController *prePareVC  = [[EVHVPrePareController alloc] init];
-//    [self presentViewController:prePareVC animated:YES completion:nil];
      [self requestNormalLivingPageForceImage:NO allowList:nil];
-
-//    EVHVLiveViewController *hvLiveVC = [[EVHVLiveViewController alloc] init];
-//    [self presentViewController:hvLiveVC animated:YES completion:nil];
-
 }
 
 

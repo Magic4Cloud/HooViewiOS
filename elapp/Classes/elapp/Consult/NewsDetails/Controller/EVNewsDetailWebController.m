@@ -68,6 +68,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    if (self.urlStr) {
+        [self updateUrlStr:self.urlStr];
+    }
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+}
+
+-(void)viewWillDisappear:(BOOL)animated {
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
@@ -99,16 +106,16 @@
     
     
     if (self.announcementTitle.length > 0) {
-        self.newsWebView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 1, ScreenWidth, ScreenHeight - 49)];
+        self.newsWebView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 49)];
         self.title = self.announcementTitle;
         self.urlStr = [self requestAnnouncementUrl:self.announcementURL];
-        [self updateUrlStr:self.urlStr];
+//        [self updateUrlStr:self.urlStr];
         EVLog(@"webviewurl---- %@",self.urlStr);
     } else
     if (self.newsID != nil) {
-        self.newsWebView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 1, ScreenWidth, ScreenHeight - 113)];
+        self.newsWebView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 49)];
         self.urlStr =   [self requestUrlID:self.newsID];
-        [self updateUrlStr:self.urlStr];
+//        [self updateUrlStr:self.urlStr];
         EVLog(@"webviewurl---- %@",self.urlStr);
     }
     
@@ -116,23 +123,25 @@
     [self.view addSubview:self.newsWebView];
     
     
-    EVStockDetailBottomView *stockDetailView = [[EVStockDetailBottomView alloc] init];
+    EVStockDetailBottomView *stockDetailView = [[EVStockDetailBottomView alloc] initWithFrame: CGRectMake(0, ScreenHeight - 49, ScreenWidth, 49) isBottomBack:YES];
     NSArray *titleArray = @[@"分享",@"收藏",@"评论"];
     NSArray *seleteTitleArr = @[@"分享",@"已收藏",@"评论"];
     NSArray *imageArray = @[@"btn_share_n",@"btn_news_collect_n",@"btn_news_comment_n"];
     NSArray *seleteImageArr = @[@"btn_share_n",@"btn_news_collecte_s",@"btn_news_comment_n"];
     [stockDetailView addButtonTitleArray:titleArray seleteTitleArr:seleteTitleArr imageArray:imageArray seleteImage:seleteImageArr];
-    stockDetailView.frame = CGRectMake(0, ScreenHeight - 113, ScreenWidth, 49);
     stockDetailView.backgroundColor = [UIColor whiteColor];
     stockDetailView.delegate = self;
     [self.view addSubview:stockDetailView];
+    stockDetailView.backButtonClickBlock = ^()
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    };
+
     self.detailBottomView = stockDetailView;
     
     if (self.announcementTitle.length > 0) {
         self.detailBottomView.hidden = YES;
-        NSLog(@"公告title = %@",self.announcementTitle);
-        NSLog(@"公告URL = %@",self.announcementURL);
-    }
+            }
     
     _webViewBridge = [WebViewJavascriptBridge bridgeForWebView:self.newsWebView];
     [_webViewBridge setWebViewDelegate:self];
@@ -140,12 +149,11 @@
  
     [self.view addSubview:self.eVSharePartView];
 
-
     //取消分享
     __weak typeof(self) weakSelf = self;
     self.eVSharePartView.cancelShareBlock = ^() {
         [UIView animateWithDuration:0.3 animations:^{
-            weakSelf.eVSharePartView.frame = CGRectMake(0, ScreenHeight, ScreenWidth, ScreenHeight);
+            weakSelf.eVSharePartView.frame = CGRectMake(0, ScreenHeight, ScreenWidth, ScreenHeight-49);
         }];
     };
     
@@ -219,11 +227,7 @@
         if ([dic isKindOfClass:[NSDictionary class]]) {
             NSString *name = [NSString stringWithFormat:@"%@", dic[@"name"]];
             EVWatchVideoInfo *watchVideoInfo = [EVWatchVideoInfo new];
-            watchVideoInfo.name = @"17123425";
-//            watchVideoInfo.name = 
-//            EVVipCenterViewController *vipVC = [EVVipCenterViewController new];
-//            vipVC.watchVideoInfo = watchInfo;
-//            [self.navigationController pushViewController:vipVC animated:YES];
+            watchVideoInfo.name = name;
             
             //大V
             EVVipCenterController *vc = [[EVVipCenterController alloc] init];
@@ -279,8 +283,7 @@
     [self.touchLayer addTarget:self action:@selector(hide) forControlEvents:(UIControlEventTouchUpInside)];
     
     
-    EVMarketTextView *marketTextView = [[EVMarketTextView alloc] init];
-    marketTextView.frame = CGRectMake(0, ScreenHeight, ScreenHeight, 49);
+    EVMarketTextView *marketTextView = [[EVMarketTextView alloc] initWithFrame:CGRectMake(0, ScreenHeight, ScreenHeight, 49)];
     [self.window addSubview:marketTextView];
     self.marketTextView = marketTextView;
     marketTextView.hidden = NO;
@@ -289,7 +292,7 @@
     marketTextView.commentBlock = ^ (NSString *content) {
         [self sendCommentStr:content];
     };
-    self.window.hidden = YES;
+        self.window.hidden = YES;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -587,7 +590,7 @@
 - (void)shareViewShowAction
 {
     [UIView animateWithDuration:0.3 animations:^{
-        self.eVSharePartView.frame = CGRectMake(0, 0, ScreenHeight,  ScreenHeight - 64);
+        self.eVSharePartView.frame = CGRectMake(0, 0, ScreenHeight,  ScreenHeight - 49);
     }];
 }
 
@@ -602,7 +605,7 @@
 #pragma mark - lazy loading
 - (EVSharePartView *)eVSharePartView {
     if (!_eVSharePartView) {
-        _eVSharePartView = [[EVSharePartView alloc] initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, ScreenHeight - 64)];
+        _eVSharePartView = [[EVSharePartView alloc] initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, ScreenHeight - 49)];
         _eVSharePartView.backgroundColor = [UIColor colorWithHexString:@"#303030" alpha:0.7];
         _eVSharePartView.eVWebViewShareView.delegate = self;
     }

@@ -30,6 +30,16 @@
     return self;
 }
 
+- (instancetype)initWithFrame:(CGRect)frame isBottomBack:(BOOL)isBottom
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        _isBottomBack = isBottom;
+        [self addUpViewFrame:frame];
+    }
+    return self;
+}
+
 - (void)addUpViewFrame:(CGRect)frame
 {
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 1)];
@@ -44,8 +54,25 @@
     HLineView.backgroundColor = [UIColor evMainColor];
 //    [self addSubview:HLineView];
     
+    if (_isBottomBack) {
+        UIButton * backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [backButton setImage:[UIImage imageNamed:@"hv_back_return"] forState:UIControlStateNormal];
+        [backButton addTarget:self action:@selector(backButtonClick) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:backButton];
+        [backButton autoSetDimensionsToSize:CGSizeMake(44, 44)];
+        [backButton autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:0];
+        [backButton autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
+    }
+    CGFloat left = 12;
+    CGFloat width = ScreenWidth/2 - 27;
+    
+    if (_isBottomBack) {
+        width =  ScreenWidth/2 - 27 - 44;
+        left = 7.f + 44.f;
+    }
+    
     UIButton *commentButton = [[UIButton alloc] init];
-    commentButton.frame = CGRectMake(12, 6, ScreenWidth/2 - 27, 36);
+    commentButton.frame = CGRectMake(left, 6, width, 36);
     [commentButton setTitle:@" 来一起讨论吧~            " forState:(UIControlStateNormal)];
     commentButton.titleLabel.font = [UIFont textFontB3];
     commentButton.layer.borderWidth = 1;
@@ -58,6 +85,14 @@
     
     
 }
+
+- (void)backButtonClick
+{
+    if (self.backButtonClickBlock) {
+        self.backButtonClickBlock();
+    }
+}
+
 
 - (void)addButtonTitleArray:(NSArray *)title seleteTitleArr:(NSArray *)seletetitle imageArray:(NSArray *)image seleteImage:(NSArray *)seleteimage
 {
