@@ -91,7 +91,7 @@
     
     if (liveModel.isHot) {
         _cellHotImageView.hidden = NO;
-        _cellViewCountLeadingConstant.constant = 120;
+        _cellViewCountLeadingConstant.constant = 20;
     }
     else
     {

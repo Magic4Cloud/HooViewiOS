@@ -42,7 +42,8 @@
         titleLabel.text = @"取消";
         titleLabel.textAlignment = NSTextAlignmentCenter;
         [_cancelBtn addSubview:titleLabel];
-        titleLabel.frame = CGRectMake((ScreenWidth - 60)/2, 0, 60, 49);
+        [titleLabel autoCenterInSuperview];
+//        titleLabel.frame = CGRectMake((ScreenWidth - 60)/2, 0, 60, 49);
     }
     return self;
 }

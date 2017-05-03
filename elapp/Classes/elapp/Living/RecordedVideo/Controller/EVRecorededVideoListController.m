@@ -77,16 +77,17 @@
         
         
         NSArray * videos = info[@"retinfo"][@"videos"];
-        [self.dataArray removeAllObjects];
+
         if ([videos isKindOfClass:[NSArray class]] && videos.count >0) {
             
             [videos enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 EVVideoAndLiveModel * model = [EVVideoAndLiveModel yy_modelWithDictionary:obj];
                 [self.dataArray addObject:model];
-                [self.listTableView reloadData];
-                [self.listTableView showFooter];
-                [self.listTableView setFooterState:(videos.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
             }];
+            
+            [self.listTableView reloadData];
+            [self.listTableView showFooter];
+            [self.listTableView setFooterState:(videos.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
         }
 
 //        NSArray *videoArr = [EVWatchVideoInfo objectWithDictionaryArray:info[@"retinfo"][@"videos"]];
