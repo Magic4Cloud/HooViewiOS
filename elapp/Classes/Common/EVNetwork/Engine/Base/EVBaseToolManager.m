@@ -394,6 +394,7 @@ static BOOL sessioncheck = NO;
     
     
     [CCUserDefault removeObjectForKey:SESSION_ID_STR];
+    [CCUserDefault removeObjectForKey:CCUSER_NAME];
    
 
     [CCUserDefault setObject:nil

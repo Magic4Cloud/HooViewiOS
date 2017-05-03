@@ -182,21 +182,20 @@
                     sessionExpire:(void(^)())sessionExpireBlock
 {
     NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
-    if ( sessionID )
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    if (sessionID)
     {
-        NSMutableDictionary *params = [NSMutableDictionary dictionary];
         params[kSessionIdKey] = sessionID;
-        
-        NSString *userid = [self uidFromLocal];
-        params[@"userid"] = userid;
-        
-        if ( personid )
-        {
-            params[@"personid"] = personid;
-        }
-
-        [EVBaseToolManager GETRequestWithUrl:EVUserBaseInfoAPI parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
     }
+    NSString *userid = [self uidFromLocal];
+    params[@"userid"] = userid;
+    
+    if ( personid )
+    {
+        params[@"personid"] = personid;
+    }
+    
+    [EVBaseToolManager GETRequestWithUrl:EVUserBaseInfoAPI parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
 
 }
 
@@ -468,10 +467,10 @@
                               follow:(FollowType)type
 {
     NSString *sessionID = [self getSessionIdWithBlock:nil];
-    if ( sessionID == nil )
-    {
-        return ;
-    }
+//    if ( sessionID == nil )
+//    {
+//        return ;
+//    }
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:sessionID forKey:kSessionIdKey];
     [params setValue:name forKey:kNameKey];
@@ -531,10 +530,10 @@
                                success:(void(^)(NSDictionary *retinfo))successBlock
                           essionExpire:(void(^)())sessionExpireBlock {
     NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
-    if ( sessionID == nil )
-    {
-        return ;
-    }
+//    if ( sessionID == nil )
+//    {
+//        return ;
+//    }
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:sessionID forKey:kSessionIdKey];
     [params setValue:userid forKey:@"userid"];
@@ -561,10 +560,10 @@
                                success:(void(^)(NSDictionary *retinfo))successBlock
                           essionExpire:(void(^)())sessionExpireBlock {
     NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
-    if ( sessionID == nil )
-    {
-        return ;
-    }
+//    if ( sessionID == nil )
+//    {
+//        return ;
+//    }
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:sessionID forKey:kSessionIdKey];
     [params setValue:userid forKey:@"userid"];
@@ -591,10 +590,10 @@
                               success:(void(^)(NSDictionary *retinfo))successBlock
                          essionExpire:(void(^)())sessionExpireBlock {
     NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
-    if ( sessionID == nil )
-    {
-        return ;
-    }
+//    if ( sessionID == nil )
+//    {
+//        return ;
+//    }
     NSString *uid = [self uidFromLocal];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:sessionID forKey:kSessionIdKey];
@@ -626,10 +625,10 @@
                     essionExpire:(void(^)())sessionExpireBlock
 {
     NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
-    if ( sessionID == nil )
-    {
-        return ;
-    }
+//    if ( sessionID == nil )
+//    {
+//        return ;
+//    }
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:sessionID forKey:kSessionIdKey];
 

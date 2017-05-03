@@ -212,11 +212,7 @@
 //个人主页评论列表点赞
 #define EVHVCommentLikeOrNotAPI     @"http://dev.hooview.com/api/v2/posts/like"
 
-<<<<<<< HEAD
-=======
 
-
->>>>>>> 36c7aca7000bdd251b1b4fc05b14eaf65f15ab9d
 #endif
 
 

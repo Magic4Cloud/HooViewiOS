@@ -442,7 +442,7 @@
     
     
     [UIView animateWithDuration:0.3 animations:^{
-        self.eVSharePartView.frame = CGRectMake(0, 0, ScreenHeight,  ScreenHeight);
+        self.eVSharePartView.frame = CGRectMake(0, 0, ScreenWidth,  ScreenHeight);
     }];
 }
 
