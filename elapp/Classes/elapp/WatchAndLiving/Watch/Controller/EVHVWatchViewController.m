@@ -470,7 +470,7 @@
     NSMutableArray *titleArr = [NSMutableArray array];
     
     if (self.watchVideoInfo.mode == 2) {
-        NSArray *tArr = @[@"简介",@"评论",@"数据",@"秘籍"];
+        NSArray *tArr = @[@"评论",@"数据",@"秘籍"];
         titleArr = [NSMutableArray arrayWithArray:tArr];
     }else {
         if (self.watchVideoInfo.living == 0) {
@@ -549,9 +549,6 @@
     self.stockTextView = stockTextView;
     stockTextView.backgroundColor = [UIColor whiteColor];
     
-    if (self.watchVideoInfo.mode == 2) {
-        chatTextView.hidden = YES;
-    }
 }
 
 - (void)addMediaControlView
@@ -647,15 +644,11 @@
 
 - (void)keyboardWillShow:(NSNotification *)notification
 {
-//    self.blackBackView.hidden = NO;
+    self.blackBackView.hidden = NO;
     NSDictionary* info = [notification userInfo];
     CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;//得到鍵盤的高度
     
     if (self.scrollViewIndex == 0) {
-        if (self.watchVideoInfo.mode == 2) {
-            self.stockTextView.hidden = YES;
-            self.chatTextView.hidden = YES;
-        } else {
         self.stockTextView.hidden = YES;
         [self.view bringSubviewToFront:self.chatTextView];
         self.chatTextView.hidden = NO;
@@ -666,42 +659,14 @@
         [UIView animateWithDuration:0.3 animations:^{
             [self chatNotSendGiftView:kbSize.height];
         }];
-        }
     }else if (self.scrollViewIndex == 1) {
-        if (self.watchVideoInfo.mode == 2) {
-            self.stockTextView.hidden = YES;
-            [self.view bringSubviewToFront:self.chatTextView];
-            self.chatTextView.hidden = NO;
-            self.chatTextView.giftButton.hidden = YES;
-            self.chatTextView.sendImageViewRig.constant = 0;
-            self.chatTextView.commentBtnRig.constant = -67;
-            self.chatTextViewBom.constant = -kbSize.height;
-            [UIView animateWithDuration:0.3 animations:^{
-                [self chatNotSendGiftView:kbSize.height];
-            }];
-
-        } else {
         [self.view bringSubviewToFront:self.stockTextView];
         self.stockTextView.hidden = NO;
         self.chatTextView.hidden = YES;
         [UIView animateWithDuration:0.3 animations:^{
             self.stockTextView.frame = CGRectMake(0, ScreenHeight - kbSize.height - 49, ScreenWidth, 49);
         }];
-        }
-    }else if(self.scrollViewIndex == 2){
-        if (self.watchVideoInfo.mode == 2) {
-            [self.view bringSubviewToFront:self.stockTextView];
-            self.stockTextView.hidden = NO;
-            self.chatTextView.hidden = YES;
-            [UIView animateWithDuration:0.3 animations:^{
-                self.stockTextView.frame = CGRectMake(0, ScreenHeight - kbSize.height - 49, ScreenWidth, 49);
-            }];
-
-        } else {
-        self.stockTextView.hidden = YES;
-        self.chatTextView.hidden = YES;
-        }
-    } else {
+    }else {
         self.stockTextView.hidden = YES;
         self.chatTextView.hidden = YES;
     }
@@ -734,31 +699,6 @@
     self.blackBackView.hidden = YES;
     //NSDictionary* info = [notification userInfo];
     //kbSize即為鍵盤尺寸 (有width, height)
-    if (self.watchVideoInfo.mode == 2) {
-        if (self.scrollViewIndex == 1) {
-            [self.view bringSubviewToFront:self.chatTextView];
-            self.stockTextView.hidden = YES;
-            self.chatTextViewBom.constant = 0;
-            
-            [UIView animateWithDuration:0.3 animations:^{
-                if (self.watchVideoInfo.mode == 2) {
-                    [self chatNotSendGiftView:0];
-                }else {
-                    [self chatTextSendGiftView];
-                }
-                
-            }];
-        }else if (self.scrollViewIndex == 2) {
-            [self.view bringSubviewToFront:self.stockTextView];
-            self.chatTextView.hidden = YES;
-            [UIView animateWithDuration:0.3 animations:^{
-                self.stockTextView.frame = CGRectMake(0, ScreenHeight - 49, ScreenWidth, 49);
-            }];
-        }else {
-            
-        }
-    } else {
-    
     if (self.scrollViewIndex == 0) {
         [self.view bringSubviewToFront:self.chatTextView];
         self.stockTextView.hidden = YES;
@@ -781,7 +721,7 @@
     }else {
         
     }
-    }
+    
     
 }
 
@@ -1286,31 +1226,15 @@
 - (void)scrollViewDidSeletedIndex:(NSInteger)index
 {
     self.scrollViewIndex = index;
-    if (self.watchVideoInfo.mode == 2) {
-        if (index == 0) {
-            self.chatTextView.hidden = YES;
-            self.stockTextView.hidden = YES;
-        }else if (index == 1) {
-            self.chatTextView.hidden = NO;
-            self.stockTextView.hidden = YES;
-        }else if (index == 2){
-            self.chatTextView.hidden = YES;
-            self.stockTextView.hidden = NO;
-        } else {
-            self.chatTextView.hidden = YES;
-            self.stockTextView.hidden = YES;
-        }
-    } else {
-        if (index == 0) {
-            self.chatTextView.hidden = NO;
-            self.stockTextView.hidden = YES;
-        }else if (index == 1) {
-            self.chatTextView.hidden = YES;
-            self.stockTextView.hidden = NO;
-        }else {
-            self.chatTextView.hidden = YES;
-            self.stockTextView.hidden = YES;
-        }
+    if (index == 0) {
+        self.chatTextView.hidden = NO;
+        self.stockTextView.hidden = YES;
+    }else if (index == 1) {
+        self.chatTextView.hidden = YES;
+        self.stockTextView.hidden = NO;
+    }else {
+        self.chatTextView.hidden = YES;
+        self.stockTextView.hidden = YES;
     }
 }
 
