@@ -442,7 +442,7 @@
     
     
     [UIView animateWithDuration:0.3 animations:^{
-        self.eVSharePartView.frame = CGRectMake(0, 0, ScreenHeight,  ScreenHeight);
+        self.eVSharePartView.frame = CGRectMake(0, 0, ScreenWidth,  ScreenHeight);
     }];
 }
 
@@ -719,6 +719,14 @@
     [dict setValue:@"nor" forKey:@"tp"];
     //发消息人名字 为自己
     [dict setValue:[EVLoginInfo localObject].nickname forKey:@"nk"];
+    
+    EVLoginInfo * model = [EVLoginInfo localObject];
+    //头像
+    [dict setValue:model.logourl forKey:@"avatar"];
+    //uid
+    [dict setValue:model.name forKey:@"userid"];
+    NSString * vip = [NSString stringWithFormat:@"%d",model.vip];
+    [dict setValue:vip forKey:@"vip"];
     
     //环信
     EMMessage *message = [[EMMessage alloc] initWithConversationID:_conversation.conversationId from:from to:_conversation.conversationId body:body ext:dict];

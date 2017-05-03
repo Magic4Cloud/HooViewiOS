@@ -32,7 +32,7 @@
         switch (_firstMessageBody.type) {
             case EMMessageBodyTypeText:
             {
-                CGFloat nameX = ChatMargin;
+                
                 EMTextMessageBody *messageBody = (EMTextMessageBody *)_firstMessageBody;
                 self.text = messageBody.text;
                 NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
@@ -41,27 +41,38 @@
                 
                 NSDictionary *attributes = @{ NSFontAttributeName : [UIFont textFontB2],
                                               NSParagraphStyleAttributeName: paragraphStyle};
-                CGSize nameSize = [self.nickname boundingRectWithSize:CGSizeMake(100, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin  attributes:attributes context:nil].size;
+                
+                //如果是vip  名字字体变大
+                CGFloat nameFontSize = 12.f;
+                if ([self.vip boolValue]) {
+                    nameFontSize = 16.f;
+                }
+                NSDictionary *nameAttributes = @{ NSFontAttributeName : [UIFont systemFontOfSize:nameFontSize],
+                                              NSParagraphStyleAttributeName: paragraphStyle};
+                CGSize nameSize = [self.nickname boundingRectWithSize:CGSizeMake(100, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin  attributes:nameAttributes context:nil].size;
                 CGSize contentSize = [messageBody.text boundingRectWithSize:CGSizeMake(ScreenWidth - 130, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin  attributes:attributes context:nil].size;
                 self.cHig = contentSize.height+5;
                 CGSize rpContetSize = [self.rpContent boundingRectWithSize:CGSizeMake(ScreenWidth - 140, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
-                CGFloat contentX = ChatMargin + MIN(nameSize.width+5, 100);
-                self.rpcHig = rpContetSize.height;
+                rpContetSize = CGSizeMake(rpContetSize.width+10, rpContetSize.height);
+                
                 CGFloat maxWid = MAX(rpContetSize.width, contentSize.width) + 20;
                 CGFloat minWid = MAX(maxWid, 36)+10;
+                CGFloat nameX = 56;
+                CGFloat contentX = ChatMargin + 40;
+                CGFloat avatarX = ChatMargin;
                 if (_isSender) {
-                    contentX = ScreenWidth - nameSize.width - minWid - 20;
+                    contentX = ScreenWidth - 40 - minWid - 10;
+                    nameX = ScreenWidth - 40 - nameSize.width;
+                    avatarX = ScreenWidth - ChatMargin - 30;
                 }
-                if (_isSender) {
-                    nameX = ScreenWidth - ChatMargin - nameSize.width;
-                }
-                _nameRect = CGRectMake(nameX, 5, MIN(nameSize.width+5, 100), 22);
                 
-                CGFloat rpH =   self.isReply ? (rpContetSize.height + 10) : 0;
-         
-                _contentRect = CGRectMake(contentX, 0, minWid, ceil(contentSize.height) + rpH + 10 + 10);
+                _nameRect = CGRectMake(nameX, 0, MIN(nameSize.width+5, 100), 20);
+                _avatarRect = CGRectMake(avatarX, 0, 30, 30);
+                CGFloat rpH =   self.isReply ? (rpContetSize.height + 20) : 0;
+                self.rpcHig = rpH;
+                _contentRect = CGRectMake(contentX, 23, minWid, contentSize.height + rpH + 20);
                 
-                _chatCellHight =  MAX(CGRectGetMaxY(_contentRect), 22) + 10;
+                _chatCellHight =  MAX(CGRectGetMaxY(_contentRect), 22) + 10+19 ;
             }
                 break;
                 
@@ -73,7 +84,7 @@
 }
 
 /**
- 从环信  聊天记录拉取信息   直播和聊天都用的这个model
+ 从环信  聊天记录拉取信息   直播和聊天都用的这个model   (聊天)
  */
 - (instancetype)initWithMessage:(EMMessage *)message
 {
@@ -111,7 +122,7 @@
                 if (_rpContent.length>0) {
                     addValue = 50;
                 }
-                self.rpLhig = rpContentSize.height;
+                self.rpLhig = rpContentSize.height+30;
             
                 self.titleSize = contentSize;
 
@@ -230,15 +241,18 @@
             paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
             paragraphStyle.alignment = NSTextAlignmentLeft;
             
+            
+            
             NSDictionary *attributes = @{ NSFontAttributeName : [UIFont textFontB2],
                                           NSParagraphStyleAttributeName: paragraphStyle};
+            
             CGSize nameSize = [self.nickname boundingRectWithSize:CGSizeMake(100, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin |NSStringDrawingUsesFontLeading  attributes:attributes context:nil].size;
             CGSize contentSize = [self.text boundingRectWithSize:CGSizeMake(ScreenWidth - 130, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading  attributes:attributes context:nil].size;
             self.cHig = ceil(contentSize.height);
             CGSize rpContetSize = [self.rpContent boundingRectWithSize:CGSizeMake(ScreenWidth - 140, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attributes context:nil].size;
             CGFloat contentX = ChatMargin + MIN(nameSize.width+5, 100);
-            self.rpcHig = ceil(rpContetSize.height);
-            CGFloat maxWid = MAX(rpContetSize.width, contentSize.width)+20;
+            
+            CGFloat maxWid = MAX(rpContetSize.width, contentSize.width);
             CGFloat minWid = MAX(maxWid, 36);
             if (_isSender) {
                 contentX = ScreenWidth - nameSize.width - minWid - 20;
@@ -248,8 +262,9 @@
             }
             _nameRect = CGRectMake(nameX, 5, MIN(nameSize.width+5, 100), 22);
          
-            CGFloat rpH =   self.isReply ? (rpContetSize.height + 10) : 0;
-            _contentRect = CGRectMake(contentX, 0, minWid, ceil(contentSize.height) + rpH + 10 + 20);
+            CGFloat rpH =   self.isReply ? (rpContetSize.height + 30) : 0;
+            self.rpcHig = rpH;
+            _contentRect = CGRectMake(contentX, 0, minWid, ceil(contentSize.height) + rpH  + 20);
             _chatCellHight =  MAX(CGRectGetMaxY(_contentRect), 22) + 10;
         }
         else
@@ -278,6 +293,20 @@
 - (void)updateMessageExtDict:(NSDictionary *)dict
 {
     NSString *stateStr = dict[@"tp"];
+    NSString * avatar = dict[@"avatar"];
+    if (avatar) {
+        self.avatarURLPath = avatar;
+    }
+    NSString * userid = dict[@"userid"];
+    if (userid) {
+        self.userid = dict[@"userid"];
+    }
+    NSString * vip = dict[@"vip"];
+    if (vip) {
+        self.vip = vip;
+    }
+    //将用户头像存到本地
+    [[EVImAvatarLocalClass shareInstance] saveAvatarWithUid:_userid avatarUrl:_avatarURLPath];
     
     if ([stateStr isEqualToString:@"nor"]) {
         self.state = EVEaseMessageTypeStateNor;

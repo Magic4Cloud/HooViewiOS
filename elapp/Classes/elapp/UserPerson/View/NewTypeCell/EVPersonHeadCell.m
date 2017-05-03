@@ -38,18 +38,20 @@
         NSString * fansString = [NSString stringWithFormat:@"%ld",(unsigned long)userModel.fans_count];
         NSString * newString = [NSString stringWithFormat:@"%@关注  %@粉丝",followString,fansString];
         
-        NSRange followRange = NSMakeRange(0, followString.length+2);
-        [_cellFollowAndFansLabel addLinkToURL:[NSURL URLWithString:[NSString stringWithFormat:@"followLink"]] withRange:followRange];
-        
-        NSRange fansRange = NSMakeRange(followString.length+4, fansString.length+2);
-        [_cellFollowAndFansLabel addLinkToURL:[NSURL URLWithString:[NSString stringWithFormat:@"fansLink"]] withRange:fansRange];
-        
         NSMutableAttributedString * followAndFansString = [[NSMutableAttributedString alloc] initWithString:newString];
         [followAndFansString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:255/255.0 green:108/255.0 blue:36/255.0 alpha:1] range:NSMakeRange(0, followString.length)];
         
         [followAndFansString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:255/255.0 green:108/255.0 blue:36/255.0 alpha:1] range:NSMakeRange(followString.length+4, fansString.length)];
         
         [followAndFansString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:NSMakeRange(0, newString.length)];
+        
+        _cellFollowAndFansLabel.attributedText = followAndFansString;
+        
+        NSRange followRange = NSMakeRange(0, followString.length+2);
+        [_cellFollowAndFansLabel addLinkToURL:[NSURL URLWithString:[NSString stringWithFormat:@"followLink"]] withRange:followRange];
+        
+        NSRange fansRange = NSMakeRange(followString.length+4, fansString.length+2);
+        [_cellFollowAndFansLabel addLinkToURL:[NSURL URLWithString:[NSString stringWithFormat:@"fansLink"]] withRange:fansRange];
         
         _cellFollowAndFansLabel.attributedText = followAndFansString;
         

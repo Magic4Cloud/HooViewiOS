@@ -588,6 +588,13 @@
 
     [dict setValue:messageType forKey:@"tp"];
     [dict setValue:[EVLoginInfo localObject].nickname forKey:@"nk"];
+    EVLoginInfo * model = [EVLoginInfo localObject];
+    //头像
+    [dict setValue:model.logourl forKey:@"avatar"];
+    //uid
+    [dict setValue:model.name forKey:@"userid"];
+    NSString * vip = [NSString stringWithFormat:@"%d",model.vip];
+    [dict setValue:vip forKey:@"vip"];
     if (self.rpName != nil && ![self.rpName isEqualToString:@""]) {
         if ([chatViewText rangeOfString:self.rpName].location != NSNotFound) {
             NSString *chatS = chatViewText;
@@ -718,9 +725,9 @@
 
     self.textLiveToolBar.hidden = YES;
     self.stockTextView.hidden = YES;
-   self.snopImage =  [self snapshot:self.navigationController.view];
+    self.snopImage =  [self snapshot:self.navigationController.view];
     [UIView animateWithDuration:0.3 animations:^{
-        self.eVSharePartView.frame = CGRectMake(0, 0, ScreenHeight, ScreenHeight - 64);
+        self.eVSharePartView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight - 64);
     }];
 }
 

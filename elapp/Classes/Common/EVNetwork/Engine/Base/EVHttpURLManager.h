@@ -27,7 +27,14 @@
 + (NSString *)fullURLStringWithURI:(NSString *)uriString
                             params:(NSMutableDictionary *)params;
 
+/**
+ 新版根据url获取完整的url openAPI 和dev区分
 
+ @param urlString url
+ @param params 参数
+ @return 完整url
+ */
++ (NSString *)openApiAndDevfullUrl:(NSString *)urlString params:(NSMutableDictionary *)params;
 
 // https根据Uri获得完整url
 + (NSString *)httpsFullURLStringWithURI:(NSString *)uriString

@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <HyphenateLite_CN/EMSDK.h>
 
+#import "EVImAvatarLocalClass.h"
 
 typedef NS_ENUM(NSInteger, EVEaseMessageType) {
     EVEaseMessageTypeText,
@@ -53,6 +54,10 @@ typedef NS_ENUM(NSInteger, EVEaseMessageTypeState) {
 @property (strong, nonatomic) NSString *nickname;
 /** @brief 消息发送方的头像url */
 @property (strong, nonatomic) NSString *avatarURLPath;
+/** @brief 消息发送方的userid */
+@property (strong, nonatomic) NSString * userid;
+/** @brief 消息发送方是否是vip */
+@property (strong, nonatomic) NSString * vip;
 /** @brief 消息发送方的头像 */
 @property (strong, nonatomic) UIImage *avatarImage;
 /** @brief 文本消息的文字 */
@@ -106,6 +111,8 @@ typedef NS_ENUM(NSInteger, EVEaseMessageTypeState) {
 @property (nonatomic) long long timestamp;
 
 @property (nonatomic,assign) CGRect nameRect;
+
+@property (nonatomic,assign) CGRect avatarRect;
 
 @property (nonatomic,assign) CGRect contentRect;
 

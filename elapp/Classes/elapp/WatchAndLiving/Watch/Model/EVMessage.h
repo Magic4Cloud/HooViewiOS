@@ -10,9 +10,9 @@
 
 
 typedef NS_ENUM(NSInteger, EVMessageFrom) {
-    EVMessageFromMe    = 0,   // 自己发的
+    EVMessageFromMe    = 0,    // 自己发的
     EVMessageFromOther = 1,    // 别人发得
-    EVMessageFromSystem = 2
+    EVMessageFromSystem = 2    //系统消息
 };
 
 @interface EVMessage : NSObject

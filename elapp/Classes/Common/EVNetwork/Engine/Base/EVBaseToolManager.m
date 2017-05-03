@@ -363,8 +363,10 @@ static BOOL sessioncheck = NO;
 // 设置本地用户名
 + (void)setUserNameToLocal:(NSString *)name
 {
-    
-    [CCUserDefault setValue:name
+    if (!name) {
+        return;
+    }
+    [CCUserDefault setObject:name
                       forKey:CCUSER_NAME];
     [CCUserDefault synchronize];
     
@@ -387,14 +389,10 @@ static BOOL sessioncheck = NO;
 + (void)resetSession
 {
      NSDictionary *dics = [CCUserDefault dictionaryRepresentation];
-    for(NSString *key in [dics allKeys]){
-        
-        NSLog(@"key:%@ value:%@",key,dics[key]);
-    }
     
     
     [CCUserDefault removeObjectForKey:SESSION_ID_STR];
-   
+    [CCUserDefault removeObjectForKey:CCUSER_NAME];
 
     [CCUserDefault setObject:nil
                       forKey:USER_DNAME_STR];
