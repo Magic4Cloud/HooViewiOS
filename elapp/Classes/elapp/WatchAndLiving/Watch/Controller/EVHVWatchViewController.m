@@ -235,12 +235,12 @@
     }
     
 
-    [EVProgressHUD showIndeterminateForView:self.view];
+//    [EVProgressHUD showIndeterminateForView:self.view];
     // 获取视频信息
     [self.baseToolManager GETUserstartwatchvideoWithParams:param Start:^{
         
     } fail:^(NSError *error) {
-        [EVProgressHUD hideHUDForView:self.view];
+//        [EVProgressHUD hideHUDForView:self.view];
         if ([error.userInfo[@"reterr"] isEqualToString:@"晚到一步，已被主播焚掉啦"]) {
             [EVProgressHUD showError:error.userInfo[@"reterr"]];
               [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
