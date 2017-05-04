@@ -282,6 +282,33 @@
         
     };
     
+//    EVTextLiveToolBar * chatLiveToolBar = [[EVTextLiveToolBar alloc] init];
+//    [self.navigationController.view addSubview:chatLiveToolBar];
+//    self.chatLiveToolBar = textLiveToolBar;
+//    chatLiveToolBar.delegate = self;
+//    [chatLiveToolBar autoPinEdgeToSuperviewEdge:ALEdgeLeft];
+//    [chatLiveToolBar autoPinEdgeToSuperviewEdge:ALEdgeRight];
+//    self.toolBarTextBottonF =    [textLiveToolBar autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:0];
+//    self.toolBarTextViewHig =    [textLiveToolBar autoSetDimension:ALDimensionHeight toSize:49];
+    
+    
+    textLiveToolBar.inputTextView.yz_textHeightChangeBlock = ^(NSString *text,CGFloat textHeight){
+        if (text.length <= 0) {
+            weakself.toolBarTextViewHig.constant = 49;
+            return;
+        }
+        if (weakself.chooseIndex == 0) {
+            weakself.toolBarTextViewHig.constant = textHeight + 16;
+            weakself.toolBarTextBottonF.constant  = - weakself.keyBoardHig - 36;
+        }else if(self.chooseIndex == 2 ) {
+            weakself.toolBarTextViewHig.constant = textHeight + 16;
+            weakself.toolBarTextBottonF.constant  = - weakself.keyBoardHig ;
+            weakself.chatToolBarTextViewHig.constant = textHeight + 16;
+            weakself.chatToolBarTextBottonF.constant  = - weakself.keyBoardHig;
+        }
+        
+    };
+    
     
     
     EVSendImageView *sendImageView = [[EVSendImageView alloc] init];
