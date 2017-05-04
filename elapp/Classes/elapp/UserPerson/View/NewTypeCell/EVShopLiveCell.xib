@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -40,13 +40,13 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lL3-XX-I0b">
-                        <rect key="frame" x="20" y="65" width="117.5" height="17"/>
+                        <rect key="frame" x="32" y="65" width="105.5" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_hot" translatesAutoresizingMaskIntoConstraints="NO" id="0HR-kY-UUw">
-                        <rect key="frame" x="16" y="66" width="16" height="16"/>
+                        <rect key="frame" x="117.5" y="66" width="16" height="16"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="16" id="Ai5-S7-30R"/>
                             <constraint firstAttribute="width" secondItem="0HR-kY-UUw" secondAttribute="height" multiplier="1:1" id="Q4h-Sm-nWJ"/>
@@ -66,15 +66,24 @@
                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
                     </button>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="video_list_icon_watch" translatesAutoresizingMaskIntoConstraints="NO" id="1uq-Z9-Fpx" userLabel="eyeImage">
+                        <rect key="frame" x="12" y="65" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="bfe-pt-5rp"/>
+                            <constraint firstAttribute="height" constant="20" id="xVX-Aj-VFK"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="1uq-Z9-Fpx" firstAttribute="leading" secondItem="ebO-Ba-eKO" secondAttribute="leading" id="1KC-xa-Hyg"/>
                     <constraint firstAttribute="bottom" secondItem="ebO-Ba-eKO" secondAttribute="bottom" constant="15" id="1xA-JG-3bi"/>
                     <constraint firstItem="lL3-XX-I0b" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ebO-Ba-eKO" secondAttribute="trailing" id="2eF-QZ-xGk"/>
                     <constraint firstItem="lL3-XX-I0b" firstAttribute="bottom" secondItem="ebO-Ba-eKO" secondAttribute="bottom" constant="-3" id="6mw-V0-amq"/>
-                    <constraint firstItem="0HR-kY-UUw" firstAttribute="leading" secondItem="ebO-Ba-eKO" secondAttribute="leading" constant="4" id="6wO-5Z-2qZ"/>
+                    <constraint firstItem="0HR-kY-UUw" firstAttribute="trailing" secondItem="ebO-Ba-eKO" secondAttribute="trailing" constant="-4" id="6wO-5Z-2qZ"/>
                     <constraint firstItem="6Pk-De-7kl" firstAttribute="top" secondItem="ebO-Ba-eKO" secondAttribute="top" id="Amb-Tj-DpT"/>
-                    <constraint firstItem="lL3-XX-I0b" firstAttribute="leading" secondItem="ebO-Ba-eKO" secondAttribute="leading" constant="8" id="Qyq-es-aPJ"/>
+                    <constraint firstItem="lL3-XX-I0b" firstAttribute="leading" secondItem="ebO-Ba-eKO" secondAttribute="leading" constant="20" id="Qyq-es-aPJ"/>
                     <constraint firstItem="K6Q-fB-C9T" firstAttribute="leading" secondItem="fLL-gk-Yu5" secondAttribute="leading" id="WDm-qB-nQd"/>
+                    <constraint firstItem="1uq-Z9-Fpx" firstAttribute="bottom" secondItem="ebO-Ba-eKO" secondAttribute="bottom" id="Z28-vk-d8b"/>
                     <constraint firstAttribute="trailingMargin" secondItem="6Pk-De-7kl" secondAttribute="trailing" constant="5" id="fae-bB-ioZ"/>
                     <constraint firstItem="fLL-gk-Yu5" firstAttribute="leading" secondItem="6Pk-De-7kl" secondAttribute="leading" id="kzf-Ph-cJ7"/>
                     <constraint firstItem="ebO-Ba-eKO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="12" id="mV8-gW-lU6"/>
@@ -103,5 +112,6 @@
     </objects>
     <resources>
         <image name="ic_hot" width="16" height="16"/>
+        <image name="video_list_icon_watch" width="15" height="15"/>
     </resources>
 </document>

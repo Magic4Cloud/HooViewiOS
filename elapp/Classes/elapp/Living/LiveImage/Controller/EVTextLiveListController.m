@@ -56,7 +56,7 @@
 
 - (void)addUpView
 {
-    UITableView *liveTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 64 -49) style:(UITableViewStyleGrouped)];
+    UITableView *liveTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 4, ScreenWidth, ScreenHeight - 64 -49 -4) style:(UITableViewStyleGrouped)];
     liveTableView.delegate = self;
     liveTableView.dataSource = self;
     [self.view addSubview:liveTableView];
@@ -131,81 +131,81 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if(self.hotArray.count == 0)
-    {
-        if (self.dataArray.count == 0) {
-            return 0;
-        }
-    }
-    else
-    {
-        if (section == 0) {
-            return 1;
-        }
-    }
+//    if(self.hotArray.count == 0)
+//    {
+//        if (self.dataArray.count == 0) {
+//            return 0;
+//        }
+//    }
+//    else
+//    {
+//        if (section == 0) {
+//            return 1;
+//        }
+//    }
     
     
     return self.dataArray.count;
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    if(self.hotArray.count == 0) {
-        if (self.dataArray.count == 0) {
-            return 0;
-        }
-        else
-        {
-            return 1;
-        }
-    }
-    else
-    {
-        if (self.dataArray.count == 0) {
-            return 1;
-        }
-    }
-    
-    return 2;
-}
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+//{
+//    if(self.hotArray.count == 0) {
+//        if (self.dataArray.count == 0) {
+//            return 0;
+//        }
+//        else
+//        {
+//            return 1;
+//        }
+//    }
+//    else
+//    {
+//        if (self.dataArray.count == 0) {
+//            return 1;
+//        }
+//    }
+//    
+//    return 2;
+//}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.hotArray.count == 0)
-    {
-        if (self.dataArray.count>0) {
-            EVHotImageListViewCell *liveCell =[tableView dequeueReusableCellWithIdentifier:@"imageCell"];
-            if (!liveCell) {
-                liveCell = [[NSBundle mainBundle] loadNibNamed:@"EVHotImageListViewCell" owner:nil options:nil].firstObject;
-                [liveCell setValue:@"imageCell" forKey:@"reuseIdentifier"];
-                liveCell.selectionStyle = UITableViewCellSelectionStyleNone;
-            }
-            
-            if (self.dataArray.count != 0) {
-                liveCell.watchVideoInfo = self.dataArray[indexPath.row];
-            }
-            
-            return liveCell;
-        }
-    }
-    else
-    {
-        
-            if (indexPath.section == 0)
-            {
-                EVLiveImageViewCell *Cell  = [tableView dequeueReusableCellWithIdentifier:@"imageItemCell"];
-                if (!Cell) {
-                    Cell =  [[EVLiveImageViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:@"imageItemCell"];
-                }
-                Cell.dataArray = self.hotArray;
-                Cell.dataLiveArray = self.hotLiveArray;
-                Cell.listSeletedBlock = ^(EVWatchVideoInfo *videoInfo,EVWatchVideoInfo *liveVideoInfo) {
-                    [self pushTextLivingControllerWithWatchVideoInfo:videoInfo liveVideoInfo:liveVideoInfo];
-                };
-                Cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                return Cell;
-            }
-    }
+//    if (self.hotArray.count == 0)
+//    {
+//        if (self.dataArray.count>0) {
+//            EVHotImageListViewCell *liveCell =[tableView dequeueReusableCellWithIdentifier:@"imageCell"];
+//            if (!liveCell) {
+//                liveCell = [[NSBundle mainBundle] loadNibNamed:@"EVHotImageListViewCell" owner:nil options:nil].firstObject;
+//                [liveCell setValue:@"imageCell" forKey:@"reuseIdentifier"];
+//                liveCell.selectionStyle = UITableViewCellSelectionStyleNone;
+//            }
+//            
+//            if (self.dataArray.count != 0) {
+//                liveCell.watchVideoInfo = self.dataArray[indexPath.row];
+//            }
+//            
+//            return liveCell;
+//        }
+//    }
+//    else
+//    {
+//        
+//            if (indexPath.section == 0)
+//            {
+//                EVLiveImageViewCell *Cell  = [tableView dequeueReusableCellWithIdentifier:@"imageItemCell"];
+//                if (!Cell) {
+//                    Cell =  [[EVLiveImageViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:@"imageItemCell"];
+//                }
+//                Cell.dataArray = self.hotArray;
+//                Cell.dataLiveArray = self.hotLiveArray;
+//                Cell.listSeletedBlock = ^(EVWatchVideoInfo *videoInfo,EVWatchVideoInfo *liveVideoInfo) {
+//                    [self pushTextLivingControllerWithWatchVideoInfo:videoInfo liveVideoInfo:liveVideoInfo];
+//                };
+//                Cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//                return Cell;
+//            }
+//    }
     EVHotImageListViewCell *liveCell =[tableView dequeueReusableCellWithIdentifier:@"imageCell"];
     if (!liveCell) {
         liveCell = [[NSBundle mainBundle] loadNibNamed:@"EVHotImageListViewCell" owner:nil options:nil].firstObject;
@@ -221,42 +221,42 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
-      return  172;
-    }
-    return 100;
+//    if (indexPath.section == 0) {
+//      return  172;
+//    }
+    return 98;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    
-    
-    NSArray *titleArray = @[@" 热门大牛",@" 大牛列表"];
-    NSArray *imageArray = @[@"hv_recommend_n",@"hv_list_live"];
-    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 50)];
-    backView.backgroundColor = [UIColor evBackgroundColor];
-    
-    UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 10, ScreenWidth, 40)];
-    [backView addSubview:contentView];
-    contentView.backgroundColor = [UIColor whiteColor];
-    
-    UIButton *imageButton = [[UIButton alloc] init];
-    [contentView addSubview:imageButton];
-    [imageButton setImage:[UIImage imageNamed:imageArray[section]] forState:(UIControlStateNormal)];
-    [imageButton setTitle:titleArray[section] forState:(UIControlStateNormal)];
-    [imageButton setTitleColor:[UIColor evTextColorH2] forState:(UIControlStateNormal)];
-    imageButton.titleLabel.font = [UIFont textFontB2];
-    imageButton.frame = CGRectMake(16, 9, 100, 22);
-    imageButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    if (self.hotArray.count == 0) {
-        [imageButton setTitle:titleArray[1] forState:(UIControlStateNormal)];
-        [imageButton setImage:[UIImage imageNamed:imageArray[1]] forState:(UIControlStateNormal)];
-    }
-    if (section == 0) {
-        backView.hidden = YES;
-    }
-    return backView;
-}
+//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+//{
+//    
+//    
+//    NSArray *titleArray = @[@" 热门大牛",@" 大牛列表"];
+//    NSArray *imageArray = @[@"hv_recommend_n",@"hv_list_live"];
+//    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 50)];
+//    backView.backgroundColor = [UIColor evBackgroundColor];
+//    
+//    UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 10, ScreenWidth, 40)];
+//    [backView addSubview:contentView];
+//    contentView.backgroundColor = [UIColor whiteColor];
+//    
+//    UIButton *imageButton = [[UIButton alloc] init];
+//    [contentView addSubview:imageButton];
+//    [imageButton setImage:[UIImage imageNamed:imageArray[section]] forState:(UIControlStateNormal)];
+//    [imageButton setTitle:titleArray[section] forState:(UIControlStateNormal)];
+//    [imageButton setTitleColor:[UIColor evTextColorH2] forState:(UIControlStateNormal)];
+//    imageButton.titleLabel.font = [UIFont textFontB2];
+//    imageButton.frame = CGRectMake(16, 9, 100, 22);
+//    imageButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+//    if (self.hotArray.count == 0) {
+//        [imageButton setTitle:titleArray[1] forState:(UIControlStateNormal)];
+//        [imageButton setImage:[UIImage imageNamed:imageArray[1]] forState:(UIControlStateNormal)];
+//    }
+//    if (section == 0) {
+//        backView.hidden = YES;
+//    }
+//    return backView;
+//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
@@ -265,13 +265,14 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 0) {
-        return 0.01;
-    }
-    else
-    {
-    return 50;
-    }
+//    if (section == 0) {
+//        return 0.01;
+//    }
+//    else
+//    {
+//    return 50;
+//    }
+    return 0.01;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

@@ -30,7 +30,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    _headImageView.layer.cornerRadius = 40;
+    _headImageView.layer.cornerRadius = 30;
     _headImageView.layer.masksToBounds = YES;
     _oneTagLabel.layer.cornerRadius = 4;
     _oneTagLabel.clipsToBounds = YES;

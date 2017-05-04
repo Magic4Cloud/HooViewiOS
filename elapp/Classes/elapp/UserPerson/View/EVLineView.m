@@ -45,6 +45,32 @@
     }
 }
 
+
++ (void)addLightTopLineToView:(UIView *)view {
+    if (view) {
+        EVLineView *lineView = [EVLineView new];
+        [view addSubview:lineView];
+        lineView.backgroundColor = CCColor(238, 238, 238);
+        [lineView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
+        [lineView autoPinEdgeToSuperviewEdge:ALEdgeRight];
+        [lineView autoPinEdgeToSuperviewEdge:ALEdgeBottom];
+        [lineView autoSetDimension:ALDimensionHeight toSize:kGlobalSeparatorHeight];
+    }
+}
+
++ (void)addLightBottomLineToView:(UIView *)view {
+    if (view) {
+        EVLineView *lineView = [EVLineView new];
+        [view addSubview:lineView];
+        lineView.backgroundColor = CCColor(238, 238, 238);
+        [lineView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
+        [lineView autoPinEdgeToSuperviewEdge:ALEdgeRight];
+        [lineView autoPinEdgeToSuperviewEdge:ALEdgeTop];
+        [lineView autoSetDimension:ALDimensionHeight toSize:kGlobalSeparatorHeight];
+    }
+}
+
+
 + (void)addCellBottomDefaultLineToView:(UIView *)view
 {
     if (view) {

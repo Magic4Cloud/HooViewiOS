@@ -38,7 +38,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor greenColor];
+    self.view.backgroundColor = [UIColor evBackgroundColor];
     [self addUpView];
     WEAK(self);
     
@@ -55,7 +55,7 @@
 
 - (void)addUpView
 {
-    UITableView *liveTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 113) style:(UITableViewStyleGrouped)];
+    UITableView *liveTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 4, ScreenWidth, ScreenHeight - 117) style:(UITableViewStyleGrouped)];
     liveTableView.delegate = self;
     liveTableView.dataSource = self;
     [self.view addSubview:liveTableView];

@@ -18,6 +18,8 @@
 @property (nonatomic, copy) NSString *user_avatar;
 @property (nonatomic, copy) NSString *content;
 @property (nonatomic, assign) NSString *vip;
+@property (nonatomic, copy) NSString *like;
+
 
 @property (nonatomic, assign) CGFloat cellHeight;
 

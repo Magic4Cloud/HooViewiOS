@@ -30,4 +30,10 @@
 {
     return [UIFont systemFontOfSize:14.f];
 }
+
++ (UIFont *)textFontB4
+{
+    return [UIFont systemFontOfSize:12.f];
+}
+
 @end
