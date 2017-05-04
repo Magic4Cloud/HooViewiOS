@@ -61,7 +61,7 @@
     stockTopView.frame  = CGRectMake(0, 0, ScreenWidth, 114);
     stockTopView.delegate = self;
     
-    UITableView *stockTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 113) style:(UITableViewStylePlain)];
+    UITableView *stockTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 4, ScreenWidth, ScreenHeight - 117) style:(UITableViewStylePlain)];
     stockTableView.delegate = self;
     stockTableView.dataSource = self;
     stockTableView.backgroundColor = [UIColor whiteColor];

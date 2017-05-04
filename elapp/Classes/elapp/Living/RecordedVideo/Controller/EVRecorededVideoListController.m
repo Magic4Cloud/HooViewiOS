@@ -52,7 +52,7 @@
 
 - (void)addUpView
 {
-    UITableView *listTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 113) style:(UITableViewStylePlain)];
+    UITableView *listTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 4, ScreenWidth, ScreenHeight - 117) style:(UITableViewStylePlain)];
     listTableView.delegate = self;
     listTableView.dataSource = self;
     [self.view addSubview:listTableView];

@@ -14,4 +14,5 @@
 + (UIFont *)textFontB1; /**< 字号 18 */
 + (UIFont *)textFontB2; /**< 字号 16 */
 + (UIFont *)textFontB3; /**< 字号 14 */
++ (UIFont *)textFontB4;
 @end

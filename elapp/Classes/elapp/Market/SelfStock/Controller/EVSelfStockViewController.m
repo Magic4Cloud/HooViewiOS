@@ -60,7 +60,7 @@
 
 - (void)addTableView
 {
-    UITableView *listTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 5, ScreenWidth, ScreenHeight - 118) style:(UITableViewStylePlain)];
+    UITableView *listTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 4, ScreenWidth, ScreenHeight - 117) style:(UITableViewStylePlain)];
     listTableView.delegate = self;
     listTableView.dataSource = self;
     listTableView.backgroundColor = [UIColor evBackgroundColor];

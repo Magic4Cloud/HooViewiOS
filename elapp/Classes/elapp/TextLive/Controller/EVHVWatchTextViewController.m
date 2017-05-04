@@ -41,6 +41,8 @@
 #import "EVLoginViewController.h"
 #import "EVVipCenterViewController.h"
 
+#import "EVVipCenterController.h"
+
 #define headerTopHig     216
 #define segmentHig        44
 
@@ -251,11 +253,17 @@
 #pragma mark - 点击头像进入个人主页
 - (void)personalHomePage
 {
-    EVVipCenterViewController *vipCenterVC  = [[EVVipCenterViewController alloc] init];
-    vipCenterVC.watchVideoInfo = self.watchVideoInfo;
-    //isfollow  是关注的意思
-    vipCenterVC.isFollow = self.watchVideoInfo.followed;
-    [self.navigationController pushViewController:vipCenterVC animated:YES];
+//    EVVipCenterViewController *vipCenterVC  = [[EVVipCenterViewController alloc] init];
+//    vipCenterVC.watchVideoInfo = self.watchVideoInfo;
+//    //isfollow  是关注的意思
+//    vipCenterVC.isFollow = self.watchVideoInfo.followed;
+//    [self.navigationController pushViewController:vipCenterVC animated:YES];
+    
+    EVWatchVideoInfo *watchInfo = [EVWatchVideoInfo new];
+    watchInfo.name = self.watchVideoInfo.name;
+    EVVipCenterController *vc = [[EVVipCenterController alloc] init];
+    vc.watchVideoInfo = watchInfo;
+    [self.navigationController pushViewController:vc animated:YES];
    
 }
 - (EVHVVipCenterView *)vipCenterView
