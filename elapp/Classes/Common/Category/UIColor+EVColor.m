@@ -103,6 +103,10 @@
     return [UIColor colorWithRed:254/255.0 green:79/255.0 blue:80/255.0 alpha:1];
 }
 
++ (UIColor *)evSeparetorGrayColor
+{
+    return [UIColor colorWithRed:244/255.0 green:244/255.0 blue:244/255.0 alpha:1];
+}
 + (UIColor *)evGlobalSeparatorColor
 {
     return [UIColor colorWithHexString:@"#d9d9d9"];

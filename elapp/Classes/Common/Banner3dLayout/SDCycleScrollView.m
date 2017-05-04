@@ -117,6 +117,7 @@ static NSString *indentify = @"MKJCollectionViewCell";
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
 
     flowLayout.itemSize = CGSizeMake(self.bounds.size.width - 34*screenScale, self.bounds.size.height-2*screenScale);
+    flowLayout.needAlpha = YES;
     flowLayout.minimumLineSpacing = 0;
 //    flowLayout.minimumInteritemSpacing = 20;
     flowLayout.delegate = self;

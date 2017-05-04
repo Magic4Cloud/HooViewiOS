@@ -100,6 +100,23 @@
 - (NSString *)thousandsSeparatorString
 {
     long count = self.length;
+    float value = [self floatValue];
+    
+    if (value>=10000)
+    {
+        NSString *str = [NSString stringWithFormat:@"%f",value/10000.0];
+        NSRange range = [str rangeOfString:@"."];
+        str = [str substringToIndex:range.location+2];
+        if ([str hasSuffix:@".0"])
+        {
+            return [NSString stringWithFormat:@"%@万",[str substringToIndex:str.length-2]];
+        }
+        else
+        {
+            return [NSString stringWithFormat:@"%@万",str];
+        }
+    }
+    
     NSMutableString *string = [NSMutableString stringWithString:self];
     NSMutableString *newstring = [NSMutableString string];
     while (count > 3) {

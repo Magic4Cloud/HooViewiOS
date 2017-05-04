@@ -239,19 +239,34 @@
     
     
     if ([easeMessageModel.vip boolValue])
-    {//大v  背景黄色  字体黑色  回复白色
-        normal = [UIImage imageNamed:@"bg_chat_myself"];
-        normal = [normal resizableImageWithCapInsets:UIEdgeInsetsMake(35, 10, 10, 22)];
-        self.contentLabel.textColor = [UIColor blackColor];
-        self.rpcLabel.textColor = [UIColor whiteColor];
-        self.rpcLabel.backgroundColor = [UIColor colorWithRed:240/255.0 green:186/255.0 blue:84/255.0 alpha:1];
+    {
+        //大v  背景黄色  字体黑色  回复白色
+        if (easeMessageModel.isSender)
+        {
+            //自己发的 右边黄色（大v）
+            normal = [UIImage imageNamed:@"bg_chat_myself"];
+            normal = [normal resizableImageWithCapInsets:UIEdgeInsetsMake(35, 10, 10, 22)];
+            self.contentLabel.textColor = [UIColor blackColor];
+            self.rpcLabel.textColor = [UIColor whiteColor];
+            self.rpcLabel.backgroundColor = [UIColor colorWithRed:240/255.0 green:186/255.0 blue:84/255.0 alpha:1];
+        }
+        else
+        {
+            //别人发的 左边黄色（大v）
+            normal = [UIImage imageNamed:@"ic_ChatYollowLeft"];
+            normal = [normal resizableImageWithCapInsets:UIEdgeInsetsMake(1, 30, 1, 39) resizingMode:UIImageResizingModeStretch];
+            self.contentLabel.textColor = [UIColor blackColor];
+            self.rpcLabel.textColor = [UIColor whiteColor];
+            self.rpcLabel.backgroundColor = [UIColor colorWithRed:240/255.0 green:186/255.0 blue:84/255.0 alpha:1];
+        }
+        
     }
     else
     {
         //        不是大v
         if (easeMessageModel.isSender)
         {
-            //不是大v 正常的发送者 背景白色
+            //不是大v 自己发的 背景白色
             normal = [UIImage imageNamed:@"ic_White"];
             
             normal = [normal resizableImageWithCapInsets:UIEdgeInsetsMake(25, 10, 30, 20) resizingMode:UIImageResizingModeStretch];
@@ -261,6 +276,7 @@
         }
         else
         {
+            //不是大v 别人发的  灰色
             normal = [UIImage imageNamed:@"bg_chat_others"];
             normal = [normal resizableImageWithCapInsets:UIEdgeInsetsMake(35, 22, 10, 10)];
 

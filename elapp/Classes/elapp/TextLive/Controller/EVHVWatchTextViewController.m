@@ -182,19 +182,6 @@
     [_sementedBackView addSubview:_topSView];
     
     
-//    UIButton *followButton = [[UIButton alloc] init];
-//    [_sementedBackView addSubview:followButton];
-//    self.followButton = followButton;
-//    followButton.frame = CGRectMake(ScreenWidth - 86, 7, 50, 24);
-//    [followButton setBackgroundColor:[UIColor evMainColor]];
-//    [followButton setTitle:@"关注" forState:(UIControlStateNormal)];
-//    [followButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
-//    followButton.titleLabel.font = [UIFont systemFontOfSize:14.f];
-//    followButton.layer.cornerRadius = 4;
-//    followButton.clipsToBounds = YES;
-//    [followButton addTarget:self action:@selector(followClick:) forControlEvents:(UIControlEventTouchDown)];
-    
-    
     [self updateIsFollow:self.watchVideoInfo.followed];
     if ([self.watchVideoInfo.name isEqualToString:[EVLoginInfo localObject].name]) {
         self.followButton.hidden  = YES;
@@ -203,9 +190,7 @@
     self.navigationView = [[UIView alloc] init];
     _navigationView.frame = CGRectMake(0, 0, ScreenWidth, 64);
     _navigationView.backgroundColor = [UIColor whiteColor];
-    [EVLineView addTopLineToView:_navigationView];
     [self.view addSubview:_navigationView];
-//    _navigationView.alpha = 0.0;
     
     UIButton *nBackBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     [_navigationView addSubview:nBackBtn];
@@ -219,7 +204,7 @@
     UILabel *nNameLbl = [[UILabel alloc] init];
     [_navigationView addSubview:nNameLbl];
     self.nNameLabel = nNameLbl;
-    self.nNameLabel.text = [NSString stringWithFormat:@"12344556参与"];
+    self.nNameLabel.text = [NSString stringWithFormat:@"0参与"];
     [nNameLbl autoAlignAxisToSuperviewAxis:ALAxisVertical];
     [nNameLbl autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:29];
     [nNameLbl autoSetDimensionsToSize:CGSizeMake(120, 20)];
@@ -323,14 +308,14 @@
     self.stockTextView = stockTextView;
     stockTextView.backgroundColor = [UIColor whiteColor];
     
-    
+    //MARK:工具栏截图等
     EVHVTLWatchBtnView *hvtWatchBtnView = [[EVHVTLWatchBtnView alloc] init];
     [self.view addSubview:hvtWatchBtnView];
     self.hvtWatchBtnView = hvtWatchBtnView;
     hvtWatchBtnView.delegate = self;
     [hvtWatchBtnView autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:20];
     [hvtWatchBtnView autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:16];
-    [hvtWatchBtnView autoSetDimensionsToSize:CGSizeMake(40, 152)];
+    [hvtWatchBtnView autoSetDimensionsToSize:CGSizeMake(40, 96)];
     
     
     [EVNotificationCenter addObserver:self selector:@selector(keyBoardShow:) name:UIKeyboardWillShowNotification object:nil];
@@ -660,17 +645,8 @@
            
         }
             break;
+       
         case 9001:
-        {
-            NSLog(@"聊天");
-            [self.topSView changeSelectButtonIndex:2];
-            //修复bug  点击聊天没有跳转页面
-            CGFloat offsetX = 2 * self.view.frame.size.width;
-            self.mainBackView.contentOffset = CGPointMake(offsetX, 0);
-            [self chooseIndex:2];
-        }
-            break;
-        case 9002:
         {
             NSLog(@"礼物");
             NSString *sessionID = [self.engine getSessionIdWithBlock:nil];
@@ -850,7 +826,7 @@
 
 - (void)updateIsFollow:(BOOL)follow
 {
-    NSString *titleStr = follow ? @"已关注" : @"关注";
+    NSString *titleStr = follow ? @"已关注" : @"+关注";
     UIColor * backColor;
     if (follow)
     {
@@ -860,6 +836,7 @@
     {
         backColor = [UIColor evMainColor];
     }
+    
     [self.headerView.followButton setBackgroundColor:backColor];
     [self.headerView.followButton setTitle:titleStr forState:(UIControlStateNormal)];
 }

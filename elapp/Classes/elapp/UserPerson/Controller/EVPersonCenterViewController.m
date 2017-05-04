@@ -81,7 +81,6 @@
     
     [self loadPersonalInfor];
     
-    
 }
 #pragma mark - 🙄 Private methods
 - (void)initData
@@ -482,7 +481,13 @@
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        _tableView.contentInset = UIEdgeInsetsMake(4, 0, 0, 0);
         _tableView.tableFooterView = [UIView new];
+//        UIView * separatorView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 4)];
+        
+        _tableView.backgroundColor = [UIColor evSeparetorGrayColor];
+//        _tableView.tableHeaderView = separatorView;
+        
     }
     return _tableView;
 }
