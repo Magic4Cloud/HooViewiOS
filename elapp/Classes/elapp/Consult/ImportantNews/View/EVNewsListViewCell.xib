@@ -47,7 +47,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="73b-ag-akx">
-                        <rect key="frame" x="310" y="65" width="31" height="22"/>
+                        <rect key="frame" x="284" y="65" width="31" height="22"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="22" id="Wfi-eq-3pX"/>
                         </constraints>
@@ -63,7 +63,7 @@
                         </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_news_read" translatesAutoresizingMaskIntoConstraints="NO" id="UZp-Cs-n2m">
-                        <rect key="frame" x="283" y="58" width="36" height="36"/>
+                        <rect key="frame" x="248" y="58" width="36" height="36"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="36" id="JMT-ky-7Qh"/>
                             <constraint firstAttribute="height" constant="36" id="Tk3-Sh-O3W"/>
@@ -72,9 +72,8 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="FLM-W2-CdR" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="3SX-WH-Ejd"/>
-                    <constraint firstAttribute="trailing" secondItem="73b-ag-akx" secondAttribute="trailing" constant="35" id="402-db-NR0"/>
                     <constraint firstItem="8wD-M2-dQb" firstAttribute="centerY" secondItem="u21-Ad-RAs" secondAttribute="centerY" id="4fN-Qu-Nbr"/>
-                    <constraint firstItem="73b-ag-akx" firstAttribute="leading" secondItem="UZp-Cs-n2m" secondAttribute="trailing" constant="-9" id="Gum-m6-FQg"/>
+                    <constraint firstItem="73b-ag-akx" firstAttribute="leading" secondItem="UZp-Cs-n2m" secondAttribute="trailing" id="Gum-m6-FQg"/>
                     <constraint firstItem="Xfz-WA-gto" firstAttribute="top" secondItem="FLM-W2-CdR" secondAttribute="top" id="LBZ-q6-1L7"/>
                     <constraint firstAttribute="trailingMargin" secondItem="Xfz-WA-gto" secondAttribute="trailing" constant="15" id="Rmb-o1-XfM"/>
                     <constraint firstItem="u21-Ad-RAs" firstAttribute="centerY" secondItem="UZp-Cs-n2m" secondAttribute="centerY" id="T7U-g5-Gta"/>
@@ -84,8 +83,12 @@
                     <constraint firstAttribute="bottom" secondItem="u21-Ad-RAs" secondAttribute="bottom" constant="5.5" id="a5v-pT-uNr"/>
                     <constraint firstItem="FLM-W2-CdR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="oGg-Nq-bRe"/>
                     <constraint firstItem="8wD-M2-dQb" firstAttribute="leading" secondItem="u21-Ad-RAs" secondAttribute="trailing" constant="-6" id="u59-nZ-mCq"/>
+                    <constraint firstItem="UZp-Cs-n2m" firstAttribute="leading" secondItem="u21-Ad-RAs" secondAttribute="trailing" constant="90" id="wf3-dG-QW0"/>
                 </constraints>
             </tableViewCellContentView>
+            <constraints>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="73b-ag-akx" secondAttribute="trailing" constant="5" id="CL9-ip-SUe"/>
+            </constraints>
             <connections>
                 <outlet property="newsBackImage" destination="FLM-W2-CdR" id="3hC-B9-9Hq"/>
                 <outlet property="newsReadLabel" destination="73b-ag-akx" id="LU4-CL-hy7"/>

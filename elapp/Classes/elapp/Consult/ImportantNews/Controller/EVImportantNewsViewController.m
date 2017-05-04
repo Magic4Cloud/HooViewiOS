@@ -40,6 +40,9 @@
 #import "EVNewsModel.h"
 #import "EVStockMarketModel.h"
 #import "EVRecommendModel.h"
+
+
+
 @interface EVImportantNewsViewController ()<UITableViewDelegate,UITableViewDataSource,EVCycleScrollViewDelegate,EVHVEyeViewDelegate>
 
 
@@ -135,7 +138,7 @@
     iNewsTableview.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:iNewsTableview];
     _iNewsTableview = iNewsTableview;
-    iNewsTableview.contentInset = UIEdgeInsetsMake(7, 0, 0, 0);
+    iNewsTableview.contentInset = UIEdgeInsetsMake(14, 0, 0, 0);
     EVCycleScrollView *cycleScrollView = [[EVCycleScrollView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenWidth/1.56)];
     cycleScrollView.delegate = self;
     cycleScrollView.backgroundColor = [UIColor whiteColor];
@@ -144,7 +147,7 @@
     iNewsTableview.tableHeaderView = cycleScrollView;
     iNewsTableview.separatorStyle = NO;
     
-   
+    
     
     
 }
@@ -461,7 +464,7 @@
 {
     if (indexPath.section == 0)
     {
-        return 88;
+        return 88 + 14;
     }
 //    else if (indexPath.section == 1)
 //    {
