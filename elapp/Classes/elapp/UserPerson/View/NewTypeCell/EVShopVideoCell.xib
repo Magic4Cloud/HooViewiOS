@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -91,7 +91,7 @@
                         </constraints>
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m82-Vq-8ru">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="4"/>
+                        <rect key="frame" x="0.0" y="354.5" width="375" height="4"/>
                         <color key="backgroundColor" red="0.96569406425311011" green="0.97525539162195274" blue="0.97525539162195274" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="4" id="eDi-Fb-Ll0"/>
@@ -144,7 +144,7 @@
                     <constraint firstItem="zM7-iw-Jnr" firstAttribute="leading" secondItem="KHS-Vv-kvA" secondAttribute="leading" id="sO4-Na-6aW"/>
                     <constraint firstAttribute="trailing" secondItem="m82-Vq-8ru" secondAttribute="trailing" id="ti2-ij-TKb"/>
                     <constraint firstItem="paG-O3-M4O" firstAttribute="top" secondItem="KHS-Vv-kvA" secondAttribute="top" id="u6R-pp-swQ"/>
-                    <constraint firstItem="m82-Vq-8ru" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="ufY-rH-RhI"/>
+                    <constraint firstItem="m82-Vq-8ru" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottom" id="ufY-rH-RhI"/>
                     <constraint firstAttribute="trailingMargin" secondItem="tnM-nH-Fbv" secondAttribute="trailing" constant="15" id="xPz-a9-70m"/>
                     <constraint firstItem="aYo-da-E4P" firstAttribute="top" secondItem="zM7-iw-Jnr" secondAttribute="top" id="yVc-NB-GXv"/>
                     <constraint firstAttribute="trailing" secondItem="KHS-Vv-kvA" secondAttribute="trailing" constant="15" id="zMa-r6-bFW"/>
