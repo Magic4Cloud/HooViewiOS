@@ -72,13 +72,20 @@
     backScrollView.showsHorizontalScrollIndicator = NO;
     backScrollView.contentSize = CGSizeMake(ScreenWidth * titleArray.count, frame.size.height - 44);
     
-//    _videoCommentView = [[EVHVVideoCommentView alloc] initWithFrame:CGRectMake(0, 0,ScreenWidth, self.frameHig - 40 - 49)];
+    
+    //简介
+    EVHVWatchCheatsView *cheatsView1 = [[EVHVWatchCheatsView alloc] initWithFrame:CGRectMake(ScreenWidth * (titleArray.count - 4), 0, ScreenWidth, frame.size.height - 44)];
+    [backScrollView addSubview:cheatsView1];
+    cheatsView1.backgroundColor = [UIColor evBackgroundColor];
+
+    //评论
     EVHVVideoCommentView * videoCommentView = [[EVHVVideoCommentView alloc] initWithFrame:CGRectMake(ScreenWidth * (titleArray.count - 3), 0,ScreenWidth, self.frameHig - 40 - 49)];
     [backScrollView addSubview:videoCommentView];
     self.videoCommentView = videoCommentView;
     videoCommentView.backgroundColor =[UIColor evBackgroundColor];
     
     
+    //股票
     EVNotOpenView *notOpenView = [[EVNotOpenView alloc] initWithFrame:CGRectMake(ScreenWidth * (titleArray.count - 2), 0, ScreenWidth, frame.size.height - 44)];
     [backScrollView addSubview:notOpenView];
     notOpenView.imageName = @"ic_watch_stock_not_data";
@@ -93,7 +100,7 @@
     dataView.backgroundColor =[UIColor evBackgroundColor];
     self.watchStockView.hidden = YES;
     
-    
+    //秘籍
     EVHVWatchCheatsView *cheatsView = [[EVHVWatchCheatsView alloc] initWithFrame:CGRectMake(ScreenWidth * (titleArray.count - 1), 0, ScreenWidth, frame.size.height - 44)];
     [backScrollView addSubview:cheatsView];
     cheatsView.backgroundColor = [UIColor evBackgroundColor];
