@@ -178,13 +178,14 @@
             // 点击事件
             [_title_btn addTarget:self action:@selector(buttonAction:) forControlEvents:(UIControlEventTouchUpInside)];
             
+            
+            
+            // 存入所有的title_btn
+            [self.storageAlltitleBtn_mArr addObject:_title_btn];
             // 默认选中第0个button
             if (i == 0) {
                 [self buttonAction:_title_btn];
             }
-            
-            // 存入所有的title_btn
-            [self.storageAlltitleBtn_mArr addObject:_title_btn];
             [self addSubview:_title_btn];
         }
         

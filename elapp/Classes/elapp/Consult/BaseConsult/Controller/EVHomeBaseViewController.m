@@ -34,18 +34,18 @@
         self.titleColorSelected = [UIColor evMainColor];
         self.titleColorNormal = [UIColor evTextColorH2];
         self.menuItemWidth = 45;
-        self.progressViewWidths = @[@16,@16,@16];
+        self.progressViewWidths = @[@16,@16,@16,@16];
 //        self.progressViewIsNaughty = YES;
-        self.titles = @[@"要闻",@"快讯",@"专栏"];
+        self.titles = @[@"要闻",@"快讯",@"股市",@"专栏"];
         float margin = 12;
         if (ScreenWidth == 320) {
             margin = 0;
         }
         
         NSNumber * marginNum = [NSNumber numberWithFloat:margin];
-        float lastMargin = ScreenWidth - 50-margin*2-45*3;
+        float lastMargin = ScreenWidth - 50-margin*3-45*4;
         NSNumber * number = [NSNumber numberWithFloat:lastMargin];
-        self.itemsMargins = @[@50,marginNum,marginNum,number];
+        self.itemsMargins = @[@50,marginNum,marginNum,marginNum,number];
         self.menuBGColor = [UIColor whiteColor];
         self.menuViewStyle = WMMenuViewLayoutModeLeft;
     }
@@ -101,7 +101,7 @@
         {
             //要闻
             EVImportantNewsViewController *importantVC = [[EVImportantNewsViewController alloc] init];
-            importantVC.view.backgroundColor = [UIColor grayColor];
+            importantVC.view.backgroundColor = CCColor(247, 247, 247);
             return importantVC;
         }
             break;
@@ -111,27 +111,18 @@
              EVFastNewsViewController *fastVC = [[EVFastNewsViewController alloc] init];
             return fastVC;
         }
-//        case 2:
-//        {
-//            //自选
-//            EVChooseNewsViewController *chooseVC = [[EVChooseNewsViewController alloc] init];
-//            return chooseVC;
-//        }
         case 2:
         {
 
-            //专栏
+            //股市
             EVSpeciaColumnViewController * speciaColumnVC = [[EVSpeciaColumnViewController alloc] init];
             return speciaColumnVC;
-//            //自选
-//            EVChooseNewsViewController *chooseVC = [[EVChooseNewsViewController alloc] init];
-//            return chooseVC;
         }
         case 3:
         {
             //专栏
-//            EVSpeciaColumnViewController * speciaColumnVC = [[EVSpeciaColumnViewController alloc] init];
-//            return speciaColumnVC;
+            EVSpeciaColumnViewController * speciaColumnVC = [[EVSpeciaColumnViewController alloc] init];
+            return speciaColumnVC;
         }
         default:
         {

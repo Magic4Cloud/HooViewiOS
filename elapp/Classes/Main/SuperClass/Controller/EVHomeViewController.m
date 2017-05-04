@@ -89,6 +89,14 @@
 
 - (void)setUpIM
 {
+    //重新登录环信
+    EVLoginInfo * model = [EVLoginInfo localObject];
+    if (model) {
+        [EVEaseMob checkAndAutoReloginWithLoginInfo:model loginFail:^(EMError *error) {
+            
+        }];
+    }
+    
     [[EMClient sharedClient] addDelegate:self delegateQueue:nil];
 //    [EVEaseMob setChatManagerDelegate:self];
 }
@@ -196,6 +204,9 @@
 {
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     _foreground = YES;
+    
+    
+    
 }
 
 - (void)enterBackground

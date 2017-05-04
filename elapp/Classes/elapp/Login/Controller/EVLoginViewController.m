@@ -244,7 +244,7 @@ typedef NS_ENUM(NSInteger, CCLoginViewButtonType) {
     }
     [self.view endEditing:YES];
     
-    [EVProgressHUD showMessage:kLogin_loading toView:self.view];
+    [EVProgressHUD showIndeterminateForView:self.view];
     __weak typeof(self) wself = self;
     [self.engine GETPhoneUserPhoneLoginWithAreaCode:@"86" Phone:phone password:pwd phoneNumError:^(NSString *numError) {
         

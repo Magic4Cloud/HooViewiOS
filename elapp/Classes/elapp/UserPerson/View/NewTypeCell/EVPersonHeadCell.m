@@ -54,8 +54,7 @@
         [_cellFollowAndFansLabel addLinkToURL:[NSURL URLWithString:[NSString stringWithFormat:@"fansLink"]] withRange:fansRange];
         _cellFollowAndFansLabel.attributedText = followAndFansString;
         
-        
-        
+
         
         if ([userModel.gender isEqualToString:@"male"]) {
             //男

@@ -127,6 +127,8 @@
 #define EVUserTagsSetAPI            @"/user/tagset"
 
 
+
+
 #pragma mark - *********** 测试环境api ******************
 //测试环境api
 #ifdef STATE_DEV
@@ -161,6 +163,8 @@
 #define EVSuccessPayToService       @"https://appgw.hooview.com/easyvaas/service/service/payecoin"
 
 
+
+
 //api/news/banners/
 #define EVAddSelfStockAPI           @"http://dev.hooview.com/api/user/modifystocks"//添加 & 修改自选股
 #define EVGetChooseStockNewsAPI     @"http://dev.hooview.com/api/user/stocknews"//自选新闻
@@ -178,9 +182,6 @@
 #define EVHVNewsConstantAPI         @"http://dev.hooview.com/api/v3/news/home"
 //专题
 #define EVHVNewsTopicAPI            @"http://dev.hooview.com/api/v2/news/topic"
-
-
-
 
 
 //文章搜索
@@ -232,7 +233,7 @@
 #define EVHVEyesDetailNewsAPI       @"http://openapi.hooview.com/api/news/getlist"
 #define EVStockComment              @"http://openapi.hooview.com/api/bbs/stockpost"
 #define EVNewsComment               @"http://openapi.hooview.com/api/bbs/newspost"
-#define EVSearchNews                @"http://openapi.hooview.com/api/search/news"
+
 #define EVSearchStock               @"http://openapi.hooview.com/api/search/stock"
 #define EVVideoCommentAPI           @"http://openapi.hooview.com/api/bbs/videopost"
 #define EVVideoCommentListAPI       @"http://openapi.hooview.com/api/bbs/videoconversatons"
@@ -271,7 +272,8 @@
 #define EVHVNewsConstantAPI         @"http://openapi.hooview.com/api/v3/news/home"
 //专题
 #define EVHVNewsTopicAPI            @"http://openapi.hooview.com/api/v2/news/topic"
-
+//文章搜索
+#define EVSearchNews                @"http://openapi.hooview.com/api/v2/search/news"
 //文章收藏
 #define EVNewsCollectAPI            @"http://openapi.hooview.com/api/v2/news/favorite"
 //我的收藏

@@ -8,7 +8,7 @@
 
 #import "EVConsultStockViewCell.h"
 #import "EVCSStockButton.h"
-
+#import "EVLineView.h"
 
 @interface EVConsultStockViewCell ()
 
@@ -29,6 +29,8 @@
 
 - (void)addUpView
 {
+    [EVLineView addLightTopLineToView:self];
+    [EVLineView addLightBottomLineToView:self];
     NSArray *titleArray = @[@"上证",@"深成",@"创业板"];
     for (NSInteger i = 0; i < 3; i++) {
         EVCSStockButton *csStockBtn = [[EVCSStockButton alloc] init];

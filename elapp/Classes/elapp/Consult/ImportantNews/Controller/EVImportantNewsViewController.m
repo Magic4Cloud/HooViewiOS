@@ -122,7 +122,7 @@
 #pragma mark - 🖍 User Interface layout
 - (void)addTableView
 {
-    UITableView *iNewsTableview = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-49-64) style:(UITableViewStyleGrouped)];
+    UITableView *iNewsTableview = [[UITableView alloc] initWithFrame:CGRectMake(0, 4, ScreenWidth, ScreenHeight-49-64 - 4) style:(UITableViewStyleGrouped)];
     
     [iNewsTableview registerNib:[UINib nibWithNibName:@"EVHVEyeViewCell" bundle:nil] forCellReuseIdentifier:@"EVHVEyeViewCell"];
     [iNewsTableview registerNib:[UINib nibWithNibName:@"EVOnlyTextCell" bundle:nil] forCellReuseIdentifier:@"EVOnlyTextCell"];
@@ -346,15 +346,16 @@
 {
     if (section == 0) {
         return 1;
-    }else if (section == 1) {
-        return 1;
     }
+//    else if (section == 1) {
+//        return 1;
+//    }
     return self.newsDataArray.count;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -381,18 +382,18 @@
         };
         return Cell;
     }
-    else if (indexPath.section == 1)
-    {
-        //火眼金睛
-        EVHVEyeViewCell *eyeCell = [tableView dequeueReusableCellWithIdentifier:@"EVHVEyeViewCell"];
-        if (!eyeCell) {
-            eyeCell = [[NSBundle mainBundle] loadNibNamed:@"EVHVEyeViewCell" owner:nil options:nil][0];
-            [eyeCell setValue:@"EVHVEyeViewCell" forKey:@"reuseIdentifier"];
-        }
-        eyeCell.delegate = self;
-        eyeCell.eyesArray = self.eyesDataArray;
-        return eyeCell;
-    }
+//    else if (indexPath.section == 1)
+//    {
+//        //火眼金睛
+//        EVHVEyeViewCell *eyeCell = [tableView dequeueReusableCellWithIdentifier:@"EVHVEyeViewCell"];
+//        if (!eyeCell) {
+//            eyeCell = [[NSBundle mainBundle] loadNibNamed:@"EVHVEyeViewCell" owner:nil options:nil][0];
+//            [eyeCell setValue:@"EVHVEyeViewCell" forKey:@"reuseIdentifier"];
+//        }
+//        eyeCell.delegate = self;
+//        eyeCell.eyesArray = self.eyesDataArray;
+//        return eyeCell;
+//    }
     //新闻列表
     
     EVNewsModel * newsModel = _newsDataArray[indexPath.row];
@@ -462,27 +463,27 @@
     {
         return 88;
     }
-    else if (indexPath.section == 1)
-    {
-        switch (self.eyesDataArray.count)
-        {
-            case 0:
-                return 50;
-                break;
-            case 1:
-                return 100;
-                break;
-            case 2:
-                return 150;
-                break;
-            case 3:
-                return 220;
-                break;
-            default:
-                break;
-        }
-        return 200;
-    }
+//    else if (indexPath.section == 1)
+//    {
+//        switch (self.eyesDataArray.count)
+//        {
+//            case 0:
+//                return 50;
+//                break;
+//            case 1:
+//                return 100;
+//                break;
+//            case 2:
+//                return 150;
+//                break;
+//            case 3:
+//                return 220;
+//                break;
+//            default:
+//                break;
+//        }
+//        return 200;
+//    }
     EVNewsModel * newsModel = _newsDataArray[indexPath.row];
     if ([newsModel.type isEqualToString:@"2"]) {
         //牛人推荐
@@ -504,7 +505,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0 || indexPath.section == 1) {
+    if (indexPath.section == 0) {
         return;
     }
     

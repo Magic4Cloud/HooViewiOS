@@ -210,11 +210,14 @@
                sessionExpire:(void(^)())sessionExpireBlock
 {
     NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
-    if ( sessionID == nil )
+    if ( !sessionID )
     {
         return;
     }
     NSString * uid = [self uidFromLocal];
+    if (!uid) {
+        return;
+    }
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[kSessionIdKey] = sessionID;
     params[@"userid"] = uid;
@@ -222,12 +225,7 @@
     {
         params[kNameKey] = userid;
     }
-    
-//    if ( imuser )
-//    {
-//        params[kImuser] = imuser;
-//    }
-    
+        
     [EVBaseToolManager GETRequestWithUrl:EVVideoUserInfoAPI parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
 }
 

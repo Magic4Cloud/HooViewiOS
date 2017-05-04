@@ -124,7 +124,9 @@
 + (void)checkAndAutoReloginWithLoginInfo:(EVLoginInfo *)info loginFail:(void(^)(EMError *error))loginFail
 {
     if (info.imuser.length > 0 && info.impwd.length > 0) {
-        EMError *error = [[EMClient sharedClient] loginWithUsername:info.imuser password:info.impwd];
+        NSString * imUser = info.imuser;
+        NSString * impwd = info.impwd;
+        EMError *error = [[EMClient sharedClient] loginWithUsername:imUser password:impwd];
         if (!error)
         {
             [[EMClient sharedClient].options setIsAutoLogin:YES];

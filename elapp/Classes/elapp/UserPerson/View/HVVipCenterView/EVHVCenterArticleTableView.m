@@ -118,7 +118,7 @@
 
 - (void)loadMoreData
 {
-//    NSString * uid = [CCUserDefault objectForKey:CCUSER_NAME];
+
     [self.baseToolManager GETUserCollectListsWithStart:[NSString stringWithFormat:@"%d",start] count:@"20" userId:self.WatchVideoInfo.name fail:^(NSError *error) {
         [self endFooterRefreshing];
     } success:^(NSDictionary *retinfo) {

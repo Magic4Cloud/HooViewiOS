@@ -46,7 +46,10 @@
     backView.backgroundColor = [UIColor blackColor];
     backView.alpha = 0.4;
     [backImageView addSubview:backView];
-    [backView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
+    [backView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
+    [backView autoPinEdgeToSuperviewEdge:ALEdgeRight];
+    [backView autoPinEdgeToSuperviewEdge:ALEdgeBottom];
+    [backView autoSetDimension:ALDimensionHeight toSize:22];
 
     
     
@@ -70,7 +73,7 @@
     self.ishotImage = ishotImage;
     ishotImage.image = [UIImage imageNamed:@"ic_hot"];
     [ishotImage autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:6];
-    [ishotImage autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:32];
+    [ishotImage autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:29];
     [ishotImage autoSetDimensionsToSize:CGSizeMake(16, 16)];
 
     
@@ -89,17 +92,17 @@
     [self.nameLabel setText:watchVideoInfo.title];
 
     NSString *watch_count = [NSString stringWithFormat:@"%ld",watchVideoInfo.watch_count];
-    _watch_countLabel.text = [NSString stringWithFormat:@"%@人观看",[watch_count thousandsSeparatorString]];
+    _watch_countLabel.text = [NSString stringWithFormat:@"%@",[watch_count thousandsSeparatorString]];
     
     if (watchVideoInfo.watch_count < 10000) {
         _ishotImage.hidden = YES;
-        [_watch_countLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:2];
-        [_watch_countLabel autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:30];
+        [_watch_countLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:5];
+        [_watch_countLabel autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:27];
         [_watch_countLabel autoSetDimension:ALDimensionHeight toSize:20];
     } else {
         _ishotImage.hidden = NO;
         [_watch_countLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:24];
-        [_watch_countLabel autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:30];
+        [_watch_countLabel autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:27];
         [_watch_countLabel autoSetDimension:ALDimensionHeight toSize:20];
     }
     

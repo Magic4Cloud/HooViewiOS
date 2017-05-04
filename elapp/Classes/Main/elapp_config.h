@@ -129,12 +129,14 @@
 
 // 服务器地址
 #ifdef STATE_RELEASE
+#define OpenOrDevApiBaseUrl              @"http://openapi.hooview.com/api"
 #define EVVideoBaseURL                          EVURL_RELEASE
 #define EVVideoBaseHTTPSURL                     EVURL_HTTPS_RELEASE
 #define EVAppState                              EVURL_STATTE_RELEASE
 #endif
 
 #ifdef STATE_DEV
+#define OpenOrDevApiBaseUrl              @"http://dev.hooview.com/api"
 #define EVAppState                              EVURL_STATTE_DEV
 #define EVVideoBaseHTTPSURL                     EVURL_HTTPS_DEV
 #define EVVideoBaseURL                          EVURL_DEV

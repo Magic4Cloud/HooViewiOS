@@ -43,7 +43,10 @@
 
 #import "EVVipCenterController.h"
 
-#define headerTopHig     216
+
+#import "EVTextLiveHeaderView.h"
+
+#define headerTopHig     (104+64)
 #define segmentHig        44
 
 @interface EVHVWatchTextViewController ()<EVHVVipCenterDelegate,SwipeTableViewDataSource,SwipeTableViewDelegate,UIGestureRecognizerDelegate,UIViewControllerTransitioningDelegate,SGSegmentedControlStaticDelegate,EMChatManagerDelegate,EVHVStockTextViewDelegate,EVTextBarDelegate,EVHVLWatchViewDelegate,CCMagicEmojiViewDelegate,EVWebViewShareViewDelegate,EVYiBiViewControllerDelegate,EMChatroomManagerDelegate,UIScrollViewDelegate,EVTextLiveTableViewDelegate,EVTextLiveStockDelegate>
@@ -114,9 +117,22 @@
 //--------------------------------------- 新 -----------------//
 @property (nonatomic, weak) UIScrollView *mainBackView;
 
+@property (nonatomic, strong) EVTextLiveHeaderView * headerView;
 @end
 
 @implementation EVHVWatchTextViewController
+
+- (EVTextLiveHeaderView *)headerView
+{
+    if (!_headerView) {
+        _headerView = [[EVTextLiveHeaderView alloc] initWithFrame:CGRectMake(0, 64, ScreenWidth, 104)];
+        [_headerView.followButton addTarget:self action:@selector(followClick:) forControlEvents:UIControlEventTouchUpInside];
+        UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(personalHomePage)];
+        [_headerView.avatarImageView addGestureRecognizer:tap];
+        _headerView.avatarImageView.userInteractionEnabled = YES;
+    }
+    return _headerView;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -139,9 +155,11 @@
     mainBackView.delegate = self;
     mainBackView.showsHorizontalScrollIndicator = NO;
     
-    [self.view addSubview:self.vipCenterView];
-    self.vipCenterView.delegate = self;
-    [self.vipCenterView.reportBtn setImage:[UIImage imageNamed:@"btn_share_w_n_back"] forState:(UIControlStateNormal)];
+//    [self.view addSubview:self.vipCenterView];
+//    self.vipCenterView.delegate = self;
+//    [self.vipCenterView.reportBtn setImage:[UIImage imageNamed:@"btn_share_w_n_back"] forState:(UIControlStateNormal)];
+    
+    [self.view addSubview:self.headerView];
     
     self.sementedBackView  = [[UIView alloc] init];
     _sementedBackView.frame = CGRectMake(0, headerTopHig, ScreenWidth, segmentHig);
@@ -150,7 +168,7 @@
     
     NSArray *titleArray = @[@"直播",@"数据",@"聊天",@"秘籍"];
     
-    self.topSView = [SGSegmentedControlStatic segmentedControlWithFrame:CGRectMake(0, 0, ScreenWidth / 4 * 3, segmentHig) delegate:self childVcTitle:titleArray indicatorIsFull:NO];
+    self.topSView = [SGSegmentedControlStatic segmentedControlWithFrame:CGRectMake(0, 0, ScreenWidth , segmentHig) delegate:self childVcTitle:titleArray indicatorIsFull:NO];
     // 必须实现的方法
     [_topSView SG_setUpSegmentedControlType:^(SGSegmentedControlStaticType *segmentedControlStaticType, NSArray *__autoreleasing *nomalImageArr, NSArray *__autoreleasing *selectedImageArr) {
         
@@ -166,19 +184,19 @@
     [_sementedBackView addSubview:_topSView];
     
     
-    UIButton *followButton = [[UIButton alloc] init];
-    [_sementedBackView addSubview:followButton];
-    self.followButton = followButton;
-    followButton.frame = CGRectMake(ScreenWidth - 86, 7, 70, 30);
-    [followButton setImage:[UIImage imageNamed:@"btn_unconcerned_n"] forState:(UIControlStateNormal)];
-    [followButton setTitle:@"关注" forState:(UIControlStateNormal)];
-    [followButton setTitleColor:[UIColor evTextColorH2] forState:(UIControlStateNormal)];
-    followButton.layer.borderColor = [UIColor evBackgroundColor].CGColor;
-    followButton.layer.borderWidth = 1;
-    followButton.titleLabel.font = [UIFont systemFontOfSize:16.f];
-    followButton.layer.cornerRadius = 4;
-    followButton.clipsToBounds = YES;
-    [followButton addTarget:self action:@selector(followClick:) forControlEvents:(UIControlEventTouchDown)];
+//    UIButton *followButton = [[UIButton alloc] init];
+//    [_sementedBackView addSubview:followButton];
+//    self.followButton = followButton;
+//    followButton.frame = CGRectMake(ScreenWidth - 86, 7, 50, 24);
+//    [followButton setBackgroundColor:[UIColor evMainColor]];
+//    [followButton setTitle:@"关注" forState:(UIControlStateNormal)];
+//    [followButton setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
+//    followButton.titleLabel.font = [UIFont systemFontOfSize:14.f];
+//    followButton.layer.cornerRadius = 4;
+//    followButton.clipsToBounds = YES;
+//    [followButton addTarget:self action:@selector(followClick:) forControlEvents:(UIControlEventTouchDown)];
+    
+    
     [self updateIsFollow:self.watchVideoInfo.followed];
     if ([self.watchVideoInfo.name isEqualToString:[EVLoginInfo localObject].name]) {
         self.followButton.hidden  = YES;
@@ -189,7 +207,7 @@
     _navigationView.backgroundColor = [UIColor whiteColor];
     [EVLineView addTopLineToView:_navigationView];
     [self.view addSubview:_navigationView];
-    _navigationView.alpha = 0.0;
+//    _navigationView.alpha = 0.0;
     
     UIButton *nBackBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     [_navigationView addSubview:nBackBtn];
@@ -203,21 +221,21 @@
     UILabel *nNameLbl = [[UILabel alloc] init];
     [_navigationView addSubview:nNameLbl];
     self.nNameLabel = nNameLbl;
-    self.nNameLabel.text = _watchVideoInfo.nickname;
+    self.nNameLabel.text = [NSString stringWithFormat:@"12344556参与"];
     [nNameLbl autoAlignAxisToSuperviewAxis:ALAxisVertical];
     [nNameLbl autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:29];
-    [nNameLbl autoSetDimensionsToSize:CGSizeMake(100, 25)];
-    nNameLbl.textColor = [UIColor evTextColorH2];
-    nNameLbl.font = [UIFont textFontB1];
+    [nNameLbl autoSetDimensionsToSize:CGSizeMake(120, 20)];
+    nNameLbl.textColor = [UIColor evRedColor];
+    nNameLbl.font = [UIFont systemFontOfSize:14];
     nNameLbl.textAlignment = NSTextAlignmentCenter;
     
     UIButton *nShareBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     [_navigationView addSubview:nShareBtn];
     self.nShareBtn  = nShareBtn;
-    [nShareBtn setImage:[UIImage imageNamed:@"hv_share"] forState:(UIControlStateNormal)];
+    [nShareBtn setImage:[UIImage imageNamed:@"btn_share_n"] forState:(UIControlStateNormal)];
     [nShareBtn autoPinEdgeToSuperviewEdge:ALEdgeRight];
     [nShareBtn autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:20];
-    [nShareBtn autoSetDimensionsToSize:CGSizeMake(54, 44)];
+    [nShareBtn autoSetDimensionsToSize:CGSizeMake(44, 44)];
     [_nShareBtn addTarget:self action:@selector(shareClick:) forControlEvents:(UIControlEventTouchUpInside)];
     
     [mainBackView addSubview:self.liveImageTableView];
@@ -253,12 +271,6 @@
 #pragma mark - 点击头像进入个人主页
 - (void)personalHomePage
 {
-//    EVVipCenterViewController *vipCenterVC  = [[EVVipCenterViewController alloc] init];
-//    vipCenterVC.watchVideoInfo = self.watchVideoInfo;
-//    //isfollow  是关注的意思
-//    vipCenterVC.isFollow = self.watchVideoInfo.followed;
-//    [self.navigationController pushViewController:vipCenterVC animated:YES];
-    
     EVWatchVideoInfo *watchInfo = [EVWatchVideoInfo new];
     watchInfo.name = self.watchVideoInfo.name;
     EVVipCenterController *vc = [[EVVipCenterController alloc] init];
@@ -360,34 +372,34 @@
 - (void)updateScrollView:(UIScrollView *)scrollView
 {
     
-    if (scrollView.contentOffset.y <= -(headerTopHig + segmentHig)) {
-        self.vipCenterView.frame = CGRectMake(0, 0, ScreenWidth, headerTopHig);
-        self.sementedBackView.frame = CGRectMake(0, headerTopHig, ScreenWidth, 44);
-         self.navigationView.alpha = 0.0;
-    }else if(scrollView.contentOffset.y > 0){
-        self.vipCenterView.frame = CGRectMake(0, -headerTopHig, ScreenWidth, headerTopHig);
-        self.sementedBackView.frame = CGRectMake(0, 64, ScreenWidth, 44);
-        self.navigationView.alpha = 1.0;
-    }else {
-        
-        CGRect oneFrame = self.vipCenterView.frame;
-        oneFrame.origin.y = -((oneFrame.size.height+44) + scrollView.contentOffset.y);
-        self.vipCenterView.frame = oneFrame;
-        
-        if (scrollView.contentOffset.y > -108) {
-            self.sementedBackView.frame = CGRectMake(0, 64, ScreenWidth, 44);
-        }else{
-            self.sementedBackView.frame = CGRectMake(0, CGRectGetMaxY(oneFrame), ScreenWidth, 44);
-        }
-        
-        if (scrollView.contentOffset.y > -190) {
-            self.navigationView.alpha = 1.0;
-        }else {
-            self.navigationView.alpha = 0.0;
-        }
-        
-        
-    }
+//    if (scrollView.contentOffset.y <= -(headerTopHig + segmentHig)) {
+//        self.vipCenterView.frame = CGRectMake(0, 0, ScreenWidth, headerTopHig);
+//        self.sementedBackView.frame = CGRectMake(0, headerTopHig, ScreenWidth, 44);
+//        
+//    }else if(scrollView.contentOffset.y > 0){
+//        self.vipCenterView.frame = CGRectMake(0, -headerTopHig, ScreenWidth, headerTopHig);
+//        self.sementedBackView.frame = CGRectMake(0, 64, ScreenWidth, 44);
+//        
+//    }else {
+//        
+//        CGRect oneFrame = self.vipCenterView.frame;
+//        oneFrame.origin.y = -((oneFrame.size.height+44) + scrollView.contentOffset.y);
+//        self.vipCenterView.frame = oneFrame;
+//        
+//        if (scrollView.contentOffset.y > -108) {
+//            self.sementedBackView.frame = CGRectMake(0, 64, ScreenWidth, 44);
+//        }else{
+//            self.sementedBackView.frame = CGRectMake(0, CGRectGetMaxY(oneFrame), ScreenWidth, 44);
+//        }
+//        
+////        if (scrollView.contentOffset.y > -190) {
+////            self.navigationView.alpha = 1.0;
+////        }else {
+////            self.navigationView.alpha = 0.0;
+////        }
+//        
+//        
+//    }
 }
 
 - (void)loadUserData
@@ -728,6 +740,14 @@
     //发消息人名字 为自己
     [dict setValue:[EVLoginInfo localObject].nickname forKey:@"nk"];
     
+    EVLoginInfo * model = [EVLoginInfo localObject];
+    //头像
+    [dict setValue:model.logourl forKey:@"avatar"];
+    //uid
+    [dict setValue:model.name forKey:@"userid"];
+    NSString * vip = [NSString stringWithFormat:@"%d",model.vip];
+    [dict setValue:vip forKey:@"vip"];
+    
     //环信
     EMMessage *message = [[EMMessage alloc] initWithConversationID:_conversation.conversationId from:from to:_conversation.conversationId body:body ext:dict];
     message.chatType = EMChatTypeChatRoom;
@@ -832,10 +852,18 @@
 
 - (void)updateIsFollow:(BOOL)follow
 {
-    NSString *imageStr = follow ? @"btn_concerned_s": @"btn_unconcerned_n";
-    [self.followButton setImage:[UIImage imageNamed:imageStr] forState:(UIControlStateNormal)];
     NSString *titleStr = follow ? @"已关注" : @"关注";
-    [self.followButton setTitle:titleStr forState:(UIControlStateNormal)];
+    UIColor * backColor;
+    if (follow)
+    {
+        backColor = [UIColor evBackGroundDeepGrayColor];
+    }
+    else
+    {
+        backColor = [UIColor evMainColor];
+    }
+    [self.headerView.followButton setBackgroundColor:backColor];
+    [self.headerView.followButton setTitle:titleStr forState:(UIControlStateNormal)];
 }
 
 - (void)SGSegmentedControlStatic:(SGSegmentedControlStatic *)segmentedControlStatic didSelectTitleAtIndex:(NSInteger)index
@@ -893,9 +921,9 @@
             self.stockTextView.hidden = YES;
             self.hvtWatchBtnView.hidden = YES;
             self.hvGiftAniView.hidden = YES;
-            self.vipCenterView.frame = CGRectMake(0, 0, ScreenWidth, headerTopHig);
-            self.sementedBackView.frame = CGRectMake(0, headerTopHig, ScreenWidth, 44);
-            self.navigationView.alpha = 0.0;
+//            self.vipCenterView.frame = CGRectMake(0, 0, ScreenWidth, headerTopHig);
+//            self.sementedBackView.frame = CGRectMake(0, headerTopHig, ScreenWidth, 44);
+            
         }
             break;
             
@@ -938,7 +966,9 @@
 {
     _watchVideoInfo = watchVideoInfo;
     self.vipCenterView.watchVideoInfo = watchVideoInfo;
-     self.nNameLabel.text = watchVideoInfo.nickname;
+    self.headerView.inforModel = watchVideoInfo;
+    NSString * watchCount = [NSString stringWithFormat:@"%d",watchVideoInfo.watching_count] ;
+    self.nNameLabel.text = [NSString stringWithFormat:@"%@参与",[watchCount thousandsSeparatorString]];
     if ([watchVideoInfo.name isEqualToString:[EVLoginInfo localObject].name]) {
         self.followButton.hidden  = YES;
     }

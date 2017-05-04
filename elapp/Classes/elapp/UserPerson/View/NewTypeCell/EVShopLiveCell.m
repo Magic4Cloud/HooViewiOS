@@ -23,13 +23,16 @@
     _cellTag2Button.layer.masksToBounds = YES;
     [_cellTag2Button setTitle:@"付费" forState:UIControlStateNormal];
     _cellTag2Button.enabled = NO;
-    _cellTag2Button.backgroundColor = [UIColor evBackGroundDeepBlueColor];
+    _cellTag2Button.backgroundColor = [UIColor evBackGroundDeepRedColor];
     _cellTag2Button.contentEdgeInsets = UIEdgeInsetsMake(2, 5, 2, 5);
     
     UIView * coverView = [[UIView alloc] init];
     coverView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.4];
     [_cellImageView insertSubview:coverView atIndex:0];
-    [coverView autoPinEdgesToSuperviewEdges];
+    [coverView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
+    [coverView autoPinEdgeToSuperviewEdge:ALEdgeRight];
+    [coverView autoPinEdgeToSuperviewEdge:ALEdgeBottom];
+    [coverView autoSetDimension:ALDimensionHeight toSize:20];
     
     if (ScreenWidth == 320) {
         _cellDetailLabel.font = [UIFont systemFontOfSize:_cellDetailLabel.font.pointSize-2];
@@ -60,7 +63,7 @@
     
     
 
-    _cellViewCountLabel.text = [NSString stringWithFormat:@"%@人观看",[liveModel.watch_count thousandsSeparatorString]];
+    _cellViewCountLabel.text = [NSString stringWithFormat:@"%@",[liveModel.watch_count thousandsSeparatorString]];
 
     
     if ([liveModel.living boolValue]) {
@@ -78,7 +81,7 @@
     if ([liveModel.mode integerValue] == 2) {
         //精品视频
         [_cellTag1Button setTitle:@"精品" forState:UIControlStateNormal];
-        _cellTag1Button.backgroundColor = [UIColor evBackGroundDeepRedColor];
+        _cellTag1Button.backgroundColor = [UIColor evBackGroundDeepBlueColor];
     }
     if ([liveModel.permission integerValue] == 7) {
         //付费
@@ -91,12 +94,10 @@
     
     if (liveModel.isHot) {
         _cellHotImageView.hidden = NO;
-        _cellViewCountLeadingConstant.constant = 20;
     }
     else
     {
         _cellHotImageView.hidden = YES;
-        _cellViewCountLeadingConstant.constant = 8;
     }
 
 }
