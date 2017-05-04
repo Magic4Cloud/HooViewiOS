@@ -117,7 +117,6 @@
 
 
 
-
 #define EVSearchVideoAPI            @"https://dev.yizhibo.tv/hooview/appgw/video/search"
 
 #define EVGoodVideoListAPI          @"/video/vodlist"
@@ -215,7 +214,6 @@
 #define EVHVCommentLikeOrNotAPI     @"http://dev.hooview.com/api/v2/posts/like"
 
 
-
 #endif
 
 
@@ -288,7 +286,7 @@
 #define EVADDVideoHistoryAPI        @"http://openapi.hooview.com/api/v2/video/history"
 //清除历史记录
 #define EVCleanHistoryListAPI       @"http://openapi.hooview.com/api/v2/user/clean"
-//我的购买
+
 #define EVMyShopsAPI                @"http://openapi.hooview.com/api/v2/user/purchases"
 
 //我的发布

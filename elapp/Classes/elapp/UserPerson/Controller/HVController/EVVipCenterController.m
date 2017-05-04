@@ -257,7 +257,7 @@
 //举报
 - (void)reportClick
 {
-    
+    [EVProgressHUD showMessage:@"举报成功"];
 }
 
 - (void)backButton

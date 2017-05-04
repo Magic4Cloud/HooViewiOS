@@ -43,7 +43,12 @@
 
 - (void)addUpViewFrame:(CGRect)frame titleArray:(NSArray *)titleArray
 {
-    self.topSView = [SGSegmentedControlStatic segmentedControlWithFrame:CGRectMake(0, 0, ScreenWidth - 100, 44) delegate:self childVcTitle:titleArray indicatorIsFull:NO];
+    if (titleArray.count == 3) {
+        self.topSView = [SGSegmentedControlStatic segmentedControlWithFrame:CGRectMake(0, 0, ScreenWidth - 100, 44) delegate:self childVcTitle:titleArray indicatorIsFull:NO];
+    } else if(titleArray.count == 4) {
+        self.topSView = [SGSegmentedControlStatic segmentedControlWithFrame:CGRectMake(0, 0, ScreenWidth, 44) delegate:self childVcTitle:titleArray indicatorIsFull:NO];
+    }
+    
     // 必须实现的方法
     [self.topSView SG_setUpSegmentedControlType:^(SGSegmentedControlStaticType *segmentedControlStaticType, NSArray *__autoreleasing *nomalImageArr, NSArray *__autoreleasing *selectedImageArr) {
         
@@ -65,9 +70,16 @@
     self.backScrollView = backScrollView;
     backScrollView.pagingEnabled = YES;
     backScrollView.showsHorizontalScrollIndicator = NO;
-    backScrollView.contentSize = CGSizeMake(ScreenWidth * 3, frame.size.height - 44);
-
-    EVNotOpenView *notOpenView = [[EVNotOpenView alloc] initWithFrame:CGRectMake(ScreenWidth, 0, ScreenWidth, frame.size.height - 44)];
+    backScrollView.contentSize = CGSizeMake(ScreenWidth * titleArray.count, frame.size.height - 44);
+    
+//    _videoCommentView = [[EVHVVideoCommentView alloc] initWithFrame:CGRectMake(0, 0,ScreenWidth, self.frameHig - 40 - 49)];
+    EVHVVideoCommentView * videoCommentView = [[EVHVVideoCommentView alloc] initWithFrame:CGRectMake(ScreenWidth * (titleArray.count - 3), 0,ScreenWidth, self.frameHig - 40 - 49)];
+    [backScrollView addSubview:videoCommentView];
+    self.videoCommentView = videoCommentView;
+    videoCommentView.backgroundColor =[UIColor evBackgroundColor];
+    
+    
+    EVNotOpenView *notOpenView = [[EVNotOpenView alloc] initWithFrame:CGRectMake(ScreenWidth * (titleArray.count - 2), 0, ScreenWidth, frame.size.height - 44)];
     [backScrollView addSubview:notOpenView];
     notOpenView.imageName = @"ic_watch_stock_not_data";
     notOpenView.titleStr = @"搜索你想了解的股票";
@@ -75,14 +87,14 @@
     notOpenView.backgroundColor = [UIColor evBackgroundColor];
     
     
-    EVHVWatchStockView *dataView = [[EVHVWatchStockView alloc] initWithFrame:CGRectMake(ScreenWidth, 0, ScreenWidth, frame.size.height - 44)];
+    EVHVWatchStockView *dataView = [[EVHVWatchStockView alloc] initWithFrame:CGRectMake(ScreenWidth * (titleArray.count - 2), 0, ScreenWidth, frame.size.height - 44)];
     [backScrollView addSubview:dataView];
     self.watchStockView = dataView;
     dataView.backgroundColor =[UIColor evBackgroundColor];
     self.watchStockView.hidden = YES;
     
     
-    EVHVWatchCheatsView *cheatsView = [[EVHVWatchCheatsView alloc] initWithFrame:CGRectMake(ScreenWidth * 2, 0, ScreenWidth, frame.size.height - 44)];
+    EVHVWatchCheatsView *cheatsView = [[EVHVWatchCheatsView alloc] initWithFrame:CGRectMake(ScreenWidth * (titleArray.count - 1), 0, ScreenWidth, frame.size.height - 44)];
     [backScrollView addSubview:cheatsView];
     cheatsView.backgroundColor = [UIColor evBackgroundColor];
     
@@ -121,13 +133,13 @@
     return _chatView;
 }
 
-- (EVHVVideoCommentView *)videoCommentView
-{
-    if (!_videoCommentView) {
-        _videoCommentView = [[EVHVVideoCommentView alloc] initWithFrame:CGRectMake(0, 0,ScreenWidth, self.frameHig - 40 - 49)];
-    }
-    return _videoCommentView;
-}
+//- (EVHVVideoCommentView *)videoCommentView
+//{
+//    if (!_videoCommentView) {
+//        _videoCommentView = [[EVHVVideoCommentView alloc] initWithFrame:CGRectMake(0, 0,ScreenWidth, self.frameHig - 40 - 49)];
+//    }
+//    return _videoCommentView;
+//}
 
 
 - (EVHVGiftAniView *)giftAniView
