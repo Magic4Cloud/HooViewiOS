@@ -70,7 +70,7 @@
         isNewMessage = YES;
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
     }
-
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated

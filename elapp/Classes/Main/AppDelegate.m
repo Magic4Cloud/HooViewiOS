@@ -376,7 +376,7 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     
 #pragma mark -----------------------------------------------------
     
-    if ([self isNewVersionisFirstLoad]) {
+    if ([self isFirstLauchApp]) {
         NSString * imageNameSuffix;
         if (ScreenWidth == 320) {
             imageNameSuffix = @"5";

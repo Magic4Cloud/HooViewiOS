@@ -52,7 +52,11 @@
                          uriString:uriString
                             params:params];
 }
-
+//新版根据url获取完整的url openAPI 和dev区分
++ (NSString *)openApiAndDevfullUrl:(NSString *)urlString params:(NSMutableDictionary *)params
+{
+    return [self urlStringWithHost:OpenOrDevApiBaseUrl uriString:urlString params:params];
+}
 
 // https根据Uri获得完整url
 + (NSString *)httpsFullURLStringWithURI:(NSString *)uriString

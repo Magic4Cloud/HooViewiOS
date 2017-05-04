@@ -7,10 +7,10 @@
 //
 
 #import "EVTextLiveChatTableView.h"
-#import "EVChatViewCell.h"
+#import "EVtextLiveHChatCell.h"
 #import "NSString+Extension.h"
 
-@interface EVTextLiveChatTableView ()<UITableViewDelegate,UITableViewDataSource,EVChatViewCellDelegate>
+@interface EVTextLiveChatTableView ()<UITableViewDelegate,UITableViewDataSource,EVtextLiveHChatCellDelegate>
 
 @property (nonatomic, strong) NSMutableArray *dataArray;
 
@@ -48,9 +48,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    EVChatViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"chatTextCell"];
+    EVtextLiveHChatCell *cell = [tableView dequeueReusableCellWithIdentifier:@"chatTextCell"];
     if (!cell) {
-        cell = [[EVChatViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:@"chatTextCell"];
+        cell = [[EVtextLiveHChatCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:@"chatTextCell"];
         cell.delegate = self;
     }
     
@@ -67,7 +67,7 @@
 }
 
 #pragma mark - 长按回复
-- (void)longPressCell:(EVChatViewCell *)cell easeModel:(EVEaseMessageModel *)easeModel
+- (void)longPressCell:(EVtextLiveHChatCell *)cell easeModel:(EVEaseMessageModel *)easeModel
 {
     if (self.tDelegate && [self.tDelegate respondsToSelector:@selector(longPressModel:)]) {
         [self.tDelegate longPressModel:easeModel];
