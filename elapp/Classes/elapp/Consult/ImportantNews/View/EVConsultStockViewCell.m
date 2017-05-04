@@ -30,17 +30,24 @@
 - (void)addUpView
 {
     [EVLineView addLightTopLineToView:self];
-    [EVLineView addLightBottomLineToView:self];
     NSArray *titleArray = @[@"上证",@"深成",@"创业板"];
     for (NSInteger i = 0; i < 3; i++) {
         EVCSStockButton *csStockBtn = [[EVCSStockButton alloc] init];
-        csStockBtn.frame = CGRectMake(-1 + (i * ScreenWidth/3),0, ScreenWidth/3, 88);
+        csStockBtn.frame = CGRectMake(-1 + (i * ScreenWidth/3),14, ScreenWidth/3, 88);
         [self addSubview:csStockBtn];
         self.csStockButton = csStockBtn;
         csStockBtn.tag = 1000+i;
         [csStockBtn.nameLabel setText:titleArray[i]];
         [csStockBtn addTarget:self action:@selector(csStockClick:) forControlEvents:(UIControlEventTouchUpInside)];
     }
+    
+    EVLineView *lineView = [EVLineView new];
+    [self addSubview:lineView];
+    lineView.backgroundColor = CCColor(238, 238, 238);
+    [lineView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
+    [lineView autoPinEdgeToSuperviewEdge:ALEdgeRight];
+    [lineView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:14];
+    [lineView autoSetDimension:ALDimensionHeight toSize:kGlobalSeparatorHeight];
 }
 
 - (void)csStockClick:(EVCSStockButton *)btn

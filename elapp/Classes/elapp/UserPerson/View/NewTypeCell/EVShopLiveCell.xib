@@ -40,8 +40,8 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lL3-XX-I0b">
-                        <rect key="frame" x="32" y="65" width="105.5" height="17"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <rect key="frame" x="32" y="68.5" width="105.5" height="14.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -53,20 +53,20 @@
                         </constraints>
                     </imageView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K6Q-fB-C9T">
-                        <rect key="frame" x="151" y="59" width="38" height="27"/>
+                        <rect key="frame" x="151" y="60" width="38" height="27"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <state key="normal" title="Button">
                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
                     </button>
                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cNM-Jp-P0B">
-                        <rect key="frame" x="196" y="59" width="38" height="27"/>
+                        <rect key="frame" x="196" y="60" width="38" height="27"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <state key="normal" title="Button">
                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
                     </button>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="video_list_icon_watch" translatesAutoresizingMaskIntoConstraints="NO" id="1uq-Z9-Fpx" userLabel="eyeImage">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_live_watch" translatesAutoresizingMaskIntoConstraints="NO" id="1uq-Z9-Fpx" userLabel="eyeImage">
                         <rect key="frame" x="12" y="65" width="20" height="20"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="20" id="bfe-pt-5rp"/>
@@ -78,7 +78,7 @@
                     <constraint firstItem="1uq-Z9-Fpx" firstAttribute="leading" secondItem="ebO-Ba-eKO" secondAttribute="leading" id="1KC-xa-Hyg"/>
                     <constraint firstAttribute="bottom" secondItem="ebO-Ba-eKO" secondAttribute="bottom" constant="15" id="1xA-JG-3bi"/>
                     <constraint firstItem="lL3-XX-I0b" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ebO-Ba-eKO" secondAttribute="trailing" id="2eF-QZ-xGk"/>
-                    <constraint firstItem="lL3-XX-I0b" firstAttribute="bottom" secondItem="ebO-Ba-eKO" secondAttribute="bottom" constant="-3" id="6mw-V0-amq"/>
+                    <constraint firstItem="lL3-XX-I0b" firstAttribute="bottom" secondItem="ebO-Ba-eKO" secondAttribute="bottom" constant="-2" id="6mw-V0-amq"/>
                     <constraint firstItem="0HR-kY-UUw" firstAttribute="trailing" secondItem="ebO-Ba-eKO" secondAttribute="trailing" constant="-4" id="6wO-5Z-2qZ"/>
                     <constraint firstItem="6Pk-De-7kl" firstAttribute="top" secondItem="ebO-Ba-eKO" secondAttribute="top" id="Amb-Tj-DpT"/>
                     <constraint firstItem="lL3-XX-I0b" firstAttribute="leading" secondItem="ebO-Ba-eKO" secondAttribute="leading" constant="20" id="Qyq-es-aPJ"/>
@@ -112,6 +112,6 @@
     </objects>
     <resources>
         <image name="ic_hot" width="16" height="16"/>
-        <image name="video_list_icon_watch" width="15" height="15"/>
+        <image name="ic_live_watch" width="20" height="20"/>
     </resources>
 </document>

@@ -12,6 +12,7 @@
 #import "EVImportantNewsViewController.h"
 #import "EVSearchAllViewController.h"
 #import "EVSpeciaColumnViewController.h"
+#import "EVNewsStocksViewController.h"
 @interface EVHomeBaseViewController ()
 
 @end
@@ -113,10 +114,9 @@
         }
         case 2:
         {
-
             //股市
-            EVSpeciaColumnViewController * speciaColumnVC = [[EVSpeciaColumnViewController alloc] init];
-            return speciaColumnVC;
+            EVNewsStocksViewController *stockVC = [[EVNewsStocksViewController alloc] init];
+            return stockVC;
         }
         case 3:
         {
