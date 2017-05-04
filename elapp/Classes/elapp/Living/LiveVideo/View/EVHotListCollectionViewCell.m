@@ -92,7 +92,7 @@
     [self.nameLabel setText:watchVideoInfo.title];
 
     NSString *watch_count = [NSString stringWithFormat:@"%ld",watchVideoInfo.watch_count];
-    _watch_countLabel.text = [NSString stringWithFormat:@"%@",[watch_count thousandsSeparatorString]];
+    _watch_countLabel.text = [NSString stringWithFormat:@"%@人观看",[watch_count thousandsSeparatorString]];
     
     if (watchVideoInfo.watch_count < 10000) {
         _ishotImage.hidden = YES;
