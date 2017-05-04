@@ -198,8 +198,8 @@
     
     self.contentLabel.text = content;
     self.nameLabel.frame = easeMessageModel.nameRect;
-    if ([easeMessageModel.vip boolValue]) {
-        self.nameLabel.font = [UIFont systemFontOfSize:16];
+    if ([easeMessageModel.vip boolValue] && !easeMessageModel.isSender) {
+        
         CGFloat x = 0.f;
         if (!easeMessageModel.isSender) {
             x = CGRectGetMaxX(self.nameLabel.frame)-5;
@@ -212,7 +212,7 @@
         _vipIConImageView.frame = CGRectMake(x, 0, 22, 22);
         _vipIConImageView.hidden = NO;
         self.nameLabel.textColor = [UIColor blackColor];
-        
+        self.nameLabel.font = [UIFont systemFontOfSize:16];
     }
     else
     {
@@ -236,22 +236,51 @@
     self.contentLabel.hidden = NO;
     UIImage *normal;
     
-    if (easeMessageModel.isSender)
-    {
+    
+    
+    if ([easeMessageModel.vip boolValue])
+    {//大v  背景黄色  字体黑色  回复白色
         normal = [UIImage imageNamed:@"bg_chat_myself"];
         normal = [normal resizableImageWithCapInsets:UIEdgeInsetsMake(35, 10, 10, 22)];
-        _rpcLabelleft.constant = 5;
-        _rpcLabelright.constant = -13;
-        
+        self.contentLabel.textColor = [UIColor blackColor];
+        self.rpcLabel.textColor = [UIColor whiteColor];
+        self.rpcLabel.backgroundColor = [UIColor colorWithRed:240/255.0 green:186/255.0 blue:84/255.0 alpha:1];
     }
     else
     {
-        normal = [UIImage imageNamed:@"bg_chat_others"];
-        normal = [normal resizableImageWithCapInsets:UIEdgeInsetsMake(35, 22, 10, 10)];
+        //        不是大v
+        if (easeMessageModel.isSender)
+        {
+            //不是大v 正常的发送者 背景白色
+            normal = [UIImage imageNamed:@"ic_White"];
+            
+            normal = [normal resizableImageWithCapInsets:UIEdgeInsetsMake(25, 10, 30, 20) resizingMode:UIImageResizingModeStretch];
+            self.contentLabel.textColor = [UIColor blackColor];
+            self.rpcLabel.textColor = [UIColor blackColor];
+            self.rpcLabel.backgroundColor = [UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1];
+        }
+        else
+        {
+            normal = [UIImage imageNamed:@"bg_chat_others"];
+            normal = [normal resizableImageWithCapInsets:UIEdgeInsetsMake(35, 22, 10, 10)];
+
+            self.contentLabel.textColor = [UIColor blackColor];
+            self.rpcLabel.textColor = [UIColor blackColor];
+            self.rpcLabel.backgroundColor = [UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1];
+        }
+    }
+    
+    if (easeMessageModel.isSender)
+    {
+        _rpcLabelleft.constant = 5;
+        _rpcLabelright.constant = -13;
+    }
+    else
+    {
         _rpcLabelleft.constant = 13;
         _rpcLabelright.constant = 5;
     }
-    
+
     [self.chatContentBtn setBackgroundImage:normal forState:UIControlStateNormal];
     self.rpcLabelHig.constant = easeMessageModel.rpcHig;
     self.rpcLabel.text = easeMessageModel.rpContent;

@@ -35,6 +35,13 @@
  */
 + (UIColor *)evBackGroundLightGrayColor;
 
+
+/**
+ 红色   rgb 254 79 80
+
+ @return
+ */
++ (UIColor *)evRedColor;
 /**
  背景深蓝色  101 154 224
  */

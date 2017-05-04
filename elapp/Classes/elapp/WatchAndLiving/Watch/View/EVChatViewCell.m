@@ -176,15 +176,17 @@
     self.chatContentBtn.hidden = NO;
     self.contentLabel.hidden = NO;
     UIImage *normal;
-    
-    if (easeMessageModel.isSender) {
+    if (easeMessageModel.isSender)
+    {
         normal = [UIImage imageNamed:@"bg_chat_myself"];
         normal = [normal resizableImageWithCapInsets:UIEdgeInsetsMake(35, 10, 10, 22)];
-        self.nameLabel.textColor = [UIColor colorWithHexString:@"#E57830"];
-    }else{
+        
+        
+    }
+    else
+    {
         normal = [UIImage imageNamed:@"bg_chat_others"];
         normal = [normal resizableImageWithCapInsets:UIEdgeInsetsMake(35, 22, 10, 10)];
-        self.nameLabel.textColor = [UIColor colorWithHexString:@"#4D9FD4"];
     }
     [self.chatContentBtn setBackgroundImage:normal forState:UIControlStateNormal];
     self.rpcLabelHig.constant = easeMessageModel.rpcHig;

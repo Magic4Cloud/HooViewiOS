@@ -105,6 +105,8 @@
 @property (nonatomic, strong) EMChatroom  *chatRoom;
 
 @property (nonatomic, weak) EVNullDataView *liveImageNullDataView;
+
+@property (nonatomic, strong) UILabel * titleLabel;
 @end
 
 @implementation EVMyTextLiveViewController
@@ -123,10 +125,22 @@
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
+
+- (UILabel *)titleLabel
+{
+    if (!_titleLabel) {
+        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 22)];
+        _titleLabel.textColor = [UIColor evRedColor];
+        _titleLabel.font = [UIFont systemFontOfSize:14];
+        _titleLabel.textAlignment = NSTextAlignmentCenter;
+    }
+    return _titleLabel;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"我的直播间";
+//    self.title = @"我的直播间";
+    self.navigationItem.titleView = self.titleLabel;
     self.chooseIndex = 0;
     [self addBarItem];
     [self addSegmentView];
@@ -149,7 +163,7 @@
 
 - (void)addBarItem
 {
-    UIBarButtonItem *rightBarBtnItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"hv_share"] style:UIBarButtonItemStylePlain target:self action:@selector(rightBarBtnClick)];
+    UIBarButtonItem *rightBarBtnItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"btn_share_n"] style:UIBarButtonItemStylePlain target:self action:@selector(rightBarBtnClick)];
     self.navigationItem.rightBarButtonItem = rightBarBtnItem;
     
     
@@ -764,6 +778,8 @@
     _chatRoom = [[EMClient sharedClient].roomManager joinChatroom:_textLiveModel.streamid error:&error];
     NSInteger membersCount = self.chatRoom.membersCount;
     self.textLiveModel.viewcount = membersCount + 200;
+    NSString * viewCount = [NSString stringWithFormat:@"%d",self.textLiveModel.viewcount];
+    self.titleLabel.text = [NSString stringWithFormat:@"%@人气",[viewCount thousandsSeparatorString]];
     [self.liveImageTableView updateWatchCount:self.textLiveModel.viewcount];
     //TODO:注册环信消息回调
 

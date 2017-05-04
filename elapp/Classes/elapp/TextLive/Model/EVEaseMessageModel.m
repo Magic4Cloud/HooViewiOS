@@ -44,7 +44,7 @@
                 
                 //如果是vip  名字字体变大
                 CGFloat nameFontSize = 12.f;
-                if ([self.vip boolValue]) {
+                if ([self.vip boolValue] && !self.isSender) {
                     nameFontSize = 16.f;
                 }
                 NSDictionary *nameAttributes = @{ NSFontAttributeName : [UIFont systemFontOfSize:nameFontSize],

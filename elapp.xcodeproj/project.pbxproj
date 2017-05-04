@@ -112,6 +112,8 @@
 		7AD37FE51E963BFA0020B794 /* EVRecommendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AD37FE41E963BFA0020B794 /* EVRecommendCell.m */; };
 		7AF1611E1E9CA1B8009D80CB /* EVTopicHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AF1611D1E9CA1B8009D80CB /* EVTopicHeaderView.m */; };
 		7AF161211E9CAD99009D80CB /* EVTopicModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AF161201E9CAD99009D80CB /* EVTopicModel.m */; };
+		7AF8240F1EBAD26D007DFA15 /* EVTextLiveHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AF8240E1EBAD26D007DFA15 /* EVTextLiveHeaderView.m */; };
+		7AF824111EBAD283007DFA15 /* EVTextLiveHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7AF824101EBAD283007DFA15 /* EVTextLiveHeaderView.xib */; };
 		7AFCC8F31E9C7D7900BFFBEF /* EVTopicDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AFCC8F21E9C7D7900BFFBEF /* EVTopicDetailViewController.m */; };
 		855BA25DB3AF1C2846A9D41F /* libPods-elapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8870469BA124F47A220386F3 /* libPods-elapp.a */; };
 		9E079FC51E9DC8F200CFF0EE /* EVSpeciaAuthor.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E079FC41E9DC8F200CFF0EE /* EVSpeciaAuthor.m */; };
@@ -951,6 +953,9 @@
 		7AF1611D1E9CA1B8009D80CB /* EVTopicHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVTopicHeaderView.m; sourceTree = "<group>"; };
 		7AF1611F1E9CAD99009D80CB /* EVTopicModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVTopicModel.h; sourceTree = "<group>"; };
 		7AF161201E9CAD99009D80CB /* EVTopicModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVTopicModel.m; sourceTree = "<group>"; };
+		7AF8240D1EBAD26D007DFA15 /* EVTextLiveHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVTextLiveHeaderView.h; sourceTree = "<group>"; };
+		7AF8240E1EBAD26D007DFA15 /* EVTextLiveHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVTextLiveHeaderView.m; sourceTree = "<group>"; };
+		7AF824101EBAD283007DFA15 /* EVTextLiveHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVTextLiveHeaderView.xib; sourceTree = "<group>"; };
 		7AFCC8F11E9C7D7900BFFBEF /* EVTopicDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVTopicDetailViewController.h; sourceTree = "<group>"; };
 		7AFCC8F21E9C7D7900BFFBEF /* EVTopicDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVTopicDetailViewController.m; sourceTree = "<group>"; };
 		8367F5891D6D926B00BE2DB7 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -2553,6 +2558,16 @@
 			name = ToppicHeaderView;
 			sourceTree = "<group>";
 		};
+		7AF8240C1EBAD23C007DFA15 /* NewTypeView */ = {
+			isa = PBXGroup;
+			children = (
+				7AF8240D1EBAD26D007DFA15 /* EVTextLiveHeaderView.h */,
+				7AF8240E1EBAD26D007DFA15 /* EVTextLiveHeaderView.m */,
+				7AF824101EBAD283007DFA15 /* EVTextLiveHeaderView.xib */,
+			);
+			name = NewTypeView;
+			sourceTree = "<group>";
+		};
 		9E08B79D1EA6181800721EE8 /* Gesture */ = {
 			isa = PBXGroup;
 			children = (
@@ -3523,6 +3538,7 @@
 		E85DFE331E78D42A005667DD /* View */ = {
 			isa = PBXGroup;
 			children = (
+				7AF8240C1EBAD23C007DFA15 /* NewTypeView */,
 				E85DFE341E78D42A005667DD /* CCVerticalLayoutButton.h */,
 				E85DFE351E78D42A005667DD /* CCVerticalLayoutButton.m */,
 				E85DFE361E78D42A005667DD /* EVHVTLWatchBtnView.h */,
@@ -5574,6 +5590,7 @@
 				9F1F9B3010A5FF039BCCB888 /* Expression_30@2x.png in Resources */,
 				9F1F998422959FAD273F7F7A /* Expression_31@2x.png in Resources */,
 				9F1F9019A8A5C540A535207B /* Expression_32@2x.png in Resources */,
+				7AF824111EBAD283007DFA15 /* EVTextLiveHeaderView.xib in Resources */,
 				9F1F902AEA9EA503C1E653DB /* Expression_33@2x.png in Resources */,
 				9F1F9FDF82E5598F4E44422C /* Expression_34@2x.png in Resources */,
 				9F1F90AC72F0FBB6BE94D873 /* Expression_35@2x.png in Resources */,
@@ -5907,6 +5924,7 @@
 				E8BD29841D87B0DD00CBAD82 /* EMCDDeviceManager+Remind.m in Sources */,
 				E8572F511E1E2C89002D3784 /* EVRecorededVideoListController.m in Sources */,
 				E8033DA71E3384C500A81A37 /* WebViewJavascriptBridgeBase.m in Sources */,
+				7AF8240F1EBAD26D007DFA15 /* EVTextLiveHeaderView.m in Sources */,
 				E862014E1D6BE8540081E72F /* EVDanmuSwitch.m in Sources */,
 				E862014D1D6BE8540081E72F /* EVCommentTableView.m in Sources */,
 				E862FF811D6BE8540081E72F /* NSArray+Group.m in Sources */,
