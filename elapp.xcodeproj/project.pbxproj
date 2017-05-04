@@ -114,6 +114,8 @@
 		7AF161211E9CAD99009D80CB /* EVTopicModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AF161201E9CAD99009D80CB /* EVTopicModel.m */; };
 		7AF8240F1EBAD26D007DFA15 /* EVTextLiveHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AF8240E1EBAD26D007DFA15 /* EVTextLiveHeaderView.m */; };
 		7AF824111EBAD283007DFA15 /* EVTextLiveHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7AF824101EBAD283007DFA15 /* EVTextLiveHeaderView.xib */; };
+		7AF8241C1EBB364F007DFA15 /* EVJoinChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AF8241A1EBB364F007DFA15 /* EVJoinChatCell.m */; };
+		7AF8241D1EBB364F007DFA15 /* EVJoinChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7AF8241B1EBB364F007DFA15 /* EVJoinChatCell.xib */; };
 		7AFCC8F31E9C7D7900BFFBEF /* EVTopicDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AFCC8F21E9C7D7900BFFBEF /* EVTopicDetailViewController.m */; };
 		855BA25DB3AF1C2846A9D41F /* libPods-elapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8870469BA124F47A220386F3 /* libPods-elapp.a */; };
 		9E079FC51E9DC8F200CFF0EE /* EVSpeciaAuthor.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E079FC41E9DC8F200CFF0EE /* EVSpeciaAuthor.m */; };
@@ -956,6 +958,9 @@
 		7AF8240D1EBAD26D007DFA15 /* EVTextLiveHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVTextLiveHeaderView.h; sourceTree = "<group>"; };
 		7AF8240E1EBAD26D007DFA15 /* EVTextLiveHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVTextLiveHeaderView.m; sourceTree = "<group>"; };
 		7AF824101EBAD283007DFA15 /* EVTextLiveHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVTextLiveHeaderView.xib; sourceTree = "<group>"; };
+		7AF824191EBB364F007DFA15 /* EVJoinChatCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVJoinChatCell.h; sourceTree = "<group>"; };
+		7AF8241A1EBB364F007DFA15 /* EVJoinChatCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVJoinChatCell.m; sourceTree = "<group>"; };
+		7AF8241B1EBB364F007DFA15 /* EVJoinChatCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVJoinChatCell.xib; sourceTree = "<group>"; };
 		7AFCC8F11E9C7D7900BFFBEF /* EVTopicDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVTopicDetailViewController.h; sourceTree = "<group>"; };
 		7AFCC8F21E9C7D7900BFFBEF /* EVTopicDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVTopicDetailViewController.m; sourceTree = "<group>"; };
 		8367F5891D6D926B00BE2DB7 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -2568,6 +2573,16 @@
 			name = NewTypeView;
 			sourceTree = "<group>";
 		};
+		7AF824181EBB3622007DFA15 /* NewTypeCell */ = {
+			isa = PBXGroup;
+			children = (
+				7AF824191EBB364F007DFA15 /* EVJoinChatCell.h */,
+				7AF8241A1EBB364F007DFA15 /* EVJoinChatCell.m */,
+				7AF8241B1EBB364F007DFA15 /* EVJoinChatCell.xib */,
+			);
+			name = NewTypeCell;
+			sourceTree = "<group>";
+		};
 		9E08B79D1EA6181800721EE8 /* Gesture */ = {
 			isa = PBXGroup;
 			children = (
@@ -3538,6 +3553,7 @@
 		E85DFE331E78D42A005667DD /* View */ = {
 			isa = PBXGroup;
 			children = (
+				7AF824181EBB3622007DFA15 /* NewTypeCell */,
 				7AF8240C1EBAD23C007DFA15 /* NewTypeView */,
 				E85DFE341E78D42A005667DD /* CCVerticalLayoutButton.h */,
 				E85DFE351E78D42A005667DD /* CCVerticalLayoutButton.m */,
@@ -5682,6 +5698,7 @@
 				E8695C4C1E13B44D00CCA323 /* EVPasswordView.xib in Resources */,
 				E859C3551E6136C6003AFCFF /* EVConsumptionDetailsViewCell.xib in Resources */,
 				7A3E985A1EA5F78500F24E23 /* EVAccountPhoneBindViewController.storyboard in Resources */,
+				7AF8241D1EBB364F007DFA15 /* EVJoinChatCell.xib in Resources */,
 				9F1F9ECB84D3F487797BB9E3 /* Expression_9@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -6083,6 +6100,7 @@
 				E86200A11D6BE8540081E72F /* EVUserSettingViewController.m in Sources */,
 				7AF161211E9CAD99009D80CB /* EVTopicModel.m in Sources */,
 				E8A4F8771E10C12800655272 /* EVFastNewsViewController.m in Sources */,
+				7AF8241C1EBB364F007DFA15 /* EVJoinChatCell.m in Sources */,
 				E862012F1D6BE8540081E72F /* EVLiveTitleTextView.m in Sources */,
 				E86200AC1D6BE8540081E72F /* EVNewFriendItemModel.m in Sources */,
 				E862FF881D6BE8540081E72F /* NSDictionary+JSON.m in Sources */,

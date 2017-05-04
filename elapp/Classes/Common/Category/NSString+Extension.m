@@ -97,6 +97,26 @@
     return [newAttrStr mutableCopy];
 }
 
+- (NSString *)thousandsSeparatorStringNoMillion
+{
+    long count = self.length;
+    
+    NSMutableString *string = [NSMutableString stringWithString:self];
+    NSMutableString *newstring = [NSMutableString string];
+    while (count > 3) {
+        count -= 3;
+        NSRange rang = NSMakeRange(string.length - 3, 3);
+        NSString *str = [string substringWithRange:rang];
+        [newstring insertString:str atIndex:0];
+        [newstring insertString:@"," atIndex:0];
+        [string deleteCharactersInRange:rang];
+    }
+    [newstring insertString:string atIndex:0];
+    NSString *  separatorString = [NSString stringWithFormat:@"%@",newstring];
+    return separatorString;
+}
+
+
 - (NSString *)thousandsSeparatorString
 {
     long count = self.length;
@@ -106,10 +126,10 @@
     {
         NSString *str = [NSString stringWithFormat:@"%f",value/10000.0];
         NSRange range = [str rangeOfString:@"."];
-        str = [str substringToIndex:range.location+2];
-        if ([str hasSuffix:@".0"])
+        str = [str substringToIndex:range.location+3];
+        if ([str hasSuffix:@".00"])
         {
-            return [NSString stringWithFormat:@"%@万",[str substringToIndex:str.length-2]];
+            return [NSString stringWithFormat:@"%@万",[str substringToIndex:str.length-3]];
         }
         else
         {
@@ -131,6 +151,7 @@
     NSString *  separatorString = [NSString stringWithFormat:@"%@",newstring];
     return separatorString;
 }
+
 //2017-04-06 10:53:59 转换为 -- 今天  5:10   03/2 5:10
 - (NSString *)timeFormatter
 {

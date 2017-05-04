@@ -255,7 +255,7 @@
     self.touchLayer = touchLayer;
     [touchLayer addTarget:self action:@selector(touchHide) forControlEvents:(UIControlEventTouchUpInside)];
     
-    EVTextLiveToolBar *textLiveToolBar = [[EVTextLiveToolBar alloc] init];
+    EVTextLiveToolBar *textLiveToolBar = [[EVTextLiveToolBar alloc] initWithFrame:CGRectZero withLiveChat:YES];
     [self.navigationController.view addSubview:textLiveToolBar];
     self.textLiveToolBar = textLiveToolBar;
     textLiveToolBar.delegate = self;
@@ -390,7 +390,7 @@
 - (void)chooseImageButton:(UIButton *)btn
 {
     if (self.chooseIndex == 0) {
-        btn.selected = YES;
+//        btn.selected = YES;
         self.isChooseImageButton = YES;
         self.sendImageView.cameraBtn.hidden = NO;
         self.sendImageView.photoBtn.hidden = NO;
@@ -568,6 +568,15 @@
 #pragma mark - 发送消息
 - (void)sendMessageBtn:(UIButton *)btn textToolBar:(EVTextLiveToolBar *)textToolBar
 {
+    if (btn.tag == 2333) {
+        //发图片
+        [self chooseImageButton:nil];
+        self.sendImageView.imageButtonBottonHig.constant = 105;
+        self.sendImageViewHig.constant = 36+105;
+        self.toolBarTextBottonF.constant = -105 - 36;
+        return;
+    }
+    
     self.liveImageNullDataView.hidden = YES;
     NSString *chatViewText;
     if (textToolBar  == self.chatLiveToolBar) {
@@ -779,7 +788,7 @@
     NSInteger membersCount = self.chatRoom.membersCount;
     self.textLiveModel.viewcount = membersCount + 200;
     NSString * viewCount = [NSString stringWithFormat:@"%d",self.textLiveModel.viewcount];
-    self.titleLabel.text = [NSString stringWithFormat:@"%@人气",[viewCount thousandsSeparatorString]];
+    self.titleLabel.text = [NSString stringWithFormat:@"%@人气",[viewCount thousandsSeparatorStringNoMillion]];
     [self.liveImageTableView updateWatchCount:self.textLiveModel.viewcount];
     //TODO:注册环信消息回调
 

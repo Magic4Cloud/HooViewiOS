@@ -10,6 +10,8 @@
 #import "EVtextLiveHChatCell.h"
 #import "NSString+Extension.h"
 
+
+#import "EVJoinChatCell.h"
 @interface EVTextLiveChatTableView ()<UITableViewDelegate,UITableViewDataSource,EVtextLiveHChatCellDelegate>
 
 @property (nonatomic, strong) NSMutableArray *dataArray;
@@ -29,7 +31,7 @@
         self.dataSource = self;
         self.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
         self.separatorStyle = UITableViewCellSeparatorStyleNone;
-  
+        [self registerNib:[UINib nibWithNibName:@"EVJoinChatCell" bundle:nil] forCellReuseIdentifier:@"EVJoinChatCell"];
     }
     return self;
 }
@@ -54,7 +56,13 @@
         cell.delegate = self;
     }
     
-    cell.easeMessageModel = self.dataArray[indexPath.row];
+    EVEaseMessageModel * model = self.dataArray[indexPath.row];
+    if (model.state == EVEaseMessageTypeStateGift || model.state == EVEaseMessageTypeStateJoin) {
+        EVJoinChatCell * joinCell = [tableView dequeueReusableCellWithIdentifier:@"EVJoinChatCell"];
+        joinCell.messageModel = model;
+        return joinCell;
+    }
+    cell.easeMessageModel = model;
     cell.backgroundColor = [UIColor evBackgroundColor];
     return cell;
 }

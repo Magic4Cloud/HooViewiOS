@@ -32,9 +32,13 @@
         switch (_firstMessageBody.type) {
             case EMMessageBodyTypeText:
             {
-                
                 EMTextMessageBody *messageBody = (EMTextMessageBody *)_firstMessageBody;
                 self.text = messageBody.text;
+                //如果是送礼
+                if (self.state == EVEaseMessageTypeStateGift || self.state == EVEaseMessageTypeStateJoin) {
+                    self.chatCellHight = 50;
+                    break ;
+                }
                 NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
                 paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
                 paragraphStyle.alignment = NSTextAlignmentLeft;
@@ -42,11 +46,9 @@
                 NSDictionary *attributes = @{ NSFontAttributeName : [UIFont textFontB2],
                                               NSParagraphStyleAttributeName: paragraphStyle};
                 
-                //如果是vip  名字字体变大
-                CGFloat nameFontSize = 12.f;
-                if ([self.vip boolValue] && !self.isSender) {
-                    nameFontSize = 16.f;
-                }
+                
+                CGFloat nameFontSize = 16.f;
+                
                 NSDictionary *nameAttributes = @{ NSFontAttributeName : [UIFont systemFontOfSize:nameFontSize],
                                               NSParagraphStyleAttributeName: paragraphStyle};
                 CGSize nameSize = [self.nickname boundingRectWithSize:CGSizeMake(100, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin  attributes:nameAttributes context:nil].size;
@@ -316,7 +318,15 @@
         self.state = EVEaseMessageTypeStateSt;
     }else if ([stateStr isEqualToString:@"rp"]){
         self.state = EVEaseMessageTypeStateRp;
-    }else {
+    }else if ([stateStr isEqualToString:@"join"])
+    {
+        self.state = EVEaseMessageTypeStateJoin;
+    }
+    else if ([stateStr isEqualToString:@"gift"])
+    {
+        self.state = EVEaseMessageTypeStateGift;
+    }
+    else {
         self.state = EVEaseMessageTypeStateNor;
     }
     if ([[dict allKeys] containsObject:@"rct"]) {

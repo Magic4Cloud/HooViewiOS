@@ -59,7 +59,8 @@
     [imageButton autoPinEdgeToSuperviewEdge:ALEdgeTop];
     [imageButton autoSetDimension:ALDimensionWidth toSize:54];
     [imageButton autoSetDimension:ALDimensionHeight toSize:36];
-    [imageButton addTarget:self action:@selector(imageButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
+//    [imageButton addTarget:self action:@selector(imageButtonClick:) forControlEvents:(UIControlEventTouchUpInside)];
+    imageButton.hidden = YES;
     
     
     

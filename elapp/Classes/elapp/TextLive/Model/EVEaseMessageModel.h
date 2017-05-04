@@ -22,6 +22,8 @@ typedef NS_ENUM(NSInteger, EVEaseMessageTypeState) {
     EVEaseMessageTypeStateHl,
     EVEaseMessageTypeStateSt,
     EVEaseMessageTypeStateRp,
+    EVEaseMessageTypeStateJoin,//某人加入聊天室
+    EVEaseMessageTypeStateGift,//聊天送礼
 };
 
 @interface EVEaseMessageModel : NSObject

@@ -46,14 +46,21 @@
 
 #import "EVTextLiveHeaderView.h"
 
+
+
 #define headerTopHig     (104+64)
 #define segmentHig        44
 
 @interface EVHVWatchTextViewController ()<EVHVVipCenterDelegate,SwipeTableViewDataSource,SwipeTableViewDelegate,UIGestureRecognizerDelegate,UIViewControllerTransitioningDelegate,SGSegmentedControlStaticDelegate,EMChatManagerDelegate,EVHVStockTextViewDelegate,EVTextBarDelegate,EVHVLWatchViewDelegate,CCMagicEmojiViewDelegate,EVWebViewShareViewDelegate,EVYiBiViewControllerDelegate,EMChatroomManagerDelegate,UIScrollViewDelegate,EVTextLiveTableViewDelegate,EVTextLiveStockDelegate>
+
+
 @property (nonatomic,strong) NSMutableArray *historyChatArray;
 @property (nonatomic,strong) NSMutableArray *historyArray;
 @property (nonatomic, assign) BOOL isRefresh;
 
+@property (nonatomic, assign) BOOL isChatGift;
+
+@property (nonatomic, assign) NSInteger fansCount;
 
 @property (nonatomic, copy) NSString *rpName;
 @property (nonatomic, copy) NSString *rpContent;
@@ -140,6 +147,10 @@
     // Do any additional setup after loading the view from its nib.
     //    [self addUpView];
     [self addBackTableView];
+    
+    //MARK:进入聊天室发消息
+    [self performSelector:@selector(joinChatRoomSendMessage) withObject:nil afterDelay:1];
+//    [self joinChatRoomSendMessage];
 }
 - (void)addBackTableView
 {
@@ -284,7 +295,7 @@
     _blackBackView.hidden = YES;
     
     //TODO:聊天输入框
-    EVTextLiveToolBar *textLiveToolBar = [[EVTextLiveToolBar alloc] init];
+    EVTextLiveToolBar *textLiveToolBar = [[EVTextLiveToolBar alloc] initWithFrame:CGRectZero withIsGift:YES];
     [self.navigationController.view addSubview:textLiveToolBar];
     self.textLiveToolBar = textLiveToolBar;
     textLiveToolBar.delegate = self;
@@ -409,7 +420,7 @@
 {
     if ( [[EVStartResourceTool shareInstance] prensentEnable])
     {
-        EVMagicEmojiView *magicEmojiView = [EVMagicEmojiView magicEmojiViewToTargetView:self.view];
+        EVMagicEmojiView *magicEmojiView = [EVMagicEmojiView magicEmojiViewToTargetView:self.navigationController.view];
         _magicEmojiView = magicEmojiView;
         _magicEmojiView.delegate = self;
     }
@@ -511,18 +522,31 @@
 {
     WEAK(self)
     self.startGoodModel = magicEmoji;
-    EMCmdMessageBody *body = [[EMCmdMessageBody alloc] initWithAction:@"礼物"];
-//    EMTextMessageBody * body = [[EMTextMessageBody alloc] initWithText:@"礼物"];
+    
+    EMMessageBody * body;
+//    EMCmdMessageBody *body = [[EMCmdMessageBody alloc] initWithAction:@"礼物"];
+    
     NSString *from = [[EMClient sharedClient] currentUsername];
     //生成Message
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    NSMutableDictionary * dict = [NSMutableDictionary dictionary];
     [dict setValue:magicEmoji.name forKey:@"gnm"];
     [dict setValue:[EVLoginInfo localObject].nickname forKey:@"nk"];
+    
+   
+    if (_isChatGift) {
+        //聊天送礼 发普通消息
+        NSString * name = [NSString stringWithFormat:@"%@*%d",magicEmoji.name,numOfEmoji];
+//        EMTextMessageBody * body = [[EMTextMessageBody alloc] initWithText:name];
+        body = [[EMTextMessageBody alloc] initWithText:name];
+        [dict setValue:@"gift" forKey:@"tp"];
+    }
+    else
+    {
+        body = [[EMCmdMessageBody alloc] initWithAction:@"礼物"];
+    }
+
     EMMessage *message = [[EMMessage alloc] initWithConversationID:_conversation.conversationId from:from to:_conversation.conversationId body:body ext:dict];
     message.chatType = EMChatTypeChatRoom;
-   
-
-    
     [[EMClient sharedClient].chatManager sendMessage:message progress:^(int progress) {
     } completion:^(EMMessage *aMessage, EMError *aError) {
         if (!aError) {
@@ -629,7 +653,7 @@
 //        [weakself.textLiveChatTableView endHeaderRefreshing];
     }];
 }
-#pragma mark -- 直播菜单按钮点击
+#pragma mark -- 直播菜单按钮点击 （截图 送礼）
 - (void)buttonTag:(UIButton *)tag
 {
     switch (tag.tag) {
@@ -657,11 +681,12 @@
                 UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
                 
                 [self presentViewController:navighaVC animated:YES completion:nil];
+                
                 return;
             }
-            
+            _isChatGift = NO;
             [_magicEmojiView show];
-            [self.view bringSubviewToFront:self.magicEmojiView];
+            [self.navigationController.view bringSubviewToFront:self.magicEmojiView];
         }
             break;
         
@@ -703,7 +728,24 @@
 #pragma mark - 发送聊天消息
 - (void)sendMessageBtn:(UIButton *)btn textToolBar:(EVTextLiveToolBar *)textToolBar
 {
-    
+    _isChatGift = NO;
+    if (btn != nil) {
+        //送礼
+        NSString *sessionID = [self.engine getSessionIdWithBlock:nil];
+        
+        if (sessionID == nil || [sessionID isEqualToString:@""]) {
+            UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
+            
+            [self presentViewController:navighaVC animated:YES completion:nil];
+            
+            return;
+        }
+        _isChatGift = YES;
+        [_magicEmojiView show];
+        [self.navigationController.view bringSubviewToFront:self.magicEmojiView];
+        
+        return;
+    }
 
     //消息体
     EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:textToolBar.inputTextView.text];
@@ -740,6 +782,47 @@
             [weakself.liveImageTableView reloadData];
         }
     }];
+}
+
+#pragma mark - 进入聊天室发送消息
+- (void)joinChatRoomSendMessage
+{
+    //消息体
+    EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:@"join"];
+    
+    NSString *from = [[EMClient sharedClient] currentUsername];
+    //生成Message
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    //内容类型（st，置顶消息；hl，高亮消息；nor，普通消息）
+    [dict setValue:@"join" forKey:@"tp"];
+    //发消息人名字 为自己
+    [dict setValue:[EVLoginInfo localObject].nickname forKey:@"nk"];
+    
+    EVLoginInfo * model = [EVLoginInfo localObject];
+    //头像
+    [dict setValue:model.logourl forKey:@"avatar"];
+    //uid
+    [dict setValue:model.name forKey:@"userid"];
+//    NSString * vip = [NSString stringWithFormat:@"%d",model.vip];
+//    [dict setValue:vip forKey:@"vip"];
+    
+    //环信
+    EMMessage *message = [[EMMessage alloc] initWithConversationID:_conversation.conversationId from:from to:_conversation.conversationId body:body ext:dict];
+    message.chatType = EMChatTypeChatRoom;
+    
+    __weak typeof(self) weakself = self;
+    [[EMClient sharedClient].chatManager sendMessage:message progress:^(int progress) {
+    } completion:^(EMMessage *aMessage, EMError *aError) {
+        
+        if (!aError) {
+//            [weakself uploadHooviewDataExt:aMessage.ext message:aMessage imageType:@"txt" image:nil];
+//            [weakself _refreshAfterSentMessage:aMessage];
+        }
+        else {
+            [weakself.liveImageTableView reloadData];
+        }
+    }];
+
 }
 
 - (void)keyBoardShow:(NSNotification *)notification
@@ -820,6 +903,16 @@
     } fail:^(NSError *error) {
     } success:^{
         [weakself updateIsFollow:followType];
+        if (followType) {
+            weakself.fansCount ++;
+        }
+        else
+        {
+            weakself.fansCount --;
+        }
+        NSString * fansCountString = [NSString stringWithFormat:@"%d",weakself.fansCount];
+        weakself.headerView.followCountLabel.text = [fansCountString thousandsSeparatorStringNoMillion];
+        
         weakself.watchVideoInfo.followed = followType;
     } essionExpire:^{
     }];
@@ -944,8 +1037,9 @@
     _watchVideoInfo = watchVideoInfo;
     self.vipCenterView.watchVideoInfo = watchVideoInfo;
     self.headerView.inforModel = watchVideoInfo;
-    NSString * watchCount = [NSString stringWithFormat:@"%d",watchVideoInfo.watching_count] ;
-    self.nNameLabel.text = [NSString stringWithFormat:@"%@参与",[watchCount thousandsSeparatorString]];
+    _fansCount = watchVideoInfo.fans_count;
+    NSString * watchCount = [NSString stringWithFormat:@"%lu",(unsigned long)watchVideoInfo.watching_count] ;
+    self.nNameLabel.text = [NSString stringWithFormat:@"%@参与",[watchCount thousandsSeparatorStringNoMillion]];
     if ([watchVideoInfo.name isEqualToString:[EVLoginInfo localObject].name]) {
         self.followButton.hidden  = YES;
     }
@@ -1016,6 +1110,7 @@
     self.liveVideoInfo.viewcount++;
 //    NSLog(@"self.liveVideoInfo.viewcount:%@",self.liveVideoInfo.viewcount);
     [self.liveImageTableView updateWatchCount:self.liveVideoInfo.viewcount];
+    
 }
 - (void)userDidLeaveChatroom:(EMChatroom *)aChatroom
                         user:(NSString *)aUsername

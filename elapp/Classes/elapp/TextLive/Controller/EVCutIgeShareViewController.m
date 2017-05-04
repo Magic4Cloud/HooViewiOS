@@ -30,7 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor blackColor];
+    self.view.backgroundColor = [UIColor evSeparetorGrayColor];
     
     
     UIButton *backBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
@@ -47,7 +47,7 @@
     [titleLabel autoSetDimensionsToSize:CGSizeMake(100, 22)];
     titleLabel.text = @"截屏分享";
     titleLabel.font = [UIFont textFontB2];
-    titleLabel.textColor = [UIColor whiteColor];
+    titleLabel.textColor = [UIColor evBackGroundDeepGrayColor];
     titleLabel.textAlignment = NSTextAlignmentCenter;
     
     UIButton *shareBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
@@ -75,6 +75,8 @@
             weakSelf.eVSharePartView.frame = CGRectMake(0, ScreenHeight, ScreenWidth, ScreenHeight);
         }];
     };
+    
+    [self shareViewShowAction];
 }
 
 - (void)shareViewShowAction
