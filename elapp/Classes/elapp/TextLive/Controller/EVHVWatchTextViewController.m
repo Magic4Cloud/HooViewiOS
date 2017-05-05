@@ -1022,7 +1022,7 @@
 
     self.chatroom = [[EMClient sharedClient].roomManager joinChatroom:self.liveVideoInfo.liveID error:&error];
     
-    self.liveVideoInfo.viewcount = self.chatroom.membersCount + 200;
+    self.liveVideoInfo.viewcount = self.chatroom.membersCount + 1;
     [self changeWatchCount];
     
     

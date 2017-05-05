@@ -840,7 +840,7 @@
     //加入聊天室
     _chatRoom = [[EMClient sharedClient].roomManager joinChatroom:_textLiveModel.streamid error:&error];
     NSInteger membersCount = self.chatRoom.membersCount;
-    self.textLiveModel.viewcount = membersCount + 200;
+    self.textLiveModel.viewcount = membersCount + 1;
     NSString * viewCount = [NSString stringWithFormat:@"%d",self.textLiveModel.viewcount];
     self.titleLabel.text = [NSString stringWithFormat:@"%@人气",[viewCount thousandsSeparatorStringNoMillion]];
     [self.liveImageTableView updateWatchCount:self.textLiveModel.viewcount];

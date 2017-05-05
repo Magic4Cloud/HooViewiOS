@@ -38,7 +38,7 @@
 {
     if ( self = [super initWithStyle:style reuseIdentifier:reuseIdentifier] )
     {
-        self.backgroundColor = [UIColor evBackgroundColor];
+        self.backgroundColor = [UIColor clearColor];
         [self setUp];
     }
     return self;
