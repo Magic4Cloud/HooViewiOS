@@ -45,7 +45,7 @@
     [self addSubview:videoButton];
     self.videoButton = videoButton;
     videoButton.tag = EVLiveButtonTypeVideo;
-    [videoButton setImage:[UIImage imageNamed:@"btn_vedio_n"] forState:(UIControlStateNormal)];
+    [videoButton setImage:[UIImage imageNamed:@"btn_video_n"] forState:(UIControlStateNormal)];
     [videoButton addTarget:self action:@selector(buttonClick:) forControlEvents:(UIControlEventTouchUpInside)];
     [videoButton autoPinEdgeToSuperviewEdge:ALEdgeRight];
     self.videoBottom = [videoButton autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:0];
