@@ -9,11 +9,15 @@
 #import "EVShopLiveCell.h"
 #import "EVVideoAndLiveModel.h"
 #import "EVWatchVideoInfo.h"
+#import "EVLineView.h"
 
 @implementation EVShopLiveCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    
+    [EVLineView addTopLineToView:self];
+    
     _cellTag1Button.layer.cornerRadius = 3;
     _cellTag1Button.layer.masksToBounds = YES;
     _cellTag1Button.contentEdgeInsets = UIEdgeInsetsMake(2, 5, 2, 5);

@@ -32,6 +32,7 @@
 {
     UILabel *lineLabel = [[UILabel alloc] init];
     [self addSubview:lineLabel];
+    self.lineLabel = lineLabel;
     [lineLabel autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
     [lineLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft];
     [lineLabel autoSetDimensionsToSize:CGSizeMake(1, 49)];
@@ -43,7 +44,7 @@
     nameLabel.textColor = [UIColor evAssistColor];
     nameLabel.font = [UIFont textFontB3];
     [nameLabel autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:10];
-    [nameLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:10];
+    [nameLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:15];
     [nameLabel autoSetDimensionsToSize:CGSizeMake(ScreenWidth/3, 22)];
     
     
@@ -53,17 +54,17 @@
     self.priceLabel = priceLabel;
     self.priceLabel.textColor = [UIColor evAssistColor];
     [priceLabel autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
-    [priceLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:10];
+    [priceLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:15];
     [priceLabel autoSetDimensionsToSize:CGSizeMake(ScreenWidth/3, 30)];
     
     
     UILabel *upLabel = [[UILabel alloc] init];
     [self addSubview:upLabel];
-    upLabel.font = [UIFont textFontB3];
+    upLabel.font = [UIFont textFontB4];
     self.upLabel = upLabel;
     upLabel.textColor = [UIColor evAssistColor];
     [upLabel autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:10];
-    [upLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:10];
+    [upLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:15];
     [upLabel autoSetDimensionsToSize:CGSizeMake(ScreenWidth/3, 22)];
     
 }
