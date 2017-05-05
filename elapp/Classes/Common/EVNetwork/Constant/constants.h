@@ -216,6 +216,9 @@
 //个人主页评论列表点赞
 #define EVHVCommentLikeOrNotAPI     @"http://dev.hooview.com/api/v2/posts/like"
 
+//精品视频简介-推荐视频
+#define EVRecommendVideoList        @"http://dev.hooview.com/api/v2/recommend/videos"
+
 
 #endif
 
@@ -308,6 +311,11 @@
 #define EVHVCenterCommentListAPI    @"http://openapi.hooview.com/api/v2/users/posts"
 //个人主页评论列表点赞
 #define EVHVCommentLikeOrNotAPI     @"http://openapi.hooview.com/api/v2/posts/like"
+//精品视频简介-推荐视频
+#define EVRecommendVideoList        @"http://openapi.hooview.com/api/v2/recommend/videos"
+
+
+
 
 #endif
 #endif

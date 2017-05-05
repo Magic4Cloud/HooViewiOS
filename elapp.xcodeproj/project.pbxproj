@@ -138,6 +138,9 @@
 		9E08B7CB1EADDF7B00721EE8 /* EVCommentTopicModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E08B7CA1EADDF7B00721EE8 /* EVCommentTopicModel.m */; };
 		9E27F8EB1EB2F05A00468795 /* EVHVCenterNewsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E27F8EA1EB2F05A00468795 /* EVHVCenterNewsTableView.m */; };
 		9E27F9051EBB17AC00468795 /* EVNewsStocksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E27F9041EBB17AC00468795 /* EVNewsStocksViewController.m */; };
+		9E27F90B1EBC4ECF00468795 /* EVIntroduceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E27F90A1EBC4ECF00468795 /* EVIntroduceView.m */; };
+		9E27F90F1EBC526A00468795 /* EVIntroduceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E27F90D1EBC526A00468795 /* EVIntroduceTableViewCell.m */; };
+		9E27F9101EBC526A00468795 /* EVIntroduceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E27F90E1EBC526A00468795 /* EVIntroduceTableViewCell.xib */; };
 		9E66728D1E8136D700933C92 /* UIFont+swizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E66728B1E8136D700933C92 /* UIFont+swizzle.m */; };
 		9E7E6C191E9B219D009CBD6F /* EVSpeciaColumnCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E7E6C171E9B219D009CBD6F /* EVSpeciaColumnCell.m */; };
 		9E7E6C1A1E9B219D009CBD6F /* EVSpeciaColumnCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E7E6C181E9B219D009CBD6F /* EVSpeciaColumnCell.xib */; };
@@ -1003,6 +1006,11 @@
 		9E27F8EA1EB2F05A00468795 /* EVHVCenterNewsTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVHVCenterNewsTableView.m; sourceTree = "<group>"; };
 		9E27F9031EBB17AC00468795 /* EVNewsStocksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVNewsStocksViewController.h; sourceTree = "<group>"; };
 		9E27F9041EBB17AC00468795 /* EVNewsStocksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVNewsStocksViewController.m; sourceTree = "<group>"; };
+		9E27F9091EBC4ECF00468795 /* EVIntroduceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVIntroduceView.h; sourceTree = "<group>"; };
+		9E27F90A1EBC4ECF00468795 /* EVIntroduceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVIntroduceView.m; sourceTree = "<group>"; };
+		9E27F90C1EBC526A00468795 /* EVIntroduceTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVIntroduceTableViewCell.h; sourceTree = "<group>"; };
+		9E27F90D1EBC526A00468795 /* EVIntroduceTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVIntroduceTableViewCell.m; sourceTree = "<group>"; };
+		9E27F90E1EBC526A00468795 /* EVIntroduceTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVIntroduceTableViewCell.xib; sourceTree = "<group>"; };
 		9E66728B1E8136D700933C92 /* UIFont+swizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+swizzle.m"; sourceTree = "<group>"; };
 		9E66728C1E8136D700933C92 /* UIFont+swizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+swizzle.h"; sourceTree = "<group>"; };
 		9E7E6C161E9B219D009CBD6F /* EVSpeciaColumnCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSpeciaColumnCell.h; sourceTree = "<group>"; };
@@ -4624,6 +4632,11 @@
 				E8AA9DDA1E20CC970024980D /* EVHVWatchBottomView.m */,
 				E8AA9DDC1E20CE070024980D /* EVHVWatchCenterView.h */,
 				E8AA9DDD1E20CE070024980D /* EVHVWatchCenterView.m */,
+				9E27F9091EBC4ECF00468795 /* EVIntroduceView.h */,
+				9E27F90A1EBC4ECF00468795 /* EVIntroduceView.m */,
+				9E27F90C1EBC526A00468795 /* EVIntroduceTableViewCell.h */,
+				9E27F90D1EBC526A00468795 /* EVIntroduceTableViewCell.m */,
+				9E27F90E1EBC526A00468795 /* EVIntroduceTableViewCell.xib */,
 				E8943E541E24AFB0008E5D97 /* EVHVChatView.h */,
 				E8943E551E24AFB0008E5D97 /* EVHVChatView.m */,
 				E8943E5A1E24C2C4008E5D97 /* EVChatViewCell.h */,
@@ -5674,6 +5687,7 @@
 				9F1F903718F487209F96BEBC /* Expression_6@2x.png in Resources */,
 				9F1F9D441F078A1DC5C74A35 /* Expression_70@2x.png in Resources */,
 				9F1F9314A4FDADAC7CA057C4 /* Expression_71@2x.png in Resources */,
+				9E27F9101EBC526A00468795 /* EVIntroduceTableViewCell.xib in Resources */,
 				9F1F9AD7291F90A8F44D057D /* Expression_72@2x.png in Resources */,
 				9F1F9DBA4FC6996CA2150A77 /* Expression_73@2x.png in Resources */,
 				9F1F96F731728DEDDFDA2939 /* Expression_74@2x.png in Resources */,
@@ -6228,6 +6242,7 @@
 				9F1F9C3BA82480B2468593AA /* EVTimerTool.m in Sources */,
 				9F1F9B408F10B147DA0043B8 /* EVAlertManager.m in Sources */,
 				E84D911A1E275B4000858AC2 /* EVMarketTextView.m in Sources */,
+				9E27F90B1EBC4ECF00468795 /* EVIntroduceView.m in Sources */,
 				E85DFE4A1E78D42A005667DD /* EVMyTextLiveViewController.m in Sources */,
 				7AB61E851E9796A4004A285F /* MKJCollectionViewCell.m in Sources */,
 				9F1F91341378994C79BD7855 /* EVLoadingView.m in Sources */,
@@ -6292,6 +6307,7 @@
 				9F1F9BF08F6EE2E211DE845B /* EVHomeCommonBaseViewController.m in Sources */,
 				E8B4A8B01E4AECA200C75178 /* SwipeTableView.m in Sources */,
 				9F1F92A13A4BAF666CB80B0A /* EVHomeScrollViewController.m in Sources */,
+				9E27F90F1EBC526A00468795 /* EVIntroduceTableViewCell.m in Sources */,
 				9F1F9CD69FC05FAB779596D9 /* EVLabelsTabbarItem.m in Sources */,
 				9F1F92B55ECC01450E2A3D21 /* EVHomeScrollNavgationBar.m in Sources */,
 				9F1F9AB912267E2D2243E965 /* EVLabelsTabbar.m in Sources */,

@@ -13,6 +13,7 @@
 #import "EVHVWatchStockView.h"
 #import "EVHVWatchCheatsView.h"
 #import "EVNotOpenView.h"
+#import "EVIntroduceView.h"
 
 @interface EVHVWatchBottomView ()<SGSegmentedControlStaticDelegate,UIScrollViewDelegate>
 
@@ -22,6 +23,7 @@
 
 @property (nonatomic, strong) NSMutableArray *titleArray;
 
+@property (nonatomic, strong) EVWatchVideoInfo *watchVideoInfo;
 
 @property (nonatomic, assign) CGFloat frameHig;
 
@@ -30,12 +32,13 @@
 
 @implementation EVHVWatchBottomView
 
-- (instancetype)initWithFrame:(CGRect)frame titleArray:(NSArray *)titleArray
+- (instancetype)initWithFrame:(CGRect)frame titleArray:(NSArray *)titleArray watchInfo:(EVWatchVideoInfo*)watchInfo
 {
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
         self.frameHig = frame.size.height;
+        self.watchVideoInfo = watchInfo;
         [self addUpViewFrame:frame titleArray:titleArray];
     }
     return self;
@@ -74,9 +77,10 @@
     
     
     //简介
-    EVHVWatchCheatsView *cheatsView1 = [[EVHVWatchCheatsView alloc] initWithFrame:CGRectMake(ScreenWidth * (titleArray.count - 4), 0, ScreenWidth, frame.size.height - 44)];
-    [backScrollView addSubview:cheatsView1];
-    cheatsView1.backgroundColor = [UIColor evBackgroundColor];
+    EVIntroduceView *introView = [[EVIntroduceView alloc] initWithFrame:CGRectMake(ScreenWidth * (titleArray.count - 4), 0, ScreenWidth, frame.size.height)];
+    [backScrollView addSubview:introView];
+    introView.watchVideoInfo = self.watchVideoInfo;
+    introView.backgroundColor = [UIColor evBackgroundColor];
 
     //评论
     EVHVVideoCommentView * videoCommentView = [[EVHVVideoCommentView alloc] initWithFrame:CGRectMake(ScreenWidth * (titleArray.count - 3), 0,ScreenWidth, self.frameHig - 40 - 49)];
@@ -166,8 +170,28 @@
     }else {
         [self.backScrollView addSubview:self.videoCommentView];
     }
-    
-    
 }
 
+-(void)setWatchVideoInfo:(EVWatchVideoInfo *)watchVideoInfo {
+    _watchVideoInfo = watchVideoInfo;
+}
+
+
+
+#pragma mark -delegate
+#pragma mark --  精品视频简介-推荐视频
+-(void)videoListClickModel:(EVVideoAndLiveModel *)videoAndLiveModel {
+//    EVHVWatchViewController *watchViewVC = [[EVHVWatchViewController alloc] init];
+//    watchViewVC.videoAndLiveModel = videoAndLiveModel;
+//    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:watchViewVC];
+//    [self presentViewController:nav animated:YES completion:nil];
+    NSLog(@"搜到");
+}
+
+
+
+
 @end
+
+
+

@@ -32,6 +32,14 @@
                 sessionExpired:(void(^)())sessionExpiredBlock;
 
 
+//精品视频-推荐视频
+- (void)GETRecommendVideolistStart:(NSInteger)start
+                             count:(NSInteger)count
+                           topicid:(NSString *)topicid
+                             start:(void(^)())startBlock
+                              fail:(void(^)(NSError *error))failBlock
+                           success:(void(^)(NSDictionary *info))successBlock
+                    sessionExpired:(void(^)())sessionExpiredBlock;
 
 
 

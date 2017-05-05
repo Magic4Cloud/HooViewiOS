@@ -14,7 +14,8 @@
 @implementation EVWatchVideoInfo
 + (NSDictionary *)gp_dictionaryKeysMatchToPropertyNames
 {
-    return @{@"id":@"liveID"};
+    return @{@"id":@"liveID",
+             @"description":@"descriptionStr"};
 }
 
 + (NSDictionary *)gp_objectClassesInArryProperties

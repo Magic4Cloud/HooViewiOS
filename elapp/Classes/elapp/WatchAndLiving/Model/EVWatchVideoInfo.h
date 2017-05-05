@@ -148,6 +148,8 @@ typedef NS_ENUM(NSInteger, CCLiveStatus) {
 @property (nonatomic, assign) NSInteger viewcount;
 @property (nonatomic, assign) NSInteger fans_count;
 
+//精品视频简介
+@property (nonatomic, copy) NSString *descriptionStr;
 
 
 @end

@@ -51,12 +51,14 @@
     UITextField *stockTextFiled = [[UITextField alloc] init];
     [self addSubview:stockTextFiled];
     self.stockTextFiled = stockTextFiled;
+    stockTextFiled.returnKeyType = UIReturnKeySearch;
     [stockTextFiled autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:14];
     [stockTextFiled autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
     [stockTextFiled autoSetDimensionsToSize:CGSizeMake(ScreenWidth - 20, 24)];
     stockTextFiled.placeholder = @"请输入股票代码/简称";
     stockTextFiled.font = [UIFont textFontB2];
     stockTextFiled.textColor = [UIColor evTextColorH1];
+    stockTextFiled.delegate = self;
     
 //    UIButton *searchBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
 //    [contentView addSubview:searchBtn];
@@ -85,4 +87,12 @@
     }
     
 }
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(searchButton)]) {
+        [self.delegate searchButton];
+    }
+    return YES;
+}
+
 @end

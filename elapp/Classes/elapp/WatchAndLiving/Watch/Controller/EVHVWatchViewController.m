@@ -45,6 +45,7 @@
 #import "YZInputView.h"
 #import "EVNetWorkStateManger.h"
 #import "EVVipCenterController.h"
+#import "EVIntroduceView.h"
 
 
 #import "EVPayVideoCoverView.h"
@@ -485,7 +486,7 @@
             titleArr = [NSMutableArray arrayWithArray:tArr];
         }
     }
-    EVHVWatchBottomView *watchBottomView = [[EVHVWatchBottomView alloc] initWithFrame:bottomView titleArray:titleArr];
+    EVHVWatchBottomView *watchBottomView = [[EVHVWatchBottomView alloc] initWithFrame:bottomView titleArray:titleArr watchInfo:self.watchVideoInfo];
     watchBottomView.isLiving = self.watchVideoInfo.mode;
     [contentView addSubview:watchBottomView];
     watchBottomView.delagate = self;
@@ -853,6 +854,7 @@
     self.evPlayer = nil;
 }
 #pragma mark -delegate
+
 #pragma mark - 播放控件点击
 - (void)watchButttonClickType:(EVHVWatchViewType)type button:(UIButton *)button
 {

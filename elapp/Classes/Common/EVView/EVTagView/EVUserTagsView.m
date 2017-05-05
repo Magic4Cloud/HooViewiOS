@@ -63,7 +63,7 @@
     [self addSubview:twoLabel];
     self.twoLabel = twoLabel;
     self.twoLabel.hidden = YES;
-    [twoLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:oneLabel withOffset:8];
+    [twoLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:oneLabel withOffset:5];
     [twoLabel autoPinEdgeToSuperviewEdge:ALEdgeTop];
     self.twoLabelWid =   [twoLabel autoSetDimension:ALDimensionWidth toSize:10];
     [twoLabel autoSetDimension:ALDimensionHeight toSize:20];
@@ -73,7 +73,7 @@
     [self addSubview:threeLabel];
     self.threeLabel = threeLabel;
     self.threeLabel.hidden = YES;
-    [threeLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:twoLabel withOffset:8];
+    [threeLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:twoLabel withOffset:5];
     [threeLabel autoPinEdgeToSuperviewEdge:ALEdgeTop];
     self.threeLabelWid =  [threeLabel autoSetDimension:ALDimensionWidth toSize:10];
     [threeLabel autoSetDimension:ALDimensionHeight toSize:20];

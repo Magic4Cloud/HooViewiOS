@@ -19,7 +19,8 @@
 
 @interface EVHVWatchBottomView : UIView
 
-- (instancetype)initWithFrame:(CGRect)frame titleArray:(NSArray *)titleArray;
+//- (instancetype)initWithFrame:(CGRect)frame titleArray:(NSArray *)titleArray;
+- (instancetype)initWithFrame:(CGRect)frame titleArray:(NSArray *)titleArray watchInfo:(EVWatchVideoInfo*)watchInfo;
 
 @property (nonatomic, weak) id<EVHVWatchBottomViewDelegate> delagate;
 @property (nonatomic, assign) NSInteger isLiving;
@@ -32,5 +33,6 @@
 @property (nonatomic, weak) EVNotOpenView *notOpenView;
 
 @property (nonatomic, weak) EVHVWatchStockView *watchStockView;
+
 
 @end

@@ -9,6 +9,9 @@
 #import "EVNewsStocksViewController.h"
 #import "EVBaseToolManager+EVNewsAPI.h"
 #import "EVNewsListViewCell.h"
+#import "EVNewsDetailWebController.h"
+#import "EVNewsModel.h"
+
 
 @interface EVNewsStocksViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -140,7 +143,19 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    EVHVEyesModel * newsModel = _eyesDataArray[indexPath.row];
+    //普通新闻
+    EVNewsDetailWebController *newsWebVC = [[EVNewsDetailWebController alloc] init];
+    newsWebVC.newsID = newsModel.eyesID;
+    newsWebVC.newsTitle = newsModel.title;
+    if ([newsModel.eyesID isEqualToString:@""] || newsModel.eyesID == nil) {
+        return;
+    }
+    newsWebVC.refreshViewCountBlock = ^()
+    {
+        [self initData];
+    };
+    [self.navigationController pushViewController:newsWebVC animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

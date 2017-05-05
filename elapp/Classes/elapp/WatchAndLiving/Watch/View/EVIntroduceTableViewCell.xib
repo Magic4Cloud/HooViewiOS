@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="101" id="KGk-i7-Jjw" customClass="EVIntroduceTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="101"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="100.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PIf-2R-oU1">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="5"/>
+                        <color key="backgroundColor" red="0.97254901960784312" green="0.97254901960784312" blue="0.97254901960784312" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="5" id="O4C-Zz-EYn"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="险资举牌银行股早已不是什么新鲜事儿。梳理多家上市银行前十大股东名单发现，民生银行、平安银行、兴业银行等股份制银行尤其受到保险资金的青睐。同时，商业银行股东、股权相关的“八卦新闻”也从未停歇" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MhH-Dg-lm3">
+                        <rect key="frame" x="10" y="11" width="350" height="67"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="leading" secondItem="MhH-Dg-lm3" secondAttribute="leading" constant="-10" id="7z7-z9-s4X"/>
+                    <constraint firstAttribute="trailing" secondItem="MhH-Dg-lm3" secondAttribute="trailing" constant="15" id="grb-J0-44z"/>
+                    <constraint firstItem="MhH-Dg-lm3" firstAttribute="top" secondItem="PIf-2R-oU1" secondAttribute="bottom" constant="6" id="mak-w1-UhO"/>
+                </constraints>
+            </tableViewCellContentView>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="PIf-2R-oU1" secondAttribute="trailing" id="AOM-k3-5FJ"/>
+                <constraint firstItem="PIf-2R-oU1" firstAttribute="leading" secondItem="KGk-i7-Jjw" secondAttribute="leading" id="DqL-hf-ocI"/>
+                <constraint firstItem="PIf-2R-oU1" firstAttribute="top" secondItem="KGk-i7-Jjw" secondAttribute="top" id="cMm-Sa-VNA"/>
+            </constraints>
+            <connections>
+                <outlet property="contentLabel" destination="MhH-Dg-lm3" id="hhR-Jo-VB7"/>
+            </connections>
+            <point key="canvasLocation" x="48.5" y="82.5"/>
+        </tableViewCell>
+    </objects>
+</document>

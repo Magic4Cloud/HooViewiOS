@@ -45,6 +45,31 @@
     [EVBaseToolManager GETRequestWithUrl:urlString parameters:params success:successBlock sessionExpireBlock:sessionExpiredBlock fail:failBlock];
 }
 
+//精品视频-推荐视频
+- (void)GETRecommendVideolistStart:(NSInteger)start
+                         count:(NSInteger)count
+                       topicid:(NSString *)topicid
+                         start:(void(^)())startBlock
+                          fail:(void(^)(NSError *error))failBlock
+                       success:(void(^)(NSDictionary *info))successBlock
+                sessionExpired:(void(^)())sessionExpiredBlock
+{
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    //    if ( sessionID )
+    //    {
+    //        params[kSessionIdKey] = sessionID;
+    //    }
+    params[kStart] = @(start);
+    params[kCount] = @(count);
+    
+    params[@"videoid"] = topicid;
+    params[@"orderby"] = @"viewcount";
+    //    params[kLive] = @(1);
+        
+    [EVBaseToolManager GETRequestWithUrl:EVRecommendVideoList parameters:params success:successBlock sessionExpireBlock:sessionExpiredBlock fail:failBlock];
+}
+
 
 //发送评论
 - (void)POSTVideoCommentContent:(NSString *)content

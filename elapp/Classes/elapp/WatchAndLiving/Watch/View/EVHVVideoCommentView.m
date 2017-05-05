@@ -10,7 +10,7 @@
 #import "EVCommentViewCell.h"
 #import "EVBaseToolManager+EVHomeAPI.h"
 #import "EVVipCenterController.h"
-
+#import "EVNormalPersonCenterController.h"
 
 @interface EVHVVideoCommentView ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) EVBaseToolManager *baseToolManager;
@@ -95,6 +95,7 @@
         Cell = [[EVCommentViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:@"commentCell"];
     }
     Cell.videoCommentModel = self.dataArray[indexPath.row];
+    Cell.selectionStyle = NO;
     return Cell;
 }
 
@@ -111,29 +112,39 @@
 //}
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    EVHVVideoCommentModel *commentModel = self.dataArray[indexPath.row];
-//    
-//    if (self.listToVipCenterBlock) {
-//        self.listToVipCenterBlock(commentModel);
-//    }
-//
-//    if ([commentModel.vip integerValue] == 1)
-//    {
-//        EVWatchVideoInfo *watchInfo = [EVWatchVideoInfo new];
-//        watchInfo.name = commentModel.user_name;
-//        EVVipCenterController *vc = [[EVVipCenterController alloc] init];
-//        vc.watchVideoInfo = watchInfo;
-////        [self.navigationController pushViewController:vc animated:YES];
-//    }
-//    else
-//    {
-//        EVWatchVideoInfo *watchInfo = [EVWatchVideoInfo new];
-//        watchInfo.name = commentModel.user_name;
-////        EVNormalPersonCenterController  *vc = [[EVNormalPersonCenterController alloc] init];
-////        vc.watchVideoInfo = watchInfo;
-////        [self.navigationController pushViewController:vc animated:YES];
-//    }
+//    [tableView didDeselectRowAtIndexPath:indexPath];
+    EVHVVideoCommentModel *commentModel = self.dataArray[indexPath.row];
 
+    if (commentModel.user.vip == 1)
+    {
+        EVWatchVideoInfo *watchInfo = [EVWatchVideoInfo new];
+        watchInfo.name = commentModel.user.id;
+        EVVipCenterController *vc = [[EVVipCenterController alloc] init];
+        vc.watchVideoInfo = watchInfo;
+        [[self viewController].navigationController pushViewController:vc animated:YES];
+    }
+    else
+    {
+        EVWatchVideoInfo *watchInfo = [EVWatchVideoInfo new];
+        watchInfo.name = commentModel.user.id;
+        EVNormalPersonCenterController  *vc = [[EVNormalPersonCenterController alloc] init];
+        vc.watchVideoInfo = watchInfo;
+        [[self viewController].navigationController pushViewController:vc animated:YES];
+    }
+
+}
+
+- (UIViewController*)viewController {
+    for (UIView* next = [self superview];
+         next; next =
+         next.superview) {
+        UIResponder* nextResponder = [next nextResponder];
+        if ([nextResponder isKindOfClass:[UIViewController
+                                          class]]) {
+            return (UIViewController*)nextResponder;
+        }
+    }
+    return nil;
 }
 
 
