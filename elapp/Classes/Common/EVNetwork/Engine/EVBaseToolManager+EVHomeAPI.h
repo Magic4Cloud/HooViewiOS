@@ -37,21 +37,26 @@
 
 - (void)GETGoodVideoListStart:(NSString *)start count:(NSString *)count fail:(void(^)(NSError *error))failBlock success:(void(^)(NSDictionary *info))successBlock;
 
+
+//发送评论
 - (void)POSTVideoCommentContent:(NSString *)content
-                            vid:(NSString *)vid
-                         userID:(NSString *)userid
-                       userName:(NSString *)username
-                     userAvatar:(NSString *)useravatar
+                        topicid:(NSString *)topicid
+                           type:(NSString *)type
                           start:(void(^)())startBlock
                            fail:(void(^)(NSError *error))failBlock
-                        success:(void(^)(NSDictionary *retinfo))successBlock;
+                        success:(void(^)(NSDictionary *info))successBlock
+                 sessionExpired:(void(^)())sessionExpiredBlock;
 
-- (void)GETVideoCommentListVid:(NSString *)vid
-                         start:(NSString *)start
-                         count:(NSString *)count
-                         start:(void(^)())startBlock
-                          fail:(void(^)(NSError *error))failBlock
-                       success:(void(^)(NSDictionary *retinfo))successBlock;
+
+
+//获取精品视频评论列表
+- (void)GETVideoCommentListtopicid:(NSString *)topicid
+                              type:(NSString *)type
+                             start:(NSString *)start
+                             count:(NSString *)count
+                             start:(void(^)())startBlock
+                              fail:(void(^)(NSError *error))failBlock
+                           success:(void(^)(NSDictionary *retinfo))successBlock;
 
 
 /** 推荐页轮播图 */

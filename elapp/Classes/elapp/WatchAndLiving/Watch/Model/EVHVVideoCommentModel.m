@@ -15,4 +15,11 @@
     return @{@"commentID":@"id"};
 }
 
+//+ (NSDictionary *)gp_objectClassesInArryProperties
+//{
+//    return @{@"user" : [EVUserModel class]};
+//}
+
+
+
 @end

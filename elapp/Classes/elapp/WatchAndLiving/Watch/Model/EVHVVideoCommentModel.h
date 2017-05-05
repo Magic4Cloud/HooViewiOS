@@ -7,6 +7,7 @@
 //
 
 #import "EVBaseObject.h"
+#import "EVUserModel.h"
 
 @interface EVHVVideoCommentModel : EVBaseObject
 
@@ -19,8 +20,9 @@
 @property (nonatomic, copy) NSString *content;
 @property (nonatomic, assign) NSString *vip;
 @property (nonatomic, copy) NSString *like;
+@property (nonatomic, copy) NSString *id;
 
-
+@property (nonatomic, strong) EVUserModel *user;
 @property (nonatomic, assign) CGFloat cellHeight;
 
 @end

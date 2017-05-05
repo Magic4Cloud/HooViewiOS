@@ -83,7 +83,7 @@
 {
     label.layer.cornerRadius = 4;
     label.clipsToBounds = YES;
-    label.backgroundColor = [UIColor colorWithHexString:@"#f7f7f7"];
+//    label.backgroundColor = [UIColor colorWithHexString:@"#f7f7f7"];
     label.textColor = [UIColor colorWithHexString:@"#4281AD"];
     label.font = [UIFont systemFontOfSize:14.f];
     label.textAlignment = NSTextAlignmentCenter;

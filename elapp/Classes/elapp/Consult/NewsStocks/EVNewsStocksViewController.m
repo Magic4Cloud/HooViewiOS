@@ -37,12 +37,16 @@
 
 - (void)addUpView
 {
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 4, ScreenWidth, ScreenHeight-117) style:(UITableViewStyleGrouped)];
+    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-113) style:(UITableViewStyleGrouped)];
     tableView.delegate = self;
     tableView.dataSource = self;
     self.tableView = tableView;
     [self.view addSubview:tableView];
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 4)];
+    headerView.backgroundColor = CCColor(238, 238, 238);
+    tableView.tableHeaderView = headerView;
     
     [tableView addRefreshHeaderWithRefreshingBlock:^{
         [self initData];

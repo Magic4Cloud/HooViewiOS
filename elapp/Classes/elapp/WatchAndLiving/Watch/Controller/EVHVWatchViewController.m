@@ -349,6 +349,10 @@
     
     
     [self addChatTextView];
+    if (self.watchVideoInfo.mode == 2) {
+        self.chatTextView.hidden = YES;
+    }
+    
     [self addPresentListView];
     if (self.watchVideoInfo.uri != nil) {
         [self configPlayer];
@@ -470,7 +474,7 @@
     NSMutableArray *titleArr = [NSMutableArray array];
     
     if (self.watchVideoInfo.mode == 2) {
-        NSArray *tArr = @[@"评论",@"数据",@"秘籍"];
+        NSArray *tArr = @[@"简介",@"评论",@"数据",@"秘籍"];
         titleArr = [NSMutableArray arrayWithArray:tArr];
     }else {
         if (self.watchVideoInfo.living == 0) {
@@ -647,28 +651,53 @@
     self.blackBackView.hidden = NO;
     NSDictionary* info = [notification userInfo];
     CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;//得到鍵盤的高度
-    
-    if (self.scrollViewIndex == 0) {
-        self.stockTextView.hidden = YES;
-        [self.view bringSubviewToFront:self.chatTextView];
-        self.chatTextView.hidden = NO;
-        self.chatTextView.giftButton.hidden = YES;
-        self.chatTextView.sendImageViewRig.constant = 0;
-        self.chatTextView.commentBtnRig.constant = -67;
-        self.chatTextViewBom.constant = -kbSize.height;
-        [UIView animateWithDuration:0.3 animations:^{
-            [self chatNotSendGiftView:kbSize.height];
-        }];
-    }else if (self.scrollViewIndex == 1) {
-        [self.view bringSubviewToFront:self.stockTextView];
-        self.stockTextView.hidden = NO;
-        self.chatTextView.hidden = YES;
-        [UIView animateWithDuration:0.3 animations:^{
-            self.stockTextView.frame = CGRectMake(0, ScreenHeight - kbSize.height - 49, ScreenWidth, 49);
-        }];
-    }else {
-        self.stockTextView.hidden = YES;
-        self.chatTextView.hidden = YES;
+    if (self.watchVideoInfo.mode == 2) {
+        if (self.scrollViewIndex == 1) {
+            self.stockTextView.hidden = YES;
+            [self.view bringSubviewToFront:self.chatTextView];
+            self.chatTextView.hidden = NO;
+            self.chatTextView.giftButton.hidden = YES;
+            self.chatTextView.sendImageViewRig.constant = 0;
+            self.chatTextView.commentBtnRig.constant = -67;
+            self.chatTextViewBom.constant = -kbSize.height;
+            [UIView animateWithDuration:0.3 animations:^{
+                [self chatNotSendGiftView:kbSize.height];
+            }];
+        }else if (self.scrollViewIndex == 2) {
+            [self.view bringSubviewToFront:self.stockTextView];
+            self.stockTextView.hidden = NO;
+            self.chatTextView.hidden = YES;
+            [UIView animateWithDuration:0.3 animations:^{
+                self.stockTextView.frame = CGRectMake(0, ScreenHeight - kbSize.height - 49, ScreenWidth, 49);
+            }];
+        }else {
+            self.stockTextView.hidden = YES;
+            self.chatTextView.hidden = YES;
+        }
+        
+    } else {
+        if (self.scrollViewIndex == 0) {
+            self.stockTextView.hidden = YES;
+            [self.view bringSubviewToFront:self.chatTextView];
+            self.chatTextView.hidden = NO;
+            self.chatTextView.giftButton.hidden = YES;
+            self.chatTextView.sendImageViewRig.constant = 0;
+            self.chatTextView.commentBtnRig.constant = -67;
+            self.chatTextViewBom.constant = -kbSize.height;
+            [UIView animateWithDuration:0.3 animations:^{
+                [self chatNotSendGiftView:kbSize.height];
+            }];
+        }else if (self.scrollViewIndex == 1) {
+            [self.view bringSubviewToFront:self.stockTextView];
+            self.stockTextView.hidden = NO;
+            self.chatTextView.hidden = YES;
+            [UIView animateWithDuration:0.3 animations:^{
+                self.stockTextView.frame = CGRectMake(0, ScreenHeight - kbSize.height - 49, ScreenWidth, 49);
+            }];
+        }else {
+            self.stockTextView.hidden = YES;
+            self.chatTextView.hidden = YES;
+        }
     }
 }
 
@@ -699,30 +728,55 @@
     self.blackBackView.hidden = YES;
     //NSDictionary* info = [notification userInfo];
     //kbSize即為鍵盤尺寸 (有width, height)
-    if (self.scrollViewIndex == 0) {
-        [self.view bringSubviewToFront:self.chatTextView];
-        self.stockTextView.hidden = YES;
-        self.chatTextViewBom.constant = 0;
-       
-        [UIView animateWithDuration:0.3 animations:^{
-            if (self.watchVideoInfo.mode == 2) {
-                [self chatNotSendGiftView:0];
-            }else {
-                [self chatTextSendGiftView];
-            }
+    if (self.watchVideoInfo.mode == 2) {
+        if (self.scrollViewIndex == 1) {
+            [self.view bringSubviewToFront:self.chatTextView];
+            self.stockTextView.hidden = YES;
+            self.chatTextViewBom.constant = 0;
             
-        }];
-    }else if (self.scrollViewIndex == 1) {
-        [self.view bringSubviewToFront:self.stockTextView];
-        self.chatTextView.hidden = YES;
-        [UIView animateWithDuration:0.3 animations:^{
-            self.stockTextView.frame = CGRectMake(0, ScreenHeight - 49, ScreenWidth, 49);
-        }];
-    }else {
+            [UIView animateWithDuration:0.3 animations:^{
+                if (self.watchVideoInfo.mode == 2) {
+                    [self chatNotSendGiftView:0];
+                }else {
+                    [self chatTextSendGiftView];
+                }
+                
+            }];
+        }else if (self.scrollViewIndex == 2) {
+            [self.view bringSubviewToFront:self.stockTextView];
+            self.chatTextView.hidden = YES;
+            [UIView animateWithDuration:0.3 animations:^{
+                self.stockTextView.frame = CGRectMake(0, ScreenHeight - 49, ScreenWidth, 49);
+            }];
+        }else {
+            
+        }
         
+    } else {
+        
+        if (self.scrollViewIndex == 0) {
+            [self.view bringSubviewToFront:self.chatTextView];
+            self.stockTextView.hidden = YES;
+            self.chatTextViewBom.constant = 0;
+            
+            [UIView animateWithDuration:0.3 animations:^{
+                if (self.watchVideoInfo.mode == 2) {
+                    [self chatNotSendGiftView:0];
+                }else {
+                    [self chatTextSendGiftView];
+                }
+                
+            }];
+        }else if (self.scrollViewIndex == 1) {
+            [self.view bringSubviewToFront:self.stockTextView];
+            self.chatTextView.hidden = YES;
+            [UIView animateWithDuration:0.3 animations:^{
+                self.stockTextView.frame = CGRectMake(0, ScreenHeight - 49, ScreenWidth, 49);
+            }];
+        }else {
+            
+        }
     }
-    
-    
 }
 
 - (void)startRecordPlayTimer
@@ -1025,22 +1079,23 @@
     }
      EVLoginInfo *loginfo = [EVLoginInfo localObject];
     if (self.watchVideoInfo.mode == 2) {
-        [self.baseToolManager POSTVideoCommentContent:str vid:self.watchVideoInfo.vid userID:loginfo.name userName:loginfo.nickname userAvatar:loginfo.logourl start:^{
-           
+        [self.baseToolManager POSTVideoCommentContent:str topicid:self.watchVideoInfo.vid type:@"1" start:^{
+            
         } fail:^(NSError *error) {
             NSString *errorMsg = @"评论失败";
             if (![EVLoginInfo localObject]) {
-                errorMsg = [errorMsg stringByAppendingString:@"，请先登录"];
+                errorMsg = [errorMsg stringByAppendingString:@"请先登录"];
             }
             [EVProgressHUD showError:errorMsg];
-            
-        } success:^(NSDictionary *retinfo) {
+
+        } success:^(NSDictionary *info) {
             [EVProgressHUD showSuccess:@"评论成功"];
             [self.watchBottomView.videoCommentView loadDataVid:self.watchVideoInfo.vid start:@"0" count:@"20"];
+        } sessionExpired:^{
             
         }];
+
     }else {
-       
         NSDictionary *commentFormat = [NSDictionary dictionaryWithObjectsAndKeys:loginfo.nickname,EVMessageKeyNk, nil];
         NSMutableDictionary *commentJoin = [NSMutableDictionary dictionaryWithObjectsAndKeys:commentFormat,EVMessageKeyExct, nil];
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:commentJoin options:NSJSONWritingPrettyPrinted error:nil];
@@ -1225,16 +1280,31 @@
 #pragma mark - bottomdelegate
 - (void)scrollViewDidSeletedIndex:(NSInteger)index
 {
-    self.scrollViewIndex = index;
-    if (index == 0) {
-        self.chatTextView.hidden = NO;
-        self.stockTextView.hidden = YES;
-    }else if (index == 1) {
-        self.chatTextView.hidden = YES;
-        self.stockTextView.hidden = NO;
-    }else {
-        self.chatTextView.hidden = YES;
-        self.stockTextView.hidden = YES;
+    if (self.watchVideoInfo.mode == 2) {
+        self.scrollViewIndex = index;
+        if (index == 1) {
+            self.chatTextView.hidden = NO;
+            self.stockTextView.hidden = YES;
+        }else if (index == 2) {
+            self.chatTextView.hidden = YES;
+            self.stockTextView.hidden = NO;
+        }else {
+            self.chatTextView.hidden = YES;
+            self.stockTextView.hidden = YES;
+        }
+    } else {
+        self.scrollViewIndex = index;
+        if (index == 0) {
+            self.chatTextView.hidden = NO;
+            self.stockTextView.hidden = YES;
+        }else if (index == 1) {
+            self.chatTextView.hidden = YES;
+            self.stockTextView.hidden = NO;
+        }else {
+            self.chatTextView.hidden = YES;
+            self.stockTextView.hidden = YES;
+        }
+
     }
 }
 
@@ -1246,11 +1316,7 @@
     switch (type) {
         case EVHVWatchCenterTypeHeadImage:
         {
-            //TODO:点击头像进入个人中心
-//            EVVipCenterViewController *vipCenterVC  = [[EVVipCenterViewController alloc] init];
-//             [self.navigationController pushViewController:vipCenterVC animated:YES];
-//            vipCenterVC.watchVideoInfo = self.watchVideoInfo;
-//            vipCenterVC.isFollow = weakself.watchCenterView.isFollow;
+
             EVVipCenterController *vc = [[EVVipCenterController alloc] init];
             vc.watchVideoInfo = self.watchVideoInfo;
             [self.navigationController pushViewController:vc animated:YES];

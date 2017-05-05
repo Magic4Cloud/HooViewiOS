@@ -127,11 +127,11 @@
 {
     _videoCommentModel = videoCommentModel;
     
-    [self.headImageView cc_setImageWithURLString:videoCommentModel.user_avatar placeholderImage:nil];
-    [self.nameLabel setText:videoCommentModel.user_name];
+    [self.headImageView cc_setImageWithURLString:videoCommentModel.user.avatar placeholderImage:nil];
+    [self.nameLabel setText:videoCommentModel.user.nickname];
     [self.contentLabel setText:videoCommentModel.content];
-    [self.heatLabel setText:@"1.4万"];
-    self.timeLabel.text = @"2分钟前";
+    [self.heatLabel setText:[NSString stringWithFormat:@"%ld",videoCommentModel.heats]];
+    self.timeLabel.text = videoCommentModel.time;
     
     if ([videoCommentModel.like integerValue] == 0) {
         [_likeButton setBackgroundImage:[UIImage imageNamed:@"btn_news_like_n"] forState:UIControlStateNormal];
@@ -148,19 +148,19 @@
 
 
 - (void)action_likeOrNot:(UIButton *)sender {
-//    WEAK(self)
+    WEAK(self)
     
-//    NSString *likeType = [_videoCommentModel.like integerValue] == 0 ? @"1" : @"0";
-//    [self.baseToolManager GETLikeOrNotWithUserName:nil Type:_videoCommentModel.topic.type action:likeType postid:self.commentModel.id start:^{
-//        
-//    } fail:^(NSError *error) {
-//        NSLog(@"error = %@",error);
-//    } success:^{
-//        sender.selected = !sender.selected;
-//        [weakself buttonStatus:likeType button:sender];
-//    } essionExpire:^{
-//        
-//    }];
+    NSString *likeType = [_videoCommentModel.like integerValue] == 0 ? @"1" : @"0";
+    [self.baseToolManager GETLikeOrNotWithUserName:nil Type:@"1" action:likeType postid:_videoCommentModel.id start:^{
+        
+    } fail:^(NSError *error) {
+        NSLog(@"error = %@",error);
+    } success:^{
+        sender.selected = !sender.selected;
+        [weakself buttonStatus:likeType button:sender];
+    } essionExpire:^{
+        
+    }];
     
 }
 

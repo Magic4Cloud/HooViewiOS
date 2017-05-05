@@ -48,7 +48,7 @@
 
 - (void)loadDataVid:(NSString *)vid start:(NSString *)start count:(NSString *)count
 {
-    [self.baseToolManager GETVideoCommentListVid:vid start:start count:count start:^{
+    [self.baseToolManager GETVideoCommentListtopicid:vid type:@"1" start:start count:count start:^{
         
     } fail:^(NSError *error) {
         [EVProgressHUD showError:@"加载失败"];
@@ -63,6 +63,23 @@
         [self.commentTableView reloadData];
         [self.commentTableView setFooterState:(commentArr.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
     }];
+    
+    
+//    [self.baseToolManager GETVideoCommentListVid:vid start:start count:count start:^{
+//        
+//    } fail:^(NSError *error) {
+//        [EVProgressHUD showError:@"加载失败"];
+//    } success:^(NSDictionary *retinfo) {
+//        self.start = retinfo[@"retinfo"][@"next"];
+//        [_commentTableView endFooterRefreshing];
+//        NSArray *commentArr = [EVHVVideoCommentModel objectWithDictionaryArray:retinfo[@"retinfo"][@"posts"]];
+//        if ([retinfo[@"retinfo"][@"start"] integerValue] == 0) {
+//            [self.dataArray removeAllObjects];
+//        }
+//        [self.dataArray addObjectsFromArray:commentArr];
+//        [self.commentTableView reloadData];
+//        [self.commentTableView setFooterState:(commentArr.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
+//    }];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
