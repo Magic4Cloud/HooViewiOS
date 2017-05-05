@@ -212,12 +212,12 @@
         _vipIConImageView.frame = CGRectMake(x, 0, 22, 22);
         _vipIConImageView.hidden = NO;
         self.nameLabel.textColor = [UIColor blackColor];
-        self.nameLabel.font = [UIFont systemFontOfSize:16];
+//        self.nameLabel.font = [UIFont systemFontOfSize:16];
     }
     else
     {
         _vipIConImageView.hidden = YES;
-        self.nameLabel.font = [UIFont systemFontOfSize:12];
+//        self.nameLabel.font = [UIFont systemFontOfSize:12];
         self.nameLabel.textColor = [UIColor evBackGroundDeepGrayColor];
     }
     self.avatarImageView.frame = easeMessageModel.avatarRect;
@@ -239,30 +239,46 @@
     
     
     if ([easeMessageModel.vip boolValue])
-    {//大v  背景黄色  字体黑色  回复白色
-        normal = [UIImage imageNamed:@"bg_chat_myself"];
-        normal = [normal resizableImageWithCapInsets:UIEdgeInsetsMake(35, 10, 10, 22)];
-        self.contentLabel.textColor = [UIColor blackColor];
-        self.rpcLabel.textColor = [UIColor whiteColor];
-        self.rpcLabel.backgroundColor = [UIColor colorWithRed:240/255.0 green:186/255.0 blue:84/255.0 alpha:1];
+    {
+        //大v  背景黄色  字体黑色  回复白色
+        if (easeMessageModel.isSender)
+        {
+            //自己发的 右边黄色（大v）
+            normal = [UIImage imageNamed:@"bg_chat_myself"];
+            normal = [normal resizableImageWithCapInsets:UIEdgeInsetsMake(20, 22, 33, 10) ];
+            self.contentLabel.textColor = [UIColor blackColor];
+            self.rpcLabel.textColor = [UIColor whiteColor];
+            self.rpcLabel.backgroundColor = [UIColor colorWithRed:240/255.0 green:186/255.0 blue:84/255.0 alpha:1];
+        }
+        else
+        {
+            //别人发的 左边黄色（大v）
+            normal = [UIImage imageNamed:@"ic_yellow_left"];
+            normal = [normal resizableImageWithCapInsets:UIEdgeInsetsMake(22, 111, 22222, 22) ];
+            self.contentLabel.textColor = [UIColor blackColor];
+            self.rpcLabel.textColor = [UIColor whiteColor];
+            self.rpcLabel.backgroundColor = [UIColor colorWithRed:240/255.0 green:186/255.0 blue:84/255.0 alpha:1];
+        }
+        
     }
     else
     {
         //        不是大v
         if (easeMessageModel.isSender)
         {
-            //不是大v 正常的发送者 背景白色
+            //不是大v 自己发的 背景白色
             normal = [UIImage imageNamed:@"ic_White"];
             
-            normal = [normal resizableImageWithCapInsets:UIEdgeInsetsMake(25, 10, 30, 20) resizingMode:UIImageResizingModeStretch];
+            normal = [normal resizableImageWithCapInsets:UIEdgeInsetsMake(20, 22, 33, 10)];
             self.contentLabel.textColor = [UIColor blackColor];
             self.rpcLabel.textColor = [UIColor blackColor];
             self.rpcLabel.backgroundColor = [UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1];
         }
         else
         {
+            //不是大v 别人发的  灰色
             normal = [UIImage imageNamed:@"bg_chat_others"];
-            normal = [normal resizableImageWithCapInsets:UIEdgeInsetsMake(35, 22, 10, 10)];
+            normal = [normal resizableImageWithCapInsets:UIEdgeInsetsMake(35, 22, 10, 10) ];
 
             self.contentLabel.textColor = [UIColor blackColor];
             self.rpcLabel.textColor = [UIColor blackColor];
@@ -278,7 +294,7 @@
     else
     {
         _rpcLabelleft.constant = 13;
-        _rpcLabelright.constant = 5;
+        _rpcLabelright.constant = -5;
     }
 
     [self.chatContentBtn setBackgroundImage:normal forState:UIControlStateNormal];

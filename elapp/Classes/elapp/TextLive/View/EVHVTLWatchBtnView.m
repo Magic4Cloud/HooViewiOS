@@ -21,8 +21,8 @@
 
 - (void)setUpView
 {
-    NSArray *imageArr = @[@"btn_sreenshot_n",@"btn_word-comment_n",@"btn_gift_n_s"];
-    for (NSInteger i = 0; i < 3; i++) {
+    NSArray *imageArr = @[@"btn_sreenshot_n",@"btn_gift_n_s"];
+    for (NSInteger i = 0; i < 2; i++) {
         UIButton *button = [UIButton buttonWithType:(UIButtonTypeCustom)];
         button.frame = CGRectMake(0, (40 * i) + (16 * i), 40, 40);
         [self addSubview:button];

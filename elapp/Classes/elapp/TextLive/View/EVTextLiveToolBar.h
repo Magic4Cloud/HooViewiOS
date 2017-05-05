@@ -28,4 +28,9 @@
 
 @property (nonatomic, weak) id<EVTextBarDelegate> delegate;
 
+@property (nonatomic, assign) BOOL isGift;
+
+@property (nonatomic, assign) BOOL isLive;
+- (instancetype)initWithFrame:(CGRect)frame withIsGift:(BOOL)isgift;
+- (instancetype)initWithFrame:(CGRect)frame withLiveChat:(BOOL)isLive;
 @end

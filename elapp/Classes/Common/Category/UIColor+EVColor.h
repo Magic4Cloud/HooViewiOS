@@ -42,6 +42,13 @@
  @return
  */
 + (UIColor *)evRedColor;
+
+/**
+ 背景浅灰色  244 244 244
+
+ @return
+ */
++ (UIColor *)evSeparetorGrayColor;
 /**
  背景深蓝色  101 154 224
  */

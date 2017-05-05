@@ -62,8 +62,15 @@
 /** 数字以万、亿为单位生成字符串，四舍五入保留一位小数 */
 + (NSString *)shortNumber:(NSUInteger)count;
 
+
 /**
- 千位分割符
+ 千位分割符 不做单位转换
+
+ @return
+ */
+- (NSString *)thousandsSeparatorStringNoMillion;
+/**
+ 千位分割符 超过万的以万为单位
  */
 - (NSString *)thousandsSeparatorString;
 
