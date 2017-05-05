@@ -150,7 +150,7 @@
     
     //MARK:进入聊天室发消息
     [self performSelector:@selector(joinChatRoomSendMessage) withObject:nil afterDelay:1];
-//    [self joinChatRoomSendMessage];
+
 }
 - (void)addBackTableView
 {
@@ -551,6 +551,9 @@
     } completion:^(EMMessage *aMessage, EMError *aError) {
         if (!aError) {
             [self messageGiftDict:aMessage.ext];
+            if (_isChatGift) {
+                [weakself _refreshAfterSentMessage:aMessage];
+            }
         }
     }];
     [self.baseToolManager GETBuyPresentWithGoodsID:[NSString stringWithFormat:@"%ld", (long)magicEmoji.ID] number:numOfEmoji vid:self.chatroom.chatroomId name:self.watchVideoInfo.name start:^{
@@ -1015,13 +1018,15 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-//    [self.liveImageTableView updateWatchCount:self.liveVideoInfo.viewcount];
+
     EMError *error = nil;
 
     self.chatroom = [[EMClient sharedClient].roomManager joinChatroom:self.liveVideoInfo.liveID error:&error];
     
     self.liveVideoInfo.viewcount = self.chatroom.membersCount + 200;
-    [self.liveImageTableView updateWatchCount:self.liveVideoInfo.viewcount];
+    [self changeWatchCount];
+    
+    
     //注册消息回调
     [[EMClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
     [[EMClient sharedClient].roomManager addDelegate:self];
@@ -1108,17 +1113,25 @@
                        user:(NSString *)aUsername
 {
     self.liveVideoInfo.viewcount++;
-//    NSLog(@"self.liveVideoInfo.viewcount:%@",self.liveVideoInfo.viewcount);
-    [self.liveImageTableView updateWatchCount:self.liveVideoInfo.viewcount];
+
+    [self changeWatchCount];
     
 }
+
 - (void)userDidLeaveChatroom:(EMChatroom *)aChatroom
                         user:(NSString *)aUsername
 {
     self.liveVideoInfo.viewcount--;
-    [self.liveImageTableView updateWatchCount:self.liveVideoInfo.viewcount];
+    [self changeWatchCount];
 }
-
+//改变观看人数
+- (void)changeWatchCount
+{
+    [self.liveImageTableView updateWatchCount:self.liveVideoInfo.viewcount];
+    NSString * watchCount = [NSString stringWithFormat:@"%lu",(long)self.liveVideoInfo.viewcount] ;
+    self.nNameLabel.text = [NSString stringWithFormat:@"%@参与",[watchCount thousandsSeparatorStringNoMillion]];
+   
+}
 /** 充值火眼豆 */
 - (void)rechargeYibi
 {

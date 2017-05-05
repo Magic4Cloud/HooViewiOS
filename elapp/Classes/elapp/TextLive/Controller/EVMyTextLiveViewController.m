@@ -249,7 +249,7 @@
     
     
     UIControl *touchLayer = [[UIControl alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    touchLayer.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
+    touchLayer.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
     [self.navigationController.view addSubview:touchLayer];
     touchLayer.hidden = YES;
     self.touchLayer = touchLayer;
@@ -282,33 +282,35 @@
         
     };
     
-//    EVTextLiveToolBar * chatLiveToolBar = [[EVTextLiveToolBar alloc] init];
-//    [self.navigationController.view addSubview:chatLiveToolBar];
-//    self.chatLiveToolBar = textLiveToolBar;
-//    chatLiveToolBar.delegate = self;
-//    [chatLiveToolBar autoPinEdgeToSuperviewEdge:ALEdgeLeft];
-//    [chatLiveToolBar autoPinEdgeToSuperviewEdge:ALEdgeRight];
-//    self.toolBarTextBottonF =    [textLiveToolBar autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:0];
-//    self.toolBarTextViewHig =    [textLiveToolBar autoSetDimension:ALDimensionHeight toSize:49];
+    EVTextLiveToolBar * chatLiveToolBar = [[EVTextLiveToolBar alloc] init];
+//    chatLiveToolBar.inputTextView.backgroundColor = [UIColor redColor];
+    [self.navigationController.view addSubview:chatLiveToolBar];
+    self.chatLiveToolBar = chatLiveToolBar;
+    chatLiveToolBar.delegate = self;
+    [chatLiveToolBar autoPinEdgeToSuperviewEdge:ALEdgeLeft];
+    [chatLiveToolBar autoPinEdgeToSuperviewEdge:ALEdgeRight];
+    self.chatToolBarTextBottonF = [chatLiveToolBar autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:0];
+    self.chatToolBarTextViewHig = [chatLiveToolBar autoSetDimension:ALDimensionHeight toSize:49];
     
     
-    textLiveToolBar.inputTextView.yz_textHeightChangeBlock = ^(NSString *text,CGFloat textHeight){
+    
+    chatLiveToolBar.inputTextView.yz_textHeightChangeBlock = ^(NSString *text,CGFloat textHeight){
         if (text.length <= 0) {
-            weakself.toolBarTextViewHig.constant = 49;
+            weakself.chatToolBarTextViewHig.constant = 49;
             return;
         }
         if (weakself.chooseIndex == 0) {
             weakself.toolBarTextViewHig.constant = textHeight + 16;
             weakself.toolBarTextBottonF.constant  = - weakself.keyBoardHig - 36;
         }else if(self.chooseIndex == 2 ) {
-            weakself.toolBarTextViewHig.constant = textHeight + 16;
-            weakself.toolBarTextBottonF.constant  = - weakself.keyBoardHig ;
+//            weakself.toolBarTextViewHig.constant = textHeight + 16;
+//            weakself.toolBarTextBottonF.constant  = - weakself.keyBoardHig ;
             weakself.chatToolBarTextViewHig.constant = textHeight + 16;
             weakself.chatToolBarTextBottonF.constant  = - weakself.keyBoardHig;
         }
         
     };
-    
+    chatLiveToolBar.hidden = YES;
     
     
     EVSendImageView *sendImageView = [[EVSendImageView alloc] init];
@@ -351,7 +353,14 @@
     [self.view addSubview:self.eVSharePartView];
     WEAK(self)
     self.eVSharePartView.cancelShareBlock = ^() {
-        weakself.textLiveToolBar.hidden = NO;
+        if (_chooseIndex == 0) {
+            weakself.textLiveToolBar.hidden = NO;
+        }
+        else if(_chooseIndex == 2)
+        {
+            weakself.chatLiveToolBar.hidden = NO;
+        }
+//        weakself.textLiveToolBar.hidden = NO;
         weakself.stockTextView.hidden = NO;
         [weakself changeViewHideIndex:weakself.chooseIndex];
         [UIView animateWithDuration:0.3 animations:^{
@@ -383,11 +392,15 @@
 - (void)longPressModel:(EVEaseMessageModel *)model
 {
     if (![model.fromName isEqualToString:[EVLoginInfo localObject].name]) {
-        self.textLiveToolBar.inputTextView.text = [NSString stringWithFormat:@"回复%@ ",model.nickname];
-        self.rpName = self.textLiveToolBar.inputTextView.text;
+//        self.textLiveToolBar.inputTextView.text = [NSString stringWithFormat:@"回复%@ ",model.nickname];
+        self.chatLiveToolBar.inputTextView.text = [NSString stringWithFormat:@"回复%@ ",model.nickname];
+//        self.rpName = self.textLiveToolBar.inputTextView.text;
+        self.rpName = self.chatLiveToolBar.inputTextView.text;
         self.rpContent = model.text;
-        [self.textLiveToolBar.inputTextView textDidChange];
-        [self.textLiveToolBar.inputTextView becomeFirstResponder];
+//        [self.textLiveToolBar.inputTextView textDidChange];
+//        [self.textLiveToolBar.inputTextView becomeFirstResponder];
+        [self.chatLiveToolBar.inputTextView textDidChange];
+        [self.chatLiveToolBar.inputTextView becomeFirstResponder];
     }
 }
 
@@ -409,7 +422,9 @@
         }];
     }else if (self.chooseIndex == 2) {
         self.touchLayer.hidden =  NO;
-        self.toolBarTextBottonF.constant  =  - frame.size.height;
+//        self.toolBarTextBottonF.constant  =  - frame.size.height;
+        self.chatToolBarTextBottonF.constant  =  - frame.size.height;
+        
     }
    
 }
@@ -447,7 +462,7 @@
     else if(self.chooseIndex == 2)
     {
          self.keyBoardHig = 0;
-        self.toolBarTextBottonF.constant = 0;
+        self.chatToolBarTextBottonF.constant = 0;
     }
    
  
@@ -457,6 +472,7 @@
     self.sendImageView.cameraBtn.hidden = YES;
     self.sendImageView.photoBtn.hidden = YES;
     self.toolBarTextBottonF.constant = 0;
+    self.chatToolBarTextBottonF.constant = 0;
     self.sendImageViewHig.constant = 0;
     self.touchLayer.hidden = YES;
    
@@ -471,7 +487,8 @@
     }
     else if (self.chooseIndex == 2)
     {
-        [self.textLiveToolBar.inputTextView resignFirstResponder];
+//        [self.textLiveToolBar.inputTextView resignFirstResponder];
+        [self.chatLiveToolBar.inputTextView resignFirstResponder];
     }
     
 }
@@ -601,6 +618,7 @@
         self.sendImageView.imageButtonBottonHig.constant = 105;
         self.sendImageViewHig.constant = 36+105;
         self.toolBarTextBottonF.constant = -105 - 36;
+        self.touchLayer.hidden = NO;
         return;
     }
     
@@ -610,6 +628,7 @@
         chatViewText = self.chatLiveToolBar.inputTextView.text;
     }else {
         chatViewText = self.textLiveToolBar.inputTextView.text;
+        
     }
   
     NSString *from = [[EMClient sharedClient] currentUsername];
@@ -730,19 +749,23 @@
     if (index == 0) {
         self.hvGiftAniView.hidden = NO;
         self.textLiveToolBar.hidden = NO;
-         self.stockTextView.hidden = YES;
+        self.chatLiveToolBar.hidden = YES;
+        self.stockTextView.hidden = YES;
     }else if(index == 1){
         self.hvGiftAniView.hidden = YES;
         self.stockTextView.hidden = NO;
         self.textLiveToolBar.hidden = YES;
+        self.chatLiveToolBar.hidden = YES;
     }else if (index == 2) {
         self.hvGiftAniView.hidden = YES;
          self.stockTextView.hidden = YES;
-        self.textLiveToolBar.hidden = NO;
+        self.textLiveToolBar.hidden = YES;
+        self.chatLiveToolBar.hidden = NO;
     }else {
         self.hvGiftAniView.hidden = YES;
         self.textLiveToolBar.hidden = YES;
         self.stockTextView.hidden = YES;
+        self.chatLiveToolBar.hidden = YES;
     }
 }
 
@@ -775,6 +798,7 @@
 
     self.textLiveToolBar.hidden = YES;
     self.stockTextView.hidden = YES;
+    self.chatLiveToolBar.hidden = YES;
     self.snopImage =  [self snapshot:self.navigationController.view];
     [UIView animateWithDuration:0.3 animations:^{
         self.eVSharePartView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight - 64);

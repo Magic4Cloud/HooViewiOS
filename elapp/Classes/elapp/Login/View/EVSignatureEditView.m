@@ -88,6 +88,11 @@
     [confirmButton setTitleColor:[UIColor evTextColorH2] forState:(UIControlStateNormal)];
     _confirmButton = confirmButton;
     
+    [_confirmButton setBackgroundColor:[UIColor whiteColor]];
+    [_confirmButton setTitleColor:[UIColor evTextColorH2] forState:UIControlStateNormal];
+    _confirmButton.enabled = NO;
+
+    
     [EVNotificationCenter addObserver:self selector:@selector(keyBoardShow:) name:UIKeyboardDidShowNotification object:nil];
 }
 
@@ -101,22 +106,9 @@
         return NO;
     }
     
-    if (comcatstr.length>0)
-    {
         [_confirmButton setBackgroundColor:[UIColor evMainColor]];
         [_confirmButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _confirmButton.enabled = YES;
-    }
-    else
-    {
-        [_confirmButton setBackgroundColor:[UIColor whiteColor]];
-        [_confirmButton setTitleColor:[UIColor evTextColorH2] forState:UIControlStateNormal];
-        _confirmButton.enabled = NO;
-    }
-    
-    
-    
-    
     
     
     if (comcatstr.length > _caninputlen)
@@ -178,18 +170,7 @@
 
 - (void)setOriginText:(NSString *)originText {
     _originText = originText;
-    if (originText.length>0)
-    {
-        [_confirmButton setBackgroundColor:[UIColor evMainColor]];
-        [_confirmButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        _confirmButton.enabled = YES;
-    }
-    else
-    {
-        [_confirmButton setBackgroundColor:[UIColor whiteColor]];
-        [_confirmButton setTitleColor:[UIColor evTextColorH2] forState:UIControlStateNormal];
-        _confirmButton.enabled = NO;
-    }
+    
     
     if (!originText) {
         return;

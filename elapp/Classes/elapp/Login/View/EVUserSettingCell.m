@@ -608,7 +608,8 @@
         [signatureLabel autoPinEdge:ALEdgeRight toEdge:ALEdgeLeft ofView:self.indicateImageView withOffset:-6];
         [signatureLabel autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:self.contentView withOffset:94];
         [signatureLabel autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
-        
+        [signatureLabel autoPinEdge:ALEdgeBottom toEdge:ALEdgeBottom ofView:self.contentView];
+        [signatureLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeTop ofView:self.contentView];
         _signatureLabel = signatureLabel;
     }
     return _signatureLabel;
