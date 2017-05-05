@@ -56,10 +56,11 @@
     
     if (_isBottomBack) {
         UIButton * backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [backButton setImage:[UIImage imageNamed:@"btn_news_return_n"] forState:UIControlStateNormal];
+        [backButton setBackgroundImage:[UIImage imageNamed:@"btn_news_return_n"] forState:UIControlStateNormal];
+//        [backButton setImage:[UIImage imageNamed:@"btn_news_return_n"] forState:UIControlStateNormal];
         [backButton addTarget:self action:@selector(backButtonClick) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:backButton];
-        [backButton autoSetDimensionsToSize:CGSizeMake(44, 44)];
+        [backButton autoSetDimensionsToSize:CGSizeMake(50, 50)];
         [backButton autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:0];
         [backButton autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
     }
