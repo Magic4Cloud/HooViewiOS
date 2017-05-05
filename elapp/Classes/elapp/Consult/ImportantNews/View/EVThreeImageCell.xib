@@ -28,7 +28,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="今天  12:30" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1ok-Wu-Goi">
-                        <rect key="frame" x="34" y="146.5" width="72.5" height="21"/>
+                        <rect key="frame" x="31" y="146.5" width="72.5" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="Q89-GS-hJE"/>
                         </constraints>
@@ -37,7 +37,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="187,954" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mcS-1S-5nY">
-                        <rect key="frame" x="146.5" y="146.5" width="51" height="21"/>
+                        <rect key="frame" x="143.5" y="146.5" width="51" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="cLW-3S-p1c"/>
                         </constraints>
@@ -46,29 +46,29 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_news_time" translatesAutoresizingMaskIntoConstraints="NO" id="LGu-d9-p9V">
-                        <rect key="frame" x="4" y="139" width="36" height="36"/>
+                        <rect key="frame" x="4" y="140.5" width="33" height="33"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="36" id="0aF-r3-gGd"/>
-                            <constraint firstAttribute="height" constant="36" id="XEo-WD-kec"/>
+                            <constraint firstAttribute="width" constant="33" id="0aF-r3-gGd"/>
+                            <constraint firstAttribute="height" constant="33" id="XEo-WD-kec"/>
                         </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_news_read" translatesAutoresizingMaskIntoConstraints="NO" id="b43-Oy-rZ7">
-                        <rect key="frame" x="116.5" y="139" width="36" height="36"/>
+                        <rect key="frame" x="113.5" y="139" width="36" height="36"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="36" id="1w1-wY-I2t"/>
                             <constraint firstAttribute="width" constant="36" id="6Si-Yq-okp"/>
                         </constraints>
                     </imageView>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QOw-ew-9C9">
-                        <rect key="frame" x="12" y="62" width="118" height="77"/>
+                        <rect key="frame" x="12" y="62" width="118" height="78.5"/>
                         <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                     </imageView>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sEX-O5-NkT">
-                        <rect key="frame" x="148" y="62" width="118" height="77"/>
+                        <rect key="frame" x="148" y="62" width="118" height="78.5"/>
                         <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                     </imageView>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BU6-ny-6NN">
-                        <rect key="frame" x="284" y="62" width="118" height="77"/>
+                        <rect key="frame" x="284" y="62" width="118" height="78.5"/>
                         <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                     </imageView>
                 </subviews>
