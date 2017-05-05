@@ -14,6 +14,7 @@
 @property (nonatomic, weak) UILabel *nameLabel;
 @property (nonatomic, weak) UILabel *priceLabel;
 @property (nonatomic, weak) UILabel *upLabel;
+@property (nonatomic, weak) UILabel *lineLabel;
 @property (nonatomic, strong) EVStockBaseModel *stockBaseModel;
 
 @end

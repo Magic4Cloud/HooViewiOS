@@ -33,8 +33,11 @@
     NSArray *titleArray = @[@"上证",@"深成",@"创业板"];
     for (NSInteger i = 0; i < 3; i++) {
         EVCSStockButton *csStockBtn = [[EVCSStockButton alloc] init];
-        csStockBtn.frame = CGRectMake(-1 + (i * ScreenWidth/3),14, ScreenWidth/3, 88);
+        csStockBtn.frame = CGRectMake(5 + (i * ScreenWidth/3),14, ScreenWidth/3, 88);
         [self addSubview:csStockBtn];
+        if (i == 0) {
+            csStockBtn.lineLabel.hidden = YES;
+        }
         self.csStockButton = csStockBtn;
         csStockBtn.tag = 1000+i;
         [csStockBtn.nameLabel setText:titleArray[i]];

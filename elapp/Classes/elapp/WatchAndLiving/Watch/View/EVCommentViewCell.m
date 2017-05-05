@@ -49,6 +49,8 @@
 - (void)setUp
 {
     self.backgroundColor = CCColor(248, 248, 248);
+    [EVLineView addLightTopLineToView:self];
+    
     
     UIImageView *headImageView = [[UIImageView alloc] init];
     [self addSubview:headImageView];
