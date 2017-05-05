@@ -37,7 +37,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8wD-M2-dQb">
-                        <rect key="frame" x="152" y="65" width="100" height="22"/>
+                        <rect key="frame" x="146" y="68" width="100" height="22"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="22" id="duB-qX-oDv"/>
                             <constraint firstAttribute="width" constant="100" id="o5P-CI-tuR"/>
@@ -47,7 +47,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="73b-ag-akx">
-                        <rect key="frame" x="284" y="65" width="31" height="22"/>
+                        <rect key="frame" x="278" y="68" width="31" height="22"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="22" id="Wfi-eq-3pX"/>
                         </constraints>
@@ -56,14 +56,14 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_news_time" translatesAutoresizingMaskIntoConstraints="NO" id="u21-Ad-RAs">
-                        <rect key="frame" x="122" y="58" width="36" height="36"/>
+                        <rect key="frame" x="122" y="64" width="30" height="30"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="36" id="kXh-ga-2ab"/>
-                            <constraint firstAttribute="height" constant="36" id="pUF-5S-JJy"/>
+                            <constraint firstAttribute="width" constant="30" id="kXh-ga-2ab"/>
+                            <constraint firstAttribute="height" constant="30" id="pUF-5S-JJy"/>
                         </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_news_read" translatesAutoresizingMaskIntoConstraints="NO" id="UZp-Cs-n2m">
-                        <rect key="frame" x="248" y="58" width="36" height="36"/>
+                        <rect key="frame" x="242" y="61" width="36" height="36"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="36" id="JMT-ky-7Qh"/>
                             <constraint firstAttribute="height" constant="36" id="Tk3-Sh-O3W"/>
@@ -90,6 +90,7 @@
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="73b-ag-akx" secondAttribute="trailing" constant="5" id="CL9-ip-SUe"/>
             </constraints>
             <connections>
+                <outlet property="leading" destination="Gum-m6-FQg" id="GbQ-LS-epn"/>
                 <outlet property="newsBackImage" destination="FLM-W2-CdR" id="3hC-B9-9Hq"/>
                 <outlet property="newsReadLabel" destination="73b-ag-akx" id="LU4-CL-hy7"/>
                 <outlet property="newsTimeLabel" destination="8wD-M2-dQb" id="F0D-Nn-NXG"/>

@@ -16,7 +16,7 @@
     if (ScreenWidth == 320) {
         _newsTimeLabel.font = [UIFont systemFontOfSize:12];
         _newsReadLabel.font = [UIFont systemFontOfSize:12];
-        
+        _leading.constant = -8;
     }
 }
 
@@ -32,7 +32,7 @@
     [self.newsBackImage cc_setImageWithURLString:consultNewsModel.cover[0] placeholderImage:nil];
     self.newsTitleLabel.text = consultNewsModel.title;
     self.newsTimeLabel.text = consultNewsModel.time;
-    self.newsReadLabel.text = [NSString stringWithFormat:@" %@",[consultNewsModel.viewCount thousandsSeparatorString]];
+    self.newsReadLabel.text = [NSString stringWithFormat:@" %@",[consultNewsModel.viewCount thousandsSeparatorStringNoMillion]];
     
 }
 
@@ -45,7 +45,7 @@
     
     NSString *timeStr = [NSString stringWithFormat:@"%@",searchNewsModel.time];
     self.newsTimeLabel.text = [timeStr timeFormatter];
-    self.newsReadLabel.text = [NSString stringWithFormat:@" %@",[searchNewsModel.viewCount thousandsSeparatorString]];
+    self.newsReadLabel.text = [NSString stringWithFormat:@" %@",[searchNewsModel.viewCount thousandsSeparatorStringNoMillion]];
     
 }
 
@@ -58,7 +58,7 @@
     
     NSString *timeStr = [NSString stringWithFormat:@"%@",eyesModel.time];
     self.newsTimeLabel.text = [timeStr timeFormatter];
-    self.newsReadLabel.text = [NSString stringWithFormat:@"%@",[eyesModel.viewCount thousandsSeparatorString]];
+    self.newsReadLabel.text = [NSString stringWithFormat:@"%@",[eyesModel.viewCount thousandsSeparatorStringNoMillion]];
     
 }
 

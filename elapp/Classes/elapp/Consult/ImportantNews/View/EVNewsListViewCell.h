@@ -18,6 +18,7 @@
  首页新闻
  */
 @property (nonatomic, strong) EVNewsModel *consultNewsModel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *leading;
 
 /**
  搜索结果
