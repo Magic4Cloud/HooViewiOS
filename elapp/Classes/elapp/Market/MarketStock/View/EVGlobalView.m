@@ -302,11 +302,10 @@ static NSString *const TCellId = @"TCellId";
         _refreshButton = [[UIButton alloc] init];
         _refreshButton.frame = CGRectMake(ScreenWidth - 64, ScreenHeight-212, 44, 44);
         [_refreshButton addTarget:self action:@selector(refreshClick) forControlEvents:(UIControlEventTouchUpInside)];
-        _refreshButton.backgroundColor = [UIColor blackColor];
         _refreshButton.layer.masksToBounds = YES;
         _refreshButton.layer.cornerRadius = 22;
         _refreshButton.alpha = 0.7;
-        [_refreshButton setImage:[UIImage imageNamed:@"hv_refresh_white"] forState:(UIControlStateNormal)];
+        [_refreshButton setImage:[UIImage imageNamed:@"btn_market_refresh_n"] forState:(UIControlStateNormal)];
     }
     return _refreshButton;
 }
