@@ -250,7 +250,7 @@
     
     UIControl *touchLayer = [[UIControl alloc] initWithFrame:[UIScreen mainScreen].bounds];
     touchLayer.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
-    [self.navigationController.view addSubview:touchLayer];
+    [self.navigationController.view insertSubview:touchLayer atIndex:0];
     touchLayer.hidden = YES;
     self.touchLayer = touchLayer;
     [touchLayer addTarget:self action:@selector(touchHide) forControlEvents:(UIControlEventTouchUpInside)];
@@ -406,12 +406,12 @@
 
 - (void)keyBoardShow:(NSNotification *)notification
 {
+    self.touchLayer.hidden =  NO;
     CGRect frame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     self.keyBoardHig = frame.size.height;
     if (self.chooseIndex == 0) {
         self.sendImageView.cameraBtn.hidden = YES;
         self.sendImageView.photoBtn.hidden = YES;
-        self.touchLayer.hidden =  NO;
         self.toolBarTextBottonF.constant  =  - frame.size.height - 36;
         self.sendImageViewHig.constant = 36;
     }
@@ -421,7 +421,6 @@
             self.stockTextView.frame = CGRectMake(0, ScreenHeight - frame.size.height - 108, ScreenWidth, 49);
         }];
     }else if (self.chooseIndex == 2) {
-        self.touchLayer.hidden =  NO;
 //        self.toolBarTextBottonF.constant  =  - frame.size.height;
         self.chatToolBarTextBottonF.constant  =  - frame.size.height;
         
@@ -442,6 +441,7 @@
 
 - (void)keyBoardHide:(NSNotification *)notification
 {
+    self.touchLayer.hidden = YES;
     if (self.chooseIndex == 0) {
         if (self.isChooseImageButton) {
             self.sendImageView.imageButtonBottonHig.constant = 105;
@@ -475,7 +475,7 @@
     self.chatToolBarTextBottonF.constant = 0;
     self.sendImageViewHig.constant = 0;
     self.touchLayer.hidden = YES;
-   
+    
     if (self.chooseIndex == 0)
     {
         if ([self.textLiveToolBar.inputTextView canResignFirstResponder]) {
@@ -485,9 +485,12 @@
             self.isChooseImageButton = YES;
         }
     }
+    else if (self.chooseIndex == 1)
+    {
+        [self.stockTextView resignFirstResponder];
+    }
     else if (self.chooseIndex == 2)
     {
-//        [self.textLiveToolBar.inputTextView resignFirstResponder];
         [self.chatLiveToolBar.inputTextView resignFirstResponder];
     }
     

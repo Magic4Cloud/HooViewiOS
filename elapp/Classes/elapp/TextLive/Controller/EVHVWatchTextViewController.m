@@ -838,6 +838,7 @@
         self.stockTextView.hidden = NO;
         self.textLiveToolBar.hidden = YES;
         self.stockTextView.frame = CGRectMake(0, ScreenHeight - 49 - frame.size.height, ScreenWidth, 49);
+        self.blackBackView.hidden = NO;
     }else if (self.chooseIndex == 2) {
          self.stockTextView.hidden = YES;
         self.textLiveToolBar.hidden = NO;
