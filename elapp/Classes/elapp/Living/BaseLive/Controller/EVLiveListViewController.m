@@ -214,8 +214,6 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 [weakself loadTextLiveData];
             });
-           
-           
         }
     };
     [liveButton autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:54];

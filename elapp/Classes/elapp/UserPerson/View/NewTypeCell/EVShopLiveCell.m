@@ -76,7 +76,11 @@
     {
         _cellTag1Button.backgroundColor = [UIColor evBackGroundDeepGrayColor];
         [_cellTag1Button setTitle:@"回放" forState:UIControlStateNormal];
-        _cellDetailLabel.text = [NSString stringWithFormat:@"%@  %@",liveModel.nickname,[liveModel.live_start_time timeFormatter]];
+        NSString * name = liveModel.nickname;
+        if (name.length>8) {
+            name = [name substringToIndex:8];
+        }
+        _cellDetailLabel.text = [NSString stringWithFormat:@"%@  %@",name,[liveModel.live_start_time timeFormatter]];
     }
     if ([liveModel.mode integerValue] == 2) {
         //精品视频
@@ -111,7 +115,12 @@
     _watchModel = watchModel;
     [_cellImageView cc_setImageWithURLString:watchModel.thumb placeholderImage:nil];
     _cellTitleLabel.text = watchModel.title;
-    [NSString stringWithFormat:@"%@  %@",watchModel.nickname,watchModel.live_start_time];
+    NSString * name = watchModel.nickname;
+    if (name.length>8) {
+        name = [name substringToIndex:8];
+    }
+
+    [NSString stringWithFormat:@"%@  %@",name,watchModel.live_start_time];
     _cellDetailLabel.text = [NSString stringWithFormat:@"%@  %@",watchModel.nickname,watchModel.live_start_time];
     _cellViewCountLabel.text = [NSString stringWithFormat:@"%ld",(unsigned long)watchModel.watch_count];
 //    _cellTagLabel.text = watchModel.living_status;

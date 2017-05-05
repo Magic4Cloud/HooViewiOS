@@ -110,7 +110,7 @@
     dateLabel.font = [UIFont systemFontOfSize:16];
     dateLabel.textColor = [UIColor evTextColorH2];
     
-    [contentView addSubview:self.watchLabel];
+//    [contentView addSubview:self.watchLabel];
     return backView;
 }
 

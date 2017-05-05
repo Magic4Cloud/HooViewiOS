@@ -123,9 +123,6 @@ static NSString *identifier = @"EVShareViewCell";
                 break;
         }
     }
-    
-    
-    
 }
 
 @end

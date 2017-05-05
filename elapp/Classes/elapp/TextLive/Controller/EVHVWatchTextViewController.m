@@ -248,13 +248,9 @@
     [mainBackView addSubview:self.textLiveStockTableView];
     self.textLiveStockTableView.tDelegate = self;
     
-    [mainBackView addSubview:self.textLiveChatTableView];
-//    self.textLiveChatTableView.tDelegate = self;
-    
     //TODO:聊天tableView
-//    [self.textLiveChatTableView addRefreshHeaderWithRefreshingBlock:^{
-//         [weakself loadHistoryData];
-//    }];
+    [mainBackView addSubview:self.textLiveChatTableView];
+
     EVNotOpenView *notOpenView = [[EVNotOpenView alloc] init];
     notOpenView.frame = CGRectMake(ScreenWidth * 3, 260, ScreenWidth, ScreenHeight - 260);
     [mainBackView addSubview:notOpenView];
@@ -536,9 +532,9 @@
     if (_isChatGift) {
         //聊天送礼 发普通消息
         NSString * name = [NSString stringWithFormat:@"%@*%d",magicEmoji.name,numOfEmoji];
-//        EMTextMessageBody * body = [[EMTextMessageBody alloc] initWithText:name];
         body = [[EMTextMessageBody alloc] initWithText:name];
         [dict setValue:@"gift" forKey:@"tp"];
+        
     }
     else
     {
@@ -668,6 +664,7 @@
             if (snapImage) {
                 EVCutIgeShareViewController *cutIgeVC = [[EVCutIgeShareViewController alloc] init];
                 cutIgeVC.cutImage = snapImage;
+                cutIgeVC.name = self.watchVideoInfo.nickname;
                 [self.navigationController pushViewController:cutIgeVC animated:YES];
             }
             
@@ -745,6 +742,7 @@
         }
         _isChatGift = YES;
         [_magicEmojiView show];
+        [self.textLiveToolBar endEditing:YES];
         [self.navigationController.view bringSubviewToFront:self.magicEmojiView];
         
         return;

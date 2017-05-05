@@ -50,9 +50,9 @@
     [liveButton addTarget:self action:@selector(buttonClick:) forControlEvents:(UIControlEventTouchUpInside)];
     [liveButton autoPinEdgeToSuperviewEdge:ALEdgeRight];
     [liveButton autoPinEdgeToSuperviewEdge:ALEdgeBottom];
-//    [liveButton autoSetDimensionsToSize:CGSizeMake(44, 44)];
-  self.liveWid  =  [liveButton autoSetDimension:ALDimensionWidth toSize:44];
-  self.liveHig =    [liveButton autoSetDimension:ALDimensionHeight toSize:44];
+    [liveButton autoSetDimensionsToSize:CGSizeMake(44, 44)];
+//    self.liveWid  =  [liveButton autoSetDimension:ALDimensionWidth toSize:44];
+//    self.liveHig =    [liveButton autoSetDimension:ALDimensionHeight toSize:44];
     
     UIButton *videoButton =  [UIButton buttonWithType:(UIButtonTypeCustom)];
     [self addSubview:videoButton];
@@ -62,8 +62,8 @@
     [videoButton addTarget:self action:@selector(buttonClick:) forControlEvents:(UIControlEventTouchUpInside)];
     [videoButton autoPinEdgeToSuperviewEdge:ALEdgeRight];
     [videoButton autoPinEdgeToSuperviewEdge:ALEdgeTop];
-  self.videoWid =   [videoButton autoSetDimension:ALDimensionWidth toSize:0];
-  self.VideoHig =   [videoButton autoSetDimension:ALDimensionHeight toSize:0];
+    self.videoWid =   [videoButton autoSetDimension:ALDimensionWidth toSize:0];
+    self.VideoHig =   [videoButton autoSetDimension:ALDimensionHeight toSize:0];
     
     UIButton *picButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
     [self addSubview:picButton];
@@ -81,6 +81,10 @@
 - (void)buttonClick:(UIButton *)btn
 {
     if (btn.tag == EVLiveButtonTypeLive) {
+        
+        
+        
+        
          btn.selected = !btn.selected;
     }
     if (self.buttonBlock) {
