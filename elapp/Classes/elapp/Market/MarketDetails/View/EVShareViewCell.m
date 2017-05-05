@@ -31,20 +31,20 @@
     UIButton * shareWayBtn  = [[UIButton alloc] init];
     [self addSubview:shareWayBtn];
     self.shareWayBtn = shareWayBtn;
-    [shareWayBtn autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:14];
+    [shareWayBtn autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:18];
     [shareWayBtn autoAlignAxisToSuperviewAxis:ALAxisVertical];
     [shareWayBtn autoSetDimensionsToSize:CGSizeMake(50, 50)];
     [shareWayBtn addTarget:self action:@selector(shareBtnOnClick:) forControlEvents:(UIControlEventTouchUpInside)];
     
     UILabel *shareWayNameLabel = [[UILabel alloc] init];
     shareWayNameLabel.textColor = [UIColor evTextColorH2];
-    shareWayNameLabel.font = [UIFont textFontB2];
+    shareWayNameLabel.font = [UIFont systemFontOfSize:14];
     [self addSubview:shareWayNameLabel];
     shareWayNameLabel.textAlignment = NSTextAlignmentCenter;
     self.shareWayNameLabel = shareWayNameLabel;
-    [shareWayNameLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:shareWayBtn withOffset:10];
+    [shareWayNameLabel autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:shareWayBtn withOffset:8];
     [shareWayNameLabel autoAlignAxisToSuperviewAxis:ALAxisVertical];
-    [shareWayNameLabel autoSetDimensionsToSize:CGSizeMake(70, 30)];
+    [shareWayNameLabel autoSetDimensionsToSize:CGSizeMake(70, 20)];
 }
 
 @end
