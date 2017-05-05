@@ -46,36 +46,39 @@
 }
 
 
+//发送评论
 - (void)POSTVideoCommentContent:(NSString *)content
-                      vid:(NSString *)vid
-                         userID:(NSString *)userid
-                       userName:(NSString *)username
-                     userAvatar:(NSString *)useravatar
+                        topicid:(NSString *)topicid
+                           type:(NSString *)type
                           start:(void(^)())startBlock
                            fail:(void(^)(NSError *error))failBlock
-                        success:(void(^)(NSDictionary *retinfo))successBlock
-{
+                        success:(void(^)(NSDictionary *info))successBlock
+                 sessionExpired:(void(^)())sessionExpiredBlock{
+    
+    NSString *userid = [self uidFromLocal];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setValue:vid forKey:@"vid"];
+    [params setValue:topicid forKey:@"topicid"];
+    [params setValue:type forKey:@"type"];
     [params setValue:userid forKey:@"userid"];
-    [params setValue:username forKey:@"username"];
-    [params setValue:useravatar forKey:@"useravatar"];
     [params setValue:content forKey:@"content"];
     
-    [EVBaseToolManager POSTNotSessionWithUrl:EVVideoCommentAPI params:params fileData:nil fileMineType:nil fileName:nil success:successBlock failError:failBlock];
-    
+    [EVBaseToolManager GETRequestWithUrl:EVReleaseCommentAPI parameters:params success:successBlock sessionExpireBlock:sessionExpiredBlock fail:failBlock];
 }
 
-- (void)GETVideoCommentListVid:(NSString *)vid
+//获取精品视频评论列表
+- (void)GETVideoCommentListtopicid:(NSString *)topicid
+                              type:(NSString *)type
                          start:(NSString *)start
                          count:(NSString *)count
                          start:(void(^)())startBlock
                           fail:(void(^)(NSError *error))failBlock
                        success:(void(^)(NSDictionary *retinfo))successBlock
 {
+    NSString *userid = [self uidFromLocal];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setValue:vid forKey:@"vid"];
-//    [params setValue:userid forKey:@"userid"];
+    [params setValue:topicid forKey:@"topicid"];
+    [params setValue:type forKey:@"type"];
+    [params setValue:userid forKey:@"userid"];
     [params setValue:@"dateline" forKey:@"orderby"];
     [params setValue:start forKey:@"start"];
     [params setValue:count forKey:@"count"];

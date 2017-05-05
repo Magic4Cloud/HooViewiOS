@@ -1025,22 +1025,23 @@
     }
      EVLoginInfo *loginfo = [EVLoginInfo localObject];
     if (self.watchVideoInfo.mode == 2) {
-        [self.baseToolManager POSTVideoCommentContent:str vid:self.watchVideoInfo.vid userID:loginfo.name userName:loginfo.nickname userAvatar:loginfo.logourl start:^{
-           
+        [self.baseToolManager POSTVideoCommentContent:str topicid:self.watchVideoInfo.vid type:@"1" start:^{
+            
         } fail:^(NSError *error) {
             NSString *errorMsg = @"评论失败";
             if (![EVLoginInfo localObject]) {
-                errorMsg = [errorMsg stringByAppendingString:@"，请先登录"];
+                errorMsg = [errorMsg stringByAppendingString:@"请先登录"];
             }
             [EVProgressHUD showError:errorMsg];
-            
-        } success:^(NSDictionary *retinfo) {
+
+        } success:^(NSDictionary *info) {
             [EVProgressHUD showSuccess:@"评论成功"];
             [self.watchBottomView.videoCommentView loadDataVid:self.watchVideoInfo.vid start:@"0" count:@"20"];
+        } sessionExpired:^{
             
         }];
+
     }else {
-       
         NSDictionary *commentFormat = [NSDictionary dictionaryWithObjectsAndKeys:loginfo.nickname,EVMessageKeyNk, nil];
         NSMutableDictionary *commentJoin = [NSMutableDictionary dictionaryWithObjectsAndKeys:commentFormat,EVMessageKeyExct, nil];
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:commentJoin options:NSJSONWritingPrettyPrinted error:nil];

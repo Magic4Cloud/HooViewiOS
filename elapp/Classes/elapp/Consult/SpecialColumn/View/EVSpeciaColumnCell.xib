@@ -113,7 +113,7 @@
                 <outlet property="newsContentLabel" destination="c4Q-ON-vyk" id="eP5-ua-jbp"/>
                 <outlet property="newsCoverImage" destination="zjc-sv-WT9" id="KpW-iJ-tGL"/>
                 <outlet property="newsTitleLabel" destination="cAh-g4-Mod" id="cup-tY-BLR"/>
-                <outlet property="toUserButton" destination="O72-x4-CsU" id="GoD-zw-veU"/>
+                <outlet property="toUserButton" destination="O72-x4-CsU" id="Ghk-DL-j2k"/>
             </connections>
             <point key="canvasLocation" x="140" y="237"/>
         </collectionViewCell>

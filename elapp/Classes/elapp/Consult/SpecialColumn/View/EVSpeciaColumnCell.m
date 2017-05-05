@@ -18,7 +18,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     _newsCoverImage.backgroundColor = [UIColor grayColor];
-    
+    _toUserButton.hidden = YES;
     
     if (ScreenWidth == 320) {
         _authHeaderImage.layer.cornerRadius = 12.5;

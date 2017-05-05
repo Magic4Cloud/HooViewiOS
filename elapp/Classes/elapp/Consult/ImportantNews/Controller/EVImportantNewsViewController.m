@@ -125,7 +125,7 @@
 #pragma mark - 🖍 User Interface layout
 - (void)addTableView
 {
-    UITableView *iNewsTableview = [[UITableView alloc] initWithFrame:CGRectMake(0, 4, ScreenWidth, ScreenHeight-49-64 - 4) style:(UITableViewStyleGrouped)];
+    UITableView *iNewsTableview = [[UITableView alloc] initWithFrame:CGRectMake(0, 4, ScreenWidth, ScreenHeight-49-64-4) style:(UITableViewStyleGrouped)];
     
     [iNewsTableview registerNib:[UINib nibWithNibName:@"EVHVEyeViewCell" bundle:nil] forCellReuseIdentifier:@"EVHVEyeViewCell"];
     [iNewsTableview registerNib:[UINib nibWithNibName:@"EVOnlyTextCell" bundle:nil] forCellReuseIdentifier:@"EVOnlyTextCell"];
@@ -498,7 +498,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 0.01;
+    return 4;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section

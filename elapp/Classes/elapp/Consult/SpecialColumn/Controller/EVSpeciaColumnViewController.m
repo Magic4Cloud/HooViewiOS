@@ -55,12 +55,12 @@
 #pragma mark - 🖍 User Interface layout
 - (void)initUI
 {
-    
+    self.view.backgroundColor = CCColor(238, 238, 238);
     [self.view addSubview:self.collectionView];
     [self.collectionView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
     [self.collectionView autoPinEdgeToSuperviewEdge:ALEdgeRight];
-    [self.collectionView autoPinEdgeToSuperviewEdge:ALEdgeTop];
-    [self.collectionView autoSetDimension:ALDimensionHeight toSize:ScreenHeight - 113];
+    [self.collectionView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:4];
+    [self.collectionView autoSetDimension:ALDimensionHeight toSize:ScreenHeight - 117];
     
     EVNullDataView *noDataView = [[EVNullDataView alloc] init];
     noDataView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight - 64);
@@ -169,6 +169,7 @@
 {
     return 1;
 }
+
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString * identifier = @"EVSpeciaColumnCell";

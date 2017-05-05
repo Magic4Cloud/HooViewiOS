@@ -145,7 +145,7 @@
 
 #define EVSearchStock               @"http://dev.hooview.com/api/search/stock"
 #define EVVideoCommentAPI           @"http://dev.hooview.com/api/bbs/videopost"
-#define EVVideoCommentListAPI       @"http://dev.hooview.com/api/bbs/videoconversatons"
+//#define EVVideoCommentListAPI       @"http://dev.hooview.com/api/bbs/videoconversatons"
 #define EVConsultNewsAPI            @"http://dev.hooview.com/api/news/customnews"
 #define EVNewsDetailAPI             @"http://dev.hooview.com/api/news/getnews"
 #define EVNewsUserNewsAPI           @"http://dev.hooview.com/api/news/usernews"
@@ -200,9 +200,12 @@
 #define EVCleanHistoryListAPI       @"http://dev.hooview.com/api/v2/user/clean"
 //我的购买
 #define EVMyShopsAPI                @"http://dev.hooview.com/api/v2/user/purchases"
-
 //我的发布
 #define EVMyReleaseAPI              @"http://dev.hooview.com/api/v2/user/works"
+//发布评论
+#define EVReleaseCommentAPI         @"http://dev.hooview.com/api/v2/posts/post"
+//精品视频评论列表
+#define EVVideoCommentListAPI       @"http://dev.hooview.com/api/v2/posts/posts"
 
 //个人主页直播列表
 #define EVHVCenterLiveListAPI       @"http://dev.hooview.com/api/v2/user/videos"
@@ -236,7 +239,7 @@
 
 #define EVSearchStock               @"http://openapi.hooview.com/api/search/stock"
 #define EVVideoCommentAPI           @"http://openapi.hooview.com/api/bbs/videopost"
-#define EVVideoCommentListAPI       @"http://openapi.hooview.com/api/bbs/videoconversatons"
+//#define EVVideoCommentListAPI       @"http://openapi.hooview.com/api/bbs/videoconversatons"
 #define EVConsultNewsAPI            @"http://openapi.hooview.com/api/news/customnews"
 #define EVNewsDetailAPI             @"http://openapi.hooview.com/api/news/getnews"
 #define EVNewsUserNewsAPI           @"http://openapi.hooview.com/api/news/usernews"
@@ -291,6 +294,11 @@
 
 //我的发布
 #define EVMyReleaseAPI              @"http://openapi.hooview.com/api/v2/user/works"
+//发布评论
+#define EVReleaseCommentAPI         @"http://openapi.hooview.com/api/v2/posts/post"
+//精品视频评论列表
+#define EVVideoCommentListAPI       @"http://openapi.hooview.com/api/v2/posts/posts"
+
 
 //个人主页直播列表
 #define EVHVCenterLiveListAPI       @"http://openapi.hooview.com/api/v2/user/videos"
