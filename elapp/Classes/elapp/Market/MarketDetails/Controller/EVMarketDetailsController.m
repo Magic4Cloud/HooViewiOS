@@ -174,6 +174,7 @@
         detailWebVC.announcementTitle = bodyDict[@"title"];
 //        detailWebVC.detailBottomView.hidden = YES;
         [self.navigationController pushViewController:detailWebVC animated:YES];
+        
     }];
 
     

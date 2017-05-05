@@ -75,11 +75,11 @@
     
     UIButton *refreshButton = [[UIButton alloc] init];
     refreshButton.frame = CGRectMake(ScreenWidth - 64, stockTableView.frame.size.height - 58, 44, 44);
-    refreshButton.backgroundColor = [UIColor blackColor];
+//    refreshButton.backgroundColor = [UIColor blackColor];
     refreshButton.layer.masksToBounds = YES;
     refreshButton.layer.cornerRadius = 22;
     refreshButton.alpha = 0.7;
-    [refreshButton setImage:[UIImage imageNamed:@"hv_refresh_white"] forState:(UIControlStateNormal)];
+    [refreshButton setImage:[UIImage imageNamed:@"btn_market_refresh_n"] forState:(UIControlStateNormal)];
     [self.view addSubview:refreshButton];
     [refreshButton addTarget:self action:@selector(refreshClick) forControlEvents:(UIControlEventTouchUpInside)];
     self.refreshButton = refreshButton;

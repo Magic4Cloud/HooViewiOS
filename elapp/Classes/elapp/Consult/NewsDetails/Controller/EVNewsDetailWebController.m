@@ -142,7 +142,7 @@
     
     if (self.announcementTitle.length > 0) {
         self.detailBottomView.hidden = YES;
-            }
+    }
     
     _webViewBridge = [WebViewJavascriptBridge bridgeForWebView:self.newsWebView];
     [_webViewBridge setWebViewDelegate:self];

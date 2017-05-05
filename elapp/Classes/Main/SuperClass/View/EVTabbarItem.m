@@ -9,8 +9,8 @@
 #import "EVTabbarItem.h"
 #import <PureLayout.h>
 
-static CGFloat const kTitleBottom = 5.f;
-static CGFloat const kTitleTop = 3.f;
+static CGFloat const kTitleBottom = 7.f;
+static CGFloat const kTitleTop = -1.f;
 static CGFloat const kImgWidth = 30.f;
 static CGFloat const kImgHeight = 30.f;
 static CGFloat const kRedPointSize = 14.f;
