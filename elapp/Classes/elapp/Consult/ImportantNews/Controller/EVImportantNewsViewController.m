@@ -41,7 +41,7 @@
 #import "EVStockMarketModel.h"
 #import "EVRecommendModel.h"
 
-
+#import "EVVipCenterController.h"
 
 @interface EVImportantNewsViewController ()<UITableViewDelegate,UITableViewDataSource,EVCycleScrollViewDelegate,EVHVEyeViewDelegate>
 
@@ -445,11 +445,17 @@
         recommendCell.didselectedIndexIWithModelBlock = ^(EVRecommendModel * model)
         {
             //选中牛人
+//            EVWatchVideoInfo * videoModel = [[EVWatchVideoInfo alloc] init];
+//            videoModel.name = model.id;
+//            EVVipCenterViewController *vipVC = [EVVipCenterViewController new];
+//            vipVC.watchVideoInfo = videoModel;
+//            [self.navigationController pushViewController:vipVC animated:YES];
+            
             EVWatchVideoInfo * videoModel = [[EVWatchVideoInfo alloc] init];
             videoModel.name = model.id;
-            EVVipCenterViewController *vipVC = [EVVipCenterViewController new];
-            vipVC.watchVideoInfo = videoModel;
-            [self.navigationController pushViewController:vipVC animated:YES];
+            EVVipCenterController *vc = [[EVVipCenterController alloc] init];
+            vc.watchVideoInfo = videoModel;
+            [self.navigationController pushViewController:vc animated:YES];
         };
         return recommendCell;
     }
