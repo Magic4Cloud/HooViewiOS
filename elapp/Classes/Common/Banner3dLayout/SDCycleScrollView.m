@@ -16,7 +16,8 @@
 #import "UIImageView+WebCache.h"
 
 #define kCycleScrollViewInitialPageControlDotSize CGSizeMake(10, 10)
-
+//左右两边的间隙
+#define Margin 45
 
 static NSString *indentify = @"MKJCollectionViewCell";
 @interface SDCycleScrollView () <UICollectionViewDataSource, UICollectionViewDelegate,MKJCollectionViewFlowLayoutDelegate>
@@ -116,7 +117,8 @@ static NSString *indentify = @"MKJCollectionViewCell";
     MKJCollectionViewFlowLayout * flowLayout = [[MKJCollectionViewFlowLayout alloc] init];
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
 
-    flowLayout.itemSize = CGSizeMake(self.bounds.size.width - 34*screenScale, self.bounds.size.height-2*screenScale);
+//    flowLayout.itemSize = CGSizeMake(self.bounds.size.width - 34*screenScale, self.bounds.size.height-2*screenScale);
+    flowLayout.itemSize = CGSizeMake(self.bounds.size.width - Margin*screenScale, self.bounds.size.height-2*screenScale);
     flowLayout.needAlpha = YES;
     flowLayout.minimumLineSpacing = 0;
 //    flowLayout.minimumInteritemSpacing = 20;
@@ -483,7 +485,7 @@ static NSString *indentify = @"MKJCollectionViewCell";
         float height = 40;
         
         float screenWidth = [UIScreen mainScreen].bounds.size.width;
-        _pageLabel = [[UILabel alloc] initWithFrame:CGRectMake((screenWidth-width - ((ScreenWidth -(ScreenWidth - 34*screenScale))*MKJZoomScale-10)/2), self.bounds.size.height - height-10, width, height)];
+        _pageLabel = [[UILabel alloc] initWithFrame:CGRectMake((screenWidth-width - ((ScreenWidth -(ScreenWidth - Margin*screenScale))*MKJZoomScale-10)/2), self.bounds.size.height - height-10, width, height)];
         
         _pageLabel.backgroundColor = [UIColor colorWithHexString:@"#672f87" alpha:0.7];
         _pageLabel.textAlignment = NSTextAlignmentCenter;

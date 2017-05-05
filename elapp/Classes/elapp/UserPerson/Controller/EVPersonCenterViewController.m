@@ -264,7 +264,7 @@
 {
   
     if (indexPath.row == 0) {
-        return 145;
+        return 114;
     }
     if ([EVLoginInfo hasLogged] && self.userModel.vip == 1)
     {
@@ -483,11 +483,23 @@
         _tableView.dataSource = self;
         _tableView.contentInset = UIEdgeInsetsMake(4, 0, 0, 0);
         _tableView.tableFooterView = [UIView new];
-//        UIView * separatorView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 4)];
         
+//        UIView * separatorView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+        CGFloat height = 150;
+        if (ScreenWidth>375) {
+            height = 210;
+        }
+        else if(ScreenWidth<375)
+        {
+            height = 0;
+        }
+        UIView * footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, height)];
+        footerView.backgroundColor = [UIColor whiteColor];
+//        separatorView.backgroundColor = [UIColor evSeparetorGrayColor];
         _tableView.backgroundColor = [UIColor evSeparetorGrayColor];
         _tableView.showsVerticalScrollIndicator = NO;
 //        _tableView.tableHeaderView = separatorView;
+        _tableView.tableFooterView = footerView;
         
     }
     return _tableView;
