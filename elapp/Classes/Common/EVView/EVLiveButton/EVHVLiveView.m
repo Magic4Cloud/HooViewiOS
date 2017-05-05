@@ -50,7 +50,7 @@
     [videoButton autoPinEdgeToSuperviewEdge:ALEdgeRight];
     self.videoBottom = [videoButton autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:0];
     videoButton.hidden = YES;
-    [videoButton autoSetDimensionsToSize:CGSizeMake(50, 50)];
+    [videoButton autoSetDimensionsToSize:CGSizeMake(58, 58)];
     
     
     UIButton *picButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
@@ -62,7 +62,7 @@
     [picButton addTarget:self action:@selector(buttonClick:) forControlEvents:(UIControlEventTouchUpInside)];
     self.picRight = [picButton autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:0];
     [picButton autoPinEdgeToSuperviewEdge:ALEdgeBottom];
-    [picButton autoSetDimensionsToSize:CGSizeMake(50, 50)];
+    [picButton autoSetDimensionsToSize:CGSizeMake(58, 58)];
     
     
     UIButton *liveButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
@@ -74,7 +74,7 @@
     [liveButton addTarget:self action:@selector(buttonClick:) forControlEvents:(UIControlEventTouchUpInside)];
     [liveButton autoPinEdgeToSuperviewEdge:ALEdgeRight];
     [liveButton autoPinEdgeToSuperviewEdge:ALEdgeBottom];
-    [liveButton autoSetDimensionsToSize:CGSizeMake(50, 50)];
+    [liveButton autoSetDimensionsToSize:CGSizeMake(58, 58)];
     
 }
 
@@ -111,8 +111,8 @@
             [_videoButton.layer addAnimation:[self getAnmationWithdirection:YES] forKey:nil];
             [_picButton.layer addAnimation:[self getAnmationWithdirection:YES] forKey:nil];
             [UIView animateWithDuration:0.4 animations:^{
-                self.videoBottom.constant = -60;
-                self.picRight.constant = -60;
+                self.videoBottom.constant = -68;
+                self.picRight.constant = -68;
                 [self layoutIfNeeded];
             } completion:^(BOOL finished) {
                 
