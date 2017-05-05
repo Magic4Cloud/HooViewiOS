@@ -23,7 +23,6 @@
 
 @property (nonatomic, strong) NSMutableArray *titleArray;
 
-@property (nonatomic, strong) EVWatchVideoInfo *watchVideoInfo;
 
 @property (nonatomic, assign) CGFloat frameHig;
 

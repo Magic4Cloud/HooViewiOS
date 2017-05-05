@@ -142,7 +142,7 @@
             }
             NSDictionary *attributes = @{ NSFontAttributeName : [UIFont systemFontOfSize:14.f]};
             CGSize nameSize = [_watchVideoInfo.descriptionStr boundingRectWithSize:CGSizeMake(ScreenWidth - 25, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading | NSStringDrawingUsesDeviceMetrics attributes:attributes context:nil].size;
-            return nameSize.height+30;
+            return nameSize.height+25;
             
         } else {
             return 100;

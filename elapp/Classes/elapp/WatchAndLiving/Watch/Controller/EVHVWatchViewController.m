@@ -327,7 +327,31 @@
 - (void)successLivingDataVideoInfo:(NSDictionary *)videoInfo
 {
     _watchVideoInfo = [EVWatchVideoInfo objectWithDictionary:videoInfo];
-   
+    _watchVideoInfo.descriptionStr = videoInfo[@"description"];
+//    self.watchBottomView.watchVideoInfo = _watchVideoInfo;
+    CGRect bottomView = CGRectMake(0, VideoWidth+116, ScreenWidth, ScreenHeight - VideoWidth - 116);
+    NSMutableArray *titleArr = [NSMutableArray array];
+    
+    if (self.watchVideoInfo.mode == 2) {
+        NSArray *tArr = @[@"简介",@"评论",@"数据",@"秘籍"];
+        titleArr = [NSMutableArray arrayWithArray:tArr];
+    }else {
+        if (self.watchVideoInfo.living == 0) {
+            NSArray *tArr = @[@"聊天",@"数据",@"秘籍"];
+            titleArr = [NSMutableArray arrayWithArray:tArr];
+        }else if (self.watchVideoInfo.living == 1) {
+            NSArray *tArr = @[@"聊天",@"数据",@"秘籍"];
+            titleArr = [NSMutableArray arrayWithArray:tArr];
+        }
+    }
+
+    EVHVWatchBottomView *watchBottomView = [[EVHVWatchBottomView alloc] initWithFrame:bottomView titleArray:titleArr watchInfo:_watchVideoInfo];
+    watchBottomView.isLiving = self.watchVideoInfo.mode;
+    [self.contentView addSubview:watchBottomView];
+    watchBottomView.delagate = self;
+    self.watchBottomView = watchBottomView;
+    
+    
     if ([_watchVideoInfo.permission integerValue] == 7 )
     {
         if ([_watchVideoInfo.price integerValue] == 0)
@@ -471,26 +495,26 @@
     centerView.delegate = self;
     self.watchCenterView = centerView;
     
-    CGRect bottomView = CGRectMake(0, VideoWidth+116, ScreenWidth, ScreenHeight - VideoWidth - 116);
-    NSMutableArray *titleArr = [NSMutableArray array];
-    
-    if (self.watchVideoInfo.mode == 2) {
-        NSArray *tArr = @[@"简介",@"评论",@"数据",@"秘籍"];
-        titleArr = [NSMutableArray arrayWithArray:tArr];
-    }else {
-        if (self.watchVideoInfo.living == 0) {
-            NSArray *tArr = @[@"聊天",@"数据",@"秘籍"];
-            titleArr = [NSMutableArray arrayWithArray:tArr];
-        }else if (self.watchVideoInfo.living == 1) {
-            NSArray *tArr = @[@"聊天",@"数据",@"秘籍"];
-            titleArr = [NSMutableArray arrayWithArray:tArr];
-        }
-    }
-    EVHVWatchBottomView *watchBottomView = [[EVHVWatchBottomView alloc] initWithFrame:bottomView titleArray:titleArr watchInfo:self.watchVideoInfo];
-    watchBottomView.isLiving = self.watchVideoInfo.mode;
-    [contentView addSubview:watchBottomView];
-    watchBottomView.delagate = self;
-    self.watchBottomView = watchBottomView;
+//    CGRect bottomView = CGRectMake(0, VideoWidth+116, ScreenWidth, ScreenHeight - VideoWidth - 116);
+//    NSMutableArray *titleArr = [NSMutableArray array];
+//    
+//    if (self.watchVideoInfo.mode == 2) {
+//        NSArray *tArr = @[@"简介",@"评论",@"数据",@"秘籍"];
+//        titleArr = [NSMutableArray arrayWithArray:tArr];
+//    }else {
+//        if (self.watchVideoInfo.living == 0) {
+//            NSArray *tArr = @[@"聊天",@"数据",@"秘籍"];
+//            titleArr = [NSMutableArray arrayWithArray:tArr];
+//        }else if (self.watchVideoInfo.living == 1) {
+//            NSArray *tArr = @[@"聊天",@"数据",@"秘籍"];
+//            titleArr = [NSMutableArray arrayWithArray:tArr];
+//        }
+//    }
+//    EVHVWatchBottomView *watchBottomView = [[EVHVWatchBottomView alloc] initWithFrame:bottomView titleArray:titleArr watchInfo:_watchVideoInfo];
+//    watchBottomView.isLiving = self.watchVideoInfo.mode;
+//    [contentView addSubview:watchBottomView];
+//    watchBottomView.delagate = self;
+//    self.watchBottomView = watchBottomView;
     
 }
 

@@ -33,6 +33,7 @@
 @property (nonatomic, weak) EVNotOpenView *notOpenView;
 
 @property (nonatomic, weak) EVHVWatchStockView *watchStockView;
+@property (nonatomic, strong) EVWatchVideoInfo *watchVideoInfo;
 
 
 @end
