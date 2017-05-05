@@ -20,11 +20,10 @@
 @property (nonatomic, weak) NSLayoutConstraint *liveWid;
 @property (nonatomic, weak) NSLayoutConstraint *liveHig;
 
-@property (nonatomic, weak) NSLayoutConstraint *videoWid;
-@property (nonatomic, weak) NSLayoutConstraint *VideoHig;
+@property (nonatomic, weak) NSLayoutConstraint *videoBottom;
 
-@property (nonatomic, weak) NSLayoutConstraint *picWid;
-@property (nonatomic, weak) NSLayoutConstraint *picHig;
+@property (nonatomic, weak) NSLayoutConstraint *picRight;
+
 
 @end
 
@@ -41,6 +40,31 @@
 
 - (void)addUpView
 {
+    
+    UIButton *videoButton =  [UIButton buttonWithType:(UIButtonTypeCustom)];
+    [self addSubview:videoButton];
+    self.videoButton = videoButton;
+    videoButton.tag = EVLiveButtonTypeVideo;
+    [videoButton setImage:[UIImage imageNamed:@"btn_vedio_n"] forState:(UIControlStateNormal)];
+    [videoButton addTarget:self action:@selector(buttonClick:) forControlEvents:(UIControlEventTouchUpInside)];
+    [videoButton autoPinEdgeToSuperviewEdge:ALEdgeRight];
+    self.videoBottom = [videoButton autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:0];
+    videoButton.hidden = YES;
+    [videoButton autoSetDimensionsToSize:CGSizeMake(50, 50)];
+    
+    
+    UIButton *picButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    [self addSubview:picButton];
+    self.picButton = picButton;
+    picButton.hidden = YES;
+    picButton.tag = EVLiveButtonTypePic;
+    [picButton setImage:[UIImage imageNamed:@"btn_word_n"] forState:(UIControlStateNormal)];
+    [picButton addTarget:self action:@selector(buttonClick:) forControlEvents:(UIControlEventTouchUpInside)];
+    self.picRight = [picButton autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:0];
+    [picButton autoPinEdgeToSuperviewEdge:ALEdgeBottom];
+    [picButton autoSetDimensionsToSize:CGSizeMake(50, 50)];
+    
+    
     UIButton *liveButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
     [self addSubview:liveButton];
     liveButton.tag = EVLiveButtonTypeLive;
@@ -50,55 +74,68 @@
     [liveButton addTarget:self action:@selector(buttonClick:) forControlEvents:(UIControlEventTouchUpInside)];
     [liveButton autoPinEdgeToSuperviewEdge:ALEdgeRight];
     [liveButton autoPinEdgeToSuperviewEdge:ALEdgeBottom];
-//    [liveButton autoSetDimensionsToSize:CGSizeMake(44, 44)];
-  self.liveWid  =  [liveButton autoSetDimension:ALDimensionWidth toSize:44];
-  self.liveHig =    [liveButton autoSetDimension:ALDimensionHeight toSize:44];
+    [liveButton autoSetDimensionsToSize:CGSizeMake(50, 50)];
     
-    UIButton *videoButton =  [UIButton buttonWithType:(UIButtonTypeCustom)];
-    [self addSubview:videoButton];
-    self.videoButton = videoButton;
-    videoButton.tag = EVLiveButtonTypeVideo;
-    [videoButton setImage:[UIImage imageNamed:@"btn_vedio_n"] forState:(UIControlStateNormal)];
-    [videoButton addTarget:self action:@selector(buttonClick:) forControlEvents:(UIControlEventTouchUpInside)];
-    [videoButton autoPinEdgeToSuperviewEdge:ALEdgeRight];
-    [videoButton autoPinEdgeToSuperviewEdge:ALEdgeTop];
-  self.videoWid =   [videoButton autoSetDimension:ALDimensionWidth toSize:0];
-  self.VideoHig =   [videoButton autoSetDimension:ALDimensionHeight toSize:0];
-    
-    UIButton *picButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    [self addSubview:picButton];
-    self.picButton = picButton;
-    picButton.tag = EVLiveButtonTypePic;
-    [picButton setImage:[UIImage imageNamed:@"btn_word_n"] forState:(UIControlStateNormal)];
-    [picButton addTarget:self action:@selector(buttonClick:) forControlEvents:(UIControlEventTouchUpInside)];
-    [picButton autoPinEdgeToSuperviewEdge:ALEdgeLeft];
-    [picButton autoPinEdgeToSuperviewEdge:ALEdgeBottom];
-    self.picWid =   [picButton autoSetDimension:ALDimensionWidth toSize:0];
-    self.picHig =   [picButton autoSetDimension:ALDimensionHeight toSize:0];
 }
 
-
+- (CABasicAnimation *)getAnmationWithdirection:(BOOL)isClockwise
+{
+    CABasicAnimation *animation =  [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    //默认是顺时针效果，若将fromValue和toValue的值互换，则为逆时针效果
+    if(isClockwise)
+    {
+        animation.fromValue = [NSNumber numberWithFloat:0.f];
+        animation.toValue =  [NSNumber numberWithFloat: M_PI *2];
+    }
+    else
+    {
+        animation.fromValue = [NSNumber numberWithFloat:M_PI *2];
+        animation.toValue =  [NSNumber numberWithFloat: 0.f];
+    }
+    
+    animation.duration  = 0.5;
+    animation.autoreverses = NO;
+    animation.fillMode = kCAFillModeForwards;
+    animation.repeatCount = 1;
+    return animation;
+}
 - (void)buttonClick:(UIButton *)btn
 {
-    if (btn.tag == EVLiveButtonTypeLive) {
-         btn.selected = !btn.selected;
+    if (btn.tag == EVLiveButtonTypeLive)
+    {
+        btn.selected = !btn.selected;
+        if (btn.selected)
+        {
+            self.videoButton.hidden = NO;
+            self.picButton.hidden = NO;
+            [_videoButton.layer addAnimation:[self getAnmationWithdirection:YES] forKey:nil];
+            [_picButton.layer addAnimation:[self getAnmationWithdirection:YES] forKey:nil];
+            [UIView animateWithDuration:0.4 animations:^{
+                self.videoBottom.constant = -60;
+                self.picRight.constant = -60;
+                [self layoutIfNeeded];
+            } completion:^(BOOL finished) {
+                
+            }];
+        }
+        else
+        {
+            [_videoButton.layer addAnimation:[self getAnmationWithdirection:NO] forKey:nil];
+            [_picButton.layer addAnimation:[self getAnmationWithdirection:NO] forKey:nil];
+            [UIView animateWithDuration:0.4 animations:^{
+                self.videoBottom.constant = 0;
+                self.picRight.constant = 0;
+                [self layoutIfNeeded];
+            } completion:^(BOOL finished) {
+                self.videoButton.hidden = YES;
+                self.picButton.hidden = YES;
+            }];
+            
+        }
+        
     }
     if (self.buttonBlock) {
         self.buttonBlock(btn.tag,btn);
     }
-    if (btn.tag == EVLiveButtonTypeLive) {
-        if (btn.selected == YES) {
-            self.videoWid.constant = 44;
-            self.VideoHig.constant = 44;
-            self.picWid.constant = 44;
-            self.picHig.constant = 44;
-        }else {
-            self.videoWid.constant = 0;
-            self.VideoHig.constant = 0;
-            self.picWid.constant = 0;
-            self.picHig.constant = 0;
-        }
-    }
-    
 }
 @end

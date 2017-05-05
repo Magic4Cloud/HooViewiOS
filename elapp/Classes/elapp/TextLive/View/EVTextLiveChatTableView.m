@@ -29,6 +29,15 @@
     if (self) {
         self.delegate = self;
         self.dataSource = self;
+        
+        UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 40)];
+        UILabel * warningLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, ScreenWidth-20, 40)];
+        warningLabel.textColor = [UIColor evBackGroundDeepGrayColor];
+        warningLabel.numberOfLines = 0;
+        warningLabel.text = @"温馨提示：涉及色情，低俗，暴力等聊天内容将被封停账号。文明聊天，从我做起!";
+        warningLabel.font = [UIFont systemFontOfSize:14];
+        [headerView addSubview:warningLabel];
+        self.tableHeaderView = headerView;
         self.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
         self.separatorStyle = UITableViewCellSeparatorStyleNone;
         [self registerNib:[UINib nibWithNibName:@"EVJoinChatCell" bundle:nil] forCellReuseIdentifier:@"EVJoinChatCell"];

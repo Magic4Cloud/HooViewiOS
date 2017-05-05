@@ -11,7 +11,8 @@
 #import "EVShareManager.h"
 #import "EVLoginInfo.h"
 
-#define  iWid (ScreenWidth * 0.8)
+#import "EVWebViewShareView.h"
+#define  iWid (ScreenWidth * 0.6)
 @interface EVCutIgeShareViewController ()<EVWebViewShareViewDelegate>
 
 @property (nonatomic, weak) UIImageView *cutIgeView;
@@ -32,12 +33,15 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor evSeparetorGrayColor];
     
+    UIView * navView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 64)];
+    navView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:navView];
     
     UIButton *backBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     [self.view addSubview:backBtn];
     backBtn.frame = CGRectMake(0, 20, 64, 44);
     [backBtn addTarget:self action:@selector(backClick:) forControlEvents:(UIControlEventTouchUpInside)];
-    [backBtn setImage:[UIImage imageNamed:@"btn_return_w_n"] forState:(UIControlStateNormal)];
+    [backBtn setImage:[UIImage imageNamed:@"btn_return_n"] forState:(UIControlStateNormal)];
     
     
     UILabel *titleLabel = [[UILabel alloc] init];
@@ -50,54 +54,37 @@
     titleLabel.textColor = [UIColor evBackGroundDeepGrayColor];
     titleLabel.textAlignment = NSTextAlignmentCenter;
     
-    UIButton *shareBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    [self.view addSubview:shareBtn];
-    shareBtn.frame = CGRectMake(ScreenWidth - 64, 20, 64, 44);
-    [shareBtn addTarget:self action:@selector(shareClick:) forControlEvents:(UIControlEventTouchUpInside)];
-    [shareBtn setImage:[UIImage imageNamed:@"btn_share_w_n"] forState:(UIControlStateNormal)];
-    
-    
+
     UIImageView *cutIgeView = [[UIImageView alloc] init];
     [self.view addSubview:cutIgeView];
+    cutIgeView.layer.shadowOffset = CGSizeMake(1, 1);
+    cutIgeView.layer.shadowOpacity = 0.8;
+    cutIgeView.layer.shadowRadius = 2;
+    cutIgeView.layer.shadowColor = [UIColor colorWithWhite:0 alpha:0.5].CGColor;
     self.cutIgeView = cutIgeView;
     [cutIgeView autoAlignAxisToSuperviewAxis:ALAxisVertical];
-    [cutIgeView autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
+    [cutIgeView autoAlignAxis:ALAxisHorizontal toSameAxisOfView:self.view withOffset:-30];
+    
     self.cutIgeViewWid =  [cutIgeView autoSetDimension:ALDimensionWidth toSize:self.imageWid];
     self.cutIgeViewHig =    [cutIgeView autoSetDimension:ALDimensionHeight toSize:self.imageHig];
     cutIgeView.image = self.cutImage;
     
-    [self.view addSubview:self.eVSharePartView];
+//    [self.view addSubview:self.eVSharePartView];
     
-    //取消分享
-    __weak typeof(self) weakSelf = self;
-    self.eVSharePartView.cancelShareBlock = ^() {
-        [UIView animateWithDuration:0.3 animations:^{
-            weakSelf.eVSharePartView.frame = CGRectMake(0, ScreenHeight, ScreenWidth, ScreenHeight);
-        }];
-    };
     
-    [self shareViewShowAction];
+    EVWebViewShareView * shareView = [[EVWebViewShareView alloc] initWithFrame:CGRectMake(0, ScreenHeight-110, ScreenWidth, 110)];
+    shareView.delegate =  self;
+    [self.view addSubview:shareView];
 }
 
-- (void)shareViewShowAction
-{
-    [UIView animateWithDuration:0.3 animations:^{
-        self.eVSharePartView.frame = CGRectMake(0, 0, ScreenWidth,  ScreenHeight);
-    }];
-}
 
 - (void)shareType:(EVLiveShareButtonType)type
 {
-//    if (self.urlStr == nil) {
-//        
-//        [EVProgressHUD showError:@"加载完成在分享"];
-//        
-//    }
     
     ShareType shareType = ShareTypeMineTextLive;
     
     [UIImage gp_imageWithURlString:[EVLoginInfo localObject].logourl comoleteOrLoadFromCache:^(UIImage *image, BOOL loadFromLocal) {
-        [[EVShareManager shareInstance] shareContentWithPlatform:type shareType:shareType titleReplace:nil descriptionReplaceName:@"" descriptionReplaceId:nil URLString:nil image:image outImage:self.cutImage];
+        [[EVShareManager shareInstance] shareContentWithPlatform:type shareType:shareType titleReplace:_name descriptionReplaceName:@"" descriptionReplaceId:nil URLString:nil image:image outImage:self.cutImage];
     }];
 }
 
@@ -106,11 +93,6 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)shareClick:(UIButton *)btn
-{
-    [self shareViewShowAction];
-    
-}
 
 - (void)setCutImage:(UIImage *)cutImage
 {
@@ -129,29 +111,10 @@
     self.cutIgeView.image = cutImage;
 }
 
-#pragma mark - lazy loading
-- (EVSharePartView *)eVSharePartView {
-    if (!_eVSharePartView) {
-        _eVSharePartView = [[EVSharePartView alloc] initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, ScreenHeight)];
-        _eVSharePartView.backgroundColor = [UIColor colorWithHexString:@"#303030" alpha:0.7];
-        _eVSharePartView.eVWebViewShareView.delegate = self;
-    }
-    return _eVSharePartView;
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

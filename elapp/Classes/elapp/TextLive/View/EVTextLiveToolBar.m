@@ -101,7 +101,7 @@
         UIButton *sendButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
         [self addSubview:sendButton];
         self.sendButton = sendButton;
-        NSString * imageName = @"btn_send_n";
+        NSString * imageName = @"btn_gift_n_red";
         if (_isLive) {
             imageName = @"btn_word_n_message";
         }
@@ -131,7 +131,16 @@
  replacementText:(NSString *)text
 {
     if ([text isEqualToString:@"\n"]) {
+        
+        if (_isLive) {
+            if (self.delegate && [self.delegate respondsToSelector:@selector(sendMessageBtn:textToolBar:)]) {
+                [self.delegate sendMessageBtn:nil textToolBar:self];
+                self.inputTextView.text = nil;
+                return NO;
+            }
+        }
         [self sendMessage:nil];
+        
         //发送
         return NO;
     }
@@ -182,8 +191,8 @@
             self.inputTextView.text = nil;
             //        self.sendButton.selected = NO;
             [self.inputTextView textDidChange];
-
         }
+        
     }
 }
 @end

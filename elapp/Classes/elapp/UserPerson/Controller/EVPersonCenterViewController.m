@@ -486,6 +486,7 @@
 //        UIView * separatorView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 4)];
         
         _tableView.backgroundColor = [UIColor evSeparetorGrayColor];
+        _tableView.showsVerticalScrollIndicator = NO;
 //        _tableView.tableHeaderView = separatorView;
         
     }

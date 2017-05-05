@@ -29,9 +29,6 @@
 @property (nonatomic, weak) UIScrollView *backScrollView;
 
 
-@property (nonatomic, weak) NSLayoutConstraint *liveViewWid;
-@property (nonatomic, weak) NSLayoutConstraint *liveViewHig;
-
 @property (nonatomic, weak) EVHVLiveView *hvLiveView;
 
 @property (nonatomic, strong) EVBaseToolManager *baseToolManager;
@@ -189,16 +186,7 @@
     //TODO:开启直播
     liveButton.buttonBlock = ^(EVLiveButtonType type, UIButton *btn) {
        
-        if (type == EVLiveButtonTypeLive) {
-            if (btn.selected == YES) {
-                weakself.liveViewWid.constant = 108;
-                weakself.liveViewHig.constant = 108;
-            }else {
-                weakself.liveViewWid.constant = 44;
-                weakself.liveViewHig.constant = 44;
-            }
-        }
-        if (type == EVLiveButtonTypeVideo) {
+            if (type == EVLiveButtonTypeVideo) {
             NSString *sessionID = [self.baseToolManager getSessionIdWithBlock:nil];
             if (sessionID == nil || [sessionID isEqualToString:@""]) {
                 [weakself loginView];
@@ -214,13 +202,10 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 [weakself loadTextLiveData];
             });
-           
-           
         }
     };
     [liveButton autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:54];
-    self.liveViewWid =    [liveButton autoSetDimension:ALDimensionWidth toSize:44];
-    self.liveViewHig =   [liveButton autoSetDimension:ALDimensionHeight toSize:44];
+    [liveButton autoSetDimensionsToSize:CGSizeMake(110, 110)];
     [liveButton autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:10];
     
     if ([[EVLoginInfo localObject].sessionid isEqualToString:@""] || [EVLoginInfo localObject].sessionid == nil || [EVLoginInfo localObject].vip == 0) {

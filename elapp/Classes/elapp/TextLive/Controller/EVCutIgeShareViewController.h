@@ -12,4 +12,5 @@
 
 @property (nonatomic)UIImage *cutImage;
 
+@property (nonatomic, copy)NSString * name;
 @end
