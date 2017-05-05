@@ -56,7 +56,7 @@
     
     if (_isBottomBack) {
         UIButton * backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [backButton setImage:[UIImage imageNamed:@"hv_back_return"] forState:UIControlStateNormal];
+        [backButton setImage:[UIImage imageNamed:@"btn_news_return_n"] forState:UIControlStateNormal];
         [backButton addTarget:self action:@selector(backButtonClick) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:backButton];
         [backButton autoSetDimensionsToSize:CGSizeMake(44, 44)];

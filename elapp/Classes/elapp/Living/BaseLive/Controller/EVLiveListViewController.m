@@ -205,7 +205,7 @@
         }
     };
     [liveButton autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:54];
-    [liveButton autoSetDimensionsToSize:CGSizeMake(110, 110)];
+    [liveButton autoSetDimensionsToSize:CGSizeMake(126, 126)];
     [liveButton autoPinEdgeToSuperviewEdge:ALEdgeRight withInset:10];
     
     if ([[EVLoginInfo localObject].sessionid isEqualToString:@""] || [EVLoginInfo localObject].sessionid == nil || [EVLoginInfo localObject].vip == 0) {
