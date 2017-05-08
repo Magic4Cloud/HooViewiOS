@@ -33,7 +33,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self addUpView];
-    [self initData];
+//    [self initData];
     
 
 }
@@ -58,6 +58,8 @@
     [tableView addRefreshFooterWithRefreshingBlock:^{
         [self initMoreData];
     }];
+    [tableView startHeaderRefreshing];
+    [tableView hideFooter];
 }
 
 - (void)initData {

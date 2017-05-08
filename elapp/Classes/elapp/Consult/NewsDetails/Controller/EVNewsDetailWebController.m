@@ -453,15 +453,6 @@
 - (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigation
 {
     //添加阅读历史记录
-//    [self.baseToolManager GETUserHistoryType:EVCollectTypeNews code:self.newsID action:1 start:^{
-//        
-//    } fail:^(NSError *error) {
-//        NSLog(@"error = %@",error);
-//    } success:^(NSDictionary *retinfo) {
-//        
-//    } sessionExpire:^{
-//        
-//    }];
     [self.baseToolManager ADDHistoryWithNewsId:_newsID fail:^(NSError *error) {
         EVLog(@"添加历史记录失败 ：error%@",error.domain);
     } success:^(NSDictionary *retinfo) {

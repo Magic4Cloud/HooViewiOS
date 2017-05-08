@@ -287,12 +287,12 @@
     _blackBackView.alpha = 0.5;
     _blackBackView.backgroundColor = [UIColor blackColor];
     [_blackBackView addTarget:self action:@selector(backViewClick:) forControlEvents:(UIControlEventTouchUpInside)];
-    [self.navigationController.view addSubview:_blackBackView];
+    [self.view addSubview:_blackBackView];
     _blackBackView.hidden = YES;
     
     //TODO:聊天输入框
     EVTextLiveToolBar *textLiveToolBar = [[EVTextLiveToolBar alloc] initWithFrame:CGRectZero withIsGift:YES];
-    [self.navigationController.view addSubview:textLiveToolBar];
+    [self.view addSubview:textLiveToolBar];
     self.textLiveToolBar = textLiveToolBar;
     textLiveToolBar.delegate = self;
     [textLiveToolBar autoPinEdgeToSuperviewEdge:ALEdgeLeft];
@@ -310,7 +310,7 @@
     };
     
     EVHVStockTextView *stockTextView  = [[EVHVStockTextView alloc] init];
-    [self.navigationController.view addSubview:stockTextView];
+    [self.view addSubview:stockTextView];
     stockTextView.hidden = YES;
     stockTextView.frame = CGRectMake(0, ScreenHeight - 49, ScreenWidth, 49);
     stockTextView.delegate = self;

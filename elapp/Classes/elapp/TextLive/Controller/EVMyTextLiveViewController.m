@@ -250,13 +250,13 @@
     
     UIControl *touchLayer = [[UIControl alloc] initWithFrame:[UIScreen mainScreen].bounds];
     touchLayer.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
-    [self.navigationController.view addSubview:touchLayer];
+    [self.view addSubview:touchLayer];
     touchLayer.hidden = YES;
     self.touchLayer = touchLayer;
     [touchLayer addTarget:self action:@selector(touchHide) forControlEvents:(UIControlEventTouchUpInside)];
     
     EVTextLiveToolBar *textLiveToolBar = [[EVTextLiveToolBar alloc] initWithFrame:CGRectZero withLiveChat:YES];
-    [self.navigationController.view addSubview:textLiveToolBar];
+    [self.view addSubview:textLiveToolBar];
     self.textLiveToolBar = textLiveToolBar;
     textLiveToolBar.delegate = self;
     [textLiveToolBar autoPinEdgeToSuperviewEdge:ALEdgeLeft];
@@ -284,7 +284,7 @@
     
     EVTextLiveToolBar * chatLiveToolBar = [[EVTextLiveToolBar alloc] init];
 //    chatLiveToolBar.inputTextView.backgroundColor = [UIColor redColor];
-    [self.navigationController.view addSubview:chatLiveToolBar];
+    [self.view addSubview:chatLiveToolBar];
     self.chatLiveToolBar = chatLiveToolBar;
     chatLiveToolBar.delegate = self;
     [chatLiveToolBar autoPinEdgeToSuperviewEdge:ALEdgeLeft];
@@ -314,7 +314,7 @@
     
     
     EVSendImageView *sendImageView = [[EVSendImageView alloc] init];
-    [self.navigationController.view addSubview:sendImageView];
+    [self.view addSubview:sendImageView];
     self.sendImageView = sendImageView;
     sendImageView.delegate = self;
     self.segmentedIndex = 0;
@@ -331,9 +331,9 @@
     
     
     EVHVStockTextView *stockTextView  = [[EVHVStockTextView alloc] init];
-    [self.navigationController.view addSubview:stockTextView];
+    [self.view addSubview:stockTextView];
     stockTextView.hidden = YES;
-    stockTextView.frame = CGRectMake(0, ScreenHeight - 49, ScreenWidth, 49);
+    stockTextView.frame = CGRectMake(0, ScreenHeight - 49 -64, ScreenWidth, 49);
     stockTextView.delegate = self;
     self.stockTextView = stockTextView;
     stockTextView.backgroundColor = [UIColor whiteColor];
@@ -418,7 +418,7 @@
     else if (self.chooseIndex == 1)
     {
         [UIView animateWithDuration:0.3 animations:^{
-            self.stockTextView.frame = CGRectMake(0, ScreenHeight - frame.size.height - 49, ScreenWidth, 49);
+            self.stockTextView.frame = CGRectMake(0, ScreenHeight - frame.size.height - 49 - 64, ScreenWidth, 49);
         }];
     }else if (self.chooseIndex == 2) {
 //        self.toolBarTextBottonF.constant  =  - frame.size.height;
@@ -456,7 +456,7 @@
     else if (self.chooseIndex == 1)
     {
         [UIView animateWithDuration:0.3 animations:^{
-            self.stockTextView.frame = CGRectMake(0, ScreenHeight - 49, ScreenWidth, 49);
+            self.stockTextView.frame = CGRectMake(0, ScreenHeight - 49 - 64, ScreenWidth, 49);
         }];
     }
     else if(self.chooseIndex == 2)
@@ -800,8 +800,11 @@
 - (void)shareViewShowAction {
 
     self.textLiveToolBar.hidden = YES;
+    [self.textLiveToolBar endEditing:YES];
     self.stockTextView.hidden = YES;
+    [self.stockTextView endEditing:YES];
     self.chatLiveToolBar.hidden = YES;
+    [self.chatLiveToolBar endEditing:YES];
     self.snopImage =  [self snapshot:self.navigationController.view];
     [UIView animateWithDuration:0.3 animations:^{
         self.eVSharePartView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight - 64);
