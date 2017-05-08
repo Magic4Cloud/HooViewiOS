@@ -381,6 +381,7 @@
             if ([btn.stockBaseModel.symbol isEqualToString:@""] || btn.stockBaseModel.symbol == nil) {
                 return;
             }
+            
             [self.navigationController pushViewController:marketDetailVC animated:YES];
         };
         return Cell;
@@ -445,16 +446,11 @@
         recommendCell.didselectedIndexIWithModelBlock = ^(EVRecommendModel * model)
         {
             //选中牛人
-//            EVWatchVideoInfo * videoModel = [[EVWatchVideoInfo alloc] init];
-//            videoModel.name = model.id;
-//            EVVipCenterViewController *vipVC = [EVVipCenterViewController new];
-//            vipVC.watchVideoInfo = videoModel;
-//            [self.navigationController pushViewController:vipVC animated:YES];
-            
             EVWatchVideoInfo * videoModel = [[EVWatchVideoInfo alloc] init];
             videoModel.name = model.id;
             EVVipCenterController *vc = [[EVVipCenterController alloc] init];
             vc.watchVideoInfo = videoModel;
+            vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
         };
         return recommendCell;

@@ -113,7 +113,7 @@
     
 }
 
-
+//视频播放下面的聊天
 - (void)setMessageCellModel:(EVHVMessageCellModel *)messageCellModel
 {
     _messageCellModel = messageCellModel;
@@ -122,7 +122,11 @@
     [self.chatContentBtn setTitle:message.contentStr forState:(UIControlStateNormal)];
     self.nameLabel.frame = messageCellModel.nameF;
     self.chatContentBtn.frame = messageCellModel.contentF;
-    self.nameLabel.text = message.nameStr;
+    NSString * name = message.nameStr;
+    if (name.length>10) {
+        name = [NSString stringWithFormat:@"%@..",[name substringToIndex:10]];
+    }
+    self.nameLabel.text = name;
     if (message.messageFrom == EVMessageFromSystem) {
         self.tipLabel.frame = messageCellModel.tipLabelF;
         self.tipLabel.text = message.contentStr;

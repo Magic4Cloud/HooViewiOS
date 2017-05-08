@@ -333,12 +333,6 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 
     NSMutableArray *items = [NSMutableArray array];
     
-    // 资讯
-//    EVConsultViewController *firstVC = [[EVConsultViewController alloc] init];
-//    EVNavigationController *firstNav = [EVNavigationController navigationWithWrapController:firstVC];
-//    EVHomeTabBarItem *firstItem = [EVHomeTabBarItem homeTabBarItemWithController:firstNav];
-//    [items addObject:firstItem];
-    
     EVHomeBaseViewController * firstVC = [[EVHomeBaseViewController alloc] init];
     UINavigationController *firstNav = [[UINavigationController alloc] initWithRootViewController:firstVC];
     EVHomeTabBarItem *firstItem = [EVHomeTabBarItem homeTabBarItemWithController:firstNav];
@@ -357,11 +351,6 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     EVHomeTabBarItem *threeItem = [EVHomeTabBarItem homeTabBarItemWithController:threeNav];
     [items addObject:threeItem];
     
-    // 个人
-//    EVMineViewController *fourVC = [[EVMineViewController alloc] init];
-//    EVNavigationController *fourNav = [EVNavigationController navigationWithWrapController:fourVC];
-//    EVHomeTabBarItem *fourItem = [EVHomeTabBarItem homeTabBarItemWithController:fourNav];
-//    [items addObject:fourItem];
     
     EVPersonCenterViewController * personVc = [[EVPersonCenterViewController alloc] init];
     EVNavigationController *fourNav = [EVNavigationController navigationWithWrapController:personVc];
@@ -811,12 +800,12 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    [[EVPushManager sharePushManager]resetJpushBadge];
+    [[EVPushManager sharePushManager] resetJpushBadge];
 } 
 
 - (void)applicationWillResignActive:(UIApplication*)application{
     /*添加你自己的挂起前准备代码*/
-    [[EVPushManager sharePushManager]resetJpushBadge];
+    [[EVPushManager sharePushManager] resetJpushBadge];
     
 }
 

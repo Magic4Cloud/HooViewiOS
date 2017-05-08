@@ -250,7 +250,7 @@
     
     UIControl *touchLayer = [[UIControl alloc] initWithFrame:[UIScreen mainScreen].bounds];
     touchLayer.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
-    [self.navigationController.view insertSubview:touchLayer atIndex:0];
+    [self.navigationController.view addSubview:touchLayer];
     touchLayer.hidden = YES;
     self.touchLayer = touchLayer;
     [touchLayer addTarget:self action:@selector(touchHide) forControlEvents:(UIControlEventTouchUpInside)];
@@ -331,9 +331,9 @@
     
     
     EVHVStockTextView *stockTextView  = [[EVHVStockTextView alloc] init];
-    [self.view addSubview:stockTextView];
+    [self.navigationController.view addSubview:stockTextView];
     stockTextView.hidden = YES;
-    stockTextView.frame = CGRectMake(0, ScreenHeight - 108, ScreenWidth, 49);
+    stockTextView.frame = CGRectMake(0, ScreenHeight - 49, ScreenWidth, 49);
     stockTextView.delegate = self;
     self.stockTextView = stockTextView;
     stockTextView.backgroundColor = [UIColor whiteColor];
@@ -418,7 +418,7 @@
     else if (self.chooseIndex == 1)
     {
         [UIView animateWithDuration:0.3 animations:^{
-            self.stockTextView.frame = CGRectMake(0, ScreenHeight - frame.size.height - 108, ScreenWidth, 49);
+            self.stockTextView.frame = CGRectMake(0, ScreenHeight - frame.size.height - 49, ScreenWidth, 49);
         }];
     }else if (self.chooseIndex == 2) {
 //        self.toolBarTextBottonF.constant  =  - frame.size.height;
@@ -456,7 +456,7 @@
     else if (self.chooseIndex == 1)
     {
         [UIView animateWithDuration:0.3 animations:^{
-            self.stockTextView.frame = CGRectMake(0, ScreenHeight - 108, ScreenWidth, 49);
+            self.stockTextView.frame = CGRectMake(0, ScreenHeight - 49, ScreenWidth, 49);
         }];
     }
     else if(self.chooseIndex == 2)
@@ -487,7 +487,7 @@
     }
     else if (self.chooseIndex == 1)
     {
-        [self.stockTextView resignFirstResponder];
+        [_stockTextView.stockTextFiled resignFirstResponder];
     }
     else if (self.chooseIndex == 2)
     {

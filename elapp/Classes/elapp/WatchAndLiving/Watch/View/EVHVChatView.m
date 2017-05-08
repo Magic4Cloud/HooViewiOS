@@ -38,6 +38,8 @@
     [self.chatTableView reloadData];
     [self tableViewScrollToBottom];
 }
+
+
 - (void)receiveChatContent:(NSString *)content nickName:(NSString *)nickName isHistory:(BOOL)isHistory
 {
     if (nickName == nil || content == nil) {
@@ -55,6 +57,8 @@
     [self tableViewScrollToBottom];
 
 }
+
+
 - (void)addUpViewFrame:(CGRect)frame
 {
     self.chatModel = [[EVHVChatModel alloc] init];
@@ -94,10 +98,10 @@
     EVChatViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"chatCell"];
     if (!cell) {
         cell = [[EVChatViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:@"chatCell"];
+        cell.backgroundColor = [UIColor evBackgroundColor];
     }
     [cell setMessageCellModel:self.chatModel.dataSource[indexPath.row]];
     cell.delegate = self;
-    cell.backgroundColor = [UIColor evBackgroundColor];
     return cell;
 }
 

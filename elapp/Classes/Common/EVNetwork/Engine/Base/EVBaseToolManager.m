@@ -124,7 +124,7 @@ static BOOL sessioncheck = NO;
             [self resetSession];
         
     } fail:^(NSError *error) {
-        // 网络失败则3秒钟之后重新尝试校验
+        // 网络失败则3秒钟之后重新尝试校验  --那岂不是很费电
 //        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^
 //                       {
 //                           [self checkSessionID];
@@ -388,29 +388,37 @@ static BOOL sessioncheck = NO;
 // 清空本地Session
 + (void)resetSession
 {
-     NSDictionary *dics = [CCUserDefault dictionaryRepresentation];
+//     NSDictionary *dics = [CCUserDefault dictionaryRepresentation];
     
     
-    [CCUserDefault removeObjectForKey:SESSION_ID_STR];
-    [CCUserDefault removeObjectForKey:CCUSER_NAME];
-
-    [CCUserDefault setObject:nil
-                      forKey:USER_DNAME_STR];
-    [CCUserDefault synchronize];
     
-    
-    for(NSString *key in [dics allKeys]){
-        NSLog(@"key:%@ value:%@",key,dics[key]);
-    }
-    
-    [self setIMAccountHasLogin:NO];
-    
+//    for(NSString *key in [dics allKeys]){
+//        NSLog(@"key:%@ value:%@",key,dics[key]);
+//    }
+        
     // 到主线程中执行下面这个block中的代码
     [self performBlockOnMainThreadInClass:^
      {
          [EVNotificationCenter postNotificationName:CCSessionDidCleanFromLocalNotification
                                              object:nil
                                            userInfo:nil];
+         
+         //解决有时退出登录不成功问题  当重复调用方法时写入不成功 应先判断再进行写入操作
+         if ([CCUserDefault objectForKey:SESSION_ID_STR]) {
+             [CCUserDefault removeObjectForKey:SESSION_ID_STR];
+         }
+         if ([CCUserDefault objectForKey:CCUSER_NAME]) {
+             [CCUserDefault removeObjectForKey:CCUSER_NAME];
+         }
+         if ([CCUserDefault objectForKey:USER_DNAME_STR]) {
+             [CCUserDefault removeObjectForKey:USER_DNAME_STR];
+         }
+         
+         [CCUserDefault setBool:NO
+                         forKey:kIMAccountHasLogin];
+         
+         [CCUserDefault synchronize];
+
      }];
 }
 

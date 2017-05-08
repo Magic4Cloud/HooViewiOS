@@ -179,8 +179,11 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         if (error.code == -2001) {
             if (self.isInitSDKSuccess == NO) {
-                [EVSDKInitManager initMessageSDKUserData:self.userData];
-                [self loginConnect];
+                if (_userData) {
+                    [EVSDKInitManager initMessageSDKUserData:self.userData];
+                    [self loginConnect];
+                }
+                
             }
         }else {
             [[EVMessageManager shareManager] connect];
