@@ -22,3 +22,5 @@
 @property (nonatomic, assign)float  cellHeight;
 
 @end
+
+
