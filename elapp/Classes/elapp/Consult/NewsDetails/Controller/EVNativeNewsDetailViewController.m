@@ -17,7 +17,10 @@
 #import "EVNewsTitleCell.h"
 #import "EVNewsTagsCell.h"
 #import "EVNewsContentCell.h"
-@interface EVNativeNewsDetailViewController ()<UITableViewDelegate,UITableViewDataSource,EVStockDetailBottomViewDelegate,EVWebViewShareViewDelegate>
+@interface EVNativeNewsDetailViewController ()<UITableViewDelegate,UITableViewDataSource,WKNavigationDelegate,EVStockDetailBottomViewDelegate,EVWebViewShareViewDelegate>
+{
+    CGFloat contentHeight;
+}
 @property (nonatomic, strong)UITableView * tableView;
 
 @property (nonatomic, strong) EVStockDetailBottomView *detailBottomView;
@@ -43,6 +46,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    contentHeight = 40;
     [self initUI];
     
     [self loadNewData];
@@ -119,6 +123,17 @@
     
 }
 
+- (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigation
+{
+    
+//    CGFloat documentWidth = [[webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('content').offsetWidth"] floatValue];
+//    CGFloat documentHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"content\").offsetHeight;"] floatValue];
+    CGFloat documentWidth = webView.scrollView.contentSize.width;
+    CGFloat documentHeight = webView.scrollView.contentSize.height;
+    contentHeight = documentHeight;
+    NSLog(@"documentSize = {%f, %f}", documentWidth, documentHeight);
+    [self.tableView reloadData];
+}
 #pragma mark - 🌺 TableView Delegate & Datasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -155,7 +170,7 @@
     switch (indexPath.section) {
         case 0:
         {
-            if (indexPath.row ==0 || indexPath.row ==2)
+            if (indexPath.row ==0)
             {
                 return UITableViewAutomaticDimension;
             }
@@ -173,6 +188,10 @@
                 {
                     return 100;
                 }
+            }
+            else if (indexPath.row ==2)
+            {
+                return UITableViewAutomaticDimension;
             }
         }
             break;
@@ -207,7 +226,9 @@
                 EVNewsTagsCell * tagCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsTagsCell"];
                 if (!tagCell) {
                     tagCell = [[EVNewsTagsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"EVNewsTagsCell"];
+                    tagCell.tagsModelArray = _newsDetailModel.tag;
                 }
+                
                 return tagCell;
             }
             else if (indexPath.row == 2)
@@ -215,7 +236,10 @@
                 EVNewsContentCell * contentCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsContentCell"];
                 if (!contentCell) {
                     contentCell = [[EVNewsContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"EVNewsContentCell"];
+                    contentCell.cellWebView.navigationDelegate = self;
+                    
                 }
+                contentCell.htmlString = _newsDetailModel.content;
                 return contentCell;
             }
         }
