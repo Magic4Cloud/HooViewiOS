@@ -7,15 +7,26 @@
 //
 
 #import "EVNativeNewsDetailViewController.h"
+#import "EVBaseToolManager+EVNewsAPI.h"
+
 #import "EVStockDetailBottomView.h"
 #import "EVSharePartView.h"
 
+#import "EVNewsDetailModel.h"
+
+#import "EVNewsTitleCell.h"
+#import "EVNewsTagsCell.h"
+#import "EVNewsContentCell.h"
 @interface EVNativeNewsDetailViewController ()<UITableViewDelegate,UITableViewDataSource,EVStockDetailBottomViewDelegate,EVWebViewShareViewDelegate>
 @property (nonatomic, strong)UITableView * tableView;
 
 @property (nonatomic, strong) EVStockDetailBottomView *detailBottomView;
 
 @property (nonatomic, strong) EVSharePartView *eVSharePartView;
+
+@property (nonatomic, strong) EVBaseToolManager *baseToolManager;
+
+@property (nonatomic, strong) EVNewsDetailModel * newsDetailModel;
 @end
 
 @implementation EVNativeNewsDetailViewController
@@ -25,6 +36,8 @@
     [super viewDidLoad];
     
     [self initUI];
+    
+    [self loadNewData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -40,6 +53,8 @@
     [self.tableView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
     [self.tableView autoPinEdgeToSuperviewEdge:ALEdgeRight];
     [self.tableView autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:49];
+    [self.tableView registerNib:[UINib nibWithNibName:@"EVNewsTitleCell" bundle:nil] forCellReuseIdentifier:@"EVNewsTitleCell"];
+    
     
     [self.view addSubview:self.detailBottomView];
     [self.view addSubview:self.eVSharePartView];
@@ -49,8 +64,39 @@
 #pragma mark - 🌐Networks
 - (void)loadNewData
 {
-    
+    [self.baseToolManager GETNewsDetailNewsID:self.newsID fail:^(NSError *error) {
+        
+    } success:^(NSDictionary *retinfo) {
+        NSDictionary * dataDic = retinfo[@"retinfo"][@"data"];
+        if (dataDic && [dataDic isKindOfClass:[NSDictionary class]]) {
+            _newsDetailModel = [EVNewsDetailModel yy_modelWithDictionary:dataDic];
+            [self.tableView reloadData];
+        }
+    }];
 }
+
+- (NSString *)requestUrlID:(NSString *)ID
+{
+    NSMutableString *paramStr = [NSMutableString string];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    
+    [params setValue:ID forKey:@"newsid"];
+    [params setValue:@"news" forKey:@"page"];
+    NSInteger paramCount = params.count;
+    __block NSInteger index = 0;
+    [params enumerateKeysAndObjectsUsingBlock:^(id key, NSString *value, BOOL *stop) {
+        NSString *param = [NSString stringWithFormat:@"%@=%@",key,value];
+        [paramStr appendString:param];
+        if ( index != paramCount - 1 ) {
+            [paramStr appendString:@"&"];
+        }
+        index++;
+    }];
+    NSString *urlStr = [NSString stringWithFormat:@"%@?%@",webNewsUrl,paramStr];
+    
+    return urlStr;
+}
+
 #pragma mark -👣 Target actions
 
 #pragma mark - delegate
@@ -67,21 +113,123 @@
 #pragma mark - 🌺 TableView Delegate & Datasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    switch (section) {
+        case 0:
+        {
+            return 3;
+        }
+            break;
+        case 1:
+        {
+            
+        }
+            break;
+        case 2:
+        {
+            
+        }
+            break;
+            
+        default:
+            break;
+    }
     return 0;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    //三个区   标题加详情一个   评论一个    推荐新闻一个
+    return 3;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    switch (indexPath.section) {
+        case 0:
+        {
+            if (indexPath.row ==0 || indexPath.row ==2)
+            {
+                return UITableViewAutomaticDimension;
+            }
+            else if (indexPath.row ==1)
+            {
+                EVNewsTagsCell * tagCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsTagsCell"];
+                if (!tagCell) {
+                    tagCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsTagsCell"];
+                    tagCell.tagsModelArray = self.newsDetailModel.tag;
+                }
+                if (tagCell.cellHeight) {
+                    return tagCell.cellHeight;
+                }
+                else
+                {
+                    return 100;
+                }
+            }
+        }
+            break;
+        case 1:
+        {
+            
+        }
+            break;
+        case 2:
+        {
+            
+        }
+            break;
+            
+        default:
+            break;
+    }
     return 50;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    switch (indexPath.section)
+    {
+        case 0:
+        {
+            if (indexPath.row == 0) {
+                EVNewsTitleCell * titleCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsTitleCell"];
+                return titleCell;
+            }
+            else if (indexPath.row ==1)
+            {
+                EVNewsTagsCell * tagCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsTagsCell"];
+                if (!tagCell) {
+                    tagCell = [[EVNewsTagsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"EVNewsTagsCell"];
+                }
+                return tagCell;
+            }
+            else if (indexPath.row == 2)
+            {
+                EVNewsContentCell * contentCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsContentCell"];
+                if (!contentCell) {
+                    contentCell = [[EVNewsContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"EVNewsContentCell"];
+                }
+                return contentCell;
+            }
+        }
+            break;
+        case 1:
+        {
+            
+        }
+            break;
+        case 2:
+        {
+            
+        }
+            break;
+            
+        default:
+            break;
+    }
     static NSString * identifer = @"cell";
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:identifer];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+    }
     return cell;
 }
 
@@ -99,7 +247,7 @@
         _tableView.dataSource = self;
         _tableView.tableFooterView = [UIView new];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        _tableView.rowHeight = 100;
+        _tableView.estimatedRowHeight = 100;
     }
     return _tableView;
 }
@@ -139,4 +287,13 @@
     }
     return _detailBottomView;
 }
+
+- (EVBaseToolManager *)baseToolManager
+{
+    if (!_baseToolManager) {
+        _baseToolManager = [[EVBaseToolManager alloc] init];
+    }
+    return _baseToolManager;
+}
+
 @end

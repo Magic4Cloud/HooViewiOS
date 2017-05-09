@@ -259,6 +259,6 @@ typedef NS_ENUM(NSUInteger, GradientType) {
 
 - (UIImage *)imageWithTintColor:(UIColor *)color;
 - (UIImage *)imageWithTintColor:(UIColor *)color alpha:(CGFloat)alpha;
-
++ (UIImage *)imageWithColor:(UIColor *)color;
 
 @end
