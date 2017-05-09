@@ -12,5 +12,5 @@
  原生新闻详情页
  */
 @interface EVNativeNewsDetailViewController : UIViewController
-
+@property (nonatomic, copy) NSString * newsID;
 @end

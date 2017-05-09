@@ -1122,6 +1122,7 @@
         }];
 
     }else {
+        //MARK:发送聊天消息
         NSDictionary *commentFormat = [NSDictionary dictionaryWithObjectsAndKeys:loginfo.nickname,EVMessageKeyNk, nil];
         NSMutableDictionary *commentJoin = [NSMutableDictionary dictionaryWithObjectsAndKeys:commentFormat,EVMessageKeyExct, nil];
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:commentJoin options:NSJSONWritingPrettyPrinted error:nil];

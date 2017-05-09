@@ -43,6 +43,7 @@
 
 #import "EVVipCenterController.h"
 
+#import "EVNativeNewsDetailViewController.h"
 @interface EVImportantNewsViewController ()<UITableViewDelegate,UITableViewDataSource,EVCycleScrollViewDelegate,EVHVEyeViewDelegate>
 
 
@@ -532,18 +533,30 @@
     {
         //普通新闻
         
-        EVNewsDetailWebController *newsWebVC = [[EVNewsDetailWebController alloc] init];
+//        EVNewsDetailWebController *newsWebVC = [[EVNewsDetailWebController alloc] init];
+//        newsWebVC.newsID = newsModel.newsID;
+//        newsWebVC.newsTitle = newsModel.title;
+//        if ([newsModel.newsID isEqualToString:@""] || newsModel.newsID == nil) {
+//            return;
+//        }
+//        newsWebVC.refreshViewCountBlock = ^()
+//        {
+//            [self loadNewData];
+//        };
+//        [self.navigationController pushViewController:newsWebVC animated:YES];
+        
+        
+        EVNativeNewsDetailViewController *newsWebVC = [[EVNativeNewsDetailViewController alloc] init];
         newsWebVC.newsID = newsModel.newsID;
-        newsWebVC.newsTitle = newsModel.title;
+//        newsWebVC.newsTitle = newsModel.title;
         if ([newsModel.newsID isEqualToString:@""] || newsModel.newsID == nil) {
             return;
         }
-        newsWebVC.refreshViewCountBlock = ^()
-        {
-            [self loadNewData];
-        };
+//        newsWebVC.refreshViewCountBlock = ^()
+//        {
+//            [self loadNewData];
+//        };
         [self.navigationController pushViewController:newsWebVC animated:YES];
-        
         
     }
 }
