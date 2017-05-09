@@ -32,6 +32,14 @@
 @implementation EVNativeNewsDetailViewController
 
 #pragma mark - ♻️Lifecycle
+- (instancetype)init
+{
+    if (self = [super init]) {
+        self.hidesBottomBarWhenPushed = YES;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -39,6 +47,7 @@
     
     [self loadNewData];
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
