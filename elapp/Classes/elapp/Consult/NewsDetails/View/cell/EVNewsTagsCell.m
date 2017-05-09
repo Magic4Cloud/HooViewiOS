@@ -41,6 +41,7 @@
 
 - (void)initUI
 {
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
     _cellTagView = [[SKTagView alloc] init];
     [self.contentView addSubview:_cellTagView];
     [_cellTagView autoPinEdgesToSuperviewEdges];

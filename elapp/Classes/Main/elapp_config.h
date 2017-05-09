@@ -51,10 +51,10 @@
 
 ///////////////////////////////////// APP 状态 //////////////////////////////////////
 // 开发状态
-//#define STATE_DEV
+#define STATE_DEV
 
 // 发布状态
-#define STATE_RELEASE
+//#define STATE_RELEASE
 
 // 手动切换服务器
 // #define STARTE_SWITCH_SERVER_MANUAL

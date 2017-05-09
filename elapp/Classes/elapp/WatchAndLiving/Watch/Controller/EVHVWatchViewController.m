@@ -172,11 +172,11 @@
     [self loadVideoData];
     [self loadMyAssetsData];
     WEAK(self)
-    [self.watchBottomView.chatView.chatTableView addRefreshHeaderWithRefreshingBlock:^{
-        [weakself.liveMessageEngine loadMoreHistoryDataSuccess:^{
-            [weakself.watchBottomView.chatView.chatTableView endHeaderRefreshing];
-        }];
-    }];
+//    [self.watchBottomView.chatView.chatTableView addRefreshHeaderWithRefreshingBlock:^{
+//        [weakself.liveMessageEngine loadMoreHistoryDataSuccess:^{
+//            [weakself.watchBottomView.chatView.chatTableView endHeaderRefreshing];
+//        }];
+//    }];
 }
 
 - (void)watchVideoNetworkChanged:(NSNotification *)notification {
@@ -627,7 +627,10 @@
 {
     EVLog(@"success-------------");
     self.isJoinTopic = YES;
-    [self.watchBottomView.chatView receiveSystemMessage:@"温馨提示：涉及色情，低俗，暴力等聊天内容将被封停账号。文明聊天，从我做起！"];
+    
+    [self joinChatRoomSendMessage];
+    
+    
     [self.view addSubview:self.eVSharePartView];
     WEAK(self)
     self.eVSharePartView.cancelShareBlock = ^() {
@@ -1123,8 +1126,23 @@
 
     }else {
         //MARK:发送聊天消息
-        NSDictionary *commentFormat = [NSDictionary dictionaryWithObjectsAndKeys:loginfo.nickname,EVMessageKeyNk, nil];
-        NSMutableDictionary *commentJoin = [NSMutableDictionary dictionaryWithObjectsAndKeys:commentFormat,EVMessageKeyExct, nil];
+        EVLoginInfo * model = [EVLoginInfo localObject];
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        //内容类型（st，置顶消息；hl，高亮消息；nor，普通消息）
+        [dict setValue:@"nor" forKey:@"tp"];
+        [dict setValue:model.nickname forKey:@"nk"];
+        //头像
+        [dict setValue:model.logourl forKey:@"avatar"];
+        //uid
+        [dict setValue:model.name forKey:@"userid"];
+        NSString * vip = [NSString stringWithFormat:@"%d",model.vip];
+        [dict setValue:vip forKey:@"vip"];
+        
+        NSMutableDictionary *commentJoin = [NSMutableDictionary dictionaryWithObjectsAndKeys:dict,EVMessageKeyExct, nil];
+        
+//        NSDictionary *commentFormat = [NSDictionary dictionaryWithObjectsAndKeys:loginfo.nickname,EVMessageKeyNk, nil];
+        
+//        NSMutableDictionary *commentJoin = [NSMutableDictionary dictionaryWithObjectsAndKeys:commentFormat,EVMessageKeyExct, nil];
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:commentJoin options:NSJSONWritingPrettyPrinted error:nil];
         NSString *jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
 
@@ -1138,6 +1156,37 @@
         }];
     }
  
+    
+}
+
+
+#pragma mark - 进入聊天室发送消息
+- (void)joinChatRoomSendMessage
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    //内容类型（st，置顶消息；hl，高亮消息；nor，普通消息）
+    [dict setValue:@"join" forKey:@"tp"];
+    [dict setValue:[EVLoginInfo localObject].nickname forKey:@"nk"];
+    EVLoginInfo * model = [EVLoginInfo localObject];
+    //头像
+    [dict setValue:model.logourl forKey:@"avatar"];
+    //uid
+    [dict setValue:model.name forKey:@"userid"];
+    
+    
+    NSMutableDictionary *commentJoin = [NSMutableDictionary dictionaryWithObjectsAndKeys:dict,EVMessageKeyExct, nil];
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:commentJoin options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+    
+    [[EVMessageManager shareManager] sendMessage:@"join" userData:jsonString toTopic:self.watchVideoInfo.vid result:^(BOOL isSuccess, EVMessageErrorCode errorCode) {
+        if (isSuccess) {
+            EVLog(@"sendmessagesuccess ------------");
+        }else{
+            
+            
+        }
+    }];
+    
     
 }
 
@@ -1272,15 +1321,16 @@
 }
 
 
-#pragma mark - commentdelegate
+#pragma mark - commentdelegate (收到新消息)
+
 - (void)updateMessageNewCommentData:(NSMutableArray *)data isHistory:(BOOL)isHistory
 {
+    EVLog(@"收到消息：data:%@",data);
     if (data.count > 0) {
        EVComment *comment = [data firstObject];
-        [self.watchBottomView.chatView receiveChatContent:comment.content nickName:comment.nickname isHistory:isHistory];
+        [self.watchBottomView.chatView receiveChatContent:comment.content nickName:comment.nickname isHistory:isHistory extDic:comment.extDic];
     }
 }
-
 #pragma mark - stockDelegate
 
 - (void)searchButton

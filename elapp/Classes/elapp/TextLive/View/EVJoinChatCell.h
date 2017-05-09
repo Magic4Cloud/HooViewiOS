@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@class EVEaseMessageModel;
+@class EVEaseMessageModel,EVHVMessageCellModel;
 /**
  某某加入聊天室 cell
  */
@@ -15,4 +15,5 @@
 @property (weak, nonatomic) IBOutlet UIImageView *cellAvatarImageView;
 @property (weak, nonatomic) IBOutlet UILabel *cellLabel;
 @property (nonatomic, strong)EVEaseMessageModel * messageModel;
+@property (nonatomic, strong)EVHVMessageCellModel * videoMessageModel;
 @end

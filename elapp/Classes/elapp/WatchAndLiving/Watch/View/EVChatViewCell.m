@@ -186,7 +186,6 @@
         
         normal = [normal resizableImageWithCapInsets:UIEdgeInsetsMake(20, 22, 33, 10) ];
         
-        
     }
     else
     {

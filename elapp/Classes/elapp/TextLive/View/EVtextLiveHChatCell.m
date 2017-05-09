@@ -10,6 +10,7 @@
 #import "EVChatViewCell.h"
 #import "EVHVChatModel.h"
 #import "UIView+STFrame.h"
+#import "EVHVMessageCellModel.h"
 
 @interface EVtextLiveHChatCell ()
 
@@ -182,9 +183,135 @@
     
 }
 
+/**
+ 视频播放下面聊天展示
+ */
+- (void)setVideoMessageModel:(EVHVMessageCellModel *)videoMessageModel
+{
+    if (!videoMessageModel) {
+        return;
+    }
+    _videoMessageModel = videoMessageModel;
+    NSString *content = videoMessageModel.message.contentStr;
+    content = [content stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    content = [content stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+    
+    self.contentLabel.text = content;
+    self.nameLabel.frame = videoMessageModel.nameF;
+    if ([videoMessageModel.vip boolValue] && videoMessageModel.message.messageFrom != EVMessageFromMe) {
+        
+        CGFloat x = 0.f;
+        if (videoMessageModel.message.messageFrom != EVMessageFromMe) {
+            x = CGRectGetMaxX(self.nameLabel.frame)-5;
+            
+        }
+        else
+        {
+            x = CGRectGetMinX(self.nameLabel.frame)-19;
+        }
+        _vipIConImageView.frame = CGRectMake(x, 0, 22, 22);
+        _vipIConImageView.hidden = NO;
+        self.nameLabel.textColor = [UIColor blackColor];
+        //        self.nameLabel.font = [UIFont systemFontOfSize:16];
+    }
+    else
+    {
+        _vipIConImageView.hidden = YES;
+        //        self.nameLabel.font = [UIFont systemFontOfSize:12];
+        self.nameLabel.textColor = [UIColor evBackGroundDeepGrayColor];
+    }
+    self.avatarImageView.frame = videoMessageModel.avatarRect;
+    
+    //从本地取头像
+    NSString * avatarUrl = [[EVImAvatarLocalClass shareInstance] getAvatarUrlWithUserid:videoMessageModel.userid];
+    if (avatarUrl) {
+        [self.avatarImageView cc_setImageWithURLString:avatarUrl placeholderImage:nil complete:^(UIImage *image) {
+            
+        }];
+    }
+    
+    
+    self.chatContentBtn.frame = videoMessageModel.contentF;
+    self.nameLabel.text = videoMessageModel.message.nameStr;
+    self.tipLabel.hidden = YES;
+    self.nameLabel.hidden = NO;
+    self.chatContentBtn.hidden = NO;
+    self.contentLabel.hidden = NO;
+    UIImage *normal;
+    
+    
+    
+    if ([videoMessageModel.vip boolValue])
+    {
+        //大v  背景黄色  字体黑色  回复白色
+        if (videoMessageModel.message.messageFrom == EVMessageFromMe)
+        {
+            //自己发的 右边黄色（大v）
+            normal = [UIImage imageNamed:@"bg_chat_myself"];
+            normal = [normal resizableImageWithCapInsets:UIEdgeInsetsMake(20, 22, 33, 10) ];
+            self.contentLabel.textColor = [UIColor blackColor];
+            self.rpcLabel.textColor = [UIColor whiteColor];
+            self.rpcLabel.backgroundColor = [UIColor colorWithRed:240/255.0 green:186/255.0 blue:84/255.0 alpha:1];
+        }
+        else
+        {
+            //别人发的 左边黄色（大v）
+            normal = [UIImage imageNamed:@"ic_yellow_left"];
+            normal = [normal resizableImageWithCapInsets:UIEdgeInsetsMake(22, 111, 22222, 22) ];
+            self.contentLabel.textColor = [UIColor blackColor];
+            self.rpcLabel.textColor = [UIColor whiteColor];
+            self.rpcLabel.backgroundColor = [UIColor colorWithRed:240/255.0 green:186/255.0 blue:84/255.0 alpha:1];
+        }
+        
+    }
+    else
+    {
+        //        不是大v
+        if (videoMessageModel.message.messageFrom == EVMessageFromMe)
+        {
+            //不是大v 自己发的 背景白色
+            normal = [UIImage imageNamed:@"ic_White"];
+            
+            normal = [normal resizableImageWithCapInsets:UIEdgeInsetsMake(20, 22, 33, 10)];
+            self.contentLabel.textColor = [UIColor blackColor];
+            self.rpcLabel.textColor = [UIColor blackColor];
+            self.rpcLabel.backgroundColor = [UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1];
+        }
+        else
+        {
+            //不是大v 别人发的  灰色
+            normal = [UIImage imageNamed:@"bg_chat_others"];
+            normal = [normal resizableImageWithCapInsets:UIEdgeInsetsMake(35, 22, 10, 10) ];
+            
+            self.contentLabel.textColor = [UIColor blackColor];
+            self.rpcLabel.textColor = [UIColor blackColor];
+            self.rpcLabel.backgroundColor = [UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1];
+        }
+    }
+    
+    if (videoMessageModel.message.messageFrom == EVMessageFromMe)
+    {
+        _rpcLabelleft.constant = 5;
+        _rpcLabelright.constant = -13;
+        self.nameLabel.text = @"我";
+        CGRect frame = videoMessageModel.nameF;
+        frame.origin.x = frame.origin.x + frame.size.width - 20;
+        frame.size.width = 20;
+        self.nameLabel.frame = frame;
+    }
+    else
+    {
+        _rpcLabelleft.constant = 13;
+        _rpcLabelright.constant = -5;
+    }
+    
+    [self.chatContentBtn setBackgroundImage:normal forState:UIControlStateNormal];
+    self.rpcLabel.hidden =  YES;
+
+}
 
 /**
- 聊天cell 展示
+ 聊天cell 展示 图文直播
  
  */
 - (void)setEaseMessageModel:(EVEaseMessageModel *)easeMessageModel
