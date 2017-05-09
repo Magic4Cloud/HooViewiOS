@@ -13,5 +13,5 @@
  */
 @interface EVNewsContentCell : UITableViewCell<WKNavigationDelegate>
 @property (nonatomic, strong) WKWebView * cellWebView;
-
+@property (nonatomic, copy) NSString * htmlString;
 @end
