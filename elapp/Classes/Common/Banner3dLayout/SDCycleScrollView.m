@@ -249,6 +249,13 @@ static NSString *indentify = @"MKJCollectionViewCell";
     self.imagePathsGroup = [temp copy];
 }
 
+- (void)setTitlesGroup:(NSArray *)titlesGroup
+{
+    _titlesGroup = titlesGroup;
+    
+    
+}
+
 - (void)setLocalizationImageNamesGroup:(NSArray *)localizationImageNamesGroup
 {
     _localizationImageNamesGroup = localizationImageNamesGroup;
@@ -404,7 +411,12 @@ static NSString *indentify = @"MKJCollectionViewCell";
         cell.imageView.image = (UIImage *)imagePath;
     }
     
-
+    if (itemIndex<self.titlesGroup.count)
+    {
+        NSString * title = self.titlesGroup[itemIndex];
+        cell.celltitleLabel.text = title;
+    }
+    
     return cell;
 }
 

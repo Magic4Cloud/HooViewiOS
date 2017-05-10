@@ -140,6 +140,7 @@
     [self.view addSubview:iNewsTableview];
     _iNewsTableview = iNewsTableview;
     iNewsTableview.contentInset = UIEdgeInsetsMake(14, 0, 0, 0);
+    //MARK:广告轮播视图
     EVCycleScrollView *cycleScrollView = [[EVCycleScrollView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenWidth/1.56)];
     cycleScrollView.delegate = self;
     cycleScrollView.backgroundColor = [UIColor whiteColor];
@@ -246,7 +247,6 @@
         
         _start += self.newsDataArray.count;
         
-        
         [self.iNewsTableview reloadData];
         
     } error:^(NSError *error) {
@@ -295,19 +295,6 @@
         [EVProgressHUD showError:@"新闻请求失败"];
     }];
 }
-//- (void)loadStockData
-//{
-//    [self.baseToolManager GETRequestHSuccess:^(NSDictionary *retinfo) {
-//        [self endRefreshing];
-//        NSArray *stockArray = [EVStockBaseModel objectWithDictionaryArray:retinfo[@"data"][@"cn"]];
-//        [self.stockDataArray addObjectsFromArray:stockArray];
-//        [self.iNewsTableview reloadData];
-//    } error:^(NSError *error) {
-//        [self endRefreshing];
-////        [EVProgressHUD showError:@"大盘请求失败"];
-//    }];
-//}
-
 
 
 - (void)endRefreshing
@@ -638,9 +625,17 @@
                 break;
             case EVCarouselItemUserCenter:
             {
-                EVVipCenterViewController *vipCenterVC  = [[EVVipCenterViewController alloc] init];
-                [self.navigationController pushViewController:vipCenterVC animated:YES];
-                vipCenterVC.watchVideoInfo.name = carousItem.resource;
+                //个人主页
+                EVWatchVideoInfo * videoModel = [[EVWatchVideoInfo alloc] init];
+                videoModel.name = carousItem.resource;
+                EVVipCenterController *vc = [[EVVipCenterController alloc] init];
+                vc.watchVideoInfo = videoModel;
+                vc.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:vc animated:YES];
+                
+//                EVVipCenterViewController *vipCenterVC  = [[EVVipCenterViewController alloc] init];
+//                [self.navigationController pushViewController:vipCenterVC animated:YES];
+//                vipCenterVC.watchVideoInfo.name = carousItem.resource;
             }
                 break;
             default:

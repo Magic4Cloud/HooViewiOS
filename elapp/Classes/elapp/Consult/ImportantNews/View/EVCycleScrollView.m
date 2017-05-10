@@ -41,7 +41,8 @@
             [tempArray addObject:[kItem img]];
             [titleArray addObject:[kItem title]];
         }
-        self.cycleScrollView.titlesGroup = titleArray;
+//        self.cycleScrollView.titlesGroup = titleArray;
+        self.cycleScrollView.titlesGroup = @[@"第一张图片",@"第二张图片",@"第三张图片",@"第四张图片",@"第五张图片"];
         self.cycleScrollView.imageURLStringsGroup = tempArray;
         
     }
@@ -56,7 +57,7 @@
                                                               delegate:self
                                                       placeholderImage:[UIImage imageNamed:@"Account_bitmap_list"]];
         _cycleScrollView.autoScrollTimeInterval = 5.0f;
-        
+//        _cycleScrollView.titlesGroup
         __weak typeof(self) weakSelf = self;
         _cycleScrollView.clickItemOperationBlock = ^(NSInteger index) {
             if ([weakSelf.delegate respondsToSelector:@selector(cycleScrollViewDidSelected:index:)]) {

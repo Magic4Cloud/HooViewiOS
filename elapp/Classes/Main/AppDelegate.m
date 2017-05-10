@@ -54,8 +54,7 @@
 
 #import "EVHVWatchTextViewController.h"
 
-#import "EVVipCenterViewController.h"
-
+#import "EVVipCenterController.h"
 
 //推送
 #import <UserNotifications/UserNotifications.h>
@@ -336,6 +335,7 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     EVHomeBaseViewController * firstVC = [[EVHomeBaseViewController alloc] init];
     UINavigationController *firstNav = [[UINavigationController alloc] initWithRootViewController:firstVC];
     EVHomeTabBarItem *firstItem = [EVHomeTabBarItem homeTabBarItemWithController:firstNav];
+    
     [items addObject:firstItem];
     
     // 直播
@@ -570,9 +570,12 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
             case 5:
             {
                 //个人主页
-                EVVipCenterViewController *vipCenterVC  = [[EVVipCenterViewController alloc] init];
-                vipCenterVC.watchVideoInfo.name = resourceString;
-                UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:vipCenterVC];
+                EVWatchVideoInfo * videoModel = [[EVWatchVideoInfo alloc] init];
+                videoModel.name = resourceString;
+                EVVipCenterController *vc = [[EVVipCenterController alloc] init];
+                vc.watchVideoInfo = videoModel;
+                vc.hidesBottomBarWhenPushed = YES;
+                UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:vc];
                 [self.homeVC presentViewController:nav animated:YES completion:^{
                     
                 }];
@@ -801,6 +804,13 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     [[EVPushManager sharePushManager] resetJpushBadge];
+    //重新登录环信
+    EVLoginInfo * model = [EVLoginInfo localObject];
+    if (model) {
+        [EVEaseMob checkAndAutoReloginWithLoginInfo:model loginFail:^(EMError *error) {
+            EVLog(@"重新登录环信 error:%@",error.errorDescription);
+        }];
+    }
 } 
 
 - (void)applicationWillResignActive:(UIApplication*)application{

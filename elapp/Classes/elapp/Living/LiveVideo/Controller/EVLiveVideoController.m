@@ -158,16 +158,6 @@
         Cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return Cell;
     }
-  
-//    EVLiveListViewCell *liveCell =[tableView dequeueReusableCellWithIdentifier:@"liveCell"];
-//    if (!liveCell) {
-//        liveCell = [[NSBundle mainBundle] loadNibNamed:@"EVLiveListViewCell" owner:nil options:nil].firstObject;
-//        [liveCell setValue:@"liveCell" forKey:@"reuseIdentifier"];
-//        liveCell.selectionStyle = UITableViewCellSelectionStyleNone;
-//    }
-//    liveCell.watchVideoInfo = self.dataArray[indexPath.row];
-//    
-//    return liveCell;
     static NSString * identifer = @"EVShopLiveCell";
     EVShopLiveCell * cell = [tableView dequeueReusableCellWithIdentifier:identifer];
     cell.liveModel = self.dataArray[indexPath.row];

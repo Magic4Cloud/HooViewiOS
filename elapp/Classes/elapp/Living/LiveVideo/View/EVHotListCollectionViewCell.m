@@ -53,6 +53,7 @@
 
     
     
+    
     UILabel *nameLabel = [[UILabel alloc] init];
     [self addSubview:nameLabel];
     self.nameLabel = nameLabel;
@@ -82,6 +83,12 @@
     self.watch_countLabel = watch_countLabel;
     watch_countLabel.textColor = [UIColor whiteColor];
     watch_countLabel.font = [UIFont systemFontOfSize:14.f];
+    
+    UIImageView * eyeImageView =[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_live_watch"]];
+    [self addSubview:eyeImageView];
+    [eyeImageView autoSetDimensionsToSize:CGSizeMake(22, 22)];
+    [eyeImageView autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:27];
+    [eyeImageView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
 
 }
 
@@ -91,25 +98,20 @@
     [self.backImageView cc_setImageWithURLString:watchVideoInfo.thumb placeholderImage:[UIImage imageNamed:@"Account_bitmap_list"]];
     [self.nameLabel setText:watchVideoInfo.title];
 
-    NSString *watch_count = [NSString stringWithFormat:@"%ld",watchVideoInfo.watch_count];
+    NSString *watch_count = [NSString stringWithFormat:@"%ld",(unsigned long)watchVideoInfo.watch_count];
     _watch_countLabel.text = [NSString stringWithFormat:@"%@人观看",[watch_count thousandsSeparatorString]];
     
     if (watchVideoInfo.watch_count < 10000) {
         _ishotImage.hidden = YES;
-        [_watch_countLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:5];
+        [_watch_countLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:23];
         [_watch_countLabel autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:27];
         [_watch_countLabel autoSetDimension:ALDimensionHeight toSize:20];
     } else {
         _ishotImage.hidden = NO;
-        [_watch_countLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:24];
+        [_watch_countLabel autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:40];
         [_watch_countLabel autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:27];
         [_watch_countLabel autoSetDimension:ALDimensionHeight toSize:20];
     }
-    
-//    NSString *timeStr = [NSString stringWithFormat:@"%@",watchVideoInfo.live_start_time];
-//    timeStr =   [timeStr substringToIndex:10];
-//    NSString *lTime = [NSString stringWithFormat:@"%@.%@",[timeStr substringWithRange:NSMakeRange(5, 2)],[timeStr substringWithRange:NSMakeRange(8, 2)]];
-//    self.timeLabel.text = [NSString stringWithFormat:@"%@",lTime];
     
 }
 @end

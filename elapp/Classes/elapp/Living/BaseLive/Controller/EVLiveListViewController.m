@@ -22,6 +22,7 @@
 #import "EVMyTextLiveViewController.h"
 #import "EVBaseToolManager+EVLiveAPI.h"
 
+#import "EVHomeViewController.h"
 @interface EVLiveListViewController ()<UIScrollViewDelegate,EVLiveTopViewDelegate>
 
 @property (nonatomic, weak) EVLiveTopView *topView;
@@ -32,6 +33,8 @@
 @property (nonatomic, weak) EVHVLiveView *hvLiveView;
 
 @property (nonatomic, strong) EVBaseToolManager *baseToolManager;
+
+@property (nonatomic, strong) UIViewController * currentVc;
 
 @end
 
@@ -72,6 +75,32 @@
 }
 
 #pragma mark - ♻️Lifecycle
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    EVHomeViewController * tabarctronller = (EVHomeViewController *)self.tabBarController;
+    tabarctronller.homeTabbarDidClickedBlock = ^(NSInteger index)
+    {
+        if (index == 1)
+        {
+            for (UIView * subView in [_currentVc.view subviews]) {
+                if ([subView isKindOfClass:[UITableView class]]) {
+                    UITableView * tableView = (UITableView *)subView;
+                    [tableView startHeaderRefreshing];
+                }
+            }
+        }
+    };
+    
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    EVHomeViewController * tabarctronller = (EVHomeViewController *)self.tabBarController;
+    tabarctronller.homeTabbarDidClickedBlock = nil;
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -81,7 +110,8 @@
     }else {
         self.hvLiveView.hidden = NO;
     }
-
+    
+    
 }
 
 - (void)viewDidLoad {
@@ -123,7 +153,6 @@
         {
             //视频直播
             EVLiveVideoController *liveVideoVC = [[EVLiveVideoController alloc] init];
-//            liveVideoVC.view.frame = CGRectMake(0,0, ScreenWidth, EVContentHeight);
             return liveVideoVC;
         }
             break;
@@ -131,14 +160,12 @@
         {
             //图文直播
             EVTextLiveListController *liveImageVC = [[EVTextLiveListController alloc] init];
-//            liveImageVC.view.frame = CGRectMake(ScreenWidth, 0, ScreenWidth, EVContentHeight);
             return liveImageVC;
         }
         case 2:
         {
             //精品视频
             EVRecorededVideoListController *recoredVideoVC = [[EVRecorededVideoListController alloc] init];
-//            recoredVideoVC.view.frame = CGRectMake(ScreenWidth * 2, 0, ScreenWidth, EVContentHeight);
             return recoredVideoVC;
         }
         
@@ -153,6 +180,11 @@
 
 - (NSString *)pageController:(WMPageController *)pageController titleAtIndex:(NSInteger)index {
     return self.titles[index];
+}
+
+- (void)pageController:(WMPageController * _Nonnull)pageController didEnterViewController:(__kindof UIViewController * _Nonnull)viewController withInfo:(NSDictionary * _Nonnull)info
+{
+    _currentVc = viewController;
 }
 
 #pragma mark -👣 Target actions

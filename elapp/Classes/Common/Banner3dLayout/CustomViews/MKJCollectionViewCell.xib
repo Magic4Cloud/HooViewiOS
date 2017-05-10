@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -25,13 +25,32 @@
                                 <rect key="frame" x="5" y="0.0" width="190" height="190"/>
                                 <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </imageView>
+                            <view alpha="0.40000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mdq-ky-qIq">
+                                <rect key="frame" x="5" y="155" width="190" height="35"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="VRl-7h-jDI"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="16I-6x-kIo">
+                                <rect key="frame" x="13" y="182" width="174" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="7AU-40-cp9" secondAttribute="trailing" constant="5" id="0WJ-mS-fdL"/>
                             <constraint firstAttribute="bottom" secondItem="7AU-40-cp9" secondAttribute="bottom" constant="10" id="4qj-Cf-8tn"/>
                             <constraint firstItem="7AU-40-cp9" firstAttribute="leading" secondItem="pbW-Or-fLj" secondAttribute="leading" constant="5" id="Kn9-yd-z5F"/>
+                            <constraint firstItem="16I-6x-kIo" firstAttribute="trailing" secondItem="7AU-40-cp9" secondAttribute="trailing" constant="-8" id="UgY-3D-HRK"/>
+                            <constraint firstItem="Mdq-ky-qIq" firstAttribute="leading" secondItem="7AU-40-cp9" secondAttribute="leading" id="VNe-vW-bak"/>
+                            <constraint firstItem="Mdq-ky-qIq" firstAttribute="bottom" secondItem="7AU-40-cp9" secondAttribute="bottom" id="dPZ-Cx-JMY"/>
+                            <constraint firstItem="Mdq-ky-qIq" firstAttribute="trailing" secondItem="7AU-40-cp9" secondAttribute="trailing" id="jbS-zB-poe"/>
+                            <constraint firstItem="16I-6x-kIo" firstAttribute="bottom" secondItem="7AU-40-cp9" secondAttribute="bottom" constant="-8" id="mpf-l5-A4W"/>
                             <constraint firstItem="7AU-40-cp9" firstAttribute="top" secondItem="pbW-Or-fLj" secondAttribute="top" id="qaQ-oa-ksc"/>
+                            <constraint firstItem="16I-6x-kIo" firstAttribute="leading" secondItem="7AU-40-cp9" secondAttribute="leading" constant="8" id="rEe-gj-AVj"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -45,6 +64,7 @@
             </constraints>
             <connections>
                 <outlet property="backView" destination="pbW-Or-fLj" id="lBA-60-Vbm"/>
+                <outlet property="celltitleLabel" destination="16I-6x-kIo" id="NjA-Jj-Bxe"/>
                 <outlet property="imageView" destination="7AU-40-cp9" id="uJj-cr-rze"/>
             </connections>
         </collectionViewCell>
