@@ -16,4 +16,6 @@
 @property (nonatomic, strong) SKTagView * cellTagView;
 @property (nonatomic, assign) CGFloat cellHeight;
 @property (nonatomic, strong) NSArray * tagsModelArray;
+@property (nonatomic, strong) NSArray *stockModelArray;
+@property (nonatomic, copy) void(^ tagCellHeight)(CGFloat cellHeight);
 @end

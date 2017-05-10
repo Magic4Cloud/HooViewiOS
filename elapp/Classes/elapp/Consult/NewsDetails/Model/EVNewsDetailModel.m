@@ -7,6 +7,7 @@
 //
 
 #import "EVNewsDetailModel.h"
+#import "EVHVVideoCommentModel.h"
 @implementation EVTagModel
 
 @end
@@ -19,10 +20,17 @@
 
 @end
 
+
 @implementation EVNewsDetailModel
 // 返回容器类中的所需要存放的数据类型 (以 Class 或 Class Name 的形式)。
 + (NSDictionary*)modelContainerPropertyGenericClass {
-    return @{@"tag" : [EVTagModel class],@"recommendNews" : [EVNewsModel class]};
+    return @{@"tag" : [EVTagModel class],@"stock" : [EVStockModel class],@"recommendNews" : [EVNewsModel class],@"posts" : [EVHVVideoCommentModel class]};
 }
+
++ (nullable NSDictionary<NSString *, id> *)modelCustomPropertyMapper{
+    return @{@"descriptionStr":@"description",
+             };
+}
+
 
 @end

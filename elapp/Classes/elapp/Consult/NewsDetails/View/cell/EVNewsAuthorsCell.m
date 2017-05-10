@@ -12,6 +12,10 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    
+    _authorBackView.layer.cornerRadius = 4;
+    _authorImage.image = [UIImage imageNamed:@"Account_bitmap_user"];
+    
     // Initialization code
 }
 

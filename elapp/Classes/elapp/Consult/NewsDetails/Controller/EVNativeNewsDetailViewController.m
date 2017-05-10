@@ -15,11 +15,18 @@
 #import "EVNewsDetailModel.h"
 
 #import "EVNewsTitleCell.h"
+#import "EVNewsAuthorsCell.h"
 #import "EVNewsTagsCell.h"
 #import "EVNewsContentCell.h"
-@interface EVNativeNewsDetailViewController ()<UITableViewDelegate,UITableViewDataSource,WKNavigationDelegate,EVStockDetailBottomViewDelegate,EVWebViewShareViewDelegate>
+#import "EVLikeOrNotCell.h"
+#import "EVAllCommentCell.h"
+#import "EVNewsSectionTitleCell.h"
+#import "EVNewsCommentCell.h"
+@interface EVNativeNewsDetailViewController ()<UITableViewDelegate,UITableViewDataSource,WKNavigationDelegate,UIWebViewDelegate,EVStockDetailBottomViewDelegate,EVWebViewShareViewDelegate>
 {
     CGFloat contentHeight;
+    NSMutableArray *commentHeightArray;
+    CGFloat tagCellHeight;
 }
 @property (nonatomic, strong)UITableView * tableView;
 
@@ -30,6 +37,8 @@
 @property (nonatomic, strong) EVBaseToolManager *baseToolManager;
 
 @property (nonatomic, strong) EVNewsDetailModel * newsDetailModel;
+
+@property (nonatomic, strong) UIWebView *webView;
 @end
 
 @implementation EVNativeNewsDetailViewController
@@ -46,8 +55,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.navigationController.navigationBar.translucent = NO;
+    
     contentHeight = 40;
-    [self initUI];
+    tagCellHeight = 0;
+    commentHeightArray = [@[@"52",@"47"] mutableCopy];
+    
     
     [self loadNewData];
 }
@@ -67,6 +80,10 @@
     [self.tableView autoPinEdgeToSuperviewEdge:ALEdgeRight];
     [self.tableView autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:49];
     [self.tableView registerNib:[UINib nibWithNibName:@"EVNewsTitleCell" bundle:nil] forCellReuseIdentifier:@"EVNewsTitleCell"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"EVLikeOrNotCell" bundle:nil] forCellReuseIdentifier:@"EVLikeOrNotCell"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"EVNewsAuthorsCell" bundle:nil] forCellReuseIdentifier:@"EVNewsAuthorsCell"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"EVNewsSectionTitleCell" bundle:nil] forCellReuseIdentifier:@"EVNewsSectionTitleCell"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"EVAllCommentCell" bundle:nil] forCellReuseIdentifier:@"EVAllCommentCell"];
     
     
     [self.view addSubview:self.detailBottomView];
@@ -77,12 +94,38 @@
 #pragma mark - 🌐Networks
 - (void)loadNewData
 {
+    [commentHeightArray removeAllObjects];
+    [commentHeightArray addObject:@"52"];
+    
     [self.baseToolManager GETNewsDetailNewsID:self.newsID fail:^(NSError *error) {
         
     } success:^(NSDictionary *retinfo) {
         NSDictionary * dataDic = retinfo[@"retinfo"][@"data"];
         if (dataDic && [dataDic isKindOfClass:[NSDictionary class]]) {
             _newsDetailModel = [EVNewsDetailModel yy_modelWithDictionary:dataDic];
+            
+            NSArray *array = _newsDetailModel.posts;
+            
+            if (_newsDetailModel.posts.count == 0) {
+                [commentHeightArray addObject:@"47"];
+            } else if(_newsDetailModel.posts.count > 3) {
+                for (int i =0; i < 3; i ++) {
+                    //评论列表
+                    EVHVVideoCommentModel *commentModel = array[i];
+                    NSInteger commentHeight = commentModel.cellHeight < 87 ? 87 : commentModel.cellHeight;
+                    [commentHeightArray addObject:[NSString stringWithFormat:@"%ld",commentHeight]];
+                }
+                [commentHeightArray addObject:@"47"];
+            } else {
+                for (int i =0; i < _newsDetailModel.posts.count; i ++) {
+                    //评论列表
+                    EVHVVideoCommentModel *commentModel = array[i];
+                    NSInteger commentHeight = commentModel.cellHeight < 87 ? 87 : commentModel.cellHeight;
+                    [commentHeightArray addObject:[NSString stringWithFormat:@"%ld",commentHeight]];
+                }
+                [commentHeightArray addObject:@"47"];
+            }
+            [self initUI];
             [self.tableView reloadData];
         }
     }];
@@ -123,34 +166,40 @@
     
 }
 
-- (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigation
-{
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    [webView stringByEvaluatingJavaScriptFromString:@"ResizeImages();"];
     
-//    CGFloat documentWidth = [[webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('content').offsetWidth"] floatValue];
-//    CGFloat documentHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"content\").offsetHeight;"] floatValue];
-    CGFloat documentWidth = webView.scrollView.contentSize.width;
-    CGFloat documentHeight = webView.scrollView.contentSize.height;
-    contentHeight = documentHeight;
-    NSLog(@"documentSize = {%f, %f}", documentWidth, documentHeight);
+    CGRect frame = webView.frame;
+    frame.size.width = ScreenWidth;
+    frame.size.height = 1;
+    webView.frame = frame;
+    frame.size.height = webView.scrollView.contentSize.height;
+    webView.frame = frame;
+
+    contentHeight = CGRectGetMaxY(webView.frame);
     [self.tableView reloadData];
 }
+
+
+
 #pragma mark - 🌺 TableView Delegate & Datasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     switch (section) {
         case 0:
         {
-            return 3;
+            return 6;
         }
             break;
         case 1:
         {
-            
+            return commentHeightArray.count;
         }
             break;
         case 2:
         {
-            
+            return _newsDetailModel.recommendNews.count + 1;
         }
             break;
             
@@ -176,33 +225,48 @@
             }
             else if (indexPath.row ==1)
             {
-                EVNewsTagsCell * tagCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsTagsCell"];
-                if (!tagCell) {
-                    tagCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsTagsCell"];
-                    tagCell.tagsModelArray = self.newsDetailModel.tag;
-                }
-                if (tagCell.cellHeight) {
-                    return tagCell.cellHeight;
-                }
-                else
-                {
-                    return 100;
+                //作者信息
+                if ([_newsDetailModel.author.bind integerValue] == 1) {
+                    return 64;
+                } else {
+                return 64;
                 }
             }
             else if (indexPath.row ==2)
             {
-                return UITableViewAutomaticDimension;
+                //标签
+                return tagCellHeight;
+                
+            }
+            else if (indexPath.row ==3)
+            {
+                return contentHeight;
+            }
+            else if (indexPath.row ==4)
+            {
+                //点赞&不喜欢
+                return 70;
+            }
+            else if (indexPath.row ==5)
+            {
+                //大V
+                return 80;
             }
         }
             break;
         case 1:
         {
-            
+            return [commentHeightArray[indexPath.row] integerValue];
         }
             break;
         case 2:
         {
-            
+            if (indexPath.row == 0) {
+                //相关视频
+                return 52;
+            } else {
+                return 68;
+            }
         }
             break;
             
@@ -211,6 +275,42 @@
     }
     return 50;
 }
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section == 1 || section == 2) {
+        return 20 ;
+    } else {
+        return 0.01;
+    }
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    if (section == 2) {
+        return 20 ;
+    } else {
+        return 0.01;
+    }
+}
+
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 20)];
+    view.backgroundColor = [UIColor whiteColor];
+    return view;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 20)];
+    view.backgroundColor = [UIColor whiteColor];
+    return view;
+}
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     switch (indexPath.section)
@@ -219,39 +319,93 @@
         {
             if (indexPath.row == 0) {
                 EVNewsTitleCell * titleCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsTitleCell"];
+                titleCell.selectionStyle = NO;
                 return titleCell;
             }
-            else if (indexPath.row ==1)
+            else if (indexPath.row == 1) {
+                EVNewsAuthorsCell * authorCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsAuthorsCell"];
+                authorCell.selectionStyle = NO;
+                authorCell.authorImage.layer.cornerRadius = 22;
+                authorCell.backgroundColor = CCColor(250, 250, 250);
+                return authorCell;
+            }
+            else if (indexPath.row == 2)
             {
                 EVNewsTagsCell * tagCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsTagsCell"];
+                tagCell.selectionStyle = NO;
                 if (!tagCell) {
                     tagCell = [[EVNewsTagsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"EVNewsTagsCell"];
                     tagCell.tagsModelArray = _newsDetailModel.tag;
                 }
+                tagCell.tagCellHeight = ^(CGFloat cellHeight) {
+                    tagCellHeight = cellHeight;
+                };
+
                 
+//                tagCell.stockModelArray = _newsDetailModel.stock;
                 return tagCell;
             }
-            else if (indexPath.row == 2)
+            else if (indexPath.row == 3)
             {
                 EVNewsContentCell * contentCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsContentCell"];
+                contentCell.selectionStyle = NO;
                 if (!contentCell) {
                     contentCell = [[EVNewsContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"EVNewsContentCell"];
-                    contentCell.cellWebView.navigationDelegate = self;
+                    contentCell.webView.delegate = self;
                     
                 }
                 contentCell.htmlString = _newsDetailModel.content;
                 return contentCell;
             }
+            else if (indexPath.row == 4)
+            {
+                EVLikeOrNotCell * likeOrNotCell = [tableView dequeueReusableCellWithIdentifier:@"EVLikeOrNotCell"];
+                likeOrNotCell.selectionStyle = NO;
+                return likeOrNotCell;
+            }
+            else if (indexPath.row == 5)
+            {
+                EVNewsAuthorsCell * authorCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsAuthorsCell"];
+                authorCell.selectionStyle = NO;
+                authorCell.authorImage.layer.cornerRadius = 40;
+                return authorCell;
+            }
         }
             break;
         case 1:
         {
-            
+            if (indexPath.row == 0) {
+                EVNewsSectionTitleCell * titleCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsSectionTitleCell"];
+                titleCell.sectionTitle.text = @"热门评论";
+                titleCell.selectionStyle = NO;
+                return titleCell;
+            }
+            else if(indexPath.row == commentHeightArray.count - 1) {
+                EVAllCommentCell * allCell = [tableView dequeueReusableCellWithIdentifier:@"EVAllCommentCell"];
+                allCell.selectionStyle = NO;
+                return allCell;
+            }
+            else {
+                EVNewsCommentCell *Cell = [tableView dequeueReusableCellWithIdentifier:@"commentCell"];
+                if (!Cell) {
+                    Cell = [[EVNewsCommentCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:@"commentCell"];
+                }
+                Cell.selectionStyle = NO;
+                return Cell;
+            }
         }
             break;
         case 2:
         {
-            
+            if (indexPath.row == 0) {
+                EVNewsSectionTitleCell * titleCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsSectionTitleCell"];
+                titleCell.sectionTitle.text = @"相关新闻";
+                titleCell.selectionStyle = NO;
+                return titleCell;
+            } else {
+                
+            }
+
         }
             break;
             
@@ -271,14 +425,94 @@
     
 }
 
+
+//加圆角
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if (indexPath.section == 1 || indexPath.section == 2) {
+        if ([cell respondsToSelector:@selector(tintColor)]) {
+            CGFloat cornerRadius = 10.f;
+            cell.backgroundColor = [UIColor whiteColor];
+            CAShapeLayer *layer = [[CAShapeLayer alloc] init];
+            CGMutablePathRef pathRef = CGPathCreateMutable();
+            CGRect bounds = CGRectInset(cell.bounds, 10, 0);
+            
+            if (indexPath.row == 0) {
+                CGPathMoveToPoint(pathRef, nil, CGRectGetMinX(bounds), CGRectGetMaxY(bounds));
+                CGPathAddArcToPoint(pathRef, nil, CGRectGetMinX(bounds), CGRectGetMinY(bounds), CGRectGetMidX(bounds), CGRectGetMinY(bounds), cornerRadius);
+                CGPathAddArcToPoint(pathRef, nil, CGRectGetMaxX(bounds), CGRectGetMinY(bounds), CGRectGetMaxX(bounds), CGRectGetMidY(bounds), cornerRadius);
+                CGPathAddLineToPoint(pathRef, nil, CGRectGetMaxX(bounds), CGRectGetMaxY(bounds));
+            }
+            else if (indexPath.row == (indexPath.section == 1 ? commentHeightArray.count : _newsDetailModel.recommendNews.count)) {
+                CGPathMoveToPoint(pathRef, nil, CGRectGetMinX(bounds), CGRectGetMinY(bounds));
+                CGPathAddArcToPoint(pathRef, nil, CGRectGetMinX(bounds), CGRectGetMaxY(bounds), CGRectGetMidX(bounds), CGRectGetMaxY(bounds), cornerRadius);
+                CGPathAddArcToPoint(pathRef, nil, CGRectGetMaxX(bounds), CGRectGetMaxY(bounds), CGRectGetMaxX(bounds), CGRectGetMidY(bounds), cornerRadius);
+                CGPathAddLineToPoint(pathRef, nil, CGRectGetMaxX(bounds), CGRectGetMinY(bounds));
+            }
+            else {
+                CGPathAddRect(pathRef, nil, bounds);
+            }
+            layer.path = pathRef;
+            CFRelease(pathRef);
+            //颜色修改
+            layer.fillColor = CCColor(250, 250, 250).CGColor;
+            layer.strokeColor=[UIColor clearColor].CGColor;
+            
+            UIView *testView = [[UIView alloc] initWithFrame:bounds];
+            [testView.layer insertSublayer:layer atIndex:0];
+            testView.backgroundColor = UIColor.clearColor;
+            cell.backgroundView = testView;
+        }
+    }
+    
+//    if (indexPath.section == 2) {
+//        if ([cell respondsToSelector:@selector(tintColor)]) {
+//            CGFloat cornerRadius = 10.f;
+//            cell.backgroundColor = [UIColor whiteColor];
+//            CAShapeLayer *layer = [[CAShapeLayer alloc] init];
+//            CGMutablePathRef pathRef = CGPathCreateMutable();
+//            CGRect bounds = CGRectInset(cell.bounds, 10, 0);
+//
+//            if (indexPath.row == 0) {
+//                CGPathMoveToPoint(pathRef, nil, CGRectGetMinX(bounds), CGRectGetMaxY(bounds));
+//                CGPathAddArcToPoint(pathRef, nil, CGRectGetMinX(bounds), CGRectGetMinY(bounds), CGRectGetMidX(bounds), CGRectGetMinY(bounds), cornerRadius);
+//                CGPathAddArcToPoint(pathRef, nil, CGRectGetMaxX(bounds), CGRectGetMinY(bounds), CGRectGetMaxX(bounds), CGRectGetMidY(bounds), cornerRadius);
+//                CGPathAddLineToPoint(pathRef, nil, CGRectGetMaxX(bounds), CGRectGetMaxY(bounds));
+//            }
+//            else if (indexPath.row == _newsDetailModel.recommendNews.count) {
+//                CGPathMoveToPoint(pathRef, nil, CGRectGetMinX(bounds), CGRectGetMinY(bounds));
+//                CGPathAddArcToPoint(pathRef, nil, CGRectGetMinX(bounds), CGRectGetMaxY(bounds), CGRectGetMidX(bounds), CGRectGetMaxY(bounds), cornerRadius);
+//                CGPathAddArcToPoint(pathRef, nil, CGRectGetMaxX(bounds), CGRectGetMaxY(bounds), CGRectGetMaxX(bounds), CGRectGetMidY(bounds), cornerRadius);
+//                CGPathAddLineToPoint(pathRef, nil, CGRectGetMaxX(bounds), CGRectGetMinY(bounds));
+//            }
+//            else {
+//                CGPathAddRect(pathRef, nil, bounds);
+//            }
+//            layer.path = pathRef;
+//            CFRelease(pathRef);
+//            //颜色修改
+//            layer.fillColor = CCColor(250, 250, 250).CGColor;
+//            layer.strokeColor=[UIColor clearColor].CGColor;
+//
+//            UIView *testView = [[UIView alloc] initWithFrame:bounds];
+//            [testView.layer insertSublayer:layer atIndex:0];
+//            testView.backgroundColor = UIColor.clearColor;
+//            cell.backgroundView = testView;
+//        }
+//    }
+}
+
+
+
 #pragma mark - ✍️ Setters & Getters
 - (UITableView *)tableView
 {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:(UITableViewStylePlain)];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:(UITableViewStyleGrouped)];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.tableFooterView = [UIView new];
+        _tableView.backgroundColor = [UIColor whiteColor];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.estimatedRowHeight = 100;
     }

@@ -165,6 +165,7 @@
 		9EC24DB21E7A7117003664B4 /* EVConsultGuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EC24DB11E7A7117003664B4 /* EVConsultGuideView.m */; };
 		9EC24DB41E7A7BB2003664B4 /* EVConsultGuideView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EC24DB31E7A7BB2003664B4 /* EVConsultGuideView.xib */; };
 		9EEC876F1E9CAC9400C7F12A /* EVSpeciaColumnModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EEC876E1E9CAC9400C7F12A /* EVSpeciaColumnModel.m */; };
+		9EF5FBFE1EC19DDB00840617 /* EVNewsCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EF5FBFC1EC19DDB00840617 /* EVNewsCommentCell.m */; };
 		9EFBA1231E9CD051003FC5F7 /* WaterFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EFBA1221E9CD051003FC5F7 /* WaterFlowLayout.m */; };
 		9F1F900D1311FACB6DD9C40B /* EVMagicEmojiView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F1F94298F25BCA3E45CBE68 /* EVMagicEmojiView.m */; };
 		9F1F9019A8A5C540A535207B /* Expression_32@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F1F9D724E605DFCC5A5E31D /* Expression_32@2x.png */; };
@@ -1068,6 +1069,8 @@
 		9EC24DB31E7A7BB2003664B4 /* EVConsultGuideView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVConsultGuideView.xib; sourceTree = "<group>"; };
 		9EEC876D1E9CAC9400C7F12A /* EVSpeciaColumnModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EVSpeciaColumnModel.h; path = elapp/Classes/elapp/Consult/SpecialColumn/View/EVSpeciaColumnModel.h; sourceTree = SOURCE_ROOT; };
 		9EEC876E1E9CAC9400C7F12A /* EVSpeciaColumnModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EVSpeciaColumnModel.m; path = elapp/Classes/elapp/Consult/SpecialColumn/View/EVSpeciaColumnModel.m; sourceTree = SOURCE_ROOT; };
+		9EF5FBFB1EC19DDB00840617 /* EVNewsCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVNewsCommentCell.h; sourceTree = "<group>"; };
+		9EF5FBFC1EC19DDB00840617 /* EVNewsCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVNewsCommentCell.m; sourceTree = "<group>"; };
 		9EFBA1211E9CD051003FC5F7 /* WaterFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaterFlowLayout.h; sourceTree = "<group>"; };
 		9EFBA1221E9CD051003FC5F7 /* WaterFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaterFlowLayout.m; sourceTree = "<group>"; };
 		9F1F900E3CB1564B1E75DE78 /* EVFace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVFace.m; sourceTree = "<group>"; };
@@ -2592,6 +2595,8 @@
 				7ACA14151EC1525C0099D287 /* EVNewsTagsCell.m */,
 				7A6AA8A81EC15DF700B6989E /* EVNewsContentCell.h */,
 				7A6AA8A91EC15DF700B6989E /* EVNewsContentCell.m */,
+				9EF5FBFB1EC19DDB00840617 /* EVNewsCommentCell.h */,
+				9EF5FBFC1EC19DDB00840617 /* EVNewsCommentCell.m */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -6130,6 +6135,7 @@
 				E85DFE4F1E78D42A005667DD /* EVHVTLWatchBtnView.m in Sources */,
 				E86200E51D6BE8540081E72F /* EVAuthSettingModel.m in Sources */,
 				E86200AD1D6BE8540081E72F /* EVNewFriendList.m in Sources */,
+				9EF5FBFE1EC19DDB00840617 /* EVNewsCommentCell.m in Sources */,
 				E844F9301E08C48700CCE0B0 /* SGImageButton_Horizontal.m in Sources */,
 				7A1CD9241EA6EEEA0087BDB0 /* EVShopVideoCell.m in Sources */,
 				0CFCDDF81E31B51900B27FCB /* EVRefreshSuccessView.m in Sources */,

@@ -30,10 +30,11 @@
 {
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-//    if ( sessionID )
-//    {
-//        params[kSessionIdKey] = sessionID;
-//    }
+    NSString *sessionId = [self getSessionIdWithBlock:sessionExpiredBlock];
+    if ( sessionId )
+    {
+        params[kSessionIdKey] = sessionId;
+    }
     params[kStart] = @(start);
     params[kCount] = @(count);
 //    params[kTopicidKey] = topicid;

@@ -17,5 +17,6 @@
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageLeading;
 
+@property (weak, nonatomic) IBOutlet UIView *authorBackView;
 
 @end

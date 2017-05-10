@@ -32,6 +32,8 @@
 @property (nonatomic, copy) NSString * permission;
 @property (nonatomic, copy) NSString * password;
 @property (nonatomic, copy) NSString * location;
+@property (nonatomic, copy) NSString * paid;
+
 
 @property (nonatomic, assign) BOOL isHot;
 @end

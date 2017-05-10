@@ -58,6 +58,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="authorBackView" destination="jeD-OF-SBz" id="sgV-Mp-b5M"/>
                 <outlet property="authorImage" destination="BmT-Uq-xuK" id="2eU-pr-2yi"/>
                 <outlet property="authorIntroduce" destination="hJQ-dj-gSM" id="aoM-Xl-IDI"/>
                 <outlet property="authorName" destination="MPv-CC-aWS" id="sl4-mZ-Ije"/>

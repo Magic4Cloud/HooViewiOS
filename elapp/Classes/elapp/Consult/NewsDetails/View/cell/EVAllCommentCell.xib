@@ -25,12 +25,14 @@
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
-                <color key="backgroundColor" red="0.98039215686274506" green="0.98039215686274506" blue="0.98039215686274506" alpha="1" colorSpace="calibratedRGB"/>
                 <constraints>
                     <constraint firstItem="2FQ-nN-ba2" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="riX-vF-9vH"/>
                     <constraint firstItem="2FQ-nN-ba2" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="tvP-vT-jdu"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="allCommentLabel" destination="2FQ-nN-ba2" id="UhG-HQ-YVt"/>
+            </connections>
         </tableViewCell>
     </objects>
 </document>

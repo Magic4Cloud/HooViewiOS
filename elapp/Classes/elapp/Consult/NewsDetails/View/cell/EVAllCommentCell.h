@@ -10,4 +10,7 @@
 
 @interface EVAllCommentCell : UITableViewCell
 
+@property (weak, nonatomic) IBOutlet UILabel *allCommentLabel;
+
+
 @end
