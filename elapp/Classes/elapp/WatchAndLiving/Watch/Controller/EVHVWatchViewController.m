@@ -39,7 +39,7 @@
 #import "EVHVVideoCommentView.h"
 #import "EVHVVideoCommentModel.h"
 #import "EVShareManager.h"
-#import "EVVipCenterViewController.h"
+
 #import "EVLoginViewController.h"
 #import "EVBaseToolManager+EVStockMarketAPI.h"
 #import "YZInputView.h"
@@ -234,8 +234,7 @@
     {
         param[kVid] = self.watchVideoInfo.vid;
     }
-    
-
+    	
 //    [EVProgressHUD showIndeterminateForView:self.view];
     // 获取视频信息
     [self.baseToolManager GETUserstartwatchvideoWithParams:param Start:^{
