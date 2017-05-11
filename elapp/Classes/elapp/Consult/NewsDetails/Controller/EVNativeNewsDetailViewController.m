@@ -70,13 +70,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.view.backgroundColor = [UIColor whiteColor];    
+
+    self.view.backgroundColor = [UIColor whiteColor];
+
     contentHeight = 40;
     tagCellHeight = 0;
     commentHeightArray = [@[@"44",@"47"] mutableCopy];
-    
-//    [self initUI];
+    [self.view addSubview:self.detailBottomView];
+    [self.view addSubview:self.eVSharePartView];
+
+
     [self loadNewData];
 }
 
@@ -95,6 +98,7 @@
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification  object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+
     
     [self.view addSubview:self.tableView];
     [self.tableView autoPinEdgeToSuperviewEdge:ALEdgeTop];
@@ -108,8 +112,6 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"EVAllCommentCell" bundle:nil] forCellReuseIdentifier:@"EVAllCommentCell"];
     [self.tableView registerNib:[UINib nibWithNibName:@"EVRelatedNewsCell" bundle:nil] forCellReuseIdentifier:@"EVRelatedNewsCell"];
     
-    [self.view addSubview:self.detailBottomView];
-    [self.view addSubview:self.eVSharePartView];
     
     self.detailBottomView.isCollec = [_newsDetailModel.like boolValue];
     self.isCollect = [_newsDetailModel.like boolValue];
@@ -142,7 +144,7 @@
                     //评论列表
                     EVHVVideoCommentModel *commentModel = array[i];
                     NSInteger commentHeight = commentModel.cellHeight < 87 ? 87 : commentModel.cellHeight;
-                    [commentHeightArray addObject:[NSString stringWithFormat:@"%ld",commentHeight]];
+                    [commentHeightArray addObject:[NSString stringWithFormat:@"%ld",(long)commentHeight]];
                 }
                 [commentHeightArray addObject:@"47"];
             } else {
@@ -150,7 +152,7 @@
                     //评论列表
                     EVHVVideoCommentModel *commentModel = array[i];
                     NSInteger commentHeight = commentModel.cellHeight < 87 ? 87 : commentModel.cellHeight;
-                    [commentHeightArray addObject:[NSString stringWithFormat:@"%ld",commentHeight]];
+                    [commentHeightArray addObject:[NSString stringWithFormat:@"%ld",(long)commentHeight]];
                 }
                 [commentHeightArray addObject:@"47"];
             }

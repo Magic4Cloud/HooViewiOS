@@ -217,6 +217,7 @@ static NSString *indentify = @"MKJCollectionViewCell";
 //    curentIndexDelegate = 0;
 //    [self changePageShowWithIndex:0];
    
+    self.pageLabel.hidden = YES;
     
     [self.mainView reloadData];
     
@@ -479,13 +480,13 @@ static NSString *indentify = @"MKJCollectionViewCell";
 - (void)changePageShowWithIndex:(int)index
 {
     
-    NSDictionary *attributeDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   [UIFont systemFontOfSize:14.0],NSFontAttributeName,nil];
-    
-    NSString * currenIndexString = [NSString stringWithFormat:@"%d",index+1];
-    NSMutableAttributedString * attributedStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@/%ld",currenIndexString,(unsigned long)self.imagePathsGroup.count] attributes:attributeDict];
-    [attributedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:24.0] range:NSMakeRange(0, currenIndexString.length)];
-    _pageLabel.attributedText = attributedStr;
+//    NSDictionary *attributeDict = [NSDictionary dictionaryWithObjectsAndKeys:
+//                                   [UIFont systemFontOfSize:14.0],NSFontAttributeName,nil];
+//    
+//    NSString * currenIndexString = [NSString stringWithFormat:@"%d",index+1];
+//    NSMutableAttributedString * attributedStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@/%ld",currenIndexString,(unsigned long)self.imagePathsGroup.count] attributes:attributeDict];
+//    [attributedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:24.0] range:NSMakeRange(0, currenIndexString.length)];
+//    _pageLabel.attributedText = attributedStr;
 
 }
 

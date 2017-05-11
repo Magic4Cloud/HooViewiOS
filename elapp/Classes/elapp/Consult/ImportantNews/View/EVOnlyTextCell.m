@@ -21,7 +21,8 @@
     
     _cellDateLabel.text = newsModel.time;
     _cellContentLabel.text = newsModel.title;
-    _cellViewCountLabel.text = [newsModel.viewCount thousandsSeparatorString];
+    _cellContentLabel.textColor = newsModel.haveRead?[UIColor evBackGroundDeepGrayColor] : [UIColor blackColor];
+    _cellViewCountLabel.text = [newsModel.viewCount thousandsSeparatorStringNoMillion];
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

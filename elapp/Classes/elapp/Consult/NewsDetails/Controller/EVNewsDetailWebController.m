@@ -21,7 +21,6 @@
 #import "EVNullDataView.h"
 #import "EVSharePartView.h"
 #import "EVShareManager.h"
-#import "EVVipCenterViewController.h"
 
 #import "EVVipCenterController.h" //大V
 #import "EVNormalPersonCenterController.h" //普通

@@ -99,7 +99,7 @@
             _cellTag2Button.backgroundColor = [UIColor evBackGroundDeepRedColor];
         } else if ([liveModel.paid integerValue] == 1) {
             [_cellTag2Button setTitle:@"已购买" forState:UIControlStateNormal];
-            _cellTag2Button.backgroundColor = CCColor(45, 42, 71);
+            _cellTag2Button.backgroundColor = CCColor(53, 46, 123);
         }
     }
     else

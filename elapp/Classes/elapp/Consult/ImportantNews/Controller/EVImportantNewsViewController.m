@@ -44,6 +44,7 @@
 #import "EVVipCenterController.h"
 
 #import "EVNativeNewsDetailViewController.h"
+
 @interface EVImportantNewsViewController ()<UITableViewDelegate,UITableViewDataSource,EVCycleScrollViewDelegate,EVHVEyeViewDelegate>
 
 
@@ -216,14 +217,15 @@
             }
         }
         
-        //火眼金睛 频道
-        NSString *key = [NSString stringWithFormat:@"%@",retinfo[@"hooview"][@"channels"]];
-        if (![key isEqualToString:@"<null>"] && ![key isEqualToString:@""] && key != nil) {
-            self.eyesID = retinfo[@"hooview"][@"channels"][@"id"];
-
-            NSArray *eyesProgramArr = [EVHVEyesModel objectWithDictionaryArray:retinfo[@"hooview"][@"channels"][@"Programs"]];
-            [self.eyesProgramID addObjectsFromArray:eyesProgramArr];
-        }
+//        //火眼金睛 频道
+//        NSString *key = [NSString stringWithFormat:@"%@",retinfo[@"hooview"][@"channels"]];
+//        if (![key isEqualToString:@"<null>"] && ![key isEqualToString:@""] && key != nil) {
+//            self.eyesID = retinfo[@"hooview"][@"channels"][@"id"];
+//
+//            
+//            NSArray *eyesProgramArr = [EVHVEyesModel objectWithDictionaryArray:retinfo[@"hooview"][@"channels"][@"Programs"]];
+//            [self.eyesProgramID addObjectsFromArray:eyesProgramArr];
+//        }
         
         //牛人推荐
         NSArray * recommendArray = retinfo[@"recommend"];
@@ -374,18 +376,6 @@
         };
         return Cell;
     }
-//    else if (indexPath.section == 1)
-//    {
-//        //火眼金睛
-//        EVHVEyeViewCell *eyeCell = [tableView dequeueReusableCellWithIdentifier:@"EVHVEyeViewCell"];
-//        if (!eyeCell) {
-//            eyeCell = [[NSBundle mainBundle] loadNibNamed:@"EVHVEyeViewCell" owner:nil options:nil][0];
-//            [eyeCell setValue:@"EVHVEyeViewCell" forKey:@"reuseIdentifier"];
-//        }
-//        eyeCell.delegate = self;
-//        eyeCell.eyesArray = self.eyesDataArray;
-//        return eyeCell;
-//    }
     //新闻列表
     
     EVNewsModel * newsModel = _newsDataArray[indexPath.row];
@@ -532,6 +522,10 @@
 //        };
 //        [self.navigationController pushViewController:newsWebVC animated:YES];
         
+        //添加已读历史记录 字体变灰
+        [[EVCoreDataClass shareInstance] insertReadNewsId:newsModel.newsID];
+        newsModel.haveRead = YES;
+        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
         
         EVNativeNewsDetailViewController *newsWebVC = [[EVNativeNewsDetailViewController alloc] init];
         newsWebVC.newsID = newsModel.newsID;

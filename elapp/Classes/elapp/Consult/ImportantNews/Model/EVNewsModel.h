@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "EVCoreDataClass.h"
 /**
  首页新闻model
  */
@@ -20,7 +20,7 @@
 @property (nonatomic, copy)NSString * viewCount;
 
 @property (nonatomic, assign)float  cellHeight;
-
+@property (nonatomic, assign) BOOL haveRead;
 @end
 
 

@@ -151,5 +151,6 @@ typedef NS_ENUM(NSInteger, CCLiveStatus) {
 //精品视频简介
 @property (nonatomic, copy) NSString *descriptionStr;
 
+@property (nonatomic, copy) NSString * paid;
 
 @end

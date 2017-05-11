@@ -94,11 +94,13 @@
             [self.eyesDataArray removeAllObjects];
         }
         self.start = retinfo[@"next"];
-        NSArray *eyesArr =   [EVHVEyesModel objectWithDictionaryArray:retinfo[@"news"]];
-        if (eyesArr.count > 0) {
-            
+        
+        
+        NSArray *eyesArr =  retinfo[@"news"];
+        for (NSDictionary * dic in eyesArr) {
+            EVHVEyesModel * model = [EVHVEyesModel yy_modelWithDictionary:dic];
+            [self.eyesDataArray addObject:model];
         }
-        [self.eyesDataArray addObjectsFromArray:eyesArr];
         [self.detailTableView reloadData];
         _detailTableView.mj_footer.hidden = NO;
         [self.detailTableView setFooterState:(eyesArr.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
