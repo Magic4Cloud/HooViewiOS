@@ -24,7 +24,7 @@
     
     _cellTitleLabel.text = newsModel.title;
     _cellTitleLabel.textColor = newsModel.haveRead?[UIColor evBackGroundDeepGrayColor] : [UIColor blackColor];
-    _cellViewCountLabel.text = [newsModel.viewCount thousandsSeparatorString];
+    _cellViewCountLabel.text = [newsModel.viewCount thousandsSeparatorStringNoMillion];
     
     [_cellImageView1 cc_setImageWithURLString:newsModel.cover[0] placeholderImage:nil];
     [_cellImageView2 cc_setImageWithURLString:newsModel.cover[1] placeholderImage:nil];

@@ -183,9 +183,12 @@
     EVNewsDetailWebController *newsWebVC = [[EVNewsDetailWebController alloc] init];
     newsWebVC.newsID = newsModel.newsID;
     newsWebVC.newsTitle = newsModel.title;
-    if ([newsModel.newsID isEqualToString:@""] || newsModel.newsID == nil) {
-        return;
-    }
+    
+    //添加已读历史记录 字体变灰
+    [[EVCoreDataClass shareInstance] insertReadNewsId:newsModel.newsID];
+    newsModel.haveRead = YES;
+    [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    
     [self.navigationController pushViewController:newsWebVC animated:YES];
 }
 

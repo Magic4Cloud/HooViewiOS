@@ -353,7 +353,7 @@
     
     if ([_watchVideoInfo.permission integerValue] == 7 )
     {
-        if ([_watchVideoInfo.price integerValue] == 0)
+        if ([_watchVideoInfo.paid integerValue] != 0)
         {
             //付费直播 已经付费
             self.videoPayCoverView.hidden = YES;
@@ -429,7 +429,7 @@
         //如果不是付费直播  则直接播放
         [self.evPlayer play];
     }
-    else if ([_watchVideoInfo.price integerValue] == 0)
+    else if ([_watchVideoInfo.paid integerValue] != 0)
     {
         //已经付费了
         [self.evPlayer play];
