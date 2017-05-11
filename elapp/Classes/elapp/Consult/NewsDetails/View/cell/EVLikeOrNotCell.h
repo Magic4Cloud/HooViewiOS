@@ -17,16 +17,8 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *numberOfLike;
 
-
-
-
-
-
-
-
-
-
-
-
+@property (nonatomic, copy) NSString *like;
+@property (nonatomic, copy) NSString *newsId;
+@property (nonatomic, copy) NSString *likeCount;
 
 @end

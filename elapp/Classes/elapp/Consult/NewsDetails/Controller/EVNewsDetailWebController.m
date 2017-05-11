@@ -89,13 +89,25 @@
 - (void)loadCommentListData
 {
     WEAK(self)
-   [self.baseToolManager GETNewsDetailNewsID:self.newsID fail:^(NSError *error) {
-       [EVProgressHUD showMessage:@"获取失败"];
-   } success:^(NSDictionary *retinfo) {
-       NSString *commentCount = [NSString stringWithFormat:@"%@",retinfo[@"retinfo"][@"data"][@"commentCount"]];
-       EVLog(@"commentcount------ %@",commentCount);
-       weakself.detailBottomView.commentCount = [commentCount integerValue];
-   }];
+//   [self.baseToolManager GETNewsDetailNewsID:self.newsID fail:^(NSError *error) {
+//       [EVProgressHUD showMessage:@"获取失败"];
+//   } success:^(NSDictionary *retinfo) {
+//       NSString *commentCount = [NSString stringWithFormat:@"%@",retinfo[@"retinfo"][@"data"][@"commentCount"]];
+//       EVLog(@"commentcount------ %@",commentCount);
+//       weakself.detailBottomView.commentCount = [commentCount integerValue];
+//   }];
+    
+    [self.baseToolManager GETNewsDetailNewsID:self.newsID fail:^(NSError *error) {
+        [EVProgressHUD showMessage:@"获取失败"];
+    } success:^(NSDictionary *retinfo) {
+        NSString *commentCount = [NSString stringWithFormat:@"%@",retinfo[@"retinfo"][@"data"][@"commentCount"]];
+        EVLog(@"commentcount------ %@",commentCount);
+        weakself.detailBottomView.commentCount = [commentCount integerValue];
+
+    } sessionExpire:^{
+        [EVProgressHUD showMessage:@"获取失败"];
+    }];
+    
 }
 
 

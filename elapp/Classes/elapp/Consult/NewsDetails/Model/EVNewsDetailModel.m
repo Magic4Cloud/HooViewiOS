@@ -13,6 +13,11 @@
 @end
 
 @implementation EVAuthorModel
++ (nullable NSDictionary<NSString *, id> *)modelCustomPropertyMapper{
+    return @{@"descriptionStr":@"description",
+             };
+}
+
 
 @end
 
@@ -27,10 +32,6 @@
     return @{@"tag" : [EVTagModel class],@"stock" : [EVStockModel class],@"recommendNews" : [EVNewsModel class],@"posts" : [EVHVVideoCommentModel class]};
 }
 
-+ (nullable NSDictionary<NSString *, id> *)modelCustomPropertyMapper{
-    return @{@"descriptionStr":@"description",
-             };
-}
 
 
 @end

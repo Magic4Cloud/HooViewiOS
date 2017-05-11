@@ -47,7 +47,14 @@
                              fail:(void(^)(NSError *error))failBlock
                           success:(void(^)(NSDictionary *retinfo))successBlock;
 
-- (void)GETNewsDetailNewsID:(NSString *)newsid fail:(void(^)(NSError *error))failBlock success:(void(^)(NSDictionary *retinfo))successBlock;
+//- (void)GETNewsDetailNewsID:(NSString *)newsid fail:(void(^)(NSError *error))failBlock success:(void(^)(NSDictionary *retinfo))successBlock;
+
+
+//获取新闻详情
+- (void)GETNewsDetailNewsID:(NSString *)newsid
+                       fail:(void(^)(NSError *error))failBlock
+                    success:(void(^)(NSDictionary *retinfo))successBlock
+              sessionExpire:(void(^)())sessionExpireBlock;
 
 //- (void)GETConsultNewsRequestSymbol:(NSString *)symbol
 //                              Start:(NSString *)start

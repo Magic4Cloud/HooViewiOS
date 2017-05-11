@@ -1078,4 +1078,20 @@
 //    
     return string;
 }
+
+
+- (CGRect)xh_computeOfTextRectByFont:(UIFont *)font maxSize:(CGSize)size {
+    
+    if (!font) {
+        return CGRectZero;
+    }
+    CGRect msgSie = [self boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:font} context:nil];
+    return msgSie;
+}
+
+
+
+
+
+
 @end

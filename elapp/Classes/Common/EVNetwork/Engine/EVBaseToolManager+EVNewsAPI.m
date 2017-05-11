@@ -62,12 +62,37 @@
 }
 
 
-- (void)GETNewsDetailNewsID:(NSString *)newsid fail:(void(^)(NSError *error))failBlock success:(void(^)(NSDictionary *retinfo))successBlock
+//- (void)GETNewsDetailNewsID:(NSString *)newsid
+//                       fail:(void(^)(NSError *error))failBlock
+//                    success:(void(^)(NSDictionary *retinfo))successBlock
+//{
+//    
+//    
+//    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+//    [params setValue:newsid forKey:@"newsid"];
+//    [EVBaseToolManager GETNoSessionWithUrl:EVNewsDetailAPI parameters:params success:successBlock fail:failBlock];
+//}
+
+
+//获取新闻详情
+- (void)GETNewsDetailNewsID:(NSString *)newsid
+                       fail:(void(^)(NSError *error))failBlock
+                    success:(void(^)(NSDictionary *retinfo))successBlock
+              sessionExpire:(void(^)())sessionExpireBlock
 {
+    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
+    if ( sessionID == nil )
+    {
+        return ;
+    }
+    
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:newsid forKey:@"newsid"];
-    [EVBaseToolManager GETNoSessionWithUrl:EVNewsDetailAPI parameters:params success:successBlock fail:failBlock];
+    [params setValue:sessionID forKey:@"sessionid"];
+
+    [EVBaseToolManager GETNotVerifyRequestWithUrl:EVNewsDetailAPI parameters:params success:successBlock fail:failBlock];
 }
+
 
 
 - (void)GETFastNewsRequestStart:(NSString *)start count:(NSString *)count Success:(void (^) (NSDictionary *retinfo))success error:(void (^)(NSError *error))error

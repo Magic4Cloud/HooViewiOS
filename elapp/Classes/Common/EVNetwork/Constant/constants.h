@@ -147,7 +147,7 @@
 #define EVVideoCommentAPI           @"http://dev.hooview.com/api/bbs/videopost"
 //#define EVVideoCommentListAPI       @"http://dev.hooview.com/api/bbs/videoconversatons"
 #define EVConsultNewsAPI            @"http://dev.hooview.com/api/news/customnews"
-#define EVNewsDetailAPI             @"http://dev.hooview.com/api/news/getnews"
+//#define EVNewsDetailAPI             @"http://dev.hooview.com/api/news/getnews"
 #define EVNewsUserNewsAPI           @"http://dev.hooview.com/api/news/usernews"
 
 #define EVMarketGlobalAPI           @"http://dev.hooview.com/api/v2/stock/globalindex"
@@ -218,6 +218,9 @@
 
 //精品视频简介-推荐视频
 #define EVRecommendVideoList        @"http://dev.hooview.com/api/v2/recommend/videos"
+
+//新闻详情
+#define EVNewsDetailAPI             @"http://192.168.8.205:8888/news/content"
 
 
 #endif
@@ -314,7 +317,8 @@
 //精品视频简介-推荐视频
 #define EVRecommendVideoList        @"http://openapi.hooview.com/api/v2/recommend/videos"
 
-
+//新闻详情
+#define EVNewsDetailAPI             @"http://openapi.hooview.com/api/v2/news/content"
 
 
 #endif

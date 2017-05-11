@@ -8,7 +8,7 @@
 
 #import "EVNewsTagsCell.h"
 #import "EVNewsDetailModel.h"
-#import "UIImage+Extension.h"
+#import "NSString+Extension.h"
 
 @interface EVNewsTagsCell()
 @property (nonatomic, strong) UIButton *firstStockButton;
@@ -23,7 +23,7 @@
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])
     {
-        [self initUI];
+//        [self initUI];
     }
     return self;
 }
@@ -35,98 +35,86 @@
         return;
     }
     _tagsModelArray = tagsModelArray;
-    for (EVTagModel * model in tagsModelArray) {
-        SKTag *tag = [SKTag tagWithText:model.name];
-        tag.textColor = [UIColor whiteColor];
-        tag.fontSize = 15;
-        tag.padding = UIEdgeInsetsMake(13.5, 12.5, 13.5, 12.5);
-//        tag.bgImg = [UIImage imageWithColor:[UIColor redColor]];
-        tag.cornerRadius = 5;
-        tag.enable = NO;
-        [self.cellTagView addTag:tag];
-    }
-    _cellHeight = [self.contentView systemLayoutSizeFittingSize: UILayoutFittingCompressedSize].height + 1;
-    if (self.tagCellHeight) {
-        self.tagCellHeight(_cellHeight);
-    }
-
-}
-
-
-//-(void)setStockModelArray:(NSArray *)stockModelArray {
-//    if (!stockModelArray) {
-//        _topHeight.constant = 0;
-//        _cellHeight = [self.contentView systemLayoutSizeFittingSize: UILayoutFittingCompressedSize].height + 1;
-//        if (self.tagCellHeight) {
-//            self.tagCellHeight(_cellHeight);
-//        }
-//        return;
+//    for (EVTagModel * model in tagsModelArray) {
+//        SKTag *tag = [SKTag tagWithText:model.name];
+//        tag.textColor = [UIColor evTextColorH1];
+//        tag.fontSize = 14;
+//        tag.padding = UIEdgeInsetsMake(13.5, 12.5, 13.5, 12.5);
+//        tag.bgImg = [UIImage imageWithColor:CCColor(248, 248, 248)];
+//        tag.cornerRadius = 5;
+//        tag.enable = NO;
+//        [self.cellTagView addTag:tag];
 //    }
-//    _stockModelArray = stockModelArray;
-//    
-//    EVStockModel * firtsModel = stockModelArray[0];
-//    EVStockModel * secondModel = stockModelArray[1];
-//    
-//    [_firstStockButton setTitle:[NSString stringWithFormat:@" %@ %@%% ",firtsModel.name,firtsModel.persent] forState:UIControlStateNormal];
-//    [_secondStockButton setTitle:[NSString stringWithFormat:@" %@ %@%% ",secondModel.name,secondModel.persent] forState:UIControlStateNormal];
-//    _firstStockButton.backgroundColor = [firtsModel.persent floatValue] > 0 ? [UIColor redColor] : [UIColor blueColor];
-//    _secondStockButton.backgroundColor = [secondModel.persent floatValue] > 0 ? [UIColor redColor] : [UIColor blueColor];
-//    
-//    if (stockModelArray.count == 0) {
-//        _topHeight.constant = 0;
-//        _cellHeight = [self.contentView systemLayoutSizeFittingSize: UILayoutFittingCompressedSize].height + 1;
-//    } else {
-//        _topHeight.constant = 55;
-//        _cellHeight = [self.contentView systemLayoutSizeFittingSize: UILayoutFittingCompressedSize].height + 1;
-//        if (stockModelArray.count == 1) {
-//            _firstStockButton.hidden = NO;
-//            _secondStockButton.hidden = YES;
-//        } else {
-//            _firstStockButton.hidden = NO;
-//            _secondStockButton.hidden = NO;
-//        }
-//    }
-//    
+//    _cellHeight = [self.contentView systemLayoutSizeFittingSize: UILayoutFittingCompressedSize].height + 1;
 //    if (self.tagCellHeight) {
 //        self.tagCellHeight(_cellHeight);
 //    }
-//
-//}
-
+    
+    CGFloat x = 16;
+    CGFloat y = 17;
+    
+    // 屏幕的宽度 和 内容左右的边距
+    CGFloat maxX = ScreenWidth - 32;
+    CGFloat lastHeight = 0.f;
+    UIFont *font = [UIFont textFontB3];
+    
+    int i = 0;
+    
+    for (EVTagModel * model in tagsModelArray) {
+        NSString *obj = [NSString string];
+        obj = [NSString stringWithFormat:@" %@ ",model.name];
+        CGRect rect = [obj xh_computeOfTextRectByFont:font maxSize:CGSizeMake(maxX + 1, 1000)];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(x, y, floor(rect.size.width) + 4, floor(rect.size.height) + 4)];
+        label.text = obj;
+        label.font = [UIFont textFontB3];
+        label.textColor = [UIColor blackColor];
+        
+        label.layer.cornerRadius = 2;
+        label.backgroundColor = CCColor(248, 248, 248);
+        label.layer.borderWidth = 1;
+        label.layer.borderColor = CCColor(238, 238, 238).CGColor;
+        
+        [self addSubview:label];
+        
+        if (rect.size.width > maxX) {
+            // +16 为添加上下边距
+            x = 16;
+            label.frame = CGRectMake(x, y + lastHeight, floor(rect.size.width) + 4, floor(rect.size.height) + 4);
+            y += lastHeight;
+            lastHeight = rect.size.height + 16;
+        } else if (rect.size.width + x - 16 > maxX) {
+            // -16 去掉左边距
+            x = 16;
+            label.frame = CGRectMake(x, y + lastHeight, floor(rect.size.width) + 4, floor(rect.size.height) + 4);
+            y += lastHeight;
+            lastHeight = rect.size.height + 16;
+        }
+        
+        if (lastHeight == 0) {
+            lastHeight = rect.size.height + 16;
+        }
+        
+        // +8 添加左右间距
+        x =  x + rect.size.width + 16;
+        i ++;
+    }
+    
+    _cellHeight = y + 25;
+    if (self.tagCellHeight) {
+        self.tagCellHeight(_cellHeight);
+    }
+}
 
 
 - (void)initUI
 {
-    
-//    _firstStockButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [self.contentView addSubview:_firstStockButton];
-//    _firstStockButton.layer.cornerRadius = 2;
-//    [_firstStockButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    _firstStockButton.titleLabel.font = [UIFont textFontB3];
-//    [_firstStockButton autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:16];
-//    [_firstStockButton autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:16];
-//    [_firstStockButton autoSetDimension:ALDimensionHeight toSize:22];
-//    
-//    
-//    _secondStockButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [self.contentView addSubview:_secondStockButton];
-//    _secondStockButton.layer.cornerRadius = 2;
-//    [_secondStockButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    _secondStockButton.titleLabel.font = [UIFont textFontB3];
-//    [_secondStockButton autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:16];
-//    [_secondStockButton autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:_firstStockButton withOffset:16];
-//    [_secondStockButton autoSetDimension:ALDimensionHeight toSize:22];
-    
-    
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-
     _cellTagView = [[SKTagView alloc] init];
     [self.contentView addSubview:_cellTagView];
-    _topHeight = [_cellTagView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:0];
-    [_cellTagView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
+    [_cellTagView autoPinEdgeToSuperviewEdge:ALEdgeTop];
+    [_cellTagView autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:16];
     [_cellTagView autoPinEdgeToSuperviewEdge:ALEdgeRight];
-    [_cellTagView autoPinEdgeToSuperviewEdge:ALEdgeBottom];
-    
+    [_cellTagView autoSetDimension:ALDimensionHeight toSize:22];
 }
 
 @end

@@ -8,6 +8,7 @@
 
 #import "EVNativeNewsDetailViewController.h"
 #import "EVBaseToolManager+EVNewsAPI.h"
+#import "EVBaseToolManager+EVStockMarketAPI.h"
 
 #import "EVStockDetailBottomView.h"
 #import "EVSharePartView.h"
@@ -23,8 +24,14 @@
 #import "EVNewsSectionTitleCell.h"
 #import "EVNewsCommentCell.h"
 #import "EVRelatedNewsCell.h"
+#import "EVNewsStockCell.h"
+#import "EVWatchVideoInfo.h"
+#import "EVVipCenterController.h"
+#import "EVLoginInfo.h"
+#import "EVMarketTextView.h"
+#import "EVLoginViewController.h"
 
-@interface EVNativeNewsDetailViewController ()<UITableViewDelegate,UITableViewDataSource,WKNavigationDelegate,UIWebViewDelegate,EVStockDetailBottomViewDelegate,EVWebViewShareViewDelegate>
+@interface EVNativeNewsDetailViewController ()<UITableViewDelegate,UITableViewDataSource,WKNavigationDelegate,UIWebViewDelegate,EVStockDetailBottomViewDelegate,EVWebViewShareViewDelegate,UITextFieldDelegate>
 {
     CGFloat contentHeight;
     NSMutableArray *commentHeightArray;
@@ -41,6 +48,13 @@
 @property (nonatomic, strong) EVNewsDetailModel * newsDetailModel;
 
 @property (nonatomic, strong) UIWebView *webView;
+@property (nonatomic, assign) BOOL isCollect;
+@property (nonatomic, strong) UIWindow *window;
+@property (nonatomic, strong) UIControl *touchLayer;
+@property (nonatomic, weak) EVMarketTextView *marketTextView;
+
+@property (nonatomic, copy) NSString *urlStr;
+
 @end
 
 @implementation EVNativeNewsDetailViewController
@@ -57,16 +71,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationController.navigationBar.translucent = NO;
-    
+    self.view.backgroundColor = [UIColor whiteColor];    
     contentHeight = 40;
     tagCellHeight = 0;
     commentHeightArray = [@[@"44",@"47"] mutableCopy];
     
-    
+//    [self initUI];
     [self loadNewData];
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self addWindowView];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -76,6 +93,9 @@
 #pragma mark - 🖍 User Interface layout
 - (void)initUI
 {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification  object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
     [self.view addSubview:self.tableView];
     [self.tableView autoPinEdgeToSuperviewEdge:ALEdgeTop];
     [self.tableView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
@@ -88,22 +108,28 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"EVAllCommentCell" bundle:nil] forCellReuseIdentifier:@"EVAllCommentCell"];
     [self.tableView registerNib:[UINib nibWithNibName:@"EVRelatedNewsCell" bundle:nil] forCellReuseIdentifier:@"EVRelatedNewsCell"];
     
-    
     [self.view addSubview:self.detailBottomView];
     [self.view addSubview:self.eVSharePartView];
+    
+    self.detailBottomView.isCollec = [_newsDetailModel.like boolValue];
+    self.isCollect = [_newsDetailModel.like boolValue];
     
 }
 
 #pragma mark - 🌐Networks
 - (void)loadNewData
 {
+//    self.tableView.hidden = YES;
+    [EVProgressHUD showIndeterminateForView:self.view];
     [commentHeightArray removeAllObjects];
     [commentHeightArray addObject:@"44"];
     
     [self.baseToolManager GETNewsDetailNewsID:self.newsID fail:^(NSError *error) {
-        
+        [EVProgressHUD hideHUDForView:self.view];
+        [EVProgressHUD showError:@"请求失败！"];
     } success:^(NSDictionary *retinfo) {
-        NSDictionary * dataDic = retinfo[@"retinfo"][@"data"];
+        [EVProgressHUD hideHUDForView:self.view];
+        NSDictionary * dataDic = retinfo;
         if (dataDic && [dataDic isKindOfClass:[NSDictionary class]]) {
             _newsDetailModel = [EVNewsDetailModel yy_modelWithDictionary:dataDic];
             
@@ -130,9 +156,14 @@
             }
             [self initUI];
             [self.tableView reloadData];
+//            self.tableView.hidden = NO;
         }
+    } sessionExpire:^{
+        [EVProgressHUD showError:@"请求失败！"];
+        [EVProgressHUD hideHUDForView:self.view];
     }];
 }
+
 
 - (NSString *)requestUrlID:(NSString *)ID
 {
@@ -166,7 +197,56 @@
 
 - (void)detailBottomClick:(EVBottomButtonType)type button:(UIButton *)btn
 {
-    
+    switch (type) {
+        case EVBottomButtonTypeAdd:
+            EVLog(@"添加");
+        {
+            [self shareViewShowAction];
+        }
+            break;
+        case EVBottomButtonTypeShare:
+        {
+            [self presentLoginVC];
+            
+            NSLog(@"---------%d",self.isCollect);
+            int action = self.isCollect ? 0 : 1;
+            
+            [self.baseToolManager GETNewsCollectNewsid:self.newsID action:action start:^{
+                
+            } fail:^(NSError *error) {
+                [EVProgressHUD showMessage:@"失败"];
+            } success:^(NSDictionary *retinfo) {
+                [EVProgressHUD showMessage:@"成功"];
+                self.isCollect = !self.isCollect;
+                self.detailBottomView.isCollec = self.isCollect;
+                if (self.refreshCollectBlock) {
+                    self.refreshCollectBlock();
+                }
+                
+            } sessionExpire:^{
+                
+            }];
+        }
+            
+            break;
+        
+        case EVBottomButtonTypeComment:
+        {
+            EVLoginInfo *loginInfo = [EVLoginInfo localObject];
+            if (loginInfo.sessionid == nil || [loginInfo.sessionid isEqualToString:@""]) {
+                [self hide];
+                UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
+                [self presentViewController:navighaVC animated:YES completion:nil];
+            }else {
+                [self.marketTextView.inPutTextFiled becomeFirstResponder];
+            }
+            
+        }
+            break;
+        default:
+            break;
+    }
+
 }
 
 
@@ -185,6 +265,126 @@
 }
 
 
+#pragma mark - 评论
+- (void)addWindowView
+{
+    self.window = [[UIWindow alloc] init];
+    self.window.frame = [UIScreen mainScreen].bounds;
+    self.window.windowLevel = UIWindowLevelAlert;
+    self.window.backgroundColor = [UIColor clearColor];
+    
+    self.touchLayer = [[UIControl alloc] initWithFrame:self.window.bounds];
+    self.touchLayer.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
+    [self.window addSubview:self.touchLayer];
+    [self.window makeKeyAndVisible];
+    
+    
+    [self.touchLayer addTarget:self action:@selector(hide) forControlEvents:(UIControlEventTouchUpInside)];
+    
+    
+    EVMarketTextView *marketTextView = [[EVMarketTextView alloc] initWithFrame:CGRectMake(0, ScreenHeight, ScreenHeight, 49)];
+    [self.window addSubview:marketTextView];
+    self.marketTextView = marketTextView;
+    marketTextView.hidden = NO;
+    marketTextView.inPutTextFiled.delegate = self;
+    marketTextView.backgroundColor = [UIColor whiteColor];
+    marketTextView.commentBlock = ^ (NSString *content) {
+        [self sendCommentStr:content];
+    };
+    self.window.hidden = YES;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [self sendCommentStr:textField.text];
+    return YES;
+}
+
+- (void)hide
+{
+    self.marketTextView.inPutTextFiled.text = nil;
+    [self.marketTextView.inPutTextFiled resignFirstResponder];
+    self.marketTextView.sendButton.selected = NO;
+}
+
+- (void)loadCommentListData
+{
+    WEAK(self)
+    
+    [self.baseToolManager GETNewsDetailNewsID:self.newsID fail:^(NSError *error) {
+        [EVProgressHUD showMessage:@"获取失败"];
+    } success:^(NSDictionary *retinfo) {
+        NSString *commentCount = [NSString stringWithFormat:@"%@",retinfo[@"retinfo"][@"data"][@"commentCount"]];
+        EVLog(@"commentcount------ %@",commentCount);
+        weakself.detailBottomView.commentCount = [commentCount integerValue];
+        
+    } sessionExpire:^{
+        [EVProgressHUD showMessage:@"获取失败"];
+    }];
+    
+}
+
+
+
+- (void)sendCommentStr:(NSString *)str
+{
+    if (str.length <= 0) {
+        [EVProgressHUD showMessage:@"评论为空"];
+        return;
+    }
+    WEAK(self);
+    EVLoginInfo *loginInfo = [EVLoginInfo localObject];
+    [self.baseToolManager POSTNewsCommentContent:str stockCode:self.newsID userID:loginInfo.name userName:loginInfo.nickname userAvatar:loginInfo.logourl start:^{
+        
+    } fail:^(NSError *error) {
+        [weakself hide];
+        [EVProgressHUD showMessage:@"评论失败"];
+    } success:^(NSDictionary *retinfo) {
+        [weakself hide];
+        [EVProgressHUD showMessage:@"评论成功"];
+        [weakself loadCommentListData];
+    }];
+}
+
+- (void)keyboardWillShow:(NSNotification *)notification
+{
+    EVLoginInfo *loginInfo = [EVLoginInfo localObject];
+    if (loginInfo.sessionid == nil || [loginInfo.sessionid isEqualToString:@""]) {
+        return;
+    }
+    self.window.hidden = NO;
+    NSDictionary* info = [notification userInfo];
+    CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;//得到鍵盤的高度
+    [UIView animateWithDuration:0.3 animations:^{
+        self.marketTextView.frame = CGRectMake(0, ScreenHeight - kbSize.height - 49, ScreenWidth, 49);
+    }];
+    
+    
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification
+{
+    EVLoginInfo *loginInfo = [EVLoginInfo localObject];
+    if (loginInfo.sessionid == nil || [loginInfo.sessionid isEqualToString:@""]) {
+        return;
+    }
+    self.window.hidden = YES;
+    //    NSDictionary* info = [notification userInfo];
+    //    CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;//得到鍵盤的高度
+    [UIView animateWithDuration:0.3 animations:^{
+        self.marketTextView.frame = CGRectMake(0, ScreenHeight, ScreenWidth, 49);
+    }];
+    
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [self deallocView];
+}
+
+
+
 
 #pragma mark - 🌺 TableView Delegate & Datasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -192,7 +392,7 @@
     switch (section) {
         case 0:
         {
-            return 6;
+            return 7;
         }
             break;
         case 1:
@@ -229,28 +429,36 @@
             else if (indexPath.row ==1)
             {
                 //作者信息
-                if ([_newsDetailModel.Author.bind integerValue] == 1) {
+                if ([_newsDetailModel.author.bind integerValue] == 1) {
                     return 64;
                 } else {
-                return 64;
+                return 0;
                 }
             }
             else if (indexPath.row ==2)
             {
-                //标签
-                return 0;
-                
+                if (_newsDetailModel.stock.count == 0) {
+                    return 0;
+                } else {
+                    //股票
+                    return 22;
+                }
             }
             else if (indexPath.row ==3)
             {
-                return contentHeight;
+                //标签
+                return 60;
             }
             else if (indexPath.row ==4)
+            {
+                return contentHeight;
+            }
+            else if (indexPath.row ==5)
             {
                 //点赞&不喜欢
                 return 70;
             }
-            else if (indexPath.row ==5)
+            else if (indexPath.row ==6)
             {
                 //大V
                 return 80;
@@ -323,6 +531,12 @@
             if (indexPath.row == 0) {
                 EVNewsTitleCell * titleCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsTitleCell"];
                 titleCell.selectionStyle = NO;
+                titleCell.cellTitleLabel.text = _newsDetailModel.title;
+                if ([_newsDetailModel.author.bind integerValue] == 0) {
+                    titleCell.cellTimeLabel.text = [NSString stringWithFormat:@"%@  %@",_newsDetailModel.time,_newsDetailModel.author.name];
+                } else {
+                    titleCell.cellTimeLabel.text = _newsDetailModel.time;
+                }
                 return titleCell;
             }
             else if (indexPath.row == 1) {
@@ -331,10 +545,22 @@
                 authorCell.authorImage.layer.cornerRadius = 22;
                 authorCell.authorImage.layer.masksToBounds = YES;
                 authorCell.backgroundColor = CCColor(250, 250, 250);
-                authorCell.recommendPerson = _newsDetailModel.Author;
+                authorCell.recommendPerson = _newsDetailModel.author;
+                if ([_newsDetailModel.author.bind integerValue] == 0) {
+                    authorCell.hidden = YES;
+                }
                 return authorCell;
             }
-            else if (indexPath.row == 2)
+            else if (indexPath.row == 2) {
+                EVNewsStockCell * stockCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsStockCell"];
+                stockCell.selectionStyle = NO;
+                if (!stockCell) {
+                    stockCell = [[EVNewsStockCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"EVNewsStockCell"];
+                }
+                stockCell.stockModelArray = _newsDetailModel.stock;
+                return stockCell;
+            }
+            else if (indexPath.row == 3)
             {
                 EVNewsTagsCell * tagCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsTagsCell"];
                 tagCell.selectionStyle = NO;
@@ -345,12 +571,9 @@
                 tagCell.tagCellHeight = ^(CGFloat cellHeight) {
                     tagCellHeight = cellHeight;
                 };
-
-                
-//                tagCell.stockModelArray = _newsDetailModel.stock;
                 return tagCell;
             }
-            else if (indexPath.row == 3)
+            else if (indexPath.row == 4)
             {
                 EVNewsContentCell * contentCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsContentCell"];
                 contentCell.selectionStyle = NO;
@@ -362,13 +585,17 @@
                 contentCell.htmlString = _newsDetailModel.content;
                 return contentCell;
             }
-            else if (indexPath.row == 4)
+            else if (indexPath.row == 5)
             {
                 EVLikeOrNotCell * likeOrNotCell = [tableView dequeueReusableCellWithIdentifier:@"EVLikeOrNotCell"];
                 likeOrNotCell.selectionStyle = NO;
+                likeOrNotCell.numberOfLike.text = _newsDetailModel.likeCount;
+                likeOrNotCell.like = _newsDetailModel.like;
+                likeOrNotCell.newsId = _newsDetailModel.id;
+                likeOrNotCell.likeCount = _newsDetailModel.likeCount;
                 return likeOrNotCell;
             }
-            else if (indexPath.row == 5)
+            else if (indexPath.row == 6)
             {
                 EVNewsAuthorsCell * authorCell = [tableView dequeueReusableCellWithIdentifier:@"EVNewsAuthorsCell"];
                 authorCell.selectionStyle = NO;
@@ -390,6 +617,7 @@
             else if(indexPath.row == commentHeightArray.count - 1) {
                 EVAllCommentCell * allCell = [tableView dequeueReusableCellWithIdentifier:@"EVAllCommentCell"];
                 allCell.selectionStyle = NO;
+                allCell.allCommentLabel.text = [NSString stringWithFormat:@"全部评论(%ld)",[_newsDetailModel.postCount integerValue]];
                 return allCell;
             }
             else {
@@ -437,7 +665,60 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    switch (indexPath.section)
+    {
+        case 0:
+        {
+            if (indexPath.row == 1) {
+                //作者
+                EVWatchVideoInfo *watchVideoInfo = [EVWatchVideoInfo new];
+                watchVideoInfo.name = _newsDetailModel.author.id;
+                
+                EVVipCenterController *vc = [[EVVipCenterController alloc] init];
+                vc.watchVideoInfo = watchVideoInfo;
+                [self.navigationController pushViewController:vc animated:YES];
+
+            }
+            else if (indexPath.row == 6)
+            {
+                //大V
+                EVWatchVideoInfo *watchVideoInfo = [EVWatchVideoInfo new];
+                watchVideoInfo.name = _newsDetailModel.recommendPerson.id;
+
+                EVVipCenterController *vc = [[EVVipCenterController alloc] init];
+                vc.watchVideoInfo = watchVideoInfo;
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+        }
+            break;
+        case 1:
+        {
+            if(indexPath.row == commentHeightArray.count - 1) {
+                //全部评论
+            }
+        }
+            break;
+        case 2:
+        {
+            if (indexPath.row == 0) {
+            } else {
+                //相关新闻列表
+                EVNewsModel *newsModel = _newsDetailModel.recommendNews[indexPath.row - 1];
+                
+                EVNativeNewsDetailViewController *newsWebVC = [[EVNativeNewsDetailViewController alloc] init];
+                newsWebVC.newsID = newsModel.newsID;
+                //newsWebVC.newsTitle = newsModel.title;
+                if ([newsModel.newsID isEqualToString:@""] || newsModel.newsID == nil) {
+                    return;
+                }
+                [self.navigationController pushViewController:newsWebVC animated:YES];
+            }
+        }
+            break;
+        default:
+            break;
+    }
+
 }
 
 
@@ -543,5 +824,37 @@
     }
     return _baseToolManager;
 }
+
+- (void)deallocView
+{
+    if (self.touchLayer) {
+        [self.touchLayer removeFromSuperview];
+        self.touchLayer = nil;
+    }
+    
+    if (self.window) {
+        [self.window resignKeyWindow];
+        self.window = nil;
+    }
+    
+}
+
+- (void)shareViewShowAction
+{
+    [UIView animateWithDuration:0.3 animations:^{
+        self.eVSharePartView.frame = CGRectMake(0, 0, ScreenWidth,  ScreenHeight - 49);
+    }];
+}
+
+- (void)presentLoginVC
+{
+    
+    EVLoginInfo *loginInfo = [EVLoginInfo localObject];
+    if (loginInfo.sessionid == nil || [loginInfo.sessionid isEqualToString:@""]) {
+        UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
+        [self presentViewController:navighaVC animated:YES completion:nil];
+    }
+}
+
 
 @end

@@ -302,4 +302,8 @@
 
 + (NSString *)compareCurrentTime:(NSString *)str;
 + (NSString *)numFormatNumber:(NSInteger)count;
+
+- (CGRect)xh_computeOfTextRectByFont:(UIFont *)font maxSize:(CGSize)size;
+
+
 @end

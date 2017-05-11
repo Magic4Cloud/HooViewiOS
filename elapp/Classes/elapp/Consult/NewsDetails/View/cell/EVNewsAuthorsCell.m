@@ -30,7 +30,7 @@
     
     [self.authorImage cc_setImageWithURLString:recommendPerson.avatar placeholderImage:nil];
     [self.authorName setText:recommendPerson.name];
-    [self.authorIntroduce setText:recommendPerson.introduction];
+    [self.authorIntroduce setText:recommendPerson.descriptionStr];
 
 }
 

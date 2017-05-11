@@ -8,6 +8,7 @@
 
 #import "EVBaseToolManager+EVStockMarketAPI.h"
 #import "EVHttpURLManager.h"
+
 @implementation EVBaseToolManager (EVStockMarketAPI)
 - (void)GETRequestHSuccess:(void (^) (NSDictionary *retinfo))success error:(void (^)(NSError *error))error
 {

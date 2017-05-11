@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EVNewsModel.h"
 
 /**
  新闻标题cell
@@ -14,5 +15,4 @@
 @interface EVNewsTitleCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *cellTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *cellTimeLabel;
-
 @end

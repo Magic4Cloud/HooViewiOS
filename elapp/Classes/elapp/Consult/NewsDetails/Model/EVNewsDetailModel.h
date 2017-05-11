@@ -86,7 +86,7 @@
  },
 */
 @property (nonatomic, copy) NSString * id;
-@property (nonatomic, strong) EVAuthorModel * Author;
+@property (nonatomic, strong) EVAuthorModel * author;
 @property (nonatomic, copy) NSString * time;
 @property (nonatomic, copy) NSString * title;
 @property (nonatomic, copy) NSString * subTitle;
@@ -98,7 +98,9 @@
 @property (nonatomic, copy) NSString * voteCount;
 @property (nonatomic, copy) NSString * viewCount;
 @property (nonatomic, copy) NSString * content;
-@property (nonatomic, copy) NSString * commentCount;
+@property (nonatomic, copy) NSString * postCount;
+@property (nonatomic, copy) NSString *likeCount;
+@property (nonatomic, copy) NSString *like;
 @property (nonatomic, strong) EVAuthorModel * recommendPerson;
 @property (nonatomic, strong) NSArray * recommendNews;//(EVNewsModel)
 @property (nonatomic, strong) NSArray *posts;//(EVHVVideoCommentModel)
