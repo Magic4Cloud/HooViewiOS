@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -18,55 +18,44 @@
                 <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pbW-Or-fLj">
+                    <view contentMode="scaleToFill" id="pbW-Or-fLj">
                         <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7AU-40-cp9">
+                            <imageView userInteractionEnabled="NO" contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="7AU-40-cp9">
                                 <rect key="frame" x="5" y="0.0" width="190" height="190"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </imageView>
-                            <view alpha="0.40000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mdq-ky-qIq">
-                                <rect key="frame" x="5" y="155" width="190" height="35"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="VRl-7h-jDI"/>
-                                </constraints>
+                            <view contentMode="scaleToFill" id="Mdq-ky-qIq">
+                                <rect key="frame" x="5" y="140" width="190" height="50"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="16I-6x-kIo">
-                                <rect key="frame" x="13" y="182" width="174" height="0.0"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="16I-6x-kIo">
+                                <rect key="frame" x="13" y="143" width="174" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="7AU-40-cp9" secondAttribute="trailing" constant="5" id="0WJ-mS-fdL"/>
-                            <constraint firstAttribute="bottom" secondItem="7AU-40-cp9" secondAttribute="bottom" constant="10" id="4qj-Cf-8tn"/>
-                            <constraint firstItem="7AU-40-cp9" firstAttribute="leading" secondItem="pbW-Or-fLj" secondAttribute="leading" constant="5" id="Kn9-yd-z5F"/>
-                            <constraint firstItem="16I-6x-kIo" firstAttribute="trailing" secondItem="7AU-40-cp9" secondAttribute="trailing" constant="-8" id="UgY-3D-HRK"/>
-                            <constraint firstItem="Mdq-ky-qIq" firstAttribute="leading" secondItem="7AU-40-cp9" secondAttribute="leading" id="VNe-vW-bak"/>
-                            <constraint firstItem="Mdq-ky-qIq" firstAttribute="bottom" secondItem="7AU-40-cp9" secondAttribute="bottom" id="dPZ-Cx-JMY"/>
-                            <constraint firstItem="Mdq-ky-qIq" firstAttribute="trailing" secondItem="7AU-40-cp9" secondAttribute="trailing" id="jbS-zB-poe"/>
-                            <constraint firstItem="16I-6x-kIo" firstAttribute="bottom" secondItem="7AU-40-cp9" secondAttribute="bottom" constant="-8" id="mpf-l5-A4W"/>
-                            <constraint firstItem="7AU-40-cp9" firstAttribute="top" secondItem="pbW-Or-fLj" secondAttribute="top" id="qaQ-oa-ksc"/>
-                            <constraint firstItem="16I-6x-kIo" firstAttribute="leading" secondItem="7AU-40-cp9" secondAttribute="leading" constant="8" id="rEe-gj-AVj"/>
-                        </constraints>
                     </view>
                 </subviews>
             </view>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-            <constraints>
-                <constraint firstAttribute="trailing" secondItem="pbW-Or-fLj" secondAttribute="trailing" id="0Bb-LS-vZs"/>
-                <constraint firstItem="pbW-Or-fLj" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="7G5-Zv-M9D"/>
-                <constraint firstAttribute="bottom" secondItem="pbW-Or-fLj" secondAttribute="bottom" id="cgu-e9-1Oz"/>
-                <constraint firstItem="pbW-Or-fLj" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="dTZ-HE-CfV"/>
-            </constraints>
             <connections>
                 <outlet property="backView" destination="pbW-Or-fLj" id="lBA-60-Vbm"/>
+                <outlet property="bottomBgView" destination="Mdq-ky-qIq" id="oUi-9e-iid"/>
                 <outlet property="celltitleLabel" destination="16I-6x-kIo" id="NjA-Jj-Bxe"/>
                 <outlet property="imageView" destination="7AU-40-cp9" id="uJj-cr-rze"/>
             </connections>
+            <point key="canvasLocation" x="34" y="109"/>
         </collectionViewCell>
     </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
+    </simulatedMetricsContainer>
 </document>

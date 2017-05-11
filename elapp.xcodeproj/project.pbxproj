@@ -63,6 +63,8 @@
 		7A1CD92A1EA6F3430087BDB0 /* EVShopCheatsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7A1CD9281EA6F3430087BDB0 /* EVShopCheatsCell.xib */; };
 		7A1CD92E1EA755BD0087BDB0 /* EVCheatsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A1CD92D1EA755BD0087BDB0 /* EVCheatsModel.m */; };
 		7A1CD9311EA756460087BDB0 /* EVVideoAndLiveModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A1CD9301EA756460087BDB0 /* EVVideoAndLiveModel.m */; };
+		7A28544F1EC317B200DD9044 /* EVNativeComentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A28544D1EC317B200DD9044 /* EVNativeComentViewController.m */; };
+		7A2854501EC317B200DD9044 /* EVNativeComentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7A28544E1EC317B200DD9044 /* EVNativeComentViewController.xib */; };
 		7A32C1601EA9D739003089BA /* EVBaseToolManager+MyShopAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A32C15F1EA9D739003089BA /* EVBaseToolManager+MyShopAPI.m */; };
 		7A3AFE461E88B2ED00454C9D /* EVStartPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3AFE451E88B2ED00454C9D /* EVStartPageViewController.m */; };
 		7A3AFE491E88ED0500454C9D /* EVStartPageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3AFE481E88ED0500454C9D /* EVStartPageModel.m */; };
@@ -877,6 +879,9 @@
 		7A1CD92D1EA755BD0087BDB0 /* EVCheatsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVCheatsModel.m; sourceTree = "<group>"; };
 		7A1CD92F1EA756460087BDB0 /* EVVideoAndLiveModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVVideoAndLiveModel.h; sourceTree = "<group>"; };
 		7A1CD9301EA756460087BDB0 /* EVVideoAndLiveModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVVideoAndLiveModel.m; sourceTree = "<group>"; };
+		7A28544C1EC317B200DD9044 /* EVNativeComentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVNativeComentViewController.h; sourceTree = "<group>"; };
+		7A28544D1EC317B200DD9044 /* EVNativeComentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVNativeComentViewController.m; sourceTree = "<group>"; };
+		7A28544E1EC317B200DD9044 /* EVNativeComentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVNativeComentViewController.xib; sourceTree = "<group>"; };
 		7A2A52171EA8AE15003C3FC8 /* NSNotificationName_header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSNotificationName_header.h; sourceTree = "<group>"; };
 		7A32C15E1EA9D739003089BA /* EVBaseToolManager+MyShopAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EVBaseToolManager+MyShopAPI.h"; sourceTree = "<group>"; };
 		7A32C15F1EA9D739003089BA /* EVBaseToolManager+MyShopAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EVBaseToolManager+MyShopAPI.m"; sourceTree = "<group>"; };
@@ -3435,6 +3440,9 @@
 				E851B2911E2FB4C7006316CE /* EVNewsCommentController.m */,
 				7A0E2FE61EC07103002C69BD /* EVNativeNewsDetailViewController.h */,
 				7A0E2FE71EC07103002C69BD /* EVNativeNewsDetailViewController.m */,
+				7A28544C1EC317B200DD9044 /* EVNativeComentViewController.h */,
+				7A28544D1EC317B200DD9044 /* EVNativeComentViewController.m */,
+				7A28544E1EC317B200DD9044 /* EVNativeComentViewController.xib */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -5626,6 +5634,7 @@
 				E86201941D6BE8550081E72F /* WeiboSDK.bundle in Resources */,
 				E8AF7F401E1D10B7001682EA /* EVNewsListViewCell.xib in Resources */,
 				9EC24DB41E7A7BB2003664B4 /* EVConsultGuideView.xib in Resources */,
+				7A2854501EC317B200DD9044 /* EVNativeComentViewController.xib in Resources */,
 				E86200F41D6BE8540081E72F /* EVAccountBindTableViewCell.xib in Resources */,
 				E8EF9D1D1D829F8E001AF7B0 /* EVLimitFiendCell.xib in Resources */,
 				E86201041D6BE8540081E72F /* EVOtherPersonVideoTableViewCell.xib in Resources */,
@@ -6369,6 +6378,7 @@
 				7A3E98611EA5F78500F24E23 /* EVOtherPersonViewController.m in Sources */,
 				9F1F9521F911A20DDB93B574 /* EVControllerContacter.m in Sources */,
 				E86BED361E2B05A60019620D /* EVHVEyesDetailView.m in Sources */,
+				7A28544F1EC317B200DD9044 /* EVNativeComentViewController.m in Sources */,
 				9F1F9C87E68CAA4882D6254A /* EVEventController.m in Sources */,
 				E8BF48301E2864F500FDB000 /* EVBaseNewsModel.m in Sources */,
 				E873A4E81E516CF4008407BA /* EVHotImageCollectionViewCell.m in Sources */,
