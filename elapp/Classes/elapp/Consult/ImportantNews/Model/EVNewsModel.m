@@ -7,7 +7,7 @@
 //
 
 #import "EVNewsModel.h"
-
+#import "EVCoreDataClass.h"
 @implementation EVNewsModel
 + (nullable NSDictionary<NSString *, id> *)modelCustomPropertyMapper{
     
@@ -29,7 +29,11 @@
     
     NSString *timeStr = [NSString stringWithFormat:@"%@",dic[@"time"]];
     self.time = [timeStr timeFormatter];
-   
+    if (_newsID && _newsID.length>0)
+    {
+        //已读对比
+       self.haveRead = [[EVCoreDataClass shareInstance] checkHaveReadNewsid:_newsID ];
+    }
     
     return YES;
 }

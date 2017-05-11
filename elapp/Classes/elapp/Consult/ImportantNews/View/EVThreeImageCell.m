@@ -23,6 +23,7 @@
     _cellDateLabel.text = newsModel.time;
     
     _cellTitleLabel.text = newsModel.title;
+    _cellTitleLabel.textColor = newsModel.haveRead?[UIColor evBackGroundDeepGrayColor] : [UIColor blackColor];
     _cellViewCountLabel.text = [newsModel.viewCount thousandsSeparatorString];
     
     [_cellImageView1 cc_setImageWithURLString:newsModel.cover[0] placeholderImage:nil];

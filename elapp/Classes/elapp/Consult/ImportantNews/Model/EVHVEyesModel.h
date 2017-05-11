@@ -8,7 +8,7 @@
 
 #import "EVBaseObject.h"
 
-@interface EVHVEyesModel : EVBaseObject
+@interface EVHVEyesModel : NSObject
 
 @property (nonatomic, copy) NSString *eyesID;
 
@@ -24,4 +24,5 @@
 
 @property (nonatomic, copy) NSString *priority;
 
+@property (nonatomic, assign) BOOL haveRead;
 @end

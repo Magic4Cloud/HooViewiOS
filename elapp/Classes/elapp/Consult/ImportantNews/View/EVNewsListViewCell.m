@@ -31,6 +31,7 @@
 {
     [self.newsBackImage cc_setImageWithURLString:consultNewsModel.cover[0] placeholderImage:nil];
     self.newsTitleLabel.text = consultNewsModel.title;
+    _newsTitleLabel.textColor = consultNewsModel.haveRead?[UIColor evBackGroundDeepGrayColor] : [UIColor blackColor];
     self.newsTimeLabel.text = consultNewsModel.time;
     self.newsReadLabel.text = [NSString stringWithFormat:@" %@",[consultNewsModel.viewCount thousandsSeparatorStringNoMillion]];
     
@@ -55,7 +56,7 @@
     _eyesModel = eyesModel;
     [self.newsBackImage cc_setImageWithURLString:eyesModel.cover placeholderImage:[UIImage imageNamed:@"Account_bitmap_list"]];
     self.newsTitleLabel.text = eyesModel.title;
-    
+    _newsTitleLabel.textColor = eyesModel.haveRead?[UIColor evBackGroundDeepGrayColor] : [UIColor blackColor];
     NSString *timeStr = [NSString stringWithFormat:@"%@",eyesModel.time];
     self.newsTimeLabel.text = [timeStr timeFormatter];
     self.newsReadLabel.text = [NSString stringWithFormat:@"%@",[eyesModel.viewCount thousandsSeparatorStringNoMillion]];

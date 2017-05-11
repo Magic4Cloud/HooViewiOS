@@ -11,7 +11,7 @@
 #import "EVNewsListViewCell.h"
 #import "EVNewsDetailWebController.h"
 #import "EVNewsModel.h"
-
+#import "EVCoreDataClass.h"
 
 @interface EVNewsStocksViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -71,14 +71,17 @@
             [self.eyesDataArray removeAllObjects];
         }
         self.start = retinfo[@"next"];
-        NSArray *eyesArr =   [EVHVEyesModel objectWithDictionaryArray:retinfo[@"news"]];
-        if (eyesArr.count > 0) {
-            
+        
+//        NSArray *eyesArr =   [EVHVEyesModel objectWithDictionaryArray:retinfo[@"news"]];
+        NSArray * eyeArray = retinfo[@"news"];
+        for (NSDictionary * dic in eyeArray)
+        {
+            EVHVEyesModel * model = [EVHVEyesModel yy_modelWithDictionary:dic];
+            [self.eyesDataArray addObject:model];
         }
-        [self.eyesDataArray addObjectsFromArray:eyesArr];
         [self.tableView reloadData];
         _tableView.mj_footer.hidden = NO;
-        [self.tableView setFooterState:(eyesArr.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
+        [self.tableView setFooterState:(eyeArray.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
     } error:^(NSError *error) {
         [_tableView endFooterRefreshing];
         [_tableView endHeaderRefreshing];
@@ -94,15 +97,15 @@
             [self.eyesDataArray removeAllObjects];
         }
         self.start = retinfo[@"next"];
-        NSArray *eyesArr =   [EVHVEyesModel objectWithDictionaryArray:retinfo[@"news"]];
-        if (eyesArr.count > 0) {
-            
+        NSArray * eyeArray = retinfo[@"news"];
+        for (NSDictionary * dic in eyeArray) {
+            EVHVEyesModel * model = [EVHVEyesModel yy_modelWithDictionary:dic];
+            [self.eyesDataArray addObject:model];
         }
-        [self.eyesDataArray addObjectsFromArray:eyesArr];
         [self.tableView reloadData];
         _start = [NSString stringWithFormat:@"%ld",[_start integerValue] + self.eyesDataArray.count];
         _tableView.mj_footer.hidden = NO;
-        [self.tableView setFooterState:(eyesArr.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
+        [self.tableView setFooterState:(eyeArray.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
     } error:^(NSError *error) {
         [_tableView endFooterRefreshing];
         [_tableView endHeaderRefreshing];
@@ -146,13 +149,16 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     EVHVEyesModel * newsModel = _eyesDataArray[indexPath.row];
+    
+    //添加已读历史记录 字体变灰
+    [[EVCoreDataClass shareInstance] insertReadNewsId:newsModel.eyesID];
+    newsModel.haveRead = YES;
+    [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    
     //普通新闻
     EVNewsDetailWebController *newsWebVC = [[EVNewsDetailWebController alloc] init];
     newsWebVC.newsID = newsModel.eyesID;
     newsWebVC.newsTitle = newsModel.title;
-    if ([newsModel.eyesID isEqualToString:@""] || newsModel.eyesID == nil) {
-        return;
-    }
     newsWebVC.refreshViewCountBlock = ^()
     {
         [self initData];

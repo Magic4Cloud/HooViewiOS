@@ -41,8 +41,7 @@
             [tempArray addObject:[kItem img]];
             [titleArray addObject:[kItem title]];
         }
-//        self.cycleScrollView.titlesGroup = titleArray;
-        self.cycleScrollView.titlesGroup = @[@"第一哈哈哈哈哈哈哈哈啊哈哈哈哈张图片",@"第二张图片",@"第三张图片",@"第四张图片",@"第五张图片"];
+        self.cycleScrollView.titlesGroup = titleArray;
         self.cycleScrollView.imageURLStringsGroup = tempArray;
         
     }

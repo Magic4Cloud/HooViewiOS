@@ -191,6 +191,12 @@
 {
     //    EVBaseNewsModel *baseNewsModel = self.dataArray[indexPath.row];
     EVNewsModel * newsModel = _dataArray[indexPath.row];
+    
+    //添加已读历史记录 字体变灰
+    [[EVCoreDataClass shareInstance] insertReadNewsId:newsModel.newsID];
+    newsModel.haveRead = YES;
+    [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    
     if (self.pushWatchBlock) {
         self.pushWatchBlock(newsModel);
     }

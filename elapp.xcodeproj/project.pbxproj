@@ -91,11 +91,14 @@
 		7A3E98741EA5FC4400F24E23 /* EVShopCheatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E98731EA5FC4400F24E23 /* EVShopCheatsViewController.m */; };
 		7A3E98781EA61CA100F24E23 /* EVShopLiveCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E98761EA61CA100F24E23 /* EVShopLiveCell.m */; };
 		7A3E98791EA61CA100F24E23 /* EVShopLiveCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7A3E98771EA61CA100F24E23 /* EVShopLiveCell.xib */; };
+		7A40F2F81EC4145800FD368B /* EVCoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A40F2F71EC4145800FD368B /* EVCoreDataClass.m */; };
 		7A6AA8A51EC1595F00B6989E /* SKTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A6AA8A01EC1595F00B6989E /* SKTag.m */; };
 		7A6AA8A61EC1595F00B6989E /* SKTagButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A6AA8A21EC1595F00B6989E /* SKTagButton.m */; };
 		7A6AA8A71EC1595F00B6989E /* SKTagView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A6AA8A41EC1595F00B6989E /* SKTagView.m */; };
 		7A6AA8AB1EC15DF700B6989E /* EVNewsContentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A6AA8A91EC15DF700B6989E /* EVNewsContentCell.m */; };
 		7A6AA8AF1EC1646300B6989E /* EVNewsDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A6AA8AE1EC1646300B6989E /* EVNewsDetailModel.m */; };
+		7AAD2B561EC440240013DB80 /* ReadHistory.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7AAD2B541EC440240013DB80 /* ReadHistory.xcdatamodeld */; };
+		7AAD2B651EC44B020013DB80 /* HaveReadNews+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AAD2B641EC44B020013DB80 /* HaveReadNews+CoreDataProperties.m */; };
 		7AB61E5D1E972EB9004A285F /* EVAvatarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB61E5B1E972EB9004A285F /* EVAvatarCell.m */; };
 		7AB61E5E1E972EB9004A285F /* EVAvatarCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7AB61E5C1E972EB9004A285F /* EVAvatarCell.xib */; };
 		7AB61E611E97430E004A285F /* EVLineTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB61E601E97430E004A285F /* EVLineTableViewCell.m */; };
@@ -626,10 +629,6 @@
 		E86201C51D6BE8550081E72F /* SystemPublic.strings in Resources */ = {isa = PBXBuildFile; fileRef = E862FF5B1D6BE8540081E72F /* SystemPublic.strings */; };
 		E86201C71D6BE8550081E72F /* 用户注册协议.rtf in Resources */ = {isa = PBXBuildFile; fileRef = E862FF631D6BE8540081E72F /* 用户注册协议.rtf */; };
 		E86201C81D6BE8550081E72F /* 申诉说明.rtf in Resources */ = {isa = PBXBuildFile; fileRef = E862FF641D6BE8540081E72F /* 申诉说明.rtf */; };
-		E86201C91D6BE8550081E72F /* LaunchScreen.strings in Resources */ = {isa = PBXBuildFile; fileRef = E862FF651D6BE8540081E72F /* LaunchScreen.strings */; };
-		E86201CA1D6BE8550081E72F /* Main.strings in Resources */ = {isa = PBXBuildFile; fileRef = E862FF671D6BE8540081E72F /* Main.strings */; };
-		E862FF6A1D6BE8540081E72F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E862FA571D6BE8520081E72F /* LaunchScreen.xib */; };
-		E862FF6B1D6BE8540081E72F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E862FA591D6BE8520081E72F /* Main.storyboard */; };
 		E862FF811D6BE8540081E72F /* NSArray+Group.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FA981D6BE8520081E72F /* NSArray+Group.m */; };
 		E862FF821D6BE8540081E72F /* NSArray+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FA9A1D6BE8520081E72F /* NSArray+JSON.m */; };
 		E862FF831D6BE8540081E72F /* NSAttributedString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E862FA9C1D6BE8520081E72F /* NSAttributedString+Extension.m */; };
@@ -942,6 +941,9 @@
 		7A3E98751EA61CA100F24E23 /* EVShopLiveCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVShopLiveCell.h; sourceTree = "<group>"; };
 		7A3E98761EA61CA100F24E23 /* EVShopLiveCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVShopLiveCell.m; sourceTree = "<group>"; };
 		7A3E98771EA61CA100F24E23 /* EVShopLiveCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVShopLiveCell.xib; sourceTree = "<group>"; };
+		7A40F2F61EC4145800FD368B /* EVCoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVCoreDataClass.h; sourceTree = "<group>"; };
+		7A40F2F71EC4145800FD368B /* EVCoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVCoreDataClass.m; sourceTree = "<group>"; };
+		7A40F2FF1EC43C0F00FD368B /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7A6AA89F1EC1595F00B6989E /* SKTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTag.h; sourceTree = "<group>"; };
 		7A6AA8A01EC1595F00B6989E /* SKTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKTag.m; sourceTree = "<group>"; };
 		7A6AA8A11EC1595F00B6989E /* SKTagButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTagButton.h; sourceTree = "<group>"; };
@@ -952,6 +954,9 @@
 		7A6AA8A91EC15DF700B6989E /* EVNewsContentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVNewsContentCell.m; sourceTree = "<group>"; };
 		7A6AA8AD1EC1646300B6989E /* EVNewsDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVNewsDetailModel.h; sourceTree = "<group>"; };
 		7A6AA8AE1EC1646300B6989E /* EVNewsDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVNewsDetailModel.m; sourceTree = "<group>"; };
+		7AAD2B551EC440240013DB80 /* ReadHistory.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ReadHistory.xcdatamodel; sourceTree = "<group>"; };
+		7AAD2B631EC44B020013DB80 /* HaveReadNews+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HaveReadNews+CoreDataProperties.h"; sourceTree = "<group>"; };
+		7AAD2B641EC44B020013DB80 /* HaveReadNews+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HaveReadNews+CoreDataProperties.m"; sourceTree = "<group>"; };
 		7AB61E5A1E972EB9004A285F /* EVAvatarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVAvatarCell.h; sourceTree = "<group>"; };
 		7AB61E5B1E972EB9004A285F /* EVAvatarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVAvatarCell.m; sourceTree = "<group>"; };
 		7AB61E5C1E972EB9004A285F /* EVAvatarCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EVAvatarCell.xib; sourceTree = "<group>"; };
@@ -2335,6 +2340,7 @@
 		5C1D84EDA6D71DF502DF1149 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7A40F2FF1EC43C0F00FD368B /* CoreData.framework */,
 				E8CDBB201E1B509500586CBF /* WebKit.framework */,
 				E853775E1DDED86A006474D0 /* libstdc++.tbd */,
 				E88584931DAB706400966F07 /* UserNotifications.framework */,
@@ -2522,6 +2528,18 @@
 				9E08B7B61EA8BEAE00721EE8 /* EVMyReleaseArticleViewController.m */,
 			);
 			path = MyRelease;
+			sourceTree = "<group>";
+		};
+		7A40F2F21EC4137400FD368B /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				7AAD2B631EC44B020013DB80 /* HaveReadNews+CoreDataProperties.h */,
+				7AAD2B641EC44B020013DB80 /* HaveReadNews+CoreDataProperties.m */,
+				7A40F2F61EC4145800FD368B /* EVCoreDataClass.h */,
+				7A40F2F71EC4145800FD368B /* EVCoreDataClass.m */,
+				7AAD2B541EC440240013DB80 /* ReadHistory.xcdatamodeld */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 		7A6AA89E1EC1595F00B6989E /* SKTagView */ = {
@@ -3739,6 +3757,7 @@
 		E862FA5C1D6BE8520081E72F /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				7A40F2F21EC4137400FD368B /* CoreData */,
 				7AB61E6A1E9796A4004A285F /* Banner3dLayout */,
 				E8033D9C1E3384C500A81A37 /* WebViewJavascriptBridge */,
 				E8862B5C1D93A85D00A13145 /* EVBugly */,
@@ -5663,7 +5682,6 @@
 				E862018F1D6BE8550081E72F /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				E86200F81D6BE8540081E72F /* EVFansOrFocusTableViewCell.xib in Resources */,
 				E86200E01D6BE8540081E72F /* EVAbout.storyboard in Resources */,
-				E86201CA1D6BE8550081E72F /* Main.strings in Resources */,
 				E86201C11D6BE8550081E72F /* BTGotham-Book.otf in Resources */,
 				E8B216201E123F51000FD19A /* EVRefreshTimeViewCell.xib in Resources */,
 				E879AB761E5576D200D6D301 /* EVHVCenterImageLiveViewCell.xib in Resources */,
@@ -5680,7 +5698,6 @@
 				E86200F41D6BE8540081E72F /* EVAccountBindTableViewCell.xib in Resources */,
 				E8EF9D1D1D829F8E001AF7B0 /* EVLimitFiendCell.xib in Resources */,
 				E86201041D6BE8540081E72F /* EVOtherPersonVideoTableViewCell.xib in Resources */,
-				E862FF6A1D6BE8540081E72F /* LaunchScreen.xib in Resources */,
 				9E10E5011EC17664002AC595 /* EVNewsAuthorsCell.xib in Resources */,
 				9E10E4FF1EC17664002AC595 /* EVLikeOrNotCell.xib in Resources */,
 				E8EF9D0E1D829CD1001AF7B0 /* EVLimitHeaderView.xib in Resources */,
@@ -5688,11 +5705,9 @@
 				E86201C71D6BE8550081E72F /* 用户注册协议.rtf in Resources */,
 				E86200B31D6BE8540081E72F /* EVNotifyViewCell.xib in Resources */,
 				E86201C01D6BE8550081E72F /* aera.plist in Resources */,
-				E862FF6B1D6BE8540081E72F /* Main.storyboard in Resources */,
 				9E7E6C1A1E9B219D009CBD6F /* EVSpeciaColumnCell.xib in Resources */,
 				E86201251D6BE8540081E72F /* EVConnectingErrorView.xib in Resources */,
 				E843549E1E1F81AA006D2E7D /* EVChooseNewsCell.xib in Resources */,
-				E86201C91D6BE8550081E72F /* LaunchScreen.strings in Resources */,
 				E86201C31D6BE8550081E72F /* Images.xcassets in Resources */,
 				E86201921D6BE8550081E72F /* read_me.txt in Resources */,
 				E86200FD1D6BE8540081E72F /* EVMyVideoTableViewCell_6.xib in Resources */,
@@ -5918,6 +5933,7 @@
 				E862009E1D6BE8540081E72F /* EVPhonePwdResetViewController.m in Sources */,
 				7A3E98591EA5F78500F24E23 /* EVAccountPhoneBindViewController.m in Sources */,
 				E862009D1D6BE8540081E72F /* EVPhoneLoginViewController.m in Sources */,
+				7AAD2B561EC440240013DB80 /* ReadHistory.xcdatamodeld in Sources */,
 				E86200DD1D6BE8540081E72F /* EVWithdrawNumCtrl.m in Sources */,
 				E8EF9D2A1D82AD36001AF7B0 /* EVSettingLivingPWDView.m in Sources */,
 				E877DF201DAA579B00653AF3 /* EVPromptRedPacketView.m in Sources */,
@@ -6252,6 +6268,7 @@
 				E862013B1D6BE8540081E72F /* EVRedEnvelopeModel.m in Sources */,
 				E86200A11D6BE8540081E72F /* EVUserSettingViewController.m in Sources */,
 				7AF161211E9CAD99009D80CB /* EVTopicModel.m in Sources */,
+				7AAD2B651EC44B020013DB80 /* HaveReadNews+CoreDataProperties.m in Sources */,
 				E8A4F8771E10C12800655272 /* EVFastNewsViewController.m in Sources */,
 				7AF8241C1EBB364F007DFA15 /* EVJoinChatCell.m in Sources */,
 				E862012F1D6BE8540081E72F /* EVLiveTitleTextView.m in Sources */,
@@ -6407,6 +6424,7 @@
 				E84825561E0A50CD003A795F /* EVBaseTableViewCell.m in Sources */,
 				E89FCAFC1E49BE17008EC671 /* EVSearchStockViewController.m in Sources */,
 				7AB61E881E9796A4004A285F /* MKJConstant.m in Sources */,
+				7A40F2F81EC4145800FD368B /* EVCoreDataClass.m in Sources */,
 				9F1F91BC9B9D4C61012ACF3A /* EVDanmuManager.m in Sources */,
 				9F1F989CC562F2A5F2E35054 /* EVDanmuView.m in Sources */,
 				E847B2C11E2DEDE700F4BF7D /* EVHVLiveView.m in Sources */,
@@ -6790,6 +6808,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		7AAD2B541EC440240013DB80 /* ReadHistory.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				7AAD2B551EC440240013DB80 /* ReadHistory.xcdatamodel */,
+			);
+			currentVersion = 7AAD2B551EC440240013DB80 /* ReadHistory.xcdatamodel */;
+			path = ReadHistory.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 18D053421B09DDF1008861C6 /* Project object */;
 }

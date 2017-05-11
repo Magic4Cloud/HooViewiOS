@@ -26,6 +26,7 @@
 #import <YWFeedbackFMWK/YWFeedbackKit.h>
 #import "NSString+Extension.h"
 
+#import "EVCoreDataClass.h"
 
 typedef enum : NSUInteger {
     EVLogoutType = 1000,
@@ -161,8 +162,11 @@ typedef enum : NSUInteger {
     // 获取所占内存
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         double size = [[EVCacheManager shareInstance] imageCachesSizeOnDisk];
+        
+        long long dbSize = [[EVCoreDataClass shareInstance] getDbFileSize];
+        float mSize = dbSize/1024/1024.0;
         self.calculateCacheSizeOver = YES;
-        self.cacheSize = size;
+        self.cacheSize = size + mSize;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.settingTableView reloadData];
         });
@@ -244,6 +248,8 @@ typedef enum : NSUInteger {
     }else if (indexPath.section == 1 && indexPath.row == 1) {
         [EVProgressHUD showLoadingMessage:@"缓存清除中" view:self.view];
         __weak typeof(self) weakSelf = self;
+        //清除浏览记录
+        [[EVCoreDataClass shareInstance] cleanUpAllData];
         [[EVCacheManager shareInstance] clearDiskImageCachesWithCompletion:^{
             double size = [[EVCacheManager shareInstance] imageCachesSizeOnDisk];
             weakSelf.cacheSize = size;
