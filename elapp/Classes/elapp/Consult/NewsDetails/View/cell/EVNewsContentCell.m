@@ -19,11 +19,11 @@
 }
 - (void)initUI
 {
-    _cellWebView = [[WKWebView alloc] init];
-    _cellWebView.scrollView.scrollEnabled = NO;
-    _cellWebView.navigationDelegate = self;
-    [self.contentView addSubview:_cellWebView];
-    [_cellWebView autoPinEdgesToSuperviewEdges];
+    
+    _webView = [[UIWebView alloc] init];
+    _webView.scrollView.scrollEnabled = NO;
+    [self.contentView addSubview:_webView];
+    [_webView autoPinEdgesToSuperviewEdges];
 }
 
 - (void)setHtmlString:(NSString *)htmlString
@@ -31,7 +31,39 @@
     if (_htmlString || !htmlString) {
         return;
     }
+    
     _htmlString = htmlString;
-    [_cellWebView loadHTMLString:htmlString baseURL:nil];
+    
+    htmlString = [self autoWebAutoImageSize:htmlString];
+    
+    [_webView loadHTMLString:htmlString baseURL:nil];
 }
+
+- (NSString *)autoWebAutoImageSize:(NSString *)html
+{
+    
+    NSString * regExpStr = @"<img\\s+.*?\\s+(style\\s*=\\s*.+?\")";
+    NSRegularExpression *regex=[NSRegularExpression regularExpressionWithPattern:regExpStr options:NSRegularExpressionCaseInsensitive error:nil];
+    
+    NSArray *matches=[regex matchesInString:html
+                                    options:0
+                                      range:NSMakeRange(0, [html length])];
+    
+    
+    NSMutableArray * mutArray = [NSMutableArray array];
+    for (NSTextCheckingResult *match in matches) {
+        NSString* group1 = [html substringWithRange:[match rangeAtIndex:1]];
+        [mutArray addObject: group1];
+    }
+    
+    NSUInteger len = [mutArray count];
+    for (int i = 0; i < len; ++ i) {
+        html = [html stringByReplacingOccurrencesOfString:mutArray[i] withString: @"style=\"width:100%; height:auto;\""];
+    }
+    
+    return html;
+}
+
+
+
 @end

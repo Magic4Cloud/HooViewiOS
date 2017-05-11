@@ -13,6 +13,8 @@
 @property (nonatomic, copy) NSString * id;
 @property (nonatomic, copy) NSString * name;
 @property (nonatomic, copy) NSString * avatar;
+@property (nonatomic, copy) NSString * bind;//是否绑定 0未绑定
+@property (nonatomic, copy) NSString * descriptionStr;
 @property (nonatomic, copy) NSString * introduction;
 @end
 
@@ -84,14 +86,14 @@
  },
 */
 @property (nonatomic, copy) NSString * id;
-@property (nonatomic, strong) EVAuthorModel * author;
+@property (nonatomic, strong) EVAuthorModel * Author;
 @property (nonatomic, copy) NSString * time;
 @property (nonatomic, copy) NSString * title;
 @property (nonatomic, copy) NSString * subTitle;
 @property (nonatomic, copy) NSString * digest;
 @property (nonatomic, copy) NSString * source;
 @property (nonatomic, copy) NSString * cover;
-@property (nonatomic, strong) EVStockModel * stock;
+@property (nonatomic, strong) NSArray * stock;//(EVStockModel)
 @property (nonatomic, strong) NSArray * tag;//(EVTagModel)
 @property (nonatomic, copy) NSString * voteCount;
 @property (nonatomic, copy) NSString * viewCount;
@@ -99,6 +101,7 @@
 @property (nonatomic, copy) NSString * commentCount;
 @property (nonatomic, strong) EVAuthorModel * recommendPerson;
 @property (nonatomic, strong) NSArray * recommendNews;//(EVNewsModel)
+@property (nonatomic, strong) NSArray *posts;//(EVHVVideoCommentModel)
 
 @end
 

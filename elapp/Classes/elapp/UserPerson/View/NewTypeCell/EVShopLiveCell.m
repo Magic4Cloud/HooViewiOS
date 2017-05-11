@@ -94,6 +94,13 @@
     if ([liveModel.permission integerValue] == 7) {
         //付费
         _cellTag2Button.hidden = NO;
+        if ([liveModel.paid integerValue] == 0) {
+            [_cellTag2Button setTitle:@"付费" forState:UIControlStateNormal];
+            _cellTag2Button.backgroundColor = [UIColor evBackGroundDeepRedColor];
+        } else if ([liveModel.paid integerValue] == 1) {
+            [_cellTag2Button setTitle:@"已购买" forState:UIControlStateNormal];
+            _cellTag2Button.backgroundColor = CCColor(45, 42, 71);
+        }
     }
     else
     {
