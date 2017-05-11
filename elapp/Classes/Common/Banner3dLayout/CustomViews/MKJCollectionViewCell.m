@@ -15,8 +15,9 @@
     self.imageView.layer.shadowColor = [UIColor blackColor].CGColor;
     self.imageView.layer.shadowOpacity = 0.3;
     self.imageView.layer.shadowRadius = 1.0f;
-    self.imageView.layer.shadowOffset = CGSizeMake(1.5, 1.5);
+    self.imageView.layer.shadowOffset = CGSizeMake(1, 1);
     self.imageView.layer.masksToBounds = NO;
+    
 }
 
 @end

@@ -41,7 +41,51 @@
         _cellHeight = tipSize.height + 20;
         _tipLabelF = CGRectMake(20, 10, ScreenWidth - 40, tipSize.height);
     }
+}
 
+- (void)initMessage:(EVMessage *)message andDic:(NSDictionary *)dic
+{
+    _message = message;
+    _avatarURLPath = dic[@"avatar"];
+    _userid = dic[@"userid"];
+    _vip = dic[@"vip"];
+    
+    
+    NSString * stateString = dic[@"tp"];
+    if ([stateString isEqualToString:@"join"])
+    {
+        self.state = EVEaseMessageTypeStateJoin;
+    }
+    else if ([stateString isEqualToString:@"gift"])
+    {
+        self.state = EVEaseMessageTypeStateGift;
+    }
+    
+    NSDictionary *nameAttributes = @{ NSFontAttributeName : [UIFont systemFontOfSize:12.f]};
+    NSDictionary *attributes = @{ NSFontAttributeName : [UIFont systemFontOfSize:16.f]};
+    
+    CGSize nameSize = [_message.nameStr boundingRectWithSize:CGSizeMake(100, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin  attributes:nameAttributes context:nil].size;
+    CGSize contentSize = [_message.contentStr boundingRectWithSize:CGSizeMake(ScreenWidth - 130, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading  attributes:attributes context:nil].size;
+    
+    
+    CGFloat minWid = MAX(contentSize.width, 36)+10;
+    CGFloat nameX = 56;
+    CGFloat contentX = ChatMargin + 40;
+    CGFloat avatarX = ChatMargin;
+  
+    if (message.messageFrom == EVMessageFromMe) {
+        contentX = ScreenWidth - 40 - minWid - 10;
+        nameX = ScreenWidth - ChatMargin - nameSize.width-40;
+        avatarX = ScreenWidth - ChatMargin - 30;
+    }
+    
+    _avatarRect = CGRectMake(avatarX, 0, 30, 30);
+    _nameF = CGRectMake(nameX, 0, MIN(nameSize.width+5, 100), 20);
+    _contentF = CGRectMake(contentX, 23, contentSize.width + 25, contentSize.height+20);
+    _cellHeight =  MAX(CGRectGetMaxY(_contentF), CGRectGetMaxY(_nameF))  + ChatMargin;
+//    NSDictionary *tipDict = @{NSFontAttributeName:[UIFont systemFontOfSize:14.f]};
+//    CGSize tipSize = [_message.contentStr boundingRectWithSize:CGSizeMake(ScreenWidth - 40, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:tipDict context:nil].size;
+    
 }
 
 @end

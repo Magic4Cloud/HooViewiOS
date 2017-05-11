@@ -13,8 +13,9 @@
 @property (nonatomic, copy) NSString * id;
 @property (nonatomic, copy) NSString * name;
 @property (nonatomic, copy) NSString * avatar;
-@property (nonatomic, copy) NSString *bind;//是否绑定 0未绑定
+@property (nonatomic, copy) NSString * bind;//是否绑定 0未绑定
 @property (nonatomic, copy) NSString * descriptionStr;
+@property (nonatomic, copy) NSString * introduction;
 @end
 
 @interface EVStockModel : NSObject
@@ -85,7 +86,7 @@
  },
 */
 @property (nonatomic, copy) NSString * id;
-@property (nonatomic, strong) EVAuthorModel * author;
+@property (nonatomic, strong) EVAuthorModel * Author;
 @property (nonatomic, copy) NSString * time;
 @property (nonatomic, copy) NSString * title;
 @property (nonatomic, copy) NSString * subTitle;

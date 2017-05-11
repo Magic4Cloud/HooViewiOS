@@ -250,6 +250,8 @@ static UIColor *_replyNameColor;
 
 - (void)updateWithCommentInfo:(NSDictionary *)info contextInfo:(NSString *)contextInfo userid:(NSString *)userid commentType:(CCCommentType)commentType
 {
+    self.extDic = info;
+    
     self.cellheigt = 0;
     self.content = nil;
     self.comment_id = 0;

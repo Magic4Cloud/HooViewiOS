@@ -18,7 +18,8 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:dic];
     [dict setValue:@(messageFrom) forKey:@"from"];
     [message setWithDict:dict];
-    [cellModel setMessage:message];
+//    [cellModel setMessage:message];
+    [cellModel initMessage:message andDic:dic];
   
     
     if (isHistory) {

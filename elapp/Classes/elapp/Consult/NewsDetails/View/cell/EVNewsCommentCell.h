@@ -13,4 +13,6 @@
 
 @property (nonatomic, strong) EVHVVideoCommentModel *videoCommentModel;
 
+@property (nonatomic, strong) NSArray *commentArray;
+
 @end

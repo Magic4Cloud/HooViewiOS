@@ -69,7 +69,7 @@
             }
         }
         if (isSuccess == YES) {
-            [weakself loadHistoryData];
+//            [weakself loadHistoryData];
             if (newsUsers.count > 0) {
                 NSString *userNames = [NSString stringWithArray:newsUsers];
                 [weakself userMessageInfoName:userNames success:^(NSDictionary *modelDict) {

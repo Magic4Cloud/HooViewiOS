@@ -24,7 +24,10 @@ typedef NS_ENUM(NSInteger, CCCommentType) {
 
 @interface EVComment : EVBaseObject
 
-
+/**
+ 新加的  扩展字段
+ */
+@property (nonatomic, strong) NSDictionary * extDic;
 /** 文字起始位置 */
 @property ( nonatomic ) NSInteger textOrigin;
 

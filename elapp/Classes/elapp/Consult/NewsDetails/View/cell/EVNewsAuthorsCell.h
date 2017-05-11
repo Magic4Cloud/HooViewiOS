@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EVNewsDetailModel.h"
 
 @interface EVNewsAuthorsCell : UITableViewCell
 
@@ -18,5 +19,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageLeading;
 
 @property (weak, nonatomic) IBOutlet UIView *authorBackView;
+
+@property (nonatomic, strong) EVAuthorModel *recommendPerson;
 
 @end

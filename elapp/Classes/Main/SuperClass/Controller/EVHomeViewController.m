@@ -345,6 +345,9 @@ static NSInteger lastUnread = 0;
 - (void)homeTabbarDidClicked:(EVHomeTabbarButtonType)btn
 {
     self.selectedIndex = btn;
+    if (self.homeTabbarDidClickedBlock) {
+        self.homeTabbarDidClickedBlock(btn);
+    }
 }
 
 - (void)homeTabbarDidClickedLiveButton

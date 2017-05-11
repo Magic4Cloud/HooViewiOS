@@ -21,6 +21,8 @@
  */
 @property (nonatomic, assign)BOOL isShowingBadgeRedPoint;
 
+@property (nonatomic, copy)void(^homeTabbarDidClickedBlock)(NSInteger index);
+
 /**
  *  init method
  *
@@ -38,10 +40,13 @@
 - (void)startChatWithName:(NSString *)name;
 
 
+
 - (void)showHomeTabbarWithAnimation;
 - (void)hideHomeTabbarWithAnimation;
 - (void)startLive;
 
 - (void)showBadgeRedPoint;
 - (void)hideBadgeRedPoint;
+
+
 @end

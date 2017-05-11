@@ -13,8 +13,10 @@
 #import "EVSearchAllViewController.h"
 #import "EVSpeciaColumnViewController.h"
 #import "EVNewsStocksViewController.h"
-@interface EVHomeBaseViewController ()
 
+#import "EVHomeViewController.h"
+@interface EVHomeBaseViewController ()<UITabBarControllerDelegate>
+@property (nonatomic, strong) UIViewController * currentVc;
 @end
 
 @implementation EVHomeBaseViewController
@@ -54,6 +56,31 @@
 }
 
 #pragma mark - ♻️Lifecycle
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    EVHomeViewController * tabarctronller = (EVHomeViewController *)self.tabBarController;
+    tabarctronller.homeTabbarDidClickedBlock = ^(NSInteger index)
+    {
+        if (index == 0)
+        {
+            for (UIView * subView in [_currentVc.view subviews]) {
+                if ([subView isKindOfClass:[UIScrollView class]]) {
+                    UIScrollView * tableView = (UIScrollView *)subView;
+                    [tableView startHeaderRefreshing];
+                }
+            }
+        }
+    };
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    EVHomeViewController * tabarctronller = (EVHomeViewController *)self.tabBarController;
+    tabarctronller.homeTabbarDidClickedBlock = nil;
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -136,20 +163,16 @@
     return self.titles[index];
 }
 
+- (void)pageController:(WMPageController * _Nonnull)pageController didEnterViewController:(__kindof UIViewController * _Nonnull)viewController withInfo:(NSDictionary * _Nonnull)info
+{
+    _currentVc = viewController;
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -121,14 +121,14 @@ CGFloat const HOMETABBAR_HEIGHT = 71.f;
 
 #pragma mark - CCTabbarItemDelegate
 - (void)didClickedTabbarItem:(EVTabbarItem *)item {
-    if (item == self.selectedItem) {
-        if (item.tag == EVHomeTabbarButtonActivity) {
-            if ([self.delegate respondsToSelector:@selector(homeTabbarDicDoubleClick:)]) {
-                [self.delegate homeTabbarDicDoubleClick:EVHomeTabbarButtonActivity];
-            }
-        }
-        return;
-    }
+//    if (item == self.selectedItem) {
+//        if (item.tag == EVHomeTabbarButtonActivity) {
+//            if ([self.delegate respondsToSelector:@selector(homeTabbarDicDoubleClick:)]) {
+//                [self.delegate homeTabbarDicDoubleClick:EVHomeTabbarButtonActivity];
+//            }
+//        }
+//        return;
+//    }
     
     if ([self.delegate respondsToSelector:@selector(homeTabbarDidClicked:)]) {
         [self.delegate homeTabbarDidClicked:item.tag];

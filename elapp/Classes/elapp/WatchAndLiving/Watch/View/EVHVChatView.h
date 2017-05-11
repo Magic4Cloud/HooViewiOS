@@ -16,4 +16,5 @@
 - (void)receiveSystemMessage:(NSString *)message;
 
 - (void)receiveChatContent:(NSString *)content nickName:(NSString *)nickName isHistory:(BOOL)isHistory;
+- (void)receiveChatContent:(NSString *)content nickName:(NSString *)nickName isHistory:(BOOL)isHistory extDic:(NSDictionary *)dic;
 @end

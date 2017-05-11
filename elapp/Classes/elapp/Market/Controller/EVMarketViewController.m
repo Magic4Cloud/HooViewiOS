@@ -18,6 +18,7 @@
 #import "EVGlobalViewController.h"
 #import "EVSearchAllViewController.h"
 
+#import "EVHomeViewController.h"
 @interface EVMarketViewController ()<UIGestureRecognizerDelegate>
 
 @property (nonatomic, assign) CGPoint lastPoint;
@@ -28,6 +29,7 @@
 @property (nonatomic, strong) EVStockBaseViewController *hkStockBaseVC;
 @property (nonatomic, strong) EVGlobalViewController *globalVC;
 
+@property (nonatomic, strong) UIViewController * currentVc;
 @end
 
 @implementation EVMarketViewController
@@ -72,6 +74,32 @@
 {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES];
+
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    EVHomeViewController * tabarctronller = (EVHomeViewController *)self.tabBarController;
+    tabarctronller.homeTabbarDidClickedBlock = nil;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    EVHomeViewController * tabarctronller = (EVHomeViewController *)self.tabBarController;
+    tabarctronller.homeTabbarDidClickedBlock = ^(NSInteger index)
+    {
+        if (index == 2)
+        {
+            for (UIView * subView in [_currentVc.view subviews]) {
+                if ([subView isKindOfClass:[UITableView class]]) {
+                    UITableView * tableView = (UITableView *)subView;
+                    [tableView startHeaderRefreshing];
+                }
+            }
+        }
+    };
 }
 
 - (void)viewDidLoad {
@@ -148,6 +176,11 @@
 
 - (NSString *)pageController:(WMPageController *)pageController titleAtIndex:(NSInteger)index {
     return self.titles[index];
+}
+
+- (void)pageController:(WMPageController * _Nonnull)pageController didEnterViewController:(__kindof UIViewController * _Nonnull)viewController withInfo:(NSDictionary * _Nonnull)info
+{
+    _currentVc = viewController;
 }
 
 #pragma mark -👣 Target actions

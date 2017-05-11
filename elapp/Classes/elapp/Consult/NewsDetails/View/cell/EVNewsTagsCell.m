@@ -118,6 +118,8 @@
 //    [_secondStockButton autoSetDimension:ALDimensionHeight toSize:22];
     
     
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+
     _cellTagView = [[SKTagView alloc] init];
     [self.contentView addSubview:_cellTagView];
     _topHeight = [_cellTagView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:0];

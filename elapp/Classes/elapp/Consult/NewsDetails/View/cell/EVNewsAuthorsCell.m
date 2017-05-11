@@ -25,4 +25,15 @@
     // Configure the view for the selected state
 }
 
+-(void)setRecommendPerson:(EVAuthorModel *)recommendPerson {
+    _recommendPerson = recommendPerson;
+    
+    [self.authorImage cc_setImageWithURLString:recommendPerson.avatar placeholderImage:nil];
+    [self.authorName setText:recommendPerson.name];
+    [self.authorIntroduce setText:recommendPerson.introduction];
+
+}
+
+
 @end
+

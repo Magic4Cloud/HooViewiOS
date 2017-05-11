@@ -13,9 +13,9 @@
 /**
  图文直播聊天页面
  */
-@class EVtextLiveHChatCell;
+@class EVtextLiveHChatCell,EVHVMessageCellModel;
 @protocol EVtextLiveHChatCellDelegate <NSObject>
-
+@optional
 - (void)longPressCell:(EVtextLiveHChatCell *)cell easeModel:(EVEaseMessageModel *)easeModel ;
 
 @end
@@ -26,6 +26,6 @@
 
 
 @property (nonatomic, strong) EVEaseMessageModel *easeMessageModel;
-
+@property (nonatomic, strong)EVHVMessageCellModel * videoMessageModel;
 @property (nonatomic, weak) id<EVtextLiveHChatCellDelegate> delegate;
 @end
