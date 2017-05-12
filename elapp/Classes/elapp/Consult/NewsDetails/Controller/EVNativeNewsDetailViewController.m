@@ -311,6 +311,7 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [self sendCommentStr:textField.text];
+    [textField resignFirstResponder];
     return YES;
 }
 

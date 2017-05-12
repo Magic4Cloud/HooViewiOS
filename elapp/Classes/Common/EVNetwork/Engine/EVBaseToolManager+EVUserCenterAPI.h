@@ -248,6 +248,14 @@ typedef enum : NSUInteger {
                          success:(void(^)())successBlock
                     essionExpire:(void(^)())sessionExpireBlock;
 
+//文章like
+- (void)GETLikeNewsWithNewsid:(NSString *)newsid
+                       action:(NSString *)action
+                        start:(void(^)())startBlock
+                         fail:(void(^)(NSError *error))failBlock
+                      success:(void(^)())successBlock
+                 essionExpire:(void(^)())sessionExpireBlock;
+
 //获取我的发布
 - (void)GETMyReleaseListWithUserid:(NSString *)userid
                               type:(NSString *)type

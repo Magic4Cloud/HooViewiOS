@@ -11,6 +11,9 @@
 
 @interface EVLikeOrNotCell()
 @property (nonatomic, strong) EVBaseToolManager *baseToolManager;
+@property (weak, nonatomic) IBOutlet UILabel *addLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *addLabelBottom;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *addLabelLeading;
 
 @end
 
@@ -29,7 +32,8 @@
     _notLikeButton.layer.borderColor = [UIColor evGlobalSeparatorColor].CGColor;
     _notLikeButton.layer.masksToBounds = YES;
     
-    
+    _addLabel.alpha = 0.0;
+//    _addLabel.center = CGPointMake(_numberOfLike.center.x + 25, _numberOfLike.center.y - 60);
     // Initialization code
 }
 
@@ -58,10 +62,22 @@
     WEAK(self)
     
     NSString *likeType = [_like integerValue] == 0 ? @"1" : @"0";
-    [self.baseToolManager GETLikeOrNotWithUserName:nil Type:@"0" action:likeType postid:_newsId start:^{
+
+//    [self.baseToolManager GETLikeOrNotWithUserName:nil Type:@"0" action:likeType postid:_newsId start:^{
+//        
+//    } fail:^(NSError *error) {
+//        NSLog(@"error = %@",error);
+//    } success:^{
+//        [weakself buttonStatus:likeType button:sender];
+//    } essionExpire:^{
+//        
+//    }];
+//    
+    [self.baseToolManager GETLikeNewsWithNewsid:self.newsId action:likeType start:^{
         
     } fail:^(NSError *error) {
-        NSLog(@"error = %@",error);
+        NSString *string = [NSString stringWithFormat:@"%@",error];
+        [EVProgressHUD showError:string];
     } success:^{
         [weakself buttonStatus:likeType button:sender];
     } essionExpire:^{
@@ -77,14 +93,47 @@
         _numberOfLike.text = [NSString stringWithFormat:@"%ld",[_likeCount integerValue] + 1];
         _likeCount = [NSString stringWithFormat:@"%ld",[_likeCount integerValue] + 1];
         _like = @"1";
-        _numberOfLike.textColor = CCColor(255, 139, 101);
-        [button setBackgroundImage:[UIImage imageNamed:@"btn_news_like_s"] forState:UIControlStateNormal];
+        
+        _addLabel.text = @"+1";
+        _addLabel.textColor = CCColor(255, 139, 101);
+        
+        _likeButton.layer.borderColor = CCColor(255, 128, 89).CGColor;
+        _numberOfLike.textColor = CCColor(255, 128, 89);
+        _likeImage.image = [UIImage imageNamed:@"btn_news_like_s"];
+
+        _addLabel.alpha = 1.0;
+        [UIView animateWithDuration:1 animations:^{
+            _addLabelBottom.constant = -50;
+            _addLabelLeading.constant = 15;
+            [self.contentView layoutIfNeeded];
+        } completion:^(BOOL finished) {
+            _addLabel.alpha = 0.0;
+            _addLabelBottom.constant = 0;
+            _addLabelLeading.constant = 0;
+        }];
+
+
     }else {
         _numberOfLike.text = [NSString stringWithFormat:@"%ld",[_likeCount integerValue] - 1];
         _likeCount = [NSString stringWithFormat:@"%ld",[_likeCount integerValue] - 1];
         _like = @"0";
-        _numberOfLike.textColor = CCColor(153, 153, 153);
-        [button setBackgroundImage:[UIImage imageNamed:@"btn_news_like_n"] forState:UIControlStateNormal];
+        _addLabel.text = @"-1";
+        _addLabel.textColor = CCColor(153, 153, 153);
+        
+        _likeButton.layer.borderColor = [UIColor evGlobalSeparatorColor].CGColor;
+        _numberOfLike.textColor = [UIColor evGlobalSeparatorColor];
+        _likeImage.image = [UIImage imageNamed:@"btn_news_like_n"];
+
+        _addLabel.alpha = 1.0;
+        [UIView animateWithDuration:1 animations:^{
+            _addLabelBottom.constant = -50;
+            _addLabelLeading.constant = 15;
+            [self.contentView layoutIfNeeded];
+        } completion:^(BOOL finished) {
+            _addLabel.alpha = 0.0;
+            _addLabelBottom.constant = 0;
+            _addLabelLeading.constant = 0;
+        }];
     }
 }
 

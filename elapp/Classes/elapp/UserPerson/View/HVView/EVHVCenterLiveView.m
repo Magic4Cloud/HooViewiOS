@@ -149,7 +149,7 @@
     } success:^(NSDictionary *retinfo) {
         NSLog(@"videos = %@",retinfo);
         [self endHeaderRefreshing];
-        [self.videos removeAllObjects];
+
         NSDictionary *dictionary = retinfo[@"textlive"];
         NSArray *array = retinfo[@"videolive"];
         EVUserModel *model = [EVUserModel objectWithDictionary:dictionary];

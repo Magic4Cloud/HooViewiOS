@@ -41,7 +41,7 @@
     [self addSubview:inputTextFiled];
     [inputTextFiled autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
     
-    CGFloat width = ScreenWidth - 110.f;
+    CGFloat width = ScreenWidth - 32.f;
     CGFloat left = 16.f;
     
     [inputTextFiled autoSetDimensionsToSize:CGSizeMake(width, 25)];
@@ -53,15 +53,15 @@
     self.inPutTextFiled = inputTextFiled;
     inputTextFiled.returnKeyType = UIReturnKeySend;
     
-    UIButton *sendButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    [self addSubview:sendButton];
-    self.sendButton = sendButton;
-    [sendButton setImage:[UIImage imageNamed:@"btn_send_n"] forState:(UIControlStateNormal)];
-    [sendButton setImage:[UIImage imageNamed:@"btn_send_s"] forState:UIControlStateSelected];
-    [sendButton autoPinEdgeToSuperviewEdge:ALEdgeRight];
-    [sendButton autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
-    [sendButton autoSetDimensionsToSize:CGSizeMake(54, 49)];
-    [sendButton addTarget:self action:@selector(sendClick:) forControlEvents:(UIControlEventTouchUpInside)];
+//    UIButton *sendButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
+//    [self addSubview:sendButton];
+//    self.sendButton = sendButton;
+//    [sendButton setImage:[UIImage imageNamed:@"btn_send_n"] forState:(UIControlStateNormal)];
+//    [sendButton setImage:[UIImage imageNamed:@"btn_send_s"] forState:UIControlStateSelected];
+//    [sendButton autoPinEdgeToSuperviewEdge:ALEdgeRight];
+//    [sendButton autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
+//    [sendButton autoSetDimensionsToSize:CGSizeMake(54, 49)];
+//    [sendButton addTarget:self action:@selector(sendClick:) forControlEvents:(UIControlEventTouchUpInside)];
     
     
     UILabel *numLabel = [[UILabel alloc] init];
