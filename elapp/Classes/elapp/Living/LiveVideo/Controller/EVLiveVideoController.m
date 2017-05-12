@@ -226,6 +226,11 @@
     EVHVWatchViewController *watchViewVC = [[EVHVWatchViewController alloc] init];
 
     watchViewVC.videoAndLiveModel = watchVideoInfo;
+    watchViewVC.paidSuccessCallbackBlock = ^{
+        watchVideoInfo.paid = @"1";
+        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    };
+    
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:watchViewVC];
     [self presentViewController:nav animated:YES completion:nil];
 

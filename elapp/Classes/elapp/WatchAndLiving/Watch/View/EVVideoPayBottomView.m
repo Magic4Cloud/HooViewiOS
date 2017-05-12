@@ -13,6 +13,7 @@
 @property (weak, nonatomic) IBOutlet UIView *backCoverView;
 @property (weak, nonatomic) IBOutlet UIView *bottomBackView;
 
+@property (nonatomic, weak) UIView * nibView;
 @end
 
 @implementation EVVideoPayBottomView
@@ -38,25 +39,17 @@
 {
     UIView *view = [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([self class]) owner:self options:nil].lastObject;
     [self addSubview:view];
-    
-    view.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    [view autoPinEdgesToSuperviewEdges];
-//    NSDictionary *bindings = NSDictionaryOfVariableBindings(@"view", view);
-//    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|" options:0 metrics:nil views:bindings]];
-//    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|" options:0 metrics:nil views:bindings]];
-//    self.bounds = view.bounds;
+    self.autoresizesSubviews = YES;
+    _nibView = view;
+    view.frame = self.bounds;
+    CGRect frame = self.bottomBackView.frame;
+    frame.origin.y = ScreenHeight;
+    self.bottomBackView.frame = frame;
     
     _viewchargeButton.layer.cornerRadius = 20;
     _viewchargeButton.layer.masksToBounds = YES;
-    
-    
-    
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissPayView)];
     [_backCoverView addGestureRecognizer:tap];
-    
-
-    [self setNeedsLayout];
 }
 
 - (void)setAssetModel:(EVUserAsset *)assetModel
@@ -94,13 +87,13 @@
     self.payFee = fee;
     
     self.assetModel = assetModel;
-    
     _backCoverView.alpha = 0;
     [view addSubview:self];
-        [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:0.3 animations:^{
         _backCoverView.alpha = 0.5;
-        _backBottomContraint.constant = 0;
-        [self layoutIfNeeded];
+        CGRect frame = self.bottomBackView.frame;
+        frame.origin.y = ScreenHeight-frame.size.height;
+        self.bottomBackView.frame = frame;
     } completion:^(BOOL finished) {
         
     }];
@@ -108,10 +101,11 @@
 
 - (void)dismissPayView
 {
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:0.3 animations:^{
         _backCoverView.alpha = 0;
-        _backBottomContraint.constant = - 345;
-        [self layoutIfNeeded];
+        CGRect frame = self.bottomBackView.frame;
+        frame.origin.y = ScreenHeight;
+        self.bottomBackView.frame = frame;
     } completion:^(BOOL finished) {
         [self removeFromSuperview];
     }];
