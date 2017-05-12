@@ -48,7 +48,9 @@
 
 #import "EVHomeBaseViewController.h"
 
-#import "EVNewsDetailWebController.h"
+//#import "EVNewsDetailWebController.h"
+#import "EVNativeNewsDetailViewController.h"
+
 
 #import "EVDetailWebViewController.h"
 
@@ -523,7 +525,7 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
             case 1:
             {
                 //新闻
-                EVNewsDetailWebController *newsDetailVC = [[EVNewsDetailWebController alloc] init];
+                EVNativeNewsDetailViewController *newsDetailVC = [[EVNativeNewsDetailViewController alloc] init];
                 //                EVBaseNewsModel *baseNewsModel = ;
                 newsDetailVC.newsID = resourceString;
                 

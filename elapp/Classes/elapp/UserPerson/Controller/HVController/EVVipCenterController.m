@@ -37,7 +37,9 @@
 #import "EVLoginInfo.h"
 #import "EVLoginViewController.h"
 #import "EVNewsModel.h"
-#import "EVNewsDetailWebController.h"
+//#import "EVNewsDetailWebController.h"
+#import "EVNativeNewsDetailViewController.h"
+
 #import "EVStockBaseModel.h"
 #import "EVMyTextLiveViewController.h"
 
@@ -517,9 +519,8 @@
         _CenterCommentView.commentBlock = ^(EVCommentTopicModel *topicModel) {
             if ([topicModel.type isEqualToString:@"0"]) {
                 //新闻
-                EVNewsDetailWebController *newsVC = [[EVNewsDetailWebController alloc] init];
+                EVNativeNewsDetailViewController *newsVC = [[EVNativeNewsDetailViewController alloc] init];
                 newsVC.newsID = topicModel.id;
-                newsVC.title = topicModel.title;
                 [weakself.navigationController pushViewController:newsVC animated:YES];
             } else if([topicModel.type isEqualToString:@"1"]) {
                 //视频
@@ -558,9 +559,8 @@
         [_centerArticleView loadNewData];
         __weak typeof(self) weakself = self;
         _centerArticleView.ArticleBlock = ^(EVNewsModel *newsModel) {
-            EVNewsDetailWebController *newsVC = [[EVNewsDetailWebController alloc] init];
+            EVNativeNewsDetailViewController *newsVC = [[EVNativeNewsDetailViewController alloc] init];
             newsVC.newsID = newsModel.newsID;
-            newsVC.title = newsModel.title;
             [weakself.navigationController pushViewController:newsVC animated:YES];
         };
 

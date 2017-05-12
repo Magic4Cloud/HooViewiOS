@@ -59,6 +59,7 @@
 
 //获取精品视频评论列表
 - (void)GETVideoCommentListtopicid:(NSString *)topicid
+                           orderby:(NSString *)orderby
                               type:(NSString *)type
                              start:(NSString *)start
                              count:(NSString *)count

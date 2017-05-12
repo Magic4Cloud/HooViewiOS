@@ -25,7 +25,9 @@
 #import "EVLoginInfo.h"
 #import "EVLoginViewController.h"
 #import "EVNewsModel.h"
-#import "EVNewsDetailWebController.h"
+//#import "EVNewsDetailWebController.h"
+#import "EVNativeNewsDetailViewController.h"
+
 #import "EVHVCenterCommentTableView.h"
 #import "EVMarketDetailsController.h"
 
@@ -97,7 +99,6 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
 }
 
 
@@ -379,7 +380,7 @@
         _CenterCommentView.commentBlock = ^(EVCommentTopicModel *topicModel) {
             if ([topicModel.type isEqualToString:@"0"]) {
                 //新闻
-                EVNewsDetailWebController *newsVC = [[EVNewsDetailWebController alloc] init];
+                EVNativeNewsDetailViewController *newsVC = [[EVNativeNewsDetailViewController alloc] init];
                 newsVC.newsID = topicModel.id;
                 //    newsVC.title = model.title;
                 [weakself.navigationController pushViewController:newsVC animated:YES];
@@ -418,9 +419,8 @@
         _centerArticleView.WatchVideoInfo = self.watchVideoInfo;
         [_centerArticleView loadNewData];
         _centerArticleView.ArticleBlock = ^(EVNewsModel *newsModel) {
-            EVNewsDetailWebController *newsVC = [[EVNewsDetailWebController alloc] init];
+            EVNativeNewsDetailViewController *newsVC = [[EVNativeNewsDetailViewController alloc] init];
             newsVC.newsID = newsModel.newsID;
-            newsVC.title = newsModel.title;
             [weakself.navigationController pushViewController:newsVC animated:YES];
         };
     }

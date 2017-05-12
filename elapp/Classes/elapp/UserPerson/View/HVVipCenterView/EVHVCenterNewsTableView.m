@@ -12,7 +12,8 @@
 #import "EVNullDataView.h"
 #import "EVBaseToolManager+EVNewsAPI.h"
 #import "EVNewsModel.h"
-#import "EVNewsDetailWebController.h"
+//#import "EVNewsDetailWebController.h"
+#import "EVNativeNewsDetailViewController.h"
 
 #import "EVOnlyTextCell.h"
 #import "EVThreeImageCell.h"

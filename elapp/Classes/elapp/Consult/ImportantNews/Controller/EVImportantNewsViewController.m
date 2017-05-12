@@ -19,7 +19,9 @@
 #import "EVStockBaseModel.h"
 #import "EVBaseNewsModel.h"
 #import "EVHVEyesModel.h"
-#import "EVNewsDetailWebController.h"
+//#import "EVNewsDetailWebController.h"
+#import "EVNativeNewsDetailViewController.h"
+
 #import "EVBaseToolManager+EVStockMarketAPI.h"
 #import "EVMarketDetailsController.h"
 #import "EVLoginInfo.h"
@@ -309,7 +311,7 @@
 
 - (void)newsButton:(UIButton *)button
 {
-    EVNewsDetailWebController *newsDetailVC = [[EVNewsDetailWebController alloc] init];
+    EVNativeNewsDetailViewController *newsDetailVC = [[EVNativeNewsDetailViewController alloc] init];
     EVBaseNewsModel *baseNewsModel = self.eyesDataArray[button.tag - 2000];
     newsDetailVC.newsID = baseNewsModel.newsID;
     //    newsDetailVC.title  = baseNewsModel.title;
@@ -574,7 +576,7 @@
                 break;
             case EVCarouselItemNews:
             {
-                EVNewsDetailWebController *newsDetailVC = [[EVNewsDetailWebController alloc] init];
+                EVNativeNewsDetailViewController *newsDetailVC = [[EVNativeNewsDetailViewController alloc] init];
 //                EVBaseNewsModel *baseNewsModel = ;
                 newsDetailVC.newsID = carousItem.resource;
                 //    newsDetailVC.title  = baseNewsModel.title;

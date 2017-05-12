@@ -29,7 +29,9 @@
 #import "EVLiveListViewCell.h"
 #import "EVStockBaseViewCell.h"
 #import "EVHVWatchViewController.h"
-#import "EVNewsDetailWebController.h"
+//#import "EVNewsDetailWebController.h"
+#import "EVNativeNewsDetailViewController.h"
+
 #import "EVMarketDetailsController.h"
 
 #import "EVNewsModel.h"
@@ -450,9 +452,8 @@
     if (tableView == self.newsTableView) {
         EVNewsModel * newsModel = _searchResult.news[indexPath.row];
         
-        EVNewsDetailWebController *news = [[EVNewsDetailWebController alloc] init];
+        EVNativeNewsDetailViewController *news = [[EVNativeNewsDetailViewController alloc] init];
         news.newsID = newsModel.newsID;
-        news.title = newsModel.title;
         [self.navigationController pushViewController:news animated:YES];
         
         

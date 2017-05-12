@@ -34,19 +34,20 @@
         return;
     }
     _stockModelArray = stockModelArray;
-
-    EVStockModel * firtsModel = stockModelArray[0];
+    
+    if (stockModelArray.count == 1) {
+        EVStockModel * firtsModel = stockModelArray[0];
+        [_firstStockButton setTitle:[NSString stringWithFormat:@" %@ %@%% ",firtsModel.name,firtsModel.persent] forState:UIControlStateNormal];
+        
+        _firstStockButton.backgroundColor = [firtsModel.persent floatValue] > 0 ? CCColor(255, 72, 74) : CCColor(65, 212, 174);
+    }
+    
     if (stockModelArray.count > 1) {
         EVStockModel * secondModel = stockModelArray[1];
         [_secondStockButton setTitle:[NSString stringWithFormat:@" %@ %@%% ",secondModel.name,secondModel.persent] forState:UIControlStateNormal];
         _secondStockButton.backgroundColor = [secondModel.persent floatValue] > 0 ? CCColor(255, 72, 74) : CCColor(65, 212, 174);
     }
     
-    [_firstStockButton setTitle:[NSString stringWithFormat:@" %@ %@%% ",firtsModel.name,firtsModel.persent] forState:UIControlStateNormal];
-    
-    _firstStockButton.backgroundColor = [firtsModel.persent floatValue] > 0 ? CCColor(255, 72, 74) : CCColor(65, 212, 174);
-    
-
     if (stockModelArray.count == 1) {
         _firstStockButton.hidden = NO;
         _secondStockButton.hidden = YES;

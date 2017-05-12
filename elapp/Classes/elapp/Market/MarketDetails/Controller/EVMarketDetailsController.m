@@ -12,6 +12,8 @@
 #import "EVBaseToolManager+EVStockMarketAPI.h"
 #import "WKWebViewJavascriptBridge.h"
 #import "EVNewsDetailWebController.h"
+#import "EVNativeNewsDetailViewController.h"
+
 #import "EVMarketTextView.h"
 #import "EVLoginInfo.h"
 #import "EVLoginViewController.h"
@@ -156,10 +158,9 @@
     
     [_webViewBridge registerHandler:@"showNewsDetail" handler:^(id data, WVJBResponseCallback responseCallback) {
         
-        EVNewsDetailWebController *detailWebVC = [[EVNewsDetailWebController alloc] init];
+        EVNativeNewsDetailViewController *detailWebVC = [[EVNativeNewsDetailViewController alloc] init];
         NSDictionary *bodyDict = data;
         detailWebVC.newsID = bodyDict[@"newsid"];
-        detailWebVC.newsTitle = bodyDict[@"newstitle"];
         [self.navigationController pushViewController:detailWebVC animated:YES];
         
     }];

@@ -12,5 +12,6 @@
 @interface EVCommentViewCell : UITableViewCell
 
 @property (nonatomic, strong) EVHVVideoCommentModel *videoCommentModel;
+@property (nonatomic, copy) NSString *likeType;
 
 @end

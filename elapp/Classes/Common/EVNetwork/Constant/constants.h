@@ -220,8 +220,10 @@
 #define EVRecommendVideoList        @"http://dev.hooview.com/api/v2/recommend/videos"
 
 //新闻详情
-#define EVNewsDetailAPI             @"http://192.168.8.205:8888/news/content"
+#define EVNewsDetailAPI             @"http://dev.hooview.com/api/v2/news/content"
 
+//新闻like
+#define EVNewsLikeAPI               @"http://dev.hooview.com/api/news/like"
 
 #endif
 

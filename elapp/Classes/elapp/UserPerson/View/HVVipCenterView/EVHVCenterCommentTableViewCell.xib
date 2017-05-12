@@ -60,7 +60,7 @@
                         </userDefinedRuntimeAttributes>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="财经小白" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2x8-E3-DWE">
-                        <rect key="frame" x="58" y="61" width="57.5" height="17"/>
+                        <rect key="frame" x="58" y="61" width="219" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.18823529411764706" green="0.18823529411764706" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -89,11 +89,6 @@
                             <constraint firstAttribute="width" constant="30" id="Zmv-hX-DJU"/>
                             <constraint firstAttribute="height" constant="30" id="zwo-mJ-D2I"/>
                         </constraints>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                <integer key="value" value="15"/>
-                            </userDefinedRuntimeAttribute>
-                        </userDefinedRuntimeAttributes>
                     </imageView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t7k-sx-q44">
                         <rect key="frame" x="286" y="54.5" width="30" height="30"/>
@@ -114,6 +109,7 @@
                     <constraint firstAttribute="trailingMargin" secondItem="SXG-t3-1t3" secondAttribute="trailing" constant="-8" id="Ivb-X5-hrc"/>
                     <constraint firstItem="WOX-f4-PMb" firstAttribute="centerY" secondItem="2x8-E3-DWE" secondAttribute="centerY" id="LoJ-Ig-S2R"/>
                     <constraint firstItem="Ock-t3-YJ4" firstAttribute="top" secondItem="2x8-E3-DWE" secondAttribute="bottom" constant="8" id="USG-Ve-LR9"/>
+                    <constraint firstAttribute="trailing" secondItem="2x8-E3-DWE" secondAttribute="trailing" constant="100" id="WxV-nz-UQY"/>
                     <constraint firstAttribute="trailingMargin" secondItem="Ock-t3-YJ4" secondAttribute="trailing" constant="23" id="WzB-ra-Aie"/>
                     <constraint firstItem="SXG-t3-1t3" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="-8" id="fkF-po-FHA"/>
                     <constraint firstAttribute="trailingMargin" secondItem="WOX-f4-PMb" secondAttribute="trailing" constant="20" id="hMu-Vu-YT8"/>

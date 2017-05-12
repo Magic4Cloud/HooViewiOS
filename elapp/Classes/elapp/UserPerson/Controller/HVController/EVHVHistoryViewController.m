@@ -12,7 +12,9 @@
 #import "EVWatchHistoryView.h"
 #import "EVReadHistoryView.h"
 #import "EVHVWatchViewController.h"
-#import "EVNewsDetailWebController.h"
+//#import "EVNewsDetailWebController.h"
+#import "EVNativeNewsDetailViewController.h"
+
 #import "EVBaseNewsModel.h"
 
 #import "EVNewsModel.h"
@@ -118,9 +120,8 @@
     _readHistoryView = readHistoryView;
     readHistoryView.frame = CGRectMake(ScreenWidth, 0, ScreenWidth, ScreenHeight - 44);
     readHistoryView.pushWatchBlock = ^(EVNewsModel *baseNewsModel) {
-        EVNewsDetailWebController *newsDetail = [[EVNewsDetailWebController alloc] init];
+        EVNativeNewsDetailViewController *newsDetail = [[EVNativeNewsDetailViewController alloc] init];
         newsDetail.newsID = baseNewsModel.newsID;
-        newsDetail.title = baseNewsModel.title;
         [weakself.navigationController pushViewController:newsDetail animated:YES];
     };
     

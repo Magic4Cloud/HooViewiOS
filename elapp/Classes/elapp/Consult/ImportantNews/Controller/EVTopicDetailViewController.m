@@ -7,7 +7,9 @@
 //
 
 #import "EVTopicDetailViewController.h"
-#import "EVNewsDetailWebController.h"
+//#import "EVNewsDetailWebController.h"
+#import "EVNativeNewsDetailViewController.h"
+
 #import "EVTopicHeaderView.h"
 #import "EVBaseToolManager.h"
 
@@ -180,9 +182,8 @@
     //普通新闻
     EVNewsModel * newsModel = _topicModel.news[indexPath.row];
     
-    EVNewsDetailWebController *newsWebVC = [[EVNewsDetailWebController alloc] init];
+    EVNativeNewsDetailViewController *newsWebVC = [[EVNativeNewsDetailViewController alloc] init];
     newsWebVC.newsID = newsModel.newsID;
-    newsWebVC.newsTitle = newsModel.title;
     
     //添加已读历史记录 字体变灰
     [[EVCoreDataClass shareInstance] insertReadNewsId:newsModel.newsID];

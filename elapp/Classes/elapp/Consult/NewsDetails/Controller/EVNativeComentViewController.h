@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EVViewController.h"
 
 /**
  新闻评论  原生
  */
-@interface EVNativeComentViewController : UIViewController
+@interface EVNativeComentViewController : EVViewController
+@property (nonatomic, copy) NSString *newsid;
 
 @end

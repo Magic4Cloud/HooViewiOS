@@ -12,7 +12,9 @@
 #import "EVBaseToolManager+EVNewsAPI.h"
 #import "EVSpeciaColumnModel.h"
 #import "WaterFlowLayout.h"
-#import "EVNewsDetailWebController.h"
+//#import "EVNewsDetailWebController.h"
+#import "EVNativeNewsDetailViewController.h"
+
 #import "EVWatchVideoInfo.h"
 #import "EVVipCenterViewController.h"
 #import "EVNullDataView.h"
@@ -194,10 +196,9 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    EVNewsDetailWebController *newsWebVC = [[EVNewsDetailWebController alloc] init];
+    EVNativeNewsDetailViewController *newsWebVC = [[EVNativeNewsDetailViewController alloc] init];
     EVSpeciaColumnModel * columnModel = _datasourceArray[indexPath.row];
     newsWebVC.newsID = columnModel.newsID;
-    newsWebVC.newsTitle = columnModel.title;
     if ([columnModel.newsID isEqualToString:@""] || columnModel.newsID == nil) {
         return;
     }

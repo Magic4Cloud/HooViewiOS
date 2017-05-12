@@ -11,7 +11,8 @@
 #import "EVFastNewsModel.h"
 #import "EVHVEyesDetailView.h"
 #import "EVBaseToolManager+EVNewsAPI.h"
-#import "EVNewsDetailWebController.h"
+//#import "EVNewsDetailWebController.h"
+#import "EVNativeNewsDetailViewController.h"
 
 @interface EVHVEyesViewController ()<SGSegmentedControlStaticDelegate,UIScrollViewDelegate>
 
@@ -120,9 +121,8 @@
 
 - (void)pushNewDetailVCModel:(EVHVEyesModel *)eyesModel view:(EVHVEyesDetailView *)view model:(EVHVEyesModel*)model
 {
-    EVNewsDetailWebController *newsDetailVC = [[EVNewsDetailWebController alloc] init];
+    EVNativeNewsDetailViewController *newsDetailVC = [[EVNativeNewsDetailViewController alloc] init];
     newsDetailVC.newsID = eyesModel.eyesID;
-    newsDetailVC.newsTitle = eyesModel.title;
     newsDetailVC.refreshViewCountBlock = ^()
     {
         [view loadEyesStart:@"0" count:@"20" eyesModel:model];

@@ -15,7 +15,9 @@
 #import "EVNullDataView.h"
 #import "EVBaseToolManager+EVNewsAPI.h"
 #import "EVNewsModel.h"
-#import "EVNewsDetailWebController.h"
+//#import "EVNewsDetailWebController.h"
+#import "EVNativeNewsDetailViewController.h"
+
 
 #import "EVOnlyTextCell.h"
 #import "EVThreeImageCell.h"
@@ -216,9 +218,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     EVNewsModel * model = self.dataArray[indexPath.row];
-    EVNewsDetailWebController *newsVC = [[EVNewsDetailWebController alloc] init];
+    EVNativeNewsDetailViewController *newsVC = [[EVNativeNewsDetailViewController alloc] init];
     newsVC.newsID = model.newsID;
-    newsVC.title = model.title;
     [self.navigationController pushViewController:newsVC animated:YES];
     
 }

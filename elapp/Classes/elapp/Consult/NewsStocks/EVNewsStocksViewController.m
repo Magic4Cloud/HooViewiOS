@@ -9,7 +9,9 @@
 #import "EVNewsStocksViewController.h"
 #import "EVBaseToolManager+EVNewsAPI.h"
 #import "EVNewsListViewCell.h"
-#import "EVNewsDetailWebController.h"
+//#import "EVNewsDetailWebController.h"
+#import "EVNativeNewsDetailViewController.h"
+
 #import "EVNewsModel.h"
 #import "EVCoreDataClass.h"
 
@@ -156,9 +158,8 @@
     [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
     
     //普通新闻
-    EVNewsDetailWebController *newsWebVC = [[EVNewsDetailWebController alloc] init];
+    EVNativeNewsDetailViewController *newsWebVC = [[EVNativeNewsDetailViewController alloc] init];
     newsWebVC.newsID = newsModel.eyesID;
-    newsWebVC.newsTitle = newsModel.title;
     newsWebVC.refreshViewCountBlock = ^()
     {
         [self initData];

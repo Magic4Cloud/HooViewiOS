@@ -16,7 +16,8 @@
 #import "EVLoginViewController.h"
 #import "EVBaseToolManager+EVNewsAPI.h"
 #import "EVChooseNewsModel.h"
-#import "EVNewsDetailWebController.h"
+//#import "EVNewsDetailWebController.h"
+#import "EVNativeNewsDetailViewController.h"
 
 
 @interface EVChooseNewsViewController ()<UITableViewDelegate,UITableViewDataSource>
@@ -235,9 +236,8 @@
 {
     EVChooseNewsModel *chooseNewsModel = self.dataArray[indexPath.row];
     
-    EVNewsDetailWebController *newsDetailVC = [[EVNewsDetailWebController alloc] init];
+    EVNativeNewsDetailViewController *newsDetailVC = [[EVNativeNewsDetailViewController alloc] init];
     newsDetailVC.newsID = chooseNewsModel.newsID;
-    newsDetailVC.newsTitle = chooseNewsModel.title;
     [self.navigationController pushViewController:newsDetailVC animated:YES];
     
 }

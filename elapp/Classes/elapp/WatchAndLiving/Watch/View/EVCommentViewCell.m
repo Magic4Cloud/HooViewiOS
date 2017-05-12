@@ -152,14 +152,14 @@
 - (void)action_likeOrNot:(UIButton *)sender {
     WEAK(self)
     
-    NSString *likeType = [_videoCommentModel.like integerValue] == 0 ? @"1" : @"0";
-    [self.baseToolManager GETLikeOrNotWithUserName:nil Type:@"1" action:likeType postid:_videoCommentModel.id start:^{
+    NSString *actionType = [_videoCommentModel.like integerValue] == 0 ? @"1" : @"0";
+    [self.baseToolManager GETLikeOrNotWithUserName:nil Type:_likeType action:actionType postid:_videoCommentModel.id start:^{
         
     } fail:^(NSError *error) {
         NSLog(@"error = %@",error);
     } success:^{
         sender.selected = !sender.selected;
-        [weakself buttonStatus:likeType button:sender];
+        [weakself buttonStatus:actionType button:sender];
     } essionExpire:^{
         
     }];

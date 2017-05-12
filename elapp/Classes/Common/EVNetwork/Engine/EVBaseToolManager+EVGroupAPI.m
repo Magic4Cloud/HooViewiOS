@@ -122,6 +122,31 @@
 }
 
 
+//文章like
+- (void)GETLikeNewsWithNewsid:(NSString *)newsid
+                            Type:(NSString *)type
+                          action:(NSString *)action
+                          postid:(NSString *)postid
+                           start:(void(^)())startBlock
+                            fail:(void(^)(NSError *error))failBlock
+                         success:(void(^)())successBlock
+                    essionExpire:(void(^)())sessionExpireBlock
+{
+//    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
+//    if ( sessionID == nil )
+//    {
+//        return;
+//    }
+    NSString *userid = [self uidFromLocal];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setValue:userid forKey:@"userid"];
+    [params setValue:newsid forKey:@"newsid"];
+    
+    [EVBaseToolManager GETRequestWithUrl:EVNewsLikeAPI parameters:params success:successBlock sessionExpireBlock:sessionExpireBlock fail:failBlock];
+}
+
+
+
 
 
 - (NSString *)filePathWithString:(NSString *)string

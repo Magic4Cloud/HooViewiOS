@@ -100,7 +100,8 @@
 @property (nonatomic, copy) NSString * content;
 @property (nonatomic, copy) NSString * postCount;
 @property (nonatomic, copy) NSString *likeCount;
-@property (nonatomic, copy) NSString *like;
+@property (nonatomic, copy) NSString *like;//是否点赞
+@property (nonatomic, copy) NSString *favorite;//是否收藏
 @property (nonatomic, strong) EVAuthorModel * recommendPerson;
 @property (nonatomic, strong) NSArray * recommendNews;//(EVNewsModel)
 @property (nonatomic, strong) NSArray *posts;//(EVHVVideoCommentModel)

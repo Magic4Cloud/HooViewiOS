@@ -80,15 +80,16 @@
                     success:(void(^)(NSDictionary *retinfo))successBlock
               sessionExpire:(void(^)())sessionExpireBlock
 {
-    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
-    if ( sessionID == nil )
-    {
-        return ;
-    }
-    
+//    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
+//    if ( sessionID == nil )
+//    {
+//        return ;
+//    }
+    NSString *userid = [self uidFromLocal];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setValue:newsid forKey:@"newsid"];
-    [params setValue:sessionID forKey:@"sessionid"];
+    [params setValue:userid forKey:@"userid"];
+//    [params setValue:sessionID forKey:@"sessionid"];
 
     [EVBaseToolManager GETNotVerifyRequestWithUrl:EVNewsDetailAPI parameters:params success:successBlock fail:failBlock];
 }

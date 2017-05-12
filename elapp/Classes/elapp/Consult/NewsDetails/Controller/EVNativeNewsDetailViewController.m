@@ -9,6 +9,7 @@
 #import "EVNativeNewsDetailViewController.h"
 #import "EVBaseToolManager+EVNewsAPI.h"
 #import "EVBaseToolManager+EVStockMarketAPI.h"
+#import "EVBaseToolManager+EVHomeAPI.h"
 
 #import "EVStockDetailBottomView.h"
 #import "EVSharePartView.h"
@@ -30,6 +31,8 @@
 #import "EVLoginInfo.h"
 #import "EVMarketTextView.h"
 #import "EVLoginViewController.h"
+#import "EVNativeComentViewController.h"
+#import "EVNormalPersonCenterController.h"
 
 @interface EVNativeNewsDetailViewController ()<UITableViewDelegate,UITableViewDataSource,WKNavigationDelegate,UIWebViewDelegate,EVStockDetailBottomViewDelegate,EVWebViewShareViewDelegate,UITextFieldDelegate>
 {
@@ -55,6 +58,8 @@
 
 @property (nonatomic, copy) NSString *urlStr;
 
+@property (nonatomic, strong) UIView *backView;
+
 @end
 
 @implementation EVNativeNewsDetailViewController
@@ -79,12 +84,13 @@
     [self.view addSubview:self.detailBottomView];
     [self.view addSubview:self.eVSharePartView];
 
-
     [self loadNewData];
+    [self.view addSubview:self.backView];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    
     [self addWindowView];
 }
 
@@ -100,8 +106,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 
     
-    [self.view addSubview:self.tableView];
-    [self.tableView autoPinEdgeToSuperviewEdge:ALEdgeTop];
+    [self.view insertSubview:self.tableView belowSubview:self.eVSharePartView];
+    
+    [self.tableView autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:20];
     [self.tableView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
     [self.tableView autoPinEdgeToSuperviewEdge:ALEdgeRight];
     [self.tableView autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:49];
@@ -113,24 +120,23 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"EVRelatedNewsCell" bundle:nil] forCellReuseIdentifier:@"EVRelatedNewsCell"];
     
     
-    self.detailBottomView.isCollec = [_newsDetailModel.like boolValue];
-    self.isCollect = [_newsDetailModel.like boolValue];
-    
+    self.detailBottomView.isCollec = [_newsDetailModel.favorite boolValue];
+    self.isCollect = [_newsDetailModel.favorite boolValue];
+    self.detailBottomView.commentCount = [_newsDetailModel.postCount integerValue];
 }
 
 #pragma mark - 🌐Networks
 - (void)loadNewData
 {
-//    self.tableView.hidden = YES;
-    [EVProgressHUD showIndeterminateForView:self.view];
+    [EVProgressHUD showIndeterminateForView:self.backView];
     [commentHeightArray removeAllObjects];
     [commentHeightArray addObject:@"44"];
     
     [self.baseToolManager GETNewsDetailNewsID:self.newsID fail:^(NSError *error) {
-        [EVProgressHUD hideHUDForView:self.view];
+        [EVProgressHUD hideHUDForView:self.backView];
+        self.backView.hidden = YES;
         [EVProgressHUD showError:@"请求失败！"];
     } success:^(NSDictionary *retinfo) {
-        [EVProgressHUD hideHUDForView:self.view];
         NSDictionary * dataDic = retinfo;
         if (dataDic && [dataDic isKindOfClass:[NSDictionary class]]) {
             _newsDetailModel = [EVNewsDetailModel yy_modelWithDictionary:dataDic];
@@ -162,7 +168,8 @@
         }
     } sessionExpire:^{
         [EVProgressHUD showError:@"请求失败！"];
-        [EVProgressHUD hideHUDForView:self.view];
+        [EVProgressHUD hideHUDForView:self.backView];
+        self.backView.hidden = YES;
     }];
 }
 
@@ -213,7 +220,7 @@
             NSLog(@"---------%d",self.isCollect);
             int action = self.isCollect ? 0 : 1;
             
-            [self.baseToolManager GETNewsCollectNewsid:self.newsID action:action start:^{
+            [self.baseToolManager GETNewsCollectNewsid:_newsDetailModel.id action:action start:^{
                 
             } fail:^(NSError *error) {
                 [EVProgressHUD showMessage:@"失败"];
@@ -224,14 +231,17 @@
                 if (self.refreshCollectBlock) {
                     self.refreshCollectBlock();
                 }
-                
             } sessionExpire:^{
-                
             }];
         }
-            
             break;
         
+        case EVBottomButtonTypeRefresh:
+        {
+            [self pushCommentListVCID:_newsDetailModel.id];
+        }
+            break;
+            
         case EVBottomButtonTypeComment:
         {
             EVLoginInfo *loginInfo = [EVLoginInfo localObject];
@@ -264,6 +274,8 @@
 
     contentHeight = CGRectGetMaxY(webView.frame);
     [self.tableView reloadData];
+    [EVProgressHUD hideHUDForView:self.backView];
+    self.backView.hidden = YES;
 }
 
 
@@ -309,23 +321,6 @@
     self.marketTextView.sendButton.selected = NO;
 }
 
-- (void)loadCommentListData
-{
-    WEAK(self)
-    
-    [self.baseToolManager GETNewsDetailNewsID:self.newsID fail:^(NSError *error) {
-        [EVProgressHUD showMessage:@"获取失败"];
-    } success:^(NSDictionary *retinfo) {
-        NSString *commentCount = [NSString stringWithFormat:@"%@",retinfo[@"retinfo"][@"data"][@"commentCount"]];
-        EVLog(@"commentcount------ %@",commentCount);
-        weakself.detailBottomView.commentCount = [commentCount integerValue];
-        
-    } sessionExpire:^{
-        [EVProgressHUD showMessage:@"获取失败"];
-    }];
-    
-}
-
 
 
 - (void)sendCommentStr:(NSString *)str
@@ -334,18 +329,19 @@
         [EVProgressHUD showMessage:@"评论为空"];
         return;
     }
-    WEAK(self);
-    EVLoginInfo *loginInfo = [EVLoginInfo localObject];
-    [self.baseToolManager POSTNewsCommentContent:str stockCode:self.newsID userID:loginInfo.name userName:loginInfo.nickname userAvatar:loginInfo.logourl start:^{
-        
-    } fail:^(NSError *error) {
-        [weakself hide];
-        [EVProgressHUD showMessage:@"评论失败"];
-    } success:^(NSDictionary *retinfo) {
-        [weakself hide];
-        [EVProgressHUD showMessage:@"评论成功"];
-        [weakself loadCommentListData];
-    }];
+    //发送评论
+        [self.baseToolManager POSTVideoCommentContent:str topicid:_newsDetailModel.id type:@"0" start:^{
+    
+        } fail:^(NSError *error) {
+            NSString *errorMsg = @"评论失败";
+            if (![EVLoginInfo localObject]) {
+                errorMsg = [errorMsg stringByAppendingString:@"请先登录"];
+            }
+            [EVProgressHUD showError:errorMsg];
+        } success:^(NSDictionary *info) {
+            [EVProgressHUD showSuccess:@"评论成功"];
+        } sessionExpired:^{
+        }];
 }
 
 - (void)keyboardWillShow:(NSNotification *)notification
@@ -360,8 +356,6 @@
     [UIView animateWithDuration:0.3 animations:^{
         self.marketTextView.frame = CGRectMake(0, ScreenHeight - kbSize.height - 49, ScreenWidth, 49);
     }];
-    
-    
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification
@@ -385,6 +379,13 @@
     [self deallocView];
 }
 
+//跳转评论列表
+- (void)pushCommentListVCID:(NSString *)newsid
+{
+    EVNativeComentViewController * allCommentVC = [[EVNativeComentViewController alloc] init];
+    allCommentVC.newsid = _newsDetailModel.id;
+    [self.navigationController pushViewController:allCommentVC animated:YES];
+}
 
 
 
@@ -449,7 +450,12 @@
             else if (indexPath.row ==3)
             {
                 //标签
-                return 60;
+//                return tagCellHeight;
+                if (_newsDetailModel.tag.count == 0) {
+                    return 0;
+                } else {
+                    return 60;
+                }
             }
             else if (indexPath.row ==4)
             {
@@ -584,6 +590,7 @@
                     contentCell.webView.delegate = self;
                     
                 }
+                
                 contentCell.htmlString = _newsDetailModel.content;
                 return contentCell;
             }
@@ -695,8 +702,32 @@
             break;
         case 1:
         {
-            if(indexPath.row == commentHeightArray.count - 1) {
+            if (indexPath.row == 0) {
+            }
+            else if(indexPath.row == commentHeightArray.count - 1) {
                 //全部评论
+                EVNativeComentViewController * allCommentVC = [[EVNativeComentViewController alloc] init];
+                allCommentVC.newsid = _newsDetailModel.id;
+                [self.navigationController pushViewController:allCommentVC animated:YES];
+            } else {
+                EVHVVideoCommentModel *commentModel = _newsDetailModel.posts[indexPath.row];
+                if (commentModel.user.vip == 1)
+                {
+                    EVWatchVideoInfo *watchInfo = [EVWatchVideoInfo new];
+                    watchInfo.name = commentModel.user.id;
+                    EVVipCenterController *vc = [[EVVipCenterController alloc] init];
+                    vc.watchVideoInfo = watchInfo;
+                    [self.navigationController pushViewController:vc animated:YES];
+                }
+                else
+                {
+                    EVWatchVideoInfo *watchInfo = [EVWatchVideoInfo new];
+                    watchInfo.name = commentModel.user.id;
+                    EVNormalPersonCenterController  *vc = [[EVNormalPersonCenterController alloc] init];
+                    vc.watchVideoInfo = watchInfo;
+                    [self.navigationController pushViewController:vc animated:YES];
+                }
+
             }
         }
             break;
@@ -772,7 +803,7 @@
 - (UITableView *)tableView
 {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:(UITableViewStyleGrouped)];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 10, ScreenWidth, ScreenHeight - 10) style:(UITableViewStyleGrouped)];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.tableFooterView = [UIView new];
@@ -858,5 +889,12 @@
     }
 }
 
+-(UIView *)backView {
+    if (!_backView) {
+        _backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 49)];
+        _backView.backgroundColor = [UIColor whiteColor];
+    }
+    return _backView;
+}
 
 @end

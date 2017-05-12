@@ -48,7 +48,7 @@
 
 - (void)loadDataVid:(NSString *)vid start:(NSString *)start count:(NSString *)count
 {
-    [self.baseToolManager GETVideoCommentListtopicid:vid type:@"1" start:start count:count start:^{
+    [self.baseToolManager GETVideoCommentListtopicid:vid orderby:@"dateline" type:@"1" start:start count:count start:^{
         
     } fail:^(NSError *error) {
         [EVProgressHUD showError:@"加载失败"];
@@ -94,6 +94,7 @@
     if (!Cell) {
         Cell = [[EVCommentViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:@"commentCell"];
     }
+    Cell.likeType = @"1";
     Cell.videoCommentModel = self.dataArray[indexPath.row];
     Cell.selectionStyle = NO;
     return Cell;

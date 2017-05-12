@@ -93,6 +93,7 @@
 
 //获取精品视频评论列表
 - (void)GETVideoCommentListtopicid:(NSString *)topicid
+                           orderby:(NSString *)orderby
                               type:(NSString *)type
                          start:(NSString *)start
                          count:(NSString *)count
@@ -105,7 +106,7 @@
     [params setValue:topicid forKey:@"topicid"];
     [params setValue:type forKey:@"type"];
     [params setValue:userid forKey:@"userid"];
-    [params setValue:@"dateline" forKey:@"orderby"];
+    [params setValue:orderby forKey:@"orderby"];
     [params setValue:start forKey:@"start"];
     [params setValue:count forKey:@"count"];
     [EVBaseToolManager GETNoSessionWithUrl:EVVideoCommentListAPI parameters:params success:successBlock fail:failBlock];
