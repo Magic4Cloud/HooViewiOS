@@ -91,7 +91,7 @@ typedef NS_ENUM(NSInteger , EVCommentChooseType){
 - (void)initData {
     WEAK(self)
     [self.tableView addRefreshHeaderWithRefreshingBlock:^{
-        
+        _start = @"0";
         [weakself loadCommentsStart:@"0" count:@"20"];
     }];
     
@@ -114,12 +114,13 @@ typedef NS_ENUM(NSInteger , EVCommentChooseType){
     } success:^(NSDictionary *retinfo) {
         [self.tableView endHeaderRefreshing];
         [self.tableView endFooterRefreshing];
-        self.start = retinfo[@"retinfo"][@"next"];
-        [self.tableView endFooterRefreshing];
-        NSArray *commentArr = [EVHVVideoCommentModel objectWithDictionaryArray:retinfo[@"retinfo"][@"posts"]];
         if ([retinfo[@"retinfo"][@"start"] integerValue] == 0) {
             [self.dataArray removeAllObjects];
         }
+        
+        self.start = retinfo[@"retinfo"][@"next"];
+        [self.tableView endFooterRefreshing];
+        NSArray *commentArr = [EVHVVideoCommentModel objectWithDictionaryArray:retinfo[@"retinfo"][@"posts"]];
         [self.dataArray addObjectsFromArray:commentArr];
         [self.tableView reloadData];
         [self.tableView setFooterState:(commentArr.count < kCountNum ? CCRefreshStateNoMoreData : CCRefreshStateIdle)];
