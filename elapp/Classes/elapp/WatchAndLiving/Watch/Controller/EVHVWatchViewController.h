@@ -22,4 +22,5 @@
  */
 @property (nonatomic, strong) EVVideoAndLiveModel * videoAndLiveModel;
 
+@property (nonatomic, copy) void(^paidSuccessCallbackBlock)();
 @end

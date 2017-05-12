@@ -362,7 +362,7 @@
         {
             //付费直播 没付费
             self.videoPayCoverView.hidden = NO;
-            NSString * price = _watchVideoInfo.price;
+            NSString * price = _watchVideoInfo.price?_watchVideoInfo.price:@"";
             NSMutableAttributedString * attributeString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@豆",price]];
             [attributeString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:24] range:NSMakeRange(0, price.length)];
             [attributeString addAttribute:NSForegroundColorAttributeName value:[UIColor evEcoinColor] range:NSMakeRange(0, price.length)];
@@ -1485,8 +1485,7 @@
 - (EVVideoPayBottomView *)payBottomView
 {
     if (!_payBottomView) {
-        _payBottomView = [[EVVideoPayBottomView alloc] init];
-        _payBottomView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
+        _payBottomView = [[EVVideoPayBottomView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
         __weak typeof(self) weakSelf = self;
         _payBottomView.payOrChargeButtonClick = ^(EVVideoPayBottomView * view)
         {
@@ -1509,6 +1508,9 @@
                 } successBlock:^(NSDictionary *retinfo) {
                     //购买成功
                     [EVProgressHUD showMessage:@"购买成功"];
+                    if (weakSelf.paidSuccessCallbackBlock) {
+                        weakSelf.paidSuccessCallbackBlock();
+                    }
                     [weakSelf.evPlayer play];
                     [view dismissPayView];
                     weakSelf.videoPayCoverView.hidden = YES;
