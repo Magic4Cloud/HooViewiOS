@@ -34,6 +34,7 @@
 #import "EVNativeComentViewController.h"
 #import "EVNormalPersonCenterController.h"
 
+#import "EVShareManager.h"
 @interface EVNativeNewsDetailViewController ()<UITableViewDelegate,UITableViewDataSource,WKNavigationDelegate,UIWebViewDelegate,EVStockDetailBottomViewDelegate,EVWebViewShareViewDelegate,UITextFieldDelegate>
 {
     CGFloat contentHeight;
@@ -202,6 +203,17 @@
 - (void)shareType:(EVLiveShareButtonType)type
 {
     
+    self.urlStr = [self requestUrlID:self.newsID];
+    NSString *shareUrlString = self.urlStr;
+    if (self.urlStr == nil) {
+        
+        [EVProgressHUD showError:@"加载完成在分享"];
+        
+    }
+    
+    ShareType shareType = ShareTypeNewsWeb;
+    UIImage *image = [UIImage imageNamed:@"icon_share"];
+    [[EVShareManager shareInstance] shareContentWithPlatform:type shareType:shareType titleReplace:@"" descriptionReplaceName:@"#火眼财经#" descriptionReplaceId:nil URLString:shareUrlString image:image outImage:nil];
 }
 
 - (void)detailBottomClick:(EVBottomButtonType)type button:(UIButton *)btn
