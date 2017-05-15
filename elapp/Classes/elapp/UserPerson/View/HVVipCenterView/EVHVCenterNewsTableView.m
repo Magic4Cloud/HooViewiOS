@@ -80,7 +80,7 @@
 - (void)loadNewData
 {
     start = 0;
-    [EVProgressHUD showIndeterminateForView:self];
+//    [EVProgressHUD showIndeterminateForView:self];
     [self.baseToolManager GETMyReleaseListWithUserid:self.WatchVideoInfo.name type:@"2" start:0 count:20 startBlock:^{
     } fail:^(NSError *error) {
         [EVProgressHUD hideHUDForView:self];

@@ -169,9 +169,9 @@
     
     [self loadWatchStartData];
     
-    [self loadVideoData];
+    
     [self loadMyAssetsData];
-    WEAK(self)
+//    WEAK(self)
 //    [self.watchBottomView.chatView.chatTableView addRefreshHeaderWithRefreshingBlock:^{
 //        [weakself.liveMessageEngine loadMoreHistoryDataSuccess:^{
 //            [weakself.watchBottomView.chatView.chatTableView endHeaderRefreshing];
@@ -262,22 +262,23 @@
 - (void)loadVideoData
 {
     WEAK(self)
+    weakself.watchCenterView.isFollow = weakself.watchVideoInfo.followed;
 
-    [self.baseToolManager GETBaseUserInfoWithPersonid:self.watchVideoInfo.name start:^{
-        
-    } fail:^(NSError *error) {
-        
-    } success:^(NSDictionary *modelDict) {
-        weakself.watchCenterView.isFollow = [modelDict[@"followed"] boolValue];
-        weakself.isLoadingVideoData = YES;
-        // 有些时候 weakself.watchVideoInfo 会是 [EVNowVideoItem] 类型的 why?
-        if ([weakself.watchVideoInfo isKindOfClass:[EVWatchVideoInfo class]]) {
-            weakself.watchVideoInfo.followed = [modelDict[@"followed"] boolValue];
-        }
-
-    } sessionExpire:^{
-        
-    }];
+//    [self.baseToolManager GETBaseUserInfoWithPersonid:weakself.watchVideoInfo.name start:^{
+//        
+//    } fail:^(NSError *error) {
+//        
+//    } success:^(NSDictionary *modelDict) {
+//        weakself.watchCenterView.isFollow = [modelDict[@"followed"] boolValue];
+//        weakself.isLoadingVideoData = YES;
+//        // 有些时候 weakself.watchVideoInfo 会是 [EVNowVideoItem] 类型的 why?
+//        if ([weakself.watchVideoInfo isKindOfClass:[EVWatchVideoInfo class]]) {
+//            weakself.watchVideoInfo.followed = [modelDict[@"followed"] boolValue];
+//        }
+//
+//    } sessionExpire:^{
+//        
+//    }];
 }
 
 #pragma mark - 添加观看历史记录
@@ -400,6 +401,7 @@
         }
     }
     self.watchCenterView.watchVideoInfo = self.watchVideoInfo;
+    [self loadVideoData];
 }
 
 - (void)livingAndEndLivingWatchVideoInfo:(EVWatchVideoInfo *)watchVideoInfo videoInfo:(NSDictionary *)videoInfo

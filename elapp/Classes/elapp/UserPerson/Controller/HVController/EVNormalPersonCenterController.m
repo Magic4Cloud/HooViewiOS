@@ -33,7 +33,7 @@
 
 @interface EVNormalPersonCenterController ()<EVHVVipCenterDelegate,SwipeTableViewDataSource,SwipeTableViewDelegate,UIGestureRecognizerDelegate,UIViewControllerTransitioningDelegate,SGSegmentedControlStaticDelegate>
 
-@property (nonatomic, strong) EVVipDetailCenterView *hvCenterView;
+//@property (nonatomic, strong) EVVipDetailCenterView *hvCenterView;
 
 @property (nonatomic, weak) UIButton *followButton;
 
@@ -109,6 +109,7 @@
     EVVipDetailCenterView * vipCenterView = [[EVVipDetailCenterView alloc] init];
     vipCenterView.frame = CGRectMake(0, 0, ScreenWidth, 450);
     self.vipCenterView = vipCenterView;
+    self.vipCenterView.watchVideoInfo = self.watchVideoInfo;
     vipCenterView.fansAndFollowClickBlock = ^(controllerType type)
     {
         if (![EVLoginInfo hasLogged]) {
@@ -135,7 +136,7 @@
     _swipeTableView.swipeHeaderBarScrollDisabled = YES;
     _swipeTableView.swipeHeaderTopInset = 64;
     [self.view addSubview:_swipeTableView];
-    self.vipCenterView.watchVideoInfo = self.watchVideoInfo;
+    
         
     
     self.navigationView = [[UIView alloc] init];
@@ -444,10 +445,10 @@
     _watchVideoInfo = watchVideoInfo;
 }
 
-- (void)setIsFollow:(BOOL)isFollow
-{
-    _isFollow = isFollow;
-}
+//- (void)setIsFollow:(BOOL)isFollow
+//{
+//    _isFollow = isFollow;
+//}
 
 
 - (void)dealloc

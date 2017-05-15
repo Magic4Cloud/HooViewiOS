@@ -82,7 +82,7 @@
 
 - (void)loadNewData {
     start = 0;
-    [EVProgressHUD showIndeterminateForView:self];
+//    [EVProgressHUD showIndeterminateForView:self];
     [self.baseToolManager GETHVCenterVideoListWithUserid:self.userModel.name start:start count:20 startBlock:^{
         [EVProgressHUD hideHUDForView:self];
     } fail:^(NSError *error) {

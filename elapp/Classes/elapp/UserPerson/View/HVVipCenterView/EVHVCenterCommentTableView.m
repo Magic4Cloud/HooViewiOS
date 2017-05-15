@@ -69,7 +69,7 @@
 
 - (void)loadData {
     start = 0;
-    [EVProgressHUD showIndeterminateForView:self];
+//    [EVProgressHUD showIndeterminateForView:self];
     [self.baseToolManager GETHVCenterCommentListWithUserid:nil personid:_WatchVideoInfo.name start:start count:20 startBlock:^{
         
     } fail:^(NSError *error) {
