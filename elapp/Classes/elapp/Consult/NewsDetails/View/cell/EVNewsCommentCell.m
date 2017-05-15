@@ -9,7 +9,8 @@
 #import "EVNewsCommentCell.h"
 #import "EVLineView.h"
 #import "EVBaseToolManager+EVUserCenterAPI.h"
-
+#import "EVLoginInfo.h"
+#import "EVLoginViewController.h"
 @interface EVNewsCommentCell ()
 @property (nonatomic, weak) UIImageView *headImageView;
 
@@ -156,7 +157,12 @@
 
 - (void)action_likeOrNot:(UIButton *)sender {
     WEAK(self)
-    
+    if (![EVLoginInfo hasLogged]) {
+        UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
+        [[self viewController] presentViewController:navighaVC animated:YES completion:nil];
+        return;
+    }
+
     NSString *likeType = [_videoCommentModel.like integerValue] == 0 ? @"1" : @"0";
     [self.baseToolManager GETLikeOrNotWithUserName:nil Type:@"0" action:likeType postid:_videoCommentModel.id start:^{
         
@@ -189,6 +195,20 @@
         _heatLabel.textColor = CCColor(153, 153, 153);
         [button setBackgroundImage:[UIImage imageNamed:@"btn_news_like_n"] forState:UIControlStateNormal];
     }
+}
+
+
+- (UIViewController*)viewController {
+    for (UIView* next = [self superview];
+         next; next =
+         next.superview) {
+        UIResponder* nextResponder = [next nextResponder];
+        if ([nextResponder isKindOfClass:[UIViewController
+                                          class]]) {
+            return (UIViewController*)nextResponder;
+        }
+    }
+    return nil;
 }
 
 

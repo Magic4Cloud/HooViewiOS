@@ -11,6 +11,7 @@
 #import "EVLoginInfo.h"
 #import "EVUserTagsModel.h"
 #import "EVBaseToolManager+EVUserCenterAPI.h"
+#import "EVLoginViewController.h"
 
 @interface EVVipDetailCenterView()
 
@@ -84,9 +85,9 @@
 //关注 & 取消关注
 - (IBAction)followOrNot:(UIButton *)sender {
     if (![EVLoginInfo hasLogged]) {
-//        UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
-//        [self presentViewController:navighaVC animated:YES completion:nil];
-//        return;
+        UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
+        [[self viewController] presentViewController:navighaVC animated:YES completion:nil];
+        return;
     }
     
     WEAK(self)
@@ -107,6 +108,21 @@
     }];
     
 }
+
+- (UIViewController*)viewController {
+    for (UIView* next = [self superview];
+         next; next =
+         next.superview) {
+        UIResponder* nextResponder = [next nextResponder];
+        if ([nextResponder isKindOfClass:[UIViewController
+                                          class]]) {
+            return (UIViewController*)nextResponder;
+        }
+    }
+    return nil;
+}
+
+
 
 - (void)buttonStatus:(BOOL)status button:(UIButton *)button
 {
