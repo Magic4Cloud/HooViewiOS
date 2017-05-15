@@ -508,7 +508,7 @@ static BOOL sessioncheck = NO;
         }
     }];
     EVLog(@"------- %@",task.currentRequest);
-    [task resume];
+//    [task resume];
 }
 
 + (void)GETRequestWithUrl:(nullable NSString *)url parameters:(nullable id)parameters success:(nullable void (^)(NSDictionary *successDict))success sessionExpireBlock:(void(^)())sessionExpireBlock fail:(nullable void(^)(NSError  * error))fail
@@ -549,7 +549,7 @@ static BOOL sessioncheck = NO;
         }
     }];
     EVLog(@"------- %@",task.currentRequest);
-    [task resume];
+//    [task resume];
 }
 
 + (void)POSTRequestWithUrl:(NSString *)url params:(id)param fileData:(NSData *)fileData fileMineType:(NSString *)fileMineType fileName:(NSString *)filename success:(void (^)(NSDictionary *successDict))success sessionExpireBlock:(void(^)())sessionExpireBlock failError:(void(^)(NSError  * error))failError
@@ -629,7 +629,7 @@ static BOOL sessioncheck = NO;
     }];
     
     EVLog(@"--- %@",task.currentRequest);
-    [task resume];
+//    [task resume];
 }
 
 

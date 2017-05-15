@@ -398,12 +398,17 @@
                     UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
                     [self presentViewController:navighaVC animated:YES completion:nil];
                 }else {
+                    
                     int action = self.isMarketCollect ? 2 : 1;
-                    NSLog(@"%d",action);
+                    
                     NSString *actionTypeStr = self.isMarketCollect ? @"移除自选" : @"添加自选";
+                    btn.enabled = NO;
+                    [EVProgressHUD showIndeterminateForView:self.view];
                     
                     [self.baseToolManager GETAddSelfStocksymbol:self.stockBaseModel.symbol type:action userid:[EVLoginInfo localObject].name Success:^(NSDictionary *retinfo) {
-
+                        btn.enabled = YES;
+                        [EVProgressHUD hideHUDForView:self.view];
+                        
                         if (!_isMarketCollect) {
                             [EVProgressHUD showMessage:[actionTypeStr stringByAppendingString:@"成功"]];
                         }
@@ -412,29 +417,12 @@
                         self.detailBottomView.isMarketCollect = self.isMarketCollect;
 
                     } error:^(NSError *error) {
+                        btn.enabled = YES;
+                        [EVProgressHUD hideHUDForView:self.view];
+                        
                         [EVProgressHUD showMessage:[actionTypeStr stringByAppendingString:@"失败"]];
                     }];
-
-                    
-//                    [self.baseToolManager GETUserCollectType:EVCollectTypeStock code:self.stockBaseModel.symbol action:action start:^{
-//                        
-//                    } fail:^(NSError *error) {
-//                        [EVProgressHUD showMessage:[actionTypeStr stringByAppendingString:@"失败"]];
-//                    } success:^(NSDictionary *retinfo) {
-//                        if (!_isMarketCollect) {
-//                            [EVProgressHUD showMessage:[actionTypeStr stringByAppendingString:@"成功"]];
-//                            self.isMarketCollect ? [self.addDataArray removeObject:self.stockBaseModel.symbol] : [self.addDataArray addObject:self.stockBaseModel.symbol];
-//                            [self.addDataArray writeToFile:[self storyFilePath] atomically:YES];
-//                            
-//                        }
-//                        
-//                        self.isMarketCollect = !self.isMarketCollect;
-//                        self.detailBottomView.isMarketCollect = self.isMarketCollect;
-//                    } sessionExpire:^{
-//                        
-//                    }];
                 }
-              
         }
             break;
         case EVBottomButtonTypeShare:

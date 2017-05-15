@@ -74,6 +74,20 @@
     return self;
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self addWindowView];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
+}
+
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [self deallocView];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -89,11 +103,6 @@
     [self.view addSubview:self.backView];
 }
 
--(void)viewWillAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-    [self addWindowView];
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -386,11 +395,7 @@
     
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    [self deallocView];
-}
+
 
 //跳转评论列表
 - (void)pushCommentListVCID:(NSString *)newsid
