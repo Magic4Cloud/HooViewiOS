@@ -404,9 +404,6 @@
                 return threeImageCell;
             }
         
-        
-        
-        
     }else if (tableView == self.liveTableView) {
         EVLiveListViewCell *listCell  = [tableView dequeueReusableCellWithIdentifier:@"liveCell" forIndexPath:indexPath];
         listCell.watchVideoInfo = self.searchResult.videos[indexPath.row];

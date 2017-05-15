@@ -39,6 +39,8 @@ typedef NS_ENUM(NSInteger , EVCommentChooseType){
 @property (nonatomic, assign)NSInteger selectedIndex;
 
 //@property (nonatomic, strong) EVHVVideoCommentModel *
+
+@property (nonatomic, strong) UIControl * touchBgView;
 @end
 
 @implementation EVNativeComentViewController
@@ -51,7 +53,7 @@ typedef NS_ENUM(NSInteger , EVCommentChooseType){
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     _start = @"0";
     self.selectedIndex = 0;
     _orderby = @"heats";
@@ -67,10 +69,6 @@ typedef NS_ENUM(NSInteger , EVCommentChooseType){
 {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:NO];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 #pragma mark - 🖍 User Interface layout
@@ -233,6 +231,12 @@ typedef NS_ENUM(NSInteger , EVCommentChooseType){
             [self presentViewController:navighaVC animated:YES completion:nil];
         }
     };
+    
+    _touchBgView = [[UIControl alloc] initWithFrame:self.view.bounds];
+    _touchBgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.1];
+    [_touchBgView addTarget:self action:@selector(resignBackView) forControlEvents:UIControlEventTouchUpInside];
+    [self.view insertSubview:_touchBgView belowSubview:chatTextView];
+    _touchBgView.alpha = 0;
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
@@ -265,6 +269,7 @@ typedef NS_ENUM(NSInteger , EVCommentChooseType){
     self.chatTextViewBom.constant = -kbSize.height;
     [UIView animateWithDuration:0.3 animations:^{
         [self chatNotSendGiftView:kbSize.height];
+        _touchBgView.alpha = 1;
     }];
 }
 
@@ -284,6 +289,7 @@ typedef NS_ENUM(NSInteger , EVCommentChooseType){
     
     [UIView animateWithDuration:0.3 animations:^{
         [self chatNotSendGiftView:0];
+        _touchBgView.alpha = 0;
     }];
 }
 
