@@ -100,6 +100,7 @@
     [self.view addSubview:self.eVSharePartView];
 
     [self loadNewData];
+//    [self initUI];
     [self.view addSubview:self.backView];
 }
 
@@ -129,10 +130,7 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"EVAllCommentCell" bundle:nil] forCellReuseIdentifier:@"EVAllCommentCell"];
     [self.tableView registerNib:[UINib nibWithNibName:@"EVRelatedNewsCell" bundle:nil] forCellReuseIdentifier:@"EVRelatedNewsCell"];
     
-    
-    self.detailBottomView.isCollec = [_newsDetailModel.favorite boolValue];
-    self.isCollect = [_newsDetailModel.favorite boolValue];
-    self.detailBottomView.commentCount = [_newsDetailModel.postCount integerValue];
+
 }
 
 #pragma mark - 🌐Networks
@@ -159,7 +157,11 @@
                 for (int i =0; i < 3; i ++) {
                     //评论列表
                     EVHVVideoCommentModel *commentModel = array[i];
-                    NSInteger commentHeight = commentModel.cellHeight < 87 ? 87 : commentModel.cellHeight;
+                    
+                    NSDictionary *attributes = @{ NSFontAttributeName : [UIFont systemFontOfSize:14.f]};
+                    CGSize nameSize = [commentModel.content boundingRectWithSize:CGSizeMake(ScreenWidth - 81, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading | NSStringDrawingUsesDeviceMetrics attributes:attributes context:nil].size;
+                    CGFloat cellHeight = nameSize.height+90;
+                    CGFloat commentHeight = cellHeight < 90 ? 90 : cellHeight;
                     [commentHeightArray addObject:[NSString stringWithFormat:@"%ld",(long)commentHeight]];
                 }
                 [commentHeightArray addObject:@"47"];
@@ -167,14 +169,20 @@
                 for (int i =0; i < _newsDetailModel.posts.count; i ++) {
                     //评论列表
                     EVHVVideoCommentModel *commentModel = array[i];
-                    NSInteger commentHeight = commentModel.cellHeight < 87 ? 87 : commentModel.cellHeight;
+                    NSDictionary *attributes = @{ NSFontAttributeName : [UIFont systemFontOfSize:14.f]};
+                    CGSize nameSize = [commentModel.content boundingRectWithSize:CGSizeMake(ScreenWidth - 81, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading | NSStringDrawingUsesDeviceMetrics attributes:attributes context:nil].size;
+                    CGFloat cellHeight = nameSize.height+90;
+                    NSInteger commentHeight = cellHeight < 90 ? 90 : cellHeight;
                     [commentHeightArray addObject:[NSString stringWithFormat:@"%ld",(long)commentHeight]];
                 }
                 [commentHeightArray addObject:@"47"];
             }
             [self initUI];
+            self.detailBottomView.isCollec = [_newsDetailModel.favorite boolValue];
+            self.isCollect = [_newsDetailModel.favorite boolValue];
+            self.detailBottomView.commentCount = [_newsDetailModel.postCount integerValue];
+
             [self.tableView reloadData];
-//            self.tableView.hidden = NO;
         }
     } sessionExpire:^{
         [EVProgressHUD showError:@"请求失败！"];
@@ -237,7 +245,11 @@
         case EVBottomButtonTypeShare:
         {
             [self presentLoginVC];
-            
+            if (![EVLoginInfo hasLogged]) {
+                UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
+                [self presentViewController:navighaVC animated:YES completion:nil];
+                return;
+            }
             NSLog(@"---------%d",self.isCollect);
             int action = self.isCollect ? 0 : 1;
             
@@ -286,17 +298,23 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     [webView stringByEvaluatingJavaScriptFromString:@"ResizeImages();"];
     
-    CGRect frame = webView.frame;
-    frame.size.width = ScreenWidth;
-    frame.size.height = 1;
-    webView.frame = frame;
-    frame.size.height = webView.scrollView.contentSize.height;
-    webView.frame = frame;
+    dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2/*延迟执行时间*/ * NSEC_PER_SEC));
+    
+    dispatch_after(delayTime, dispatch_get_main_queue(), ^{
 
-    contentHeight = CGRectGetMaxY(webView.frame);
-    [self.tableView reloadData];
-    [EVProgressHUD hideHUDForView:self.backView];
-    self.backView.hidden = YES;
+        CGRect frame = webView.frame;
+        frame.size.width = ScreenWidth;
+        frame.size.height = 1;
+        webView.frame = frame;
+        frame.size.height = webView.scrollView.contentSize.height;
+        webView.frame = frame;
+        
+        contentHeight = CGRectGetMaxY(webView.frame);
+        [self.tableView reloadData];
+        [EVProgressHUD hideHUDForView:self.backView];
+        self.backView.hidden = YES;
+
+    });
 }
 
 
@@ -362,9 +380,67 @@
             [EVProgressHUD showError:errorMsg];
         } success:^(NSDictionary *info) {
             [EVProgressHUD showSuccess:@"评论成功"];
+            [self reloadComment];
         } sessionExpired:^{
         }];
 }
+
+- (void)reloadComment {
+    [commentHeightArray removeAllObjects];
+    [commentHeightArray addObject:@"44"];
+    
+    [self.baseToolManager GETNewsDetailNewsID:self.newsID fail:^(NSError *error) {
+        [EVProgressHUD hideHUDForView:self.backView];
+        self.backView.hidden = YES;
+        [EVProgressHUD showError:@"请求失败！"];
+    } success:^(NSDictionary *retinfo) {
+        NSDictionary * dataDic = retinfo;
+        if (dataDic && [dataDic isKindOfClass:[NSDictionary class]]) {
+            _newsDetailModel = [EVNewsDetailModel yy_modelWithDictionary:dataDic];
+            
+            NSArray *array = _newsDetailModel.posts;
+            
+            if (_newsDetailModel.posts.count == 0) {
+                [commentHeightArray addObject:@"47"];
+            } else if(_newsDetailModel.posts.count > 3) {
+                for (int i =0; i < 3; i ++) {
+                    //评论列表
+                    EVHVVideoCommentModel *commentModel = array[i];
+                    
+                    NSDictionary *attributes = @{ NSFontAttributeName : [UIFont systemFontOfSize:14.f]};
+                    CGSize nameSize = [commentModel.content boundingRectWithSize:CGSizeMake(ScreenWidth - 81, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading | NSStringDrawingUsesDeviceMetrics attributes:attributes context:nil].size;
+                    CGFloat cellHeight = nameSize.height+90;
+                    CGFloat commentHeight = cellHeight < 90 ? 90 : cellHeight;
+                    [commentHeightArray addObject:[NSString stringWithFormat:@"%ld",(long)commentHeight]];
+                }
+                [commentHeightArray addObject:@"47"];
+            } else {
+                for (int i =0; i < _newsDetailModel.posts.count; i ++) {
+                    //评论列表
+                    EVHVVideoCommentModel *commentModel = array[i];
+                    NSDictionary *attributes = @{ NSFontAttributeName : [UIFont systemFontOfSize:14.f]};
+                    CGSize nameSize = [commentModel.content boundingRectWithSize:CGSizeMake(ScreenWidth - 81, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading | NSStringDrawingUsesDeviceMetrics attributes:attributes context:nil].size;
+                    CGFloat cellHeight = nameSize.height+90;
+                    NSInteger commentHeight = cellHeight < 90 ? 90 : cellHeight;
+                    [commentHeightArray addObject:[NSString stringWithFormat:@"%ld",(long)commentHeight]];
+                }
+                [commentHeightArray addObject:@"47"];
+            }
+            
+            self.detailBottomView.isCollec = [_newsDetailModel.favorite boolValue];
+            self.isCollect = [_newsDetailModel.favorite boolValue];
+            self.detailBottomView.commentCount = [_newsDetailModel.postCount integerValue];
+            
+            [self.tableView reloadData];
+        }
+    } sessionExpire:^{
+        [EVProgressHUD showError:@"请求失败！"];
+        [EVProgressHUD hideHUDForView:self.backView];
+        self.backView.hidden = YES;
+    }];
+
+}
+
 
 - (void)keyboardWillShow:(NSNotification *)notification
 {
@@ -735,7 +811,7 @@
                 allCommentVC.newsid = _newsDetailModel.id;
                 [self.navigationController pushViewController:allCommentVC animated:YES];
             } else {
-                EVHVVideoCommentModel *commentModel = _newsDetailModel.posts[indexPath.row];
+                EVHVVideoCommentModel *commentModel = _newsDetailModel.posts[indexPath.row - 1];
                 if (commentModel.user.vip == 1)
                 {
                     EVWatchVideoInfo *watchInfo = [EVWatchVideoInfo new];

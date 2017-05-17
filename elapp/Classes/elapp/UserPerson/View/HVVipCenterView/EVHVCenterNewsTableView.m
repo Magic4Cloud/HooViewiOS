@@ -81,15 +81,17 @@
 {
     start = 0;
 //    [EVProgressHUD showIndeterminateForView:self];
-    [self.baseToolManager GETMyReleaseListWithUserid:self.WatchVideoInfo.name type:@"2" start:0 count:20 startBlock:^{
+    
+    [self.baseToolManager GETHVCenterNewsListWithUserid:self.WatchVideoInfo.name start:0 count:20 startBlock:^{
+        
     } fail:^(NSError *error) {
         [EVProgressHUD hideHUDForView:self];
         self.nullDataView.hidden = NO;
         [self endHeaderRefreshing];
-    } success:^(NSDictionary *videos) {
+    } success:^(NSDictionary *retinfo) {
         [self endHeaderRefreshing];
         [EVProgressHUD hideHUDForView:self];
-        NSArray * news = videos[@"news"];
+        NSArray * news = retinfo[@"news"];
         if ([news isKindOfClass:[NSArray class]] && news.count>0) {
             [self.fansOrFollowers removeAllObjects];
             [news enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -111,24 +113,24 @@
         start += 20;
         
         [self reloadData];
-        
+
     } essionExpire:^{
         [EVProgressHUD hideHUDForView:self];
         [self endHeaderRefreshing];
         self.nullDataView.hidden = NO;
-    }];
 
+    }];
 }
 
 - (void)loadMoreData
 {
-    
-    [self.baseToolManager GETMyReleaseListWithUserid:self.WatchVideoInfo.name type:@"2" start:start count:20 startBlock:^{
+    [self.baseToolManager GETHVCenterNewsListWithUserid:self.WatchVideoInfo.name start:0 count:20 startBlock:^{
+        
     } fail:^(NSError *error) {
         [self endFooterRefreshing];
-    } success:^(NSDictionary *videos) {
+    } success:^(NSDictionary *retinfo) {
         [self endFooterRefreshing];
-        NSArray * news = videos[@"news"];
+        NSArray * news = retinfo[@"news"];
         if ([news isKindOfClass:[NSArray class]] && news.count>0) {
             [news enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 EVNewsModel * model = [EVNewsModel yy_modelWithDictionary:obj];
@@ -136,7 +138,6 @@
             }];
             
         }
-        
         if (news && news.count>0)
         {
             [self setFooterState:CCRefreshStateIdle];
@@ -148,12 +149,10 @@
         }
         
         [self reloadData];
+        
     } essionExpire:^{
         [self endFooterRefreshing];
     }];
-
-    
-    
 }
 
 

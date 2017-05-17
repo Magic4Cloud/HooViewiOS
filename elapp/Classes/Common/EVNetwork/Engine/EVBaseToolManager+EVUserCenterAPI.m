@@ -557,13 +557,13 @@
                                   fail:(void(^)(NSError *error))failBlock
                                success:(void(^)(NSDictionary *retinfo))successBlock
                           essionExpire:(void(^)())sessionExpireBlock {
-    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
+//    NSString *sessionID = [self getSessionIdWithBlock:sessionExpireBlock];
 //    if ( sessionID == nil )
 //    {
 //        return ;
 //    }
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setValue:sessionID forKey:kSessionIdKey];
+//    [params setValue:sessionID forKey:kSessionIdKey];
     [params setValue:userid forKey:@"userid"];
     [params setValue:@(start) forKey:kStart];
     [params setValue:@(count) forKey:kCount];
