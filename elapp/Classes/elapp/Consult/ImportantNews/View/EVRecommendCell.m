@@ -47,7 +47,7 @@
     [self.collectionView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
     [self.collectionView autoPinEdgeToSuperviewEdge:ALEdgeRight];
     [self.collectionView autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:12];
-    [self.collectionView autoSetDimension:ALDimensionHeight toSize:162];
+    [self.collectionView autoSetDimension:ALDimensionHeight toSize:142];
 }
 #pragma mark - delegate
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -90,7 +90,7 @@
         UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
         
         layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        layout.itemSize = CGSizeMake(128, 162);
+        layout.itemSize = CGSizeMake(116, 140);
         layout.minimumLineSpacing = 20;//滑动方向的距离
         layout.minimumInteritemSpacing = 0;//与滑动方向垂直的距离
         layout.sectionInset = UIEdgeInsetsMake(0, 12, 0, 12);
