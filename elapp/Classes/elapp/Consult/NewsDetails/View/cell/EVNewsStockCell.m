@@ -68,7 +68,7 @@
     _firstStockButton.titleLabel.font = [UIFont textFontB3];
     [_firstStockButton addTarget:self action:@selector(action_toFirstStock:) forControlEvents:UIControlEventTouchUpInside];
     [_firstStockButton autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:16];
-    [_firstStockButton autoPinEdgeToSuperviewEdge:ALEdgeTop];
+    [_firstStockButton autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:16];
     [_firstStockButton autoSetDimension:ALDimensionHeight toSize:22];
     [_firstStockButton autoSetDimension:ALDimensionWidth toSize:120];
     
@@ -81,6 +81,7 @@
     [_firstStockButton addTarget:self action:@selector(action_toSecondStock:) forControlEvents:UIControlEventTouchUpInside];
     [_secondStockButton autoPinEdgeToSuperviewEdge:ALEdgeLeft withInset:16];
     [_secondStockButton autoPinEdge:ALEdgeLeft toEdge:ALEdgeRight ofView:_firstStockButton withOffset:16];
+    [_secondStockButton autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:16];
     [_secondStockButton autoSetDimension:ALDimensionHeight toSize:22];
     [_firstStockButton autoSetDimension:ALDimensionWidth toSize:120];
 }

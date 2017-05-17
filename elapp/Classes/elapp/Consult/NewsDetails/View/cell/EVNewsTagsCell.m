@@ -100,8 +100,9 @@
     }
     
     _cellHeight = y + 25;
-    if (self.tagCellHeight) {
-        self.tagCellHeight(_cellHeight);
+    if (self.tagCellHeightBlock) {
+        NSLog(@"1111");
+        self.tagCellHeightBlock(_cellHeight);
     }
 }
 

@@ -168,8 +168,8 @@
     //新闻列表
     EVNewsModel * newsModel = _fansOrFollowers[indexPath.row];
     
-    if ([newsModel.type isEqualToString:@"0"])
-    {
+//    if ([newsModel.type isEqualToString:@"0"])
+//    {
         //普通新闻
         if (newsModel.cover == nil || newsModel.cover.count == 0)
         {
@@ -192,7 +192,7 @@
             threeImageCell.newsModel = newsModel;
             return threeImageCell;
         }
-    }
+//    }
     
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (!cell) {

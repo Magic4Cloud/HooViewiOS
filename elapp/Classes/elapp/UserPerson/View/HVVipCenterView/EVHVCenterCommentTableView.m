@@ -65,6 +65,7 @@
     nullDataView.topImage = [UIImage imageNamed:@"ic_cry"];
     nullDataView.title = @"没有相关评论噢";
     self.tableFooterView = nullDataView;
+    nullDataView.hidden = YES;
 }
 
 - (void)loadData {

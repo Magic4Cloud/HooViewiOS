@@ -13,12 +13,12 @@
  新闻详情标签cell
  */
 @interface EVNewsTagsCell : UITableViewCell
+
 @property (nonatomic, strong) SKTagView * cellTagView;
 @property (nonatomic, assign) CGFloat cellHeight;
 @property (nonatomic, strong) NSArray * tagsModelArray;
-@property (nonatomic, copy) void(^ tagCellHeight)(CGFloat cellHeight);
 
-
+@property (nonatomic, copy) void(^ tagCellHeightBlock)(CGFloat cellHeight);
 
 
 @end
