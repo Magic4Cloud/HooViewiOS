@@ -842,10 +842,9 @@
     EMError *error = nil;
     //加入聊天室
     _chatRoom = [[EMClient sharedClient].roomManager joinChatroom:_textLiveModel.streamid error:&error];
-    NSInteger membersCount = self.chatRoom.membersCount;
-    self.textLiveModel.viewcount = membersCount + 1;
-    NSString * viewCount = [NSString stringWithFormat:@"%d",self.textLiveModel.viewcount];
-    self.titleLabel.text = [NSString stringWithFormat:@"%@人气",[viewCount thousandsSeparatorStringNoMillion]];
+
+  
+    self.titleLabel.text = @"我的直播间";
     [self.liveImageTableView updateWatchCount:self.textLiveModel.viewcount];
     //TODO:注册环信消息回调
 
