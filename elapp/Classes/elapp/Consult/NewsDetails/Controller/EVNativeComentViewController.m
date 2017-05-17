@@ -349,7 +349,7 @@ typedef NS_ENUM(NSInteger , EVCommentChooseType){
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    if (textField == self.chatTextView.commentBtn) {
+    if (textField == (UITextField *)self.chatTextView.commentBtn) {
         if (range.length == 1) {
             return YES;
         }else if (textField.text.length >= 140) {
