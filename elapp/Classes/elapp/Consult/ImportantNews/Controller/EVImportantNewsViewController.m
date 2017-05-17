@@ -472,7 +472,7 @@
     EVNewsModel * newsModel = _newsDataArray[indexPath.row];
     if ([newsModel.type isEqualToString:@"2"]) {
         //牛人推荐
-        return 220;
+        return 200;
     }
     return newsModel.cellHeight;
 }

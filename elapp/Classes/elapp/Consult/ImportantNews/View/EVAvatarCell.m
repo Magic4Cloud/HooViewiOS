@@ -28,7 +28,7 @@
     [super awakeFromNib];
     _cellBgView.layer.cornerRadius = 5;
     _cellBgView.layer.masksToBounds = NO;
-    _cellImageView.layer.cornerRadius = 40;
+    _cellImageView.layer.cornerRadius = 30;
     _cellImageView.layer.masksToBounds = YES;
     _cellImageView.backgroundColor = [UIColor evLineColor];
     
