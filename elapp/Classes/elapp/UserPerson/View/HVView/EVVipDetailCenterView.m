@@ -193,7 +193,7 @@
     
     
     
-    if ([EVLoginInfo hasLogged] && userModel.vip == 1)
+    if (userModel.vip == 1)
     {
         //是大v
         _followNumberButton.hidden = YES;

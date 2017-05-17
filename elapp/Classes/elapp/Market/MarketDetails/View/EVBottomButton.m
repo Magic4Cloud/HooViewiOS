@@ -7,7 +7,7 @@
 //
 
 #import "EVBottomButton.h"
-
+#import "EVLoginInfo.h"
 
 @interface EVBottomButton ()
 
@@ -92,10 +92,14 @@
 
 - (void)bottomButton:(UIButton *)btn
 {
-   
     if (self.delegate &&  [self.delegate respondsToSelector:@selector(buttonItem:tag:)]) {
         [self.delegate buttonItem:btn tag:self.tag];
     }
+    
+    if (![EVLoginInfo hasLogged]) {
+        return;
+    }
+    
     if ([self.nameLabel.text isEqualToString:@"收藏"] || [self.nameLabel.text isEqualToString:@"自选"]) {
         if (btn.selected == YES) {
             self.topImage.image = self.nomalImage;
@@ -118,6 +122,10 @@
 
 - (void)updateIsCollec:(BOOL)iscollec bottomBtn:(EVBottomButton *)bottomBtn
 {
+    if (![EVLoginInfo hasLogged]) {
+        return;
+    }
+
     if (iscollec == YES) {
         bottomBtn.topImage.image = self.selectImage;
         bottomBtn.nameLabel.text = self.selectTitle;

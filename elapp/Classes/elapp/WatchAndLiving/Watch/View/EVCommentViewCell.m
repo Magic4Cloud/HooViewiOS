@@ -9,6 +9,8 @@
 #import "EVCommentViewCell.h"
 #import "EVLineView.h"
 #import "EVBaseToolManager+EVUserCenterAPI.h"
+#import "EVLoginInfo.h"
+#import "EVLoginViewController.h"
 
 
 @interface EVCommentViewCell ()
@@ -149,9 +151,28 @@
 }
 
 
+- (UIViewController*)viewController {
+    for (UIView* next = [self superview];
+         next; next =
+         next.superview) {
+        UIResponder* nextResponder = [next nextResponder];
+        if ([nextResponder isKindOfClass:[UIViewController
+                                          class]]) {
+            return (UIViewController*)nextResponder;
+        }
+    }
+    return nil;
+}
+
+
 - (void)action_likeOrNot:(UIButton *)sender {
     WEAK(self)
-    
+    if (![EVLoginInfo hasLogged]) {
+        UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
+        [[self viewController] presentViewController:navighaVC animated:YES completion:nil];
+        return;
+    }
+
     NSString *actionType = [_videoCommentModel.like integerValue] == 0 ? @"1" : @"0";
     [self.baseToolManager GETLikeOrNotWithUserName:nil Type:_likeType action:actionType postid:_videoCommentModel.id start:^{
         

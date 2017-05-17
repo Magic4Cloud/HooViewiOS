@@ -245,11 +245,7 @@
         case EVBottomButtonTypeShare:
         {
             [self presentLoginVC];
-            if (![EVLoginInfo hasLogged]) {
-                UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
-                [self presentViewController:navighaVC animated:YES completion:nil];
-                return;
-            }
+            
             NSLog(@"---------%d",self.isCollect);
             int action = self.isCollect ? 0 : 1;
             
@@ -294,7 +290,7 @@
 
 }
 
-
+#pragma mark -- webviewDelegate
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     [webView stringByEvaluatingJavaScriptFromString:@"ResizeImages();"];
     
@@ -538,7 +534,7 @@
                     return 0;
                 } else {
                     //股票
-                    return 22;
+                    return 38;
                 }
             }
             else if (indexPath.row ==3)
@@ -548,7 +544,7 @@
                 if (_newsDetailModel.tag.count == 0) {
                     return 0;
                 } else {
-                    return 60;
+                    return 42;
                 }
             }
             else if (indexPath.row ==4)
@@ -669,10 +665,11 @@
                 if (!tagCell) {
                     tagCell = [[EVNewsTagsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"EVNewsTagsCell"];
                     tagCell.tagsModelArray = _newsDetailModel.tag;
+                    tagCell.tagCellHeightBlock = ^(CGFloat cellHeight) {
+                        tagCellHeight = cellHeight;
+                    };
                 }
-                tagCell.tagCellHeight = ^(CGFloat cellHeight) {
-                    tagCellHeight = cellHeight;
-                };
+                
                 return tagCell;
             }
             else if (indexPath.row == 4)
