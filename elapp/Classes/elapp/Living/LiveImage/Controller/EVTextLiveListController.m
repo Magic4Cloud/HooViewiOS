@@ -70,6 +70,7 @@
 {
     WEAK(self)
     [self.baseToolManager GETTextLiveHomeListStart:start success:^(NSDictionary *info) {
+        NSLog(@"GETTextLiveHomeListStart:%@",info);
         [weakself.liveTableView endFooterRefreshing];
         [weakself.liveTableView endHeaderRefreshing];
         if ([info[@"reterr"] isEqualToString:@"OK"]) {
@@ -83,8 +84,8 @@
             weakself.next = info[@"retinfo"][@"next"];
             NSArray *hotArr = [EVWatchVideoInfo objectWithDictionaryArray:info[@"retinfo"][@"hotstreams"]];
             [weakself.hotLiveArray addObjectsFromArray:hotArr];
-            NSMutableString *userid = [weakself loadDataUserInfos:hotArr];
-            [weakself loadUserDataUserID:userid isHot:YES];
+//            NSMutableString *userid = [weakself loadDataUserInfos:hotArr];
+//            [weakself loadUserDataUserID:userid isHot:YES];
             NSArray *streamsArr = [EVWatchVideoInfo objectWithDictionaryArray:info[@"retinfo"][@"streams"]];
             [weakself.dataLiveArray addObjectsFromArray:streamsArr];
             NSMutableString *sUserid = [weakself loadDataUserInfos:streamsArr];
@@ -108,9 +109,10 @@
     } fail:^(NSError *error) {
         [self.liveTableView showFooter];
     } success:^(NSDictionary *modelDict) {
-        
+        NSLog(@"GETBaseUserInfoListWithUname:%@",modelDict);
         NSArray *userArr = [EVWatchVideoInfo objectWithDictionaryArray:modelDict[@"users"]];
-        ishot == YES ? [self.hotArray addObjectsFromArray:userArr] : [self.dataArray addObjectsFromArray:userArr];
+        
+        [self.dataArray addObjectsFromArray:userArr];
         [weakself.liveTableView reloadData];
         [self.liveTableView showFooter];
     } sessionExpire:^{
@@ -142,9 +144,9 @@
         liveCell = [[NSBundle mainBundle] loadNibNamed:@"EVHotImageListViewCell" owner:nil options:nil].firstObject;
         [liveCell setValue:@"imageCell" forKey:@"reuseIdentifier"];
     }
-    if (self.dataArray.count != 0) {
-        liveCell.watchVideoInfo = self.dataArray[indexPath.row];
-    }
+    EVWatchVideoInfo * model = self.dataLiveArray[indexPath.row];
+    liveCell.liveVideoInfo = model;
+    liveCell.watchVideoInfo = self.dataArray[indexPath.row];
     liveCell.selectionStyle = UITableViewCellSelectionStyleNone;
     return liveCell;
 }

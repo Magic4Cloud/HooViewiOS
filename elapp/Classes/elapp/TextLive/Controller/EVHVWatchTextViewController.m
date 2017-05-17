@@ -108,7 +108,7 @@
 
 @property (nonatomic, weak) UIButton *nBackBtn;
 @property (nonatomic, weak) UIButton *nShareBtn;
-@property (nonatomic, weak) UILabel *nNameLabel;
+@property (nonatomic, strong) UILabel *nNameLabel;
 
 @property (nonatomic, weak) UIButton *followButton;
 
@@ -214,16 +214,13 @@
     [nBackBtn setImage:[UIImage imageNamed:@"hv_back_return"] forState:(UIControlStateNormal)];
     [self.nBackBtn addTarget:self action:@selector(backClick:) forControlEvents:(UIControlEventTouchUpInside)];
     
-    UILabel *nNameLbl = [[UILabel alloc] init];
-    [_navigationView addSubview:nNameLbl];
-    self.nNameLabel = nNameLbl;
-    self.nNameLabel.text = [NSString stringWithFormat:@"0参与"];
-    [nNameLbl autoAlignAxisToSuperviewAxis:ALAxisVertical];
-    [nNameLbl autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:29];
-    [nNameLbl autoSetDimensionsToSize:CGSizeMake(120, 20)];
-    nNameLbl.textColor = [UIColor evRedColor];
-    nNameLbl.font = [UIFont systemFontOfSize:14];
-    nNameLbl.textAlignment = NSTextAlignmentCenter;
+    [_navigationView addSubview:self.nNameLabel];
+    [self.nNameLabel autoAlignAxisToSuperviewAxis:ALAxisVertical];
+    [self.nNameLabel autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:29];
+    [self.nNameLabel autoSetDimensionsToSize:CGSizeMake(120, 20)];
+    self.nNameLabel.textColor = [UIColor evRedColor];
+    self.nNameLabel.font = [UIFont systemFontOfSize:14];
+    self.nNameLabel.textAlignment = NSTextAlignmentCenter;
     
     UIButton *nShareBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     [_navigationView addSubview:nShareBtn];
@@ -259,6 +256,14 @@
     [self addChatTextView];
     [self addPresentListView];
     [self addGiftAniView];
+}
+
+- (UILabel *)nNameLabel
+{
+    if (!_nNameLabel) {
+        _nNameLabel = [[UILabel alloc] init];
+    }
+    return _nNameLabel;
 }
 #pragma mark - 点击头像进入个人主页
 - (void)personalHomePage
@@ -1022,8 +1027,8 @@
 
     self.chatroom = [[EMClient sharedClient].roomManager joinChatroom:self.liveVideoInfo.liveID error:&error];
     
-    self.liveVideoInfo.viewcount = self.chatroom.membersCount + 1;
-    [self changeWatchCount];
+//    self.liveVideoInfo.viewcount = self.chatroom.membersCount + 1;
+//    [self changeWatchCount];
     
     
     //注册消息回调
@@ -1042,8 +1047,6 @@
     self.vipCenterView.watchVideoInfo = watchVideoInfo;
     self.headerView.inforModel = watchVideoInfo;
     _fansCount = watchVideoInfo.fans_count;
-    NSString * watchCount = [NSString stringWithFormat:@"%lu",(unsigned long)watchVideoInfo.watching_count] ;
-    self.nNameLabel.text = [NSString stringWithFormat:@"%@参与",[watchCount thousandsSeparatorStringNoMillion]];
     if ([watchVideoInfo.name isEqualToString:[EVLoginInfo localObject].name]) {
         self.followButton.hidden  = YES;
     }
@@ -1053,17 +1056,14 @@
 - (void)setLiveVideoInfo:(EVWatchVideoInfo *)liveVideoInfo
 {
     _liveVideoInfo = liveVideoInfo;
-   
+    NSString * watchCount = [NSString stringWithFormat:@"%lu",(unsigned long)liveVideoInfo.viewcount] ;
+    self.nNameLabel.text = [NSString stringWithFormat:@"%@参与",[watchCount thousandsSeparatorStringNoMillion]];
   
 }
 #pragma mark - ***************环信消息到来**************
 
 - (void)messagesDidReceive:(NSArray *)aMessages
 {
-
-
-    
-    
     for (EMMessage *umessage in aMessages)
     {
        
@@ -1126,9 +1126,9 @@
 //改变观看人数
 - (void)changeWatchCount
 {
-    [self.liveImageTableView updateWatchCount:self.liveVideoInfo.viewcount];
-    NSString * watchCount = [NSString stringWithFormat:@"%lu",(long)self.liveVideoInfo.viewcount] ;
-    self.nNameLabel.text = [NSString stringWithFormat:@"%@参与",[watchCount thousandsSeparatorStringNoMillion]];
+//    [self.liveImageTableView updateWatchCount:self.liveVideoInfo.viewcount];
+//    NSString * watchCount = [NSString stringWithFormat:@"%lu",(long)self.liveVideoInfo.viewcount] ;
+//    self.nNameLabel.text = [NSString stringWithFormat:@"%@参与",[watchCount thousandsSeparatorStringNoMillion]];
    
 }
 /** 充值火眼豆 */
