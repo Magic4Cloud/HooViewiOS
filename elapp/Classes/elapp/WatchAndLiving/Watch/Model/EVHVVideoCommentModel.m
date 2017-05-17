@@ -21,5 +21,10 @@
 //}
 
 
+//-(void)setCellHeight:(CGFloat)cellHeight {
+//    _cellHeight = cellHeight;
+//    
+//}
+
 
 @end

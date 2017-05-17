@@ -13,11 +13,11 @@
 #define EVURL_HTTPS_RELEASE                 @"https://appgw.hooview.com/easyvaas/appgw"
 #define EVURL_STATTE_RELEASE                @"release"
 
-#define EVURL_DEV                           @"http://appgwdev.hooview.com/easyvaas/appgw"
-#define EVURL_HTTPS_DEV                     @"http://appgwdev.hooview.com/easyvaas/appgw"
+//#define EVURL_DEV                           @"http://appgwdev.hooview.com/easyvaas/appgw"
+//#define EVURL_HTTPS_DEV                     @"http://appgwdev.hooview.com/easyvaas/appgw"
 
-//#define EVURL_DEV                           @"http://192.168.8.160/easyvaas/appgw"
-//#define EVURL_HTTPS_DEV                     @"http://192.168.8.160/easyvaas/appgw"
+#define EVURL_DEV                           @"http://192.168.8.231/easyvaas/appgw"
+#define EVURL_HTTPS_DEV                     @"http://192.168.8.231/easyvaas/appgw"
 
 
 #define EVURL_STATTE_DEV                    @"dev"
@@ -51,10 +51,10 @@
 
 ///////////////////////////////////// APP 状态 //////////////////////////////////////
 // 开发状态
-//#define STATE_DEV
+#define STATE_DEV
 
 // 发布状态
-#define STATE_RELEASE
+//#define STATE_RELEASE
 
 // 手动切换服务器
 // #define STARTE_SWITCH_SERVER_MANUAL
