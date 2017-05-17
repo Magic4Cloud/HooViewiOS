@@ -8,7 +8,8 @@
 
 #import "EVLikeOrNotCell.h"
 #import "EVBaseToolManager+EVUserCenterAPI.h"
-
+#import "EVLoginInfo.h"
+#import "EVLoginViewController.h"
 @interface EVLikeOrNotCell()
 @property (nonatomic, strong) EVBaseToolManager *baseToolManager;
 @property (weak, nonatomic) IBOutlet UILabel *addLabel;
@@ -58,21 +59,18 @@
 }
 
 
+
 - (IBAction)action_like:(id)sender {
     WEAK(self)
     
+    if (![EVLoginInfo hasLogged]) {
+        UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
+        [[self viewController] presentViewController:navighaVC animated:YES completion:nil];
+        return;
+    }
+
     NSString *likeType = [_like integerValue] == 0 ? @"1" : @"0";
 
-//    [self.baseToolManager GETLikeOrNotWithUserName:nil Type:@"0" action:likeType postid:_newsId start:^{
-//        
-//    } fail:^(NSError *error) {
-//        NSLog(@"error = %@",error);
-//    } success:^{
-//        [weakself buttonStatus:likeType button:sender];
-//    } essionExpire:^{
-//        
-//    }];
-//    
     [self.baseToolManager GETLikeNewsWithNewsid:self.newsId action:likeType start:^{
         
     } fail:^(NSError *error) {
@@ -84,6 +82,19 @@
         
     }];
 
+}
+
+- (UIViewController*)viewController {
+    for (UIView* next = [self superview];
+         next; next =
+         next.superview) {
+        UIResponder* nextResponder = [next nextResponder];
+        if ([nextResponder isKindOfClass:[UIViewController
+                                          class]]) {
+            return (UIViewController*)nextResponder;
+        }
+    }
+    return nil;
 }
 
 

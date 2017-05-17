@@ -121,6 +121,7 @@ static const NSString *const fansOrFocusCellID = @"fansOrFocus";
     {
         EVWatchVideoInfo *watchInfo = [EVWatchVideoInfo new];
         watchInfo.name = model.name;
+        watchInfo.followed = model.followed;
         EVVipCenterController *vc = [[EVVipCenterController alloc] init];
         vc.watchVideoInfo = watchInfo;
         [self.navigationController pushViewController:vc animated:YES];
@@ -129,6 +130,7 @@ static const NSString *const fansOrFocusCellID = @"fansOrFocus";
     {
         EVWatchVideoInfo *watchInfo = [EVWatchVideoInfo new];
         watchInfo.name = model.name;
+        watchInfo.followed = model.followed;
         EVNormalPersonCenterController  *vc = [[EVNormalPersonCenterController alloc] init];
         vc.watchVideoInfo = watchInfo;
         [self.navigationController pushViewController:vc animated:YES];

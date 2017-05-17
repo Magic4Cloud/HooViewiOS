@@ -8,7 +8,8 @@
 
 #import "EVHVCenterCommentTableViewCell.h"
 #import "EVBaseToolManager+EVUserCenterAPI.h"
-
+#import "EVLoginInfo.h"
+#import "EVLoginViewController.h"
 
 @interface EVHVCenterCommentTableViewCell()
 
@@ -83,8 +84,28 @@
     
 }
 
+
+- (UIViewController*)viewController {
+    for (UIView* next = [self superview];
+         next; next =
+         next.superview) {
+        UIResponder* nextResponder = [next nextResponder];
+        if ([nextResponder isKindOfClass:[UIViewController
+                                          class]]) {
+            return (UIViewController*)nextResponder;
+        }
+    }
+    return nil;
+}
+
 - (IBAction)action_likeOrNot:(UIButton *)sender {
     WEAK(self)
+    
+    if (![EVLoginInfo hasLogged]) {
+        UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
+        [[self viewController] presentViewController:navighaVC animated:YES completion:nil];
+        return;
+    }
     
     NSString *likeType = [self.commentModel.like integerValue] == 0 ? @"1" : @"0";
     [self.baseToolManager GETLikeOrNotWithUserName:nil Type:self.commentModel.topic.type action:likeType postid:self.commentModel.id start:^{

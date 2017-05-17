@@ -11,6 +11,7 @@
 #import "EVLoginInfo.h"
 #import "EVUserTagsModel.h"
 #import "EVBaseToolManager+EVUserCenterAPI.h"
+#import "EVLoginViewController.h"
 
 @interface EVVipDetailCenterView()
 
@@ -84,14 +85,16 @@
 //关注 & 取消关注
 - (IBAction)followOrNot:(UIButton *)sender {
     if (![EVLoginInfo hasLogged]) {
-//        UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
-//        [self presentViewController:navighaVC animated:YES completion:nil];
-//        return;
+        UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
+        [[self viewController] presentViewController:navighaVC animated:YES completion:nil];
+        return;
     }
     
     WEAK(self)
-    BOOL followType = self.watchVideoInfo.followed ? NO : YES;
-    [self.baseToolManager GETFollowUserWithName:self.watchVideoInfo.name followType:followType start:^{
+    sender.selected = weakself.watchVideoInfo.followed ? YES : NO;
+    BOOL followType = weakself.watchVideoInfo.followed ? NO : YES;
+    
+    [self.baseToolManager GETFollowUserWithName:weakself.watchVideoInfo.name followType:followType start:^{
         
     } fail:^(NSError *error) {
         NSLog(@"error = %@",error);
@@ -106,14 +109,33 @@
     
 }
 
+- (UIViewController*)viewController {
+    for (UIView* next = [self superview];
+         next; next =
+         next.superview) {
+        UIResponder* nextResponder = [next nextResponder];
+        if ([nextResponder isKindOfClass:[UIViewController
+                                          class]]) {
+            return (UIViewController*)nextResponder;
+        }
+    }
+    return nil;
+}
+
+
+
 - (void)buttonStatus:(BOOL)status button:(UIButton *)button
 {
     if (status == YES) {
         [button setTitleColor:[UIColor colorWithRed:48/255.0 green:48/255.0 blue:48/255.0 alpha:1] forState:UIControlStateNormal];
         [button setTitle:@"已关注" forState:(UIControlStateNormal)];
+        _numberOfFans.text = [NSString stringWithFormat:@"%ld",_userModel.fans_count + 1];
+        _userModel.fans_count = _userModel.fans_count + 1;
     }else {
         [button setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
         [button setTitle:@"+关注" forState:(UIControlStateNormal)];
+        _numberOfFans.text = [NSString stringWithFormat:@"%ld",_userModel.fans_count - 1];
+        _userModel.fans_count = _userModel.fans_count - 1;
     }
 }
 
@@ -193,6 +215,13 @@
         _followOrNotButton.hidden = YES;
     }
     
+}
+
+-(void)setWatchVideoInfo:(EVWatchVideoInfo *)watchVideoInfo {
+    _watchVideoInfo = watchVideoInfo;
+    if (!watchVideoInfo) {
+        return;
+    }
 }
 
 

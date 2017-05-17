@@ -78,7 +78,7 @@
 - (void)loadNewData
 {
     start = 0;
-    [EVProgressHUD showIndeterminateForView:self];
+//    [EVProgressHUD showIndeterminateForView:self];
 //    NSString * uid = [CCUserDefault objectForKey:CCUSER_NAME];
     [self.baseToolManager GETUserCollectListsWithStart:@"0" count:@"20" userId:self.WatchVideoInfo.name fail:^(NSError *error) {
         self.nullDataView.hidden = NO;

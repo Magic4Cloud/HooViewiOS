@@ -249,7 +249,7 @@
 #define EVVideoCommentAPI           @"http://openapi.hooview.com/api/bbs/videopost"
 //#define EVVideoCommentListAPI       @"http://openapi.hooview.com/api/bbs/videoconversatons"
 #define EVConsultNewsAPI            @"http://openapi.hooview.com/api/news/customnews"
-#define EVNewsDetailAPI             @"http://openapi.hooview.com/api/news/getnews"
+//#define EVNewsDetailAPI             @"http://openapi.hooview.com/api/news/getnews"
 #define EVNewsUserNewsAPI           @"http://openapi.hooview.com/api/news/usernews"
 #define EVStockListAPI              @"http://openapi.hooview.com/api/user/stocks"//自选股列表
 #define EVAddSelfStockAPI           @"http://openapi.hooview.com/api/user/modifystocks"//添加 & 修改自选股
@@ -321,7 +321,8 @@
 
 //新闻详情
 #define EVNewsDetailAPI             @"http://openapi.hooview.com/api/v2/news/content"
-
+//新闻like
+#define EVNewsLikeAPI               @"http://openapi.hooview.com/api/news/like"
 
 #endif
 #endif

@@ -723,6 +723,13 @@
             if (indexPath.row == 0) {
             }
             else if(indexPath.row == commentHeightArray.count - 1) {
+                
+                if (![EVLoginInfo hasLogged]) {
+                    UINavigationController *navighaVC = [EVLoginViewController loginViewControllerWithNavigationController];
+                    [self presentViewController:navighaVC animated:YES completion:nil];
+                    return;
+                }
+                
                 //全部评论
                 EVNativeComentViewController * allCommentVC = [[EVNativeComentViewController alloc] init];
                 allCommentVC.newsid = _newsDetailModel.id;
