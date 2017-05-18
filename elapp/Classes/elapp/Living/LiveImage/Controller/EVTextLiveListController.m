@@ -109,7 +109,7 @@
     } fail:^(NSError *error) {
         [self.liveTableView showFooter];
     } success:^(NSDictionary *modelDict) {
-        NSLog(@"GETBaseUserInfoListWithUname:%@",modelDict);
+        
         NSArray *userArr = [EVWatchVideoInfo objectWithDictionaryArray:modelDict[@"users"]];
         
         [self.dataArray addObjectsFromArray:userArr];

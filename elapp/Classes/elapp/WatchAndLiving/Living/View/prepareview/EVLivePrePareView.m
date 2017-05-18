@@ -568,8 +568,8 @@ static NSInteger const shareLabBaseTag = 888;
     self.selectedShareButton = button;
     
     //修改  添加分享缓存  记忆上一次的事件
-    BOOL shareHide = button.selected ? NO:YES;
-    [CCUserDefault setBool:shareHide forKey:EVShareHide];
+//    BOOL shareHide = button.selected ? NO:YES;
+//    [CCUserDefault setBool:shareHide forKey:EVShareHide];
     
     if (!button.selected) {
         return;
@@ -682,8 +682,10 @@ static NSInteger const shareLabBaseTag = 888;
     if (!start )
     {
         self.startLiveButton.enabled = NO;
+        [self.startLiveButton setBackgroundColor:[UIColor evMainColor]];
     } else {
         self.startLiveButton.enabled = YES;
+        [self.startLiveButton setBackgroundColor:[UIColor lightGrayColor]];
     }
 }
 
@@ -728,8 +730,8 @@ static NSInteger const shareLabBaseTag = 888;
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    
-    CGPoint locationLabelCenter = self.locationLabel.center;
-    self.locationLabel.center = locationLabelCenter;
+    //这句代码的意义何在？
+//    CGPoint locationLabelCenter = self.locationLabel.center;
+//    self.locationLabel.center = locationLabelCenter;
 }
 @end

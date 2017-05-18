@@ -34,10 +34,10 @@
     
     _htmlString = htmlString;
     
-//    htmlString = [htmlString stringByReplacingOccurrencesOfString:@"<img"withString:@"< img style='max-width:100%;height:auto;'"];
+    htmlString = [htmlString stringByReplacingOccurrencesOfString:@"<img"withString:@"<img style='max-width:100%;height:auto;'"];
     
     
-    htmlString = [self autoWebAutoImageSize:htmlString];
+//    htmlString = [self autoWebAutoImageSize:htmlString];
     
     [_webView loadHTMLString:htmlString baseURL:nil];
 }
@@ -45,24 +45,25 @@
 - (NSString *)autoWebAutoImageSize:(NSString *)html
 {
     
-    NSString * regExpStr = @"<img\\s+.*?\\s+(style\\s*=\\s*.+?\")";
-    NSRegularExpression *regex=[NSRegularExpression regularExpressionWithPattern:regExpStr options:NSRegularExpressionCaseInsensitive error:nil];
+//    NSString * regExpStr = @"<head";
+//    
+//    NSRegularExpression *regex=[NSRegularExpression regularExpressionWithPattern:regExpStr options:NSRegularExpressionCaseInsensitive error:nil];
     
-    NSArray *matches=[regex matchesInString:html
-                                    options:0
-                                      range:NSMakeRange(0, [html length])];
-    
-    
-    NSMutableArray * mutArray = [NSMutableArray array];
-    for (NSTextCheckingResult *match in matches) {
-        NSString* group1 = [html substringWithRange:[match rangeAtIndex:1]];
-        [mutArray addObject: group1];
-    }
-    
-    NSUInteger len = [mutArray count];
-    for (int i = 0; i < len; ++ i) {
-        html = [html stringByReplacingOccurrencesOfString:mutArray[i] withString: @"style=\"width:100%; height:auto;\""];
-    }
+//    NSArray *matches=[regex matchesInString:html
+//                                    options:0
+//                                      range:NSMakeRange(0, [html length])];
+//    
+//    
+//    NSMutableArray * mutArray = [NSMutableArray array];
+//    for (NSTextCheckingResult *match in matches) {
+//        NSString* group1 = [html substringWithRange:[match rangeAtIndex:1]];
+//        [mutArray addObject: group1];
+//    }
+    [html stringByReplacingOccurrencesOfString:@"<img" withString:@"< img style='max-width:100%;height:auto;"];
+//    NSUInteger len = [mutArray count];
+//    if (len==0) {
+//        html =  [NSString stringWithFormat:@"<head>%@</head>",html];
+//    }
     
     return html;
 }

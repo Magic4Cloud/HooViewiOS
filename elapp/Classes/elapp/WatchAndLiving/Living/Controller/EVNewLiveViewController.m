@@ -1413,10 +1413,9 @@ static inline long long getcurrsecond()
     
     WEAK(self)
     NSMutableDictionary *params = [self.recoderInfo liveStartParams];
-    //测试付费直播
+    //付费直播
     if (_prepareView.payButton.selected) {
         [params setValue:@"7" forKey:@"permission"];
-        //        [params setValue:@"123456" forKey:@"password"];
         NSString * price = _prepareView.payFeeTextFiled.text;
         if (!price || price.length == 0) {
             [EVProgressHUD showError:@"请填写付费直播价格"];
@@ -1426,15 +1425,14 @@ static inline long long getcurrsecond()
         {
             [params setValue:price forKey:@"price"];
         }
-        //        [params setValue:@"20000" forKey:@"price"];
     }
     
     
     [EVProgressHUD showMessage:@"加载中" toView:self.view];
     
     [self.engine GETLivePreStartParams:params Start:^{
-        [EVProgressHUD showSuccess:@"请等待" toView:self.view];
     } fail:^(NSError *error) {
+        [EVProgressHUD hideHUDForView:self.view];
         [EVProgressHUD showMessage:@"开启直播失败"];
         
         NSString *customError = error.userInfo[kCustomErrorKey];
