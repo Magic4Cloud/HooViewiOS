@@ -34,10 +34,10 @@
     
     _htmlString = htmlString;
     
-//    htmlString = [htmlString stringByReplacingOccurrencesOfString:@"<img"withString:@"< img style='max-width:100%;height:auto;'"];
+    htmlString = [htmlString stringByReplacingOccurrencesOfString:@"<img"withString:@"<img style='max-width:100%;height:auto;'"];
     
     
-    htmlString = [self autoWebAutoImageSize:htmlString];
+//    htmlString = [self autoWebAutoImageSize:htmlString];
     
     [_webView loadHTMLString:htmlString baseURL:nil];
 }

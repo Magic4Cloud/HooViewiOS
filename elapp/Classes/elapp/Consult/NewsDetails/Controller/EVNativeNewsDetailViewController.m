@@ -291,9 +291,7 @@
 }
 
 #pragma mark -- webviewDelegate
-- (void)webViewDidFinishLoad:(UIWebView *)webView {
-    [webView stringByEvaluatingJavaScriptFromString:@"ResizeImages();"];
-    
+- (void)webViewDidFinishLoad:(UIWebView *)webView {    
     dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2/*延迟执行时间*/ * NSEC_PER_SEC));
     
     dispatch_after(delayTime, dispatch_get_main_queue(), ^{
