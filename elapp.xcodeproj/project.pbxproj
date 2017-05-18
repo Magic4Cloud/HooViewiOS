@@ -6629,6 +6629,7 @@
 					"$(PROJECT_DIR)/elapp/Classes/Libs/FeedBack",
 					"$(PROJECT_DIR)/elapp/Classes/Libs/libTencent",
 					"$(PROJECT_DIR)/elapp/Classes/Libs/EVSDKPlayerAndStreamer",
+					"$(PROJECT_DIR)/elapp/Classes/Libs/callSDK",
 				);
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -6662,6 +6663,7 @@
 					"$(PROJECT_DIR)/elapp/Classes/Libs/libWeChat",
 					"$(PROJECT_DIR)/elapp/Classes/Libs/libWeiboSDK",
 					"$(PROJECT_DIR)/elapp/Classes/Common/EVEaseMob/VoiceRecord/VoiceConvert/opencore-amrwb",
+					"$(PROJECT_DIR)/elapp/Classes/Libs/callSDK",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -6719,6 +6721,7 @@
 					"$(PROJECT_DIR)/elapp/Classes/Libs/FeedBack",
 					"$(PROJECT_DIR)/elapp/Classes/Libs/libTencent",
 					"$(PROJECT_DIR)/elapp/Classes/Libs/EVSDKPlayerAndStreamer",
+					"$(PROJECT_DIR)/elapp/Classes/Libs/callSDK",
 				);
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -6752,6 +6755,7 @@
 					"$(PROJECT_DIR)/elapp/Classes/Libs/libWeChat",
 					"$(PROJECT_DIR)/elapp/Classes/Libs/libWeiboSDK",
 					"$(PROJECT_DIR)/elapp/Classes/Common/EVEaseMob/VoiceRecord/VoiceConvert/opencore-amrnb",
+					"$(PROJECT_DIR)/elapp/Classes/Libs/callSDK",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",

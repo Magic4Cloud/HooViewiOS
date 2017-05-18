@@ -9,8 +9,8 @@
 #import "EVSpeciaColumnCell.h"
 
 @interface EVSpeciaColumnCell()
-@property (nonatomic, strong)UIVisualEffectView *effectView;
 
+@property (nonatomic, strong)UIVisualEffectView *effectView;
 @end
 
 @implementation EVSpeciaColumnCell
@@ -19,7 +19,6 @@
     [super awakeFromNib];
     _newsCoverImage.backgroundColor = [UIColor grayColor];
     _toUserButton.hidden = YES;
-    
     if (ScreenWidth == 320) {
         _authHeaderImage.layer.cornerRadius = 12.5;
     } else {
@@ -37,12 +36,10 @@
     [effectView autoPinEdgeToSuperviewEdge:ALEdgeRight];
     [effectView autoPinEdgeToSuperviewEdge:ALEdgeBottom];
 
-    effectView.alpha = 10.3f;
+    effectView.alpha = 1;
     
-    
-    self.layer.borderWidth = 1;
-    self.layer.borderColor = [UIColor colorWithHexString:@"#dddddd"].CGColor;
-    
+    self.contentView.layer.borderWidth = 1;
+    self.contentView.layer.borderColor = [UIColor colorWithHexString:@"#dddddd"].CGColor;
     
 }
 
@@ -62,21 +59,12 @@
 }
 
 
-//- (void)setTitleWidth:(NSLayoutConstraint *)titleWidth {
-//    if (ScreenWidth == 320) {
-//        titleWidth.constant = 120.f;
-//    } else {
-//        titleWidth.constant = 147.f;
-//    }
-//}
-
 - (void)setHeaderImageWidth:(NSLayoutConstraint *)headerImageWidth {
     if (ScreenWidth == 320) {
         headerImageWidth.constant = 25.f;
     } else {
         headerImageWidth.constant = 30.f;
     }
-
 }
 
 

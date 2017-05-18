@@ -204,11 +204,9 @@ typedef NS_ENUM(NSInteger , EVCommentChooseType){
 - (void)addChatTextView
 {
     EVHVChatTextView *chatTextView = [[EVHVChatTextView alloc] init];
-    //    chatTextView.frame = CGRectMake(0, ScreenHeight - 49, ScreenWidth, 49);
     [self.view addSubview:chatTextView];
     chatTextView.backgroundColor = [UIColor whiteColor];
     chatTextView.delegate = self;
-    //    chatTextView.commentBtn.delegate = self;
     _chatTextView = chatTextView;
     _chatTextView.commentBtnRig.constant = -10;
     [chatTextView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
@@ -308,7 +306,7 @@ typedef NS_ENUM(NSInteger , EVCommentChooseType){
         [EVProgressHUD showError:@"输入为空"];
         return;
     }
-    EVLoginInfo *loginfo = [EVLoginInfo localObject];
+    
     //发送评论
     [self.baseToolManager POSTVideoCommentContent:str topicid:self.newsid type:@"0" start:^{
         
@@ -327,25 +325,6 @@ typedef NS_ENUM(NSInteger , EVCommentChooseType){
     }];
 }
 
-- (void)chatViewButtonType:(EVHVChatTextViewType)type
-{
-    switch (type) {
-        case EVHVChatTextViewTypeSend:
-        {
-            if (self.chatTextView.commentBtn.text.length > 140) {
-                [EVProgressHUD showError:@"字数不能超过140"];
-                return;
-            }
-            [self sendChatStr:self.chatTextView.commentBtn.text];
-            [self.chatTextView.commentBtn setText:nil];
-            [self.chatTextView.commentBtn textDidChange];
-            [self resignBackView];
-        }
-            break;
-        default:
-            break;
-    }
-}
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {

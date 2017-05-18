@@ -328,7 +328,6 @@
 {
     _watchVideoInfo = [EVWatchVideoInfo objectWithDictionary:videoInfo];
     _watchVideoInfo.descriptionStr = videoInfo[@"description"];
-//    self.watchBottomView.watchVideoInfo = _watchVideoInfo;
     CGRect bottomView = CGRectMake(0, VideoWidth+116, ScreenWidth, ScreenHeight - VideoWidth - 116);
     NSMutableArray *titleArr = [NSMutableArray array];
     
@@ -542,16 +541,15 @@
     [self.view addSubview:_blackBackView];
     _blackBackView.hidden = YES;
     
+    //MARK:聊天输入框
     EVHVChatTextView *chatTextView = [[EVHVChatTextView alloc] init];
-//    chatTextView.frame = CGRectMake(0, ScreenHeight - 49, ScreenWidth, 49);
     [self.view addSubview:chatTextView];
     chatTextView.backgroundColor = [UIColor whiteColor];
     chatTextView.delegate = self;
-//    chatTextView.commentBtn.delegate = self;
     _chatTextView = chatTextView;
     [chatTextView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
     [chatTextView autoPinEdgeToSuperviewEdge:ALEdgeRight];
-  self.chatTextViewHig =   [chatTextView autoSetDimension:ALDimensionHeight toSize:49];
+   self.chatTextViewHig =   [chatTextView autoSetDimension:ALDimensionHeight toSize:49];
    self.chatTextViewBom =  [chatTextView autoPinEdgeToSuperviewEdge:ALEdgeBottom];
     WEAK(self)
     chatTextView.commentBtn.yz_textHeightChangeBlock = ^(NSString *text,CGFloat textHeight){

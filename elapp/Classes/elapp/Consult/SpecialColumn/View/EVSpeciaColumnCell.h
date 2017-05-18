@@ -17,9 +17,7 @@ typedef void(^CollectionSeletedBlock)(EVSpeciaAuthor *userInfo);
 @property (weak, nonatomic) IBOutlet UILabel *authIntroduceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *newsTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *newsContentLabel;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *titleWidth;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *headerImageWidth;
-
 @property (weak, nonatomic) IBOutlet UIButton *toUserButton;
 
 @property (nonatomic, strong) EVSpeciaColumnModel *columnModel;

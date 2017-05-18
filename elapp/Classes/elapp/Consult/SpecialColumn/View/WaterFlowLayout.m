@@ -33,19 +33,18 @@ static const UIEdgeInsets defaultEdgeInsets = {12,12,12,12};
 - (void)prepareLayout
 {
     [super prepareLayout];
-    
+    NSLog(@"prepareLayout");
     //如果刷新布局就会重新调用prepareLayout这个方法,所以要先把高度数组清空
     [self.columnHeight removeAllObjects];
-    for (int i = 0; i < self.columCount; i++) {
-        
+    for (int i = 0; i < self.columCount; i++)
+    {
         [self.columnHeight addObject:@(self.defaultEdgeInsets.top)];
     }
-    
     NSInteger count = [self.collectionView numberOfItemsInSection:0];
-    
     [self.attrsArray removeAllObjects];
-    for (NSInteger i = 0; i < count; i++) {
-        
+    
+    for (NSInteger i = 0; i < count; i++)
+    {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
         //获取indexPath 对应cell 的布局属性
         UICollectionViewLayoutAttributes *attr = [self layoutAttributesForItemAtIndexPath:indexPath];
@@ -59,6 +58,7 @@ static const UIEdgeInsets defaultEdgeInsets = {12,12,12,12};
  */
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"layoutAttributesForItemAtIndexPath indexPath%@",indexPath);
     UICollectionViewLayoutAttributes *attr = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
     
     //使用for循环,找出高度最短的那一列
@@ -66,11 +66,11 @@ static const UIEdgeInsets defaultEdgeInsets = {12,12,12,12};
     NSInteger destColumn = 0;
     CGFloat minColumnHeight = [self.columnHeight[0] doubleValue];
     
-    for (NSInteger i = 1; i < self.columCount; i++) {
-        
+    for (NSInteger i = 1; i < self.columCount; i++)
+    {
         CGFloat columnHeight  =[self.columnHeight[i] doubleValue];
-        if (minColumnHeight > columnHeight) {
-            
+        if (minColumnHeight > columnHeight)
+        {
             minColumnHeight = columnHeight;
             destColumn = i;
         }
@@ -101,13 +101,14 @@ static const UIEdgeInsets defaultEdgeInsets = {12,12,12,12};
  */
 - (NSArray<UICollectionViewLayoutAttributes *> *)layoutAttributesForElementsInRect:(CGRect)rect
 {
+    NSLog(@"layoutAttributesForElementsInRect ");
     return self.attrsArray;
 }
 
 
 - (CGSize)collectionViewContentSize
 {
-    
+    NSLog(@"collectionViewContentSize");
     CGFloat maxHeight = [self.columnHeight[0] doubleValue];
     for (int i = 1; i < self.columCount; i++) {
         
@@ -152,7 +153,6 @@ static const UIEdgeInsets defaultEdgeInsets = {12,12,12,12};
 }
 
 - (UIEdgeInsets)defaultEdgeInsets{
-    
     if ([self.delegate respondsToSelector:@selector(edgeInsetInWaterFlowLayout:)]) {
         return  [self.delegate edgeInsetInWaterFlowLayout:self];
     }
@@ -167,7 +167,6 @@ static const UIEdgeInsets defaultEdgeInsets = {12,12,12,12};
 - (NSMutableArray *)attrsArray
 {
     if (!_attrsArray) {
-        
         _attrsArray = [NSMutableArray array];
     }
     return _attrsArray;

@@ -39,9 +39,7 @@
     [super viewDidLoad];
     [self initUI];
     
-    
     WEAK(self)
-    [self.collectionView.mj_footer setHidden:YES];
     [_collectionView addRefreshHeaderWithRefreshingBlock:^{
         [weakself initData];
     }];
@@ -137,17 +135,15 @@
         {
             //没有更多数据
             [self.collectionView setFooterState:CCRefreshStateNoMoreData ];
-            self.noDataView.hidden = NO;
         }
         else
         {
             _start += array.count;
-            self.noDataView.hidden = YES;
         }
-        
         [self.collectionView reloadData];
-        
-        } error:^(NSError *error) {
+        }
+     
+        error:^(NSError *error) {
         [self endRefreshing];
         [EVProgressHUD showError:@"专栏新闻请求失败"];
     }];
@@ -186,10 +182,6 @@
         EVVipCenterController *vc = [[EVVipCenterController alloc] init];
         vc.watchVideoInfo = watchInfo;
         [self.navigationController pushViewController:vc animated:YES];
-//        EVVipCenterViewController *vipVC = [EVVipCenterViewController new];
-//        vipVC.watchVideoInfo = watchInfo;
-//        [self.navigationController pushViewController:vipVC animated:YES];
-        
     };
     return cell;
 }
@@ -234,14 +226,9 @@
 
 - (UICollectionView *)collectionView
 {
-    if (!_collectionView) {
-//        UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
+    if (!_collectionView)
+    {
         WaterFlowLayout *layout = [[WaterFlowLayout alloc] init];
-//        layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-//        layout.estimatedItemSize = CGSizeMake(120, 252);
-//        layout.minimumLineSpacing = 36;//滑动方向的距离
-//        layout.minimumInteritemSpacing = 0;//与滑动方向垂直的距离
-//        layout.sectionInset = UIEdgeInsetsMake(12, 12, 20, 12);
         layout.delegate = self;
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
         _collectionView.delegate = self;
