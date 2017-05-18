@@ -682,10 +682,10 @@ static NSInteger const shareLabBaseTag = 888;
     if (!start )
     {
         self.startLiveButton.enabled = NO;
-        [self.startLiveButton setBackgroundColor:[UIColor evMainColor]];
+        [self.startLiveButton setBackgroundColor:[UIColor lightGrayColor]];
     } else {
         self.startLiveButton.enabled = YES;
-        [self.startLiveButton setBackgroundColor:[UIColor lightGrayColor]];
+        [self.startLiveButton setBackgroundColor:[UIColor evMainColor]];
     }
 }
 

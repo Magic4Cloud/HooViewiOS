@@ -50,7 +50,7 @@ typedef NS_ENUM(NSInteger, EVLivePrePareViewShareType) {
 @property (nonatomic, weak) EVLiveTitleTextView *editView;
 
 @property (nonatomic, weak) UIButton *categoryButton;
-@property (nonatomic, weak) UIButton *startLiveButton;
+@property (nonatomic, strong) UIButton *startLiveButton;
 
 @property (nonatomic, strong) UITextField *editTextFiled;
 
