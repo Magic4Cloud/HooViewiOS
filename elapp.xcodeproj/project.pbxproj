@@ -98,6 +98,7 @@
 		7A6AA8A71EC1595F00B6989E /* SKTagView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A6AA8A41EC1595F00B6989E /* SKTagView.m */; };
 		7A6AA8AB1EC15DF700B6989E /* EVNewsContentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A6AA8A91EC15DF700B6989E /* EVNewsContentCell.m */; };
 		7A6AA8AF1EC1646300B6989E /* EVNewsDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A6AA8AE1EC1646300B6989E /* EVNewsDetailModel.m */; };
+		7A6E937C1ECDA87C00F61B05 /* SKFFPSLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A6E937B1ECDA87C00F61B05 /* SKFFPSLabel.m */; };
 		7AAD2B561EC440240013DB80 /* ReadHistory.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7AAD2B541EC440240013DB80 /* ReadHistory.xcdatamodeld */; };
 		7AAD2B651EC44B020013DB80 /* HaveReadNews+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AAD2B641EC44B020013DB80 /* HaveReadNews+CoreDataProperties.m */; };
 		7AB61E5D1E972EB9004A285F /* EVAvatarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB61E5B1E972EB9004A285F /* EVAvatarCell.m */; };
@@ -955,6 +956,8 @@
 		7A6AA8A91EC15DF700B6989E /* EVNewsContentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVNewsContentCell.m; sourceTree = "<group>"; };
 		7A6AA8AD1EC1646300B6989E /* EVNewsDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVNewsDetailModel.h; sourceTree = "<group>"; };
 		7A6AA8AE1EC1646300B6989E /* EVNewsDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVNewsDetailModel.m; sourceTree = "<group>"; };
+		7A6E937A1ECDA87C00F61B05 /* SKFFPSLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKFFPSLabel.h; sourceTree = "<group>"; };
+		7A6E937B1ECDA87C00F61B05 /* SKFFPSLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKFFPSLabel.m; sourceTree = "<group>"; };
 		7AAD2B551EC440240013DB80 /* ReadHistory.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ReadHistory.xcdatamodel; sourceTree = "<group>"; };
 		7AAD2B631EC44B020013DB80 /* HaveReadNews+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HaveReadNews+CoreDataProperties.h"; sourceTree = "<group>"; };
 		7AAD2B641EC44B020013DB80 /* HaveReadNews+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HaveReadNews+CoreDataProperties.m"; sourceTree = "<group>"; };
@@ -2557,6 +2560,15 @@
 			path = SKTagView;
 			sourceTree = "<group>";
 		};
+		7A6E93791ECDA87C00F61B05 /* FPSTest */ = {
+			isa = PBXGroup;
+			children = (
+				7A6E937A1ECDA87C00F61B05 /* SKFFPSLabel.h */,
+				7A6E937B1ECDA87C00F61B05 /* SKFFPSLabel.m */,
+			);
+			path = FPSTest;
+			sourceTree = "<group>";
+		};
 		7AB61E6A1E9796A4004A285F /* Banner3dLayout */ = {
 			isa = PBXGroup;
 			children = (
@@ -3106,6 +3118,7 @@
 		9F1F97353576B762B2368EA9 /* EVUtils */ = {
 			isa = PBXGroup;
 			children = (
+				7A6E93791ECDA87C00F61B05 /* FPSTest */,
 				7AD09CF41EB9C13000A57AE1 /* ImAvatarLocalPlist */,
 				9E08B79D1EA6181800721EE8 /* Gesture */,
 				9F1F9E9A15FBD52D231C3856 /* TimerTool */,
@@ -6277,6 +6290,7 @@
 				E862012F1D6BE8540081E72F /* EVLiveTitleTextView.m in Sources */,
 				E86200AC1D6BE8540081E72F /* EVNewFriendItemModel.m in Sources */,
 				E862FF881D6BE8540081E72F /* NSDictionary+JSON.m in Sources */,
+				7A6E937C1ECDA87C00F61B05 /* SKFFPSLabel.m in Sources */,
 				E86200BC1D6BE8540081E72F /* EVMoreUserInfoViewController.m in Sources */,
 				E86200B11D6BE8540081E72F /* EVNotifyMessageItem.m in Sources */,
 				E86200F01D6BE8540081E72F /* EVBindOrChangePhoneTableViewCell.m in Sources */,

@@ -482,28 +482,24 @@
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.contentInset = UIEdgeInsetsMake(4, 0, 0, 0);
-        _tableView.tableFooterView = [UIView new];
-        
-//        UIView * separatorView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
         CGFloat height = 150;
         if (ScreenWidth>375) {
             height = 210;
         }
         else if(ScreenWidth<375)
         {
-            height = 0;
+            height = 20;
         }
         UIView * footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, height)];
         footerView.backgroundColor = [UIColor whiteColor];
-//        separatorView.backgroundColor = [UIColor evSeparetorGrayColor];
         _tableView.backgroundColor = [UIColor evSeparetorGrayColor];
         _tableView.showsVerticalScrollIndicator = NO;
-//        _tableView.tableHeaderView = separatorView;
         _tableView.tableFooterView = footerView;
         
     }
     return _tableView;
 }
+
 - (EVBaseToolManager *)engine
 {
     if (!_engine)
@@ -521,6 +517,7 @@
     }
     [self.tableView reloadData];
 }
+
 #pragma mark - 🗑 CleanUp
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

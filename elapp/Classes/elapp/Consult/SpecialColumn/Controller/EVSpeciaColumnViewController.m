@@ -19,6 +19,8 @@
 #import "EVVipCenterViewController.h"
 #import "EVNullDataView.h"
 #import "EVVipCenterController.h"
+
+#import "SKFFPSLabel.h"
 @interface EVSpeciaColumnViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,WaterFlowLayoutDelegate>
 @property (nonatomic, strong) EVBaseToolManager *baseToolManager;
 
@@ -70,13 +72,16 @@
     self.noDataView = noDataView;
     noDataView.hidden = YES;
 
-    
+//    SKFFPSLabel * lable = [[SKFFPSLabel alloc] init];
+//    lable.frame = CGRectMake(20, 300, 100, 20);
+//    lable.backgroundColor = [UIColor redColor];
+//    [self.view addSubview:lable];
+
 }
 
 #pragma mark - 🌐 Networks
 - (void)initData {
     _start = 0;
-    
     
     [self.baseToolManager GETSpeciaColumnNewsRequestStart:@"0" count:@"20" Success:^(NSDictionary *retinfo) {
         [self endRefreshing];
@@ -235,6 +240,7 @@
         _collectionView.dataSource = self;
         _collectionView.backgroundColor = [UIColor whiteColor];
         _collectionView.showsHorizontalScrollIndicator = NO;
+       
         [_collectionView registerNib:[UINib nibWithNibName:@"EVSpeciaColumnCell" bundle:nil] forCellWithReuseIdentifier:@"EVSpeciaColumnCell"];
     }
     return _collectionView;

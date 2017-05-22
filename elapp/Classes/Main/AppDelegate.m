@@ -271,7 +271,7 @@ NSString * const kStatusBarTappedNotification = @"statusBarTappedNotification";
     
     // GrowingIO
     // 启动GrowingIO
-    [Growing startWithAccountId:@"a9d9a45702edf729"];
+    [Growing startWithAccountId:GrowingIO];
     // 其他配置
     // 开启Growing调试日志 可以开启日志
 //     [Growing setEnableLog:YES];

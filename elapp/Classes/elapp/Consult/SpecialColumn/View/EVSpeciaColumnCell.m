@@ -36,7 +36,7 @@
     [effectView autoPinEdgeToSuperviewEdge:ALEdgeRight];
     [effectView autoPinEdgeToSuperviewEdge:ALEdgeBottom];
 
-    effectView.alpha = 1;
+    effectView.alpha = 10.f;
     
     self.contentView.layer.borderWidth = 1;
     self.contentView.layer.borderColor = [UIColor colorWithHexString:@"#dddddd"].CGColor;

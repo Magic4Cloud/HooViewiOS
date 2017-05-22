@@ -9,6 +9,9 @@
 #import "WaterFlowLayout.h"
 
 @interface WaterFlowLayout()
+{
+    CGFloat maxHeight;
+}
 /** 布局属性数组*/
 @property (nonatomic,strong) NSMutableArray *attrsArray;
 
@@ -40,6 +43,7 @@ static const UIEdgeInsets defaultEdgeInsets = {12,12,12,12};
     {
         [self.columnHeight addObject:@(self.defaultEdgeInsets.top)];
     }
+    
     NSInteger count = [self.collectionView numberOfItemsInSection:0];
     [self.attrsArray removeAllObjects];
     
@@ -92,6 +96,15 @@ static const UIEdgeInsets defaultEdgeInsets = {12,12,12,12};
     attr.frame = CGRectMake(x,y,w,h);
     
     self.columnHeight[destColumn] =  @(y+ h);
+    
+    maxHeight = [self.columnHeight[0] doubleValue];
+    [self.columnHeight enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        CGFloat value  = [obj floatValue];
+        if (maxHeight < value) {
+            maxHeight = value;
+        }
+    }];
+
     return attr;
 }
 
@@ -109,16 +122,7 @@ static const UIEdgeInsets defaultEdgeInsets = {12,12,12,12};
 - (CGSize)collectionViewContentSize
 {
     NSLog(@"collectionViewContentSize");
-    CGFloat maxHeight = [self.columnHeight[0] doubleValue];
-    for (int i = 1; i < self.columCount; i++) {
-        
-        CGFloat value = [self.columnHeight[i] doubleValue];
-        if (maxHeight < value) {
-            
-            maxHeight = value;
-        }
-    }
-    return CGSizeMake(0, maxHeight+self.defaultEdgeInsets.bottom);
+        return CGSizeMake(0, maxHeight+self.defaultEdgeInsets.bottom);
 }
 
 #pragma  mark ---  delgate
