@@ -531,7 +531,7 @@
         
         EVNativeNewsDetailViewController *newsWebVC = [[EVNativeNewsDetailViewController alloc] init];
         newsWebVC.newsID = newsModel.newsID;
-//        newsWebVC.newsTitle = newsModel.title;
+        newsWebVC.shareTitle = newsModel.title;
         if ([newsModel.newsID isEqualToString:@""] || newsModel.newsID == nil) {
             return;
         }

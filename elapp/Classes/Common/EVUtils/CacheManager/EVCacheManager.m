@@ -34,7 +34,7 @@
 - (void)clearDiskImageCaches
 {
     // 清除SDWebImage在disk上缓存的图片
-    [[SDImageCache sharedImageCache] clearDisk];
+    [[SDImageCache sharedImageCache] clearDiskOnCompletion:nil];
 }
 
 - (void)clearDiskImageCachesWithCompletion:(void(^)())completionBlock
@@ -64,7 +64,7 @@
     // 清理SDWebImage在disk上缓存的图片
     if ( [[SDImageCache sharedImageCache] getSize] > MAX_IMAGE_CACHESIZE )
     {
-        [[SDImageCache sharedImageCache] cleanDisk];
+        [[SDImageCache sharedImageCache] clearDiskOnCompletion:nil];
     }
 }
 

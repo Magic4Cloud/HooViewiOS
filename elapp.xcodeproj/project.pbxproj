@@ -5651,7 +5651,7 @@
 				TargetAttributes = {
 					18D053491B09DDF1008861C6 = {
 						CreatedOnToolsVersion = 6.3;
-						DevelopmentTeam = 8YE8AXL3F3;
+						DevelopmentTeam = WX73XRL87F;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -5921,7 +5921,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -6633,7 +6633,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 8YE8AXL3F3;
+				DEVELOPMENT_TEAM = WX73XRL87F;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6703,7 +6703,7 @@
 					"\"SystemConfiguration\"",
 				);
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS) -force_load elapp/Classes/Libs/libWeiboSDK/libWeiboSDK.a -fobjc-arc";
-				PRODUCT_BUNDLE_IDENTIFIER = com.hooview.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cloud4Magic.app;
 				PRODUCT_MODULE_NAME = elapp;
 				PRODUCT_NAME = "火眼财经";
 				PROVISIONING_PROFILE = "";
@@ -6725,7 +6725,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 8YE8AXL3F3;
+				DEVELOPMENT_TEAM = WX73XRL87F;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6795,7 +6795,7 @@
 					"\"SystemConfiguration\"",
 				);
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS) -force_load elapp/Classes/Libs/libWeiboSDK/libWeiboSDK.a -fobjc-arc";
-				PRODUCT_BUNDLE_IDENTIFIER = com.hooview.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cloud4Magic.app;
 				PRODUCT_MODULE_NAME = elapp;
 				PRODUCT_NAME = "火眼财经";
 				PROVISIONING_PROFILE = "";

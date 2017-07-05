@@ -13,7 +13,7 @@
  */
 @interface EVNativeNewsDetailViewController : UIViewController
 @property (nonatomic, copy) NSString * newsID;
-
+@property (nonatomic, copy) NSString * shareTitle;
 /**
  刷新评论数
  */

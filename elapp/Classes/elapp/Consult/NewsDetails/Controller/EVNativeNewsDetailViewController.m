@@ -230,7 +230,7 @@
     
     ShareType shareType = ShareTypeNewsWeb;
     UIImage *image = [UIImage imageNamed:@"icon_share"];
-    [[EVShareManager shareInstance] shareContentWithPlatform:type shareType:shareType titleReplace:@"" descriptionReplaceName:@"#火眼财经#" descriptionReplaceId:nil URLString:shareUrlString image:image outImage:nil];
+    [[EVShareManager shareInstance] shareContentWithPlatform:type shareType:shareType titleReplace:self.shareTitle descriptionReplaceName:@"#火眼财经#" descriptionReplaceId:nil URLString:shareUrlString image:image outImage:nil];
 }
 
 - (void)detailBottomClick:(EVBottomButtonType)type button:(UIButton *)btn

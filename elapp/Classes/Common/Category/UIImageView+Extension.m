@@ -93,7 +93,7 @@
         [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:url options:SDWebImageDownloaderUseNSURLCache progress:nil completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
             [self performBlockOnMainThread:^{
                 UIImage *roundImage = [image cc_roundedImageWithImage];
-                [[SDImageCache sharedImageCache] storeImage:roundImage forKey:cacheKey];
+                [[SDImageCache sharedImageCache] storeImage:roundImage forKey:cacheKey completion:nil];
                 if ( roundImage == nil ) {
                     roundImage = placeHolderImage;
                 }

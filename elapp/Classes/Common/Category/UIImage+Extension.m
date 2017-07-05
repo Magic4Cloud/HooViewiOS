@@ -375,7 +375,7 @@
         return;
     }
     [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:[NSURL URLWithString:urlString] options:SDWebImageDownloaderUseNSURLCache progress:nil completed:^(UIImage *downloadImage, NSData *data, NSError *error, BOOL finished) {
-        [[SDImageCache sharedImageCache] storeImage:downloadImage forKey:urlString];
+        [[SDImageCache sharedImageCache] storeImage:downloadImage forKey:urlString completion:nil];
         [self performBlockOnMainThreadInClass:^{
             if ( image && completeBlokck )
             {
@@ -396,7 +396,7 @@
     [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:[NSURL URLWithString:urlString] options:SDWebImageDownloaderUseNSURLCache progress:nil completed:^(UIImage *downloadImage, NSData *data, NSError *error, BOOL finished) {
         if ( downloadImage )
         {
-            [[SDImageCache sharedImageCache] storeImage:downloadImage forKey:urlString];
+            [[SDImageCache sharedImageCache] storeImage:downloadImage forKey:urlString completion:nil];
             [self performBlockOnMainThreadInClass:^{
                 if ( completeBlokck ) {
                     completeBlokck(downloadImage);
@@ -471,7 +471,7 @@
     imageView.center = backgroudV.center;
     
     image = [UIImage gp_imageWithView:backgroudV];
-    [[SDImageCache sharedImageCache] storeImage:image forKey:sizeStr];
+    [[SDImageCache sharedImageCache] storeImage:image forKey:sizeStr completion:nil];
 
     return image;
 }
