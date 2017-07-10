@@ -84,7 +84,7 @@
     }
     else
     {
-        floatStr = [NSString stringWithFormat:@"-%.2f[-%.2f%%]",priceFloat,stockMarketModel.changepercent];
+        floatStr = [NSString stringWithFormat:@"%.2f[%.2f%%]",priceFloat,stockMarketModel.changepercent];
         self.priceLabel.textColor = self.upLabel.textColor = self.nameLabel.textColor = [UIColor evSecondColor];
     }
     
