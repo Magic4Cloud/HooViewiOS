@@ -6703,7 +6703,7 @@
 					"\"SystemConfiguration\"",
 				);
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS) -force_load elapp/Classes/Libs/libWeiboSDK/libWeiboSDK.a -fobjc-arc";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cloud4Magic.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hooview.app;
 				PRODUCT_MODULE_NAME = elapp;
 				PRODUCT_NAME = "火眼财经";
 				PROVISIONING_PROFILE = "";
@@ -6795,7 +6795,7 @@
 					"\"SystemConfiguration\"",
 				);
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS) -force_load elapp/Classes/Libs/libWeiboSDK/libWeiboSDK.a -fobjc-arc";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cloud4Magic.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hooview.app;
 				PRODUCT_MODULE_NAME = elapp;
 				PRODUCT_NAME = "火眼财经";
 				PROVISIONING_PROFILE = "";
